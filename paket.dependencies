@@ -1,0 +1,79 @@
+framework: net6.0, net472
+source https://api.nuget.org/v3/index.json
+
+// PRODUCTION STUFF
+nuget Microsoft.Extensions.Configuration 6.0.1
+nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
+nuget Microsoft.Extensions.Configuration.FileExtensions 6.0.0
+nuget Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.1
+nuget Microsoft.Extensions.Configuration.Json 6.0.0
+
+nuget AspNetCore.HealthChecks.SqlServer 6.0.2
+
+nuget Microsoft.EntityFrameworkCore.Design 6.0.3
+
+// BASE REGISTRIES STUFF
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.4
+nuget Be.Vlaanderen.Basisregisters.Testing.Infrastructure.Events 3.0.0 content: true, copy_content_to_output_dir: always, copy_local: true
+
+nuget Microsoft.Extensions.DependencyInjection 6.0.0
+nuget Microsoft.NETCore.Platforms 6.0.2
+
+nuget Be.Vlaanderen.Basisregisters.AggregateSource 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore.Autofac 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.Testing 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac 6.2.2
+nuget Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit 6.2.2
+
+nuget Be.Vlaanderen.Basisregisters.Api 18.0.0
+
+nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex 3.0.0
+
+nuget Be.Vlaanderen.Basisregisters.CommandHandling 6.2.2
+nuget Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency 6.2.2
+nuget Be.Vlaanderen.Basisregisters.CommandHandling.SqlStreamStore 6.2.2
+
+nuget Be.Vlaanderen.Basisregisters.EventHandling 4.0.0
+nuget Be.Vlaanderen.Basisregisters.EventHandling.Autofac 4.0.0
+
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.LastChangedList 10.0.1
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.SqlStreamStore 10.0.1
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.SqlStreamStore.Autofac 10.0.1
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.Runner 10.0.1
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.Connector 10.0.1
+nuget Be.Vlaanderen.Basisregisters.ProjectionHandling.Connector.Testing 10.0.1
+
+nuget Be.Vlaanderen.Basisregisters.Projector 12.0.0
+
+nuget Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac 5.0.0
+nuget Be.Vlaanderen.Basisregisters.DataDog.Tracing.Sql 5.0.0
+nuget Be.Vlaanderen.Basisregisters.DataDog.Tracing.SqlStreamStore 5.0.0
+
+// FIX SWASHBUCKLE ASSEMBLY VERSION MISMATCH
+nuget Swashbuckle.AspNetCore.SwaggerGen 6.3.0
+
+// .NET CLASSIC STUFF
+nuget EntityFramework 6.4.4
+nuget Microsoft.SqlServer.Types 13.0.4001 // Don't update: requires version 13.0.4001 for legacy reasons
+
+// DOCS STUFF
+nuget Structurizr.Core 0.9.7
+nuget Structurizr.Client 0.9.7
+nuget Structurizr.AdrTools 0.9.3
+
+// TEST STUFF
+nuget Microsoft.AspNetCore.Mvc.Testing 6.0.4
+nuget Microsoft.NET.Test.Sdk 17.1.0
+nuget Microsoft.EntityFrameworkCore.InMemory 6.0.3
+nuget xunit 2.4.1
+nuget xunit.runner.visualstudio 2.4.3
+nuget xunit.categories 2.0.6
+nuget AutoFixture 4.17.0
+nuget AutoFixture.Xunit2 4.17.0
+nuget FluentAssertions 6.5.1
+
+// BUILD STUFF
+nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true
+nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
