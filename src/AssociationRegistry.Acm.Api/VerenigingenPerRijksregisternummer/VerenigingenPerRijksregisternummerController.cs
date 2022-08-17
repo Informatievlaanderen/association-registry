@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer
 {
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Threading.Tasks;
     using Be.Vlaanderen.Basisregisters.Api;
     using Microsoft.AspNetCore.Mvc;
@@ -10,6 +12,21 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer
     [ApiExplorerSettings(GroupName = "Acm")]
     public class VerenigingenPerRijksregisternummerController : ApiController
     {
+        private static readonly Dictionary<string, ImmutableArray<Vereniging>> Verenigingen =
+            new Dictionary<string, ImmutableArray<Vereniging>>()
+            {
+                {
+                    "7103", ImmutableArray.Create(
+                        new Vereniging("V1234567", "FWA De vrolijke BA’s"),
+                        new Vereniging("V7654321", "FWA De Bron"))
+                },
+                {
+                    "9803", ImmutableArray.Create(
+                        new Vereniging("V0000001", "De eenzame in de lijst"))
+                }
+            };
+
+
         /// <summary>
         /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
         /// </summary>
@@ -27,7 +44,10 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer
         public async Task<IActionResult> Get(
             [FromQuery] string rijksregisternummer)
         {
-            return Ok(rijksregisternummer);
+            var minifiedRijksregisternummer = rijksregisternummer[..4];
+            return Ok(Verenigingen[minifiedRijksregisternummer]);
         }
     }
+
+    public record Vereniging(string Id, string Naam);
 }
