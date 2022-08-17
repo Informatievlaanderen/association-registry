@@ -1,40 +1,39 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure.Modules
+namespace AssociationRegistry.Acm.Api.Infrastructure.Modules;
+
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+public class ApiModule : Module
 {
-    using Autofac;
-    using Autofac.Extensions.DependencyInjection;
-    using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
+    private readonly IConfiguration _configuration;
+    private readonly IServiceCollection _services;
+    private readonly ILoggerFactory _loggerFactory;
 
-    public class ApiModule : Module
+    public ApiModule(
+        IConfiguration configuration,
+        IServiceCollection services,
+        ILoggerFactory loggerFactory)
     {
-        private readonly IConfiguration _configuration;
-        private readonly IServiceCollection _services;
-        private readonly ILoggerFactory _loggerFactory;
+        _configuration = configuration;
+        _services = services;
+        _loggerFactory = loggerFactory;
+    }
 
-        public ApiModule(
-            IConfiguration configuration,
-            IServiceCollection services,
-            ILoggerFactory loggerFactory)
-        {
-            _configuration = configuration;
-            _services = services;
-            _loggerFactory = loggerFactory;
-        }
+    protected override void Load(ContainerBuilder builder)
+    {
+        // builder
+        // .RegisterModule(new DataDogModule(_configuration))
+        // .RegisterModule(new LegacyModule(_configuration, _services, _loggerFactory));
 
-        protected override void Load(ContainerBuilder builder)
-        {
-            // builder
-                // .RegisterModule(new DataDogModule(_configuration))
-                // .RegisterModule(new LegacyModule(_configuration, _services, _loggerFactory));
+        builder
+            .RegisterType<ProblemDetailsHelper>()
+            .AsSelf();
 
-            builder
-                .RegisterType<ProblemDetailsHelper>()
-                .AsSelf();
-
-            builder
-                .Populate(_services);
-        }
+        builder
+            .Populate(_services);
     }
 }
