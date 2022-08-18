@@ -2,6 +2,7 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ public class VerenigingenPerRijksregisternummerController : ApiController
             {
                 "9803", ImmutableArray.Create(
                     new Vereniging("V0000001", "De eenzame in de lijst"))
-            }
+            },
         };
 
 
@@ -44,12 +45,47 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     public async Task<IActionResult> Get(
         [FromQuery] string rijksregisternummer)
     {
-        var minifiedRijksregisternummer = rijksregisternummer[..4];
-        return Ok(
-            Verenigingen.ContainsKey(minifiedRijksregisternummer)
-                ? Verenigingen[minifiedRijksregisternummer]
-                : ImmutableArray<Vereniging>.Empty);
+        var maybeKey = CalculateKey(rijksregisternummer);
+        if (maybeKey is not { } key || !Verenigingen.ContainsKey(key))
+            return await Task.FromResult(Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty)));
+
+        return Ok(new GetVerenigingenResponse(rijksregisternummer, Verenigingen[key]));
+    }
+
+    public async Task<IActionResult> Put([FromQuery] string rijksregisternummer, [FromBody] PutVerenigingenRequest request)
+    {
+        var maybeKey = CalculateKey(rijksregisternummer);
+        if (maybeKey is not { } key)
+            return BadRequest();
+
+        var newVerenigingen = ImmutableArray<Vereniging>.Empty;
+
+        newVerenigingen = request.Verenigingen
+            .Aggregate(newVerenigingen, (current, vereniging) => current.Add(new Vereniging(vereniging.Id, vereniging.Naam)));
+
+        if (Verenigingen.ContainsKey(key))
+            Verenigingen[key] = newVerenigingen;
+        else
+            Verenigingen.Add(key, newVerenigingen);
+
+        return await Task.FromResult(Ok());
+    }
+
+    private static string? CalculateKey(string rijksregisternummer)
+        => rijksregisternummer.Length < 4 ? null : rijksregisternummer[..4];
+}
+
+public class PutVerenigingenRequest
+{
+    public List<Vereniging> Verenigingen { get; set; } = null!;
+
+    public class Vereniging
+    {
+        public string Id { get; set; } = null!;
+        public string Naam { get; set; } = null!;
     }
 }
+
+public record GetVerenigingenResponse(string Rijksregisternummer, ImmutableArray<Vereniging> Verenigingen);
 
 public record Vereniging(string Id, string Naam);
