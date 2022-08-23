@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/informatievlaanderen/association-registry/compare/v1.4.0...v1.4.1) (2022-08-23)
+
+
+### Bug Fixes
+
+* or-1170 use TST registry to tag ([7855da6](https://github.com/informatievlaanderen/association-registry/commit/7855da6c81b531730b9189007183f4b2ca0cc4df))
+
 # [1.4.0](https://github.com/informatievlaanderen/association-registry/compare/v1.3.0...v1.4.0) (2022-08-23)
 
 
