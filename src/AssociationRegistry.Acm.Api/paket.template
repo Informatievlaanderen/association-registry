@@ -14,18 +14,8 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 
 description Association Registry.
 
-dependencies
-  framework: net6.0
-    Be.Vlaanderen.Basisregisters.GrAr.Legacy >= LOCKEDVERSION
-
 files
-  AssociationRegistry.Api.Legacy.dll => lib\net6.0
-  AssociationRegistry.Api.Legacy.pdb => lib\net6.0
-  AssociationRegistry.Api.Legacy.xml => lib\net6.0
-  AssociationRegistry.Api.Legacy.xml => content
-
-  AssociationRegistry.Projections.Legacy.dll => lib\net6.0
-  AssociationRegistry.Projections.Legacy.pdb => lib\net6.0
-
-  AssociationRegistry.dll => lib\net6.0
-  AssociationRegistry.pdb => lib\net6.0
+  AssociationRegistry.Acm.Api.dll => lib\net6.0
+  AssociationRegistry.Acm.Api.pdb => lib\net6.0
+  AssociationRegistry.Acm.Api.xml => lib\net6.0
+  AssociationRegistry.Acm.Api.xml => content

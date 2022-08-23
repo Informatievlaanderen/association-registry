@@ -1,0 +1,152 @@
+{
+  "name": "association-registry",
+  "version": "4.1.7",
+  "description": "Association registry.",
+  "author": "Basisregisters Vlaanderen",
+  "license": "EUPL-1.2",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:informatievlaanderen/association-registry.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "16.2.3",
+    "@commitlint/config-conventional": "16.2.1",
+    "@commitlint/prompt": "16.2.3",
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/commit-analyzer": "9.0.2",
+    "@semantic-release/exec": "6.0.3",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "8.0.4",
+    "@semantic-release/npm": "9.0.1",
+    "@semantic-release/release-notes-generator": "10.0.3",
+    "commitizen": "4.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "form-data": "4.0.0",
+    "husky": "7.0.4",
+    "merge": "2.1.1",
+    "semantic-release": "19.0.3",
+    "lodash": "4.17.21",
+    "newman": "5.3.2"
+  },
+  "scripts": {
+    "commit": "git-cz",
+    "semantic-release": "semantic-release",
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "release": {
+    "branches": [
+      "master",
+      "main",
+      "+([0-9])?(.{+([0-9]),x}).x"
+    ],
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ],
+    "analyzeCommits": {
+      "path": "@semantic-release/commit-analyzer",
+      "preset": "angular",
+      "releaseRules": [
+        {
+          "breaking": true,
+          "release": "major"
+        },
+        {
+          "type": "docs",
+          "scope": "README",
+          "release": "patch"
+        },
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "chore",
+          "scope": "breaking",
+          "release": "major"
+        }
+      ],
+      "parserOpts": {
+        "noteKeywords": [
+          "BREAKING CHANGE",
+          "BREAKING CHANGES",
+          "BREAKING"
+        ]
+      }
+    },
+    "generateNotes": {
+      "path": "@semantic-release/release-notes-generator",
+      "preset": "angular",
+      "parserOpts": {
+        "noteKeywords": [
+          "BREAKING CHANGE",
+          "BREAKING CHANGES",
+          "BREAKING"
+        ]
+      },
+      "writerOpts": {
+        "commitsSort": [
+          "scope",
+          "subject"
+        ]
+      }
+    },
+    "prepare": [
+      {
+        "path": "@semantic-release/changelog",
+        "changelogFile": "CHANGELOG.md"
+      },
+      {
+        "path": "@semantic-release/npm",
+        "npmPublish": false
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "echo ${nextRelease.version} > semver"
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "CI_BUILD_NUMBER=${nextRelease.version} ./build.sh Containerize"
+      },
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "CHANGELOG.md",
+          "package.json",
+          "package-lock.json"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "publish": [
+      {
+        "path": "@semantic-release/github",
+        "assets": [
+          {
+            "path": "dist/**/*.nupkg"
+          }
+        ]
+      }
+    ],
+    "success": [
+      "@semantic-release/github"
+    ],
+    "fail": false
+  }
+}
