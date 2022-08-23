@@ -151,35 +151,28 @@ jobs:
       run: |
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-#    - name: Configure AWS credentials (Staging)
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: aws-actions/configure-aws-credentials@v1
-#      with:
-#        aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID }}
-#        aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY }}
-#        aws-region: ${{ secrets.VBR_AWS_REGION }}
-#
-#    - name: Login to Amazon ECR (Staging)
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: aws-actions/amazon-ecr-login@v1
-#
-#    - name: Push to Staging
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: |
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/api:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/batch-agentschapzorgengezondheidftpdump:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/batch-vlaanderenbe:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/projections-elasticsearch:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/projections-delegations:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/projections-reporting:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/kbo-mutations:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/ui:$SEMVER
-#        docker push $BUILD_DOCKER_REGISTRY/organisation-registry/rebuilder:$SEMVER
-#      env:
-#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#        WORKSPACE: ${{ github.workspace }}
+    - name: Configure AWS credentials (Test)
+      if: env.RELEASE_VERSION != 'none'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_TST }}
+        aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY_TST }}
+        aws-region: ${{ secrets.VBR_AWS_REGION }}
+
+    - name: Login to Amazon ECR (Staging)
+      if: env.RELEASE_VERSION != 'none'
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Push to Staging
+      if: env.RELEASE_VERSION != 'none'
+      shell: bash
+      run: |
+        docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
+      env:
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+        SEMVER: ${{ env.RELEASE_VERSION }}
+        WORKSPACE: ${{ github.workspace }}
+
 #
 #    - name: Configure AWS credentials (Production)
 #      if: env.RELEASE_VERSION != 'none'
