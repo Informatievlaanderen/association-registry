@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/informatievlaanderen/association-registry/compare/v1.4.1...v1.4.2) (2022-08-23)
+
+
+### Bug Fixes
+
+* or-1170 rename ([c0b1984](https://github.com/informatievlaanderen/association-registry/commit/c0b1984374c861ef348b19146c8336c9dbf18000))
+
 ## [1.4.1](https://github.com/informatievlaanderen/association-registry/compare/v1.4.0...v1.4.1) (2022-08-23)
 
 
