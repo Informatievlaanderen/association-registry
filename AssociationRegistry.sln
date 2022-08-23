@@ -23,6 +23,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test", "test\AssociationRegistry.Test\AssociationRegistry.Test.csproj", "{B5A6597C-4BCF-4680-B2EB-23AB7182F64E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{75DFC6A3-90CB-4041-B122-8546DCD4D7F6}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA}"
 	ProjectSection(SolutionItems) = preProject
