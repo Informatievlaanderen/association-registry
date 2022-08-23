@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/informatievlaanderen/association-registry/compare/v1.4.2...v1.4.3) (2022-08-23)
+
+
+### Bug Fixes
+
+* or-1170 also push to staging ([8d45ee3](https://github.com/informatievlaanderen/association-registry/commit/8d45ee338a8f431696b1c075346eaa891365014c))
+
 ## [1.4.2](https://github.com/informatievlaanderen/association-registry/compare/v1.4.1...v1.4.2) (2022-08-23)
 
 
