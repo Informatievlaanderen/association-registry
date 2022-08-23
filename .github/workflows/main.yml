@@ -122,7 +122,7 @@ jobs:
       run: npx semantic-release
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GIT_COMMIT: ${{ github.sha }}
         GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
@@ -163,7 +163,7 @@ jobs:
       if: env.RELEASE_VERSION != 'none'
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Push to Staging
+    - name: Push to Test
       if: env.RELEASE_VERSION != 'none'
       shell: bash
       run: |
