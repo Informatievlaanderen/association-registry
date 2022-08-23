@@ -67,13 +67,13 @@ public class Startup
                         ApiInfo = (provider, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
-                            Title = "Basisregisters Vlaanderen Association Registry API",
+                            Title = "Basisregisters Vlaanderen Verenigingenregister ACM API",
                             Description = GetApiLeadingText(description),
                             Contact = new OpenApiContact
                             {
                                 Name = "Digitaal Vlaanderen",
                                 Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://legacy.basisregisters.vlaanderen")
+                                Url = new Uri("https://acm.api.verenigingen.vlaanderen.be")
                             }
                         },
                         XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name }
@@ -153,15 +153,15 @@ public class Startup
                 Api =
                 {
                     VersionProvider = apiVersionProvider,
-                    Info = groupName => $"Basisregisters Vlaanderen - Association Registry API {groupName}",
+                    Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister ACM API {groupName}",
                     CSharpClientOptions =
                     {
-                        ClassName = "AssociationRegistry",
+                        ClassName = "Verenigingenregister",
                         Namespace = "Be.Vlaanderen.Basisregisters"
                     },
                     TypeScriptClientOptions =
                     {
-                        ClassName = "AssociationRegistry"
+                        ClassName = "Verenigingenregister"
                     }
                 },
                 MiddlewareHooks =
@@ -172,5 +172,5 @@ public class Startup
     }
 
     private static string GetApiLeadingText(ApiVersionDescription description)
-        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Association Registry API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }

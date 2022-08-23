@@ -1,3 +1,8 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
-public record Vereniging(string Id, string Naam);
+using System.Runtime.Serialization;
+
+[DataContract]
+public record Vereniging(
+    [property: DataMember] string Id,
+    [property: DataMember] string Naam);
