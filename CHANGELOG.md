@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/informatievlaanderen/association-registry/compare/v1.1.0...v1.2.0) (2022-08-23)
+
+
+### Features
+
+* or-1170 add dependabot ([afdb6d0](https://github.com/informatievlaanderen/association-registry/commit/afdb6d045680d2826116d8d55726626ce322c6eb))
+
 # [1.1.0](https://github.com/informatievlaanderen/association-registry/compare/v1.0.0...v1.1.0) (2022-08-23)
 
 
