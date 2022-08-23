@@ -15,11 +15,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		paket.lock = paket.lock
 		SolutionInfo.cs = SolutionInfo.cs
 		.gitignore = .gitignore
+		package.json = package.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C812C887-6495-405A-8B99-4F686D243126}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test", "test\AssociationRegistry.Test\AssociationRegistry.Test.csproj", "{B5A6597C-4BCF-4680-B2EB-23AB7182F64E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{75DFC6A3-90CB-4041-B122-8546DCD4D7F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main.yml = .github\workflows\main.yml
+		.github\workflows\pre-merge-tests.yml = .github\workflows\pre-merge-tests.yml
+		.github\workflows\production-manual.yml = .github\workflows\production-manual.yml
+		.github\workflows\staging-manual.yml = .github\workflows\staging-manual.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +53,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{B5A6597C-4BCF-4680-B2EB-23AB7182F64E} = {C812C887-6495-405A-8B99-4F686D243126}
+		{75DFC6A3-90CB-4041-B122-8546DCD4D7F6} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
+		{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA} = {75DFC6A3-90CB-4041-B122-8546DCD4D7F6}
 	EndGlobalSection
 EndGlobal
