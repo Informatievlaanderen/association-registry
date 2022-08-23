@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/informatievlaanderen/association-registry/compare/v1.3.0...v1.4.0) (2022-08-23)
+
+
+### Features
+
+* or-1170 push image to TST ([8cb4b67](https://github.com/informatievlaanderen/association-registry/commit/8cb4b67456a6a716a0521482fb9741c4a27b2b3a))
+
 # [1.3.0](https://github.com/informatievlaanderen/association-registry/compare/v1.2.0...v1.3.0) (2022-08-23)
 
 
