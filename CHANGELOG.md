@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/informatievlaanderen/association-registry/compare/v1.0.0...v1.1.0) (2022-08-23)
+
+
+### Features
+
+* enable jira/confluence releases ([53b0220](https://github.com/informatievlaanderen/association-registry/commit/53b0220505e286ac8c379c55e3c0a17b2f7afedb))
+
 # 1.0.0 (2022-08-23)
 
 
