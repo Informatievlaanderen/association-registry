@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/informatievlaanderen/association-registry/compare/v1.2.0...v1.3.0) (2022-08-23)
+
+
+### Features
+
+* or-1170 try updating deps with critical issues ([a0504dc](https://github.com/informatievlaanderen/association-registry/commit/a0504dc9bc2d677c7d11e46d4a107e7c27a78168))
+
 # [1.2.0](https://github.com/informatievlaanderen/association-registry/compare/v1.1.0...v1.2.0) (2022-08-23)
 
 
