@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/informatievlaanderen/association-registry/compare/v1.4.3...v1.4.4) (2022-08-24)
+
+
+### Bug Fixes
+
+* or-1170 remove unused env var ([bf6debb](https://github.com/informatievlaanderen/association-registry/commit/bf6debb8962c9c6c3021dd29e0d0a4200efa1bd0))
+
 ## [1.4.3](https://github.com/informatievlaanderen/association-registry/compare/v1.4.2...v1.4.3) (2022-08-23)
 
 
