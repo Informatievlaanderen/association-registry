@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/informatievlaanderen/association-registry/compare/v1.4.4...v1.4.5) (2022-08-24)
+
+
+### Bug Fixes
+
+* or-1170 tag before push ([6248733](https://github.com/informatievlaanderen/association-registry/commit/6248733364cce3af741f63c4022ce9dfd0cc3bd7))
+
 ## [1.4.4](https://github.com/informatievlaanderen/association-registry/compare/v1.4.3...v1.4.4) (2022-08-24)
 
 
