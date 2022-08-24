@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/informatievlaanderen/association-registry/compare/v1.4.5...v1.4.6) (2022-08-24)
+
+
+### Bug Fixes
+
+* or-1170 change ports of docker app ([e60100f](https://github.com/informatievlaanderen/association-registry/commit/e60100fbba3ff84be1dce237f9ed035d20bb10db))
+
 ## [1.4.5](https://github.com/informatievlaanderen/association-registry/compare/v1.4.4...v1.4.5) (2022-08-24)
 
 
