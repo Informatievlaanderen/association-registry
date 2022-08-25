@@ -18,14 +18,10 @@ public static class ServiceCollectionExtentions
 {
     public static IServiceCollection AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
         services
-            .AddSingleton(sp =>
-            {
-                var verenigingenBlobClient = new VerenigingenBlobClient(new S3BlobClient(
-                    sp.GetRequiredService<AmazonS3Client>(),
-                    s3Options.Buckets[WellknownBuckets.VerenigingenBucket]
-                ));
-                return verenigingenBlobClient;
-            });
+            .AddSingleton(sp => new VerenigingenBlobClient(
+                s3Options.Buckets[WellknownBuckets.Verenigingen.Name],
+                bucketName => new S3BlobClient(sp.GetRequiredService<AmazonS3Client>(), bucketName)
+            ));
 
     public static IServiceCollection AddS3(this IServiceCollection services, IConfiguration configuration)
     {
@@ -74,6 +70,7 @@ public static class ServiceCollectionExtentions
                 )
             );
         }
+
         return services;
     }
 
@@ -82,7 +79,7 @@ public static class ServiceCollectionExtentions
         services.AddSingleton(sp =>
         {
             var verenigingenBlobClient = sp.GetRequiredService<VerenigingenBlobClient>();
-            var blobObject = verenigingenBlobClient.GetBlobAsync(new BlobName("data.json"))
+            var blobObject = verenigingenBlobClient.GetBlobAsync(new BlobName(WellknownBuckets.Verenigingen.Blobs.Data))
                 .GetAwaiter().GetResult();
             var blobstream = blobObject.OpenAsync().GetAwaiter().GetResult();
             var json = new StreamReader(blobstream).ReadToEnd();

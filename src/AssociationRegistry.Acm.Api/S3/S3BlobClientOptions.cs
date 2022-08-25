@@ -5,11 +5,10 @@ namespace AssociationRegistry.Acm.Api.S3;
 
 public class S3BlobClientOptions
 {
-    private IDictionary<string, string> _buckets = null!;
-
-    public IDictionary<string, string> Buckets
+    public IDictionary<string, Bucket> Buckets { get; set; }
+    public class Bucket
     {
-        get => _buckets;
-        set => _buckets = new Dictionary<string, string>(value, StringComparer.OrdinalIgnoreCase);
+        public string Name { get; set; }
+        public IDictionary<string, string> Blobs { get; set; }
     }
 }

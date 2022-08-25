@@ -1,15 +1,11 @@
-using System.IO;
-using System.Threading;
-using AssociationRegistry.Acm.Api.Caches;
-using AssociationRegistry.Acm.Api.Infrastructure;
-using AssociationRegistry.Acm.Api.S3;
-using Be.Vlaanderen.Basisregisters.BlobStore;
-
 namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
+using System.Threading;
+using Caches;
+using S3;
+using Be.Vlaanderen.Basisregisters.BlobStore;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -24,7 +20,7 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class VerenigingenPerRijksregisternummerController : ApiController
 {
-    private BlobName _blobName;
+    private const string BlobName = WellknownBuckets.Verenigingen.Blobs.Data;
 
     /// <summary>
     /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
@@ -42,10 +38,10 @@ public class VerenigingenPerRijksregisternummerController : ApiController
         [FromQuery] string rijksregisternummer)
     {
         var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } key || !data.Verenigingen.ContainsKey(key))
-            return Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
+        if (maybeKey is not { } || !data.Verenigingen.ContainsKey(maybeKey))
+            return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty)));
 
-        return Ok(new GetVerenigingenResponse(rijksregisternummer, data.Verenigingen[key]));
+        return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, data.Verenigingen[maybeKey])));
     }
 
     [HttpPut]
@@ -53,9 +49,8 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     {
         if (maybeBody is not { } || !Data.TryParse(maybeBody, out var verenigingen)) return BadRequest();
         
-        _blobName = new BlobName("data.json");
-        await blobClient.DeleteBlobAsync(_blobName, cancellationToken);
-        await blobClient.CreateBlobAsync(_blobName, Metadata.None, ContentType.Parse("application/json"), Request.Body, cancellationToken);
+        await blobClient.DeleteBlobAsync(BlobName, cancellationToken);
+        await blobClient.CreateBlobAsync(BlobName, Metadata.None, ContentType.Parse("application/json"), Request.Body, cancellationToken);
 
         data.Verenigingen = verenigingen;
         
