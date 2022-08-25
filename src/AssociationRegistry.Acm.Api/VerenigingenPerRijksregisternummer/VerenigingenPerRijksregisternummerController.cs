@@ -1,3 +1,10 @@
+using System.IO;
+using System.Threading;
+using AssociationRegistry.Acm.Api.Caches;
+using AssociationRegistry.Acm.Api.Infrastructure;
+using AssociationRegistry.Acm.Api.S3;
+using Be.Vlaanderen.Basisregisters.BlobStore;
+
 namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
 using System.Collections.Generic;
@@ -17,19 +24,7 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class VerenigingenPerRijksregisternummerController : ApiController
 {
-    private static readonly Dictionary<string, ImmutableArray<Vereniging>> Verenigingen =
-        new()
-        {
-            {
-                "7103", ImmutableArray.Create(
-                    new Vereniging("V1234567", "FWA De vrolijke BA’s"),
-                    new Vereniging("V7654321", "FWA De Bron"))
-            },
-            {
-                "9803", ImmutableArray.Create(
-                    new Vereniging("V0000001", "De eenzame in de lijst"))
-            },
-        };
+    private BlobName _blobName;
 
     /// <summary>
     /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
@@ -43,34 +38,49 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
+        [FromServices] Data data,
         [FromQuery] string rijksregisternummer)
     {
         var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } key || !Verenigingen.ContainsKey(key))
+        if (maybeKey is not { } key || !data.Verenigingen.ContainsKey(key))
             return Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
 
-        return Ok(new GetVerenigingenResponse(rijksregisternummer, Verenigingen[key]));
+        return Ok(new GetVerenigingenResponse(rijksregisternummer, data.Verenigingen[key]));
     }
 
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Put([FromQuery] string rijksregisternummer, [FromBody] PutVerenigingenRequest request)
+    [HttpPut]
+    public async Task<IActionResult> Put([FromServices] VerenigingenBlobClient blobClient, [FromServices] Data data, [FromBody] Dictionary<string, Dictionary<string, string>>? maybeBody, CancellationToken cancellationToken)
     {
-        var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } key)
-            return BadRequest();
+        if (maybeBody is not { } || !Data.TryParse(maybeBody, out var verenigingen)) return BadRequest();
+        
+        _blobName = new BlobName("data.json");
+        await blobClient.DeleteBlobAsync(_blobName, cancellationToken);
+        await blobClient.CreateBlobAsync(_blobName, Metadata.None, ContentType.Parse("application/json"), Request.Body, cancellationToken);
 
-        var newVerenigingen = ImmutableArray<Vereniging>.Empty;
-
-        newVerenigingen = request.Verenigingen
-            .Aggregate(newVerenigingen, (current, vereniging) => current.Add(new Vereniging(vereniging.Id, vereniging.Naam)));
-
-        if (Verenigingen.ContainsKey(key))
-            Verenigingen[key] = newVerenigingen;
-        else
-            Verenigingen.Add(key, newVerenigingen);
-
-        return await Task.FromResult(Ok());
+        data.Verenigingen = verenigingen;
+        
+        return Ok();
     }
+    
+    // [ApiExplorerSettings(IgnoreApi = true)]
+    // public async Task<IActionResult> Put([FromQuery] string rijksregisternummer, [FromBody] PutVerenigingenRequest request)
+    // {
+    //     var maybeKey = CalculateKey(rijksregisternummer);
+    //     if (maybeKey is not { } key)
+    //         return BadRequest();
+    //
+    //     var newVerenigingen = ImmutableArray<Vereniging>.Empty;
+    //
+    //     newVerenigingen = request.Verenigingen
+    //         .Aggregate(newVerenigingen, (current, vereniging) => current.Add(new Vereniging(vereniging.Id, vereniging.Naam)));
+    //
+    //     if (Verenigingen.ContainsKey(key))
+    //         Verenigingen[key] = newVerenigingen;
+    //     else
+    //         Verenigingen.Add(key, newVerenigingen);
+    //
+    //     return await Task.FromResult(Ok());
+    // }
 
     private static string? CalculateKey(string rijksregisternummer)
         => rijksregisternummer.Length < 4 ? null : rijksregisternummer[..4];

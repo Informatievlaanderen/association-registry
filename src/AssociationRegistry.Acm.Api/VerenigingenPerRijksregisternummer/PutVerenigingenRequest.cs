@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PutVerenigingenRequest
 {
+    
     public List<Vereniging> Verenigingen { get; set; } = null!;
 
     public class Vereniging

@@ -12,6 +12,10 @@ nuget AspNetCore.HealthChecks.SqlServer 6.0.2
 
 nuget Microsoft.EntityFrameworkCore.Design 6.0.3
 
+// AWS
+nuget AWSSDK.S3 3.7.8.11
+nuget AWSSDK.Core 3.7.10.11
+
 // BASE REGISTRIES STUFF
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.4
 nuget Be.Vlaanderen.Basisregisters.Testing.Infrastructure.Events 3.0.0 content: true, copy_content_to_output_dir: always, copy_local: true
@@ -30,6 +34,7 @@ nuget Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit 6.2.2
 nuget Be.Vlaanderen.Basisregisters.Api 18.0.0
 
 nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex 3.0.0
+nuget Be.Vlaanderen.Basisregisters.BlobStore 2.2.12
 
 nuget Be.Vlaanderen.Basisregisters.CommandHandling 6.2.2
 nuget Be.Vlaanderen.Basisregisters.CommandHandling.Idempotency 6.2.2
