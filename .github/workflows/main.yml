@@ -171,7 +171,7 @@ jobs:
         BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
         SEMVER: ${{ env.RELEASE_VERSION }}
         WORKSPACE: ${{ github.workspace }}
-        
+
     - name: Configure AWS credentials (Staging)
       if: env.RELEASE_VERSION != 'none'
       uses: aws-actions/configure-aws-credentials@v1
@@ -188,7 +188,7 @@ jobs:
       if: env.RELEASE_VERSION != 'none'
       shell: bash
       run: |
-        docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER     
+        docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
         docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
       env:
         BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
@@ -274,46 +274,39 @@ jobs:
         JIRA_PROJECT: OR
         JIRA_VERSION: ${{ env.RELEASE_VERSION }}
 
-#  deploy_staging:
-#    needs: build
-#    name: Deploy to Staging
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        services:
-#          [
-#              'organisation-registry-api',
-#              'organisation-registry-delegations',
-#              'organisation-registry-elasticsearch',
-#              'organisation-registry-kbomutations',
-#              'organisation-registry-reporting',
-#              'organisation-registry-ui',
-#              'organisation-registry-vlaanderenbe',
-#              'organisation-registry-zorgengezondheid',
-#          ]
-#    steps:
-#      - name: debug_output
-#        shell: bash
-#        run: |
-#          echo ${{ needs.build.outputs.version }}
-#      - name: CD
-#        env:
-#          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
-#          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
-#        uses: informatievlaanderen/awscurl-polling-action@main
-#        with:
-#          environment: stg
-#          version: ${{ needs.build.outputs.version }}
-#          status-url: $STATUS_URL
-#          deploy-url: $BUILD_URL
-#          access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID }}
-#          secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY }}
-#          region: eu-west-1
-#          interval: 2
-#      - name: output
-#        shell: bash
-#        run: |
-#          echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
-#          echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
-#          echo ${{ steps.awscurl-polling-action.outputs.final-message }}
-#
+  deploy_staging:
+    needs: build
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        services:
+          [
+              'association-registry-acm-api',
+          ]
+    steps:
+      - name: debug_output
+        shell: bash
+        run: |
+          echo ${{ needs.build.outputs.version }}
+      - name: CD
+        env:
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
+        uses: informatievlaanderen/awscurl-polling-action@main
+        with:
+          environment: stg
+          version: ${{ needs.build.outputs.version }}
+          status-url: $STATUS_URL
+          deploy-url: $BUILD_URL
+          access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID }}
+          secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY }}
+          region: eu-west-1
+          interval: 2
+      - name: output
+        shell: bash
+        run: |
+          echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
+          echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
+          echo ${{ steps.awscurl-polling-action.outputs.final-message }}
+
