@@ -1,3 +1,12 @@
+# [1.5.0](https://github.com/informatievlaanderen/association-registry/compare/v1.4.6...v1.5.0) (2022-08-26)
+
+
+### Features
+
+* or-1175 allow minio to be empty on startup + use S3 ([65249a7](https://github.com/informatievlaanderen/association-registry/commit/65249a7c10f48c861efd882e3ed4c0806790edab))
+* or-1175 integratie met s3 ([eaecac7](https://github.com/informatievlaanderen/association-registry/commit/eaecac7d68bf7fd8001f1f115f666eea1cfc54d0))
+* or-1175 integratie met s3 ([7535985](https://github.com/informatievlaanderen/association-registry/commit/753598556695e1ca6aa62ae1d49ed9adf5646ba3))
+
 ## [1.4.6](https://github.com/informatievlaanderen/association-registry/compare/v1.4.5...v1.4.6) (2022-08-24)
 
 
