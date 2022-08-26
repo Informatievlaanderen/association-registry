@@ -1,8 +1,6 @@
-using AssociationRegistry.Acm.Api.Extentions;
-using AssociationRegistry.Acm.Api.S3;
-
 namespace AssociationRegistry.Acm.Api.Infrastructure;
-
+using Extensions;
+using S3;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -50,7 +48,7 @@ public class Startup
 
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-        
+
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
@@ -115,7 +113,7 @@ public class Startup
 
         return new AutofacServiceProvider(_applicationContainer);
     }
-    
+
     public void Configure(
         IServiceProvider serviceProvider,
         IApplicationBuilder app,

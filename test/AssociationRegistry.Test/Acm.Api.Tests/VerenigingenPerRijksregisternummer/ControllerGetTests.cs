@@ -1,8 +1,6 @@
-using AssociationRegistry.Acm.Api.Caches;
-using AssociationRegistry.Acm.Api.Infrastructure;
-
 namespace AssociationRegistry.Test.Acm.Api.Tests.VerenigingenPerRijksregisternummer;
 
+using AssociationRegistry.Acm.Api.Caches;
 using System.Collections.Immutable;
 using AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 using FluentAssertions;
@@ -11,57 +9,27 @@ using Xunit;
 
 public class ControllerGetTests
 {
-    private Data _data;
+    private readonly IVerenigingenRepository _verenigingenRepository;
 
     public ControllerGetTests()
     {
-        _data = new Data()
-        {
-            Verenigingen = new Dictionary<string, ImmutableArray<Vereniging>>
-            {
-                {
-                    "7103654987",
-                    ImmutableArray.Create(
-                        new Vereniging("V0000001", "De eenzame in de lijst"))
-                },
-                {
-                    "980365494",
-                    ImmutableArray.Create(
-                        new Vereniging("V1234567", "FWA De vrolijke BA’s"),
-                        new Vereniging("V7654321", "FWA De Bron")
-                    )
-                }
-            }
-        };
+        _verenigingenRepository = new VerenigingenRepositoryStub();
     }
 
-    public async Task Test_7103()
+    [Fact]
+    public async Task Test_7103654987()
     {
         var controller = new VerenigingenPerRijksregisternummerController();
 
-        var response = (OkObjectResult)await controller.Get(_data, "7103654987");
-
-        var verenigingenResponse = (GetVerenigingenResponse)response.Value!;
-
-        var expectedVerenigingen = ImmutableArray.Create(
-            new Vereniging("V1234567", "FWA De vrolijke BA’s"),
-            new Vereniging("V7654321", "FWA De Bron")
-        );
-        verenigingenResponse.Should().BeEquivalentTo(new GetVerenigingenResponse("7103654987", expectedVerenigingen));
-    }
-
-    public async Task Test_9803()
-    {
-        var controller = new VerenigingenPerRijksregisternummerController();
-
-        var response = (OkObjectResult)await controller.Get(_data, "980365494");
+        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103654987");
 
         var verenigingenResponse = (GetVerenigingenResponse)response.Value!;
 
         var expectedVerenigingen = ImmutableArray.Create(
             new Vereniging("V0000001", "De eenzame in de lijst")
         );
-        verenigingenResponse.Should().BeEquivalentTo(new GetVerenigingenResponse("980365494", expectedVerenigingen));
+        verenigingenResponse.Should()
+            .BeEquivalentTo(new GetVerenigingenResponse("7103654987", expectedVerenigingen));
     }
 
     [Theory]
@@ -72,7 +40,7 @@ public class ControllerGetTests
     {
         var controller = new VerenigingenPerRijksregisternummerController();
 
-        var response = (OkObjectResult)await controller.Get(_data, rijksregisternummer);
+        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, rijksregisternummer);
 
         var verenigingenResponse = (GetVerenigingenResponse)response.Value!;
 
@@ -85,4 +53,34 @@ public class ControllerGetTests
         vereniging.Id.Should().Be(expectedId);
         vereniging.Naam.Should().Be(expectedName);
     }
+}
+
+public class VerenigingenRepositoryStub : IVerenigingenRepository
+{
+    public VerenigingenPerRijksregisternummer Verenigingen { get; set; } =
+        VerenigingenPerRijksregisternummer
+            .FromVerenigingenAsDictionary(
+                new VerenigingenAsDictionary()
+                {
+                    {
+                        "7103654987",
+                        new()
+                        {
+                            { "V0000001", "De eenzame in de lijst" },
+                        }
+                    },
+                    {
+                        "980365494",
+                        new()
+                        {
+                            { "V1234567", "FWA De vrolijke BA’s" },
+                            { "V7654321", "FWA De Bron" },
+                        }
+                    },
+                }
+            );
+
+    public Task UpdateVerenigingen(VerenigingenAsDictionary verenigingenAsDictionary, Stream verenigingenStream,
+        CancellationToken cancellationToken) =>
+        Task.CompletedTask;
 }

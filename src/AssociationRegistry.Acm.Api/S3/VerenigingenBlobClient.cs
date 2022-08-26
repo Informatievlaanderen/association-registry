@@ -2,9 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3;
 using Be.Vlaanderen.Basisregisters.BlobStore;
-using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 
 namespace AssociationRegistry.Acm.Api.S3;
 
@@ -26,7 +24,7 @@ public class VerenigingenBlobClient
 
     public Task<BlobObject> GetBlobAsync(string name, CancellationToken cancellationToken = default) =>
         _client.GetBlobAsync(GetBlobName(name), cancellationToken);
-    
+
     public Task<bool> BlobExistsAsync(string name, CancellationToken cancellationToken = default) =>
         _client.BlobExistsAsync(GetBlobName(name), cancellationToken);
 

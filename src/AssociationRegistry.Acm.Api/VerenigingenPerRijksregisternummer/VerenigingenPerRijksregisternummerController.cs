@@ -2,10 +2,6 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
 using System.Threading;
 using Caches;
-using S3;
-using Be.Vlaanderen.Basisregisters.BlobStore;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -20,11 +16,10 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class VerenigingenPerRijksregisternummerController : ApiController
 {
-    private const string BlobName = WellknownBuckets.Verenigingen.Blobs.Data;
-
     /// <summary>
     /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
     /// </summary>
+    /// <param name="verenigingenRepository"></param>
     /// <param name="rijksregisternummer"></param>
     /// <response code="200">Als het rijksregisternummer gevonden is.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
@@ -34,49 +29,21 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
-        [FromServices] Data data,
-        [FromQuery] string rijksregisternummer)
-    {
-        var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } || !data.Verenigingen.ContainsKey(maybeKey))
-            return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty)));
-
-        return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, data.Verenigingen[maybeKey])));
-    }
+        [FromServices] IVerenigingenRepository verenigingenRepository,
+        [FromQuery] string rijksregisternummer) =>
+        await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, verenigingenRepository.Verenigingen[rijksregisternummer])));
 
     [HttpPut]
-    public async Task<IActionResult> Put([FromServices] VerenigingenBlobClient blobClient, [FromServices] Data data, [FromBody] Dictionary<string, Dictionary<string, string>>? maybeBody, CancellationToken cancellationToken)
+    public async Task<IActionResult> Put(
+        [FromServices] IVerenigingenRepository verenigingenRepository,
+        [FromBody] VerenigingenAsDictionary? maybeBody,
+        CancellationToken cancellationToken)
     {
-        if (maybeBody is not { } || !Data.TryParse(maybeBody, out var verenigingen)) return BadRequest();
-        
-        await blobClient.DeleteBlobAsync(BlobName, cancellationToken);
-        await blobClient.CreateBlobAsync(BlobName, Metadata.None, ContentType.Parse("application/json"), Request.Body, cancellationToken);
+        if (maybeBody is not { })
+            return BadRequest();
 
-        data.Verenigingen = verenigingen;
-        
+        await verenigingenRepository.UpdateVerenigingen(maybeBody, Request.Body, cancellationToken);
+
         return Ok();
     }
-    
-    // [ApiExplorerSettings(IgnoreApi = true)]
-    // public async Task<IActionResult> Put([FromQuery] string rijksregisternummer, [FromBody] PutVerenigingenRequest request)
-    // {
-    //     var maybeKey = CalculateKey(rijksregisternummer);
-    //     if (maybeKey is not { } key)
-    //         return BadRequest();
-    //
-    //     var newVerenigingen = ImmutableArray<Vereniging>.Empty;
-    //
-    //     newVerenigingen = request.Verenigingen
-    //         .Aggregate(newVerenigingen, (current, vereniging) => current.Add(new Vereniging(vereniging.Id, vereniging.Naam)));
-    //
-    //     if (Verenigingen.ContainsKey(key))
-    //         Verenigingen[key] = newVerenigingen;
-    //     else
-    //         Verenigingen.Add(key, newVerenigingen);
-    //
-    //     return await Task.FromResult(Ok());
-    // }
-
-    private static string? CalculateKey(string rijksregisternummer)
-        => rijksregisternummer.Length < 4 ? null : rijksregisternummer[..4];
 }
