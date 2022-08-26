@@ -276,7 +276,7 @@ jobs:
 
   deploy_staging:
     needs: build
-    name: Deploy to Staging
+    name: Deploy to Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -295,7 +295,7 @@ jobs:
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
         uses: informatievlaanderen/awscurl-polling-action@main
         with:
-          environment: stg
+          environment: test
           version: ${{ needs.build.outputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
