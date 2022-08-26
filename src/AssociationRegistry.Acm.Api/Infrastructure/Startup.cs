@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure;
-
+using Extensions;
+using S3;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
@@ -24,7 +24,7 @@ public class Startup
 {
     private const string DatabaseTag = "db";
 
-    private IContainer _applicationContainer;
+    private IContainer _applicationContainer = null!;
 
     private readonly IConfiguration _configuration;
     private readonly ILoggerFactory _loggerFactory;
@@ -46,6 +46,13 @@ public class Startup
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
 
+        var s3Options = new S3BlobClientOptions();
+        _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
+
+        services.AddS3(_configuration);
+        services.AddBlobClients(s3Options);
+        services.AddDataCache();
+
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
@@ -56,11 +63,11 @@ public class Startup
                             .GetSection("Cors")
                             .GetChildren()
                             .Select(c => c.Value)
-                            .ToArray()
+                            .ToArray(),
                     },
                     Server =
                     {
-                        BaseUrl = baseUrlForExceptions
+                        BaseUrl = baseUrlForExceptions,
                     },
                     Swagger =
                     {
@@ -73,10 +80,10 @@ public class Startup
                             {
                                 Name = "Digitaal Vlaanderen",
                                 Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://acm.api.verenigingen.vlaanderen.be")
-                            }
+                                Url = new Uri("https://acm.api.verenigingen.vlaanderen.be"),
+                            },
                         },
-                        XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name }
+                        XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name! },
                     },
                     MiddlewareHooks =
                     {
@@ -95,8 +102,8 @@ public class Startup
                             // health.AddDbContextCheck<LegacyContext>(
                             //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
                             //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
-                        }
-                    }
+                        },
+                    },
                 })
             .Configure<ResponseOptions>(_configuration);
 
@@ -139,7 +146,6 @@ public class Startup
             //         ServiceName = _configuration["DataDog:ServiceName"],
             //     }
             // })
-
             .UseDefaultForApi(new StartupUseOptions
             {
                 Common =
@@ -148,7 +154,7 @@ public class Startup
                     ServiceProvider = serviceProvider,
                     HostingEnvironment = env,
                     ApplicationLifetime = appLifetime,
-                    LoggerFactory = loggerFactory
+                    LoggerFactory = loggerFactory,
                 },
                 Api =
                 {
@@ -157,20 +163,21 @@ public class Startup
                     CSharpClientOptions =
                     {
                         ClassName = "Verenigingenregister",
-                        Namespace = "Be.Vlaanderen.Basisregisters"
+                        Namespace = "Be.Vlaanderen.Basisregisters",
                     },
                     TypeScriptClientOptions =
                     {
-                        ClassName = "Verenigingenregister"
-                    }
+                        ClassName = "Verenigingenregister",
+                    },
                 },
                 MiddlewareHooks =
                 {
                     AfterMiddleware = x => x.UseMiddleware<AddNoCacheHeadersMiddleware>(),
-                }
+                },
             });
     }
 
     private static string GetApiLeadingText(ApiVersionDescription description)
-        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+        =>
+            $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }

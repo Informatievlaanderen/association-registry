@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using System.Threading;
+using Caches;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -17,23 +16,10 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class VerenigingenPerRijksregisternummerController : ApiController
 {
-    private static readonly Dictionary<string, ImmutableArray<Vereniging>> Verenigingen =
-        new()
-        {
-            {
-                "7103", ImmutableArray.Create(
-                    new Vereniging("V1234567", "FWA De vrolijke BA’s"),
-                    new Vereniging("V7654321", "FWA De Bron"))
-            },
-            {
-                "9803", ImmutableArray.Create(
-                    new Vereniging("V0000001", "De eenzame in de lijst"))
-            },
-        };
-
     /// <summary>
     /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
     /// </summary>
+    /// <param name="verenigingenRepository"></param>
     /// <param name="rijksregisternummer"></param>
     /// <response code="200">Als het rijksregisternummer gevonden is.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
@@ -43,35 +29,21 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
-        [FromQuery] string rijksregisternummer)
-    {
-        var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } key || !Verenigingen.ContainsKey(key))
-            return Ok(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
+        [FromServices] IVerenigingenRepository verenigingenRepository,
+        [FromQuery] string rijksregisternummer) =>
+        await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, verenigingenRepository.Verenigingen[rijksregisternummer])));
 
-        return Ok(new GetVerenigingenResponse(rijksregisternummer, Verenigingen[key]));
-    }
-
-    [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Put([FromQuery] string rijksregisternummer, [FromBody] PutVerenigingenRequest request)
+    [HttpPut]
+    public async Task<IActionResult> Put(
+        [FromServices] IVerenigingenRepository verenigingenRepository,
+        [FromBody] VerenigingenAsDictionary? maybeBody,
+        CancellationToken cancellationToken)
     {
-        var maybeKey = CalculateKey(rijksregisternummer);
-        if (maybeKey is not { } key)
+        if (maybeBody is not { })
             return BadRequest();
 
-        var newVerenigingen = ImmutableArray<Vereniging>.Empty;
+        await verenigingenRepository.UpdateVerenigingen(maybeBody, Request.Body, cancellationToken);
 
-        newVerenigingen = request.Verenigingen
-            .Aggregate(newVerenigingen, (current, vereniging) => current.Add(new Vereniging(vereniging.Id, vereniging.Naam)));
-
-        if (Verenigingen.ContainsKey(key))
-            Verenigingen[key] = newVerenigingen;
-        else
-            Verenigingen.Add(key, newVerenigingen);
-
-        return await Task.FromResult(Ok());
+        return Ok();
     }
-
-    private static string? CalculateKey(string rijksregisternummer)
-        => rijksregisternummer.Length < 4 ? null : rijksregisternummer[..4];
 }

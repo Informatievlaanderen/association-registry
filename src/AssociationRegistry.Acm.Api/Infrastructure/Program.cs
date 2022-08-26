@@ -17,7 +17,7 @@ namespace AssociationRegistry.Acm.Api.Infrastructure
                     {
                         Hosting =
                         {
-                            HttpPort = 10000
+                            HttpPort = 11000
                         },
                         Logging =
                         {
