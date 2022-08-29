@@ -1,23 +1,24 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure;
-using Extensions;
-using S3;
 using System;
 using System.Linq;
 using System.Reflection;
+using AssociationRegistry.Acm.Api.Extensions;
+using AssociationRegistry.Acm.Api.Infrastructure.Configuration;
+using AssociationRegistry.Acm.Api.Infrastructure.Modules;
+using AssociationRegistry.Acm.Api.Infrastructure.Options;
+using AssociationRegistry.Acm.Api.S3;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
-using Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Modules;
-using Options;
+
+namespace AssociationRegistry.Acm.Api;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup

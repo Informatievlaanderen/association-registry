@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure
-{
-    using Be.Vlaanderen.Basisregisters.Api;
-    using Microsoft.AspNetCore.Hosting;
+using Be.Vlaanderen.Basisregisters.Api;
+using Microsoft.AspNetCore.Hosting;
 
+namespace AssociationRegistry.Acm.Api
+{
     public class Program
     {
         protected Program()
