@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/informatievlaanderen/association-registry/compare/v1.5.1...v1.6.0) (2022-08-29)
+
+
+### Features
+
+* or-1175 log s3 bucket and blob name ([ab6e01d](https://github.com/informatievlaanderen/association-registry/commit/ab6e01de2ab9e6b54aaae3a95865a90b5d48ef78))
+
 ## [1.5.1](https://github.com/informatievlaanderen/association-registry/compare/v1.5.0...v1.5.1) (2022-08-26)
 
 
