@@ -8,6 +8,7 @@ using S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 public static class ServiceCollectionExtensions
 {
@@ -15,7 +16,8 @@ public static class ServiceCollectionExtensions
         services
             .AddSingleton(sp => new VerenigingenBlobClient(
                 s3Options.Buckets[WellknownBuckets.Verenigingen.Name],
-                bucketName => new S3BlobClient(sp.GetRequiredService<AmazonS3Client>(), bucketName)
+                bucketName => new S3BlobClient(sp.GetRequiredService<AmazonS3Client>(), bucketName),
+                sp.GetRequiredService<ILogger<VerenigingenBlobClient>>()
             ));
 
     public static void AddS3(this IServiceCollection services, IConfiguration configuration)

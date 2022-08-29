@@ -6,15 +6,19 @@ using Be.Vlaanderen.Basisregisters.BlobStore;
 
 namespace AssociationRegistry.Acm.Api.S3;
 
+using Microsoft.Extensions.Logging;
+
 public class VerenigingenBlobClient
 {
     private readonly S3BlobClientOptions.Bucket _bucket;
+    private readonly ILogger<VerenigingenBlobClient> _logger;
     private readonly IBlobClient _client;
 
-    public VerenigingenBlobClient(S3BlobClientOptions.Bucket bucket, Func<string, IBlobClient> clientBuilder)
+    public VerenigingenBlobClient(S3BlobClientOptions.Bucket bucket, Func<string, IBlobClient> clientBuilder, ILogger<VerenigingenBlobClient> logger)
     {
         _bucket = bucket;
         _client = clientBuilder.Invoke(bucket.Name);
+        _logger = logger;
     }
 
     /*public VerenigingenBlobClient(IBlobClient client)
@@ -29,11 +33,19 @@ public class VerenigingenBlobClient
         _client.BlobExistsAsync(GetBlobName(name), cancellationToken);
 
     public Task CreateBlobAsync(string name, Metadata metadata, ContentType contentType, Stream content,
-        CancellationToken cancellationToken = default) =>
-        _client.CreateBlobAsync(GetBlobName(name), metadata, contentType, content, cancellationToken);
+        CancellationToken cancellationToken = default)
+    {
+        var blobName = GetBlobName(name);
+        _logger.LogInformation($"Creating blob named `{blobName}` in bucket `{_bucket.Name}`");
+        return _client.CreateBlobAsync(blobName, metadata, contentType, content, cancellationToken);
+    }
 
-    public Task DeleteBlobAsync(string name, CancellationToken cancellationToken = default) =>
-        _client.DeleteBlobAsync(GetBlobName(name), cancellationToken);
+    public Task DeleteBlobAsync(string name, CancellationToken cancellationToken = default)
+    {
+        var blobName = GetBlobName(name);
+        _logger.LogInformation($"Deleting blob named `{blobName}` in bucket `{_bucket.Name}`");
+        return _client.DeleteBlobAsync(blobName, cancellationToken);
+    }
 
     private BlobName GetBlobName(string name) => new(_bucket.Blobs[name]);
 }
