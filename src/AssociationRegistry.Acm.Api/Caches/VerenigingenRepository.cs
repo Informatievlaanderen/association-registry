@@ -66,6 +66,20 @@ public class VerenigingenRepository : IVerenigingenRepository
     public static async Task<VerenigingenRepository> Load(VerenigingenBlobClient verenigingenBlobClient) =>
         new(verenigingenBlobClient, await GetVerenigingen(verenigingenBlobClient));
 
+    public async Task UpdateVerenigingen(VerenigingenAsDictionary jsonDictionary,
+        Stream requestBodyStream, CancellationToken cancellationToken)
+    {
+        var verenigingen = Parse(jsonDictionary);
+
+        if (await _blobClient.BlobExistsAsync(BlobName, cancellationToken))
+            await _blobClient.DeleteBlobAsync(BlobName, cancellationToken);
+
+        await _blobClient.CreateBlobAsync(BlobName, Metadata.None, ContentType.Parse("application/json"),
+            requestBodyStream, cancellationToken);
+
+        Verenigingen = verenigingen;
+    }
+
     private static async Task<VerenigingenPerRijksregisternummer> GetVerenigingen(
         VerenigingenBlobClient verenigingenBlobClient)
     {
@@ -80,18 +94,6 @@ public class VerenigingenRepository : IVerenigingenRepository
         var jsonDictionary = JsonConvert.DeserializeObject<VerenigingenAsDictionary>(json);
 
         return Parse(jsonDictionary!);
-    }
-
-    public async Task UpdateVerenigingen(VerenigingenAsDictionary jsonDictionary,
-        Stream requestBodyStream, CancellationToken cancellationToken)
-    {
-        var verenigingen = Parse(jsonDictionary);
-
-        await _blobClient.DeleteBlobAsync(BlobName, cancellationToken);
-        await _blobClient.CreateBlobAsync(BlobName, Metadata.None, ContentType.Parse("application/json"),
-            requestBodyStream, cancellationToken);
-
-        Verenigingen = verenigingen;
     }
 
     private static VerenigingenPerRijksregisternummer Parse(VerenigingenAsDictionary dictionary)
