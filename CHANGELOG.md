@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/informatievlaanderen/association-registry/compare/v1.7.0...v1.8.0) (2022-08-30)
+
+
+### Features
+
+* or-1158 fix ([0405576](https://github.com/informatievlaanderen/association-registry/commit/040557622cc4cc9949106bb604de629ce1c38a44))
+* or-1158 move startup and program to root ([aa414b4](https://github.com/informatievlaanderen/association-registry/commit/aa414b4077bdef52788a6fec6dd93d93e2f8d5c0))
+
 # [1.7.0](https://github.com/informatievlaanderen/association-registry/compare/v1.6.1...v1.7.0) (2022-08-30)
 
 
