@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/informatievlaanderen/association-registry/compare/v1.6.1...v1.7.0) (2022-08-30)
+
+
+### Features
+
+* or-1175 add manual deploy workflow ([30ed93d](https://github.com/informatievlaanderen/association-registry/commit/30ed93ded8d8ef5cc1549e4c45768a5da6e26132))
+
 ## [1.6.1](https://github.com/informatievlaanderen/association-registry/compare/v1.6.0...v1.6.1) (2022-08-29)
 
 
