@@ -4,6 +4,6 @@ using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
-public record GetVerenigingenResponse(
+public record GetVerenigingenPerRijksregisternummerResponse(
     [property: DataMember] string Rijksregisternummer,
     [property: DataMember] ImmutableArray<Vereniging> Verenigingen);

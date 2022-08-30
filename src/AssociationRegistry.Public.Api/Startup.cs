@@ -1,23 +1,21 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure;
-using Extensions;
-using S3;
 using System;
 using System.Linq;
 using System.Reflection;
+using AssociationRegistry.Public.Api.Infrastructure.Configuration;
+using AssociationRegistry.Public.Api.Infrastructure.Modules;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
-using Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Modules;
-using Options;
+
+namespace AssociationRegistry.Public.Api;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -46,13 +44,6 @@ public class Startup
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
 
-        var s3Options = new S3BlobClientOptions();
-        _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-
-        services.AddS3(_configuration);
-        services.AddBlobClients(s3Options);
-        services.AddDataCache();
-
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
@@ -71,16 +62,16 @@ public class Startup
                     },
                     Swagger =
                     {
-                        ApiInfo = (provider, description) => new OpenApiInfo
+                        ApiInfo = (_, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
-                            Title = "Basisregisters Vlaanderen Verenigingenregister ACM API",
+                            Title = "Basisregisters Vlaanderen Verenigingenregister Public API",
                             Description = GetApiLeadingText(description),
                             Contact = new OpenApiContact
                             {
                                 Name = "Digitaal Vlaanderen",
                                 Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://acm.api.verenigingen.vlaanderen.be"),
+                                Url = new Uri("https://public.api.verenigingen.vlaanderen.be"),
                             },
                         },
                         XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name! },
@@ -104,8 +95,8 @@ public class Startup
                             //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
                         },
                     },
-                })
-            .Configure<ResponseOptions>(_configuration);
+                });
+            //.Configure<ResponseOptions>(_configuration);
 
         var containerBuilder = new ContainerBuilder();
         containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
@@ -159,7 +150,7 @@ public class Startup
                 Api =
                 {
                     VersionProvider = apiVersionProvider,
-                    Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister ACM API {groupName}",
+                    Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister Public API {groupName}",
                     CSharpClientOptions =
                     {
                         ClassName = "Verenigingenregister",
@@ -179,5 +170,5 @@ public class Startup
 
     private static string GetApiLeadingText(ApiVersionDescription description)
         =>
-            $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+            $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }

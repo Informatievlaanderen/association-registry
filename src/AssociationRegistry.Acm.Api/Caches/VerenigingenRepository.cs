@@ -31,9 +31,8 @@ public class VerenigingenPerRijksregisternummer
     public static VerenigingenPerRijksregisternummer Empty() =>
         new(new Dictionary<string, ImmutableArray<Vereniging>>());
 
-    public static VerenigingenPerRijksregisternummer
-        FromVerenigingenAsDictionary(VerenigingenAsDictionary dictionary) =>
-        new(dictionary.Select(
+    public static VerenigingenPerRijksregisternummer FromVerenigingenAsDictionary(VerenigingenAsDictionary dictionary)
+        => new(dictionary.Select(
                 kv =>
                     (kv.Key, kv.Value.Select(
                             x => new Vereniging(x.Key, x.Value))

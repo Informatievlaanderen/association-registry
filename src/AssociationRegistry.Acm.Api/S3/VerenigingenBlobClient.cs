@@ -36,14 +36,14 @@ public class VerenigingenBlobClient
         CancellationToken cancellationToken = default)
     {
         var blobName = GetBlobName(name);
-        _logger.LogInformation($"Creating blob named `{blobName}` in bucket `{_bucket.Name}`");
+        _logger.LogInformation("Creating blob named `{BlobName}` in bucket `{BucketName}`",blobName, _bucket.Name);
         return _client.CreateBlobAsync(blobName, metadata, contentType, content, cancellationToken);
     }
 
     public Task DeleteBlobAsync(string name, CancellationToken cancellationToken = default)
     {
         var blobName = GetBlobName(name);
-        _logger.LogInformation($"Deleting blob named `{blobName}` in bucket `{_bucket.Name}`");
+        _logger.LogInformation("Deleting blob named `{BlobName}` in bucket `{BucketName}`",blobName, _bucket.Name);
         return _client.DeleteBlobAsync(blobName, cancellationToken);
     }
 

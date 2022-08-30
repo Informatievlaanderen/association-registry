@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure
-{
-    using Be.Vlaanderen.Basisregisters.Api;
-    using Microsoft.AspNetCore.Hosting;
+using Be.Vlaanderen.Basisregisters.Api;
+using Microsoft.AspNetCore.Hosting;
 
+namespace AssociationRegistry.Public.Api
+{
     public class Program
     {
         protected Program()
@@ -17,7 +17,7 @@ namespace AssociationRegistry.Acm.Api.Infrastructure
                     {
                         Hosting =
                         {
-                            HttpPort = 11000
+                            HttpPort = 11003
                         },
                         Logging =
                         {
