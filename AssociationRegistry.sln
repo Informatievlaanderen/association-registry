@@ -34,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\pre-merge-tests.yml = .github\workflows\pre-merge-tests.yml
 		.github\workflows\production-manual.yml = .github\workflows\production-manual.yml
 		.github\workflows\staging-manual.yml = .github\workflows\staging-manual.yml
+		.github\workflows\test-manual.yml = .github\workflows\test-manual.yml
 	EndProjectSection
 EndProject
 Global
