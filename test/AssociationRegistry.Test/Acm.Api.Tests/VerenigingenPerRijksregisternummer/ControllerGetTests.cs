@@ -23,13 +23,13 @@ public class ControllerGetTests
 
         var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103654987");
 
-        var verenigingenResponse = (GetVerenigingenResponse)response.Value!;
+        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
 
         var expectedVerenigingen = ImmutableArray.Create(
             new Vereniging("V0000001", "De eenzame in de lijst")
         );
         verenigingenResponse.Should()
-            .BeEquivalentTo(new GetVerenigingenResponse("7103654987", expectedVerenigingen));
+            .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse("7103654987", expectedVerenigingen));
     }
 
     [Theory]
@@ -42,10 +42,10 @@ public class ControllerGetTests
 
         var response = (OkObjectResult)await controller.Get(_verenigingenRepository, rijksregisternummer);
 
-        var verenigingenResponse = (GetVerenigingenResponse)response.Value!;
+        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
 
         verenigingenResponse.Should()
-            .BeEquivalentTo(new GetVerenigingenResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
+            .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
     }
 
     private static void VerifyVereniging(Vereniging vereniging, string expectedId, string expectedName)

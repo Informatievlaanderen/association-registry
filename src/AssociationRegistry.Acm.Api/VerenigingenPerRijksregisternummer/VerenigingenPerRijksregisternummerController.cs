@@ -24,14 +24,14 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     /// <response code="200">Als het rijksregisternummer gevonden is.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet]
-    [ProducesResponseType(typeof(GetVerenigingenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetVerenigingenPerRijksregisternummerResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
         [FromServices] IVerenigingenRepository verenigingenRepository,
         [FromQuery] string rijksregisternummer) =>
-        await Task.FromResult<IActionResult>(Ok(new GetVerenigingenResponse(rijksregisternummer, verenigingenRepository.Verenigingen[rijksregisternummer])));
+        await Task.FromResult<IActionResult>(Ok(new GetVerenigingenPerRijksregisternummerResponse(rijksregisternummer, verenigingenRepository.Verenigingen[rijksregisternummer])));
 
     [HttpPut]
     public async Task<IActionResult> Put(

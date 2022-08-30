@@ -1,8 +1,8 @@
 type file
 version 1.0.0
 
-id Be.Vlaanderen.Basisregisters.AssociationRegistry.Acm.Api
-title Be.Vlaanderen.Basisregisters.AssociationRegistry.Acm.Api
+id Be.Vlaanderen.Basisregisters.AssociationRegistry.Public.Api
+title Be.Vlaanderen.Basisregisters.AssociationRegistry.Public.Api
 
 authors Basisregisters Vlaanderen
 owners Digitaal Vlaanderen <https://vlaanderen.be/digitaal-vlaanderen>
@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 description Association Registry.
 
 files
-  AssociationRegistry.Acm.Api.dll => lib\net6.0
-  AssociationRegistry.Acm.Api.pdb => lib\net6.0
-  AssociationRegistry.Acm.Api.xml => lib\net6.0
-  AssociationRegistry.Acm.Api.xml => content
+  AssociationRegistry.Public.Api.dll => lib\net6.0
+  AssociationRegistry.Public.Api.pdb => lib\net6.0
+  AssociationRegistry.Public.Api.xml => lib\net6.0
+  AssociationRegistry.Public.Api.xml => content

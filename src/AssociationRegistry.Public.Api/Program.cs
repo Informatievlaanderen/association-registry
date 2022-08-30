@@ -1,7 +1,7 @@
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Hosting;
 
-namespace AssociationRegistry.Acm.Api
+namespace AssociationRegistry.Public.Api
 {
     public class Program
     {
@@ -17,7 +17,7 @@ namespace AssociationRegistry.Acm.Api
                     {
                         Hosting =
                         {
-                            HttpPort = 11002
+                            HttpPort = 11003
                         },
                         Logging =
                         {
