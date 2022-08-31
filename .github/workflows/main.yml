@@ -294,6 +294,7 @@ jobs:
         run: |
           echo ${{ needs.build.outputs.version }}
       - name: CD
+        if: needs.build.outputs.version != 'none'
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
