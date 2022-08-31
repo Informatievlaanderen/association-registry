@@ -82,12 +82,11 @@ public class VerenigingenRepository : IVerenigingenRepository
     private static async Task<VerenigingenPerRijksregisternummer> GetVerenigingen(
         VerenigingenBlobClient verenigingenBlobClient)
     {
-        var blobName = new BlobName(WellknownBuckets.Verenigingen.Blobs.Data);
 
-        if (!await verenigingenBlobClient.BlobExistsAsync(blobName))
+        if (!await verenigingenBlobClient.BlobExistsAsync(BlobName))
             return VerenigingenPerRijksregisternummer.Empty();
 
-        var blobObject = await verenigingenBlobClient.GetBlobAsync(blobName);
+        var blobObject = await verenigingenBlobClient.GetBlobAsync(BlobName);
         var blobStream = await blobObject.OpenAsync();
         var json = await new StreamReader(blobStream).ReadToEndAsync();
         var jsonDictionary = JsonConvert.DeserializeObject<VerenigingenAsDictionary>(json);
