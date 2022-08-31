@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Infrastructure.Configuration;
 using AssociationRegistry.Public.Api.Infrastructure.Modules;
+using AssociationRegistry.Public.Api.S3;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -43,6 +45,13 @@ public class Startup
         var baseUrlForExceptions = baseUrl.EndsWith("/")
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
+
+        var s3Options = new S3BlobClientOptions();
+        _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
+
+        services.AddS3(_configuration);
+        services.AddBlobClients(s3Options);
+        services.AddDataCache();
 
         services
             .ConfigureDefaultForApi<Startup>(

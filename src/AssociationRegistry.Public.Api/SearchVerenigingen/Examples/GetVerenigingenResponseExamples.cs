@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using AssociationRegistry.Public.Api.VerenigingenPerRijksregisternummer;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
