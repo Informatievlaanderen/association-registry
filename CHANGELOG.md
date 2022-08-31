@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/informatievlaanderen/association-registry/compare/v1.8.0...v1.9.0) (2022-08-31)
+
+
+### Features
+
+* or-1158 add get all enpoint + add put data endpoint ([2ea586a](https://github.com/informatievlaanderen/association-registry/commit/2ea586ab512a431137997f5fa37aab78c4a31440))
+
 # [1.8.0](https://github.com/informatievlaanderen/association-registry/compare/v1.7.0...v1.8.0) (2022-08-30)
 
 
