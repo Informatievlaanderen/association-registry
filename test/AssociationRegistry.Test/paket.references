@@ -1,9 +1,13 @@
 Microsoft.NET.Test.Sdk
+Microsoft.AspNetCore.Hosting
+Microsoft.AspNetCore.TestHost
 xunit
 xunit.runner.visualstudio
 xunit.categories
 AutoFixture
 FluentAssertions
+FluentAssertions.Json
+Moq
 
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac

@@ -1,0 +1,19 @@
+{
+  "verenigingen": [
+    {
+      "vCode": "V1234567",
+      "naam": "FWA De vrolijke BA’s",
+      "korteNaam": "DVB",
+      "locaties": [
+        {
+          "postcode": "1770",
+          "gemeentenaam": "Liedekerke"
+        }
+      ],
+      "activiteiten": [
+        "Badminton",
+        "Tennis"
+      ]
+    }
+  ]
+}

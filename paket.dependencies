@@ -70,6 +70,8 @@ nuget Structurizr.AdrTools 0.9.3
 
 // TEST STUFF
 nuget Microsoft.AspNetCore.Mvc.Testing 6.0.4
+nuget Microsoft.AspNetCore.TestHost 6.0.4
+nuget Microsoft.AspNetCore.Hosting 2.2.7
 nuget Microsoft.NET.Test.Sdk 17.1.0
 nuget Microsoft.EntityFrameworkCore.InMemory 6.0.3
 nuget xunit 2.4.1
@@ -78,6 +80,8 @@ nuget xunit.categories 2.0.6
 nuget AutoFixture 4.17.0
 nuget AutoFixture.Xunit2 4.17.0
 nuget FluentAssertions 6.5.1
+nuget FluentAssertions.Json 6.1.0
+nuget Moq 4.17.2
 
 // BUILD STUFF
 nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true
