@@ -1,19 +1,19 @@
+namespace AssociationRegistry.Public.Api.SearchVerenigingen;
+
 using System.Collections.Immutable;
 using System.Threading;
 using System.Threading.Tasks;
-using AssociationRegistry.Public.Api.Caches;
-using AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
+using Caches;
+using Examples;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace AssociationRegistry.Public.Api.SearchVerenigingen;
-
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen")]
+[ApiRoute("verenigingen/dep")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {

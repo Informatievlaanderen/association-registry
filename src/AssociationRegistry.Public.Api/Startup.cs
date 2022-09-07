@@ -19,6 +19,9 @@ using Microsoft.OpenApi.Models;
 
 namespace AssociationRegistry.Public.Api;
 
+using System.Collections.Immutable;
+using ListVerenigingen;
+
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
 {
@@ -52,6 +55,14 @@ public class Startup
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
+        services.AddSingleton<IVerenigingenRepository>(_ => new InMemoryVerenigingenRepository(
+            new Vereniging(
+                "V1234567",
+                "FWA De vrolijke BA’s",
+                "DVB",
+                ImmutableArray.Create(new Locatie("1770", "Liedekerke")),
+                ImmutableArray.Create<string>("Badminton", "Tennis"))
+        ));
 
         services
             .ConfigureDefaultForApi<Startup>(
