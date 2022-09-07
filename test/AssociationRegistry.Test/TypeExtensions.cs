@@ -12,12 +12,5 @@ public static class TypeExtensions
         => type.GetResourceString(resourceName, "json");
 
     private static string GetResourceString(this Type type, string methodName, string extension)
-    {
-        var resourceName = $"{type.Namespace!}.{methodName}";
-
-        if (!string.IsNullOrWhiteSpace(extension))
-            resourceName = $"{resourceName}.{extension}";
-
-        return type.Assembly.GetResourceString(resourceName);
-    }
+        => type.Assembly.GetResourceString($"{type.Namespace!}.{methodName}.{extension}");
 }
