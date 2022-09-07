@@ -1,3 +1,11 @@
+# [1.10.0](https://github.com/informatievlaanderen/association-registry/compare/v1.9.0...v1.10.0) (2022-09-07)
+
+
+### Features
+
+* or-1182 implement verenigingen controller + éfirst integration tests ([c31052d](https://github.com/informatievlaanderen/association-registry/commit/c31052dd7e0e296325e2fca22edc76613711edd0))
+* or-1182 optimisation of resources in tests ([895736d](https://github.com/informatievlaanderen/association-registry/commit/895736d889bcadfa18b723026ae41e809a7e3097))
+
 # [1.9.0](https://github.com/informatievlaanderen/association-registry/compare/v1.8.0...v1.9.0) (2022-08-31)
 
 
