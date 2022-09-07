@@ -53,7 +53,7 @@ public class Given_an_api:IDisposable
     {
         var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
         var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().Assembly.GetResourceString("AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen.Then_we_get_a_list_verenigingen_response.json");
+        var goldenMaster = GetType().GetAssociatedResourceJson(nameof(Then_we_get_a_list_verenigingen_response));
 
         var deserializedContent = JToken.Parse(content);
         var deserializedGoldenMaster = JToken.Parse(goldenMaster);

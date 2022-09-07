@@ -4,21 +4,16 @@ public static class TypeExtensions
 {
     /// <summary>
     /// usage: put a json-file next to the type
-    /// it should have the same name as the type, but with an added suffix
-    /// like this: typename_suffix.json (mind the underscore)
-    /// then you pass "suffix" into the filenameSuffix parameter of this method
+    /// the name of the resource (without namespace and without extension) is passed
+    /// in the 'resourceName' parameter
     /// </summary>
-    /// <returns>the contents of the embedded csv that matches the calculated filename</returns>
+    /// <returns>the contents of the embedded json that matches the calculated filename</returns>
+    public static string GetAssociatedResourceJson(this Type type, string resourceName)
+        => type.GetResourceString(resourceName, "json");
 
-    public static string GetAssociatedResourceJson(this Type type, string filenameSuffix)
-        => type.GetResourceString(suffix: filenameSuffix, extension: "json");
-
-    private static string GetResourceString(this Type type, string? suffix = null, string? extension = null)
+    private static string GetResourceString(this Type type, string methodName, string extension)
     {
-        var resourceName = type.FullName!;
-
-        if (!string.IsNullOrWhiteSpace(suffix))
-            resourceName = $"{resourceName}_{suffix}";
+        var resourceName = $"{type.Namespace!}.{methodName}";
 
         if (!string.IsNullOrWhiteSpace(extension))
             resourceName = $"{resourceName}.{extension}";
