@@ -1,8 +1,12 @@
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
 using Be.Vlaanderen.Basisregisters.Api;
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
@@ -24,8 +28,18 @@ public class ListVerenigingenController : ApiController
     {
         _verenigingenRepository = verenigingenRepository;
     }
-
+/// <summary>
+/// Vraag de lijst van verenigingen op.
+/// </summary>
+/// <param name="paginationQueryParams"></param>
+/// <response code="200">Een lijst met de bevraagde verenigingen</response>
+/// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet]
+    [ProducesResponseType(typeof(ListVerenigingenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(ListVerenigingenResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+
     public async Task<IActionResult> List(
         [FromServices] ListVerenigingContext context,
         [FromQuery] PaginationQueryParams paginationQueryParams)
