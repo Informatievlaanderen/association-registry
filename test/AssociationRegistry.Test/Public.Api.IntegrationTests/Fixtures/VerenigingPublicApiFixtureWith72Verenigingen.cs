@@ -1,22 +1,22 @@
-using System.Reflection;
+﻿using System.Reflection;
 using AssociationRegistry.Public.Api;
-using FluentAssertions;
-using FluentAssertions.Json;
+using AssociationRegistry.Public.Api.ListVerenigingen;
+using AssociationRegistry.Test.Public.Api.Tests;
+using AssociationRegistry.Test.Stubs;
+using AutoFixture;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using Xunit;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen;
+namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
-using Newtonsoft.Json.Linq;
-
-public class Given_an_api:IDisposable
+public class VerenigingPublicApiFixtureWith72Verenigingen : IDisposable
 {
-    private readonly HttpClient _httpClient;
+    public HttpClient HttpClient { get; private set; }
     private readonly TestServer _testServer;
 
-    public Given_an_api()
+    public VerenigingPublicApiFixtureWith72Verenigingen()
     {
         var maybeRootDirectory = Directory
             .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
@@ -32,39 +32,21 @@ public class Given_an_api:IDisposable
 
         var configurationRoot = builder.Build();
 
-
         IWebHostBuilder hostBuilder = new WebHostBuilder();
 
         hostBuilder.UseConfiguration(configurationRoot);
         hostBuilder.UseStartup<Startup>();
+
         hostBuilder.UseTestServer();
 
         _testServer = new TestServer(hostBuilder);
 
-        _httpClient = _testServer.CreateClient();
-    }
-
-    [Fact]
-    public async Task Then_we_get_a_successful_response()
-        => (await _httpClient.GetAsync("/v1/verenigingen")).Should().BeSuccessful();
-
-    [Fact]
-    public async Task Then_we_get_a_list_verenigingen_response()
-    {
-        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().GetAssociatedResourceJson(nameof(Then_we_get_a_list_verenigingen_response));
-
-        var deserializedContent = JToken.Parse(content);
-        var deserializedGoldenMaster = JToken.Parse(goldenMaster);
-
-        deserializedContent.Should().BeEquivalentTo(deserializedGoldenMaster);
+        HttpClient = _testServer.CreateClient();
     }
 
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
-
+        HttpClient.Dispose();
         _testServer.Dispose();
     }
 }

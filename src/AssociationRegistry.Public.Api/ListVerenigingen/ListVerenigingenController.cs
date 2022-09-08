@@ -1,9 +1,15 @@
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssociationRegistry.Public.Api.ListVerenigingen;
+
+using System;
+using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.Api.Search.Pagination;
+using Newtonsoft.Json;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -12,6 +18,7 @@ namespace AssociationRegistry.Public.Api.ListVerenigingen;
 public class ListVerenigingenController : ApiController
 {
     private readonly IVerenigingenRepository _verenigingenRepository;
+    private ImmutableArray<Vereniging> verenigingen;
 
     public ListVerenigingenController(IVerenigingenRepository verenigingenRepository)
     {
@@ -19,26 +26,29 @@ public class ListVerenigingenController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> List()
+    public async Task<IActionResult> List(
+        [FromServices] ListVerenigingContext context,
+        [FromQuery] PaginationQueryParams paginationQueryParams)
     {
-        return Ok(new ListVerenigingenResponse(await _verenigingenRepository.List()));
+        var paginationRequest = ExtractPaginationRequest(paginationQueryParams);
+        var totalCount = await _verenigingenRepository.TotalCount();
+        verenigingen = await _verenigingenRepository.List();
+        return Ok(
+            new ListVerenigingenResponse(
+                context,
+                verenigingen.Skip(paginationRequest.Offset).Take(paginationRequest.Limit).ToImmutableArray(),
+                new Metadata(
+                    new Pagination(
+                        totalCount,
+                        paginationRequest.Offset,
+                        paginationRequest.Limit
+                    )
+                )
+            )
+        );
     }
+
+    private static PaginationRequest ExtractPaginationRequest(PaginationQueryParams paginationQueryParams) =>
+        new(paginationQueryParams.Offset,
+            Math.Min(paginationQueryParams.Limit, Constants.DefaultLimit));
 }
-
-public interface IVerenigingenRepository
-{
-    Task<ImmutableArray<Vereniging>> List();
-}
-
-public record ListVerenigingenResponse(ImmutableArray<Vereniging> Verenigingen);
-
-public record Vereniging(
-    string VCode,
-    string Naam,
-    string KorteNaam,
-    ImmutableArray<Locatie> Locaties,
-    ImmutableArray<string> Activiteiten);
-
-public record Locatie(
-    string Postcode,
-    string Gemeentenaam);

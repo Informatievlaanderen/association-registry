@@ -40,7 +40,6 @@ public class SearchVerenigingenController : ApiController
             return BadRequest();
 
         await verenigingenRepository.UpdateVerenigingen(body, Request.Body, cancellationToken);
-
         return Ok();
     }
 }

@@ -1,0 +1,30 @@
+﻿using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api.ListVerenigingen;
+using AutoFixture;
+using FluentAssertions;
+using Xunit;
+
+namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
+
+public class Given_less_or_equal_than_limit_number_of_verenigingen
+{
+    private readonly List<Vereniging> _verenigingen;
+
+    public Given_less_or_equal_than_limit_number_of_verenigingen()
+    {
+        var fixture = new VerenigingenFixture();
+        var lessOrEqualThanLimit = new Random().Next(0, Constants.DefaultLimit);
+        _verenigingen = fixture
+            .CreateMany<Vereniging>(lessOrEqualThanLimit).ToList();
+    }
+
+    [Fact]
+    public async Task Then_a_list_with_correct_number_of_verenigingen_is_returned()
+        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Should()
+            .HaveCount(_verenigingen.Count);
+
+    [Fact]
+    public async Task Then_a_list_with_the_different_verenigingen_is_returned()
+        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Should()
+            .BeEquivalentTo(_verenigingen);
+}

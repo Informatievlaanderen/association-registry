@@ -11,6 +11,12 @@ using Microsoft.Extensions.Logging;
 
 namespace AssociationRegistry.Public.Api.Extensions;
 
+using System.Collections.Immutable;
+using System.IO;
+using ListVerenigingen;
+using Newtonsoft.Json;
+using IVerenigingenRepository = Caches.IVerenigingenRepository;
+
 public static class ServiceCollectionExtensions
 {
     public static void AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
@@ -58,4 +64,20 @@ public static class ServiceCollectionExtensions
     public static void AddDataCache(this IServiceCollection services) =>
         services.AddSingleton<IVerenigingenRepository>(sp =>
             VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
+
+    public static void AddJsonLdContexts(this IServiceCollection services)
+    {
+        services.AddSingleton<ListVerenigingContext>(sp =>
+        {
+            var blobObject = sp.GetRequiredService<VerenigingenBlobClient>().GetBlobAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext).GetAwaiter().GetResult();
+            var blobStream = blobObject.OpenAsync().GetAwaiter().GetResult();
+            using var streamReader = new StreamReader(blobStream);
+            var json = streamReader.ReadToEndAsync().GetAwaiter().GetResult();
+            var deserializeObject = JsonConvert.DeserializeObject<ListVerenigingContext>(json);
+            return deserializeObject ??
+                   throw new InvalidOperationException("Could not load ListVerenigingContext");
+        });
+        services.AddSingleton<IVerenigingenRepository>(sp =>
+            VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
+    }
 }
