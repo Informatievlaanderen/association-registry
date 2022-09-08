@@ -1,3 +1,18 @@
+# [1.11.0](https://github.com/informatievlaanderen/association-registry/compare/v1.10.0...v1.11.0) (2022-09-08)
+
+
+### Bug Fixes
+
+* OR-1182 add default bucket ([56674ee](https://github.com/informatievlaanderen/association-registry/commit/56674ee3654ad7a118a6f356f4563bf895018e5c))
+* OR-1182 add default bucket to pre merge tests ([52eab89](https://github.com/informatievlaanderen/association-registry/commit/52eab898df402b99c1d89880ddc193976ca5b239))
+* OR-1182 add minio to pre-merge tests workflow ([7af2f21](https://github.com/informatievlaanderen/association-registry/commit/7af2f21ef9ef1209e5cbfd6a3e882cd0ca22fc9a))
+* OR-1182 seed minio with json ld context blob ([ae0fb53](https://github.com/informatievlaanderen/association-registry/commit/ae0fb536a2021408eab8d6192555e689c9d8d280))
+
+
+### Features
+
+* OR-1182 add json-ld context to ListVerenigingen ([a9220f6](https://github.com/informatievlaanderen/association-registry/commit/a9220f645280af2a2e1fed37bd8b5d9248c06e50))
+
 # [1.10.0](https://github.com/informatievlaanderen/association-registry/compare/v1.9.0...v1.10.0) (2022-09-07)
 
 
