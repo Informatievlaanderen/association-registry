@@ -13,12 +13,12 @@ using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen/dep")]
+[ApiRoute("verenigingen/search")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
     /// <summary>
-    /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
+    /// Vraag de lijst van verenigingen voor een rijksregisternummer op. (statische dataset)
     /// </summary>
     /// <response code="200">Er kwam geen fout voor.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>

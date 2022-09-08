@@ -5,9 +5,12 @@ namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
 [DataContract]
 public record ListVerenigingenResponse(
-    [property: DataMember(Name = "@context")] ListVerenigingContext Context,
-    [property: DataMember(Name = "Verenigingen")] ImmutableArray<Vereniging> Verenigingen,
-    [property: DataMember(Name = "Metadata")] Metadata Metadata);
+    [property: DataMember(Name = "@context")]
+    ListVerenigingContext Context,
+    [property: DataMember(Name = "Verenigingen")]
+    ImmutableArray<Vereniging> Verenigingen,
+    [property: DataMember(Name = "Metadata")]
+    Metadata Metadata);
 
 
 [DataContract]
