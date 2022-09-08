@@ -17,4 +17,6 @@ public class InMemoryVerenigingenRepository : IVerenigingenRepository
     {
         return Task.FromResult(_verenigingen.ToImmutableArray());
     }
+
+    public  Task<int> TotalCount() => Task.FromResult(_verenigingen.Length);
 }

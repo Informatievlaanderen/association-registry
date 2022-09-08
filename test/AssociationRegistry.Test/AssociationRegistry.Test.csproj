@@ -10,7 +10,9 @@
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_verenigingen\Then_we_get_a_list_verenigingen_response.json" />
+    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
+    <None Remove="Public.Api.Tests\list-verenigingen-context.json" />
+    <EmbeddedResource Include="Public.Api.Tests\list-verenigingen-context.json" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

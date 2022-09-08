@@ -55,6 +55,7 @@ public class Startup
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
+        services.AddJsonLdContexts();
         services.AddSingleton<IVerenigingenRepository>(_ => new InMemoryVerenigingenRepository(
             new Vereniging(
                 "V1234567",

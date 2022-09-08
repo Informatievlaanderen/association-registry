@@ -52,13 +52,13 @@ public class VerenigingenRepository : IVerenigingenRepository
     private static async Task<ImmutableArray<Vereniging>> GetVerenigingen(
         VerenigingenBlobClient verenigingenBlobClient)
     {
-
         if (!await verenigingenBlobClient.BlobExistsAsync(BlobName))
             return ImmutableArray<Vereniging>.Empty;
 
         var blobObject = await verenigingenBlobClient.GetBlobAsync(BlobName);
         var blobStream = await blobObject.OpenAsync();
-        var json = await new StreamReader(blobStream).ReadToEndAsync();
+        using var streamReader = new StreamReader(blobStream);
+        var json = await streamReader.ReadToEndAsync();
         return JsonConvert.DeserializeObject<ImmutableArray<Vereniging>>(json);
     }
 }

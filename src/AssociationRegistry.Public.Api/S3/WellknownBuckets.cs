@@ -8,6 +8,7 @@ public static class WellknownBuckets
         public static class Blobs
         {
             public const string AllVerenigingen = "AlleVerenigingen";
+            public const string ListVerenigingenContext = "ListVerenigingenContext";
         }
     }
 }
