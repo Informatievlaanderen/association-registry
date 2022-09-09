@@ -13,7 +13,8 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `
+              body: `Thanks for your PR!
+
               # Definition of Done Check list
               - [ ] Code Review
               - [ ] Automated Tests are added/updated
