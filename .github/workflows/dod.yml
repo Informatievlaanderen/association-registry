@@ -14,8 +14,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `**Welcome**, new contributor!
-                - [ ] Code Review
-                - [ ] Automated Tests are added/updated
+              - [ ] Code Review
+              - [ ] Automated Tests are added/updated
 
-                Please make sure you're read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
+              Please make sure you're read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
             })
