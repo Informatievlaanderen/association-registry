@@ -11,7 +11,13 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Thanks for your PR!
+              body: `
+              # Definition of Done Checklist
 
-                Please make sure you're read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
+              - [ ] Code Review
+              - [ ] Automated Tests are added/updated
+              - [ ] `build.sh` was run
+              - [ ] Update documentation/ADR
+              - [ ] Smoke test on staging
+            `
             })
