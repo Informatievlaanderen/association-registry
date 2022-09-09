@@ -15,7 +15,7 @@ jobs:
               repo: context.repo.repo,
               body: `Thanks for your PR!
 
-              # Definition of Done Check list
+              # Definition of Done Checklist
               - [ ] Code Review
               - [ ] Automated Tests are added/updated
               - [ ] \`build.sh\` was run
