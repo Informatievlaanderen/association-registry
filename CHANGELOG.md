@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/informatievlaanderen/association-registry/compare/v1.11.0...v1.12.0) (2022-09-09)
+
+
+### Features
+
+* or-1182 add xml comments ([abe42ff](https://github.com/informatievlaanderen/association-registry/commit/abe42ff7d16c92906cefd8ea5acee5a1ff3bdf85))
+
 # [1.11.0](https://github.com/informatievlaanderen/association-registry/compare/v1.10.0...v1.11.0) (2022-09-08)
 
 
