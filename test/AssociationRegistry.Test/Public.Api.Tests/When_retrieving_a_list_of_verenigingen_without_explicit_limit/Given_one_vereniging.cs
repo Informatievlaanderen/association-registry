@@ -7,14 +7,14 @@ namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_ve
 
 public class Given_one_vereniging
 {
-    private readonly List<Vereniging> _verenigingen;
-    private readonly Vereniging _vereniging;
+    private readonly List<VerenigingListItem> _verenigingen;
+    private readonly VerenigingListItem _vereniging;
 
     public Given_one_vereniging()
     {
         var fixture = new VerenigingenFixture();
-        _vereniging = fixture.Create<Vereniging>();
-        _verenigingen = new List<Vereniging>
+        _vereniging = fixture.Create<VerenigingListItem>();
+        _verenigingen = new List<VerenigingListItem>
         {
             _vereniging,
         };
@@ -46,9 +46,15 @@ public class Given_one_vereniging
             .Should().BeEquivalentTo(_vereniging.Activiteiten);
 
     [Fact]
-    public async Task Then_a_vereniging_has_list_of_locaties()
-        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Locaties
-            .Should().BeEquivalentTo(_vereniging.Locaties);
+    public async Task Then_a_vereniging_has_a_hoofdLocatie_postcode()
+        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Hoofdlocatie.Postcode
+            .Should()
+            .Be(_vereniging.Hoofdlocatie.Postcode);
+    [Fact]
+    public async Task Then_a_vereniging_has_a_hoofdLocatie_gemeentenaam()
+        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Hoofdlocatie.Gemeentenaam
+            .Should()
+            .Be(_vereniging.Hoofdlocatie.Gemeentenaam);
 
     [Fact]
     public async Task Then_a_vereniging_has_a_jsonld_context_base()

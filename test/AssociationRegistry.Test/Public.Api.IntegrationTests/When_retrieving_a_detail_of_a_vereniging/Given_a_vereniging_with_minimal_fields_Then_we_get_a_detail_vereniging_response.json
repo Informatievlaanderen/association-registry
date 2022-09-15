@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "@base": "https://data.vlaanderen.be/ns/FeitelijkeVerenigingen",
+    "@vocab": "@",
+    "identificator": "@nest",
+    "id": "@id",
+    "naam": {
+      "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
+      "@type": "@id"
+    }
+  },
+  "vereniging": {
+    "id": "V1234568",
+    "naam": "FWA De vrolijke BA’s",
+    "korteNaam": "",
+    "korteOmschrijving": "",
+    "activiteiten": [],
+    "rechtsvorm": "",
+    "startDatum": null,
+    "eindDatum": null,
+    "hoofdlocatie": {
+      "postcode": "1840",
+      "gemeentenaam": "Londerzeel"
+    },
+    "contactPersoon": null,
+    "locaties": [
+      {
+        "postcode": "1840",
+        "gemeentenaam": "Londerzeel"
+      }
+    ],
+    "contactGegevens": []
+  }
+}

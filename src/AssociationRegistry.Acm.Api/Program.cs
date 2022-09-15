@@ -17,17 +17,17 @@ namespace AssociationRegistry.Acm.Api
                     {
                         Hosting =
                         {
-                            HttpPort = 11002
+                            HttpPort = 11002,
                         },
                         Logging =
                         {
                             WriteTextToConsole = false,
-                            WriteJsonToConsole = false
+                            WriteJsonToConsole = false,
                         },
                         Runtime =
                         {
-                            CommandLineArgs = args
-                        }
+                            CommandLineArgs = args,
+                        },
                     });
     }
 }

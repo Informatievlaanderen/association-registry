@@ -1,22 +1,31 @@
 namespace AssociationRegistry.Public.Api;
 
+using System;
+using System.Linq;
+using DetailVerenigingen;
+using ListVerenigingen;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
-using ListVerenigingen;
 
 public class InMemoryVerenigingenRepository : IVerenigingenRepository
 {
-    private readonly Vereniging[] _verenigingen;
+    private readonly VerenigingListItem[] _verenigingenListItems;
+    private readonly VerenigingDetail[] _verenigingenDetails;
 
-    public InMemoryVerenigingenRepository(params Vereniging[] verenigingen)
+    public InMemoryVerenigingenRepository(
+        VerenigingListItem[] verenigingenListItems,
+        VerenigingDetail[] verenigingenDetails)
     {
-        _verenigingen = verenigingen;
+        _verenigingenListItems = verenigingenListItems;
+        _verenigingenDetails = verenigingenDetails;
     }
 
-    public Task<ImmutableArray<Vereniging>> List()
-    {
-        return Task.FromResult(_verenigingen.ToImmutableArray());
-    }
+    public Task<ImmutableArray<VerenigingListItem>> List() =>
+        Task.FromResult(_verenigingenListItems.ToImmutableArray());
 
-    public  Task<int> TotalCount() => Task.FromResult(_verenigingen.Length);
+    public Task<VerenigingDetail?> Detail(string vCode) =>
+        Task.FromResult(_verenigingenDetails.FirstOrDefault(v =>
+            string.Equals(v.Id, vCode, StringComparison.OrdinalIgnoreCase)));
+
+    public Task<int> TotalCount() => Task.FromResult(_verenigingenListItems.Length);
 }

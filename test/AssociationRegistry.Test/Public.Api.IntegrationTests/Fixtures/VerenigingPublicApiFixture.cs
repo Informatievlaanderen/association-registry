@@ -3,6 +3,7 @@ using AssociationRegistry.Public.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
@@ -36,17 +37,27 @@ public class VerenigingPublicApiFixture : IDisposable
 
         hostBuilder.UseConfiguration(configurationRoot);
         hostBuilder.UseStartup<Startup>();
+
+        hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
+
         hostBuilder.UseTestServer();
 
         _testServer = new TestServer(hostBuilder);
 
         var blobClient = _testServer.Services.GetRequiredService<VerenigingenBlobClient>();
-        var associatedResourceJson = typeof(Scenario).GetAssociatedResourceJson("list-verenigingen-context");
+        var listVerenigingenContext = typeof(Scenario).GetAssociatedResourceJson("list-verenigingen-context");
         if (!blobClient.BlobExistsAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext).GetAwaiter().GetResult())
         {
             blobClient.CreateBlobAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext, Metadata.None,
                 ContentType.Parse("application/json"),
-                GenerateStreamFromString(associatedResourceJson)).GetAwaiter().GetResult();
+                GenerateStreamFromString(listVerenigingenContext)).GetAwaiter().GetResult();
+        }
+        var detailVerenigingContext = typeof(Scenario).GetAssociatedResourceJson("detail-vereniging-context");
+        if (!blobClient.BlobExistsAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext).GetAwaiter().GetResult())
+        {
+            blobClient.CreateBlobAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext, Metadata.None,
+                ContentType.Parse("application/json"),
+                GenerateStreamFromString(detailVerenigingContext)).GetAwaiter().GetResult();
         }
 
         HttpClient = _testServer.CreateClient();

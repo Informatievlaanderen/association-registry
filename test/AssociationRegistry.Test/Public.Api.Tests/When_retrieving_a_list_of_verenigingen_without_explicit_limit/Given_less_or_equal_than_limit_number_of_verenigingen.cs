@@ -8,14 +8,14 @@ namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_ve
 
 public class Given_less_or_equal_than_limit_number_of_verenigingen
 {
-    private readonly List<Vereniging> _verenigingen;
+    private readonly List<VerenigingListItem> _verenigingen;
 
     public Given_less_or_equal_than_limit_number_of_verenigingen()
     {
         var fixture = new VerenigingenFixture();
         var lessOrEqualThanLimit = new Random().Next(0, Constants.DefaultLimit);
         _verenigingen = fixture
-            .CreateMany<Vereniging>(lessOrEqualThanLimit).ToList();
+            .CreateMany<VerenigingListItem>(lessOrEqualThanLimit).ToList();
     }
 
     [Fact]

@@ -1,13 +1,8 @@
 ﻿using System.Reflection;
 using AssociationRegistry.Public.Api;
-using AssociationRegistry.Public.Api.ListVerenigingen;
-using AssociationRegistry.Test.Public.Api.Tests;
-using AssociationRegistry.Test.Stubs;
-using AutoFixture;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 

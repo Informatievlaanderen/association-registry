@@ -18,9 +18,9 @@ using Swashbuckle.AspNetCore.Filters;
 public class SearchVerenigingenController : ApiController
 {
     /// <summary>
-    /// Vraag de lijst van verenigingen voor een rijksregisternummer op. (statische dataset)
+    /// Zoek verenigingen op. (statische dataset)
     /// </summary>
-    /// <response code="200">Er kwam geen fout voor.</response>
+    /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet]
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
@@ -31,6 +31,7 @@ public class SearchVerenigingenController : ApiController
         await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
 
     [HttpPut]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Put(
         [FromServices] IVerenigingenRepository verenigingenRepository,
         [FromBody] ImmutableArray<Vereniging>? maybeBody,

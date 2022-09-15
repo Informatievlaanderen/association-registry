@@ -1,11 +1,14 @@
+namespace AssociationRegistry.Test.Public.Api.Tests;
+
 using System.Collections.Immutable;
 using AutoFixture;
 using AutoFixture.Kernel;
 
-namespace AssociationRegistry.Test.Public.Api.Tests;
 
 public class VerenigingenFixture : Fixture
 {
+    private static Random _random = new();
+
     public VerenigingenFixture()
     {
         Customizations.Add(new ImmutableListSpecimenBuilder());
@@ -88,3 +91,4 @@ public class VerenigingenFixture : Fixture
         }
     }
 }
+

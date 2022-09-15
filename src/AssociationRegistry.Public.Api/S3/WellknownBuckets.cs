@@ -9,6 +9,7 @@ public static class WellknownBuckets
         {
             public const string AllVerenigingen = "AlleVerenigingen";
             public const string ListVerenigingenContext = "ListVerenigingenContext";
+            public const string DetailVerenigingContext = "DetailVerenigingContext";
         }
     }
 }

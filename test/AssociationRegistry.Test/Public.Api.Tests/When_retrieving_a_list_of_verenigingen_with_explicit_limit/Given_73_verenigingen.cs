@@ -9,13 +9,13 @@ using Xunit;
 public class Given_73_verenigingen
 {
     private const int MoreThanLimit = 73;
-    private readonly List<Vereniging> _verenigingen;
+    private readonly List<VerenigingListItem> _verenigingen;
 
     public Given_73_verenigingen()
     {
         var fixture = new VerenigingenFixture();
         _verenigingen = fixture
-            .CreateMany<Vereniging>(MoreThanLimit).ToList();
+            .CreateMany<VerenigingListItem>(MoreThanLimit).ToList();
     }
 
     [Theory]
