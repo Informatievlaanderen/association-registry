@@ -1,0 +1,26 @@
+name: Definition of Done
+
+on: pull_request
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Thanks for your PR!
+
+              # Definition of Done Checklist
+              - [ ] Code Review
+              - [ ] Automated Tests are added/updated
+              - [ ] \`build.sh\` was run
+              - [ ] Update documentation/ADR
+              - [ ] Smoke test on staging
+
+              Please make sure you've read our [contributing guide](CONTRIBUTING.md) and we look forward to reviewing your Pull request shortly ✨`
+            })
