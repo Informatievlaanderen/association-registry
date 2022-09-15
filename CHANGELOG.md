@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/informatievlaanderen/association-registry/compare/v1.12.0...v1.13.0) (2022-09-15)
+
+
+### Features
+
+* or-1181 add detail vereniging ([f091615](https://github.com/informatievlaanderen/association-registry/commit/f09161517961455a9bbb8ff81737abd0c60dc3f8))
+
 # [1.12.0](https://github.com/informatievlaanderen/association-registry/compare/v1.11.0...v1.12.0) (2022-09-09)
 
 
