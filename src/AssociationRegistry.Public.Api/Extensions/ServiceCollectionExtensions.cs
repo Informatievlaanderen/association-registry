@@ -1,17 +1,16 @@
-﻿using System;
+﻿namespace AssociationRegistry.Public.Api.Extensions;
+
+using System;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
-using AssociationRegistry.Public.Api.Caches;
-using AssociationRegistry.Public.Api.S3;
+using Caches;
+using DetailVerenigingen;
+using S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-namespace AssociationRegistry.Public.Api.Extensions;
-
-using System.Collections.Immutable;
 using System.IO;
 using ListVerenigingen;
 using Newtonsoft.Json;
@@ -76,6 +75,16 @@ public static class ServiceCollectionExtensions
             var deserializeObject = JsonConvert.DeserializeObject<ListVerenigingContext>(json);
             return deserializeObject ??
                    throw new InvalidOperationException("Could not load ListVerenigingContext");
+        });
+        services.AddSingleton<DetailVerenigingContext>(sp =>
+        {
+            var blobObject = sp.GetRequiredService<VerenigingenBlobClient>().GetBlobAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext).GetAwaiter().GetResult();
+            var blobStream = blobObject.OpenAsync().GetAwaiter().GetResult();
+            using var streamReader = new StreamReader(blobStream);
+            var json = streamReader.ReadToEndAsync().GetAwaiter().GetResult();
+            var deserializeObject = JsonConvert.DeserializeObject<DetailVerenigingContext>(json);
+            return deserializeObject ??
+                   throw new InvalidOperationException("Could not load DetailVerenigingContext");
         });
         services.AddSingleton<IVerenigingenRepository>(sp =>
             VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());

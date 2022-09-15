@@ -1,10 +1,11 @@
+using AssociationRegistry.Public.Api;
 using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 using FluentAssertions;
-using FluentAssertions.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;
+
 
 [Collection(VerenigingPublicApiCollection.Name)]
 public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
@@ -20,6 +21,10 @@ public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
         => (await _httpClient.GetAsync("/v1/verenigingen")).Should().BeSuccessful();
 
     [Fact]
+    public async Task Then_we_get_json_ld_as_content_type()
+        => (await _httpClient.GetAsync("/v1/verenigingen")).Content.Headers.ContentType!.MediaType.Should().Be(WellknownMediaTypes.JsonLd);
+
+    [Fact]
     public async Task Then_we_get_a_list_verenigingen_response()
     {
         var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
@@ -27,9 +32,18 @@ public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
         var goldenMaster = GetType().GetAssociatedResourceJson(
             $"{nameof(Given_an_api)}_{nameof(Then_we_get_a_list_verenigingen_response)}");
 
-        var deserializedContent = JToken.Parse(content);
-        var deserializedGoldenMaster = JToken.Parse(goldenMaster);
+        content.Should().BeEquivalentJson(goldenMaster);
+    }
 
-        deserializedContent.Should().BeEquivalentTo(deserializedGoldenMaster);
+    [Fact]
+    public async Task Then_we_get_a_successful_detail_link_response()
+    {
+        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
+        var content = await responseMessage.Content.ReadAsStringAsync();
+        var deserializedContent = JToken.Parse(content);
+
+        var detailLink = deserializedContent.SelectToken("$.verenigingen[0].links[0].href")!.Value<string>();
+
+        (await _httpClient.GetAsync(detailLink)).Should().BeSuccessful();
     }
 }

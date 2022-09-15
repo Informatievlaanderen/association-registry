@@ -13,7 +13,7 @@ namespace AssociationRegistry.Acm.Api.Infrastructure
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult Get()
             => Request.Headers[HeaderNames.Accept].ToString().Contains("text/html")
-                ? (IActionResult)new RedirectResult("/docs")
-                : new OkObjectResult($"Welcome to the Basisregisters Vlaanderen Acm Api {Assembly.GetEntryAssembly().GetVersionText()}.");
+                ? new RedirectResult("/docs")
+                : new OkObjectResult($"Welcome to the Basisregisters Vlaanderen Acm Api {Assembly.GetEntryAssembly()!.GetVersionText()}.");
     }
 }

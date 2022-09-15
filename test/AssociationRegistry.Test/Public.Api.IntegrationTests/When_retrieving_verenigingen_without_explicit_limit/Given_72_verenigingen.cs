@@ -1,5 +1,4 @@
 using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
-using FluentAssertions.Json;
 using Newtonsoft.Json.Linq;
 using Xunit;
 

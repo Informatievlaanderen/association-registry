@@ -19,7 +19,7 @@ public static class AtomFeedConfigurationBuilder
             configuration["Subtitle"],
             configuration["GeneratorTitle"],
             configuration["GeneratorUri"],
-            Assembly.GetEntryAssembly().GetName().Version.ToString(),
+            Assembly.GetEntryAssembly()!.GetName().Version!.ToString(),
             configuration["Rights"],
             lastUpdated,
             new SyndicationPerson(configuration["AuthorName"], configuration["AuthorEmail"], AtomContributorTypes.Author),

@@ -14,23 +14,28 @@
       "id": "V1234567",
       "naam": "FWA De vrolijke BA’s",
       "korteNaam": "DVB",
-      "locaties": [
-        {
-          "postcode": "1770",
-          "gemeentenaam": "Liedekerke"
-        }
-      ],
+      "hoofdlocatie": {
+        "postcode": "1770",
+        "gemeentenaam": "Liedekerke"
+      },
       "activiteiten": [
         "Badminton",
         "Tennis"
+      ],
+      "links": [
+        {
+          "href": "/v1/verenigingen/V1234567",
+          "type": "GET",
+          "rel": "Detail"
+        }
       ]
     }
   ],
   "metadata": {
     "pagination": {
       "totalCount": 1,
-      "limit": 50,
-      "offset": 0
+      "offset": 0,
+      "limit": 50
     }
   }
 }

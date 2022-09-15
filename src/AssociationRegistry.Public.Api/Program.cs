@@ -17,17 +17,17 @@ namespace AssociationRegistry.Public.Api
                     {
                         Hosting =
                         {
-                            HttpPort = 11003
+                            HttpPort = 11003,
                         },
                         Logging =
                         {
                             WriteTextToConsole = false,
-                            WriteJsonToConsole = false
+                            WriteJsonToConsole = false,
                         },
                         Runtime =
                         {
-                            CommandLineArgs = args
-                        }
+                            CommandLineArgs = args,
+                        },
                     });
     }
 }

@@ -1,5 +1,8 @@
 using System.Collections.Immutable;
+using System.Runtime.Serialization;
 
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
-public record SearchVerenigingenResponse(ImmutableArray<Vereniging> Verenigingen);
+[DataContract]
+public record SearchVerenigingenResponse(
+    [property:DataMember(Name = "Verenigingen")]ImmutableArray<Vereniging> Verenigingen);
