@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Infrastructure.Configuration;
 using AssociationRegistry.Public.Api.Infrastructure.Modules;
@@ -18,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AssociationRegistry.Public.Api;
 
@@ -60,52 +57,12 @@ public class Startup
         services.AddDataCache();
         services.AddJsonLdContexts();
         services.AddSingleton<IVerenigingenRepository>(_ => new InMemoryVerenigingenRepository(
-            new VerenigingListItem[]
-            {
-                new(
-                    "V1234567",
-                    "FWA De vrolijke BA’s",
-                    "DVB",
-                    new Locatie("1770", "Liedekerke"),
-                    ImmutableArray.Create<string>("Badminton", "Tennis")),
-            },
-            new VerenigingDetail[]
-            {
-                new(
-                    "V1234567",
-                    "FWA De vrolijke BA’s",
-                    "DVB",
-                    "Korte omschrijving voor FWA De vrolijke BA's",
-                    "Feitelijke vereniging",
-                    DateOnly.FromDateTime(new DateTime(2022, 09, 15)),
-                    DateOnly.FromDateTime(new DateTime(2023, 10, 16)),
-                    new Api.DetailVerenigingen.Locatie("1770", "Liedekerke"),
-                    new ContactPersoon("Walter", "Plop",
-                        ImmutableArray.Create(new ContactGegeven("email", "walter.plop@studio100.be"),
-                            new ContactGegeven("telefoon", "100"))),
-                    ImmutableArray.Create(new Api.DetailVerenigingen.Locatie("1770", "Liedekerke")),
-                    ImmutableArray.Create<string>("Badminton", "Tennis"),
-                    ImmutableArray.Create(
-                        new ContactGegeven("telefoon", "025462323"),
-                        new ContactGegeven("email", "info@dotimeforyou.be"),
-                        new ContactGegeven("website", "www.dotimeforyou.be"),
-                        new ContactGegeven("socialmedia", "facebook/dotimeforyou"),
-                        new ContactGegeven("socialmedia", "twitter/@dotimeforyou")
-                    )),
-                new(
-                    "V1234568",
-                    "FWA De vrolijke BA’s",
-                    String.Empty,
-                    String.Empty,
-                    String.Empty,
-                    null,
-                    null,
-                    new Api.DetailVerenigingen.Locatie("1840", "Londerzeel"),
-                    null,
-                    ImmutableArray.Create(new Api.DetailVerenigingen.Locatie("1840", "Londerzeel")),
-                    ImmutableArray<string>.Empty,
-                    ImmutableArray<ContactGegeven>.Empty),
-            }
+            new Vereniging(
+                "V1234567",
+                "FWA De vrolijke BA’s",
+                "DVB",
+                ImmutableArray.Create(new Locatie("1770", "Liedekerke")),
+                ImmutableArray.Create<string>("Badminton", "Tennis"))
         ));
 
         services
@@ -126,10 +83,6 @@ public class Startup
                     },
                     Swagger =
                     {
-                        MiddlewareHooks =
-                        {
-                            AfterSwaggerGen = options => { options.CustomSchemaIds(type => type.ToString()); },
-                        },
                         ApiInfo = (_, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
@@ -164,7 +117,7 @@ public class Startup
                         },
                     },
                 });
-        //.Configure<ResponseOptions>(_configuration);
+            //.Configure<ResponseOptions>(_configuration);
 
         var containerBuilder = new ContainerBuilder();
         containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
@@ -239,24 +192,4 @@ public class Startup
     private static string GetApiLeadingText(ApiVersionDescription description)
         =>
             $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
-}
-
-public class ProblemJsonResponseFilter : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        foreach (var (_, value) in operation.Responses.Where(entry =>
-                     (entry.Key.StartsWith("4") && entry.Key != "400") ||
-                     entry.Key.StartsWith("5")))
-        {
-            if (!value.Content.Any())
-                return;
-
-            var openApiMediaType = value.Content.First().Value;
-
-            value.Content.Clear();
-            value.Content.Add(
-                new KeyValuePair<string, OpenApiMediaType>("application/problem+json", openApiMediaType));
-        }
-    }
 }
