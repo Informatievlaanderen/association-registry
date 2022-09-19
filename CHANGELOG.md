@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/informatievlaanderen/association-registry/compare/v1.13.0...v1.14.0) (2022-09-19)
+
+
+### Features
+
+* import resharpersettings from OR ([31cda81](https://github.com/informatievlaanderen/association-registry/commit/31cda81514f68f4bdd6545706ee20aced9456a0e))
+
 # [1.13.0](https://github.com/informatievlaanderen/association-registry/compare/v1.12.0...v1.13.0) (2022-09-15)
 
 
