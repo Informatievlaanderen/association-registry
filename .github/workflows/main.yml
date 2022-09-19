@@ -27,6 +27,7 @@ jobs:
       version: ${{ steps.set-version.outputs.version }}
 
     steps:
+    # build
     - name: Checkout Code
       uses: actions/checkout@v3
 
@@ -161,55 +162,28 @@ jobs:
       run: |
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-    - name: Configure AWS credentials (Test)
-      if: env.RELEASE_VERSION != 'none'
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_TST }}
-        aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY_TST }}
-        aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
-
-    - name: Login to Amazon ECR (Test)
-      if: env.RELEASE_VERSION != 'none'
-      uses: aws-actions/amazon-ecr-login@v1.5.1
-
-    - name: Push to Test
-      if: env.RELEASE_VERSION != 'none'
+    - name: Save Acm Api Image
       shell: bash
-      run: |
-        docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-        docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-      env:
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-        SEMVER: ${{ env.RELEASE_VERSION }}
-        WORKSPACE: ${{ github.workspace }}
+      run: docker image save association-registry/acm-api -o ~/ar-acm-api-image.tar
 
-    - name: Configure AWS credentials (Staging)
-      if: env.RELEASE_VERSION != 'none'
-      uses: aws-actions/configure-aws-credentials@v1
+    - name: Upload Acm Api artifact
+      uses: actions/upload-artifact@v3
       with:
-        aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
+        name: acm-api
+        path: ~/ar-acm-api-image.tar
 
-    - name: Login to Amazon ECR (Test)
-      if: env.RELEASE_VERSION != 'none'
-      uses: aws-actions/amazon-ecr-login@v1.5.1
-
-    - name: Push to Test
-      if: env.RELEASE_VERSION != 'none'
+    - name: Save Public Api Image
       shell: bash
-      run: |
-        docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-        docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-        docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-        docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-      env:
-        BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-        SEMVER: ${{ env.RELEASE_VERSION }}
-        WORKSPACE: ${{ github.workspace }}
+      run: docker image save association-registry/public-api -o ~/ar-public-api-image.tar
 
+    - name: Upload Public Api artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: public-api
+        path: ~/ar-public-api-image.tar
+
+    # name: Upload artifact
+    # /build
 #
 #    - name: Configure AWS credentials (Production)
 #      if: env.RELEASE_VERSION != 'none'
@@ -267,28 +241,111 @@ jobs:
 #        NUGET_HOST: ${{ secrets.NUGET_HOST }}
 #        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-    - name: Publish to Confluence
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh
-      env:
-        CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
-        CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
-        CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
+  publish_to_atlassian:
+    needs: build
+    name: Publish to Atlassian
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish to Confluence
+        if: env.RELEASE_VERSION != 'none'
+        shell: bash
+        run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh
+        env:
+          CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
+          CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
+          CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
 
-    - name: Create Jira Release
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-jira.sh
-      env:
-        CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
-        CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
-        CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
-        JIRA_PREFIX: Association
-        JIRA_PROJECT: OR
-        JIRA_VERSION: ${{ env.RELEASE_VERSION }}
+      - name: Create Jira Release
+        if: env.RELEASE_VERSION != 'none'
+        shell: bash
+        run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-jira.sh
+        env:
+          CONFLUENCE_TITLE: ${{ env.REPOSITORY_NAME }}
+          CONFLUENCE_USERNAME: ${{ secrets.VBR_CONFLUENCE_USER }}
+          CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
+          JIRA_PREFIX: Association
+          JIRA_PROJECT: OR
+          JIRA_VERSION: ${{ env.RELEASE_VERSION }}
+  push_images_to_test:
+    needs: build
+    name: Push images to Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials (Test)
+        if: env.RELEASE_VERSION != 'none'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_TST }}
+          aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY_TST }}
+          aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
-  deploy_staging:
+      - name: Login to Amazon ECR (Test)
+        if: env.RELEASE_VERSION != 'none'
+        uses: aws-actions/amazon-ecr-login@v1.5.1
+
+      - name: Download Acm Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: acm-api
+          path: ~/ar-acm-api-image.tar
+
+      - name: Load Acm Api image
+        shell: bash
+        run: docker image load -i ~/ar-acm-api-image.tar
+
+      - name: Download Public Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-api
+          path: ~/ar-public-api-image.tar
+
+      - name: Load Public Api image
+        shell: bash
+        run: docker image load -i ~/ar-public-api-image.tar
+
+      - name: Push docker images to ECR Test
+        if: env.RELEASE_VERSION != 'none'
+        shell: bash
+        run: |
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          SEMVER: ${{ env.RELEASE_VERSION }}
+          WORKSPACE: ${{ github.workspace }}
+
+  push_images_to_staging:
+    needs: build
+    name: Push images to Staging
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials (Staging)
+        if: env.RELEASE_VERSION != 'none'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
+
+      - name: Login to Amazon ECR (Staging)
+        if: env.RELEASE_VERSION != 'none'
+        uses: aws-actions/amazon-ecr-login@v1.5.1
+
+      - name: Push docker images to ECR Staging
+        if: env.RELEASE_VERSION != 'none'
+        shell: bash
+        run: |
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+        env:
+          BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
+          SEMVER: ${{ env.RELEASE_VERSION }}
+          WORKSPACE: ${{ github.workspace }}
+
+  deploy_test:
     needs: build
     name: Deploy to Test
     runs-on: ubuntu-latest
