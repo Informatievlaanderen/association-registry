@@ -265,6 +265,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
       - name: Publish to Confluence
         if: env.RELEASE_VERSION != 'none'
         shell: bash
@@ -308,10 +313,6 @@ jobs:
           name: acm-api
           path: ~/
 
-      - name: Print ls
-        shell: bash
-        run: ls -tail ~/
-
       - name: Load Acm Api image
         shell: bash
         run: docker image load -i ~/ar-acm-api-image.tar
@@ -334,7 +335,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ env.RELEASE_VERSION }}
+          SEMVER: ${{ needs.build.output.version }}
           WORKSPACE: ${{ github.workspace }}
 
   push_images_to_staging:
@@ -365,7 +366,7 @@ jobs:
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-          SEMVER: ${{ env.RELEASE_VERSION }}
+          SEMVER: ${{ needs.build.output.version }}
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
