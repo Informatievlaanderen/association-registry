@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/informatievlaanderen/association-registry/compare/v1.15.0...v1.16.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 modify docker image names ([b24fb10](https://github.com/informatievlaanderen/association-registry/commit/b24fb109787524a62791e9414116dc7a61d6ed96))
+
 # [1.15.0](https://github.com/informatievlaanderen/association-registry/compare/v1.14.1...v1.15.0) (2022-09-19)
 
 
