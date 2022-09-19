@@ -255,6 +255,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Cache Paket
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
       - name: Publish to Confluence
         if: env.RELEASE_VERSION != 'none'
         shell: bash
@@ -296,6 +306,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: acm-api
+          path: ~/
 
       - name: Print ls
         shell: bash
@@ -309,6 +320,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: public-api
+          path: ~/
 
       - name: Load Public Api image
         shell: bash
