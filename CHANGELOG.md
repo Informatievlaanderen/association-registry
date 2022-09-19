@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/informatievlaanderen/association-registry/compare/v1.18.0...v1.19.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 add python + use needs ([773e400](https://github.com/informatievlaanderen/association-registry/commit/773e400bdd22d6ce6626df2958c29d6fa11d5f93))
+
 # [1.18.0](https://github.com/informatievlaanderen/association-registry/compare/v1.17.0...v1.18.0) (2022-09-19)
 
 
