@@ -164,7 +164,10 @@ jobs:
 
     - name: Save Acm Api Image
       shell: bash
-      run: docker image save association-registry/acm-api -o ~/ar-acm-api-image.tar
+      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER -o ~/ar-acm-api-image.tar
+      env:
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+        SEMVER: ${{ env.RELEASE_VERSION }}
 
     - name: Upload Acm Api artifact
       uses: actions/upload-artifact@v3
@@ -174,7 +177,10 @@ jobs:
 
     - name: Save Public Api Image
       shell: bash
-      run: docker image save association-registry/public-api -o ~/ar-public-api-image.tar
+      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
+      env:
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+        SEMVER: ${{ env.RELEASE_VERSION }}
 
     - name: Upload Public Api artifact
       uses: actions/upload-artifact@v3
