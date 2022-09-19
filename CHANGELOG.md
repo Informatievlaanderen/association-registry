@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/informatievlaanderen/association-registry/compare/v1.19.0...v1.20.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 add cache python ([0d93e18](https://github.com/informatievlaanderen/association-registry/commit/0d93e1807828f1f75e0da3906960ffea0d1a9f63))
+
 # [1.19.0](https://github.com/informatievlaanderen/association-registry/compare/v1.18.0...v1.19.0) (2022-09-19)
 
 
