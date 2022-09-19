@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/informatievlaanderen/association-registry/compare/v1.14.1...v1.15.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 split build with artifacts ([25f2893](https://github.com/informatievlaanderen/association-registry/commit/25f2893e1735672efd15c7ef53a3ea5d606a622c))
+
 ## [1.14.1](https://github.com/informatievlaanderen/association-registry/compare/v1.14.0...v1.14.1) (2022-09-19)
 
 
