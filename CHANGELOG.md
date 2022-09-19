@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/informatievlaanderen/association-registry/compare/v1.16.0...v1.17.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 fix download path of artifact ([96f039b](https://github.com/informatievlaanderen/association-registry/commit/96f039b71480e4521f06a946413facc2bd5757d9))
+
 # [1.16.0](https://github.com/informatievlaanderen/association-registry/compare/v1.15.0...v1.16.0) (2022-09-19)
 
 
