@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/informatievlaanderen/association-registry/compare/v1.14.0...v1.14.1) (2022-09-19)
+
+
+### Bug Fixes
+
+* OR-1181 modified awscurl polling action path in github workflows ([e970e97](https://github.com/informatievlaanderen/association-registry/commit/e970e97208db50f3fa88ec4720130ef6d91f2a17))
+
 # [1.14.0](https://github.com/informatievlaanderen/association-registry/compare/v1.13.0...v1.14.0) (2022-09-19)
 
 
