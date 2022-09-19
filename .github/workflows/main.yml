@@ -252,6 +252,9 @@ jobs:
     name: Publish to Atlassian
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Publish to Confluence
         if: env.RELEASE_VERSION != 'none'
         shell: bash
@@ -293,7 +296,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: acm-api
-          path: ~/ar-acm-api-image.tar
+
+      - name: Print ls
+        shell: bash
+        run: ls -tail ~/
 
       - name: Load Acm Api image
         shell: bash
@@ -303,7 +309,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: public-api
-          path: ~/ar-public-api-image.tar
 
       - name: Load Public Api image
         shell: bash
@@ -352,7 +357,7 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
-    needs: build
+    needs: push_images_to_test
     name: Deploy to Test
     runs-on: ubuntu-latest
     strategy:
