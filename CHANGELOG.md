@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/informatievlaanderen/association-registry/compare/v1.17.0...v1.18.0) (2022-09-19)
+
+
+### Features
+
+* or-1210 fix cache paket for atlassian ([3106eef](https://github.com/informatievlaanderen/association-registry/commit/3106eef244d74dc9c077654832815f2645b932e7))
+
 # [1.17.0](https://github.com/informatievlaanderen/association-registry/compare/v1.16.0...v1.17.0) (2022-09-19)
 
 
