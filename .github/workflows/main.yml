@@ -265,6 +265,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
+      - name: Cache Python
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -331,11 +339,12 @@ jobs:
         if: env.RELEASE_VERSION != 'none'
         shell: bash
         run: |
+          echo $SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ needs.build.output.version }}
+          SEMVER: ${{ needs.build.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
 
   push_images_to_staging:
@@ -366,7 +375,7 @@ jobs:
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-          SEMVER: ${{ needs.build.output.version }}
+          SEMVER: ${{ needs.build.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
