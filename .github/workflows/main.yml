@@ -252,6 +252,7 @@ jobs:
 #        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   publish_to_atlassian:
+    if: needs.build.outputs.version != 'none'
     needs: build
     name: Publish to Atlassian
     runs-on: ubuntu-latest
