@@ -308,6 +308,7 @@ jobs:
           JIRA_PREFIX: Association
           JIRA_PROJECT: OR
           JIRA_VERSION: ${{ needs.build.outputs.version }}
+
   push_images_to_test:
     needs: build
     name: Push images to Test
