@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/informatievlaanderen/association-registry/compare/v1.22.0...v1.22.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* OR-1210 fix staging push images ([392af58](https://github.com/informatievlaanderen/association-registry/commit/392af58e3b6ed5596ca4a3bce2f12418092f0a42))
+
 # [1.22.0](https://github.com/informatievlaanderen/association-registry/compare/v1.21.0...v1.22.0) (2022-09-20)
 
 
