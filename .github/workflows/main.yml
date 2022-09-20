@@ -389,7 +389,7 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
-    needs: push_images_to_test
+    needs: [push_images_to_test, build]
     name: Deploy to Test
     runs-on: ubuntu-latest
     strategy:
