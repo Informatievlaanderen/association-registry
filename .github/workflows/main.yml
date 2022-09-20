@@ -255,6 +255,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
       - name: Cache Paket
         uses: actions/cache@v3
         env:
