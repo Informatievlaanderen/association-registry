@@ -374,6 +374,26 @@ jobs:
         if: needs.build.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v1.5.1
 
+      - name: Download Acm Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: acm-api
+          path: ~/
+
+      - name: Load Acm Api image
+        shell: bash
+        run: docker image load -i ~/ar-acm-api-image.tar
+
+      - name: Download Public Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-api
+          path: ~/
+
+      - name: Load Public Api image
+        shell: bash
+        run: docker image load -i ~/ar-public-api-image.tar
+
       - name: Push docker images to ECR Staging
         if: needs.build.outputs.version != 'none'
         shell: bash
