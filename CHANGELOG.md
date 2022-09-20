@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/informatievlaanderen/association-registry/compare/v1.21.0...v1.22.0) (2022-09-20)
+
+
+### Features
+
+* or-1210 fix build version ([6873168](https://github.com/informatievlaanderen/association-registry/commit/6873168c64391b487647ace0ff0fbdb7736e1041))
+
 # [1.21.0](https://github.com/informatievlaanderen/association-registry/compare/v1.20.2...v1.21.0) (2022-09-20)
 
 
