@@ -315,6 +315,7 @@ jobs:
           JIRA_VERSION: ${{ needs.build.outputs.version }}
 
   push_images_to_test:
+    if: needs.build.outputs.version != 'none'
     needs: build
     name: Push images to Test
     runs-on: ubuntu-latest
@@ -364,6 +365,7 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
 
   push_images_to_staging:
+    if: needs.build.outputs.version != 'none'
     needs: build
     name: Push images to Staging
     runs-on: ubuntu-latest
@@ -415,6 +417,7 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
+    if: needs.build.outputs.version != 'none'
     needs: [push_images_to_test, build]
     name: Deploy to Test
     runs-on: ubuntu-latest
