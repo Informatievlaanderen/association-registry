@@ -1,3 +1,10 @@
+## [1.20.2](https://github.com/informatievlaanderen/association-registry/compare/v1.20.1...v1.20.2) (2022-09-20)
+
+
+### Bug Fixes
+
+* OR-1210 parse repo name ([cda5a23](https://github.com/informatievlaanderen/association-registry/commit/cda5a235f32ebf8d5597e1d2bbfeafaa9e7869b4))
+
 ## [1.20.1](https://github.com/informatievlaanderen/association-registry/compare/v1.20.0...v1.20.1) (2022-09-20)
 
 
