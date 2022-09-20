@@ -1,3 +1,10 @@
+## [1.20.1](https://github.com/informatievlaanderen/association-registry/compare/v1.20.0...v1.20.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* OR-1210 install python deps ([75800ed](https://github.com/informatievlaanderen/association-registry/commit/75800ed32adc38912ff197e36e65a5b300a6dfb7))
+
 # [1.20.0](https://github.com/informatievlaanderen/association-registry/compare/v1.19.0...v1.20.0) (2022-09-19)
 
 
