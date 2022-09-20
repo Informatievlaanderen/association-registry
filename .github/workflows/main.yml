@@ -163,6 +163,7 @@ jobs:
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
     - name: Save Acm Api Image
+      if: env.RELEASE_VERSION != 'none'
       shell: bash
       run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER -o ~/ar-acm-api-image.tar
       env:
@@ -170,12 +171,14 @@ jobs:
         SEMVER: ${{ env.RELEASE_VERSION }}
 
     - name: Upload Acm Api artifact
+      if: env.RELEASE_VERSION != 'none'
       uses: actions/upload-artifact@v3
       with:
         name: acm-api
         path: ~/ar-acm-api-image.tar
 
     - name: Save Public Api Image
+      if: env.RELEASE_VERSION != 'none'
       shell: bash
       run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
       env:
@@ -183,6 +186,7 @@ jobs:
         SEMVER: ${{ env.RELEASE_VERSION }}
 
     - name: Upload Public Api artifact
+      if: env.RELEASE_VERSION != 'none'
       uses: actions/upload-artifact@v3
       with:
         name: public-api
