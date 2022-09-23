@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test;
 
+using AssociationRegistry.Public.Api.Extensions;
+
 public static class TypeExtensions
 {
     /// <summary>

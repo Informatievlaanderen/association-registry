@@ -72,7 +72,7 @@ public class Startup
                     },
                     Swagger =
                     {
-                        ApiInfo = (provider, description) => new OpenApiInfo
+                        ApiInfo = (_, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
                             Title = "Basisregisters Vlaanderen Verenigingenregister ACM API",
