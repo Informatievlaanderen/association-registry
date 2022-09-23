@@ -28,5 +28,10 @@
     <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="json-ld-contexts\detail-vereniging-context.json" />
+    <EmbeddedResource Include="json-ld-contexts\list-verenigingen-context.json" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

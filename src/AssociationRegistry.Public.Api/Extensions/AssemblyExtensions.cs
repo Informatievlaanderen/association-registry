@@ -1,7 +1,9 @@
-﻿using System.Reflection;
-using System.Text;
+﻿namespace AssociationRegistry.Public.Api.Extensions;
 
-namespace AssociationRegistry.Test;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 public static class AssemblyExtensions
 {

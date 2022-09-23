@@ -5,15 +5,12 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
 using Caches;
-using DetailVerenigingen;
 using S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using ListVerenigingen;
-using Newtonsoft.Json;
+using json_ld_contexts;
 using IVerenigingenRepository = Caches.IVerenigingenRepository;
 
 public static class ServiceCollectionExtensions
@@ -66,26 +63,8 @@ public static class ServiceCollectionExtensions
 
     public static void AddJsonLdContexts(this IServiceCollection services)
     {
-        services.AddSingleton<ListVerenigingContext>(sp =>
-        {
-            var blobObject = sp.GetRequiredService<VerenigingenBlobClient>().GetBlobAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext).GetAwaiter().GetResult();
-            var blobStream = blobObject.OpenAsync().GetAwaiter().GetResult();
-            using var streamReader = new StreamReader(blobStream);
-            var json = streamReader.ReadToEndAsync().GetAwaiter().GetResult();
-            var deserializeObject = JsonConvert.DeserializeObject<ListVerenigingContext>(json);
-            return deserializeObject ??
-                   throw new InvalidOperationException("Could not load ListVerenigingContext");
-        });
-        services.AddSingleton<DetailVerenigingContext>(sp =>
-        {
-            var blobObject = sp.GetRequiredService<VerenigingenBlobClient>().GetBlobAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext).GetAwaiter().GetResult();
-            var blobStream = blobObject.OpenAsync().GetAwaiter().GetResult();
-            using var streamReader = new StreamReader(blobStream);
-            var json = streamReader.ReadToEndAsync().GetAwaiter().GetResult();
-            var deserializeObject = JsonConvert.DeserializeObject<DetailVerenigingContext>(json);
-            return deserializeObject ??
-                   throw new InvalidOperationException("Could not load DetailVerenigingContext");
-        });
+        services.AddSingleton(_ => JsonLdContexts.GetListVerenigingenContext());
+        services.AddSingleton(_ => JsonLdContexts.GetDetailVerenigingContext());
         services.AddSingleton<IVerenigingenRepository>(sp =>
             VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
     }
