@@ -69,54 +69,60 @@ public class Startup
         services.AddBlobClients(s3Options);
         services.AddDataCache();
         services.AddJsonLdContexts();
-        services.AddSingleton<IVerenigingenRepository>(_ => new InMemoryVerenigingenRepository(
-            new VerenigingListItem[]
-            {
-                new(
-                    "V1234567",
-                    "FWA De vrolijke BA’s",
-                    "DVB",
-                    new Locatie("1770", "Liedekerke"),
-                    ImmutableArray.Create<string>("Badminton", "Tennis")),
-            },
-            new VerenigingDetail[]
-            {
-                new(
-                    "V1234567",
-                    "FWA De vrolijke BA’s",
-                    "DVB",
-                    "Korte omschrijving voor FWA De vrolijke BA's",
-                    "Feitelijke vereniging",
-                    DateOnly.FromDateTime(new DateTime(2022, 09, 15)),
-                    DateOnly.FromDateTime(new DateTime(2023, 10, 16)),
-                    new DetailVerenigingen.Locatie("1770", "Liedekerke"),
-                    new ContactPersoon("Walter", "Plop",
-                        ImmutableArray.Create(new ContactGegeven("email", "walter.plop@studio100.be"),
-                            new ContactGegeven("telefoon", "100"))),
-                    ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
-                    ImmutableArray.Create<string>("Badminton", "Tennis"),
-                    ImmutableArray.Create(
-                        new ContactGegeven("telefoon", "025462323"),
-                        new ContactGegeven("email", "info@dotimeforyou.be"),
-                        new ContactGegeven("website", "www.dotimeforyou.be"),
-                        new ContactGegeven("socialmedia", "facebook/dotimeforyou"),
-                        new ContactGegeven("socialmedia", "twitter/@dotimeforyou")
-                    )),
-                new(
-                    "V1234568",
-                    "FWA De vrolijke BA’s",
-                    String.Empty,
-                    String.Empty,
-                    String.Empty,
-                    null,
-                    null,
-                    new DetailVerenigingen.Locatie("1840", "Londerzeel"),
-                    null,
-                    ImmutableArray.Create(new DetailVerenigingen.Locatie("1840", "Londerzeel")),
-                    ImmutableArray<string>.Empty,
-                    ImmutableArray<ContactGegeven>.Empty),
-            }
-        ));
+        services.AddSingleton<IVerenigingenRepository>(
+            _ => new InMemoryVerenigingenRepository(
+                new VerenigingListItem[]
+                {
+                    new(
+                        "V1234567",
+                        "FWA De vrolijke BA’s",
+                        "DVB",
+                        new Locatie("1770", "Liedekerke"),
+                        ImmutableArray.Create<string>("Badminton", "Tennis")),
+                },
+                new VerenigingDetail[]
+                {
+                    new(
+                        "V1234567",
+                        "FWA De vrolijke BA’s",
+                        "DVB",
+                        "Korte omschrijving voor FWA De vrolijke BA's",
+                        "Feitelijke vereniging",
+                        DateOnly.FromDateTime(new DateTime(2022, 09, 15)),
+                        DateOnly.FromDateTime(new DateTime(2023, 10, 16)),
+                        new DetailVerenigingen.Locatie("1770", "Liedekerke"),
+                        new ContactPersoon(
+                            "Walter",
+                            "Plop",
+                            ImmutableArray.Create(
+                                new ContactGegeven("email", "walter.plop@studio100.be"),
+                                new ContactGegeven("telefoon", "100"))),
+                        ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
+                        ImmutableArray.Create<string>("Badminton", "Tennis"),
+                        ImmutableArray.Create(
+                            new ContactGegeven("telefoon", "025462323"),
+                            new ContactGegeven("email", "info@dotimeforyou.be"),
+                            new ContactGegeven("website", "www.dotimeforyou.be"),
+                            new ContactGegeven("socialmedia", "facebook/dotimeforyou"),
+                            new ContactGegeven("socialmedia", "twitter/@dotimeforyou")
+                        ),
+                        DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
+                    new(
+                        "V1234568",
+                        "FWA De vrolijke BA’s",
+                        String.Empty,
+                        String.Empty,
+                        String.Empty,
+                        null,
+                        null,
+                        new DetailVerenigingen.Locatie("1840", "Londerzeel"),
+                        null,
+                        ImmutableArray.Create(new DetailVerenigingen.Locatie("1840", "Londerzeel")),
+                        ImmutableArray<string>.Empty,
+                        ImmutableArray<ContactGegeven>.Empty,
+                        DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
+                }
+            ));
 
         services
             .ConfigureDefaultForApi<Startup>(
@@ -215,49 +221,50 @@ public class Startup
             //         ServiceName = _configuration["DataDog:ServiceName"],
             //     }
             // })
-            .UseDefaultForApi(new StartupUseOptions
-            {
-                Common =
+            .UseDefaultForApi(
+                new StartupUseOptions
                 {
-                    ApplicationContainer = _applicationContainer,
-                    ServiceProvider = serviceProvider,
-                    HostingEnvironment = env,
-                    ApplicationLifetime = appLifetime,
-                    LoggerFactory = loggerFactory,
-                },
-                Api =
-                {
-                    VersionProvider = apiVersionProvider,
-                    Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister Public API {groupName}",
-                    CSharpClientOptions =
+                    Common =
                     {
-                        ClassName = "Verenigingenregister",
-                        Namespace = "Be.Vlaanderen.Basisregisters",
+                        ApplicationContainer = _applicationContainer,
+                        ServiceProvider = serviceProvider,
+                        HostingEnvironment = env,
+                        ApplicationLifetime = appLifetime,
+                        LoggerFactory = loggerFactory,
                     },
-                    TypeScriptClientOptions =
+                    Api =
                     {
-                        ClassName = "Verenigingenregister",
+                        VersionProvider = apiVersionProvider,
+                        Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister Public API {groupName}",
+                        CSharpClientOptions =
+                        {
+                            ClassName = "Verenigingenregister",
+                            Namespace = "Be.Vlaanderen.Basisregisters",
+                        },
+                        TypeScriptClientOptions =
+                        {
+                            ClassName = "Verenigingenregister",
+                        },
                     },
-                },
-                MiddlewareHooks =
-                {
-                    AfterMiddleware = x => x.UseMiddleware<AddNoCacheHeadersMiddleware>(),
-                },
-            });
+                    MiddlewareHooks =
+                    {
+                        AfterMiddleware = x => x.UseMiddleware<AddNoCacheHeadersMiddleware>(),
+                    },
+                });
     }
 
     private static string GetApiLeadingText(ApiVersionDescription description)
-        =>
-            $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }
 
 public class ProblemJsonResponseFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        foreach (var (_, value) in operation.Responses.Where(entry =>
-                     (entry.Key.StartsWith("4") && entry.Key != "400") ||
-                     entry.Key.StartsWith("5")))
+        foreach (var (_, value) in operation.Responses.Where(
+                     entry =>
+                         (entry.Key.StartsWith("4") && entry.Key != "400") ||
+                         entry.Key.StartsWith("5")))
         {
             if (!value.Content.Any())
                 return;
