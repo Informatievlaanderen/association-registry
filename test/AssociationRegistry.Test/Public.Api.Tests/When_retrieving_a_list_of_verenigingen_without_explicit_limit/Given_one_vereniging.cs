@@ -9,11 +9,19 @@ public class Given_one_vereniging
 {
     private readonly List<VerenigingListItem> _verenigingen;
     private readonly VerenigingListItem _vereniging;
+    private readonly Uri _beheerder;
 
     public Given_one_vereniging()
     {
         var fixture = new VerenigingenFixture();
+        _beheerder = fixture.Create<Uri>();
         _vereniging = fixture.Create<VerenigingListItem>();
+        _vereniging = _vereniging with
+        {
+            Activiteiten =
+            _vereniging.Activiteiten.Add(new Activiteit("badminton", _beheerder)),
+        };
+
         _verenigingen = new List<VerenigingListItem>
         {
             _vereniging,
@@ -46,10 +54,16 @@ public class Given_one_vereniging
             .Should().BeEquivalentTo(_vereniging.Activiteiten);
 
     [Fact]
+    public async Task Then_a_vereniging_has_an_activiteit_with_beheerder()
+        => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Activiteiten
+            .Should().ContainEquivalentOf(new Activiteit("badminton", _beheerder));
+
+    [Fact]
     public async Task Then_a_vereniging_has_a_hoofdLocatie_postcode()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Hoofdlocatie.Postcode
             .Should()
             .Be(_vereniging.Hoofdlocatie.Postcode);
+
     [Fact]
     public async Task Then_a_vereniging_has_a_hoofdLocatie_gemeentenaam()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Verenigingen.Single().Hoofdlocatie.Gemeentenaam
@@ -73,21 +87,22 @@ public class Given_one_vereniging
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Context.Identificator
             .Should()
             .Be("@nest");
+
     [Fact]
     public async Task Then_a_vereniging_has_a_jsonld_context_id()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Context.Id
             .Should()
             .Be("@id");
+
     [Fact]
     public async Task Then_a_vereniging_has_a_jsonld_context_voorkeursnaam_id()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Context.Naam.Id
             .Should()
             .Be("http://www.w3.org/2004/02/skos/core#prefLabel");
+
     [Fact]
     public async Task Then_a_vereniging_has_a_jsonld_context_voorkeursnaam_type()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Context.Naam.Type
             .Should()
             .Be("@id");
-
-
 }

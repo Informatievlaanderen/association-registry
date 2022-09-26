@@ -15,8 +15,14 @@
     "korteNaam": "DVB",
     "korteOmschrijving": "Korte omschrijving voor FWA De vrolijke BA's",
     "activiteiten": [
-      "Badminton",
-      "Tennis"
+      {
+        "type": "Badminton",
+        "beheerder": "https://association.dev-vlaanderen.be/api/v1/association/V000010"
+      },
+      {
+        "type": "Tennis",
+        "beheerder": "https://association.dev-vlaanderen.be/api/v1/association/V000010"
+      }
     ],
     "rechtsvorm": "Feitelijke vereniging",
     "startDatum": "2022-09-15",
