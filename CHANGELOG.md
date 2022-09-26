@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/informatievlaanderen/association-registry/compare/v1.22.1...v1.23.0) (2022-09-26)
+
+
+### Features
+
+* or-1224 format start and end dates ([bc5af3a](https://github.com/informatievlaanderen/association-registry/commit/bc5af3a4a20616fcff3f076fb7d0321aa9143755))
+
 ## [1.22.1](https://github.com/informatievlaanderen/association-registry/compare/v1.22.0...v1.22.1) (2022-09-20)
 
 
