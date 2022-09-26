@@ -71,5 +71,5 @@ public class DetailVerenigingenController : ApiController
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
     public DetailVerenigingResponse GetExamples()
-        => null!; //TODO implement good example !
+        => null!; // TODO implement good example !
 }

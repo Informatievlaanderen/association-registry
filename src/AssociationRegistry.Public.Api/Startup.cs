@@ -56,7 +56,7 @@ public class Startup
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
 
-        //TODO check why these setting are not used. VBR lib?
+        // TODO check why these setting are not used. VBR lib?
         var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
         jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
         jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));

@@ -15,7 +15,7 @@ public class Given_72_verenigingen : IClassFixture<VerenigingPublicApiFixtureWit
     }
 
     [Fact]
-    //TODO To implement when DB is Connected
+    // TODO To implement when DB is Connected
     public async Task Then_verenigingen_0_49_are_returned()
     {
         var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
