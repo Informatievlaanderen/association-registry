@@ -1,8 +1,8 @@
-﻿using System;
+﻿namespace AssociationRegistry.Public.Api.DetailVerenigingen;
+
+using System;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-
-namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
 [DataContract]
 public record DetailVerenigingResponse(

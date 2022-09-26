@@ -10,7 +10,7 @@ public record DetailVerenigingContext(
     [property: DataMember(Name = "Identificator")]
     string Identificator,
     [property: DataMember(Name = "Id")] string Id,
-    [property: DataMember(Name = "naam")]
+    [property: DataMember(Name = "Naam")]
     ContextType Naam);
 
 [DataContract]

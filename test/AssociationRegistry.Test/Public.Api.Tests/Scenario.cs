@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Tests;
 
 using AssociationRegistry.Public.Api.DetailVerenigingen;
+using AssociationRegistry.Public.Api.Infrastructure.Json;
 using Newtonsoft.Json;
 using AssociationRegistry.Public.Api.ListVerenigingen;
 using Stubs;
@@ -9,8 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 
 public static class Scenario
 {
+    private static readonly JsonSerializerSettings JsonSerializerSettings = new()
+    {
+        Converters = new List<JsonConverter> { new NullableDateOnlyJsonConvertor("yyyy-MM-dd") },
+    };
+
     public static async Task<ListVerenigingenResponse> When_retrieving_a_list_of_verenigingen(
-        List<VerenigingListItem> verenigingen, int offset, int limit)
+        List<VerenigingListItem> verenigingen,
+        int offset,
+        int limit)
     {
         var verenigingenRepositoryStub = new VerenigingenRepositoryStub(verenigingen);
         var controller = new ListVerenigingenController(verenigingenRepositoryStub);
@@ -55,8 +63,8 @@ public static class Scenario
                 deserializeContext ?? throw new Exception("Could not deserialize detail-vereniging-context.json"),
                 vereniging.Id);
 
-        return response.Should().BeOfType<OkObjectResult>()
-            .Which.Value?.Should().BeOfType<DetailVerenigingResponse>()
-            .Subject!;
+        return JsonConvert.DeserializeObject<DetailVerenigingResponse>(
+            (response as ContentResult)!.Content!,
+            JsonSerializerSettings)!;
     }
 }
