@@ -41,7 +41,9 @@ public record VerenigingDetail(
     [property: DataMember(Name = "Activiteiten")]
     ImmutableArray<string> Activiteiten,
     [property: DataMember(Name = "ContactGegevens")]
-    ImmutableArray<ContactGegeven> ContactGegevens
+    ImmutableArray<ContactGegeven> ContactGegevens,
+    [property: DataMember(Name = "LaatstGewijzigd")]
+    DateOnly LaatstGewijzigd
 );
 
 public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactGegeven> ContactGegevens);

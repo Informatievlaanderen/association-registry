@@ -9,8 +9,8 @@ using Xunit;
 public class Given_existing_vereniging
 {
     private readonly VerenigingDetail _vereniging;
-    private string _expectedTelefoon;
-    private string _expectedEmail;
+    private readonly string _expectedTelefoon;
+    private readonly string _expectedEmail;
 
     public Given_existing_vereniging()
     {
@@ -111,6 +111,12 @@ public class Given_existing_vereniging
         => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).VerenigingDetail.ContactPersoon!
             .ContactGegevens
             .Should().Contain(new ContactGegeven("telefoon", _expectedTelefoon));
+
+    [Fact]
+    public async Task Then_a_vereniging_has_a_laatstGewijzigd_date()
+        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).VerenigingDetail!
+            .LaatstGewijzigd
+            .Should().Be(_vereniging.LaatstGewijzigd);
 
     [Fact]
     public async Task Then_a_vereniging_has_list_of_locaties()
