@@ -39,7 +39,7 @@ public record VerenigingDetail(
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties,
     [property: DataMember(Name = "Activiteiten")]
-    ImmutableArray<string> Activiteiten,
+    ImmutableArray<Activiteit> Activiteiten,
     [property: DataMember(Name = "ContactGegevens")]
     ImmutableArray<ContactGegeven> ContactGegevens,
     [property: DataMember(Name = "LaatstGewijzigd")]
@@ -49,3 +49,5 @@ public record VerenigingDetail(
 public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactGegeven> ContactGegevens);
 
 public record ContactGegeven(string Type, string Waarde);
+
+public record Activiteit(string Type, Uri Beheerder);

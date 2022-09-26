@@ -28,6 +28,8 @@ using ListVerenigingen;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
 using Locatie = ListVerenigingen.Locatie;
+using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
+using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -65,6 +67,9 @@ public class Startup
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
 
+        var organisationRegistryUri = _configuration.GetSection("OrganisationRegistryUri").Value;
+        var associationRegistryUri = _configuration.GetSection("AssociationRegistryUri").Value;
+
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
@@ -78,7 +83,9 @@ public class Startup
                         "FWA De vrolijke BA’s",
                         "DVB",
                         new Locatie("1770", "Liedekerke"),
-                        ImmutableArray.Create<string>("Badminton", "Tennis")),
+                        ImmutableArray.Create(
+                            new ListVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}/V000010")),
+                            new ListVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010")))),
                 },
                 new VerenigingDetail[]
                 {
@@ -98,8 +105,9 @@ public class Startup
                                 new ContactGegeven("email", "walter.plop@studio100.be"),
                                 new ContactGegeven("telefoon", "100"))),
                         ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
-                        ImmutableArray.Create<string>("Badminton", "Tennis"),
                         ImmutableArray.Create(
+                            new DetailVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}/V000010")),
+                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010"))),                        ImmutableArray.Create(
                             new ContactGegeven("telefoon", "025462323"),
                             new ContactGegeven("email", "info@dotimeforyou.be"),
                             new ContactGegeven("website", "www.dotimeforyou.be"),
@@ -118,7 +126,7 @@ public class Startup
                         new DetailVerenigingen.Locatie("1840", "Londerzeel"),
                         null,
                         ImmutableArray.Create(new DetailVerenigingen.Locatie("1840", "Londerzeel")),
-                        ImmutableArray<string>.Empty,
+                        ImmutableArray<DetailVerenigingActiviteit>.Empty,
                         ImmutableArray<ContactGegeven>.Empty,
                         DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
                 }

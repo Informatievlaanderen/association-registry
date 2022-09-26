@@ -19,8 +19,14 @@
         "gemeentenaam": "Liedekerke"
       },
       "activiteiten": [
-        "Badminton",
-        "Tennis"
+        {
+          "type": "Badminton",
+          "beheerder": "https://association.dev-vlaanderen.be/api/v1/association/V000010"
+        },
+        {
+          "type": "Tennis",
+          "beheerder": "https://association.dev-vlaanderen.be/api/v1/association/V000010"
+        }
       ],
       "links": [
         {

@@ -1,7 +1,8 @@
-﻿using System.Collections.Immutable;
-using System.Runtime.Serialization;
+﻿namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
-namespace AssociationRegistry.Public.Api.ListVerenigingen;
+using System.Collections.Immutable;
+using System.Runtime.Serialization;
+using System;
 
 [DataContract]
 public record ListVerenigingenResponse(
@@ -21,12 +22,12 @@ public record ListVerenigingenQueryResult(
     [property: DataMember(Name = "Hoofdlocatie")]
     Locatie Hoofdlocatie,
     [property: DataMember(Name = "Activiteiten")]
-    ImmutableArray<string> Activiteiten,
+    ImmutableArray<Activiteit> Activiteiten,
     [property: DataMember(Name = "Links")] ImmutableArray<Link> Links
 )
 {
-    public static ListVerenigingenQueryResult FromVereniging(VerenigingListItem vereniging) =>
-        new(
+    public static ListVerenigingenQueryResult FromVereniging(VerenigingListItem vereniging)
+        => new(
             vereniging.Id,
             vereniging.Naam,
             vereniging.KorteNaam,
@@ -52,5 +53,9 @@ public record VerenigingListItem(
     [property: DataMember(Name = "Hoofdlocatie")]
     Locatie Hoofdlocatie,
     [property: DataMember(Name = "Activiteiten")]
-    ImmutableArray<string> Activiteiten);
+    ImmutableArray<Activiteit> Activiteiten);
 
+public record Activiteit(
+    [property: DataMember(Name = "Type")] string Type,
+    [property: DataMember(Name = "Beheerder")]
+    Uri Beheerder);
