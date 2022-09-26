@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/informatievlaanderen/association-registry/compare/v1.24.1...v1.25.0) (2022-09-26)
+
+
+### Features
+
+* or-1220 add beheerder to activity ([7c5157e](https://github.com/informatievlaanderen/association-registry/commit/7c5157e8b804153482ba9b82d27be0ad7a590366))
+
 ## [1.24.1](https://github.com/informatievlaanderen/association-registry/compare/v1.24.0...v1.24.1) (2022-09-26)
 
 
