@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/informatievlaanderen/association-registry/compare/v1.23.0...v1.24.0) (2022-09-26)
+
+
+### Features
+
+* or-1221 add laatstgewijzigd date to vereningdetail ([46a6083](https://github.com/informatievlaanderen/association-registry/commit/46a60838027e76c084bab0fda486cbe9ed8b2291))
+
 # [1.23.0](https://github.com/informatievlaanderen/association-registry/compare/v1.22.1...v1.23.0) (2022-09-26)
 
 
