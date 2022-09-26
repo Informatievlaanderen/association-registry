@@ -1,12 +1,14 @@
+namespace AssociationRegistry.Public.Api;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AssociationRegistry.Public.Api.DetailVerenigingen;
-using AssociationRegistry.Public.Api.Extensions;
-using AssociationRegistry.Public.Api.Infrastructure.Configuration;
-using AssociationRegistry.Public.Api.Infrastructure.Modules;
-using AssociationRegistry.Public.Api.S3;
+using DetailVerenigingen;
+using Extensions;
+using Infrastructure.Configuration;
+using Infrastructure.Modules;
+using S3;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -19,11 +21,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace AssociationRegistry.Public.Api;
-
 using System.Collections.Immutable;
+using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
+using Infrastructure.Json;
 using ListVerenigingen;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json;
+using Locatie = ListVerenigingen.Locatie;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -52,6 +56,12 @@ public class Startup
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
 
+        //TODO check why these setting are not used. VBR lib?
+        var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
+        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
+        jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));
+        JsonConvert.DefaultSettings = () => jsonSerializerSettings;
+
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
 
@@ -79,11 +89,11 @@ public class Startup
                     "Feitelijke vereniging",
                     DateOnly.FromDateTime(new DateTime(2022, 09, 15)),
                     DateOnly.FromDateTime(new DateTime(2023, 10, 16)),
-                    new Api.DetailVerenigingen.Locatie("1770", "Liedekerke"),
+                    new DetailVerenigingen.Locatie("1770", "Liedekerke"),
                     new ContactPersoon("Walter", "Plop",
                         ImmutableArray.Create(new ContactGegeven("email", "walter.plop@studio100.be"),
                             new ContactGegeven("telefoon", "100"))),
-                    ImmutableArray.Create(new Api.DetailVerenigingen.Locatie("1770", "Liedekerke")),
+                    ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
                     ImmutableArray.Create<string>("Badminton", "Tennis"),
                     ImmutableArray.Create(
                         new ContactGegeven("telefoon", "025462323"),
@@ -100,9 +110,9 @@ public class Startup
                     String.Empty,
                     null,
                     null,
-                    new Api.DetailVerenigingen.Locatie("1840", "Londerzeel"),
+                    new DetailVerenigingen.Locatie("1840", "Londerzeel"),
                     null,
-                    ImmutableArray.Create(new Api.DetailVerenigingen.Locatie("1840", "Londerzeel")),
+                    ImmutableArray.Create(new DetailVerenigingen.Locatie("1840", "Londerzeel")),
                     ImmutableArray<string>.Empty,
                     ImmutableArray<ContactGegeven>.Empty),
             }

@@ -1,12 +1,16 @@
+namespace AssociationRegistry.Public.Api.DetailVerenigingen;
+
+using System.Net;
+using Infrastructure.Json;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
-using AssociationRegistry.Public.Api.ListVerenigingen;
+using ListVerenigingen;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Filters;
-
-namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -40,11 +44,32 @@ public class DetailVerenigingenController : ApiController
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
-        return Ok(new DetailVerenigingResponse(detailVerenigingContext, vereniging));
+        return new ContentResult
+        {
+            ContentType = "application/ld+json",
+            StatusCode = (int)HttpStatusCode.OK,
+            Content = JsonConvert.SerializeObject(
+                new DetailVerenigingResponse(detailVerenigingContext, vereniging),
+                Formatting.Indented,
+                GetJsonSerializerSettings()),
+        };
+    }
+
+    private static JsonSerializerSettings GetJsonSerializerSettings()
+    {
+        var getSerializerSettings = JsonConvert.DefaultSettings ?? (() => new JsonSerializerSettings());
+        var jsonSerializerSettings = getSerializerSettings();
+
+        jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
+        jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));
+
+        return jsonSerializerSettings;
     }
 }
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
-    public DetailVerenigingResponse GetExamples() => null!; //TODO implement good example !
+    public DetailVerenigingResponse GetExamples()
+        => null!; //TODO implement good example !
 }

@@ -19,22 +19,8 @@
       "Tennis"
     ],
     "rechtsvorm": "Feitelijke vereniging",
-    "startDatum": {
-      "year": 2022,
-      "month": 9,
-      "day": 15,
-      "dayOfWeek": "thursday",
-      "dayOfYear": 258,
-      "dayNumber": 738412
-    },
-    "eindDatum": {
-      "year": 2023,
-      "month": 10,
-      "day": 16,
-      "dayOfWeek": "monday",
-      "dayOfYear": 289,
-      "dayNumber": 738808
-    },
+    "startDatum": "2022-09-15",
+    "eindDatum": "2023-10-16",
     "hoofdlocatie": {
       "postcode": "1770",
       "gemeentenaam": "Liedekerke"
