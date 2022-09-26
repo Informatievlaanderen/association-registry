@@ -1,3 +1,10 @@
+## [1.24.1](https://github.com/informatievlaanderen/association-registry/compare/v1.24.0...v1.24.1) (2022-09-26)
+
+
+### Bug Fixes
+
+* fix build ([e51bcfb](https://github.com/informatievlaanderen/association-registry/commit/e51bcfbba6734ebb903fd6e9278521bdd1add2bb))
+
 # [1.24.0](https://github.com/informatievlaanderen/association-registry/compare/v1.23.0...v1.24.0) (2022-09-26)
 
 
