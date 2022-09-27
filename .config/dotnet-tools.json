@@ -19,6 +19,18 @@
       "commands": [
         "dotnet-ef"
       ]
+    },
+    "dotnet-coverage": {
+      "version": "17.4.4",
+      "commands": [
+        "dotnet-coverage"
+      ]
+    },
+    "jetbrains.dotcover.globaltool": {
+      "version": "2022.2.3",
+      "commands": [
+        "dotnet-dotcover"
+      ]
     }
   }
 }
