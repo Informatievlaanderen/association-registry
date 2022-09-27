@@ -15,14 +15,7 @@ public class NullableDateOnlyJsonConvertor : JsonConverter<DateOnly?>
     }
 
     public override void WriteJson(JsonWriter writer, DateOnly? value, JsonSerializer serializer)
-    {
-        string result;
-        if (value.HasValue)
-            result = value.Value.ToString(_format, CultureInfo.InvariantCulture);
-        else
-            result = string.Empty;
-        writer.WriteValue(result);
-    }
+        => writer.WriteValue(value.HasValue ? value.Value.ToString(_format, CultureInfo.InvariantCulture) : string.Empty);
 
     public override DateOnly? ReadJson(JsonReader reader, Type objectType, DateOnly? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {

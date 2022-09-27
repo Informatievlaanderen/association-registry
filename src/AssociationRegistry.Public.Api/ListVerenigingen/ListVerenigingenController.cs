@@ -11,6 +11,8 @@ using Be.Vlaanderen.Basisregisters.Api.Search.Pagination;
 
 namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
+using Constants;
+
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
@@ -65,5 +67,5 @@ public class ListVerenigingenController : ApiController
 
     private static PaginationRequest ExtractPaginationRequest(PaginationQueryParams paginationQueryParams) =>
         new(paginationQueryParams.Offset,
-            Math.Min(paginationQueryParams.Limit, Constants.DefaultLimit));
+            Math.Min(paginationQueryParams.Limit, PagingConstants.DefaultLimit));
 }

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_with_explicit_limit;
 
 using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.ListVerenigingen;
 using AutoFixture;
 using FluentAssertions;
@@ -49,12 +50,12 @@ public class Given_73_verenigingen
     [InlineData(10, 64)]
     public async Task With_limit_more_than_default_Then_the_default_limit_is_returned(int offset, int limit)
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen, offset, limit)).Metadata.Pagination.Limit
-            .Should().Be(Constants.DefaultLimit);
+            .Should().Be(PagingConstants.DefaultLimit);
 
     [Theory]
     [InlineData(0, 64)]
     [InlineData(10, 64)]
     public async Task With_limit_more_than_default_Then_a_list_with_default_number_of_verenigingen_is_returned(int offset, int limit)
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen, offset, limit)).Verenigingen.Should()
-            .HaveCount(Constants.DefaultLimit);
+            .HaveCount(PagingConstants.DefaultLimit);
 }

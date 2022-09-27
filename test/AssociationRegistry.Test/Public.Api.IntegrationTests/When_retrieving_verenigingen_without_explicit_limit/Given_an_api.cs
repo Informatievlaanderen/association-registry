@@ -6,6 +6,7 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;
 
+using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]
 public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
