@@ -1,3 +1,12 @@
+# [1.26.0](https://github.com/informatievlaanderen/association-registry/compare/v1.25.0...v1.26.0) (2022-09-27)
+
+
+### Features
+
+* or-1224 also apply dateonly convertor in examples ([3496b86](https://github.com/informatievlaanderen/association-registry/commit/3496b862fef515ce8690616d444de9467bad668c))
+* or-1224 cleanup ([7bf39d7](https://github.com/informatievlaanderen/association-registry/commit/7bf39d7843d7540b4446f6496b7695faafcad227))
+* or-1224 moar cleanup ([93c0f87](https://github.com/informatievlaanderen/association-registry/commit/93c0f875744e5a2d08820f92e7bf59566d66e3bd))
+
 # [1.25.0](https://github.com/informatievlaanderen/association-registry/compare/v1.24.1...v1.25.0) (2022-09-26)
 
 
