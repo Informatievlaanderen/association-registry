@@ -8,7 +8,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a
 using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_a_vereniging_with_minimal_fields: IClassFixture<VerenigingPublicApiFixture>
+public class Given_a_vereniging_with_minimal_fields : IClassFixture<VerenigingPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
 

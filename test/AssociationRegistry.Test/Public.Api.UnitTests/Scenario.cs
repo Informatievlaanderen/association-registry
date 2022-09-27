@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Test.Public.Api.Tests;
+namespace AssociationRegistry.Test.Public.Api.UnitTests;
 
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.Infrastructure.Json;
-using Newtonsoft.Json;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-using Stubs;
+using AssociationRegistry.Test.Stubs;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 public static class Scenario
 {

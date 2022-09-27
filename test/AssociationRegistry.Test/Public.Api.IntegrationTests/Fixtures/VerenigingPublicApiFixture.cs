@@ -10,7 +10,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 using AssociationRegistry.Public.Api.S3;
 using Be.Vlaanderen.Basisregisters.BlobStore;
 using Microsoft.Extensions.DependencyInjection;
-using Tests;
+using UnitTests;
 
 public class VerenigingPublicApiFixture : IDisposable
 {

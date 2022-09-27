@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_with_explicit_limit;
+﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_list_of_verenigingen_with_explicit_limit;
 
-using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.ListVerenigingen;
 using AutoFixture;
