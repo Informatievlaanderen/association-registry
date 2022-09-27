@@ -1,3 +1,10 @@
+# [1.27.0](https://github.com/informatievlaanderen/association-registry/compare/v1.26.0...v1.27.0) (2022-09-27)
+
+
+### Features
+
+* or-1209 expose json-ld context files ([fa3107a](https://github.com/informatievlaanderen/association-registry/commit/fa3107a46730f0b3212661a6b89fecbc34cadaf4))
+
 # [1.26.0](https://github.com/informatievlaanderen/association-registry/compare/v1.25.0...v1.26.0) (2022-09-27)
 
 
