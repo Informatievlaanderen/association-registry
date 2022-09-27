@@ -31,10 +31,8 @@ public record VerenigingDetail(
     [property: DataMember(Name = "Rechtsvorm")]
     string Rechtsvorm,
     [property: DataMember(Name = "StartDatum")]
-    [property: JsonConverter(typeof(NullableDateOnlyJsonConvertor), WellknownFormats.DateOnly)]
     DateOnly? StartDatum,
     [property: DataMember(Name = "EindDatum")]
-    [property: JsonConverter(typeof(NullableDateOnlyJsonConvertor), WellknownFormats.DateOnly)]
     DateOnly? EindDatum,
     [property: DataMember(Name = "Hoofdlocatie")]
     Locatie Hoofdlocatie,
@@ -47,7 +45,6 @@ public record VerenigingDetail(
     [property: DataMember(Name = "ContactGegevens")]
     ImmutableArray<ContactGegeven> ContactGegevens,
     [property: DataMember(Name = "LaatstGewijzigd")]
-    [property: JsonConverter(typeof(DateOnlyJsonConvertor), WellknownFormats.DateOnly)]
     DateOnly LaatstGewijzigd
 );
 

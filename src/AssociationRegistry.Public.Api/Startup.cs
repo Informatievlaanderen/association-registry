@@ -22,10 +22,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Immutable;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Infrastructure.Json;
 using ListVerenigingen;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Locatie = ListVerenigingen.Locatie;
@@ -58,13 +56,6 @@ public class Startup
         var baseUrlForExceptions = baseUrl.EndsWith("/")
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
-
-        // // TODO check why these setting are not used. VBR lib?
-        // var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
-        // jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
-        // jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));
-        // jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;
-        // JsonConvert.DefaultSettings = () => jsonSerializerSettings;
 
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
