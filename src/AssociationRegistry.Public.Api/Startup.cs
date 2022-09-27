@@ -27,6 +27,7 @@ using Infrastructure.Json;
 using ListVerenigingen;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Locatie = ListVerenigingen.Locatie;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
@@ -58,11 +59,12 @@ public class Startup
             ? baseUrl.Substring(0, baseUrl.Length - 1)
             : baseUrl;
 
-        // TODO check why these setting are not used. VBR lib?
-        var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
-        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
-        jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));
-        JsonConvert.DefaultSettings = () => jsonSerializerSettings;
+        // // TODO check why these setting are not used. VBR lib?
+        // var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
+        // jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor("yyyy-MM-dd"));
+        // jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor("yyyy-MM-dd"));
+        // jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;
+        // JsonConvert.DefaultSettings = () => jsonSerializerSettings;
 
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
@@ -107,7 +109,8 @@ public class Startup
                         ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
                         ImmutableArray.Create(
                             new DetailVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}/V000010")),
-                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010"))),                        ImmutableArray.Create(
+                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010"))),
+                        ImmutableArray.Create(
                             new ContactGegeven("telefoon", "025462323"),
                             new ContactGegeven("email", "info@dotimeforyou.be"),
                             new ContactGegeven("website", "www.dotimeforyou.be"),
@@ -170,6 +173,13 @@ public class Startup
                     },
                     MiddlewareHooks =
                     {
+                        ConfigureJsonOptions = options =>
+                        {
+                            options.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                            options.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                            options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
+                            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        },
                         AfterHealthChecks = health =>
                         {
                             var connectionStrings = _configuration

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
+using System;
+using System.Collections.Immutable;
 using System.Net;
 using Infrastructure.Json;
 using Newtonsoft.Json;
@@ -44,15 +46,17 @@ public class DetailVerenigingenController : ApiController
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
-        return new ContentResult
-        {
-            ContentType = "application/ld+json",
-            StatusCode = (int)HttpStatusCode.OK,
-            Content = JsonConvert.SerializeObject(
-                new DetailVerenigingResponse(detailVerenigingContext, vereniging),
-                Formatting.Indented,
-                GetJsonSerializerSettings()),
-        };
+        return Ok(new DetailVerenigingResponse(detailVerenigingContext, vereniging));
+
+        // return new ContentResult
+        // {
+        //     ContentType = "application/ld+json",
+        //     StatusCode = (int)HttpStatusCode.OK,
+        //     Content = JsonConvert.SerializeObject(
+        //         new DetailVerenigingResponse(detailVerenigingContext, vereniging),
+        //         Formatting.Indented,
+        //         GetJsonSerializerSettings()),
+        // };
     }
 
     private static JsonSerializerSettings GetJsonSerializerSettings()
@@ -71,5 +75,21 @@ public class DetailVerenigingenController : ApiController
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
     public DetailVerenigingResponse GetExamples()
-        => null!; // TODO implement good example !
+        => new(
+            new DetailVerenigingContext(null!, null!, null!, null!, new ContextType(null!, null!)),
+            new VerenigingDetail(
+                "V123",
+                "Voorbeeld Vereniging",
+                "VV",
+                "",
+                "Vereniging",
+                DateOnly.FromDateTime(new DateTime(2022,09,27)),
+                null,
+                new Locatie("2000", "Antwerpen"),
+                null!,
+                ImmutableArray<Locatie>.Empty,
+                ImmutableArray<Activiteit>.Empty,
+                ImmutableArray<ContactGegeven>.Empty,
+                DateOnly.FromDateTime(new DateTime(2022,09,27))
+                )); // TODO complete good example !
 }

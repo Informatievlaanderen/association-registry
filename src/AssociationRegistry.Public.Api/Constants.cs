@@ -10,3 +10,8 @@ public static class WellknownMediaTypes
 {
     public const string JsonLd = "application/ld+json";
 }
+
+public static class WellknownFormats
+{
+    public const string DateOnly = "yyyy-MM-dd";
+}
