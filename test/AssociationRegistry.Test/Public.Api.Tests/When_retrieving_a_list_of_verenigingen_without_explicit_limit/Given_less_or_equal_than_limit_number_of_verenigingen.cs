@@ -6,6 +6,8 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
 
+using AssociationRegistry.Public.Api.Constants;
+
 public class Given_less_or_equal_than_limit_number_of_verenigingen
 {
     private readonly List<VerenigingListItem> _verenigingen;
@@ -13,7 +15,7 @@ public class Given_less_or_equal_than_limit_number_of_verenigingen
     public Given_less_or_equal_than_limit_number_of_verenigingen()
     {
         var fixture = new VerenigingenFixture();
-        var lessOrEqualThanLimit = new Random().Next(0, Constants.DefaultLimit);
+        var lessOrEqualThanLimit = new Random().Next(0, PagingConstants.DefaultLimit);
         _verenigingen = fixture
             .CreateMany<VerenigingListItem>(lessOrEqualThanLimit).ToList();
     }

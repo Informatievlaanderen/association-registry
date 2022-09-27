@@ -63,8 +63,8 @@ public static class Scenario
                 deserializeContext ?? throw new Exception("Could not deserialize detail-vereniging-context.json"),
                 vereniging.Id);
 
-        return JsonConvert.DeserializeObject<DetailVerenigingResponse>(
-            (response as ContentResult)!.Content!,
-            JsonSerializerSettings)!;
+        return response.Should().BeOfType<OkObjectResult>()
+            .Which.Value?.Should().BeOfType<DetailVerenigingResponse>()
+            .Subject!;
     }
 }

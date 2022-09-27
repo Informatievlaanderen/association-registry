@@ -5,6 +5,8 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a_detail_of_a_vereniging;
 
+using AssociationRegistry.Public.Api.Constants;
+
 [Collection(VerenigingPublicApiCollection.Name)]
 public class Given_a_vereniging_with_minimal_fields: IClassFixture<VerenigingPublicApiFixture>
 {
