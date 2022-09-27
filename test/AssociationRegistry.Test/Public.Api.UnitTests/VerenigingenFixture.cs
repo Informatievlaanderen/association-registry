@@ -1,9 +1,8 @@
-namespace AssociationRegistry.Test.Public.Api.Tests;
+namespace AssociationRegistry.Test.Public.Api.UnitTests;
 
 using System.Collections.Immutable;
 using AutoFixture;
 using AutoFixture.Kernel;
-
 
 public class VerenigingenFixture : Fixture
 {

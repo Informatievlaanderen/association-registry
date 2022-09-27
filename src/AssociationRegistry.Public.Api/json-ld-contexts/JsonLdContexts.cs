@@ -9,18 +9,13 @@ using Newtonsoft.Json;
 public static class JsonLdContexts
 {
     public static DetailVerenigingContext GetDetailVerenigingContext()
-    {
-        var jsonLdContextsType = typeof(JsonLdContexts);
-        var json = jsonLdContextsType.Assembly.GetResourceString($"{jsonLdContextsType.Namespace}.detail-vereniging-context.json");
-
-        return JsonConvert.DeserializeObject<DetailVerenigingContext>(json) ?? throw new NullReferenceException("DetailVerenigingContext is null");
-    }
+        => JsonConvert.DeserializeObject<DetailVerenigingContext>(GetContext("detail-vereniging-context.json"))
+           ?? throw new NullReferenceException("DetailVerenigingContext is null");
 
     public static ListVerenigingContext GetListVerenigingenContext()
-    {
-        var jsonLdContextsType = typeof(JsonLdContexts);
-        var json = jsonLdContextsType.Assembly.GetResourceString($"{jsonLdContextsType.Namespace}.list-verenigingen-context.json");
+        => JsonConvert.DeserializeObject<ListVerenigingContext>(GetContext("list-verenigingen-context.json"))
+           ?? throw new NullReferenceException("ListVerenigingContext is null");
 
-        return JsonConvert.DeserializeObject<ListVerenigingContext>(json) ?? throw new NullReferenceException("ListVerenigingContext is null");
-    }
+    public static string GetContext(string name)
+        => typeof(JsonLdContexts).Assembly.GetResourceString($"{typeof(JsonLdContexts).Namespace}.{name}");
 }

@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_vereniging_detail;
+﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_vereniging_detail;
 
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.ListVerenigingen;
+using AssociationRegistry.Test.Stubs;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Stubs;
 using Xunit;
 
 public class Given_no_verenigingen

@@ -1,14 +1,12 @@
-using AssociationRegistry.Public.Api;
-using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
-using FluentAssertions;
-using Xunit;
-
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a_detail_of_a_vereniging;
 
 using AssociationRegistry.Public.Api.Constants;
+using Fixtures;
+using FluentAssertions;
+using Xunit;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_a_vereniging_with_all_fields: IClassFixture<VerenigingPublicApiFixture>
+public class Given_a_vereniging_with_all_fields : IClassFixture<VerenigingPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
 

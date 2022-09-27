@@ -1,8 +1,8 @@
-﻿using AssociationRegistry.Public.Api.ListVerenigingen;
+﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
+
+using AssociationRegistry.Public.Api.ListVerenigingen;
 using FluentAssertions;
 using Xunit;
-
-namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
 
 public class Given_no_verenigingen
 {

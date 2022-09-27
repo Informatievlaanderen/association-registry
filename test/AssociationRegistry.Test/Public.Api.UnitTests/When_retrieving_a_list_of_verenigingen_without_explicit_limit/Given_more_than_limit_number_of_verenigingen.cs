@@ -1,12 +1,10 @@
-﻿using AssociationRegistry.Public.Api;
+﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
+
+using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.Api.ListVerenigingen;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-
-namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_list_of_verenigingen_without_explicit_limit;
-
-using AssociationRegistry.Public.Api.Constants;
 
 public class Given_more_than_limit_number_of_verenigingen
 {

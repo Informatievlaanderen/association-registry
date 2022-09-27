@@ -1,10 +1,9 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Tests.When_retrieving_a_vereniging_detail;
+﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_vereniging_detail;
 
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-
 
 public class Given_existing_vereniging
 {
