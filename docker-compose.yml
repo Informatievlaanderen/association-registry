@@ -12,5 +12,9 @@ services:
     - minio-data:/data
     command: server --console-address :9001 /data
 
+   acm:
+     build: src/IdentityServer/
+     ports:
+       - "5051:80"
 volumes:
   minio-data:

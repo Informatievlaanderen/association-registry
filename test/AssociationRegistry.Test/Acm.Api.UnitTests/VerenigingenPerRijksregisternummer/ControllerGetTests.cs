@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Acm.Api.Tests.VerenigingenPerRijksregisternummer;
+namespace AssociationRegistry.Test.Acm.Api.UnitTests.VerenigingenPerRijksregisternummer;
 
-using AssociationRegistry.Acm.Api.Caches;
 using System.Collections.Immutable;
+using AssociationRegistry.Acm.Api.Caches;
 using AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
