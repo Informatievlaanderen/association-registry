@@ -64,6 +64,8 @@ public class Startup
         var organisationRegistryUri = _configuration.GetSection("OrganisationRegistryUri").Value;
         var associationRegistryUri = _configuration.GetSection("AssociationRegistryUri").Value;
 
+        services.AddSingleton(_configuration.Get<AppSettings>());
+
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();

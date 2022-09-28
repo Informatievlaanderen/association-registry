@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.UnitTests.When_retrieving_a_vereniging_detail;
 
+using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.ListVerenigingen;
 using AssociationRegistry.Test.Stubs;
@@ -23,10 +24,9 @@ public class Given_no_verenigingen
     {
         var controller =
             new DetailVerenigingenController(new VerenigingenRepositoryStub(new List<VerenigingListItem>()));
-        var detailVerenigingContext = typeof(Scenario).GetAssociatedResourceJson("detail-vereniging-context");
-        var context = JsonConvert.DeserializeObject<DetailVerenigingContext>(detailVerenigingContext)!;
 
-        var response = await controller.Detail(context, _fixture.Create<string>());
+        var appSettingsStub = new AppSettings();
+        var response = await controller.Detail(appSettingsStub, _fixture.Create<string>());
         response.Should().BeOfType<NotFoundResult>();
     }
 }

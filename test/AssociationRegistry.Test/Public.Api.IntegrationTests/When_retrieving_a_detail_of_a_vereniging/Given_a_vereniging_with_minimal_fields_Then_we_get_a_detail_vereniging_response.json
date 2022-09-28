@@ -1,14 +1,5 @@
 {
-  "@context": {
-    "@base": "https://data.vlaanderen.be/ns/FeitelijkeVerenigingen",
-    "@vocab": "@",
-    "identificator": "@nest",
-    "id": "@id",
-    "naam": {
-      "@id": "http://www.w3.org/2004/02/skos/core#prefLabel",
-      "@type": "@id"
-    }
-  },
+  "@context": "http://localhost:11003/api/v1/contexten/detail-vereniging-context.json",
   "vereniging": {
     "id": "V1234568",
     "naam": "FWA De vrolijke BA’s",

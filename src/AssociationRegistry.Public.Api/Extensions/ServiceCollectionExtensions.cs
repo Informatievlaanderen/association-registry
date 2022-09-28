@@ -63,8 +63,6 @@ public static class ServiceCollectionExtensions
 
     public static void AddJsonLdContexts(this IServiceCollection services)
     {
-        services.AddSingleton(_ => JsonLdContexts.GetListVerenigingenContext());
-        services.AddSingleton(_ => JsonLdContexts.GetDetailVerenigingContext());
         services.AddSingleton<IVerenigingenRepository>(sp =>
             VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
     }
