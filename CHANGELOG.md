@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/informatievlaanderen/association-registry/compare/v1.28.0...v1.29.0) (2022-09-28)
+
+
+### Features
+
+* OR-1230 add meaningfull examples ([b76892c](https://github.com/informatievlaanderen/association-registry/commit/b76892c41bb094e01d14a330698e8c950710e5a4))
+
 # [1.28.0](https://github.com/informatievlaanderen/association-registry/compare/v1.27.0...v1.28.0) (2022-09-28)
 
 
