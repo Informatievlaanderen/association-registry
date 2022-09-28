@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 [DataContract]
 public record DetailVerenigingResponse(
     [property: DataMember(Name = "@context")]
-    DetailVerenigingContext Context,
+    string Context,
     [property: DataMember(Name = "Vereniging")]
     VerenigingDetail VerenigingDetail);
 

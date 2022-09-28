@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
-using System;
-using System.Collections.Immutable;
 using System.Threading.Tasks;
 using ListVerenigingen;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -9,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
@@ -36,35 +35,13 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
-        [FromServices] DetailVerenigingContext detailVerenigingContext,
+        [FromServices] AppSettings appsettings,
         [FromRoute] string vCode)
     {
         var maybeVereniging = await _verenigingenRepository.Detail(vCode);
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
-        return Ok(new DetailVerenigingResponse(detailVerenigingContext, vereniging));
+        return Ok(new DetailVerenigingResponse($"{appsettings.BaseUrl}api/v1/contexten/detail-vereniging-context.json", vereniging));
     }
-}
-
-public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
-{
-    public DetailVerenigingResponse GetExamples()
-        => new(
-            new DetailVerenigingContext(null!, null!, null!, null!, new ContextType(null!, null!)),
-            new VerenigingDetail(
-                "V123",
-                "Voorbeeld Vereniging",
-                "VV",
-                "",
-                "Vereniging",
-                DateOnly.FromDateTime(new DateTime(2022,09,27)),
-                null,
-                new Locatie("2000", "Antwerpen"),
-                null!,
-                ImmutableArray<Locatie>.Empty,
-                ImmutableArray<Activiteit>.Empty,
-                ImmutableArray<ContactGegeven>.Empty,
-                DateOnly.FromDateTime(new DateTime(2022,09,27))
-                )); // TODO complete good example !
 }

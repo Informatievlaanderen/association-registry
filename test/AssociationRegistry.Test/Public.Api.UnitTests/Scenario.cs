@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Test.Public.Api.UnitTests;
 
+using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.Infrastructure.Json;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-using AssociationRegistry.Test.Stubs;
+using Stubs;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -24,7 +25,7 @@ public static class Scenario
         var controller = new ListVerenigingenController(verenigingenRepositoryStub);
 
         var response = await controller.List(
-            null!,
+            new AppSettings { BaseUrl = "http://localhost:11003/" },
             new PaginationQueryParams(offset, limit));
 
         return response.Should().BeOfType<OkObjectResult>()
@@ -38,11 +39,8 @@ public static class Scenario
         var verenigingenRepositoryStub = new VerenigingenRepositoryStub(verenigingen);
         var controller = new ListVerenigingenController(verenigingenRepositoryStub);
 
-        var listVerenigingenContext = typeof(Scenario).GetAssociatedResourceJson("list-verenigingen-context");
-        var deserializeContext = JsonConvert.DeserializeObject<ListVerenigingContext>(listVerenigingenContext);
-
         var response = await controller.List(
-            deserializeContext ?? throw new Exception("Could not deserialize list-verenigingen-context.json"),
+            new AppSettings { BaseUrl = "http://localhost:11003/" },
             new PaginationQueryParams());
 
         return response.Should().BeOfType<OkObjectResult>()
@@ -55,12 +53,9 @@ public static class Scenario
         var verenigingenRepositoryStub = new VerenigingenRepositoryStub(new List<VerenigingDetail> { vereniging });
         var controller = new DetailVerenigingenController(verenigingenRepositoryStub);
 
-        var detailVerenigingContext = typeof(Scenario).GetAssociatedResourceJson("detail-vereniging-context");
-        var deserializeContext = JsonConvert.DeserializeObject<DetailVerenigingContext>(detailVerenigingContext);
-
         var response =
             await controller.Detail(
-                deserializeContext ?? throw new Exception("Could not deserialize detail-vereniging-context.json"),
+                new AppSettings { BaseUrl = "http://localhost:11003/" },
                 vereniging.Id);
 
         return response.Should().BeOfType<OkObjectResult>()

@@ -132,38 +132,8 @@ public class Given_existing_vereniging
             .Should().BeEquivalentTo(_vereniging.Locaties);
 
     [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_base()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Base
+    public async Task Then_a_vereniging_has_a_jsonld_context()
+        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context
             .Should()
-            .Be("https://data.vlaanderen.be/ns/FeitelijkeVerenigingen");
-
-    [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_vocab()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Vocab
-            .Should()
-            .Be("@");
-
-    [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_identificator()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Identificator
-            .Should()
-            .Be("@nest");
-
-    [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_id()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Id
-            .Should()
-            .Be("@id");
-
-    [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_voorkeursnaam_id()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Naam.Id
-            .Should()
-            .Be("http://www.w3.org/2004/02/skos/core#prefLabel");
-
-    [Fact]
-    public async Task Then_a_vereniging_has_a_jsonld_context_voorkeursnaam_type()
-        => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context.Naam.Type
-            .Should()
-            .Be("@id");
+            .Be("http://localhost:11003/api/v1/contexten/detail-vereniging-context.json");
 }

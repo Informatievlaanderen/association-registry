@@ -44,37 +44,12 @@ public class VerenigingPublicApiFixture : IDisposable
 
         _testServer = new TestServer(hostBuilder);
 
-        var blobClient = _testServer.Services.GetRequiredService<VerenigingenBlobClient>();
-        var listVerenigingenContext = typeof(Scenario).GetAssociatedResourceJson("list-verenigingen-context");
-        if (!blobClient.BlobExistsAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext).GetAwaiter().GetResult())
-        {
-            blobClient.CreateBlobAsync(WellknownBuckets.Verenigingen.Blobs.ListVerenigingenContext, Metadata.None,
-                ContentType.Parse("application/json"),
-                GenerateStreamFromString(listVerenigingenContext)).GetAwaiter().GetResult();
-        }
-        var detailVerenigingContext = typeof(Scenario).GetAssociatedResourceJson("detail-vereniging-context");
-        if (!blobClient.BlobExistsAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext).GetAwaiter().GetResult())
-        {
-            blobClient.CreateBlobAsync(WellknownBuckets.Verenigingen.Blobs.DetailVerenigingContext, Metadata.None,
-                ContentType.Parse("application/json"),
-                GenerateStreamFromString(detailVerenigingContext)).GetAwaiter().GetResult();
-        }
-
         HttpClient = _testServer.CreateClient();
-    }
-
-    private static Stream GenerateStreamFromString(string s)
-    {
-        var stream = new MemoryStream();
-        var writer = new StreamWriter(stream);
-        writer.Write(s);
-        writer.Flush();
-        stream.Position = 0;
-        return stream;
     }
 
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
         HttpClient.Dispose();
         _testServer.Dispose();
     }

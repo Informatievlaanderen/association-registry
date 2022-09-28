@@ -40,13 +40,13 @@ public class ListVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> List(
-        [FromServices] ListVerenigingContext context,
+        [FromServices] AppSettings appsettings,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         var paginationRequest = ExtractPaginationRequest(paginationQueryParams);
         var totalCount = await _verenigingenRepository.TotalCount();
         var listVerenigingenResponse = new ListVerenigingenResponse(
-            context,
+            $"{appsettings.BaseUrl}api/v1/contexten/list-verenigingen-context.json",
             (await _verenigingenRepository.List())
             .Skip(paginationRequest.Offset)
             .Take(paginationRequest.Limit)

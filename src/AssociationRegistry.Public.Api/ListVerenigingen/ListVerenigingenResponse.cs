@@ -7,7 +7,7 @@ using System;
 [DataContract]
 public record ListVerenigingenResponse(
     [property: DataMember(Name = "@context")]
-    ListVerenigingContext Context,
+    string Context,
     [property: DataMember(Name = "Verenigingen")]
     ImmutableArray<ListVerenigingenQueryResult> Verenigingen,
     [property: DataMember(Name = "Metadata")]
