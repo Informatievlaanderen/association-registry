@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/informatievlaanderen/association-registry/compare/v1.29.0...v1.30.0) (2022-09-28)
+
+
+### Features
+
+* or-1230 fix urls of activiteiten ([5552c75](https://github.com/informatievlaanderen/association-registry/commit/5552c7545d158f9207c1bc999fca00a12acc0645))
+
 # [1.29.0](https://github.com/informatievlaanderen/association-registry/compare/v1.28.0...v1.29.0) (2022-09-28)
 
 
