@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/informatievlaanderen/association-registry/compare/v1.27.0...v1.28.0) (2022-09-28)
+
+
+### Features
+
+* OR-1229 replace json-ld contexts with Uri ([b62baf5](https://github.com/informatievlaanderen/association-registry/commit/b62baf547e29f1416958dc22597b03ee7659936e))
+
 # [1.27.0](https://github.com/informatievlaanderen/association-registry/compare/v1.26.0...v1.27.0) (2022-09-27)
 
 
