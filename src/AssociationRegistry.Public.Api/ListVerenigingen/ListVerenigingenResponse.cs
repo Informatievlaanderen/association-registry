@@ -9,12 +9,12 @@ public record ListVerenigingenResponse(
     [property: DataMember(Name = "@context")]
     string Context,
     [property: DataMember(Name = "Verenigingen")]
-    ImmutableArray<ListVerenigingenQueryResult> Verenigingen,
+    ImmutableArray<ListVerenigingenResponseItem> Verenigingen,
     [property: DataMember(Name = "Metadata")]
     Metadata Metadata);
 
 [DataContract]
-public record ListVerenigingenQueryResult(
+public record ListVerenigingenResponseItem(
     [property: DataMember(Name = "Id")] string Id,
     [property: DataMember(Name = "Naam")] string Naam,
     [property: DataMember(Name = "KorteNaam")]
@@ -26,7 +26,7 @@ public record ListVerenigingenQueryResult(
     [property: DataMember(Name = "Links")] ImmutableArray<Link> Links
 )
 {
-    public static ListVerenigingenQueryResult FromVereniging(VerenigingListItem vereniging)
+    public static ListVerenigingenResponseItem FromVereniging(VerenigingListItem vereniging)
         => new(
             vereniging.Id,
             vereniging.Naam,

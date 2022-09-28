@@ -7,6 +7,7 @@ using Caches;
 using Examples;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,6 +28,7 @@ public class SearchVerenigingenController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [Produces(contentType: WellknownMediaTypes.Json)]
     public async Task<IActionResult> Get([FromServices] IVerenigingenRepository verenigingenRepository) =>
         await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
 

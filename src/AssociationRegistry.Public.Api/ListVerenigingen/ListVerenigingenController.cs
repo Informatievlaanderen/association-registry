@@ -50,7 +50,7 @@ public class ListVerenigingenController : ApiController
             (await _verenigingenRepository.List())
             .Skip(paginationRequest.Offset)
             .Take(paginationRequest.Limit)
-            .Select(ListVerenigingenQueryResult.FromVereniging)
+            .Select(ListVerenigingenResponseItem.FromVereniging)
             .ToImmutableArray(),
             new Metadata(
                 new Pagination(
