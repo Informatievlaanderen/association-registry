@@ -1,3 +1,11 @@
+# [1.32.0](https://github.com/informatievlaanderen/association-registry/compare/v1.31.0...v1.32.0) (2022-09-29)
+
+
+### Features
+
+* or-1234 clean up ([a64d959](https://github.com/informatievlaanderen/association-registry/commit/a64d9590ee979c60b3223fda7144ba9993468676))
+* or-1234 make identity server image generic ([cdde91c](https://github.com/informatievlaanderen/association-registry/commit/cdde91cfc1bdc23464ea092c6fe8899339388b81))
+
 # [1.31.0](https://github.com/informatievlaanderen/association-registry/compare/v1.30.0...v1.31.0) (2022-09-29)
 
 
