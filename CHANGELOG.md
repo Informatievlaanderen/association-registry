@@ -1,3 +1,10 @@
+# [1.33.0](https://github.com/informatievlaanderen/association-registry/compare/v1.32.0...v1.33.0) (2022-09-29)
+
+
+### Features
+
+* rename search to zoeken ([f3e397d](https://github.com/informatievlaanderen/association-registry/commit/f3e397ddccc10c4ecee86897fed8f0a299134493))
+
 # [1.32.0](https://github.com/informatievlaanderen/association-registry/compare/v1.31.0...v1.32.0) (2022-09-29)
 
 
