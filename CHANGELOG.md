@@ -1,3 +1,11 @@
+# [1.31.0](https://github.com/informatievlaanderen/association-registry/compare/v1.30.0...v1.31.0) (2022-09-29)
+
+
+### Features
+
+* or-1177 add security policy to ACM API ([65290b5](https://github.com/informatievlaanderen/association-registry/commit/65290b57447caafa5f2ced462b80e355389641a7))
+* or-1177 skip security tests until we have an identity server image that we can use in the CI for VR ([bb48a87](https://github.com/informatievlaanderen/association-registry/commit/bb48a876550708945a7fe50c8908bfb563ca52fb))
+
 # [1.30.0](https://github.com/informatievlaanderen/association-registry/compare/v1.29.0...v1.30.0) (2022-09-28)
 
 
