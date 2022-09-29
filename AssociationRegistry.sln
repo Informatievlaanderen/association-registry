@@ -47,6 +47,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{FA18A1E7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "src\IdentityServer\IdentityServer.csproj", "{B83E79CF-359E-47DA-91C7-42C091A1B5E5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identityserver", "identityserver", "{D4AE63B8-9A67-43E5-865B-8E40BD1335CD}"
+	ProjectSection(SolutionItems) = preProject
+		identityserver\acm.json = identityserver\acm.json
+		identityserver\vr.json = identityserver\vr.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,5 +86,6 @@ Global
 		{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA} = {75DFC6A3-90CB-4041-B122-8546DCD4D7F6}
 		{EC780706-D1C5-46DA-A9EA-1691E3C5052A} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{B83E79CF-359E-47DA-91C7-42C091A1B5E5} = {FA18A1E7-4ED1-4FA0-8A25-877A7207BEFD}
+		{D4AE63B8-9A67-43E5-865B-8E40BD1335CD} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
 	EndGlobalSection
 EndGlobal
