@@ -14,7 +14,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen/search")]
+[ApiRoute("verenigingen/zoeken")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
