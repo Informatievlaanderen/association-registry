@@ -1,0 +1,40 @@
+{
+  "identityResources": [
+    {
+      "name": "dv",
+      "displayName": "Digitaal Vlaanderen",
+      "userClaims": [
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
+      ]
+    }
+  ],
+  "apiScopes": [
+    "dv_verenigingsregister_hoofdvertegenwoordigers"
+  ],
+  "apiResources": [
+    {
+      "name": "association-registry-local-dev",
+      "apiSecrets": [
+        "a_very=Secr3t*Key"
+      ],
+      "scopes": [
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "acmClient",
+      "clientSecrets": [
+        "secret"
+      ],
+      "allowedGrantTypes": "clientCredentials",
+      "allowedScopes":[
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
+      ],
+      "accessTokenLifetime": -1,
+      "identityTokenLifetime": -1,
+      "clientClaimsPrefix": ""
+    }
+  ]
+}

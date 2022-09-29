@@ -1,4 +1,5 @@
 ﻿using IdentityServer;
+using Newtonsoft.Json;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
