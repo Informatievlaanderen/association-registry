@@ -62,6 +62,8 @@ nuget Swashbuckle.AspNetCore.SwaggerGen 6.3.0
 // .NET CLASSIC STUFF
 nuget EntityFramework 6.4.4
 nuget Microsoft.SqlServer.Types 13.0.4001 // Don't update: requires version 13.0.4001 for legacy reasons
+nuget Microsoft.AspNetCore.Authentication.JwtBearer 6.0.3
+nuget IdentityModel.AspNetCore.OAuth2Introspection 6.0.0
 
 // DOCS STUFF
 nuget Structurizr.Core 0.9.7

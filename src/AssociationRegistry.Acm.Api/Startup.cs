@@ -11,6 +11,10 @@ using S3;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
+using Constants;
+using IdentityModel.AspNetCore.OAuth2Introspection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -53,7 +57,24 @@ public class Startup
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
-
+        services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+            .AddOAuth2Introspection(
+                JwtBearerDefaults.AuthenticationScheme,
+                options =>
+                {
+                    var configOptions = _configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>();
+                    options.ClientId = configOptions.ClientId;
+                    options.ClientSecret = configOptions.ClientSecret;
+                    options.Authority = configOptions.Authority;
+                    options.IntrospectionEndpoint = configOptions.IntrospectionEndpoint;
+                }
+            );
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
@@ -104,6 +125,12 @@ public class Startup
                             //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
                             //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
                         },
+                        Authorization = options =>
+                        {
+                            options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                                .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.ACM)
+                                .Build();
+                        },
                     },
                 })
             .Configure<ResponseOptions>(_configuration);
@@ -147,38 +174,38 @@ public class Startup
             //         ServiceName = _configuration["DataDog:ServiceName"],
             //     }
             // })
-            .UseDefaultForApi(new StartupUseOptions
-            {
-                Common =
+            .UseDefaultForApi(
+                new StartupUseOptions
                 {
-                    ApplicationContainer = _applicationContainer,
-                    ServiceProvider = serviceProvider,
-                    HostingEnvironment = env,
-                    ApplicationLifetime = appLifetime,
-                    LoggerFactory = loggerFactory,
-                },
-                Api =
-                {
-                    VersionProvider = apiVersionProvider,
-                    Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister ACM API {groupName}",
-                    CSharpClientOptions =
+                    Common =
                     {
-                        ClassName = "Verenigingenregister",
-                        Namespace = "Be.Vlaanderen.Basisregisters",
+                        ApplicationContainer = _applicationContainer,
+                        ServiceProvider = serviceProvider,
+                        HostingEnvironment = env,
+                        ApplicationLifetime = appLifetime,
+                        LoggerFactory = loggerFactory,
                     },
-                    TypeScriptClientOptions =
+                    Api =
                     {
-                        ClassName = "Verenigingenregister",
+                        VersionProvider = apiVersionProvider,
+                        Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister ACM API {groupName}",
+                        CSharpClientOptions =
+                        {
+                            ClassName = "Verenigingenregister",
+                            Namespace = "Be.Vlaanderen.Basisregisters",
+                        },
+                        TypeScriptClientOptions =
+                        {
+                            ClassName = "Verenigingenregister",
+                        },
                     },
-                },
-                MiddlewareHooks =
-                {
-                    AfterMiddleware = x => x.UseMiddleware<AddNoCacheHeadersMiddleware>(),
-                },
-            });
+                    MiddlewareHooks =
+                    {
+                        AfterMiddleware = x => x.UseMiddleware<AddNoCacheHeadersMiddleware>(),
+                    },
+                });
     }
 
     private static string GetApiLeadingText(ApiVersionDescription description)
-        =>
-            $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }
