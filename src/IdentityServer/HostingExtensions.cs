@@ -1,5 +1,6 @@
 namespace IdentityServer;
 
+using Config;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -58,17 +59,6 @@ internal static class HostingExtensions
         builder.Services.ConfigureNonBreakingSameSiteCookies();
 
         builder.ConfigureIdentityServer();
-
-        /*builder.Services.AddIdentityServer(options =>
-            {
-                // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-                options.EmitStaticAudienceClaim = true;
-            })
-            .AddInMemoryIdentityResources(Config.IdentityResources)
-            .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryApiResources(Config.ApiResources)
-            .AddInMemoryClients(Config.Clients)
-            .AddTestUsers(Config.Users);*/
 
         return builder.Build();
     }
