@@ -1,4 +1,5 @@
 ﻿using IdentityServer;
+using Newtonsoft.Json;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -6,6 +7,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
 Log.Information("Starting up");
+
+
 
 try
 {

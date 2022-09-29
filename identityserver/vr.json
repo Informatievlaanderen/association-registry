@@ -1,0 +1,47 @@
+{
+  "identityResources": [
+    {
+    	"name": "identityresources.openid"
+    },
+    {
+    	"name": "identityresources.profile"
+    },
+    {
+      "name": "vo",
+      "displayName": "Vlaamse Overheid",
+      "userClaims": [
+        "vo_info"
+      ]
+    }
+  ],
+  "apiScopes": [
+    "vo_info"
+  ],
+  "apiResources": [
+    {
+      "name": "association-registry-local-dev",
+      "apiSecrets": [
+        "a_very=Secr3t*Key"
+      ],
+      "scopes": [
+        "vo_info"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "association-registry-local-dev",
+      "clientSecrets": [
+        "a_very=Secr3t*Key"
+      ],
+      "allowedGrantTypes": "code",
+      "allowedScopes":[
+        "standardscopes.openid",
+        "standardscopes.profile",
+        "vo_info"
+      ],
+      "alwaysSendClientClaims": true,
+      "alwaysIncludeUserClaimsInIdToken": true
+    }
+  ]
+}
