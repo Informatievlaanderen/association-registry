@@ -42,6 +42,6 @@ public class DetailVerenigingenController : ApiController
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
-        return Ok(new DetailVerenigingResponse($"{appsettings.BaseUrl}api/v1/contexten/detail-vereniging-context.json", vereniging));
+        return Ok(new DetailVerenigingResponse($"{appsettings.AssociationRegistryUri}v1/contexten/detail-vereniging-context.json", vereniging));
     }
 }

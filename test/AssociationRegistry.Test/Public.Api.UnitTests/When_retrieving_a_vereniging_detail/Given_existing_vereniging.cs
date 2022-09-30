@@ -135,5 +135,5 @@ public class Given_existing_vereniging
     public async Task Then_a_vereniging_has_a_jsonld_context()
         => (await Scenario.When_retrieving_a_vereniging_detail(_vereniging)).Context
             .Should()
-            .Be("http://localhost:11003/api/v1/contexten/detail-vereniging-context.json");
+            .Be("http://localhost:11003/v1/contexten/detail-vereniging-context.json");
 }

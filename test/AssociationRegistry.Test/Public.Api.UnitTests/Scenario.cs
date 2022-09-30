@@ -25,7 +25,7 @@ public static class Scenario
         var controller = new ListVerenigingenController(verenigingenRepositoryStub);
 
         var response = await controller.List(
-            new AppSettings { BaseUrl = "http://localhost:11003/" },
+            new AppSettings { AssociationRegistryUri = "http://localhost:11003/" },
             new PaginationQueryParams(offset, limit));
 
         return response.Should().BeOfType<OkObjectResult>()
@@ -40,7 +40,7 @@ public static class Scenario
         var controller = new ListVerenigingenController(verenigingenRepositoryStub);
 
         var response = await controller.List(
-            new AppSettings { BaseUrl = "http://localhost:11003/" },
+            new AppSettings { AssociationRegistryUri = "http://localhost:11003/" },
             new PaginationQueryParams());
 
         return response.Should().BeOfType<OkObjectResult>()
@@ -55,7 +55,7 @@ public static class Scenario
 
         var response =
             await controller.Detail(
-                new AppSettings { BaseUrl = "http://localhost:11003/" },
+                new AppSettings { AssociationRegistryUri = "http://localhost:11003/" },
                 vereniging.Id);
 
         return response.Should().BeOfType<OkObjectResult>()
