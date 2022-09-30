@@ -80,8 +80,8 @@ public class Startup
                         "DVB",
                         new Locatie("1770", "Liedekerke"),
                         ImmutableArray.Create(
-                            new ListVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}/V000010")),
-                            new ListVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010")))),
+                            new ListVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
+                            new ListVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")))),
                 },
                 new VerenigingDetail[]
                 {
@@ -102,8 +102,8 @@ public class Startup
                                 new ContactGegeven("telefoon", "100"))),
                         ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
                         ImmutableArray.Create(
-                            new DetailVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}/V000010")),
-                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}/V000010"))),
+                            new DetailVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
+                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010"))),
                         ImmutableArray.Create(
                             new ContactGegeven("telefoon", "025462323"),
                             new ContactGegeven("email", "info@dotimeforyou.be"),

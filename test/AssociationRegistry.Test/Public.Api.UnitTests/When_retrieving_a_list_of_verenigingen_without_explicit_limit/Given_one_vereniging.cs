@@ -74,5 +74,5 @@ public class Given_one_vereniging
     public async Task Then_a_vereniging_has_a_jsonld_context_base()
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen)).Context
             .Should()
-            .Be("http://localhost:11003/api/v1/contexten/list-verenigingen-context.json");
+            .Be("http://localhost:11003/v1/contexten/list-verenigingen-context.json");
 }

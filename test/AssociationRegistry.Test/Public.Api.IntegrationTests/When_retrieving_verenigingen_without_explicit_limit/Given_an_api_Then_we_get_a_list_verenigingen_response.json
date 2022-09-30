@@ -1,5 +1,5 @@
 {
-  "@context": "http://localhost:11003/api/v1/contexten/list-verenigingen-context.json",
+  "@context": "https://localhost:11003/v1/contexten/list-verenigingen-context.json",
   "verenigingen": [
     {
       "id": "V1234567",
@@ -12,11 +12,11 @@
       "activiteiten": [
         {
           "type": "Badminton",
-          "beheerder": "https://association.dev-vlaanderen.be/api/v1/verenigingen/V000010"
+          "beheerder": "https://localhost:11003/v1/verenigingen/V000010"
         },
         {
           "type": "Tennis",
-          "beheerder": "https://association.dev-vlaanderen.be/api/v1/verenigingen/V000010"
+          "beheerder": "https://localhost:11003/v1/verenigingen/V000010"
         }
       ],
       "links": [
