@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/informatievlaanderen/association-registry/compare/v1.34.0...v1.35.0) (2022-09-30)
+
+
+### Features
+
+* OR-1229 update base uri ([23f2883](https://github.com/informatievlaanderen/association-registry/commit/23f28837c1d05ed8d9b4a9b01e49cef0d267d18b))
+
 # [1.34.0](https://github.com/informatievlaanderen/association-registry/compare/v1.33.0...v1.34.0) (2022-09-30)
 
 
