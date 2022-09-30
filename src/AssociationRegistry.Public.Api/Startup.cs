@@ -129,6 +129,18 @@ public class Startup
                 }
             ));
 
+        services.AddSwaggerGen(
+            options =>
+            {
+                options.MapType<DateOnly>(
+                    () => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Format = "date",
+                        Pattern = "yyyy-MM-dd"
+                    });
+            });
+
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
