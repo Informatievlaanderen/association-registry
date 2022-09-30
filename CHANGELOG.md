@@ -1,3 +1,10 @@
+# [1.34.0](https://github.com/informatievlaanderen/association-registry/compare/v1.33.0...v1.34.0) (2022-09-30)
+
+
+### Features
+
+* or-1224 fix swagger documentation for dateonly ([30e5fb9](https://github.com/informatievlaanderen/association-registry/commit/30e5fb9e630483092ca6c4f0db7f5815f698b2be))
+
 # [1.33.0](https://github.com/informatievlaanderen/association-registry/compare/v1.32.0...v1.33.0) (2022-09-29)
 
 
