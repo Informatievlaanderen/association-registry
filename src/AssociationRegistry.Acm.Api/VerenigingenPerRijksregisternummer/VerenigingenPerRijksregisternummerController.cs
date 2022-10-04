@@ -33,8 +33,11 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
         [FromServices] IVerenigingenRepository verenigingenRepository,
-        [FromQuery] string rijksregisternummer) =>
-        await Task.FromResult<IActionResult>(Ok(new GetVerenigingenPerRijksregisternummerResponse(rijksregisternummer, verenigingenRepository.Verenigingen[rijksregisternummer])));
+        [FromQuery] string rijksregisternummer)
+    {
+        var verenigingen = verenigingenRepository.Verenigingen[rijksregisternummer];
+        return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenPerRijksregisternummerResponse(rijksregisternummer, verenigingen)));
+    }
 
     [HttpPut]
     public async Task<IActionResult> Put(
