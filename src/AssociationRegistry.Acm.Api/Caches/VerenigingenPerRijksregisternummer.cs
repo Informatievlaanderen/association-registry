@@ -15,7 +15,7 @@ public class VerenigingenPerRijksregisternummer
     }
 
     public ImmutableArray<Vereniging> this[string rijksRegisterNummer]
-        => _data.ContainsKey(rijksRegisterNummer) ? _data[rijksRegisterNummer] : GetByShortRrn(rijksRegisterNummer);
+        => rijksRegisterNummer is { } rrn ? (_data.ContainsKey(rrn) ? _data[rrn] : GetByShortRrn(rrn)) : ImmutableArray<Vereniging>.Empty;
 
     private ImmutableArray<Vereniging> GetByShortRrn(string rijksRegisterNummer)
         => CalculateKey(rijksRegisterNummer) is { } key && _data.ContainsKey(key) ? _data[key] : ImmutableArray<Vereniging>.Empty;

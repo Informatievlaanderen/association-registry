@@ -22,16 +22,6 @@
         "vo_info",
         "dv_verenigingsregister_hoofdvertegenwoordigers"
       ]
-    },
-    {
-      "name": "acmClient",
-      "apiSecrets": [
-        "secret"
-      ],
-      "scopes": [
-        "vo_info",
-        "dv_verenigingsregister_hoofdvertegenwoordigers"
-      ]
     }
   ],
   "clients": [
@@ -41,6 +31,20 @@
         "secret"
       ],
       "allowedGrantTypes": "clientCredentials",
+      "allowedScopes":[
+        "vo_info",
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
+      ],
+      "accessTokenLifetime": -1,
+      "identityTokenLifetime": -1,
+      "clientClaimsPrefix": ""
+    },
+    {
+      "clientId": "association-registry-local-dev",
+      "clientSecrets": [
+        "a_very=Secr3t*Key"
+      ],
+      "allowedGrantTypes": "code",
       "allowedScopes":[
         "vo_info",
         "dv_verenigingsregister_hoofdvertegenwoordigers"

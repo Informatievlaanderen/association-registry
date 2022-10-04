@@ -11,6 +11,7 @@ internal static class HostingExtensions
         var finalJsonConfig = new JsonConfig();
 
         var di = new DirectoryInfo("/home/identityserver");
+        //var di = new DirectoryInfo("/home/wodan/gitrepos/digitaalvlaanderen/association-registry/identityserver");
         foreach (var fi in di.GetFiles("*.json"))
         {
             using var fs = fi.OpenRead();
