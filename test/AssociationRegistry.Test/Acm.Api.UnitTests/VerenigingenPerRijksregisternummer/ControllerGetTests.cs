@@ -32,6 +32,22 @@ public class ControllerGetTests
             .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse("7103654987", expectedVerenigingen));
     }
 
+    [Fact]
+    public async Task Test_7103()
+    {
+        var controller = new VerenigingenPerRijksregisternummerController();
+
+        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103");
+
+        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
+
+        var expectedVerenigingen = ImmutableArray.Create(
+            new Vereniging("V0000001", "De eenzame in de lijst")
+        );
+        verenigingenResponse.Should()
+            .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse("7103", expectedVerenigingen));
+    }
+
     [Theory]
     [InlineData("55120154321")]
     [InlineData("123")]
@@ -47,12 +63,6 @@ public class ControllerGetTests
         verenigingenResponse.Should()
             .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse(rijksregisternummer, ImmutableArray<Vereniging>.Empty));
     }
-
-    private static void VerifyVereniging(Vereniging vereniging, string expectedId, string expectedName)
-    {
-        vereniging.Id.Should().Be(expectedId);
-        vereniging.Naam.Should().Be(expectedName);
-    }
 }
 
 public class VerenigingenRepositoryStub : IVerenigingenRepository
@@ -63,14 +73,14 @@ public class VerenigingenRepositoryStub : IVerenigingenRepository
                 new VerenigingenAsDictionary()
                 {
                     {
-                        "7103654987",
+                        "7103",
                         new()
                         {
                             { "V0000001", "De eenzame in de lijst" },
                         }
                     },
                     {
-                        "980365494",
+                        "9803",
                         new()
                         {
                             { "V1234567", "FWA De vrolijke BA’s" },
