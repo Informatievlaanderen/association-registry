@@ -1,3 +1,11 @@
+# [1.36.0](https://github.com/informatievlaanderen/association-registry/compare/v1.35.0...v1.36.0) (2022-10-04)
+
+
+### Features
+
+* or-1237 allow short rrns ([1b073ca](https://github.com/informatievlaanderen/association-registry/commit/1b073ca50baa5b1726b1237ea346d58563a7899e))
+* or-1237 allow sort rrns in request ([277830f](https://github.com/informatievlaanderen/association-registry/commit/277830f5a315cd92995ab97a6f7390a2ce56d763))
+
 # [1.35.0](https://github.com/informatievlaanderen/association-registry/compare/v1.34.0...v1.35.0) (2022-09-30)
 
 
