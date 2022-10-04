@@ -1,51 +1,12 @@
 ﻿namespace AssociationRegistry.Acm.Api.Caches;
 
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Api.VerenigingenPerRijksregisternummer;
 using Be.Vlaanderen.Basisregisters.BlobStore;
 using Newtonsoft.Json;
 using S3;
-
-public class VerenigingenAsDictionary : Dictionary<string, Dictionary<string, string>>
-{
-}
-
-public class VerenigingenPerRijksregisternummer
-{
-    private readonly Dictionary<string, ImmutableArray<Vereniging>> _data;
-
-    private VerenigingenPerRijksregisternummer(Dictionary<string, ImmutableArray<Vereniging>> data)
-    {
-        _data = data;
-    }
-
-    public ImmutableArray<Vereniging> this[string rijksRegisterNummer] =>
-        _data.ContainsKey(rijksRegisterNummer) ? _data[rijksRegisterNummer] : ImmutableArray<Vereniging>.Empty;
-
-    public static VerenigingenPerRijksregisternummer Empty() =>
-        new(new Dictionary<string, ImmutableArray<Vereniging>>());
-
-    public static VerenigingenPerRijksregisternummer FromVerenigingenAsDictionary(VerenigingenAsDictionary dictionary)
-        => new(dictionary.Select(
-                kv =>
-                    (kv.Key, kv.Value.Select(
-                            x => new Vereniging(x.Key, x.Value))
-                        .ToImmutableArray()
-                    ))
-            .ToDictionary(x => x.Key, x => x.Item2));
-}
-
-public interface IVerenigingenRepository
-{
-    VerenigingenPerRijksregisternummer Verenigingen { get; set; }
-    Task UpdateVerenigingen(VerenigingenAsDictionary verenigingenAsDictionary, Stream verenigingenStream, CancellationToken cancellationToken);
-}
 
 public class VerenigingenRepository : IVerenigingenRepository
 {
