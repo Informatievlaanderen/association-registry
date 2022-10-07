@@ -28,7 +28,7 @@ jobs:
         ports:
           - "5051:80"
         volumes:
-          - ${{echo 'test'}}/identityserver:/home/identityserver
+          - ${{'test'}}/identityserver:/home/identityserver
 
     steps:
     - name: Checkout Code
