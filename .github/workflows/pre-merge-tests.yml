@@ -28,7 +28,7 @@ jobs:
         ports:
           - "5051:80"
         volumes:
-          - ${{ $GITHUB_WORKSPACE }}/identityserver:/home/identityserver
+          - ${{ env.GITHUB_WORKSPACE }}/identityserver:/home/identityserver
 
     steps:
     - name: Checkout Code
