@@ -28,7 +28,7 @@ jobs:
         ports:
           - "5051:80"
         volumes:
-          - /home/runner/work/association-registry/association-registry/identityserver:/home/identityserver
+          - ${{ github.workspace }}/identityserver:/home/identityserver
 
     steps:
     - name: Checkout Code
