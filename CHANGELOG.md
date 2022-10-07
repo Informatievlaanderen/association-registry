@@ -1,3 +1,12 @@
+# [1.37.0](https://github.com/informatievlaanderen/association-registry/compare/v1.36.0...v1.37.0) (2022-10-07)
+
+
+### Features
+
+* or-1234 enable identityserver fake image for VR ([fec8eeb](https://github.com/informatievlaanderen/association-registry/commit/fec8eebf1c15d05dcf10df0b03de984371d77737))
+* or-1234 rollback github_workspace ([bfc85c2](https://github.com/informatievlaanderen/association-registry/commit/bfc85c218effbada08328f00ba048aca893e558a))
+* or-1234 try with ([222fe01](https://github.com/informatievlaanderen/association-registry/commit/222fe015841d9804c5c022f7e5bc2e1d362f36d9))
+
 # [1.36.0](https://github.com/informatievlaanderen/association-registry/compare/v1.35.0...v1.36.0) (2022-10-04)
 
 
