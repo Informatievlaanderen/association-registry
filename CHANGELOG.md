@@ -1,3 +1,10 @@
+# [1.38.0](https://github.com/informatievlaanderen/association-registry/compare/v1.37.0...v1.38.0) (2022-10-07)
+
+
+### Features
+
+* OR-1234 use workspace env var ([#51](https://github.com/informatievlaanderen/association-registry/issues/51)) ([705ec56](https://github.com/informatievlaanderen/association-registry/commit/705ec56cfab6dca7e7b1aac4c1be0bcc2f91d5ac))
+
 # [1.37.0](https://github.com/informatievlaanderen/association-registry/compare/v1.36.0...v1.37.0) (2022-10-07)
 
 
