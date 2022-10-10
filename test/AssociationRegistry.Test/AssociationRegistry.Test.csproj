@@ -14,5 +14,9 @@
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_a_vereniging_with_minimal_fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Admin.Api.IntegrationTests" />
+    <Folder Include="Admin.Api.UnitTests" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

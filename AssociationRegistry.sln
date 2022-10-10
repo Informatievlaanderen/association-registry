@@ -58,6 +58,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "minio", "minio", "{A5715AC1
 		minio\data.json = minio\data.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.Api", "src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj", "{DAF6443B-10E9-4847-9E1F-DBE275E8C750}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{B83E79CF-359E-47DA-91C7-42C091A1B5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B83E79CF-359E-47DA-91C7-42C091A1B5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B83E79CF-359E-47DA-91C7-42C091A1B5E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAF6443B-10E9-4847-9E1F-DBE275E8C750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF6443B-10E9-4847-9E1F-DBE275E8C750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF6443B-10E9-4847-9E1F-DBE275E8C750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF6443B-10E9-4847-9E1F-DBE275E8C750}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -93,5 +99,6 @@ Global
 		{B83E79CF-359E-47DA-91C7-42C091A1B5E5} = {FA18A1E7-4ED1-4FA0-8A25-877A7207BEFD}
 		{D4AE63B8-9A67-43E5-865B-8E40BD1335CD} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
 		{A5715AC1-4220-431A-B298-BCA9D857870B} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
+		{DAF6443B-10E9-4847-9E1F-DBE275E8C750} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal

@@ -12,11 +12,38 @@ services:
     - minio-data:/data
     command: server --console-address :9001 /data
 
-   acm:
-     image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
-     volumes:
-       - ./identityserver:/home/identityserver
+#   acm:
+#     image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
+#     volumes:
+#       - ./identityserver:/home/identityserver
+#     ports:
+#       - "5051:80"
+
+   db:
+     container_name: pg_container
+     image: postgres
+     restart: always
+     environment:
+       POSTGRES_USER: root
+       POSTGRES_PASSWORD: root
+       POSTGRES_DB: verenigingsregister
      ports:
-       - "5051:80"
+       - "5432:5432"
+     volumes:
+       - db-data
+
+   pgadmin:
+     container_name: pgadmin4_container
+     image: dpage/pgadmin4
+     restart: always
+     environment:
+       PGADMIN_DEFAULT_EMAIL: admin@admin.com
+       PGADMIN_DEFAULT_PASSWORD: root
+     ports:
+       - "6050:80"
+     volumes:
+       - pgadmin-data
 volumes:
   minio-data:
+  db-data:
+  pgadmin-data:
