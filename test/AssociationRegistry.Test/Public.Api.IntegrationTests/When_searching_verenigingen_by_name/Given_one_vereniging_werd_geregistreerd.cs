@@ -9,7 +9,7 @@ using Xunit;
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
-    private ElasticClient _client;
+    private readonly ElasticClient _elasticClient;
 
     const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=com";
     private const string VCode = "v000001";
@@ -18,10 +18,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     public Given_one_vereniging_werd_geregistreerd(VerenigingPublicApiFixture verenigingPublicApiFixture)
     {
         _httpClient = verenigingPublicApiFixture.HttpClient;
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
-        _client = new ElasticClient(settings);
+        _elasticClient = verenigingPublicApiFixture.ElasticClient;
     }
 
     [Fact]
@@ -32,7 +29,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var esEventHandler = new ElasticEventHandler(_client);
+        var esEventHandler = new ElasticEventHandler(_elasticClient);
         //esEventHandler.HandleEvent(new VerenigingWerdGeregistreerd(VCode, Naam)); TODO cleanup db
 
         var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpNaam);
@@ -46,9 +43,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     [Fact]
     public async Task? Then_the_result_is_valid()
     {
-        var queryString = Naam;
-
-        var result = await SearchVerenigingenController.Search(queryString, _client);
+        var result = await SearchVerenigingenController.Search(Naam, _elasticClient);
 
         result.IsValid.Should().BeTrue();
     }
@@ -56,9 +51,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved()
     {
-        var queryString = Naam;
-
-        var result = await SearchVerenigingenController.Search(queryString, _client);
+        var result = await SearchVerenigingenController.Search(Naam, _elasticClient);
 
         result.Hits.Should().HaveCount(1);
     }

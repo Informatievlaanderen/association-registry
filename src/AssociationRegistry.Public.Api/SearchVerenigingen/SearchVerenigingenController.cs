@@ -60,14 +60,9 @@ public class SearchVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.Json)]
-    public async Task<IActionResult> Zoeken([FromQuery] string q)
+    public async Task<IActionResult> Zoeken([FromServices] ElasticClient elasticClient, [FromQuery] string q)
     {
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
-        var client = new ElasticClient(settings);
-
-        var searchResponse = await Search(q, client);
+        var searchResponse = await Search(q, elasticClient);
 
         return Ok(searchResponse.Hits.Select(x => x.Source));
     }
