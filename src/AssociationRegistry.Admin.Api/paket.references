@@ -4,10 +4,9 @@ Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
 
-AWSSDK.S3
-AWSSDK.Core
-
 AspNetCore.HealthChecks.SqlServer
 
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
+
+Marten

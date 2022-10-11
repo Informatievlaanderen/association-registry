@@ -12,12 +12,12 @@ services:
     - minio-data:/data
     command: server --console-address :9001 /data
 
-#   acm:
-#     image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
-#     volumes:
-#       - ./identityserver:/home/identityserver
-#     ports:
-#       - "5051:80"
+   acm:
+     image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
+     volumes:
+       - ./identityserver:/home/identityserver
+     ports:
+       - "5051:80"
 
    db:
      container_name: pg_container
@@ -30,7 +30,7 @@ services:
      ports:
        - "5432:5432"
      volumes:
-       - db-data
+       - pg-data:/var/lib/postgresql/data
 
    pgadmin:
      container_name: pgadmin4_container
@@ -42,8 +42,8 @@ services:
      ports:
        - "6050:80"
      volumes:
-       - pgadmin-data
+       - pg-admin-data:/var/lib/pgadmin
 volumes:
   minio-data:
-  db-data:
-  pgadmin-data:
+  pg-data:
+  pg-admin-data:
