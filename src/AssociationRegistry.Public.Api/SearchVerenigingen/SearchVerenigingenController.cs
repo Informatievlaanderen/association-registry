@@ -67,17 +67,24 @@ public class SearchVerenigingenController : ApiController
             .DefaultIndex("verenigingsregister-verenigingen");
         var client = new ElasticClient(settings);
 
-        var searchResponse = await client.SearchAsync<VerenigingDocument>(s => s
-            .Index("verenigingsregister-verenigingen")
-            .From(0)
-            .Size(10)
-            .Query(
-                query => query
-                    .Bool(
-                        b => b
-                            .Must(m => m.QueryString(qs => qs.Query(q)))))
-        );
+        var searchResponse = await Search(q, client);
 
         return Ok(searchResponse.Hits.Select(x => x.Source));
+    }
+
+    public static async Task<ISearchResponse<VerenigingDocument>> Search(string q, ElasticClient client)
+    {
+        var searchResponse = await client.SearchAsync<VerenigingDocument>(
+            s => s
+                .Index("verenigingsregister-verenigingen")
+                .From(0)
+                .Size(10)
+                .Query(
+                    query => query
+                        .Bool(
+                            b => b
+                                .Must(m => m.QueryString(qs => qs.Query(q)))))
+        );
+        return searchResponse;
     }
 }
