@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
+using System;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Caches;
@@ -10,11 +12,12 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen/zoeken")]
+[ApiRoute("verenigingen")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
@@ -23,7 +26,7 @@ public class SearchVerenigingenController : ApiController
     /// </summary>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
-    [HttpGet]
+    [HttpGet("zoeken")]
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
@@ -32,7 +35,7 @@ public class SearchVerenigingenController : ApiController
     public async Task<IActionResult> Get([FromServices] IVerenigingenRepository verenigingenRepository) =>
         await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
 
-    [HttpPut]
+    [HttpPut("zoeken")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Put(
         [FromServices] IVerenigingenRepository verenigingenRepository,
@@ -44,5 +47,37 @@ public class SearchVerenigingenController : ApiController
 
         await verenigingenRepository.UpdateVerenigingen(body, Request.Body, cancellationToken);
         return Ok();
+    }
+
+    /// <summary>
+    /// Zoek verenigingen op. (statische dataset)
+    /// </summary>
+    /// <response code="200">Indien de zoekopdracht succesvol was.</response>
+    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    [HttpGet("zoeken2")]
+    [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [Produces(contentType: WellknownMediaTypes.Json)]
+    public async Task<IActionResult> Zoeken([FromQuery] string q)
+    {
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        var client = new ElasticClient(settings);
+
+        var searchResponse = await client.SearchAsync<VerenigingDocument>(s => s
+            .Index("verenigingsregister-verenigingen")
+            .From(0)
+            .Size(10)
+            .Query(
+                query => query
+                    .Bool(
+                        b => b
+                            .Must(m => m.QueryString(qs => qs.Query(q)))))
+        );
+
+        return Ok(searchResponse.Hits.Select(x => x.Source));
     }
 }

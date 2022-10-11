@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_ve
 
 using System.ComponentModel;
 using System.Diagnostics;
+using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Fixtures;
 using FluentAssertions;
 using Marten;
@@ -60,11 +61,7 @@ public class VerenigingWerdGeregistreerd
     }
 }
 
-public class Vereniging
-{
-    public string VCode { get; set; }
-    public string Naam { get; set; }
-}
+
 
 public class ElasticEventHandler
 {
@@ -77,7 +74,7 @@ public class ElasticEventHandler
 
     public void HandleEvent(VerenigingWerdGeregistreerd message)
     {
-        _elasticClient.IndexDocument(new Vereniging(){ VCode = message.VCode, Naam = message.Naam });
+        _elasticClient.IndexDocument(new VerenigingDocument(){ VCode = message.VCode, Naam = message.Naam });
     }
 }
 
