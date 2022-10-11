@@ -9,6 +9,7 @@ using Xunit;
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
+    private ElasticClient _client;
 
     const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=com";
     private const string VCode = "v000001";
@@ -17,6 +18,10 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     public Given_one_vereniging_werd_geregistreerd(VerenigingPublicApiFixture verenigingPublicApiFixture)
     {
         _httpClient = verenigingPublicApiFixture.HttpClient;
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        _client = new ElasticClient(settings);
     }
 
     [Fact]
@@ -27,12 +32,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
-        var client = new ElasticClient(settings);
-        var esEventHandler = new ElasticEventHandler(client);
-        //esEventHandler.HandleEvent(new VerenigingWerdGeregistreerd(VCode, Naam));
+        var esEventHandler = new ElasticEventHandler(_client);
+        //esEventHandler.HandleEvent(new VerenigingWerdGeregistreerd(VCode, Naam)); TODO cleanup db
 
         var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpNaam);
         var content = await responseMessage.Content.ReadAsStringAsync();
@@ -43,29 +44,21 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     }
 
     [Fact]
-    public async Task? Then_something()
+    public async Task? Then_the_result_is_valid()
     {
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
-        var client = new ElasticClient(settings);
         var queryString = Naam;
 
-        var result = await SearchVerenigingenController.Search(queryString, client);
+        var result = await SearchVerenigingenController.Search(queryString, _client);
 
         result.IsValid.Should().BeTrue();
     }
 
     [Fact]
-    public async Task? Then_something_else()
+    public async Task? Then_one_vereniging_is_retrieved()
     {
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
-        var client = new ElasticClient(settings);
         var queryString = Naam;
 
-        var result = await SearchVerenigingenController.Search(queryString, client);
+        var result = await SearchVerenigingenController.Search(queryString, _client);
 
         result.Hits.Should().HaveCount(1);
     }
