@@ -39,6 +39,7 @@ services:
        - "9300:9300"
      environment:
        ELASTIC_PASSWORD: local_development
+       discovery.type: single-node
      volumes:
        - es-data:/usr/share/elasticsearch/data
 volumes:
