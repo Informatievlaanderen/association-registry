@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
+using System.Diagnostics;
 using Fixtures;
 using FluentAssertions;
 using Marten;
@@ -29,10 +30,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
         var esProjection = new ElasticSearchProjection();
         esProjection.Apply(null, new List<StreamAction>(new StreamAction[]
         {
-            new StreamAction("v000001",StreamActionType.Start)
-            {
-
-            }
+            StreamAction.Start("v000001", new Event[])
         }));
         var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpNaam);
         var content = await responseMessage.Content.ReadAsStringAsync();
@@ -42,6 +40,31 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
+}
+
+public class VerenigingWerdGeregistreerd
+{
+    public string VCode { get; }
+    public string Naam { get; }
+
+    public VerenigingWerdGeregistreerd(string vCode, string naam)
+    {
+        VCode = vCode;
+        Naam = naam;
+    }
+}
+
+public class ElasticEventHandler
+{
+    public ElasticEventHandler()
+    {
+
+    }
+
+    public void HandleEvent(VerenigingWerdGeregistreerd message)
+    {
+        // elasticClient.Index(new Vereniging(){ VCode = message.VCode, Name = message.Name });
+    }
 }
 
 public class ElasticSearchProjection: IProjection
