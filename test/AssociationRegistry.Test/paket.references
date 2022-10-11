@@ -9,6 +9,7 @@ FluentAssertions
 FluentAssertions.Json
 Moq
 Marten
+NEST
 
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
