@@ -25,6 +25,7 @@ using System.Collections.Immutable;
 using Constants;
 using Infrastructure.Json;
 using ListVerenigingen;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Locatie = ListVerenigingen.Locatie;
@@ -128,6 +129,12 @@ public class Startup
                         DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
                 }
             ));
+
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        services.AddSingleton(
+            _ => new ElasticClient(settings));
 
         services.AddSwaggerGen(
             options =>

@@ -10,11 +10,13 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 using AssociationRegistry.Public.Api.S3;
 using Be.Vlaanderen.Basisregisters.BlobStore;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using UnitTests;
 
 public class VerenigingPublicApiFixture : IDisposable
 {
     public HttpClient HttpClient { get; private set; }
+    public ElasticClient ElasticClient { get; private set; }
     private readonly TestServer _testServer;
 
     public VerenigingPublicApiFixture()
@@ -45,6 +47,11 @@ public class VerenigingPublicApiFixture : IDisposable
         _testServer = new TestServer(hostBuilder);
 
         HttpClient = _testServer.CreateClient();
+
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        ElasticClient = new ElasticClient(settings);
     }
 
     public void Dispose()
