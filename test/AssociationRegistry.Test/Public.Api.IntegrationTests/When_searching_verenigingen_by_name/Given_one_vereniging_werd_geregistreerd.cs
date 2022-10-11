@@ -1,13 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
-using System.ComponentModel;
-using System.Diagnostics;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Fixtures;
 using FluentAssertions;
-using Marten;
-using Marten.Events;
-using Marten.Events.Projections;
 using Nest;
 using Xunit;
 
@@ -15,7 +10,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
 {
     private readonly HttpClient _httpClient;
 
-    const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=naam:bd";
+    const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=com";
     private const string VCode = "v000001";
     private const string Naam = "Feestcommittee Oudenaarde";
 
@@ -45,6 +40,34 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
             $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
+    }
+
+    [Fact]
+    public async Task? Then_something()
+    {
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        var client = new ElasticClient(settings);
+        var queryString = Naam;
+
+        var result = await SearchVerenigingenController.Search(queryString, client);
+
+        result.IsValid.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task? Then_something_else()
+    {
+        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+            .BasicAuthentication("elastic", "local_development")
+            .DefaultIndex("verenigingsregister-verenigingen");
+        var client = new ElasticClient(settings);
+        var queryString = Naam;
+
+        var result = await SearchVerenigingenController.Search(queryString, client);
+
+        result.Hits.Should().HaveCount(1);
     }
 
 }
