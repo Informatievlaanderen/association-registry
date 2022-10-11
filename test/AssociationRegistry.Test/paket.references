@@ -8,6 +8,7 @@ AutoFixture
 FluentAssertions
 FluentAssertions.Json
 Moq
+Marten
 
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
