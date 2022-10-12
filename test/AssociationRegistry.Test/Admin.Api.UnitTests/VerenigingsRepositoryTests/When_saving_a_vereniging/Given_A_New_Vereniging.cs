@@ -25,15 +25,15 @@ public class Given_A_New_Vereniging
 
         var repo = new VerenigingsRepository(eventStore);
 
-        var vNummer = "V000001";
+        var vCode = "V000001";
         var naam = "Vereniging 1";
-        var vereniging = new Vereniging(vNummer, naam);
+        var vereniging = new Vereniging(vCode, naam);
 
         await repo.Save(vereniging);
 
         eventStore.Invocations.Should().HaveCount(1);
         var invocation = eventStore.Invocations.Single();
-        invocation.AggregateId.Should().Be(vNummer);
-        invocation.Events.Single().Should().BeEquivalentTo(new VerenigingCreated(vNummer, naam));
+        invocation.AggregateId.Should().Be(vCode);
+        invocation.Events.Single().Should().BeEquivalentTo(new VerenigingWerdGeregistreerd(vCode, naam));
     }
 }

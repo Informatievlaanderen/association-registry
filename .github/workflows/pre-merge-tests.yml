@@ -26,9 +26,18 @@ jobs:
       acm:
         image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
         ports:
-          - "5051:80"
+          - 5051:80
         volumes:
           - ${{ github.workspace }}/identityserver:/home/identityserver
+
+      db:
+        image: postgres
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+          POSTGRES_DB: verenigingsregister
+        ports:
+          - 5432:5432
 
     steps:
     - name: Checkout Code

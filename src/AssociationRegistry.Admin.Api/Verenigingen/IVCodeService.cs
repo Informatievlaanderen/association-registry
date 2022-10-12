@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 
-public interface IVNummerService
+public interface IVCodeService
 {
     Task<string> GetNext();
 }

@@ -15,6 +15,6 @@ public class VerenigingsRepository : IVerenigingsRepository
 
     public async Task Save(Vereniging vereniging)
     {
-        await _eventStore.Save(vereniging.VNummer, vereniging.Events.ToArray());
+        await _eventStore.Save(vereniging.VCode, vereniging.Events.ToArray());
     }
 }

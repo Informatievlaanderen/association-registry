@@ -8,9 +8,13 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
+using Events;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
+using Marten;
+using Marten.Events;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -22,6 +26,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Verenigingen;
+using IEventStore = Marten.Events.IEventStore;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -62,6 +68,17 @@ public class Startup
                     });
             });
 
+        services.AddMarten(
+            opts =>
+            {
+                opts.Connection(_configuration.GetValue<string>("eventstore_connectionstring"));
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+            });
+
+        services.AddMediatR(typeof(Startup));
+        services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
+        services.AddTransient<Events.IEventStore, EventStore>();
+        services.AddSingleton<IVCodeService, SequentialVCodeService>();
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
@@ -87,13 +104,13 @@ public class Startup
                         ApiInfo = (_, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
-                            Title = "Basisregisters Vlaanderen Verenigingenregister Public API",
+                            Title = "Basisregisters Vlaanderen Verenigingenregister Beheer API",
                             Description = GetApiLeadingText(description),
                             Contact = new OpenApiContact
                             {
                                 Name = "Digitaal Vlaanderen",
                                 Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://public.api.verenigingen.vlaanderen.be"),
+                                Url = new Uri("https://beheer.api.verenigingen.vlaanderen.be"),
                             },
                         },
                         XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name! },

@@ -10,3 +10,6 @@ SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
 
 Marten
+
+MediatR
+MediatR.Extensions.Microsoft.DependencyInjection

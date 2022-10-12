@@ -1,3 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
 
-public record CreateVerenigingCommand(string Naam);
+using System.Runtime.Serialization;
+using MediatR;
+
+[DataContract]
+public record CreateVerenigingCommand([property:DataMember] string Naam) : IRequest<Unit>;

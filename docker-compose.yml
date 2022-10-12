@@ -43,6 +43,7 @@ services:
        - "6050:80"
      volumes:
        - pg-admin-data:/var/lib/pgadmin
+
 volumes:
   minio-data:
   pg-data:

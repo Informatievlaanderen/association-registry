@@ -20,17 +20,17 @@ public class Given_A_CreateVerenigingCommandHandler
     [Fact]
     public async Task Then_a_new_vereniging_is_saved_in_the_repository()
     {
-        var vNummerService = new SequentialVNummerService();
+        var vNummerService = new SequentialVCodeService();
         var verenigingsRepository = new VerenigingRepositotyMock();
 
         var handler = new CreateVerenigingCommandHandler(verenigingsRepository, vNummerService);
-        var createVerenigingCommand = new CreateVerenigingCommand("naam1");
+        var createVerenigingCommand = new CommandEnvelope<CreateVerenigingCommand>(new CreateVerenigingCommand("naam1"));
 
-        await handler.Handle(createVerenigingCommand);
+        await handler.Handle(createVerenigingCommand, CancellationToken.None);
 
         var invocation = verenigingsRepository.Invocations.Single();
-        invocation.vereniging.VNummer.Should().Be(vNummerService.GetLast());
+        invocation.vereniging.VCode.Should().Be(SequentialVCodeService.GetLast());
         var events = invocation.vereniging.Events;
-        events.Single().Should().BeEquivalentTo(new VerenigingCreated(vNummerService.GetLast(), "naam1"));
+        events.Single().Should().BeEquivalentTo(new VerenigingWerdGeregistreerd(SequentialVCodeService.GetLast(), "naam1"));
     }
 }
