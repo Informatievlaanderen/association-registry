@@ -3,6 +3,9 @@
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
+using Marten;
+using Marten.Events;
+using Marten.Events.Projections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -61,13 +64,29 @@ public class PublicElasticFixture : IDisposable
                     m => m
                         .AutoMap<VerenigingDocument>()));
 
+        ElasticClient.Indices.Refresh(Indices.All);
 
         // GIVEN
         var esEventHandler = new ElasticEventHandler(ElasticClient);
-        esEventHandler.HandleEvent(new VerenigingWerdGeregistreerd(VCode, Naam)); // TODO cleanup db
+        var store = DocumentStore.For(
+            opts =>
+            {
+                opts.Connection("host=localhost;database=verenigingsregister;password=root;username=root");
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+                opts.Projections.Add(new MartenSubscription(new MartenEventsConsumer(esEventHandler)), ProjectionLifecycle.Async);
+            });
+
+        using var session = store.OpenSession();
+        session.Events.Append(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
+        session.SaveChanges();
+
+        var daemon = store.BuildProjectionDaemon();
+        daemon.StartAllShards().GetAwaiter().GetResult();
+        daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
 
         // Make sure all documents are properly indexed
-        ElasticClient.Indices.Refresh();
+        ElasticClient.Indices.Refresh(Indices.All);
     }
 
     public void Dispose()
@@ -77,5 +96,61 @@ public class PublicElasticFixture : IDisposable
         _testServer.Dispose();
 
         ElasticClient.Indices.Delete(VerenigingenIndexName);
+        ElasticClient.Indices.Refresh(Indices.All);
+    }
+}
+
+public class MartenSubscription: IProjection
+{
+    private readonly IMartenEventsConsumer consumer;
+
+    public MartenSubscription(IMartenEventsConsumer consumer)
+    {
+        this.consumer = consumer;
+    }
+
+    public void Apply(
+        IDocumentOperations operations,
+        IReadOnlyList<StreamAction> streams
+    )
+    {
+        throw new NotSupportedException("Subscription should be only run asynchronously");
+    }
+
+    public Task ApplyAsync(
+        IDocumentOperations operations,
+        IReadOnlyList<StreamAction> streams,
+        CancellationToken ct
+    )
+    {
+        return consumer.ConsumeAsync(streams);
+    }
+}
+
+public interface IMartenEventsConsumer
+{
+    Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions);
+}
+
+public class MartenEventsConsumer: IMartenEventsConsumer
+{
+    private readonly ElasticEventHandler _eventHandler;
+
+    public MartenEventsConsumer(ElasticEventHandler eventHandler)
+    {
+        _eventHandler = eventHandler;
+    }
+
+    public Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
+    {
+        foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
+        {
+            if (@event.EventType == typeof(VerenigingWerdGeregistreerd))
+            {
+                _eventHandler.HandleEvent((VerenigingWerdGeregistreerd)@event.Data);
+            }
+        }
+
+        return Task.CompletedTask;
     }
 }

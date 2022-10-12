@@ -77,7 +77,7 @@ public class SearchVerenigingenController : ApiController
                     query => query
                         .Bool(
                             b => b
-                                .Must(m => m.Wildcard(qs => qs.Wildcard(q)))))
+                                .Must(m => m.QueryString(qs => qs.Query(q)))))
         );
     }
 }
