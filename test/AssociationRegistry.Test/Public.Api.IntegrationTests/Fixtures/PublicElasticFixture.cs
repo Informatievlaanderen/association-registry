@@ -18,10 +18,14 @@ public class PublicElasticFixture : IDisposable
     public const string VCode = "v000001";
     public const string Naam = "Feestcommittee Oudenaarde";
 
-    private const string VerenigingenIndexName = "test-verenigingsregister-verenigingen";
     public HttpClient HttpClient { get; private set; }
     public ElasticClient ElasticClient { get; private set; }
+
     private readonly TestServer _testServer;
+    private readonly IConfigurationRoot _configurationRoot;
+
+    private string VerenigingenIndexName
+        => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
     public PublicElasticFixture()
     {
@@ -36,41 +40,23 @@ public class PublicElasticFixture : IDisposable
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true)
             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-
-        var configurationRoot = builder.Build();
+        _configurationRoot = builder.Build();
 
         IWebHostBuilder hostBuilder = new WebHostBuilder();
-
-        hostBuilder.UseConfiguration(configurationRoot);
+        hostBuilder.UseConfiguration(_configurationRoot);
         hostBuilder.UseStartup<Startup>();
-
         hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-
         hostBuilder.UseTestServer();
-
         _testServer = new TestServer(hostBuilder);
-
         HttpClient = _testServer.CreateClient();
 
-        var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
-            .BasicAuthentication(
-                configurationRoot["ElasticClientOptions:Username"],
-                configurationRoot["ElasticClientOptions:Password"])
-            .DefaultMappingFor(
-                typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(configurationRoot["ElasticClientOptions:Indices:Verenigingen"]));
+        ElasticClient = ConfigureElasticClient();
 
-        ElasticClient = new ElasticClient(settings);
-        ElasticClient.Indices.Create(
-            VerenigingenIndexName,
-            c => c
-                .Map<VerenigingDocument>(
-                    m => m
-                        .AutoMap<VerenigingDocument>()));
+        Given_one_verenigingen_werd_geregistreerd_event();
+    }
 
-        ElasticClient.Indices.Refresh(Indices.All);
-
-        // GIVEN
+    private void Given_one_verenigingen_werd_geregistreerd_event()
+    {
         var esEventHandler = new ElasticEventHandler(ElasticClient);
         var store = DocumentStore.For(
             opts =>
@@ -91,6 +77,31 @@ public class PublicElasticFixture : IDisposable
 
         // Make sure all documents are properly indexed
         ElasticClient.Indices.Refresh(Indices.All);
+    }
+
+    private ElasticClient ConfigureElasticClient()
+    {
+        var settings = new ConnectionSettings(new Uri(_configurationRoot["ElasticClientOptions:Uri"]))
+            .BasicAuthentication(
+                _configurationRoot["ElasticClientOptions:Username"],
+                _configurationRoot["ElasticClientOptions:Password"])
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(VerenigingenIndexName));
+
+        var client = new ElasticClient(settings);
+        if (client.Indices.Exists(VerenigingenIndexName).Exists)
+            client.Indices.Delete(VerenigingenIndexName);
+
+        client.Indices.Create(
+            VerenigingenIndexName,
+            c => c
+                .Map<VerenigingDocument>(
+                    m => m
+                        .AutoMap<VerenigingDocument>()));
+
+        client.Indices.Refresh(Indices.All);
+        return client;
     }
 
     public void Dispose()
