@@ -40,6 +40,7 @@ services:
      environment:
        ELASTIC_PASSWORD: local_development
        discovery.type: single-node
+       xpack.security.transport.ssl.enabled: false
      volumes:
        - es-data:/usr/share/elasticsearch/data
 volumes:
