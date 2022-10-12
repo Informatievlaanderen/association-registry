@@ -69,17 +69,15 @@ public class SearchVerenigingenController : ApiController
 
     public static async Task<ISearchResponse<VerenigingDocument>> Search(string q, ElasticClient client)
     {
-        var searchResponse = await client.SearchAsync<VerenigingDocument>(
+        return await client.SearchAsync<VerenigingDocument>(
             s => s
-                .Index("verenigingsregister-verenigingen")
                 .From(0)
                 .Size(10)
                 .Query(
                     query => query
                         .Bool(
                             b => b
-                                .Must(m => m.QueryString(qs => qs.Query(q)))))
+                                .Must(m => m.Wildcard(qs => qs.Wildcard(q)))))
         );
-        return searchResponse;
     }
 }

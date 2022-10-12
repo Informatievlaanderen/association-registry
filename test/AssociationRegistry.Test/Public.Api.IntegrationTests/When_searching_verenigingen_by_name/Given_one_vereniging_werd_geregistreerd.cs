@@ -6,16 +6,15 @@ using FluentAssertions;
 using Nest;
 using Xunit;
 
-public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingPublicApiFixture>
+public class Given_one_vereniging_werd_geregistreerd : IClassFixture<PublicElasticFixture>
 {
     private readonly HttpClient _httpClient;
     private readonly ElasticClient _elasticClient;
 
     const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=com";
-    private const string VCode = "v000001";
-    private const string Naam = "Feestcommittee Oudenaarde";
 
-    public Given_one_vereniging_werd_geregistreerd(VerenigingPublicApiFixture verenigingPublicApiFixture)
+
+    public Given_one_vereniging_werd_geregistreerd(PublicElasticFixture verenigingPublicApiFixture)
     {
         _httpClient = verenigingPublicApiFixture.HttpClient;
         _elasticClient = verenigingPublicApiFixture.ElasticClient;
@@ -25,13 +24,9 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     public async Task Then_we_get_a_successful_response()
         => (await _httpClient.GetAsync(VerenigingenZoekenOpNaam)).Should().BeSuccessful();
 
-
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var esEventHandler = new ElasticEventHandler(_elasticClient);
-        //esEventHandler.HandleEvent(new VerenigingWerdGeregistreerd(VCode, Naam)); TODO cleanup db
-
         var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpNaam);
         var content = await responseMessage.Content.ReadAsStringAsync();
         var goldenMaster = GetType().GetAssociatedResourceJson(
@@ -43,19 +38,50 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<VerenigingP
     [Fact]
     public async Task? Then_the_result_is_valid()
     {
-        var result = await SearchVerenigingenController.Search(Naam, _elasticClient);
+        var result = await SearchVerenigingenController.Search(PublicElasticFixture.Naam, _elasticClient);
 
         result.IsValid.Should().BeTrue();
     }
 
     [Fact]
-    public async Task? Then_one_vereniging_is_retrieved()
+    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var result = await SearchVerenigingenController.Search(Naam, _elasticClient);
+        var result = await SearchVerenigingenController.Search("dena", _elasticClient);
+
+        result.Hits.Should().HaveCount(0);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
+    {
+        var result = await SearchVerenigingenController.Search("*dena*", _elasticClient);
 
         result.Hits.Should().HaveCount(1);
     }
 
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
+    {
+        var result = await SearchVerenigingenController.Search("oudenaarde", _elasticClient);
+
+        result.Hits.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
+    {
+        var result = await SearchVerenigingenController.Search(PublicElasticFixture.VCode, _elasticClient);
+
+        result.Hits.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_vCode()
+    {
+        var result = await SearchVerenigingenController.Search("0001", _elasticClient);
+
+        result.Hits.Should().HaveCount(0);
+    }
 }
 
 public class VerenigingWerdGeregistreerd
