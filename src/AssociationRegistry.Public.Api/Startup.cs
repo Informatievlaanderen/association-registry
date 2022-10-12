@@ -28,6 +28,7 @@ using ListVerenigingen;
 using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SearchVerenigingen;
 using Locatie = ListVerenigingen.Locatie;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
@@ -130,10 +131,15 @@ public class Startup
                 }
             ));
 
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development");
-        services.AddSingleton(
-            _ => new ElasticClient(settings));
+        var settings = new ConnectionSettings(new Uri(_configuration["ElasticClientOptions:Uri"]))
+            .BasicAuthentication(
+                _configuration["ElasticClientOptions:Username"],
+                _configuration["ElasticClientOptions:Password"])
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
+
+        services.AddSingleton(_ => new ElasticClient(settings));
 
         services.AddSwaggerGen(
             options =>

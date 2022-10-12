@@ -55,7 +55,10 @@ public class PublicElasticFixture : IDisposable
         var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
             .BasicAuthentication(
                 configurationRoot["ElasticClientOptions:Username"],
-                configurationRoot["ElasticClientOptions:Password"]);
+                configurationRoot["ElasticClientOptions:Password"])
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(configurationRoot["ElasticClientOptions:Indices:Verenigingen"]));
 
         ElasticClient = new ElasticClient(settings);
         ElasticClient.Indices.Create(
