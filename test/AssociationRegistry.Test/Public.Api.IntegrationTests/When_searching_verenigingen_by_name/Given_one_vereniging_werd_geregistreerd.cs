@@ -9,7 +9,6 @@ using Xunit;
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<PublicElasticFixture>
 {
     private readonly HttpClient _httpClient;
-    private readonly ElasticClient _elasticClient;
 
     const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=" + PublicElasticFixture.Naam;
     const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken2?q=dena";
