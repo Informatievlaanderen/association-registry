@@ -52,9 +52,10 @@ public class PublicElasticFixture : IDisposable
 
         HttpClient = _testServer.CreateClient();
 
-        var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex(VerenigingenIndexName);
+        var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
+            .BasicAuthentication(
+                configurationRoot["ElasticClientOptions:Username"],
+                configurationRoot["ElasticClientOptions:Password"]);
 
         ElasticClient = new ElasticClient(settings);
         ElasticClient.Indices.Create(
