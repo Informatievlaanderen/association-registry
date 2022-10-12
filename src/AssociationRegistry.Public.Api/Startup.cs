@@ -131,8 +131,7 @@ public class Startup
             ));
 
         var settings = new ConnectionSettings(new Uri("http://localhost:9200"))
-            .BasicAuthentication("elastic", "local_development")
-            .DefaultIndex("verenigingsregister-verenigingen");
+            .BasicAuthentication("elastic", "local_development");
         services.AddSingleton(
             _ => new ElasticClient(settings));
 
