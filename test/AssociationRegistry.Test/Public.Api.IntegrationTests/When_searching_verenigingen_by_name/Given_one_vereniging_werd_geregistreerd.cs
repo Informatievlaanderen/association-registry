@@ -76,7 +76,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<PublicElast
     }
 
     [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_vCode()
+    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
         var result = await SearchVerenigingenController.Search("0001", _elasticClient);
 
