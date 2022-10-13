@@ -8,9 +8,3 @@ public class VerenigingPublicApiCollection :
 {
     public const string Name = "Vereniging public api collection";
 }
-[CollectionDefinition(Name)]
-public class VerenigingPublicApiWith72VerenigingenCollection :
-    ICollectionFixture<VerenigingPublicApiFixtureWith72Verenigingen>
-{
-    public const string Name = "Vereniging public api collection with 72 verenigingen";
-}

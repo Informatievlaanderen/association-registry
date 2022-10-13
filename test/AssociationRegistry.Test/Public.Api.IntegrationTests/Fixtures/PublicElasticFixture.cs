@@ -12,14 +12,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
 using When_searching_verenigingen_by_name;
+using Xunit;
 
 public class PublicElasticFixture : IDisposable
 {
-    public const string VCode = "v000001";
-    public const string Naam = "Feestcommittee Oudenaarde";
-
-    public HttpClient HttpClient { get; private set; }
-    public ElasticClient ElasticClient { get; private set; }
+    private readonly string _identifier;
+    private readonly HttpClient _httpClient;
+    private readonly ElasticClient _elasticClient;
+    private readonly DocumentStore _documentStore;
 
     private readonly TestServer _testServer;
     private readonly IConfigurationRoot _configurationRoot;
@@ -27,56 +27,89 @@ public class PublicElasticFixture : IDisposable
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
-    public PublicElasticFixture()
+    protected PublicElasticFixture(string identifier)
+    {
+        _identifier = identifier;
+        GoToRootDirectory();
+
+        _configurationRoot = SetConfigurationRoot();
+
+        _testServer = ConfigureTestServer();
+
+        _httpClient = _testServer.CreateClient();
+
+        _elasticClient = ConfigureElasticClient();
+
+        _documentStore = ConfigureDocumentStore();
+    }
+
+    protected void AddEvent(string vCode, VerenigingWerdGeregistreerd eventToAdd)
+    {
+        using var session = _documentStore.OpenSession();
+        session.Events.Append(vCode, eventToAdd);
+        session.SaveChanges();
+
+        var daemon = _documentStore.BuildProjectionDaemon();
+        daemon.StartAllShards().GetAwaiter().GetResult();
+        daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
+
+        // Make sure all documents are properly indexed
+        _elasticClient.Indices.Refresh(Indices.All);
+    }
+
+    public async Task<string> Search(string uri)
+    {
+        var responseMessage = await GetResponseMessage(uri);
+        return await responseMessage.Content.ReadAsStringAsync();
+    }
+
+    public async Task<HttpResponseMessage> GetResponseMessage(string uri)
+    {
+        if (_httpClient is null)
+            throw new NullReferenceException("HttpClient needs to be set before performing a get");
+
+        return await _httpClient.GetAsync(uri);
+    }
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        _httpClient.Dispose();
+        _testServer.Dispose();
+
+        _elasticClient.Indices.Delete(VerenigingenIndexName);
+        _elasticClient.Indices.Refresh(Indices.All);
+    }
+
+    private static void GoToRootDirectory()
     {
         var maybeRootDirectory = Directory
             .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
-
         Directory.SetCurrentDirectory(rootDirectory);
+    }
 
+    private IConfigurationRoot SetConfigurationRoot()
+    {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true)
             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-        _configurationRoot = builder.Build();
+        var tempConfiguration = builder.Build();
+        tempConfiguration["PostgreSQLOptions:database"] += _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
+        return tempConfiguration;
+    }
 
+    private TestServer ConfigureTestServer()
+    {
         IWebHostBuilder hostBuilder = new WebHostBuilder();
         hostBuilder.UseConfiguration(_configurationRoot);
         hostBuilder.UseStartup<Startup>();
         hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
         hostBuilder.UseTestServer();
-        _testServer = new TestServer(hostBuilder);
-        HttpClient = _testServer.CreateClient();
-
-        ElasticClient = ConfigureElasticClient();
-
-        Given_one_verenigingen_werd_geregistreerd_event();
-    }
-
-    private void Given_one_verenigingen_werd_geregistreerd_event()
-    {
-        var esEventHandler = new ElasticEventHandler(ElasticClient);
-        var store = DocumentStore.For(
-            opts =>
-            {
-                opts.Connection("host=localhost;database=verenigingsregister;password=root;username=root");
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-
-                opts.Projections.Add(new MartenSubscription(new MartenEventsConsumer(esEventHandler)), ProjectionLifecycle.Async);
-            });
-
-        using var session = store.OpenSession();
-        session.Events.Append(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
-        session.SaveChanges();
-
-        var daemon = store.BuildProjectionDaemon();
-        daemon.StartAllShards().GetAwaiter().GetResult();
-        daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
-
-        // Make sure all documents are properly indexed
-        ElasticClient.Indices.Refresh(Indices.All);
+        return new TestServer(hostBuilder);
     }
 
     private ElasticClient ConfigureElasticClient()
@@ -104,68 +137,36 @@ public class PublicElasticFixture : IDisposable
         return client;
     }
 
-    public void Dispose()
+    private DocumentStore ConfigureDocumentStore()
     {
-        GC.SuppressFinalize(this);
-        HttpClient.Dispose();
-        _testServer.Dispose();
+        var esEventHandler = new ElasticEventHandler(_elasticClient);
 
-        ElasticClient.Indices.Delete(VerenigingenIndexName);
-        ElasticClient.Indices.Refresh(Indices.All);
-    }
-}
 
-public class MartenSubscription: IProjection
-{
-    private readonly IMartenEventsConsumer consumer;
 
-    public MartenSubscription(IMartenEventsConsumer consumer)
-    {
-        this.consumer = consumer;
-    }
-
-    public void Apply(
-        IDocumentOperations operations,
-        IReadOnlyList<StreamAction> streams
-    )
-    {
-        throw new NotSupportedException("Subscription should be only run asynchronously");
-    }
-
-    public Task ApplyAsync(
-        IDocumentOperations operations,
-        IReadOnlyList<StreamAction> streams,
-        CancellationToken ct
-    )
-    {
-        return consumer.ConsumeAsync(streams);
-    }
-}
-
-public interface IMartenEventsConsumer
-{
-    Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions);
-}
-
-public class MartenEventsConsumer: IMartenEventsConsumer
-{
-    private readonly ElasticEventHandler _eventHandler;
-
-    public MartenEventsConsumer(ElasticEventHandler eventHandler)
-    {
-        _eventHandler = eventHandler;
-    }
-
-    public Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
-    {
-        foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
-        {
-            if (@event.EventType == typeof(VerenigingWerdGeregistreerd))
+        return DocumentStore.For(
+            opts =>
             {
-                _eventHandler.HandleEvent((VerenigingWerdGeregistreerd)@event.Data);
-            }
-        }
+                var connectionString = $@"
+                    host={_configurationRoot["PostgreSQLOptions:host"]};
+                    database={_configurationRoot["PostgreSQLOptions:database"]};
+                    password={_configurationRoot["PostgreSQLOptions:password"]};
+                    username={_configurationRoot["PostgreSQLOptions:username"]}";
 
-        return Task.CompletedTask;
+                opts.Connection(connectionString);
+
+                opts.CreateDatabasesForTenants(c =>
+                {
+                    c.MaintenanceDatabase(connectionString);
+                    c.ForTenant()
+                        .CheckAgainstPgDatabase()
+                        .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
+                });
+
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new MartenEventsConsumer(esEventHandler)), ProjectionLifecycle.Async);
+            });
     }
 }
