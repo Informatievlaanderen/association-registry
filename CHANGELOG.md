@@ -1,3 +1,20 @@
+# [1.39.0](https://github.com/informatievlaanderen/association-registry/compare/v1.38.0...v1.39.0) (2022-10-13)
+
+
+### Features
+
+* or-1213 add eventstore, repository and commandhandler ([a07da03](https://github.com/informatievlaanderen/association-registry/commit/a07da0393af3bcb5a51b873de25a8fbd071d0d86))
+* or-1213 apply review comments ([0f71a8e](https://github.com/informatievlaanderen/association-registry/commit/0f71a8e82d87744acbbf64f196ef71f0d4ac7830))
+* or-1213 cleanup ([bfcd5e0](https://github.com/informatievlaanderen/association-registry/commit/bfcd5e0fdcea70041c3201eaf391d7c2c2769edb))
+* or-1213 cleanup + try fix unittest ([9e97d68](https://github.com/informatievlaanderen/association-registry/commit/9e97d68dbb16b48d4ac789ebf702721f6011a890))
+* or-1213 create API endpoint for create verenigingen ([7c84363](https://github.com/informatievlaanderen/association-registry/commit/7c843635f79768f3fb3f4d67eba3ec37edecbfd7))
+* or-1213 create api project, add postgress db to docker compose ([812fbc2](https://github.com/informatievlaanderen/association-registry/commit/812fbc21a463c188457e9f44991616c465e56714))
+* or-1213 implement waitFor ([9d74f30](https://github.com/informatievlaanderen/association-registry/commit/9d74f30c9ce3676717f12a65ed384259a16db0dd))
+* or-1213 implement waitFor amendum ([d7139c8](https://github.com/informatievlaanderen/association-registry/commit/d7139c89bbafca1595a15d53cede6dfcc786ff12))
+* or-1213 limit number of tries for WaitFor ([239c26f](https://github.com/informatievlaanderen/association-registry/commit/239c26f8af4882dea975ff109b314182894c2e55))
+* or-1213 refactor tests ([9a41eaf](https://github.com/informatievlaanderen/association-registry/commit/9a41eaf13ac70d5bbefa90bf2eeb36d5fdeb46fd))
+* or-1213 try fix hanging tests ([7038473](https://github.com/informatievlaanderen/association-registry/commit/70384731c3fb9c1d47bf77532196242ac4d97838))
+
 # [1.38.0](https://github.com/informatievlaanderen/association-registry/compare/v1.37.0...v1.38.0) (2022-10-07)
 
 
