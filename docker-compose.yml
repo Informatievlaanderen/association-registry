@@ -19,12 +19,10 @@ services:
      ports:
        - "5051:80"
 
-
    elasticsearch:
      image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
      ports:
        - "9200:9200"
-       - "9300:9300"
      environment:
        ELASTIC_PASSWORD: local_development
        discovery.type: single-node
