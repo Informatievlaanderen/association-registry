@@ -1,3 +1,11 @@
+# [1.41.0](https://github.com/informatievlaanderen/association-registry/compare/v1.40.0...v1.41.0) (2022-10-13)
+
+
+### Features
+
+* or-1201 wire everything up ([f67156d](https://github.com/informatievlaanderen/association-registry/commit/f67156dc1da9046c1d45f28f9691e05677f7c9e4))
+* or-1213 configure marten deamon ([0cec9b7](https://github.com/informatievlaanderen/association-registry/commit/0cec9b7427dacdc409ec4ed922979f2e46bf17f8))
+
 # [1.40.0](https://github.com/informatievlaanderen/association-registry/compare/v1.39.0...v1.40.0) (2022-10-13)
 
 
