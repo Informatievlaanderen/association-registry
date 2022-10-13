@@ -15,6 +15,7 @@ public static class WaitFor
         if (store is DocumentStore)
         {
             var watch = Stopwatch.StartNew();
+            var tryCount = 0;
             var exit = false;
             while (!exit)
             {
@@ -30,6 +31,10 @@ public static class WaitFor
                 }
                 catch (Exception exception)
                 {
+                    if (tryCount >= 5)
+                        exit = true;
+
+                    tryCount++;
                     if (logger.IsEnabled(LogLevel.Warning))
                     {
                         logger.LogWarning(exception, "Encountered an exception while waiting for PostGreSql store to become available");

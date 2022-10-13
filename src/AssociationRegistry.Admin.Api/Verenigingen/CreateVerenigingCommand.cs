@@ -4,4 +4,4 @@ using System.Runtime.Serialization;
 using MediatR;
 
 [DataContract]
-public record CreateVerenigingCommand([property:DataMember] string Naam) : IRequest<Unit>;
+public record CreateVerenigingCommand([property: DataMember] string Naam) : IRequest<Unit>;
