@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-public class CreateVerenigingCommandHandler: IRequestHandler<CommandEnvelope<CreateVerenigingCommand>>
+public class CreateVerenigingCommandHandler : IRequestHandler<CommandEnvelope<CreateVerenigingCommand>>
 {
     private readonly IVerenigingsRepository _verenigingsRepository;
     private readonly IVCodeService _vCodeService;

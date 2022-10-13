@@ -2,20 +2,26 @@ namespace AssociationRegistry.Admin.Api.Verenigingen;
 
 using System.Collections.Generic;
 using System.Linq;
-using AssociationRegistry.Admin.Api.Events;
+using Events;
 
 public class Vereniging
 {
     private class State
     {
-        public string VCode { get; set; }
-        public string Naam { get; set; }
+        public string VCode { get; }
+        public string Naam { get; }
+
+        private State(string vCode, string naam)
+        {
+            VCode = vCode;
+            Naam = naam;
+        }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
-            => new() { VCode = @event.VCode, Naam = @event.Naam };
+            => new(@event.VCode, @event.Naam);
     }
 
-    private State _state;
+    private readonly State _state;
 
     public string VCode
         => _state.VCode;

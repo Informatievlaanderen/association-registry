@@ -2,4 +2,4 @@
 
 using MediatR;
 
-public record CommandEnvelope<TCommand>(TCommand Command) : IRequest<Unit> where TCommand:IRequest<Unit>;
+public record CommandEnvelope<TCommand>(TCommand Command) : IRequest<Unit> where TCommand : IRequest<Unit>;

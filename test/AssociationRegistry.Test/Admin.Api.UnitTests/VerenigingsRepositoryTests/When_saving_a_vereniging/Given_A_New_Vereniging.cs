@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTest
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 public class EventStoreMock : IEventStore
@@ -13,7 +12,10 @@ public class EventStoreMock : IEventStore
     public readonly List<Invocation> Invocations = new();
 
     public async Task Save(string aggregateId, params IEvent[] events)
-        => Invocations.Add(new Invocation(aggregateId, events));
+    {
+        Invocations.Add(new Invocation(aggregateId, events));
+        await Task.CompletedTask;
+    }
 }
 
 public class Given_A_New_Vereniging

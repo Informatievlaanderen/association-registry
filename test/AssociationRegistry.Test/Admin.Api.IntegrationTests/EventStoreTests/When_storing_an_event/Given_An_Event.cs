@@ -16,7 +16,7 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var eventStore = CreateEventStore();
-        var someEvent = new SomeEvent { Name = "some event" };
+        var someEvent = new SomeEvent("some event");
 
         // act
         await eventStore.Save(streamId, someEvent);
@@ -29,6 +29,7 @@ public class Given_An_Event
         // verify assumptions about marten
         single.StreamKey.Should().Be(streamId);
         single.EventType.Should().Be<SomeEvent>();
+
     }
 
     private static EventStore CreateEventStore()
@@ -65,8 +66,6 @@ public class Given_An_Event
         return connectionString;
     }
 
-    private class SomeEvent : IEvent
-    {
-        public string Name { get; set; }
-    }
+    // ReSharper disable once NotAccessedPositionalProperty.Local
+    private record SomeEvent(string Name) : IEvent;
 }

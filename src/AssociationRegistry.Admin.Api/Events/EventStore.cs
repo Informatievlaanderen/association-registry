@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Events;
 
 using System.Threading.Tasks;
+using Baseline;
 using Marten;
 
 public class EventStore : IEventStore
@@ -16,7 +17,7 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.OpenSession();
 
-        session.Events.Append(aggregateId, events);
+        session.Events.Append(aggregateId, events.As<object[]>());
 
         await session.SaveChangesAsync();
     }

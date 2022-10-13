@@ -17,7 +17,7 @@ public class VerenigingAdminApiFixture : IDisposable
     public VerenigingAdminApiFixture()
     {
         Task.Delay(1000).GetAwaiter().GetResult();
-        
+
         var maybeRootDirectory = Directory
             .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)

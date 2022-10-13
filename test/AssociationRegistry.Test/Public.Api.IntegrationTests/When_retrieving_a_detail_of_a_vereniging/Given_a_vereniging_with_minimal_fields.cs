@@ -1,10 +1,8 @@
-using AssociationRegistry.Public.Api;
-using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
-using FluentAssertions;
-using Xunit;
-
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a_detail_of_a_vereniging;
 
+using Fixtures;
+using FluentAssertions;
+using Xunit;
 using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]

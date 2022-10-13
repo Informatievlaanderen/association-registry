@@ -27,7 +27,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Verenigingen;
-using IEventStore = Marten.Events.IEventStore;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -145,7 +144,7 @@ public class Startup
         //.Configure<ResponseOptions>(_configuration);
 
         var containerBuilder = new ContainerBuilder();
-        containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
+        containerBuilder.RegisterModule(new ApiModule(services));
         _applicationContainer = containerBuilder.Build();
 
         return new AutofacServiceProvider(_applicationContainer);

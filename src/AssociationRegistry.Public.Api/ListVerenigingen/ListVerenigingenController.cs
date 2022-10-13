@@ -29,7 +29,7 @@ public class ListVerenigingenController : ApiController
     /// <summary>
     /// Vraag de lijst van verenigingen op.
     /// </summary>
-    /// <param name="context"></param>
+    /// <param name="appsettings"></param>
     /// <param name="paginationQueryParams"></param>
     /// <response code="200">Een lijst met de bevraagde verenigingen</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
