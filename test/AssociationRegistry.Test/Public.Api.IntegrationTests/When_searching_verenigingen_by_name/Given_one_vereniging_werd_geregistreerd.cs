@@ -6,90 +6,89 @@ using FluentAssertions;
 using Nest;
 using Xunit;
 
-public class Given_one_vereniging_werd_geregistreerd : IClassFixture<PublicElasticFixture>
-{
-    private readonly HttpClient _httpClient;
+public class One_vereniging_werd_geregistreerd_fixture: PublicElasticFixture {
 
-    const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=" + PublicElasticFixture.Naam;
-    const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken2?q=dena";
-    const string VerenigingenZoekenOpDeelVanNaamMetWildcards = "/v1/verenigingen/zoeken2?q=*dena*";
-    const string VerenigingenZoekenOpTermInNaam = "/v1/verenigingen/zoeken2?q=oudenaarde";
+    public const string VCode = "v000001";
+    public const string Naam = "Feestcommittee Oudenaarde";
 
-    const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken2?q=" + PublicElasticFixture.VCode;
-    const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken2?q=001";
-
-    private const string EmptyArray = "[]";
-
-    public Given_one_vereniging_werd_geregistreerd(PublicElasticFixture verenigingPublicApiFixture)
+    public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {
-        _httpClient = verenigingPublicApiFixture.HttpClient;
+        AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
+    }
+}
+
+public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>
+{
+    private readonly One_vereniging_werd_geregistreerd_fixture _classFixture;
+    private readonly string _goldenMasterWithOneVereniging;
+
+    private const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=" + One_vereniging_werd_geregistreerd_fixture.Naam;
+    private const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken2?q=dena";
+    private const string VerenigingenZoekenOpDeelVanNaamMetWildcards = "/v1/verenigingen/zoeken2?q=*dena*";
+    private const string VerenigingenZoekenOpTermInNaam = "/v1/verenigingen/zoeken2?q=oudenaarde";
+
+    private const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken2?q=" + One_vereniging_werd_geregistreerd_fixture.VCode;
+    private const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken2?q=001";
+
+    private const string EmptyArrayResponse = "[]";
+
+    public Given_one_vereniging_werd_geregistreerd(One_vereniging_werd_geregistreerd_fixture classFixture)
+    {
+        _classFixture = classFixture;
+        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
+            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _httpClient.GetAsync(VerenigingenZoekenOpNaam)).Should().BeSuccessful();
+        => (await _classFixture.GetResponseMessage(VerenigingenZoekenOpNaam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpNaam);
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+        var content = await _classFixture.Search(VerenigingenZoekenOpNaam);
 
-        content.Should().BeEquivalentJson(goldenMaster);
+        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpDeelVanEenTermVanDeNaam);
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanEenTermVanDeNaam);
 
-        content.Should().BeEquivalentJson(EmptyArray);
+        content.Should().BeEquivalentJson(EmptyArrayResponse);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpDeelVanNaamMetWildcards);
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanNaamMetWildcards);
 
-        content.Should().BeEquivalentJson(goldenMaster);
+        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpTermInNaam);
+        var content = await _classFixture.Search(VerenigingenZoekenOpTermInNaam);
 
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
-
-        content.Should().BeEquivalentJson(goldenMaster);
+        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpVCode);
-        var content = await responseMessage.Content.ReadAsStringAsync();
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+        var content = await _classFixture.Search(VerenigingenZoekenOpVCode);
 
-        content.Should().BeEquivalentJson(goldenMaster);
+        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
-        var responseMessage = await _httpClient.GetAsync(VerenigingenZoekenOpDeelVanDeVCode);
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanDeVCode);
 
-        content.Should().BeEquivalentJson(EmptyArray);
+        content.Should().BeEquivalentJson(EmptyArrayResponse);
     }
 }
 
