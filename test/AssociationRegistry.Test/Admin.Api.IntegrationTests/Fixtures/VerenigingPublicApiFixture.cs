@@ -2,6 +2,7 @@
 
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
+using Helpers;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -16,8 +17,6 @@ public class VerenigingAdminApiFixture : IDisposable
 
     public VerenigingAdminApiFixture()
     {
-        Task.Delay(1000).GetAwaiter().GetResult();
-
         var maybeRootDirectory = Directory
             .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)
@@ -45,6 +44,9 @@ public class VerenigingAdminApiFixture : IDisposable
 
         HttpClient = _testServer.CreateClient();
         DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
+
+        WaitFor.PostGreSQLToBecomeAvailable(DocumentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitFotPostgresTestLogger"))
+            .GetAwaiter().GetResult();
     }
 
     public void Dispose()
