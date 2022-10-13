@@ -4,7 +4,6 @@ using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;
 
-[Collection(VerenigingPublicApiWith72VerenigingenCollection.Name)]
 public class Given_72_verenigingen : IClassFixture<VerenigingPublicApiFixtureWith72Verenigingen>
 {
     private readonly HttpClient _httpClient;

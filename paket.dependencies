@@ -95,3 +95,6 @@ nuget Moq 4.17.2
 // BUILD STUFF
 nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true
 nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
+
+// ELASTICSEARCH
+nuget NEST 7.17.4

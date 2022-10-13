@@ -8,11 +8,11 @@ AutoFixture
 FluentAssertions
 FluentAssertions.Json
 Moq
+Marten
+NEST
 
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
 
 Be.Vlaanderen.Basisregisters.EventHandling.Autofac
-
-Marten

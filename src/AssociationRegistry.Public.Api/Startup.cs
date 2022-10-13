@@ -25,8 +25,10 @@ using System.Collections.Immutable;
 using Constants;
 using Infrastructure.Json;
 using ListVerenigingen;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SearchVerenigingen;
 using Locatie = ListVerenigingen.Locatie;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
@@ -128,6 +130,16 @@ public class Startup
                         DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
                 }
             ));
+
+        var settings = new ConnectionSettings(new Uri(_configuration["ElasticClientOptions:Uri"]))
+            .BasicAuthentication(
+                _configuration["ElasticClientOptions:Username"],
+                _configuration["ElasticClientOptions:Password"])
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
+
+        services.AddSingleton(_ => new ElasticClient(settings));
 
         services.AddSwaggerGen(
             options =>

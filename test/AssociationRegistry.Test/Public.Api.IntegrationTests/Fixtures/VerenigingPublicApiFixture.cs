@@ -1,11 +1,12 @@
-﻿using System.Reflection;
+﻿namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
+
+using System.Reflection;
 using AssociationRegistry.Public.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
+using Nest;
 
 public class VerenigingPublicApiFixture : IDisposable
 {
