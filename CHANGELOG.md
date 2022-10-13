@@ -1,3 +1,15 @@
+# [1.40.0](https://github.com/informatievlaanderen/association-registry/compare/v1.39.0...v1.40.0) (2022-10-13)
+
+
+### Features
+
+* or-1201 add es to github actions ([aaad251](https://github.com/informatievlaanderen/association-registry/commit/aaad2513af8b158b7a88a051d0c55a60bffeab62))
+* or-1201 allow search on elasticsearch index ([cd703b0](https://github.com/informatievlaanderen/association-registry/commit/cd703b0008ebfcba67a13bf89bf57e713cf1f5fc))
+* or-1201 clean up ([8a34106](https://github.com/informatievlaanderen/association-registry/commit/8a34106410e4252274e69e79709e2b1894673d24))
+* or-1201 map elasticsearch to search verenigingen response ([d44a04a](https://github.com/informatievlaanderen/association-registry/commit/d44a04a82d695e34459c15bd3caaa25e8bd018f8))
+* or-1201 more cleanup ([cf7f3ff](https://github.com/informatievlaanderen/association-registry/commit/cf7f3ff520f1c9d93294ef93cae872e2ad8a20bc))
+* or-1201 use env ([6c19b09](https://github.com/informatievlaanderen/association-registry/commit/6c19b092217e732cdb4417e339a48a8769bef50c))
+
 # [1.39.0](https://github.com/informatievlaanderen/association-registry/compare/v1.38.0...v1.39.0) (2022-10-13)
 
 
