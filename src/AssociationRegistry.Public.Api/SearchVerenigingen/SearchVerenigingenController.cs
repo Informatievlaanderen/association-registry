@@ -22,16 +22,17 @@ using Swashbuckle.AspNetCore.Filters;
 public class SearchVerenigingenController : ApiController
 {
     /// <summary>
-    /// Zoek verenigingen op. (statische dataset)
+    /// Zoek verenigingen op. (statische dataset, momenteel niet gebruikt)
     /// </summary>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
-    [HttpGet("zoeken")]
-    [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [Produces(contentType: WellknownMediaTypes.Json)]
+    // [HttpGet("zoeken")]
+    // [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    // [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
+    // [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    // [Produces(contentType: WellknownMediaTypes.Json)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public async Task<IActionResult> Get([FromServices] IVerenigingenRepository verenigingenRepository) =>
         await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
 
@@ -50,11 +51,11 @@ public class SearchVerenigingenController : ApiController
     }
 
     /// <summary>
-    /// Zoek verenigingen op. (statische dataset)
+    /// Zoek verenigingen op.
     /// </summary>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
-    [HttpGet("zoeken2")]
+    [HttpGet("zoeken")]
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
@@ -64,7 +65,17 @@ public class SearchVerenigingenController : ApiController
     {
         var searchResponse = await Search(q, elasticClient);
 
-        return Ok(searchResponse.Hits.Select(x => x.Source));
+        return Ok(
+            new SearchVerenigingenResponse(
+                searchResponse.Hits.Select(
+                    x =>
+                        new Vereniging(
+                            x.Source.VCode,
+                            x.Source.Naam,
+                            string.Empty,
+                            ImmutableArray<Locatie>.Empty,
+                            ImmutableArray<Activiteit>.Empty
+                        )).ToImmutableArray()));
     }
 
     public static async Task<ISearchResponse<VerenigingDocument>> Search(string q, ElasticClient client)
