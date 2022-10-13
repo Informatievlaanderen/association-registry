@@ -96,6 +96,5 @@ nuget Moq 4.17.2
 nuget SourceLink.Embed.AllSourceFiles 2.8.3 copy_local: true
 nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
 
-// EVENTSTORE
-nuget Marten 5.10.1
+// ELASTICSEARCH
 nuget NEST 7.17.4

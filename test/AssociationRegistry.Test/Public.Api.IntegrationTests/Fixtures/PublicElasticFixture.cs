@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
+using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Marten;

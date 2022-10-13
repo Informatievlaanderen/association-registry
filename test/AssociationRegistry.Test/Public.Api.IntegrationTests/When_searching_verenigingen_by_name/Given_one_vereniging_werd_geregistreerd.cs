@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
+using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Fixtures;
 using FluentAssertions;
@@ -89,18 +90,6 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
         var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanDeVCode);
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-}
-
-public class VerenigingWerdGeregistreerd
-{
-    public string VCode { get; }
-    public string Naam { get; }
-
-    public VerenigingWerdGeregistreerd(string vCode, string naam)
-    {
-        VCode = vCode;
-        Naam = naam;
     }
 }
 
