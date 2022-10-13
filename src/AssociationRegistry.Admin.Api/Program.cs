@@ -17,7 +17,7 @@ public class Program
                 {
                     Hosting =
                     {
-                        HttpPort = 11003,
+                        HttpPort = 11004,
                     },
                     Logging =
                     {

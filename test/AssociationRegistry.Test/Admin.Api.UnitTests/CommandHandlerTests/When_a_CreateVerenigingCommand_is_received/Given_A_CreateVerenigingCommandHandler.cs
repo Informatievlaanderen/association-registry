@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen;
 using FluentAssertions;
 using Xunit;
 
-public class VerenigingRepositotyMock : IVerenigingsRepository
+public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     public record Invocation(Vereniging Vereniging);
 
@@ -23,7 +23,7 @@ public class Given_A_CreateVerenigingCommandHandler
     public async Task Then_a_new_vereniging_is_saved_in_the_repository()
     {
         var vNummerService = new SequentialVCodeService();
-        var verenigingsRepository = new VerenigingRepositotyMock();
+        var verenigingsRepository = new VerenigingRepositoryMock();
 
         var handler = new CreateVerenigingCommandHandler(verenigingsRepository, vNummerService);
         var createVerenigingCommand = new CommandEnvelope<CreateVerenigingCommand>(new CreateVerenigingCommand("naam1"));
