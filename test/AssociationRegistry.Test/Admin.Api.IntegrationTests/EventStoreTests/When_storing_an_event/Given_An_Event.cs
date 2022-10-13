@@ -8,22 +8,16 @@ using IEvent = AssociationRegistry.Admin.Api.Events.IEvent;
 [Collection(VerenigingDbCollection.Name)]
 public class Given_An_Event
 {
-    private readonly VerenigingDbFixture _fixture;
-
-    public Given_An_Event(VerenigingDbFixture fixture)
-    {
-        _fixture = fixture;
-    }
-
     [Fact]
     public async Task Then_it_is_persisted_in_the_database()
     {
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
+        var eventStore = await VerenigingDbFixture.CreateEventStore();
 
         // act
-        await _fixture.EventStore.Save(streamId, someEvent);
+        await eventStore.Save(streamId, someEvent);
 
         // assert
         var events = await GetEventsFromDb(streamId);
@@ -35,9 +29,10 @@ public class Given_An_Event
         single.EventType.Should().Be<SomeEvent>();
     }
 
-    private async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId)
+    private static async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId)
     {
-        await using var session = _fixture.DocumentStore.LightweightSession();
+        using var documentStore = await VerenigingDbFixture.CreateDocumentStore();
+        await using var session = documentStore.LightweightSession();
 
         return await session.Events.FetchStreamAsync(streamId);
     }

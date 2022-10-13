@@ -45,7 +45,7 @@ public class VerenigingAdminApiFixture : IDisposable
         HttpClient = _testServer.CreateClient();
         DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
 
-        WaitFor.PostGreSQLToBecomeAvailable(DocumentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitFotPostgresTestLogger"))
+        WaitFor.PostGreSQLToBecomeAvailable(DocumentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"))
             .GetAwaiter().GetResult();
     }
 
