@@ -22,15 +22,15 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     private readonly One_vereniging_werd_geregistreerd_fixture _classFixture;
     private readonly string _goldenMasterWithOneVereniging;
 
-    private const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken2?q=" + One_vereniging_werd_geregistreerd_fixture.Naam;
-    private const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken2?q=dena";
-    private const string VerenigingenZoekenOpDeelVanNaamMetWildcards = "/v1/verenigingen/zoeken2?q=*dena*";
-    private const string VerenigingenZoekenOpTermInNaam = "/v1/verenigingen/zoeken2?q=oudenaarde";
+    private const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken?q=" + One_vereniging_werd_geregistreerd_fixture.Naam;
+    private const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken?q=dena";
+    private const string VerenigingenZoekenOpDeelVanNaamMetWildcards = "/v1/verenigingen/zoeken?q=*dena*";
+    private const string VerenigingenZoekenOpTermInNaam = "/v1/verenigingen/zoeken?q=oudenaarde";
 
-    private const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken2?q=" + One_vereniging_werd_geregistreerd_fixture.VCode;
-    private const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken2?q=001";
+    private const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken?q=" + One_vereniging_werd_geregistreerd_fixture.VCode;
+    private const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken?q=001";
 
-    private const string EmptyArrayResponse = "[]";
+    private const string EmptyVerenigingenResponse = "{\"verenigingen\": []}";
 
     public Given_one_vereniging_werd_geregistreerd(One_vereniging_werd_geregistreerd_fixture classFixture)
     {
@@ -56,7 +56,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanEenTermVanDeNaam);
 
-        content.Should().BeEquivalentJson(EmptyArrayResponse);
+        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
 
     [Fact]
@@ -88,7 +88,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanDeVCode);
 
-        content.Should().BeEquivalentJson(EmptyArrayResponse);
+        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
 }
 
