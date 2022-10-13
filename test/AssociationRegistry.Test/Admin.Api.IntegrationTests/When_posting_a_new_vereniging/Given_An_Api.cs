@@ -9,7 +9,7 @@ using FluentAssertions;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]
-public class Given_An_Api : IClassFixture<VerenigingAdminApiFixture>, IDisposable
+public class Given_An_Api : IDisposable
 {
     private readonly VerenigingAdminApiFixture _apiFixture;
     private readonly Fixture _fixture;
