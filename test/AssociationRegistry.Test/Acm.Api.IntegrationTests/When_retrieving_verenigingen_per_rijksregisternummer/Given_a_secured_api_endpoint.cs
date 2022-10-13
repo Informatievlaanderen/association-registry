@@ -16,7 +16,6 @@ public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture
         _testHelper = new AcmIntegrationTestHelper(fixture);
     }
 
-    //[Fact(Skip = "Ignore until we have an identity server image that we can use in the CI for association registry")]
     [Fact]
     public async Task When_authenticated_with_correct_scope_Then_we_get_a_successful_response()
     {
@@ -25,7 +24,6 @@ public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture
         response.Should().BeSuccessful();
     }
 
-    //[Fact(Skip = "Ignore until we have an identity server image that we can use in the CI for association registry")]
     [Fact]
     public async Task When_authenticated_with_incorrect_scope_Then_we_get_an_unauthorized_response()
     {
@@ -34,7 +32,6 @@ public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture
         response.Should().HaveStatusCode(HttpStatusCode.Unauthorized);
     }
 
-    //[Fact(Skip = "Ignore until we have an identity server image that we can use in the CI for association registry")]
     [Fact]
     public async Task When_not_authenticated_Then_we_get_an_unauthorized_response()
     {

@@ -3,11 +3,10 @@
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-using AssociationRegistry.Test.Stubs;
+using Stubs;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Xunit;
 
 public class Given_no_verenigingen

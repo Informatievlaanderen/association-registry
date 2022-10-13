@@ -18,5 +18,21 @@ services:
        - ./identityserver:/home/identityserver
      ports:
        - "5051:80"
+
+   db:
+     container_name: pg_container
+     image: postgres
+     restart: always
+     environment:
+       POSTGRES_USER: root
+       POSTGRES_PASSWORD: root
+       POSTGRES_DB: verenigingsregister
+     ports:
+       - "5432:5432"
+     volumes:
+       - pg-data:/var/lib/postgresql/data
+
 volumes:
   minio-data:
+  pg-data:
+  pg-admin-data:

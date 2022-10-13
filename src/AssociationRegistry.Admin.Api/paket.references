@@ -1,0 +1,15 @@
+Be.Vlaanderen.Basisregisters.AggregateSource
+Be.Vlaanderen.Basisregisters.Api
+Be.Vlaanderen.Basisregisters.EventHandling.Autofac
+Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
+Be.Vlaanderen.Basisregisters.BlobStore
+
+AspNetCore.HealthChecks.SqlServer
+
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles
+
+Marten
+
+MediatR
+MediatR.Extensions.Microsoft.DependencyInjection

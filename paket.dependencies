@@ -70,6 +70,13 @@ nuget Structurizr.Core 0.9.7
 nuget Structurizr.Client 0.9.7
 nuget Structurizr.AdrTools 0.9.3
 
+// MARTEN
+nuget Marten 5.10.1
+
+// MediatR
+nuget MediatR 11.0.0
+nuget MediatR.Extensions.Microsoft.DependencyInjection 11.0.0
+
 // TEST STUFF
 nuget Microsoft.AspNetCore.Mvc.Testing 6.0.4
 nuget Microsoft.AspNetCore.TestHost 6.0.4

@@ -1,11 +1,9 @@
-using AssociationRegistry.Public.Api;
-using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
+namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;
+
+using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Xunit;
-
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;
-
 using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]

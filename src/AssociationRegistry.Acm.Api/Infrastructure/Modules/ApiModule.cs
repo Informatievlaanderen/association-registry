@@ -9,18 +9,19 @@ using Microsoft.Extensions.Logging;
 
 public class ApiModule : Module
 {
-    private readonly IConfiguration _configuration;
+    //private readonly IConfiguration _configuration;
     private readonly IServiceCollection _services;
-    private readonly ILoggerFactory _loggerFactory;
+    //private readonly ILoggerFactory _loggerFactory;
 
     public ApiModule(
-        IConfiguration configuration,
-        IServiceCollection services,
-        ILoggerFactory loggerFactory)
+        //IConfiguration configuration,
+        IServiceCollection services
+        //, ILoggerFactory loggerFactory
+        )
     {
-        _configuration = configuration;
+        //_configuration = configuration;
         _services = services;
-        _loggerFactory = loggerFactory;
+        //_loggerFactory = loggerFactory;
     }
 
     protected override void Load(ContainerBuilder builder)

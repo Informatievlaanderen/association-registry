@@ -7,11 +7,6 @@ using Microsoft.Extensions.Logging;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
-using AssociationRegistry.Public.Api.S3;
-using Be.Vlaanderen.Basisregisters.BlobStore;
-using Microsoft.Extensions.DependencyInjection;
-using UnitTests;
-
 public class VerenigingPublicApiFixture : IDisposable
 {
     public HttpClient HttpClient { get; private set; }
