@@ -65,20 +65,20 @@ public class SearchVerenigingenController : ApiController
     {
         var searchResponse = await Search(q, elasticClient);
 
-        return Ok(
-            new SearchVerenigingenResponse(
-                searchResponse.Hits.Select(
-                    x =>
-                        new Vereniging(
-                            x.Source.VCode,
-                            x.Source.Naam,
-                            string.Empty,
-                            ImmutableArray<Locatie>.Empty,
-                            ImmutableArray<Activiteit>.Empty
-                        )).ToImmutableArray()));
+        var verenigingen = searchResponse.Hits.Select(
+            x =>
+                new Vereniging(
+                    x.Source.VCode,
+                    x.Source.Naam,
+                    string.Empty,
+                    ImmutableArray<Locatie>.Empty,
+                    ImmutableArray<Activiteit>.Empty
+                )).ToImmutableArray();
+
+        return Ok(new SearchVerenigingenResponse(verenigingen));
     }
 
-    public static async Task<ISearchResponse<VerenigingDocument>> Search(string q, ElasticClient client)
+    private static async Task<ISearchResponse<VerenigingDocument>> Search(string q, IElasticClient client)
     {
         return await client.SearchAsync<VerenigingDocument>(
             s => s
