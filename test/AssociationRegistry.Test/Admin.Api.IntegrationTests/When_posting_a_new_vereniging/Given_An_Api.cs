@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AutoFixture;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

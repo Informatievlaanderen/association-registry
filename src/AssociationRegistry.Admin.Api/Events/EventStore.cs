@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Events;
 
 using System.Threading.Tasks;
+using AssociationRegistry.Events;
 using Baseline;
 using Marten;
 

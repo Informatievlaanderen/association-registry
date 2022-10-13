@@ -1,5 +1,9 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;

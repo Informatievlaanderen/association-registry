@@ -32,5 +32,9 @@
     <PackageReference Include="MediatR" Version="11.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Events\AssociationRegistry.Events.csproj" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

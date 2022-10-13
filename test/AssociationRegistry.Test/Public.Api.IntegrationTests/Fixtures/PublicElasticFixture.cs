@@ -4,6 +4,7 @@ using System.Reflection;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
+using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;

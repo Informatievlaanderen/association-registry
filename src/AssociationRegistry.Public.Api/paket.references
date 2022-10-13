@@ -12,3 +12,5 @@ AspNetCore.HealthChecks.SqlServer
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
 NEST
+
+Marten

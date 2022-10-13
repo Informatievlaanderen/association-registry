@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_ve
 
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Nest;
@@ -92,40 +93,3 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
 }
-
-
-
-public class ElasticEventHandler
-{
-    private readonly IElasticClient _elasticClient;
-
-    public ElasticEventHandler(IElasticClient elasticClient)
-    {
-        _elasticClient = elasticClient;
-    }
-
-    public void HandleEvent(VerenigingWerdGeregistreerd message)
-    {
-        _elasticClient.IndexDocument(new VerenigingDocument(){ VCode = message.VCode, Naam = message.Naam });
-    }
-}
-
-/*public class ElasticSearchProjection: IProjection
-{
-    public void Apply(IDocumentOperations operations, IReadOnlyList<StreamAction> streams)
-    {
-        var events = streams.SelectMany(x => x.Events).OrderBy(s => s.Sequence).Select(s => s.Data);
-
-        foreach (var @event in events)
-        {
-
-        }
-    }
-
-    public Task ApplyAsync(IDocumentOperations operations, IReadOnlyList<StreamAction> streams,
-        CancellationToken cancellation)
-    {
-        Apply(operations, streams);
-        return Task.CompletedTask;
-    }
-}*/

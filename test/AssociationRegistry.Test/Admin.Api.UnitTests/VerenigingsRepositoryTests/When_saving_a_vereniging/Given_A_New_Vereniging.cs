@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTest
 
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
+using Events;
 using FluentAssertions;
 using Xunit;
 
