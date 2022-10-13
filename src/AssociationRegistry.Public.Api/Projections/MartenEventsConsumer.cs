@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
-using AssociationRegistry.Admin.Api.Verenigingen;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Events;
 using Marten.Events;
 using When_searching_verenigingen_by_name;

@@ -32,7 +32,7 @@ public static class WaitFor
                 catch (Exception exception)
                 {
                     if (tryCount >= 5)
-                        exit = true;
+                        throw new TimeoutException($"Service throws exception {exception.Message} after 5 tries", exception);
 
                     tryCount++;
                     if (logger.IsEnabled(LogLevel.Warning))

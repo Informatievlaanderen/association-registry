@@ -33,5 +33,9 @@
     <EmbeddedResource Include="json-ld-contexts\list-verenigingen-context.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Events\AssociationRegistry.Events.csproj" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

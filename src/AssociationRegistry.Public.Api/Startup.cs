@@ -23,12 +23,19 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Immutable;
 using Constants;
+using Events;
 using Infrastructure.Json;
 using ListVerenigingen;
+using Marten;
+using Marten.Events;
+using Marten.Events.Daemon.Resiliency;
+using Marten.Events.Projections;
 using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SearchVerenigingen;
+using Test.Public.Api.IntegrationTests.Fixtures;
+using Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 using Locatie = ListVerenigingen.Locatie;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
@@ -67,6 +74,41 @@ public class Startup
         var associationRegistryUri = _configuration.GetSection("AssociationRegistryUri").Value;
 
         services.AddSingleton(_configuration.Get<AppSettings>());
+
+        var settings = new ConnectionSettings(new Uri(_configuration["ElasticClientOptions:Uri"]))
+            .BasicAuthentication(
+                _configuration["ElasticClientOptions:Username"],
+                _configuration["ElasticClientOptions:Password"])
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
+
+        var elasticClient = new ElasticClient(settings);
+        services.AddSingleton(_ => elasticClient);
+
+        var martenConfiguration = services.AddMarten(
+            opts =>
+            {
+                var connectionString = $@"
+                    host={_configuration["PostgreSQLOptions:host"]};
+                    database={_configuration["PostgreSQLOptions:database"]};
+                    password={_configuration["PostgreSQLOptions:password"]};
+                    username={_configuration["PostgreSQLOptions:username"]}";
+
+                opts.Connection(connectionString);
+
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+                var esEventHandler = new ElasticEventHandler(elasticClient);
+
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new MartenEventsConsumer(esEventHandler)),
+                    ProjectionLifecycle.Async);
+            });
+
+        if (_configuration["ProjectionDaemonDisabled"].ToLowerInvariant() != "true")
+            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
@@ -130,16 +172,6 @@ public class Startup
                         DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
                 }
             ));
-
-        var settings = new ConnectionSettings(new Uri(_configuration["ElasticClientOptions:Uri"]))
-            .BasicAuthentication(
-                _configuration["ElasticClientOptions:Username"],
-                _configuration["ElasticClientOptions:Password"])
-            .DefaultMappingFor(
-                typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
-
-        services.AddSingleton(_ => new ElasticClient(settings));
 
         services.AddSwaggerGen(
             options =>
