@@ -11,11 +11,12 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
+using Npgsql;
 using When_searching_verenigingen_by_name;
-using Xunit;
 
 public class PublicElasticFixture : IDisposable
 {
+    private const string RootDatabase = @"postgres";
     private readonly string _identifier;
     private readonly HttpClient _httpClient;
     private readonly ElasticClient _elasticClient;
@@ -29,7 +30,7 @@ public class PublicElasticFixture : IDisposable
 
     protected PublicElasticFixture(string identifier)
     {
-        _identifier = identifier;
+        _identifier += "_" + identifier.ToLowerInvariant();
         GoToRootDirectory();
 
         _configurationRoot = SetConfigurationRoot();
@@ -76,6 +77,9 @@ public class PublicElasticFixture : IDisposable
         GC.SuppressFinalize(this);
         _httpClient.Dispose();
         _testServer.Dispose();
+        _documentStore.Dispose();
+
+        DropDatabase();
 
         _elasticClient.Indices.Delete(VerenigingenIndexName);
         _elasticClient.Indices.Refresh(Indices.All);
@@ -141,8 +145,6 @@ public class PublicElasticFixture : IDisposable
     {
         var esEventHandler = new ElasticEventHandler(_elasticClient);
 
-
-
         return DocumentStore.For(
             opts =>
             {
@@ -152,11 +154,17 @@ public class PublicElasticFixture : IDisposable
                     password={_configurationRoot["PostgreSQLOptions:password"]};
                     username={_configurationRoot["PostgreSQLOptions:username"]}";
 
+                var rootConnectionString = $@"
+                    host={_configurationRoot["PostgreSQLOptions:host"]};
+                    database={RootDatabase};
+                    password={_configurationRoot["PostgreSQLOptions:password"]};
+                    username={_configurationRoot["PostgreSQLOptions:username"]}";
+
                 opts.Connection(connectionString);
 
                 opts.CreateDatabasesForTenants(c =>
                 {
-                    c.MaintenanceDatabase(connectionString);
+                    c.MaintenanceDatabase(rootConnectionString);
                     c.ForTenant()
                         .CheckAgainstPgDatabase()
                         .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
@@ -168,5 +176,31 @@ public class PublicElasticFixture : IDisposable
                     new MartenSubscription(
                         new MartenEventsConsumer(esEventHandler)), ProjectionLifecycle.Async);
             });
+    }
+
+    private void DropDatabase()
+    {
+        var connectionString = $@"
+                    host={_configurationRoot["PostgreSQLOptions:host"]};
+                    database={RootDatabase};
+                    password={_configurationRoot["PostgreSQLOptions:password"]};
+                    username={_configurationRoot["PostgreSQLOptions:username"]}";
+
+        using (var connection = new NpgsqlConnection(connectionString))
+        using (var cmd = connection.CreateCommand())
+        {
+            try
+            {
+                connection.Open();
+                // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
+                cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
+                connection.Dispose();
+            }
+        }
     }
 }
