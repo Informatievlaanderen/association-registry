@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
+using Events;
 using Marten.Events;
 using When_searching_verenigingen_by_name;
 

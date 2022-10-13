@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.EventStoreTests.When_storing_an_event;
 
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
-using IEvent = AssociationRegistry.Admin.Api.Events.IEvent;
 
 [Collection(VerenigingDbCollection.Name)]
 public class Given_An_Event

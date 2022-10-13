@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_CreateVerenigingCommand_is_received;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
+using Events;
 using FluentAssertions;
 using Xunit;
 

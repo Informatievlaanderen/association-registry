@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_ve
 
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Nest;

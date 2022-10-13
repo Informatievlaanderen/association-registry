@@ -1,6 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
-
-using Events;
+﻿namespace AssociationRegistry.Events;
 
 public record VerenigingWerdGeregistreerd(
     string VCode,

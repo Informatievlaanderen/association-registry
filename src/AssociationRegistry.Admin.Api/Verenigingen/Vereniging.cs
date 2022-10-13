@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen;
 
 using System.Collections.Generic;
 using System.Linq;
-using Events;
+using AssociationRegistry.Events;
 
 public class Vereniging
 {
