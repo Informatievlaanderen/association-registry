@@ -84,6 +84,9 @@ public class Startup
                 descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
 
         var elasticClient = new ElasticClient(settings);
+
+        if (!elasticClient.Indices.Exists(_configuration["ElasticClientOptions:Indices:Verenigingen"]).Exists)
+            elasticClient.Indices.Create(_configuration["ElasticClientOptions:Indices:Verenigingen"]);
         services.AddSingleton(_ => elasticClient);
 
         var martenConfiguration = services.AddMarten(
@@ -107,7 +110,7 @@ public class Startup
                     ProjectionLifecycle.Async);
             });
 
-        if (_configuration["ProjectionDaemonDisabled"].ToLowerInvariant() != "true")
+        if (_configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
         services.AddS3(_configuration);
