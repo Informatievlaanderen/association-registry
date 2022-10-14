@@ -1,10 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Util;
 using AssociationRegistry.Acm.Api;
+using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 public class VerenigingAcmApiFixture : IDisposable
@@ -38,6 +43,23 @@ public class VerenigingAcmApiFixture : IDisposable
         hostBuilder.UseTestServer();
 
         Server = new TestServer(hostBuilder);
+        CreateS3BucketsIfNeeded();
+    }
+
+    private void CreateS3BucketsIfNeeded()
+    {
+        var amazonS3Client = Server.Services.GetRequiredService<AmazonS3Client>();
+        var bucketName = ConfigurationRoot?["S3BlobClientOptions:Buckets:Verenigingen:Name"];
+
+        var bucketExists = AmazonS3Util.DoesS3BucketExistV2Async(amazonS3Client, bucketName).GetAwaiter().GetResult();
+        if (!bucketExists)
+        {
+            amazonS3Client.PutBucketAsync(
+                new PutBucketRequest
+                {
+                    BucketName = bucketName,
+                }).GetAwaiter().GetResult();
+        }
     }
 
     public void Dispose()
