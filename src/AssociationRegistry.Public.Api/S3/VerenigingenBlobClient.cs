@@ -1,11 +1,11 @@
-﻿using System;
+﻿namespace AssociationRegistry.Public.Api.S3;
+
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.BlobStore;
 using Microsoft.Extensions.Logging;
-
-namespace AssociationRegistry.Public.Api.S3;
 
 public class VerenigingenBlobClient
 {

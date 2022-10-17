@@ -1,17 +1,16 @@
+namespace AssociationRegistry.Public.Api.ListVerenigingen;
+
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Be.Vlaanderen.Basisregisters.Api.Search.Pagination;
+using Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using Be.Vlaanderen.Basisregisters.Api.Search.Pagination;
-
-namespace AssociationRegistry.Public.Api.ListVerenigingen;
-
-using Constants;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

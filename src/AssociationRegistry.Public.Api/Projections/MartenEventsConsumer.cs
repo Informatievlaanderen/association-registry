@@ -1,11 +1,10 @@
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
+namespace AssociationRegistry.Public.Api.Projections;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
 using Marten.Events;
-using When_searching_verenigingen_by_name;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {

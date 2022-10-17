@@ -4,14 +4,12 @@ using System;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
-using Caches;
-using S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
+using Caches;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using json_ld_contexts;
-using IVerenigingenRepository = Caches.IVerenigingenRepository;
+using S3;
 
 public static class ServiceCollectionExtensions
 {

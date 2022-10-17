@@ -3,8 +3,6 @@
 using System;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-using Infrastructure.Json;
-using Newtonsoft.Json;
 
 [DataContract]
 public record DetailVerenigingResponse(

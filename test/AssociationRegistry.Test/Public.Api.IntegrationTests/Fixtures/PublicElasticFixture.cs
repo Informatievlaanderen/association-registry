@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
-using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api.Projections;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Events;
 using Marten;
@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Npgsql;
-using When_searching_verenigingen_by_name;
 
 public class PublicElasticFixture : IDisposable
 {

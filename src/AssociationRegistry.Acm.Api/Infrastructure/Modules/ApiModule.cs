@@ -3,9 +3,7 @@ namespace AssociationRegistry.Acm.Api.Infrastructure.Modules;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 public class ApiModule : Module
 {

@@ -1,13 +1,12 @@
 namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
 using System.Threading.Tasks;
-using ListVerenigingen;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using ListVerenigingen;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]

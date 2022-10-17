@@ -2,16 +2,23 @@ namespace AssociationRegistry.Public.Api;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
-using DetailVerenigingen;
-using Extensions;
-using Infrastructure.Configuration;
-using Infrastructure.Modules;
-using S3;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
+using Constants;
+using DetailVerenigingen;
+using Extensions;
+using Infrastructure.Configuration;
+using Infrastructure.Json;
+using Infrastructure.Modules;
+using ListVerenigingen;
+using Marten;
+using Marten.Events;
+using Marten.Events.Daemon.Resiliency;
+using Marten.Events.Projections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -20,25 +27,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Immutable;
-using Constants;
-using Events;
-using Infrastructure.Json;
-using ListVerenigingen;
-using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
 using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Projections;
+using S3;
 using SearchVerenigingen;
-using Test.Public.Api.IntegrationTests.Fixtures;
-using Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
-using Locatie = ListVerenigingen.Locatie;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
+using Locatie = ListVerenigingen.Locatie;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -184,7 +182,7 @@ public class Startup
                     {
                         Type = "string",
                         Format = "date",
-                        Pattern = "yyyy-MM-dd"
+                        Pattern = "yyyy-MM-dd",
                     });
             });
 

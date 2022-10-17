@@ -1,7 +1,7 @@
+namespace AssociationRegistry.Public.Api;
+
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Hosting;
-
-namespace AssociationRegistry.Public.Api;
 
 public class Program
 {

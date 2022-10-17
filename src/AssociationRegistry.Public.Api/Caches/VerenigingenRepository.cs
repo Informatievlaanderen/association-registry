@@ -1,13 +1,13 @@
-﻿using System.Collections.Immutable;
+﻿namespace AssociationRegistry.Public.Api.Caches;
+
+using System.Collections.Immutable;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using AssociationRegistry.Public.Api.S3;
-using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Be.Vlaanderen.Basisregisters.BlobStore;
 using Newtonsoft.Json;
-
-namespace AssociationRegistry.Public.Api.Caches;
+using S3;
+using SearchVerenigingen;
 
 public interface IVerenigingenRepository
 {

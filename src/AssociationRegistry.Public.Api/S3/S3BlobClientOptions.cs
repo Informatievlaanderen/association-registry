@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 namespace AssociationRegistry.Public.Api.S3;
+
+using System.Collections.Generic;
 
 public class S3BlobClientOptions
 {
