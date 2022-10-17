@@ -27,6 +27,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Verenigingen;
+using Verenigingen.VCodes;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -68,16 +69,18 @@ public class Startup
             });
 
         services.AddMarten(
-            opts =>
-            {
-                opts.Connection(_configuration.GetValue<string>("eventstore_connectionstring"));
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-            });
+                opts =>
+                {
+                    opts.Connection(_configuration.GetValue<string>("eventstore_connectionstring"));
+                    opts.Events.StreamIdentity = StreamIdentity.AsString;
+                    opts.Storage.Add(new VCodeSequence(opts));
+                })
+            .ApplyAllDatabaseChangesOnStartup();
 
         services.AddMediatR(typeof(Startup));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
         services.AddTransient<Events.IEventStore, EventStore>();
-        services.AddSingleton<IVCodeService, SequentialVCodeService>();
+        services.AddSingleton<IVCodeService, SequenceVCodeService>();
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
