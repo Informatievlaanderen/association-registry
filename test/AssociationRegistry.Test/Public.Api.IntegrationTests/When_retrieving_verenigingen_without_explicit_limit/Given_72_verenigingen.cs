@@ -1,5 +1,4 @@
 using AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_verenigingen_without_explicit_limit;

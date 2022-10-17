@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
+using System;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-using System;
 
 [DataContract]
 public record ListVerenigingenResponse(

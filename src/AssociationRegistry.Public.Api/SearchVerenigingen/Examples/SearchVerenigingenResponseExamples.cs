@@ -1,7 +1,7 @@
+namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
+
 using System.Collections.Immutable;
 using Swashbuckle.AspNetCore.Filters;
-
-namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
 {

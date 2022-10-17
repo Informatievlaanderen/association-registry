@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
+namespace AssociationRegistry.Public.Api.Projections;
 
-using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Events;
 using Nest;
+using SearchVerenigingen;
 
 public class ElasticEventHandler
 {
@@ -14,7 +14,5 @@ public class ElasticEventHandler
     }
 
     public void HandleEvent(VerenigingWerdGeregistreerd message)
-    {
-        _elasticClient.IndexDocument(new VerenigingDocument(){ VCode = message.VCode, Naam = message.Naam });
-    }
+        => _elasticClient.IndexDocument(new VerenigingDocument(message.VCode, message.Naam ));
 }

@@ -1,15 +1,14 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Caches;
-using Examples;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Caches;
 using Constants;
+using Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.Api.Contexts;
 
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
+using json_ld_contexts;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiVersion("1.0")]
@@ -14,6 +15,6 @@ public class ContextenController : ApiController
     [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Detail([FromRoute] string name)
         => Content(
-            json_ld_contexts.JsonLdContexts.GetContext(name),
+            JsonLdContexts.GetContext(name),
             WellknownMediaTypes.Json);
 }

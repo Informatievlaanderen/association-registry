@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Public.Api;
 
 using System;
+using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using DetailVerenigingen;
 using ListVerenigingen;
-using System.Collections.Immutable;
-using System.Threading.Tasks;
 
 public class InMemoryVerenigingenRepository : IVerenigingenRepository
 {

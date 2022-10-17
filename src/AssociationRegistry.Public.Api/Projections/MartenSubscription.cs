@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
+namespace AssociationRegistry.Public.Api.Projections;
 
 using System;
 using System.Collections.Generic;

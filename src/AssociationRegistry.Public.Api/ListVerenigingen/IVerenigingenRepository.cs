@@ -1,8 +1,8 @@
-﻿using System.Collections.Immutable;
-using System.Threading.Tasks;
-using AssociationRegistry.Public.Api.DetailVerenigingen;
+﻿namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
-namespace AssociationRegistry.Public.Api.ListVerenigingen;
+using System.Collections.Immutable;
+using System.Threading.Tasks;
+using DetailVerenigingen;
 
 public interface IVerenigingenRepository
 {

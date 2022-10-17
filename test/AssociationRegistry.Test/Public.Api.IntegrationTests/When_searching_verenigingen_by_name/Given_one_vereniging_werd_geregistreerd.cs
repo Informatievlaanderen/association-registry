@@ -1,11 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
-using AssociationRegistry.Admin.Api.Verenigingen;
-using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Events;
 using Fixtures;
 using FluentAssertions;
-using Nest;
 using Xunit;
 
 public class One_vereniging_werd_geregistreerd_fixture: PublicElasticFixture {

@@ -1,10 +1,6 @@
 namespace AssociationRegistry.Public.Api.json_ld_contexts;
 
-using System;
-using DetailVerenigingen;
 using Extensions;
-using ListVerenigingen;
-using Newtonsoft.Json;
 
 public static class JsonLdContexts
 {

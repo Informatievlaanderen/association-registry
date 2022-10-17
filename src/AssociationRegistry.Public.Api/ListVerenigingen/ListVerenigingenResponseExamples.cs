@@ -1,9 +1,8 @@
-﻿using Swashbuckle.AspNetCore.Filters;
-
-namespace AssociationRegistry.Public.Api.ListVerenigingen;
+﻿namespace AssociationRegistry.Public.Api.ListVerenigingen;
 
 using System;
 using System.Collections.Immutable;
+using Swashbuckle.AspNetCore.Filters;
 
 public class ListVerenigingenResponseExamples : IExamplesProvider<ListVerenigingenResponse>
 {
