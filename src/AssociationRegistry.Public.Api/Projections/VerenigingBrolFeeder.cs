@@ -67,6 +67,14 @@ public class VerenigingBrolFeeder
         return string.Join(' ', words);
     }
 
+    private string GetProtput()
+    {
+        var protputten = Protput.All();
+        var index = _random.Next(protputten.Count);
+
+        return protputten[index].ToString();
+    }
+
     public string KorteNaam
         => ComposeText(1);
 
@@ -77,7 +85,7 @@ public class VerenigingBrolFeeder
         => ComposeText();
 
     public string PROTPUT
-        => ComposeText(1);
+        => GetProtput();
 
     public string Doelgroep
         => ComposeText(1);
