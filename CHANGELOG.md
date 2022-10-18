@@ -1,3 +1,12 @@
+# [1.42.0](https://github.com/informatievlaanderen/association-registry/compare/v1.41.1...v1.42.0) (2022-10-18)
+
+
+### Features
+
+* or-1244 add brolFeeder ([014f0ac](https://github.com/informatievlaanderen/association-registry/commit/014f0aca3c0b142a03ca0e0bada33440a0824bc9))
+* or-1244 add dummy data for projections ([c2b05d2](https://github.com/informatievlaanderen/association-registry/commit/c2b05d2d5430c9d933536e4fb1ee6dd0387786ed))
+* or-1244 add VCode as value object ([077f629](https://github.com/informatievlaanderen/association-registry/commit/077f6295f555e424b9373a933f0344251e11e0c1))
+
 ## [1.41.1](https://github.com/informatievlaanderen/association-registry/compare/v1.41.0...v1.41.1) (2022-10-17)
 
 # [1.41.0](https://github.com/informatievlaanderen/association-registry/compare/v1.40.0...v1.41.0) (2022-10-13)
