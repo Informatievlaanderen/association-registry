@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen;
 using Events;
 using FluentAssertions;
+using IntegrationTests;
 using Xunit;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
@@ -23,7 +24,7 @@ public class Given_A_CreateVerenigingCommandHandler
     [Fact]
     public async Task Then_a_new_vereniging_is_saved_in_the_repository()
     {
-        var vNummerService = new SequentialVCodeService();
+        var vNummerService = new InMemorySequentialVCodeService();
         var verenigingsRepository = new VerenigingRepositoryMock();
 
         var handler = new CreateVerenigingCommandHandler(verenigingsRepository, vNummerService);
@@ -32,8 +33,8 @@ public class Given_A_CreateVerenigingCommandHandler
         await handler.Handle(createVerenigingCommand, CancellationToken.None);
 
         var invocation = verenigingsRepository.Invocations.Single();
-        invocation.Vereniging.VCode.Should().Be(SequentialVCodeService.GetLast());
+        invocation.Vereniging.VCode.Should().Be(InMemorySequentialVCodeService.GetLast());
         var events = invocation.Vereniging.Events;
-        events.Single().Should().BeEquivalentTo(new VerenigingWerdGeregistreerd(SequentialVCodeService.GetLast(), "naam1"));
+        events.Single().Should().BeEquivalentTo(new VerenigingWerdGeregistreerd(InMemorySequentialVCodeService.GetLast(), "naam1"));
     }
 }

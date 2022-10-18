@@ -14,5 +14,17 @@ public class ElasticEventHandler
     }
 
     public void HandleEvent(VerenigingWerdGeregistreerd message)
-        => _elasticClient.IndexDocument(new VerenigingDocument(message.VCode, message.Naam ));
+    {
+        var brolFeeder = new VerenigingBrolFeeder();
+
+        var document = new VerenigingDocument(
+            message.VCode,
+            message.Naam,
+            brolFeeder.KorteNaam,
+            brolFeeder.Hoofdlocatie,
+            brolFeeder.AndereLocaties,
+            brolFeeder.PROTPUT,
+            brolFeeder.Doelgroep);
+        _elasticClient.IndexDocument(document);
+    }
 }

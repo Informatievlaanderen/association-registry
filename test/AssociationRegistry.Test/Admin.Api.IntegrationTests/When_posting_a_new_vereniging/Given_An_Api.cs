@@ -21,14 +21,6 @@ public class Given_An_Api : IDisposable
     }
 
     [Fact]
-    public async Task Given_an_empty_Naam_Then_it_returns_a_xxx()
-    {
-        var content = GetContent(string.Empty);
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", content);
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
     public async Task Then_it_returns_an_accepted_response()
     {
         var content = GetContent(_fixture.Create<string>());
