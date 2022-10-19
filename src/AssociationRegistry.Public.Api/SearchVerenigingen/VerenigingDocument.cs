@@ -8,7 +8,7 @@ public record VerenigingDocument(
     [property: Text] string KorteNaam,
     [property: Text] string Hoofdlocatie,
     [property: Text] string[] Locaties,
-    [property: Text] string[] Hoofdactiviteiten,
+    [property: Keyword] string[] Hoofdactiviteiten,
     [property: Text] string Doelgroep,
     [property: Text] string[] Activiteiten
 );

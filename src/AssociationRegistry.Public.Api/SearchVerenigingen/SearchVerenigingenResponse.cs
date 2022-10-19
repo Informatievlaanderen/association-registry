@@ -5,4 +5,5 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record SearchVerenigingenResponse(
-    [property:DataMember(Name = "Verenigingen")]ImmutableArray<Vereniging> Verenigingen);
+    [property:DataMember(Name = "Verenigingen")]ImmutableArray<Vereniging> Verenigingen,
+    [property:DataMember(Name = "Facets")]ImmutableDictionary<string, long> Facets);

@@ -38,6 +38,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Gent")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis"))
-                ))
+                )),
+            ImmutableDictionary.Create<string,long>()
+                .Add("Cultuur",1)
+                .Add("Sport",1)
         );
 }

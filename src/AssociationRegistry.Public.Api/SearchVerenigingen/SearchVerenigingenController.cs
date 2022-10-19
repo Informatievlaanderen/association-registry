@@ -20,6 +20,8 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
+    private const string HoofdactiviteitenCountAggregateName = "Count_By_Hoofdactiviteit";
+
     /// <summary>
     /// Zoek verenigingen op. (statische dataset, momenteel niet gebruikt)
     /// </summary>
@@ -64,6 +66,13 @@ public class SearchVerenigingenController : ApiController
     {
         var searchResponse = await Search(q, elasticClient);
 
+        var response = ToSearchVereningenResponse(searchResponse);
+
+        return Ok(response);
+    }
+
+    private static SearchVerenigingenResponse ToSearchVereningenResponse(ISearchResponse<VerenigingDocument> searchResponse)
+    {
         var verenigingen = searchResponse.Hits.Select(
             x =>
                 new Vereniging(
@@ -77,7 +86,13 @@ public class SearchVerenigingenController : ApiController
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
                 )).ToImmutableArray();
 
-        return Ok(new SearchVerenigingenResponse(verenigingen));
+        var hoofdactiviteitenCountAggregate = searchResponse.Aggregations.Terms(HoofdactiviteitenCountAggregateName);
+        var facets = hoofdactiviteitenCountAggregate
+            .Buckets
+            .ToImmutableDictionary(
+                bucket => bucket.Key.ToString(),
+                bucket => bucket.DocCount??0);
+        return new SearchVerenigingenResponse(verenigingen, facets);
     }
 
     private static async Task<ISearchResponse<VerenigingDocument>> Search(string q, IElasticClient client)
@@ -87,10 +102,22 @@ public class SearchVerenigingenController : ApiController
                 .From(0)
                 .Size(10)
                 .Query(
-                    query => query
-                        .Bool(
-                            b => b
-                                .Must(m => m.QueryString(qs => qs.Query(q)))))
+                    query => query.Bool(
+                        boolQueryDescriptor => boolQueryDescriptor.Must(
+                            queryContainerDescriptor => queryContainerDescriptor.QueryString(
+                                queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
+                            )
+                        )
+                    )
+                )
+                .Aggregations(
+                    aggregationContainerDescriptor => aggregationContainerDescriptor.Terms(
+                        HoofdactiviteitenCountAggregateName,
+                        valueCountAggregationDescriptor => valueCountAggregationDescriptor
+                            .Field(document => document.Hoofdactiviteiten.Suffix("keyword"))
+                            .Size(20)
+                    )
+                )
         );
     }
 }
