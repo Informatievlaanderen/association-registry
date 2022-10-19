@@ -15,12 +15,10 @@ public class MartenEventsConsumer : IMartenEventsConsumer
         _eventHandler = eventHandler;
     }
 
-    public Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
+    public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
     {
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
             if (@event.EventType == typeof(VerenigingWerdGeregistreerd))
-                _eventHandler.HandleEvent((VerenigingWerdGeregistreerd)@event.Data);
-
-        return Task.CompletedTask;
+                await _eventHandler.HandleEvent((VerenigingWerdGeregistreerd)@event.Data);
     }
 }
