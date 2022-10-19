@@ -1,3 +1,11 @@
+# [1.44.0](https://github.com/informatievlaanderen/association-registry/compare/v1.43.0...v1.44.0) (2022-10-19)
+
+
+### Features
+
+* or-1244 create repository for elastic (testablity) ([a347b2f](https://github.com/informatievlaanderen/association-registry/commit/a347b2f5b1678af492c176cb70dc5c3fd57fca8e))
+* or-1244 rename repo.save -> repo.index + async ([bda4c98](https://github.com/informatievlaanderen/association-registry/commit/bda4c98ceeca320e3d297119ede7ba633473400b))
+
 # [1.43.0](https://github.com/informatievlaanderen/association-registry/compare/v1.42.0...v1.43.0) (2022-10-19)
 
 
