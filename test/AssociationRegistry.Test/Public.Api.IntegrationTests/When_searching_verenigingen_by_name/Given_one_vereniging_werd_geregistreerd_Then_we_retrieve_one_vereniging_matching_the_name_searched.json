@@ -4,11 +4,37 @@
       "id": "v000001",
       "naam": "Feestcommittee Oudenaarde",
       "korteNaam": "De korte naam",
-      "hoofdactiviteit": "Buurtwerking",
+      "hoofdactiviteiten": [
+        "Buurtwerking"
+      ],
       "hoofdlocatie": "De hoofdlocatie",
       "doelgroep": "+18",
-      "locaties": [],
-      "activiteiten": []
+      "locaties": [
+        {
+          "type": "",
+          "adresId": "",
+          "adresvoorstelling": "De hoofdlocatie"
+        },
+        {
+          "type": "",
+          "adresId": "",
+          "adresvoorstelling": "andere locatie"
+        }
+      ],
+      "activiteiten": [
+        {
+          "id": -1,
+          "categorie": "Basketbal"
+        },
+        {
+          "id": -1,
+          "categorie": "Tennis"
+        },
+        {
+          "id": -1,
+          "categorie": "Padel"
+        }
+      ]
     }
   ]
 }

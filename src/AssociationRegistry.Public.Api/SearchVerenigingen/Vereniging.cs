@@ -8,7 +8,7 @@ public record Vereniging(
     [property: DataMember(Name = "Id")]string Id,
     [property: DataMember(Name = "Naam")]string Naam,
     [property: DataMember(Name = "KorteNaam")]string KorteNaam,
-    [property: DataMember(Name = "Hoofdactiviteit")]string Hoofdactiviteit,
+    [property: DataMember(Name = "Hoofdactiviteiten")]ImmutableArray<string> Hoofdactiviteiten,
     [property: DataMember(Name = "Hoofdlocatie")]string Hoofdlocatie,
     [property: DataMember(Name = "Doelgroep")]string Doelgroep,
     [property: DataMember(Name = "Locaties")]ImmutableArray<Locatie> Locaties,

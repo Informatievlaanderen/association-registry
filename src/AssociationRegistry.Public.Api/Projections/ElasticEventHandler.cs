@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Projections;
 
+using System.Linq;
 using Events;
 using Nest;
 using SearchVerenigingen;
@@ -22,9 +23,13 @@ public class ElasticEventHandler
             message.Naam,
             _brolFeeder.KorteNaam,
             _brolFeeder.Hoofdlocatie,
-            _brolFeeder.AndereLocaties,
-            _brolFeeder.Hoofdactiviteit,
-            _brolFeeder.Doelgroep);
-        _elasticClient.IndexDocument(document);
+            _brolFeeder.Locaties.ToArray(),
+            _brolFeeder.Hoofdactiviteiten,
+            _brolFeeder.Doelgroep,
+            _brolFeeder.Activiteiten.ToArray());
+        var response = _elasticClient.IndexDocument(document);
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
     }
 }

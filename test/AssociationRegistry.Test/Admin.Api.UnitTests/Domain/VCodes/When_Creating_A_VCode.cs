@@ -48,7 +48,7 @@ public class When_Creating_A_VCode
         }
     }
 
-    public class Given_A_Valid_String_With_Cappital_V
+    public class Given_A_Valid_String_With_Capital_V
     {
         [Theory]
         [InlineData("V000001")]

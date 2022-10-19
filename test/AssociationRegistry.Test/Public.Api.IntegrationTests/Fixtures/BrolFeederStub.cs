@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
+using System.Collections.Immutable;
+using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Projections;
 
 public class BrolFeederStub : IVerenigingBrolFeeder
@@ -10,12 +12,17 @@ public class BrolFeederStub : IVerenigingBrolFeeder
     public string Hoofdlocatie
         => "De hoofdlocatie";
 
-    public string AndereLocaties
-        => "andere locaties";
+    public ImmutableArray<string> Locaties
+        => new[] { Hoofdlocatie, "andere locatie" }
+            .ToImmutableArray();
 
-    public string Hoofdactiviteit
-        => "Buurtwerking";
+    public string[] Hoofdactiviteiten
+        => "Buurtwerking".ObjectToArray();
 
     public string Doelgroep
         => "+18";
+
+    public ImmutableArray<string> Activiteiten
+        => new[] { "Basketbal", "Tennis", "Padel" }
+            .ToImmutableArray();
 }
