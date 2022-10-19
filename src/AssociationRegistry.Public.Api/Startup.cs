@@ -100,7 +100,7 @@ public class Startup
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                var esEventHandler = new ElasticEventHandler(elasticClient);
+                var esEventHandler = new ElasticEventHandler(elasticClient, new VerenigingBrolFeeder());
 
                 opts.Projections.Add(
                     new MartenSubscription(

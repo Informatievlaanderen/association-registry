@@ -8,6 +8,6 @@ public record VerenigingDocument(
     [property: Text] string KorteNaam,
     [property: Text] string Hoofdlocatie,
     [property: Text] string AndereLocaties,
-    [property: Text] string PROTPUT,
+    [property: Text] string Hoofdactiviteit,
     [property: Text] string Doelgroep
     );

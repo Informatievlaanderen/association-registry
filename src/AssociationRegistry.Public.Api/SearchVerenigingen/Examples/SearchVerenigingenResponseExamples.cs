@@ -12,6 +12,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V1234567",
                     "FWA De vrolijke BA’s",
                     "DVB",
+                    "Cultuur",
+                    "Liedekerke",
+                    "18+",
                     ImmutableArray.Create(
                         new Locatie(
                             "Correspondentieadres",
@@ -24,6 +27,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V7654321",
                     "FWA De Bron",
                     string.Empty,
+                    "Sport",
+                    "Gent",
+                    "Alle leeftijden",
                     ImmutableArray.Create(
                         new Locatie(
                             "Plaats van de activiteiten",

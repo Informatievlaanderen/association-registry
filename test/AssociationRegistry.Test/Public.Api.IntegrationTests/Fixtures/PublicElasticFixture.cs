@@ -10,7 +10,9 @@ using Marten.Events;
 using Marten.Events.Projections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Npgsql;
@@ -144,7 +146,7 @@ public class PublicElasticFixture : IDisposable
 
     private DocumentStore ConfigureDocumentStore()
     {
-        var esEventHandler = new ElasticEventHandler(_elasticClient);
+        var esEventHandler = new ElasticEventHandler(_elasticClient, new BrolFeederStub());
 
         return DocumentStore.For(
             opts =>

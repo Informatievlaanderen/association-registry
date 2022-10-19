@@ -3,7 +3,16 @@ namespace AssociationRegistry.Public.Api.Projections;
 using System;
 using System.Collections.Generic;
 
-public class VerenigingBrolFeeder
+public interface IVerenigingBrolFeeder
+{
+    string KorteNaam { get; }
+    string Hoofdlocatie { get; }
+    string AndereLocaties { get; }
+    string Hoofdactiviteit { get; }
+    string Doelgroep { get; }
+}
+
+public class VerenigingBrolFeeder : IVerenigingBrolFeeder
 {
     private readonly List<string> _randomTexts = new()
     {
@@ -67,12 +76,12 @@ public class VerenigingBrolFeeder
         return string.Join(' ', words);
     }
 
-    private string GetProtput()
+    private string GetHoofdactiviteit()
     {
-        var protputten = Protput.All();
-        var index = _random.Next(protputten.Count);
+        var activiteiten = BrolFeederHoofdactiviteit.All();
+        var index = _random.Next(activiteiten.Count);
 
-        return protputten[index].ToString();
+        return activiteiten[index].ToString();
     }
 
     public string KorteNaam
@@ -84,8 +93,8 @@ public class VerenigingBrolFeeder
     public string AndereLocaties
         => ComposeText();
 
-    public string PROTPUT
-        => GetProtput();
+    public string Hoofdactiviteit
+        => GetHoofdactiviteit();
 
     public string Doelgroep
         => ComposeText(1);

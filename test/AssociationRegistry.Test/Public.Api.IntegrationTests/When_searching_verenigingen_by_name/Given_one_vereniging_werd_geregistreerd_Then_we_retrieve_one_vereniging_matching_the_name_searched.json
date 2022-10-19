@@ -3,7 +3,10 @@
     {
       "id": "v000001",
       "naam": "Feestcommittee Oudenaarde",
-      "korteNaam": "",
+      "korteNaam": "De korte naam",
+      "hoofdactiviteit": "Buurtwerking",
+      "hoofdlocatie": "De hoofdlocatie",
+      "doelgroep": "+18",
       "locaties": [],
       "activiteiten": []
     }

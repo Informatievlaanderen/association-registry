@@ -5,7 +5,6 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
 using AssociationRegistry.Acm.Api;
-using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;

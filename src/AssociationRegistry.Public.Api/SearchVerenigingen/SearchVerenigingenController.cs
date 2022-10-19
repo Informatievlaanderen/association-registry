@@ -69,7 +69,10 @@ public class SearchVerenigingenController : ApiController
                 new Vereniging(
                     x.Source.VCode,
                     x.Source.Naam,
-                    string.Empty,
+                    x.Source.KorteNaam,
+                     x.Source.Hoofdactiviteit,
+                    x.Source.Hoofdlocatie,
+                    x.Source.Doelgroep,
                     ImmutableArray<Locatie>.Empty,
                     ImmutableArray<Activiteit>.Empty
                 )).ToImmutableArray();

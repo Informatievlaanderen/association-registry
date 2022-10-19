@@ -7,24 +7,24 @@ using SearchVerenigingen;
 public class ElasticEventHandler
 {
     private readonly IElasticClient _elasticClient;
+    private readonly IVerenigingBrolFeeder _brolFeeder;
 
-    public ElasticEventHandler(IElasticClient elasticClient)
+    public ElasticEventHandler(IElasticClient elasticClient, IVerenigingBrolFeeder brolFeeder)
     {
         _elasticClient = elasticClient;
+        _brolFeeder = brolFeeder;
     }
 
     public void HandleEvent(VerenigingWerdGeregistreerd message)
     {
-        var brolFeeder = new VerenigingBrolFeeder();
-
         var document = new VerenigingDocument(
             message.VCode,
             message.Naam,
-            brolFeeder.KorteNaam,
-            brolFeeder.Hoofdlocatie,
-            brolFeeder.AndereLocaties,
-            brolFeeder.PROTPUT,
-            brolFeeder.Doelgroep);
+            _brolFeeder.KorteNaam,
+            _brolFeeder.Hoofdlocatie,
+            _brolFeeder.AndereLocaties,
+            _brolFeeder.Hoofdactiviteit,
+            _brolFeeder.Doelgroep);
         _elasticClient.IndexDocument(document);
     }
 }
