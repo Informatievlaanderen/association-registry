@@ -145,7 +145,7 @@ public class PublicElasticFixture : IDisposable
 
     private DocumentStore ConfigureDocumentStore()
     {
-        var esEventHandler = new ElasticEventHandler(_elasticClient, new BrolFeederStub());
+        var esEventHandler = new ElasticEventHandler(new ElasticRepository(_elasticClient), new BrolFeederStub());
 
         return DocumentStore.For(
             opts =>
