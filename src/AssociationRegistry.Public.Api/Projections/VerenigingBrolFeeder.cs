@@ -2,8 +2,20 @@ namespace AssociationRegistry.Public.Api.Projections;
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 
-public class VerenigingBrolFeeder
+public interface IVerenigingBrolFeeder
+{
+    string KorteNaam { get; }
+    string Hoofdlocatie { get; }
+    ImmutableArray<string> Locaties { get; }
+    string[] Hoofdactiviteiten { get; }
+    string Doelgroep { get; }
+    ImmutableArray<string> Activiteiten { get; }
+}
+
+public class VerenigingBrolFeeder : IVerenigingBrolFeeder
 {
     private readonly List<string> _randomTexts = new()
     {
@@ -67,12 +79,22 @@ public class VerenigingBrolFeeder
         return string.Join(' ', words);
     }
 
-    private string GetProtput()
+    private IEnumerable<string> ComposeArray(int maxNumberOfElements, Func<string> composeText)
     {
-        var protputten = Protput.All();
-        var index = _random.Next(protputten.Count);
+        var numberOfElements = _random.Next(1, maxNumberOfElements);
 
-        return protputten[index].ToString();
+        for (var i = 0; i < numberOfElements; i++)
+        {
+            yield return composeText();
+        }
+    }
+
+    private string GetHoofdactiviteit()
+    {
+        var hoofdactiviteiten = BrolFeederHoofdactiviteit.All();
+        var index = _random.Next(hoofdactiviteiten.Count);
+
+        return hoofdactiviteiten[index].ToString();
     }
 
     public string KorteNaam
@@ -81,12 +103,18 @@ public class VerenigingBrolFeeder
     public string Hoofdlocatie
         => ComposeText(3);
 
-    public string AndereLocaties
-        => ComposeText();
+    public ImmutableArray<string> Locaties
+        => ComposeArray(3, () => ComposeText(1))
+            .ToImmutableList()
+            .Add(Hoofdlocatie)
+            .ToImmutableArray();
 
-    public string PROTPUT
-        => GetProtput();
+    public string[] Hoofdactiviteiten
+        => ComposeArray(2, GetHoofdactiviteit).ToArray();
 
     public string Doelgroep
         => ComposeText(1);
+
+    public ImmutableArray<string> Activiteiten
+        => ComposeArray(3, () => ComposeText(1)).ToImmutableArray();
 }

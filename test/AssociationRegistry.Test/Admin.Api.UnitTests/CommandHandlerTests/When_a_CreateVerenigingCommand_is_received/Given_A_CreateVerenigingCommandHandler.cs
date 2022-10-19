@@ -3,7 +3,6 @@
 using AssociationRegistry.Admin.Api.Verenigingen;
 using Events;
 using FluentAssertions;
-using IntegrationTests;
 using Xunit;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
 
 using System.Collections.Immutable;
+using Extensions;
 using Swashbuckle.AspNetCore.Filters;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
@@ -12,6 +13,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V1234567",
                     "FWA De vrolijke BA’s",
                     "DVB",
+                    "Cultuur".ObjectToImmutableArray(),
+                    "Liedekerke",
+                    "18+",
                     ImmutableArray.Create(
                         new Locatie(
                             "Correspondentieadres",
@@ -24,6 +28,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V7654321",
                     "FWA De Bron",
                     string.Empty,
+                    "Sport".ObjectToImmutableArray(),
+                    "Gent",
+                    "Alle leeftijden",
                     ImmutableArray.Create(
                         new Locatie(
                             "Plaats van de activiteiten",

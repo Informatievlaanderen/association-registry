@@ -125,7 +125,8 @@ public class PublicElasticFixture : IDisposable
                 _configurationRoot["ElasticClientOptions:Password"])
             .DefaultMappingFor(
                 typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(VerenigingenIndexName));
+                descriptor => descriptor.IndexName(VerenigingenIndexName))
+            .EnableDebugMode();
 
         var client = new ElasticClient(settings);
         if (client.Indices.Exists(VerenigingenIndexName).Exists)
@@ -144,7 +145,7 @@ public class PublicElasticFixture : IDisposable
 
     private DocumentStore ConfigureDocumentStore()
     {
-        var esEventHandler = new ElasticEventHandler(_elasticClient);
+        var esEventHandler = new ElasticEventHandler(_elasticClient, new BrolFeederStub());
 
         return DocumentStore.For(
             opts =>

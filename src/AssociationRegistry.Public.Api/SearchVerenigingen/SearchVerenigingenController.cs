@@ -32,8 +32,8 @@ public class SearchVerenigingenController : ApiController
     // [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     // [Produces(contentType: WellknownMediaTypes.Json)]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Get([FromServices] IVerenigingenRepository verenigingenRepository) =>
-        await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
+    public async Task<IActionResult> Get([FromServices] IVerenigingenRepository verenigingenRepository)
+        => await Task.FromResult<IActionResult>(Ok(verenigingenRepository.Verenigingen));
 
     [HttpPut("zoeken")]
     [ApiExplorerSettings(IgnoreApi = true)]
@@ -42,7 +42,7 @@ public class SearchVerenigingenController : ApiController
         [FromBody] ImmutableArray<Vereniging>? maybeBody,
         CancellationToken cancellationToken)
     {
-        if (maybeBody is not { }body)
+        if (maybeBody is not { } body)
             return BadRequest();
 
         await verenigingenRepository.UpdateVerenigingen(body, Request.Body, cancellationToken);
@@ -69,9 +69,12 @@ public class SearchVerenigingenController : ApiController
                 new Vereniging(
                     x.Source.VCode,
                     x.Source.Naam,
-                    string.Empty,
-                    ImmutableArray<Locatie>.Empty,
-                    ImmutableArray<Activiteit>.Empty
+                    x.Source.KorteNaam,
+                    x.Source.Hoofdactiviteiten.ToImmutableArray(),
+                    x.Source.Hoofdlocatie,
+                    x.Source.Doelgroep,
+                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie)).ToImmutableArray(),
+                    x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
                 )).ToImmutableArray();
 
         return Ok(new SearchVerenigingenResponse(verenigingen));
