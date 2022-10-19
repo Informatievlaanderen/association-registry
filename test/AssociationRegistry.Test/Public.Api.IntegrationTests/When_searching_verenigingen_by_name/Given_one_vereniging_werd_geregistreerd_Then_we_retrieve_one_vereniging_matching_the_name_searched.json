@@ -36,5 +36,8 @@
         }
       ]
     }
-  ]
+  ],
+  "facets":{
+    "Buurtwerking": 1
+  }
 }
