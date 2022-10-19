@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.Projections;
 
 using System.Linq;
+using System.Threading.Tasks;
 using Events;
 using SearchVerenigingen;
 
@@ -15,8 +16,8 @@ public class ElasticEventHandler
         _brolFeeder = brolFeeder;
     }
 
-    public void HandleEvent(VerenigingWerdGeregistreerd message)
-        => _elasticRepository.Save(
+    public async Task HandleEvent(VerenigingWerdGeregistreerd message)
+        => await _elasticRepository.IndexAsync(
             new VerenigingDocument(
                 message.VCode,
                 message.Naam,

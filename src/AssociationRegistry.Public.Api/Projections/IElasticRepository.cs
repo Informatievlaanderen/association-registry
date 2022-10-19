@@ -1,7 +1,12 @@
 namespace AssociationRegistry.Public.Api.Projections;
 
+using System.Threading.Tasks;
+
 public interface IElasticRepository
 {
-    void Save<TDocument>(TDocument document)
+    void Index<TDocument>(TDocument document)
+        where TDocument : class;
+
+    Task IndexAsync<TDocument>(TDocument document)
         where TDocument : class;
 }
