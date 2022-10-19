@@ -1,3 +1,12 @@
+# [1.43.0](https://github.com/informatievlaanderen/association-registry/compare/v1.42.0...v1.43.0) (2022-10-19)
+
+
+### Features
+
+* or-1244 expand brolfeeder with locaties and activiteiten ([170d756](https://github.com/informatievlaanderen/association-registry/commit/170d756f4f05514d6446b0ed202dc3e53c6c8080))
+* or-1244 expose new ES fields through API ([21ec93b](https://github.com/informatievlaanderen/association-registry/commit/21ec93bdacfe1d91fb75dd8df00eeb478032da78))
+* or-1244 refactor VCode tests ([9698a1b](https://github.com/informatievlaanderen/association-registry/commit/9698a1ba7f18667cfd6d2b5e9ff804bd6f68404a))
+
 # [1.42.0](https://github.com/informatievlaanderen/association-registry/compare/v1.41.1...v1.42.0) (2022-10-18)
 
 
