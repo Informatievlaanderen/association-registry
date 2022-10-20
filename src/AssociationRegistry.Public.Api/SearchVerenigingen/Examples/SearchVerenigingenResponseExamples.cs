@@ -41,6 +41,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 )),
             ImmutableDictionary.Create<string,long>()
                 .Add("Cultuur",1)
-                .Add("Sport",1)
+                .Add("Sport",1),
+            new Metadata(new Pagination(2, 0, 50))
         );
 }
