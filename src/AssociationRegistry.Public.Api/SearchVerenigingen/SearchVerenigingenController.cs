@@ -54,6 +54,27 @@ public class SearchVerenigingenController : ApiController
     /// <summary>
     /// Zoek verenigingen op.
     /// </summary>
+    /// <remarks>
+    /// Dit endpoint laat toe verenigingen op te zoeken.
+    ///
+    /// Voor de zoekterm `q` kan je gebruik maken van volledige termen, of gebruik maken van wildcards.
+    /// - `q=Liedekerke` zoekt in alle velden naar de volledige term,
+    /// - `q=Liedeke*` zoekt in alle velden naar een term die begint met 'Liedeke',
+    /// - `q=*kerke` zoekt in alle velden naar een term die eindigt op 'kerke',
+    /// - `q=*kerke*` zoekt in alle velden naar een term die 'kerke' bevat.
+    ///
+    /// Om te zoeken binnen een bepaald veld, gebruik je de naam van het veld.
+    /// - `q=hoofdlocatie:Liedekerke`
+    /// - `q=korteNaam:DV*`
+    ///
+    /// Standaard gebruiken we een paginatie limiet van 50 verenigingen.
+    /// Om een andere limiet te gebruiken, geef je de parameter `limit` mee.
+    /// - `q=...&amp;limit=100`
+    ///
+    /// Om de volgende pagina's op te vragen, geef je de parameter `offset` mee.
+    /// - `q=...&amp;offset=50`
+    /// - `q=...&amp;offset=30&amp;limit=30`
+    /// </remarks>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("zoeken")]
@@ -62,7 +83,9 @@ public class SearchVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.Json)]
-    public async Task<IActionResult> Zoeken([FromServices] ElasticClient elasticClient, [FromQuery] string q,
+    public async Task<IActionResult> Zoeken(
+        [FromServices] ElasticClient elasticClient,
+        [FromQuery] string q,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         var searchResponse = await Search(elasticClient, q, paginationQueryParams);
