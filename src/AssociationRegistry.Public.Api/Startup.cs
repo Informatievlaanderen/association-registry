@@ -85,6 +85,7 @@ public class Startup
 
         if (!elasticClient.Indices.Exists(_configuration["ElasticClientOptions:Indices:Verenigingen"]).Exists)
             elasticClient.Indices.Create(_configuration["ElasticClientOptions:Indices:Verenigingen"]);
+
         services.AddSingleton(_ => elasticClient);
 
         var martenConfiguration = services.AddMarten(
