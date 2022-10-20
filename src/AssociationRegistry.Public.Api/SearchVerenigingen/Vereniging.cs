@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record Vereniging(
-    [property: DataMember(Name = "Id")]string Id,
+    [property: DataMember(Name = "VCode")]string VCode,
     [property: DataMember(Name = "Naam")]string Naam,
     [property: DataMember(Name = "KorteNaam")]string KorteNaam,
     [property: DataMember(Name = "Hoofdactiviteiten")]ImmutableArray<string> Hoofdactiviteiten,
