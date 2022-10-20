@@ -62,16 +62,19 @@ public class SearchVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.Json)]
-    public async Task<IActionResult> Zoeken([FromServices] ElasticClient elasticClient, [FromQuery] string q)
+    public async Task<IActionResult> Zoeken([FromServices] ElasticClient elasticClient, [FromQuery] string q,
+        [FromQuery] PaginationQueryParams paginationQueryParams)
     {
-        var searchResponse = await Search(q, elasticClient);
+        var searchResponse = await Search(elasticClient, q, paginationQueryParams);
 
-        var response = ToSearchVereningenResponse(searchResponse);
+        var response = ToSearchVereningenResponse(searchResponse, paginationQueryParams);
 
         return Ok(response);
     }
 
-    private static SearchVerenigingenResponse ToSearchVereningenResponse(ISearchResponse<VerenigingDocument> searchResponse)
+    private static SearchVerenigingenResponse ToSearchVereningenResponse(
+        ISearchResponse<VerenigingDocument> searchResponse,
+        PaginationQueryParams paginationRequest)
     {
         var verenigingen = searchResponse.Hits.Select(
             x =>
@@ -92,15 +95,31 @@ public class SearchVerenigingenController : ApiController
             .ToImmutableDictionary(
                 bucket => bucket.Key.ToString(),
                 bucket => bucket.DocCount??0);
-        return new SearchVerenigingenResponse(verenigingen, facets);
+
+        var metadata = new Metadata(
+            new Pagination(
+                searchResponse.Total,
+                paginationRequest.Offset,
+                paginationRequest.Limit
+            )
+        );
+
+        return new SearchVerenigingenResponse(
+            verenigingen,
+            facets,
+            metadata
+        );
     }
 
-    private static async Task<ISearchResponse<VerenigingDocument>> Search(string q, IElasticClient client)
+    private static async Task<ISearchResponse<VerenigingDocument>> Search(
+        IElasticClient client,
+        string q,
+        PaginationQueryParams paginationQueryParams)
     {
         return await client.SearchAsync<VerenigingDocument>(
             s => s
-                .From(0)
-                .Size(10)
+                .From(paginationQueryParams.Offset)
+                .Size(paginationQueryParams.Limit)
                 .Query(
                     query => query.Bool(
                         boolQueryDescriptor => boolQueryDescriptor.Must(

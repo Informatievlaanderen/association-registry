@@ -39,5 +39,12 @@
   ],
   "facets":{
     "buurtwerking": 1
+  },
+  "metadata": {
+    "pagination": {
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 50
+    }
   }
 }

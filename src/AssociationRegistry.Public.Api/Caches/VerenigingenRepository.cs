@@ -8,6 +8,7 @@ using Be.Vlaanderen.Basisregisters.BlobStore;
 using Newtonsoft.Json;
 using S3;
 using SearchVerenigingen;
+using Metadata = Be.Vlaanderen.Basisregisters.BlobStore.Metadata;
 
 public interface IVerenigingenRepository
 {
