@@ -1,7 +1,7 @@
 {
   "verenigingen": [
     {
-      "id": "v000001",
+      "vCode": "v000001",
       "naam": "Feestcommittee Oudenaarde",
       "korteNaam": "De korte naam",
       "hoofdactiviteiten": [
