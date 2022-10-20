@@ -11,6 +11,7 @@ using Marten.Events.Projections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Npgsql;
@@ -40,7 +41,7 @@ public class PublicElasticFixture : IDisposable
 
         _httpClient = _testServer.CreateClient();
 
-        _elasticClient = ConfigureElasticClient();
+        _elasticClient = ConfigureElasticClient(_testServer, VerenigingenIndexName);
 
         _documentStore = ConfigureDocumentStore();
     }
@@ -117,27 +118,14 @@ public class PublicElasticFixture : IDisposable
         return new TestServer(hostBuilder);
     }
 
-    private ElasticClient ConfigureElasticClient()
+    private static ElasticClient ConfigureElasticClient(TestServer testServer, string verenigingenIndexName)
     {
-        var settings = new ConnectionSettings(new Uri(_configurationRoot["ElasticClientOptions:Uri"]))
-            .BasicAuthentication(
-                _configurationRoot["ElasticClientOptions:Username"],
-                _configurationRoot["ElasticClientOptions:Password"])
-            .DefaultMappingFor(
-                typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(VerenigingenIndexName))
-            .EnableDebugMode();
+        var client = (ElasticClient)testServer.Services.GetRequiredService(typeof(ElasticClient));
 
-        var client = new ElasticClient(settings);
-        if (client.Indices.Exists(VerenigingenIndexName).Exists)
-            client.Indices.Delete(VerenigingenIndexName);
+        if (client.Indices.Exists(verenigingenIndexName).Exists)
+            client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.Create(
-            VerenigingenIndexName,
-            c => c
-                .Map<VerenigingDocument>(
-                    m => m
-                        .AutoMap<VerenigingDocument>()));
+        client.Indices.Create(verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
         return client;
