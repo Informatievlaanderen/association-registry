@@ -110,7 +110,7 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
             .ToImmutableArray();
 
     public string[] Hoofdactiviteiten
-        => ComposeArray(2, GetHoofdactiviteit).ToArray();
+        => ComposeArray(3, GetHoofdactiviteit).ToArray();
 
     public string Doelgroep
         => ComposeText(1);
