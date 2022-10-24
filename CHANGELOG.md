@@ -1,3 +1,20 @@
+# [1.45.0](https://github.com/informatievlaanderen/association-registry/compare/v1.44.0...v1.45.0) (2022-10-24)
+
+
+### Features
+
+* or-1244 add correct xml comments ([2cee54e](https://github.com/informatievlaanderen/association-registry/commit/2cee54e21e787eb4fc4ceb975518a158f414bb1b))
+* or-1244 add documentation ([a2600a2](https://github.com/informatievlaanderen/association-registry/commit/a2600a253931477f6518d1650722a5ad10ac5317))
+* or-1244 add facets - Does not yet work ([20c9329](https://github.com/informatievlaanderen/association-registry/commit/20c932915fce56569b5ea8cca48f2c077f552cfe))
+* or-1244 don't use automapping for now ([665c656](https://github.com/informatievlaanderen/association-registry/commit/665c6563350b6eee83d077b9a114a13ec7043a2b))
+* or-1244 make exceptions constructor public ([44ad49f](https://github.com/informatievlaanderen/association-registry/commit/44ad49f15b74714dc132575dd75fd2efe14ff814))
+* or-1244 make exceptions serializable ([068ea40](https://github.com/informatievlaanderen/association-registry/commit/068ea40a47c2b4c84aa78c2798df591296b530b0))
+* or-1244 make exceptions serializable ([eee2c0d](https://github.com/informatievlaanderen/association-registry/commit/eee2c0dbbe69863e5b4e4d66600d70058a2c9852))
+* or-1244 provide moar randomness ([04897d8](https://github.com/informatievlaanderen/association-registry/commit/04897d8af64d8bac70ef64ee07384d391eb1451b))
+* or-1244 rename Id to VCode in API search response ([2bc6b85](https://github.com/informatievlaanderen/association-registry/commit/2bc6b85a9a64f0d028f1f8c860119f2d2e59962c))
+* or-1244 use class io record so we can add xml docs ([85844c0](https://github.com/informatievlaanderen/association-registry/commit/85844c0fe3c1c78aa39a8e33f6458d2476f65c8d))
+* or-1244 WIP pagination (untested) ([a41a245](https://github.com/informatievlaanderen/association-registry/commit/a41a24511406caae8c6c59cd115e997c2559f87c))
+
 # [1.44.0](https://github.com/informatievlaanderen/association-registry/compare/v1.43.0...v1.44.0) (2022-10-19)
 
 
