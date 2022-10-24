@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class InvalidVCodeLength : InvalidVCode
 {
-    internal InvalidVCodeLength() : base("VCode must be of length 7")
+    public InvalidVCodeLength() : base("VCode must be of length 7")
     {
     }
 
