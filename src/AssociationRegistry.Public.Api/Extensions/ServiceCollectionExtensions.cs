@@ -6,10 +6,13 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Caches;
+using ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nest;
 using S3;
+using SearchVerenigingen;
 
 public static class ServiceCollectionExtensions
 {
@@ -64,4 +67,37 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IVerenigingenRepository>(sp =>
             VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
     }
+
+    public static IServiceCollection AddElasticSearch(
+        this IServiceCollection services,
+        ElasticSearchOptionsSection elasticSearchOptions)
+    {
+        var elasticClient = CreateElasticClient(elasticSearchOptions);
+        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices.Verenigingen);
+
+        services.AddSingleton(_ => elasticClient);
+
+        return services;
+    }
+
+    private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
+    {
+        if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
+            elasticClient.Indices.Create(verenigingenIndexName);
+    }
+
+    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    {
+        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri))
+            .BasicAuthentication(
+                elasticSearchOptions.Username,
+                elasticSearchOptions.Password)
+            .DefaultMappingFor(
+                typeof(VerenigingDocument),
+                descriptor => descriptor.IndexName(elasticSearchOptions.Indices.Verenigingen));
+
+        var elasticClient = new ElasticClient(settings);
+        return elasticClient;
+    }
+
 }
