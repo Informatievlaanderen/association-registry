@@ -8,6 +8,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
+using ConfigurationBindings;
 using Constants;
 using DetailVerenigingen;
 using Extensions;
@@ -60,6 +61,16 @@ public class Startup
     /// <param name="services">The collection of services to configure the application with.</param>
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
+        var postgreSqlOptions = _configuration.GetSection("PostgreSQLOptions")
+            .Get<PostgreSqlOptionsSection>();
+
+        ThrowIfInvalidPostgreSqlOptions(postgreSqlOptions);
+
+        var elasticSearchOptions = _configuration.GetSection("ElasticClientOptions")
+            .Get<ElasticSearchOptionsSection>();
+
+        ThrowIfInvalidElasticOptions(elasticSearchOptions);
+
         var baseUrl = _configuration.GetValue<string>("BaseUrl");
         var baseUrlForExceptions = baseUrl.EndsWith("/")
             ? baseUrl.Substring(0, baseUrl.Length - 1)
@@ -73,40 +84,27 @@ public class Startup
 
         services.AddSingleton(_configuration.Get<AppSettings>());
 
-        var settings = new ConnectionSettings(new Uri(_configuration["ElasticClientOptions:Uri"]))
-            .BasicAuthentication(
-                _configuration["ElasticClientOptions:Username"],
-                _configuration["ElasticClientOptions:Password"])
-            .DefaultMappingFor(
-                typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(_configuration["ElasticClientOptions:Indices:Verenigingen"]));
-
-        var elasticClient = new ElasticClient(settings);
-
-        if (!elasticClient.Indices.Exists(_configuration["ElasticClientOptions:Indices:Verenigingen"]).Exists)
-            elasticClient.Indices.Create(_configuration["ElasticClientOptions:Indices:Verenigingen"]);
-
-        services.AddSingleton(_ => elasticClient);
+        services.AddElasticSearch(elasticSearchOptions);
 
         var martenConfiguration = services.AddMarten(
-            opts =>
+            serviceProvider =>
             {
-                var connectionString = $@"
-                    host={_configuration["PostgreSQLOptions:host"]};
-                    database={_configuration["PostgreSQLOptions:database"]};
-                    password={_configuration["PostgreSQLOptions:password"]};
-                    username={_configuration["PostgreSQLOptions:username"]}";
+                var connectionString = GetPostgresConnectionString(postgreSqlOptions);
+
+                var opts = new StoreOptions();
 
                 opts.Connection(connectionString);
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                var esEventHandler = new ElasticEventHandler(new ElasticRepository(elasticClient), new VerenigingBrolFeeder());
+                var esEventHandler = new ElasticEventHandler(new ElasticRepository(serviceProvider.GetRequiredService<ElasticClient>()), new VerenigingBrolFeeder());
 
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(esEventHandler)),
                     ProjectionLifecycle.Async);
+
+                return opts;
             });
 
         if (_configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
@@ -258,6 +256,42 @@ public class Startup
 
         return new AutofacServiceProvider(_applicationContainer);
     }
+
+    private static void ThrowIfInvalidElasticOptions(ElasticSearchOptionsSection elasticSearchOptions)
+    {
+        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Uri))
+            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Uri)}");
+
+        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen))
+            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+
+        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Username))
+            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Username)}");
+
+        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Password))
+            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Password)}");
+    }
+
+    private static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
+    {
+        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Database))
+            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Database)}");
+
+        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Host))
+            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Host)}");
+
+        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Username))
+            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Username)}");
+
+        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Password))
+            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Password)}");
+    }
+
+    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
+        => $"host={postgreSqlOptions.Host};" +
+           $"database={postgreSqlOptions.Database};" +
+           $"password={postgreSqlOptions.Password};" +
+           $"username={postgreSqlOptions.Username}";
 
     public void Configure(
         IServiceProvider serviceProvider,
