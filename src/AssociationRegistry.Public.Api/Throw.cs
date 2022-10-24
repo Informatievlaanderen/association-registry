@@ -2,29 +2,37 @@ namespace AssociationRegistry.Public.Api;
 
 using System;
 
-public class Throw<TException> where TException : Exception, new()
+public class Throw<TException> where TException : Exception
 {
-    public static void If(Func<bool> condition)
+    public static void If(Func<bool> condition, string? message = null)
     {
         if (condition())
-            throw new TException();
+            ThrowException(message);
     }
 
-    public static void If(bool invalid)
+    public static void If(bool invalid, string? message = null)
     {
         if (invalid)
-            throw new TException();
+            ThrowException(message);
     }
 
-    public static void IfNot(Func<bool> condition)
+    public static void IfNot(Func<bool> condition, string? message = null)
     {
         if (!condition())
-            throw new TException();
+            ThrowException(message);
     }
 
-    public static void IfNot(bool valid)
+    public static void IfNot(bool valid, string? message = null)
     {
         if (!valid)
-            throw new TException();
+            ThrowException(message);
+    }
+
+    public static void IfNullOrWhiteSpace(string? value, string? message = null)
+        => If(string.IsNullOrWhiteSpace(value), message);
+
+    private static void ThrowException(string? message)
+    {
+        throw (string.IsNullOrWhiteSpace(message) ? Activator.CreateInstance<TException>() : Activator.CreateInstance(typeof(TException), message) as TException)!;
     }
 }
