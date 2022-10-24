@@ -16,6 +16,7 @@ jobs:
           [
               'association-registry-acm-api',
               'association-registry-public-api',
+              'association-registry-admin-api',
           ]
     steps:
       - name: CD
