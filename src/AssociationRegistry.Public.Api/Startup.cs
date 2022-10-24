@@ -259,32 +259,28 @@ public class Startup
 
     private static void ThrowIfInvalidElasticOptions(ElasticSearchOptionsSection elasticSearchOptions)
     {
-        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Uri))
-            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Uri)}");
-
-        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen))
-            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
-
-        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Username))
-            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Username)}");
-
-        if (string.IsNullOrWhiteSpace(elasticSearchOptions.Password))
-            throw new ArgumentNullException($"{nameof(ElasticSearchOptionsSection)}.{nameof(ElasticSearchOptionsSection.Password)}");
+        const string sectionName = nameof(ElasticSearchOptionsSection);
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
     }
 
     private static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
     {
-        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Database))
-            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Database)}");
-
-        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Host))
-            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Host)}");
-
-        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Username))
-            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Username)}");
-
-        if (string.IsNullOrWhiteSpace(postgreSqlOptions.Password))
-            throw new ArgumentNullException($"{nameof(PostgreSqlOptionsSection)}.{nameof(PostgreSqlOptionsSection.Password)}");
+        const string sectionName = nameof(PostgreSqlOptionsSection);
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Host,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Username,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Password,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
     private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
