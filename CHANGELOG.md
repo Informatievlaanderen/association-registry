@@ -1,3 +1,11 @@
+# [1.46.0](https://github.com/informatievlaanderen/association-registry/compare/v1.45.0...v1.46.0) (2022-10-24)
+
+
+### Features
+
+* or-1244 use options in startup - public API ([b686b84](https://github.com/informatievlaanderen/association-registry/commit/b686b843a8b08b21a4afadffbc36329d3477de77))
+* remove connectionstring from config ([d6b4ba8](https://github.com/informatievlaanderen/association-registry/commit/d6b4ba8c98be6c2243e44df94ed08777926f5186))
+
 # [1.45.0](https://github.com/informatievlaanderen/association-registry/compare/v1.44.0...v1.45.0) (2022-10-24)
 
 
