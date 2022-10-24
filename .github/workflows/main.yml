@@ -217,6 +217,21 @@ jobs:
         name: public-api
         path: ~/ar-public-api-image.tar
 
+    - name: Save Admin Api Image
+      if: env.RELEASE_VERSION != 'none'
+      shell: bash
+      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER -o ~/ar-admin-api-image.tar
+      env:
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+        SEMVER: ${{ env.RELEASE_VERSION }}
+
+    - name: Upload Admin Api artifact
+      if: env.RELEASE_VERSION != 'none'
+      uses: actions/upload-artifact@v3
+      with:
+        name: admin-api
+        path: ~/ar-admin-api-image.tar
+
     # name: Upload artifact
     # /build
 #
@@ -377,6 +392,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-public-api-image.tar
 
+      - name: Download Admin Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: admin-api
+          path: ~/
+
+      - name: Load Admin Api image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.build.outputs.version != 'none'
         shell: bash
@@ -384,6 +409,7 @@ jobs:
           echo $SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           SEMVER: ${{ needs.build.outputs.version }}
@@ -427,6 +453,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-public-api-image.tar
 
+      - name: Download Admin Api artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: admin-api
+          path: ~/
+
+      - name: Load Admin Api image
+        shell: bash
+        run: docker image load -i ~/ar-admin-api-image.tar
+
       - name: Push docker images to ECR Staging
         if: needs.build.outputs.version != 'none'
         shell: bash
@@ -435,6 +471,8 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
