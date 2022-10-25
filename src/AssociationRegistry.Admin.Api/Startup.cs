@@ -7,6 +7,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
+using ConfigurationBindings;
 using Constants;
 using Events;
 using Infrastructure.Configuration;
@@ -37,20 +38,21 @@ public class Startup
     private IContainer _applicationContainer = null!;
 
     private readonly IConfiguration _configuration;
-    private readonly ILoggerFactory _loggerFactory;
 
-    public Startup(
-        IConfiguration configuration,
-        ILoggerFactory loggerFactory)
+    public Startup(IConfiguration configuration)
     {
         _configuration = configuration;
-        _loggerFactory = loggerFactory;
     }
 
     /// <summary>Configures services for the application.</summary>
     /// <param name="services">The collection of services to configure the application with.</param>
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
+        var postgreSqlOptions = _configuration.GetSection("PostgreSQLOptions")
+            .Get<PostgreSqlOptionsSection>();
+
+        ThrowIfInvalidPostgreSqlOptions(postgreSqlOptions);
+
         var baseUrl = _configuration.GetValue<string>("BaseUrl");
         var baseUrlForExceptions = baseUrl.EndsWith("/")
             ? baseUrl.Substring(0, baseUrl.Length - 1)
@@ -71,7 +73,7 @@ public class Startup
         services.AddMarten(
                 opts =>
                 {
-                    opts.Connection(_configuration.GetValue<string>("eventstore_connectionstring"));
+                    opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
                     opts.Events.StreamIdentity = StreamIdentity.AsString;
                     opts.Storage.Add(new VCodeSequence(opts));
                 })
@@ -220,6 +222,25 @@ public class Startup
 
     private static string GetApiLeadingText(ApiVersionDescription description)
         => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+
+    private static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
+    {
+        const string sectionName = nameof(PostgreSqlOptionsSection);
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Host,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Username,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(postgreSqlOptions.Password,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+    }
+
+    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
+        => $"host={postgreSqlOptions.Host};" +
+           $"database={postgreSqlOptions.Database};" +
+           $"password={postgreSqlOptions.Password};" +
+           $"username={postgreSqlOptions.Username}";
 }
 
 public class ProblemJsonResponseFilter : IOperationFilter
