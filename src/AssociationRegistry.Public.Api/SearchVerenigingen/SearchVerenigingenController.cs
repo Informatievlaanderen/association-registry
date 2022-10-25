@@ -108,7 +108,7 @@ public class SearchVerenigingenController : ApiController
                     x.Source.Hoofdactiviteiten.ToImmutableArray(),
                     x.Source.Hoofdlocatie,
                     x.Source.Doelgroep,
-                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie)).ToImmutableArray(),
+                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.AdresVoorstelling, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
                 )).ToImmutableArray();
 

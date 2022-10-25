@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Extensions;
+using SearchVerenigingen;
 
 public interface IVerenigingBrolFeeder
 {
     string KorteNaam { get; }
     string Hoofdlocatie { get; }
-    ImmutableArray<string> Locaties { get; }
+    ImmutableArray<VerenigingDocument.Locatie> Locaties { get; }
     string[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
     ImmutableArray<string> Activiteiten { get; }
@@ -83,7 +84,7 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         return string.Join(' ', words);
     }
 
-    private IEnumerable<string> ComposeArray(int maxNumberOfElements, Func<string> composeText)
+    private IEnumerable<T> ComposeArray<T>(int maxNumberOfElements, Func<T> composeText)
     {
         var numberOfElements = _random.Next(1, maxNumberOfElements);
 
@@ -111,14 +112,19 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
             ? "De hoofdlocatie"
             : ComposeText(3);
 
-    public ImmutableArray<string> Locaties
+    public ImmutableArray<VerenigingDocument.Locatie> Locaties
         => isStatic
-            ? new[] { Hoofdlocatie, "andere locatie" }
+            ? new[]
+                {
+                    new VerenigingDocument.Locatie("De hoofdlocatie", "0123", "abcdefg"),
+                    new VerenigingDocument.Locatie("andere locatie", "0987", "zyxwv")
+                }
                 .ToImmutableArray()
-            : ComposeArray(3, () => ComposeText(1))
-                .ToImmutableList()
-                .Add(Hoofdlocatie)
+            : ComposeArray(3, () => new VerenigingDocument.Locatie(ComposeText(3), GetPostcode(), ComposeText(1)))
                 .ToImmutableArray();
+
+    private string GetPostcode()
+        => $"{_random.Next(0,999):0000}";
 
     public string[] Hoofdactiviteiten
         => isStatic

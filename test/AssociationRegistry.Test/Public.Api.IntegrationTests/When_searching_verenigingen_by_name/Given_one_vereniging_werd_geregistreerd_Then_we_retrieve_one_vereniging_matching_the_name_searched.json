@@ -13,12 +13,16 @@
         {
           "type": "",
           "adresId": "",
-          "adresvoorstelling": "De hoofdlocatie"
+          "adresvoorstelling": "De hoofdlocatie",
+          "postcode": "0123",
+          "gemeente": "abcdefg"
         },
         {
           "type": "",
           "adresId": "",
-          "adresvoorstelling": "andere locatie"
+          "adresvoorstelling": "andere locatie",
+          "postcode": "0987",
+          "gemeente": "zyxwv"
         }
       ],
       "activiteiten": [
