@@ -20,7 +20,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new Locatie(
                             "Correspondentieadres",
                             "https://data.vlaanderen.be/id/adres/2272122",
-                            "Bombardonstraat 245, 1770 Liedekerke")
+                            "Bombardonstraat 245, 1770 Liedekerke",
+                            "1770",
+                            "Liedekerke")
                     ),
                     ImmutableArray.Create(
                         new Activiteit(123, "Badminton"))),
@@ -35,6 +37,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new Locatie(
                             "Plaats van de activiteiten",
                             "https://data.vlaanderen.be/id/gemeente/44021",
+                            "9000 Gent",
+                            "9000",
                             "Gent")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis"))

@@ -32,7 +32,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),
-                    new[] { fixture.Create<string>() },
+                    new[] { fixture.Create<VerenigingDocument.Locatie>() },
                     new[] { fixture.Create<string>() },
                     fixture.Create<string>(),
                     new[] { fixture.Create<string>() }
