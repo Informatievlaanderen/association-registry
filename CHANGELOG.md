@@ -1,3 +1,5 @@
+## [1.46.3](https://github.com/informatievlaanderen/association-registry/compare/v1.46.2...v1.46.3) (2022-10-25)
+
 ## [1.46.2](https://github.com/informatievlaanderen/association-registry/compare/v1.46.1...v1.46.2) (2022-10-25)
 
 ## [1.46.1](https://github.com/informatievlaanderen/association-registry/compare/v1.46.0...v1.46.1) (2022-10-25)
