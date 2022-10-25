@@ -65,11 +65,6 @@ public class Startup
 
         ThrowIfInvalidElasticOptions(elasticSearchOptions);
 
-        var baseUrl = _configuration.GetValue<string>("BaseUrl");
-        var baseUrlForExceptions = baseUrl.EndsWith("/")
-            ? baseUrl.Substring(0, baseUrl.Length - 1)
-            : baseUrl;
-
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
 
@@ -85,27 +80,7 @@ public class Startup
 
         services.RegisterDomainEventHandlers(GetType().Assembly);
 
-        var martenConfiguration = services.AddMarten(
-            serviceProvider =>
-            {
-                var connectionString = GetPostgresConnectionString(postgreSqlOptions);
-
-                var opts = new StoreOptions();
-
-                opts.Connection(connectionString);
-
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new MartenEventsConsumer(serviceProvider)),
-                    ProjectionLifecycle.Async);
-
-                return opts;
-            });
-
-        if (_configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+        AddMarten(services, postgreSqlOptions, _configuration);
 
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
@@ -115,25 +90,26 @@ public class Startup
         // todo: remove when detail api works with real projection
         services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(associationRegistryUri));
 
-        services.AddSwaggerGen(
-            options =>
-            {
-                options.MapType<DateOnly>(
-                    () => new OpenApiSchema
-                    {
-                        Type = "string",
-                        Format = "date",
-                        Pattern = "yyyy-MM-dd",
-                    });
-            });
+        AddSwagger(services);
 
+        ConfigureDefaultsForApi(services, _configuration);
+
+        var containerBuilder = new ContainerBuilder();
+        containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
+        _applicationContainer = containerBuilder.Build();
+
+        return new AutofacServiceProvider(_applicationContainer);
+    }
+
+    private static void ConfigureDefaultsForApi(IServiceCollection services, IConfiguration configuration)
+    {
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
                 {
                     Cors =
                     {
-                        Origins = _configuration
+                        Origins = configuration
                             .GetSection("Cors")
                             .GetChildren()
                             .Select(c => c.Value)
@@ -141,7 +117,7 @@ public class Startup
                     },
                     Server =
                     {
-                        BaseUrl = baseUrlForExceptions,
+                        BaseUrl = GetBaseUrlForExceptions(configuration),
                     },
                     Swagger =
                     {
@@ -174,7 +150,7 @@ public class Startup
                         },
                         AfterHealthChecks = health =>
                         {
-                            var connectionStrings = _configuration
+                            var connectionStrings = configuration
                                 .GetSection("ConnectionStrings")
                                 .GetChildren();
 
@@ -190,13 +166,55 @@ public class Startup
                         },
                     },
                 });
-        //.Configure<ResponseOptions>(_configuration);
+    }
 
-        var containerBuilder = new ContainerBuilder();
-        containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
-        _applicationContainer = containerBuilder.Build();
+    private static string GetBaseUrlForExceptions(IConfiguration configuration)
+        => TrimTrailingSlash(configuration.GetValue<string>("BaseUrl"));
 
-        return new AutofacServiceProvider(_applicationContainer);
+    private static string TrimTrailingSlash(string baseUrl)
+        => baseUrl.EndsWith("/")
+            ? baseUrl[..^1]
+            : baseUrl;
+
+    private static void AddMarten(IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
+    {
+        var martenConfiguration1 = services.AddMarten(
+            serviceProvider =>
+            {
+                var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
+
+                var opts = new StoreOptions();
+
+                opts.Connection(connectionString1);
+
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new MartenEventsConsumer(serviceProvider)),
+                    ProjectionLifecycle.Async);
+
+                return opts;
+            });
+        var martenConfiguration = martenConfiguration1;
+
+        if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
+            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+    }
+
+    private static void AddSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(
+            options =>
+            {
+                options.MapType<DateOnly>(
+                    () => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Format = "date",
+                        Pattern = "yyyy-MM-dd",
+                    });
+            });
     }
 
     public void Configure(

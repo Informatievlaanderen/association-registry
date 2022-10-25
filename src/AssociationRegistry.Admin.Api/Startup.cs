@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -26,7 +25,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Verenigingen;
 using Verenigingen.VCodes;
 
@@ -53,43 +51,33 @@ public class Startup
 
         ThrowIfInvalidPostgreSqlOptions(postgreSqlOptions);
 
-        var baseUrl = _configuration.GetValue<string>("BaseUrl");
-        var baseUrlForExceptions = baseUrl.EndsWith("/")
-            ? baseUrl.Substring(0, baseUrl.Length - 1)
-            : baseUrl;
 
-        services.AddSwaggerGen(
-            options =>
-            {
-                options.MapType<DateOnly>(
-                    () => new OpenApiSchema
-                    {
-                        Type = "string",
-                        Format = "date",
-                        Pattern = "yyyy-MM-dd",
-                    });
-            });
+        AddSwagger(services);
 
-        services.AddMarten(
-                opts =>
-                {
-                    opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
-                    opts.Events.StreamIdentity = StreamIdentity.AsString;
-                    opts.Storage.Add(new VCodeSequence(opts));
-                })
-            .ApplyAllDatabaseChangesOnStartup();
+        AddMarten(services, postgreSqlOptions);
 
         services.AddMediatR(typeof(Startup));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
         services.AddTransient<Events.IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
+        ConfigureDefaultsForApi(services, _configuration);
+
+        var containerBuilder = new ContainerBuilder();
+        containerBuilder.RegisterModule(new ApiModule(services));
+        _applicationContainer = containerBuilder.Build();
+
+        return new AutofacServiceProvider(_applicationContainer);
+    }
+
+    private static void ConfigureDefaultsForApi(IServiceCollection services, IConfiguration configuration)
+    {
         services
             .ConfigureDefaultForApi<Startup>(
                 new StartupConfigureOptions
                 {
                     Cors =
                     {
-                        Origins = _configuration
+                        Origins = configuration
                             .GetSection("Cors")
                             .GetChildren()
                             .Select(c => c.Value)
@@ -97,7 +85,7 @@ public class Startup
                     },
                     Server =
                     {
-                        BaseUrl = baseUrlForExceptions,
+                        BaseUrl = GetBaseUrlForExceptions(configuration),
                     },
                     Swagger =
                     {
@@ -130,7 +118,7 @@ public class Startup
                         },
                         AfterHealthChecks = health =>
                         {
-                            var connectionStrings = _configuration
+                            var connectionStrings = configuration
                                 .GetSection("ConnectionStrings")
                                 .GetChildren();
 
@@ -146,13 +134,41 @@ public class Startup
                         },
                     },
                 });
-        //.Configure<ResponseOptions>(_configuration);
+    }
 
-        var containerBuilder = new ContainerBuilder();
-        containerBuilder.RegisterModule(new ApiModule(services));
-        _applicationContainer = containerBuilder.Build();
+    private static string GetBaseUrlForExceptions(IConfiguration configuration)
+        => TrimTrailingSlash(configuration.GetValue<string>("BaseUrl"));
 
-        return new AutofacServiceProvider(_applicationContainer);
+    private static string TrimTrailingSlash(string baseUrl)
+        => baseUrl.EndsWith("/")
+            ? baseUrl[..^1]
+            : baseUrl;
+
+    private static void AddMarten(IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions)
+    {
+        services.AddMarten(
+                opts =>
+                {
+                    opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
+                    opts.Events.StreamIdentity = StreamIdentity.AsString;
+                    opts.Storage.Add(new VCodeSequence(opts));
+                })
+            .ApplyAllDatabaseChangesOnStartup();
+    }
+
+    private static void AddSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(
+            options =>
+            {
+                options.MapType<DateOnly>(
+                    () => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Format = "date",
+                        Pattern = "yyyy-MM-dd",
+                    });
+            });
     }
 
 
@@ -241,25 +257,4 @@ public class Startup
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
-}
-
-public class ProblemJsonResponseFilter : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        foreach (var (_, value) in operation.Responses.Where(
-                     entry =>
-                         (entry.Key.StartsWith("4") && entry.Key != "400") ||
-                         entry.Key.StartsWith("5")))
-        {
-            if (!value.Content.Any())
-                return;
-
-            var openApiMediaType = value.Content.First().Value;
-
-            value.Content.Clear();
-            value.Content.Add(
-                new KeyValuePair<string, OpenApiMediaType>("application/problem+json", openApiMediaType));
-        }
-    }
 }
