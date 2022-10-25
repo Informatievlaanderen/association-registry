@@ -3,7 +3,6 @@
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
-using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Events;
 using Marten;
 using Marten.Events;
@@ -39,12 +38,17 @@ public class PublicElasticFixture : IDisposable
 
         _testServer = ConfigureTestServer();
 
+        ConfigureBrolFeeder();
+
         _httpClient = _testServer.CreateClient();
 
         _elasticClient = ConfigureElasticClient(_testServer, VerenigingenIndexName);
 
-        _documentStore = ConfigureDocumentStore();
+        _documentStore = ConfigureDocumentStore(_testServer);
     }
+
+    private void ConfigureBrolFeeder()
+        => _testServer.Services.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
     protected void AddEvent(string vCode, VerenigingWerdGeregistreerd eventToAdd)
     {
@@ -131,10 +135,8 @@ public class PublicElasticFixture : IDisposable
         return client;
     }
 
-    private DocumentStore ConfigureDocumentStore()
+    private DocumentStore ConfigureDocumentStore(TestServer testServer)
     {
-        var esEventHandler = new ElasticEventHandler(new ElasticRepository(_elasticClient), new BrolFeederStub());
-
         return DocumentStore.For(
             opts =>
             {
@@ -164,7 +166,7 @@ public class PublicElasticFixture : IDisposable
 
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(esEventHandler)), ProjectionLifecycle.Async);
+                        new MartenEventsConsumer(_testServer.Services)), ProjectionLifecycle.Async);
             });
     }
 

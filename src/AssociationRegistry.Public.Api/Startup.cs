@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Public.Api;
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -10,7 +8,6 @@ using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Constants;
-using DetailVerenigingen;
 using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
@@ -28,16 +25,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projections;
 using S3;
-using SearchVerenigingen;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using static ConfigHelpers;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
-using Locatie = ListVerenigingen.Locatie;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -86,6 +80,11 @@ public class Startup
 
         services.AddElasticSearch(elasticSearchOptions);
 
+        services.AddTransient<IElasticRepository, ElasticRepository>();
+        services.AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>();
+
+        services.RegisterDomainEventHandlers(GetType().Assembly);
+
         var martenConfiguration = services.AddMarten(
             serviceProvider =>
             {
@@ -97,11 +96,9 @@ public class Startup
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                var esEventHandler = new ElasticEventHandler(new ElasticRepository(serviceProvider.GetRequiredService<ElasticClient>()), new VerenigingBrolFeeder());
-
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(esEventHandler)),
+                        new MartenEventsConsumer(serviceProvider)),
                     ProjectionLifecycle.Async);
 
                 return opts;
@@ -114,64 +111,9 @@ public class Startup
         services.AddBlobClients(s3Options);
         services.AddDataCache();
         services.AddJsonLdContexts();
-        services.AddSingleton<IVerenigingenRepository>(
-            _ => new InMemoryVerenigingenRepository(
-                new VerenigingListItem[]
-                {
-                    new(
-                        "V1234567",
-                        "FWA De vrolijke BA’s",
-                        "DVB",
-                        new Locatie("1770", "Liedekerke"),
-                        ImmutableArray.Create(
-                            new ListVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
-                            new ListVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")))),
-                },
-                new VerenigingDetail[]
-                {
-                    new(
-                        "V1234567",
-                        "FWA De vrolijke BA’s",
-                        "DVB",
-                        "Korte omschrijving voor FWA De vrolijke BA's",
-                        "Feitelijke vereniging",
-                        DateOnly.FromDateTime(new DateTime(2022, 09, 15)),
-                        DateOnly.FromDateTime(new DateTime(2023, 10, 16)),
-                        new DetailVerenigingen.Locatie("1770", "Liedekerke"),
-                        new ContactPersoon(
-                            "Walter",
-                            "Plop",
-                            ImmutableArray.Create(
-                                new ContactGegeven("email", "walter.plop@studio100.be"),
-                                new ContactGegeven("telefoon", "100"))),
-                        ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
-                        ImmutableArray.Create(
-                            new DetailVerenigingActiviteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
-                            new DetailVerenigingActiviteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010"))),
-                        ImmutableArray.Create(
-                            new ContactGegeven("telefoon", "025462323"),
-                            new ContactGegeven("email", "info@dotimeforyou.be"),
-                            new ContactGegeven("website", "www.dotimeforyou.be"),
-                            new ContactGegeven("socialmedia", "facebook/dotimeforyou"),
-                            new ContactGegeven("socialmedia", "twitter/@dotimeforyou")
-                        ),
-                        DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
-                    new(
-                        "V1234568",
-                        "FWA De vrolijke BA’s",
-                        String.Empty,
-                        String.Empty,
-                        String.Empty,
-                        null,
-                        null,
-                        new DetailVerenigingen.Locatie("1840", "Londerzeel"),
-                        null,
-                        ImmutableArray.Create(new DetailVerenigingen.Locatie("1840", "Londerzeel")),
-                        ImmutableArray<DetailVerenigingActiviteit>.Empty,
-                        ImmutableArray<ContactGegeven>.Empty,
-                        DateOnly.FromDateTime(new DateTime(2022, 09, 26))),
-                }
-            ));
+
+        // todo: remove when detail api works with real projection
+        services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(associationRegistryUri));
 
         services.AddSwaggerGen(
             options =>
@@ -257,38 +199,6 @@ public class Startup
         return new AutofacServiceProvider(_applicationContainer);
     }
 
-    private static void ThrowIfInvalidElasticOptions(ElasticSearchOptionsSection elasticSearchOptions)
-    {
-        const string sectionName = nameof(ElasticSearchOptionsSection);
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
-    }
-
-    private static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
-    {
-        const string sectionName = nameof(PostgreSqlOptionsSection);
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Host,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Username,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Password,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
-    }
-
-    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host};" +
-           $"database={postgreSqlOptions.Database};" +
-           $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username}";
-
     public void Configure(
         IServiceProvider serviceProvider,
         IApplicationBuilder app,
@@ -355,25 +265,4 @@ public class Startup
 
     private static string GetApiLeadingText(ApiVersionDescription description)
         => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister Public API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
-}
-
-public class ProblemJsonResponseFilter : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        foreach (var (_, value) in operation.Responses.Where(
-                     entry =>
-                         (entry.Key.StartsWith("4") && entry.Key != "400") ||
-                         entry.Key.StartsWith("5")))
-        {
-            if (!value.Content.Any())
-                return;
-
-            var openApiMediaType = value.Content.First().Value;
-
-            value.Content.Clear();
-            value.Content.Add(
-                new KeyValuePair<string, OpenApiMediaType>("application/problem+json", openApiMediaType));
-        }
-    }
 }
