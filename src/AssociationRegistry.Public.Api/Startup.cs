@@ -8,7 +8,6 @@ using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Constants;
-using Events;
 using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
@@ -26,7 +25,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projections;
@@ -83,7 +81,7 @@ public class Startup
         services.AddElasticSearch(elasticSearchOptions);
 
         services.AddTransient<IElasticRepository, ElasticRepository>();
-        services.AddTransient<IVerenigingBrolFeeder, VerenigingBrolFeeder>();
+        services.AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>();
 
         services.RegisterDomainEventHandlers(GetType().Assembly);
 
@@ -98,11 +96,9 @@ public class Startup
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                var esEventHandler = serviceProvider.GetRequiredService<ElasticEventHandler>();
-
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(esEventHandler)),
+                        new MartenEventsConsumer(serviceProvider)),
                     ProjectionLifecycle.Async);
 
                 return opts;

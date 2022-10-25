@@ -79,6 +79,7 @@ public static class ServiceCollectionExtensions
         EnsureIndexExists(elasticClient, elasticSearchOptions.Indices.Verenigingen);
 
         services.AddSingleton(_ => elasticClient);
+        services.AddSingleton<IElasticClient>(_ => elasticClient);
 
         return services;
     }

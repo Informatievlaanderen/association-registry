@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Extensions;
 
 public interface IVerenigingBrolFeeder
 {
@@ -13,10 +14,13 @@ public interface IVerenigingBrolFeeder
     string[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
     ImmutableArray<string> Activiteiten { get; }
+    void SetStatic();
 }
 
 public class VerenigingBrolFeeder : IVerenigingBrolFeeder
 {
+    private static bool isStatic = false;
+
     private readonly List<string> _randomTexts = new()
     {
         "harbor     ",
@@ -98,23 +102,40 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
     }
 
     public string KorteNaam
-        => ComposeText(1);
+        => isStatic
+            ? "De korte naam"
+            : ComposeText(1);
 
     public string Hoofdlocatie
-        => ComposeText(3);
+        => isStatic
+            ? "De hoofdlocatie"
+            : ComposeText(3);
 
     public ImmutableArray<string> Locaties
-        => ComposeArray(3, () => ComposeText(1))
-            .ToImmutableList()
-            .Add(Hoofdlocatie)
-            .ToImmutableArray();
+        => isStatic
+            ? new[] { Hoofdlocatie, "andere locatie" }
+                .ToImmutableArray()
+            : ComposeArray(3, () => ComposeText(1))
+                .ToImmutableList()
+                .Add(Hoofdlocatie)
+                .ToImmutableArray();
 
     public string[] Hoofdactiviteiten
-        => ComposeArray(3, GetHoofdactiviteit).ToArray();
+        => isStatic
+            ? "Buurtwerking".ObjectToArray()
+            : ComposeArray(3, GetHoofdactiviteit).ToArray();
 
     public string Doelgroep
-        => ComposeText(1);
+        => isStatic
+            ? "+18"
+            : ComposeText(1);
 
     public ImmutableArray<string> Activiteiten
-        => ComposeArray(3, () => ComposeText(1)).ToImmutableArray();
+        => isStatic
+            ? new[] { "Basketbal", "Tennis", "Padel" }
+                .ToImmutableArray()
+            : ComposeArray(3, () => ComposeText(1)).ToImmutableArray();
+
+    public void SetStatic()
+        => isStatic = true;
 }
