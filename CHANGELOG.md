@@ -1,3 +1,10 @@
+# [1.47.0](https://github.com/informatievlaanderen/association-registry/compare/v1.46.3...v1.47.0) (2022-10-25)
+
+
+### Features
+
+* or-1274 add locatie object to projection ([fc1fc94](https://github.com/informatievlaanderen/association-registry/commit/fc1fc9437de8caceb2fb44fd554f2cadab700f5f))
+
 ## [1.46.3](https://github.com/informatievlaanderen/association-registry/compare/v1.46.2...v1.46.3) (2022-10-25)
 
 ## [1.46.2](https://github.com/informatievlaanderen/association-registry/compare/v1.46.1...v1.46.2) (2022-10-25)
