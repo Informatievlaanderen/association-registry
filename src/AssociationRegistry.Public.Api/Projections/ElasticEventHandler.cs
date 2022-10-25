@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Events;
 using SearchVerenigingen;
 
-public class ElasticEventHandler
+public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistreerd>
 {
     private readonly IElasticRepository _elasticRepository;
     private readonly IVerenigingBrolFeeder _brolFeeder;

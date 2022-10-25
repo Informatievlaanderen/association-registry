@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Api.Extensions;
 
 using System;
+using System.Linq;
+using System.Reflection;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
+using Projections;
 using S3;
 using SearchVerenigingen;
 
@@ -100,4 +103,22 @@ public static class ServiceCollectionExtensions
         return elasticClient;
     }
 
+    public static IServiceCollection RegisterDomainEventHandlers(this IServiceCollection services, Assembly assembly)
+    {
+        assembly.GetTypes()
+            .Where(
+                item => item.GetInterfaces()
+                            .Where(i => i.IsGenericType)
+                            .Any(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
+                        && !item.IsAbstract && !item.IsInterface)
+            .ToList()
+            .ForEach(
+                serviceType =>
+                {
+                    // allow only 1 eventhandler per class
+                    var interfaceType = serviceType.GetInterfaces().Single(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>));
+                    services.AddScoped(interfaceType, serviceType);
+                });
+        return services;
+    }
 }

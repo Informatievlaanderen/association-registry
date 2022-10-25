@@ -8,7 +8,7 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 
-public class MartenSubscription: IProjection
+public class MartenSubscription : IProjection
 {
     private readonly IMartenEventsConsumer _consumer;
 
