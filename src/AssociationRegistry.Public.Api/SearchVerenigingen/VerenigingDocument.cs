@@ -6,7 +6,7 @@ public record VerenigingDocument(
     [property: Keyword] string VCode,
     [property: Text] string Naam,
     [property: Text] string KorteNaam,
-    [property: Text] string Hoofdlocatie,
+    [property: Nested] VerenigingDocument.Locatie Hoofdlocatie,
     [property: Nested] VerenigingDocument.Locatie[] Locaties,
     [property: Keyword] string[] Hoofdactiviteiten,
     [property: Text] string Doelgroep,
@@ -14,7 +14,6 @@ public record VerenigingDocument(
 )
 {
     public record Locatie(
-        [property: Text] string AdresVoorstelling,
         [property: Text] string Postcode,
         [property: Text] string Gemeente);
 }

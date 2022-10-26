@@ -67,6 +67,9 @@ public class SearchVerenigingenController : ApiController
     /// - `q=hoofdlocatie:Liedekerke`
     /// - `q=korteNaam:DV*`
     ///
+    /// Om te zoeken op een genest veld, beschrijf je het pad anar het veld.
+    /// - `q=locaties.postcode:1000`
+    ///
     /// Standaard gebruiken we een paginatie limiet van 50 verenigingen.
     /// Om een andere limiet te gebruiken, geef je de parameter `limit` mee.
     /// - `q=...&amp;limit=100`
@@ -106,9 +109,9 @@ public class SearchVerenigingenController : ApiController
                     x.Source.Naam,
                     x.Source.KorteNaam,
                     x.Source.Hoofdactiviteiten.ToImmutableArray(),
-                    x.Source.Hoofdlocatie,
+                    new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,
-                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.AdresVoorstelling, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
+                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
                 )).ToImmutableArray();
 
@@ -117,7 +120,7 @@ public class SearchVerenigingenController : ApiController
             .Buckets
             .ToImmutableDictionary(
                 bucket => bucket.Key.ToString(),
-                bucket => bucket.DocCount??0);
+                bucket => bucket.DocCount ?? 0);
 
         var metadata = new Metadata(
             new Pagination(

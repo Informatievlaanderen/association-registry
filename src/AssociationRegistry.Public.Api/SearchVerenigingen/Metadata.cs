@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
-using AssociationRegistry.Public.Api.Constants;
+using Constants;
 
 public record Metadata(Pagination Pagination);
 
