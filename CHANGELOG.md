@@ -1,3 +1,10 @@
+# [1.48.0](https://github.com/informatievlaanderen/association-registry/compare/v1.47.0...v1.48.0) (2022-10-26)
+
+
+### Features
+
+* or-1274 remove adressvoorstelling + make hoofdlocatie of type locatie ([6cbe68f](https://github.com/informatievlaanderen/association-registry/commit/6cbe68f984631729068d40c5b99bd8351e92c42c))
+
 # [1.47.0](https://github.com/informatievlaanderen/association-registry/compare/v1.46.3...v1.47.0) (2022-10-25)
 
 
