@@ -7,20 +7,23 @@
       "hoofdactiviteiten": [
         "Buurtwerking"
       ],
-      "hoofdlocatie": "De hoofdlocatie",
+      "hoofdlocatie": {
+        "type": "",
+        "adresId": "",
+        "postcode": "0123",
+        "gemeente": "abcdefg"
+      },
       "doelgroep": "+18",
       "locaties": [
         {
           "type": "",
           "adresId": "",
-          "adresvoorstelling": "De hoofdlocatie",
           "postcode": "0123",
           "gemeente": "abcdefg"
         },
         {
           "type": "",
           "adresId": "",
-          "adresvoorstelling": "andere locatie",
           "postcode": "0987",
           "gemeente": "zyxwv"
         }

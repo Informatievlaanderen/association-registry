@@ -10,7 +10,7 @@ using SearchVerenigingen;
 public interface IVerenigingBrolFeeder
 {
     string KorteNaam { get; }
-    string Hoofdlocatie { get; }
+    VerenigingDocument.Locatie Hoofdlocatie { get; }
     ImmutableArray<VerenigingDocument.Locatie> Locaties { get; }
     string[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
@@ -107,24 +107,24 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
             ? "De korte naam"
             : ComposeText(1);
 
-    public string Hoofdlocatie
+    public VerenigingDocument.Locatie Hoofdlocatie
         => isStatic
-            ? "De hoofdlocatie"
-            : ComposeText(3);
+            ? new VerenigingDocument.Locatie("0123", "abcdefg")
+            : new VerenigingDocument.Locatie(GetPostcode(), ComposeText(1));
 
     public ImmutableArray<VerenigingDocument.Locatie> Locaties
         => isStatic
             ? new[]
                 {
-                    new VerenigingDocument.Locatie("De hoofdlocatie", "0123", "abcdefg"),
-                    new VerenigingDocument.Locatie("andere locatie", "0987", "zyxwv")
+                    new VerenigingDocument.Locatie("0123", "abcdefg"),
+                    new VerenigingDocument.Locatie("0987", "zyxwv"),
                 }
                 .ToImmutableArray()
-            : ComposeArray(3, () => new VerenigingDocument.Locatie(ComposeText(3), GetPostcode(), ComposeText(1)))
+            : ComposeArray(3, () => new VerenigingDocument.Locatie(GetPostcode(), ComposeText(1)))
                 .ToImmutableArray();
 
     private string GetPostcode()
-        => $"{_random.Next(0,999):0000}";
+        => $"{_random.Next(0, 999):0000}";
 
     public string[] Hoofdactiviteiten
         => isStatic
