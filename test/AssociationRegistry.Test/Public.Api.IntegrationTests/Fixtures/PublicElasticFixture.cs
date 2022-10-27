@@ -15,14 +15,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Npgsql;
+using Xunit;
+using Xunit.Sdk;
 
-public class PublicElasticFixture : IDisposable
+public class PublicElasticFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier;
     private readonly HttpClient _httpClient;
-    private readonly ElasticClient _elasticClient;
-    private readonly DocumentStore _documentStore;
+    private readonly IElasticClient _elasticClient;
+    private DocumentStore? _documentStore;
 
     private readonly TestServer _testServer;
     private readonly IConfigurationRoot _configurationRoot;
@@ -43,29 +45,27 @@ public class PublicElasticFixture : IDisposable
 
         _httpClient = _testServer.CreateClient();
 
-        _elasticClient = ConfigureElasticClient(_testServer, VerenigingenIndexName);
-
-        _documentStore = ConfigureDocumentStore(_testServer);
-
-        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger")).GetAwaiter().GetResult();
-        WaitFor.PostGreSQLToBecomeAvailable(_documentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger")).GetAwaiter().GetResult();
+        _elasticClient = CreateElasticClient(_testServer);
     }
 
     private void ConfigureBrolFeeder()
         => _testServer.Services.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
-    protected void AddEvent(string vCode, VerenigingWerdGeregistreerd eventToAdd)
+    protected async Task AddEvent(string vCode, VerenigingWerdGeregistreerd eventToAdd)
     {
-        using var session = _documentStore.OpenSession();
-        session.Events.Append(vCode, eventToAdd);
-        session.SaveChanges();
+        if (_documentStore is not { })
+            throw new NullException("DocumentStore cannot be null when adding an event");
 
-        var daemon = _documentStore.BuildProjectionDaemon();
-        daemon.StartAllShards().GetAwaiter().GetResult();
-        daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10)).GetAwaiter().GetResult();
+        await using var session = _documentStore.OpenSession();
+        session.Events.Append(vCode, eventToAdd);
+        await session.SaveChangesAsync();
+
+        var daemon = await _documentStore.BuildProjectionDaemonAsync();
+        await daemon.StartAllShards();
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));
 
         // Make sure all documents are properly indexed
-        _elasticClient.Indices.Refresh(Indices.All);
+        await _elasticClient.Indices.RefreshAsync(Indices.All);
     }
 
     public async Task<string> Search(string uri)
@@ -87,7 +87,7 @@ public class PublicElasticFixture : IDisposable
         GC.SuppressFinalize(this);
         _httpClient.Dispose();
         _testServer.Dispose();
-        _documentStore.Dispose();
+        _documentStore?.Dispose();
 
         DropDatabase();
 
@@ -126,20 +126,20 @@ public class PublicElasticFixture : IDisposable
         return new TestServer(hostBuilder);
     }
 
-    private static ElasticClient ConfigureElasticClient(TestServer testServer, string verenigingenIndexName)
-    {
-        var client = (ElasticClient)testServer.Services.GetRequiredService(typeof(ElasticClient));
+    private static IElasticClient CreateElasticClient(TestServer testServer)
+        => (IElasticClient)testServer.Services.GetRequiredService(typeof(ElasticClient));
 
+    private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    {
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
         client.Indices.Create(verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
-        return client;
     }
 
-    private DocumentStore ConfigureDocumentStore(TestServer testServer)
+    private DocumentStore ConfigureDocumentStore()
     {
         return DocumentStore.For(
             opts =>
@@ -182,21 +182,34 @@ public class PublicElasticFixture : IDisposable
                     password={_configurationRoot["PostgreSQLOptions:password"]};
                     username={_configurationRoot["PostgreSQLOptions:username"]}";
 
-        using (var connection = new NpgsqlConnection(connectionString))
-        using (var cmd = connection.CreateCommand())
+        using var connection = new NpgsqlConnection(connectionString);
+        using var cmd = connection.CreateCommand();
+        try
         {
-            try
-            {
-                connection.Open();
-                // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-                cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
-                cmd.ExecuteNonQuery();
-            }
-            finally
-            {
-                connection.Close();
-                connection.Dispose();
-            }
+            connection.Open();
+            // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
+            cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.ExecuteNonQuery();
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
         }
     }
+
+    public virtual async Task InitializeAsync()
+    {
+        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+
+        await WaitFor.Wait(LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"), () =>
+        {
+            _documentStore = ConfigureDocumentStore();
+            return Task.CompletedTask;
+        }, "PostgreSQL");
+    }
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
