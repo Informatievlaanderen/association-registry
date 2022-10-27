@@ -13,37 +13,10 @@ using Xunit;
 public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
+    private TestServer? _testServer;
+
     public HttpClient? HttpClient { get; private set; }
     public IDocumentStore? DocumentStore { get; private set; }
-    private TestServer? _testServer;
-    private readonly IConfigurationRoot _configurationRoot;
-    private readonly IWebHostBuilder _hostBuilder;
-
-    public VerenigingAdminApiFixture()
-    {
-        var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-
-        Directory.SetCurrentDirectory(rootDirectory);
-
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-
-        _configurationRoot = builder.Build();
-
-        _hostBuilder = new WebHostBuilder();
-
-        _hostBuilder.UseConfiguration(_configurationRoot);
-        _hostBuilder.UseStartup<Startup>();
-
-        _hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-
-        _hostBuilder.UseTestServer();
-    }
 
     public void Dispose()
     {
@@ -54,26 +27,47 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        var configuration = GetConfiguration();
+
         await WaitFor.PostGreSQLToBecomeAvailable(
             LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetRootConnectionString()
+            GetRootConnectionString(configuration)
         );
 
-        _testServer = new TestServer(_hostBuilder);
+        var hostBuilder = new WebHostBuilder();
+
+        hostBuilder.UseConfiguration(configuration);
+        hostBuilder.UseStartup<Startup>();
+        hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
+        hostBuilder.UseTestServer();
+
+        _testServer = new TestServer(hostBuilder);
 
         HttpClient = _testServer.CreateClient();
         DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
     }
 
-    private string GetRootConnectionString()
+    private static IConfigurationRoot GetConfiguration()
     {
-        var rootConnectionString = $@"
-                     host={_configurationRoot["PostgreSQLOptions:host"]};
-                     database={RootDatabase};
-                     password={_configurationRoot["PostgreSQLOptions:password"]};
-                     username={_configurationRoot["PostgreSQLOptions:username"]}";
-        return rootConnectionString;
+        var maybeRootDirectory = Directory
+            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
+
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(rootDirectory)
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+
+        var configurationRoot = builder.Build();
+        return configurationRoot;
     }
+
+    private static string GetRootConnectionString(IConfiguration configurationRoot)
+        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
+           $"database={RootDatabase};" +
+           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
+           $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     public Task DisposeAsync()
         => Task.CompletedTask;
