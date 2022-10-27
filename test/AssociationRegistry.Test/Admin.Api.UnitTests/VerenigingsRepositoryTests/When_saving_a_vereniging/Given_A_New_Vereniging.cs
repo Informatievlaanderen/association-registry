@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTest
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
+using AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen;
 using Events;
 using FluentAssertions;
 using Xunit;
@@ -30,7 +31,7 @@ public class Given_A_New_Vereniging
         var repo = new VerenigingsRepository(eventStore);
 
         var vCode = new VCode(1);
-        var naam = "Vereniging 1";
+        var naam = new VerenigingsNaam("Vereniging 1");
         var vereniging = new Vereniging(vCode, naam);
 
         await repo.Save(vereniging);
