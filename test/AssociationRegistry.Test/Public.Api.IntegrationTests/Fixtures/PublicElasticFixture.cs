@@ -144,17 +144,8 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         return DocumentStore.For(
             opts =>
             {
-                var connectionString = $@"
-                    host={_configurationRoot["PostgreSQLOptions:host"]};
-                    database={_configurationRoot["PostgreSQLOptions:database"]};
-                    password={_configurationRoot["PostgreSQLOptions:password"]};
-                    username={_configurationRoot["PostgreSQLOptions:username"]}";
-
-                var rootConnectionString = $@"
-                    host={_configurationRoot["PostgreSQLOptions:host"]};
-                    database={RootDatabase};
-                    password={_configurationRoot["PostgreSQLOptions:password"]};
-                    username={_configurationRoot["PostgreSQLOptions:username"]}";
+                var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
+                var rootConnectionString = GetConnectionString(_configurationRoot, RootDatabase);
 
                 opts.Connection(connectionString);
 
@@ -176,7 +167,7 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
 
     private void DropDatabase()
     {
-        using var connection = new NpgsqlConnection(GetConnectionString());
+        using var connection = new NpgsqlConnection(GetConnectionString(_configurationRoot, RootDatabase));
         using var cmd = connection.CreateCommand();
         try
         {
@@ -192,15 +183,11 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         }
     }
 
-    private string GetConnectionString()
-    {
-        var connectionString = $@"
-                    host={_configurationRoot["PostgreSQLOptions:host"]};
-                    database={RootDatabase};
-                    password={_configurationRoot["PostgreSQLOptions:password"]};
-                    username={_configurationRoot["PostgreSQLOptions:username"]}";
-        return connectionString;
-    }
+    private static string GetConnectionString(IConfiguration configurationRoot, string database)
+        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
+           $"database={database};" +
+           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
+           $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     public virtual async Task InitializeAsync()
     {
@@ -209,7 +196,7 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
 
         await WaitFor.PostGreSQLToBecomeAvailable(
             LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetConnectionString()
+            GetConnectionString(_configurationRoot, RootDatabase)
         );
         _documentStore = ConfigureDocumentStore();
     }
