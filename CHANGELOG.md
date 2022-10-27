@@ -1,3 +1,10 @@
+# [1.50.0](https://github.com/informatievlaanderen/association-registry/compare/v1.49.0...v1.50.0) (2022-10-27)
+
+
+### Features
+
+* or-1244 throw exception when naam is null or empty ([11fc059](https://github.com/informatievlaanderen/association-registry/commit/11fc0591db3287f1155e737c873cb75647e09ff5))
+
 # [1.49.0](https://github.com/informatievlaanderen/association-registry/compare/v1.48.0...v1.49.0) (2022-10-27)
 
 
