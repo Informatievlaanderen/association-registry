@@ -176,13 +176,7 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
 
     private void DropDatabase()
     {
-        var connectionString = $@"
-                    host={_configurationRoot["PostgreSQLOptions:host"]};
-                    database={RootDatabase};
-                    password={_configurationRoot["PostgreSQLOptions:password"]};
-                    username={_configurationRoot["PostgreSQLOptions:username"]}";
-
-        using var connection = new NpgsqlConnection(connectionString);
+        using var connection = new NpgsqlConnection(GetConnectionString());
         using var cmd = connection.CreateCommand();
         try
         {
@@ -198,16 +192,26 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         }
     }
 
+    private string GetConnectionString()
+    {
+        var connectionString = $@"
+                    host={_configurationRoot["PostgreSQLOptions:host"]};
+                    database={RootDatabase};
+                    password={_configurationRoot["PostgreSQLOptions:password"]};
+                    username={_configurationRoot["PostgreSQLOptions:username"]}";
+        return connectionString;
+    }
+
     public virtual async Task InitializeAsync()
     {
         await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
         ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
 
-        await WaitFor.Wait(LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"), () =>
-        {
-            _documentStore = ConfigureDocumentStore();
-            return Task.CompletedTask;
-        }, "PostgreSQL");
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+            GetConnectionString()
+        );
+        _documentStore = ConfigureDocumentStore();
     }
 
     public Task DisposeAsync()
