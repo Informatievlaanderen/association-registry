@@ -4,14 +4,17 @@ using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
+using Helpers;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Nest;
+using Xunit;
 
-public abstract class ElasticRepositoryFixture : IDisposable
+public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
-    private readonly ElasticClient _elasticClient;
+    private readonly IElasticClient _elasticClient;
     public ElasticRepository ElasticRepository { get; }
 
     private string VerenigingenIndexName
@@ -24,7 +27,7 @@ public abstract class ElasticRepositoryFixture : IDisposable
 
         _configurationRoot = SetConfigurationRoot();
 
-        _elasticClient = ConfigureElasticClient();
+        _elasticClient = CreateElasticClient();
 
         ElasticRepository = new ElasticRepository(_elasticClient);
     }
@@ -50,7 +53,8 @@ public abstract class ElasticRepositoryFixture : IDisposable
         return tempConfiguration;
     }
 
-    private ElasticClient ConfigureElasticClient()
+
+    private IElasticClient CreateElasticClient()
     {
         var settings = new ConnectionSettings(new Uri(_configurationRoot["ElasticClientOptions:Uri"]))
             .BasicAuthentication(
@@ -61,9 +65,13 @@ public abstract class ElasticRepositoryFixture : IDisposable
                 descriptor => descriptor.IndexName(VerenigingenIndexName))
             .EnableDebugMode();
 
-        var client = new ElasticClient(settings);
-        if (client.Indices.Exists(VerenigingenIndexName).Exists)
-            client.Indices.Delete(VerenigingenIndexName);
+        return new ElasticClient(settings);
+    }
+
+    private void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    {
+        if (client.Indices.Exists(verenigingenIndexName).Exists)
+            client.Indices.Delete(verenigingenIndexName);
 
         client.Indices.Create(
             VerenigingenIndexName,
@@ -71,9 +79,7 @@ public abstract class ElasticRepositoryFixture : IDisposable
                 .Map<VerenigingDocument>(
                     m => m
                         .AutoMap<VerenigingDocument>()));
-
         client.Indices.Refresh(Indices.All);
-        return client;
     }
 
     public void Dispose()
@@ -83,4 +89,13 @@ public abstract class ElasticRepositoryFixture : IDisposable
         _elasticClient.Indices.Delete(VerenigingenIndexName);
         _elasticClient.Indices.Refresh(Indices.All);
     }
+
+    public async Task InitializeAsync()
+    {
+        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+    }
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

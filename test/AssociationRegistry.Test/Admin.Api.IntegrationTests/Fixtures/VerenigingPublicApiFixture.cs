@@ -8,12 +8,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using Xunit;
 
-public class VerenigingAdminApiFixture : IDisposable
+public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
 {
-    public HttpClient HttpClient { get; private set; }
-    public IDocumentStore DocumentStore { get; private set; }
-    private readonly TestServer _testServer;
+    private const string RootDatabase = @"postgres";
+    public HttpClient? HttpClient { get; private set; }
+    public IDocumentStore? DocumentStore { get; private set; }
+    private TestServer? _testServer;
+    private readonly IConfigurationRoot _configurationRoot;
+    private readonly IWebHostBuilder _hostBuilder;
 
     public VerenigingAdminApiFixture()
     {
@@ -29,30 +34,67 @@ public class VerenigingAdminApiFixture : IDisposable
             .AddJsonFile("appsettings.json", optional: true)
             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
 
-        var configurationRoot = builder.Build();
+        _configurationRoot = builder.Build();
 
-        IWebHostBuilder hostBuilder = new WebHostBuilder();
+        _hostBuilder = new WebHostBuilder();
 
-        hostBuilder.UseConfiguration(configurationRoot);
-        hostBuilder.UseStartup<Startup>();
+        _hostBuilder.UseConfiguration(_configurationRoot);
+        _hostBuilder.UseStartup<Startup>();
 
-        hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
+        _hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
 
-        hostBuilder.UseTestServer();
-
-        _testServer = new TestServer(hostBuilder);
-
-        HttpClient = _testServer.CreateClient();
-        DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
-
-        WaitFor.PostGreSQLToBecomeAvailable(DocumentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"))
-            .GetAwaiter().GetResult();
+        _hostBuilder.UseTestServer();
     }
 
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        HttpClient.Dispose();
-        _testServer.Dispose();
+        HttpClient?.Dispose();
+        _testServer?.Dispose();
     }
+
+    // private void TryProbePostgres()
+    // {
+    //     var rootConnectionString = $@"
+    //                  host={_configurationRoot["PostgreSQLOptions:host"]};
+    //                  database={RootDatabase};
+    //                  password={_configurationRoot["PostgreSQLOptions:password"]};
+    //                  username={_configurationRoot["PostgreSQLOptions:username"]}";
+    //
+    //     using NpgsqlConnection conn = new NpgsqlConnection(rootConnectionString);
+    //     conn.Open();
+    //     var cmdText = "SELECT 1 FROM pg_database WHERE datname='postgres'";
+    //     using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, conn);
+    //     if (cmd.ExecuteScalar() == null)
+    //         throw new Exception("Root Postgres database does not yet exist");
+    // }
+
+    public async Task InitializeAsync()
+    {
+        var rootConnectionString = $@"
+                     host={_configurationRoot["PostgreSQLOptions:host"]};
+                     database={RootDatabase};
+                     password={_configurationRoot["PostgreSQLOptions:password"]};
+                     username={_configurationRoot["PostgreSQLOptions:username"]}";
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+            rootConnectionString
+        );
+        // await WaitFor.Wait(
+        //     LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+        //     () =>
+        //     {
+        //         TryProbePostgres();
+        //         return Task.CompletedTask;
+        //     },
+        //     "PostgreSQL");
+
+        _testServer = new TestServer(_hostBuilder);
+
+        HttpClient = _testServer.CreateClient();
+        DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
+    }
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

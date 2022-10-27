@@ -6,22 +6,25 @@ using Marten;
 using Marten.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Xunit;
 
-public class VerenigingDbFixture:IDisposable
+public class VerenigingDbFixture : IDisposable
 {
     public static async Task<EventStore> CreateEventStore()
         => new(await CreateDocumentStore());
 
     public static async Task<DocumentStore> CreateDocumentStore()
     {
-        var documentStore = DocumentStore.For(
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+            GetConnectionString()
+        );
+        return DocumentStore.For(
             opts =>
             {
                 opts.Connection(GetConnectionString());
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
             });
-        await WaitFor.PostGreSQLToBecomeAvailable(documentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"));
-        return documentStore;
     }
 
     private static string GetConnectionString()
