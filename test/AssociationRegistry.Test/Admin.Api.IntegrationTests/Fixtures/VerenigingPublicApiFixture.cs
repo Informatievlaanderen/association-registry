@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Npgsql;
 using Xunit;
 
 public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
@@ -53,46 +52,27 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
         _testServer?.Dispose();
     }
 
-    // private void TryProbePostgres()
-    // {
-    //     var rootConnectionString = $@"
-    //                  host={_configurationRoot["PostgreSQLOptions:host"]};
-    //                  database={RootDatabase};
-    //                  password={_configurationRoot["PostgreSQLOptions:password"]};
-    //                  username={_configurationRoot["PostgreSQLOptions:username"]}";
-    //
-    //     using NpgsqlConnection conn = new NpgsqlConnection(rootConnectionString);
-    //     conn.Open();
-    //     var cmdText = "SELECT 1 FROM pg_database WHERE datname='postgres'";
-    //     using NpgsqlCommand cmd = new NpgsqlCommand(cmdText, conn);
-    //     if (cmd.ExecuteScalar() == null)
-    //         throw new Exception("Root Postgres database does not yet exist");
-    // }
-
     public async Task InitializeAsync()
+    {
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+            GetRootConnectionString()
+        );
+
+        _testServer = new TestServer(_hostBuilder);
+
+        HttpClient = _testServer.CreateClient();
+        DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
+    }
+
+    private string GetRootConnectionString()
     {
         var rootConnectionString = $@"
                      host={_configurationRoot["PostgreSQLOptions:host"]};
                      database={RootDatabase};
                      password={_configurationRoot["PostgreSQLOptions:password"]};
                      username={_configurationRoot["PostgreSQLOptions:username"]}";
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            rootConnectionString
-        );
-        // await WaitFor.Wait(
-        //     LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-        //     () =>
-        //     {
-        //         TryProbePostgres();
-        //         return Task.CompletedTask;
-        //     },
-        //     "PostgreSQL");
-
-        _testServer = new TestServer(_hostBuilder);
-
-        HttpClient = _testServer.CreateClient();
-        DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
+        return rootConnectionString;
     }
 
     public Task DisposeAsync()
