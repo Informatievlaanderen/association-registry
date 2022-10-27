@@ -1,3 +1,10 @@
+# [1.49.0](https://github.com/informatievlaanderen/association-registry/compare/v1.48.0...v1.49.0) (2022-10-27)
+
+
+### Features
+
+* or-1244 make event mediator async ([9dd59ac](https://github.com/informatievlaanderen/association-registry/commit/9dd59ac8954cc40ec823fc8e8c2415082ed59f8f))
+
 # [1.48.0](https://github.com/informatievlaanderen/association-registry/compare/v1.47.0...v1.48.0) (2022-10-26)
 
 
