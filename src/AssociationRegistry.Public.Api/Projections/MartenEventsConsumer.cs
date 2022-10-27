@@ -25,7 +25,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
             foreach (var eventHandler in eventHandlers)
             {
                 var handlerMethod = eventHandler!.GetType().GetMethod("HandleEvent", new[] { @event.EventType });
-                handlerMethod!.Invoke((dynamic?)eventHandler, new[]{@event.Data});
+                await (Task) handlerMethod!.Invoke((dynamic?)eventHandler, new[]{@event.Data});
             }
         }
     }

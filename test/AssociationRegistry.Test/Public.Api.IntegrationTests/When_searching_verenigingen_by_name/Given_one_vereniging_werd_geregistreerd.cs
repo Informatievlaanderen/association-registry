@@ -13,8 +13,6 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicElasticFixture
     public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {
         AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
-        // TODO implement IAsyncLifetime
-        Task.Delay(2000).GetAwaiter().GetResult();
     }
 }
 
