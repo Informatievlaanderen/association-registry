@@ -4,6 +4,7 @@ using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
 using Events;
+using Helpers;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
@@ -45,6 +46,9 @@ public class PublicElasticFixture : IDisposable
         _elasticClient = ConfigureElasticClient(_testServer, VerenigingenIndexName);
 
         _documentStore = ConfigureDocumentStore(_testServer);
+
+        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger")).GetAwaiter().GetResult();
+        WaitFor.PostGreSQLToBecomeAvailable(_documentStore, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger")).GetAwaiter().GetResult();
     }
 
     private void ConfigureBrolFeeder()
