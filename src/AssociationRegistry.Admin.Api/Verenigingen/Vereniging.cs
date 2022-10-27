@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using AssociationRegistry.Events;
 using VCodes;
+using VerenigingsNamen;
 
 public class Vereniging
 {
     private class State
     {
         public VCode VCode { get; }
-        public string Naam { get; }
+        public VerenigingsNaam Naam { get; }
 
         private State(string vCode, string naam)
         {
             VCode = new VCode(vCode);
-            Naam = naam;
+            Naam = new VerenigingsNaam(naam);
         }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
@@ -28,7 +29,7 @@ public class Vereniging
         => _state.VCode;
 
 
-    public Vereniging(VCode vCode, string naam)
+    public Vereniging(VCode vCode, VerenigingsNaam naam)
     {
         _state = State.Apply(new VerenigingWerdGeregistreerd(vCode, naam));
 
