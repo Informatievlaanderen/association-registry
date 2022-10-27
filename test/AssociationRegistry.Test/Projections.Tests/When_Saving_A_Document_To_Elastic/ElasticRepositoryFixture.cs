@@ -14,8 +14,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
-    private readonly IElasticClient _elasticClient;
-    public ElasticRepository ElasticRepository { get; }
+
+    private IElasticClient? _elasticClient;
+    public ElasticRepository? ElasticRepository { get; private set; }
 
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -23,43 +24,24 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     protected ElasticRepositoryFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
-        GoToRootDirectory();
+        _configurationRoot = GetConfiguration();
+    }
 
-        _configurationRoot = SetConfigurationRoot();
-
-        _elasticClient = CreateElasticClient();
+    public async Task InitializeAsync()
+    {
+        _elasticClient = CreateElasticClient(_configurationRoot);
+        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
 
         ElasticRepository = new ElasticRepository(_elasticClient);
     }
 
-    private static void GoToRootDirectory()
+    private IElasticClient CreateElasticClient(IConfiguration configurationRoot)
     {
-        var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-        Directory.SetCurrentDirectory(rootDirectory);
-    }
-
-    private IConfigurationRoot SetConfigurationRoot()
-    {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-        var tempConfiguration = builder.Build();
-        tempConfiguration["PostgreSQLOptions:database"] += _identifier;
-        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
-        return tempConfiguration;
-    }
-
-
-    private IElasticClient CreateElasticClient()
-    {
-        var settings = new ConnectionSettings(new Uri(_configurationRoot["ElasticClientOptions:Uri"]))
+        var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
             .BasicAuthentication(
-                _configurationRoot["ElasticClientOptions:Username"],
-                _configurationRoot["ElasticClientOptions:Password"])
+                configurationRoot["ElasticClientOptions:Username"],
+                configurationRoot["ElasticClientOptions:Password"])
             .DefaultMappingFor(
                 typeof(VerenigingDocument),
                 descriptor => descriptor.IndexName(VerenigingenIndexName))
@@ -82,20 +64,31 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         client.Indices.Refresh(Indices.All);
     }
 
-    public void Dispose()
+    private IConfigurationRoot GetConfiguration()
     {
-        GC.SuppressFinalize(this);
+        var maybeRootDirectory = Directory
+            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
 
-        _elasticClient.Indices.Delete(VerenigingenIndexName);
-        _elasticClient.Indices.Refresh(Indices.All);
-    }
-
-    public async Task InitializeAsync()
-    {
-        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
-        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(rootDirectory)
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+        var tempConfiguration = builder.Build();
+        tempConfiguration["PostgreSQLOptions:database"] += _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
+        return tempConfiguration;
     }
 
     public Task DisposeAsync()
         => Task.CompletedTask;
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+
+        _elasticClient?.Indices.Delete(VerenigingenIndexName);
+        _elasticClient?.Indices.Refresh(Indices.All);
+    }
 }

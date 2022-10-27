@@ -18,12 +18,7 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
     public HttpClient? HttpClient { get; private set; }
     public IDocumentStore? DocumentStore { get; private set; }
 
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-        HttpClient?.Dispose();
-        _testServer?.Dispose();
-    }
+
 
     public async Task InitializeAsync()
     {
@@ -71,4 +66,11 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
 
     public Task DisposeAsync()
         => Task.CompletedTask;
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        HttpClient?.Dispose();
+        _testServer?.Dispose();
+    }
 }

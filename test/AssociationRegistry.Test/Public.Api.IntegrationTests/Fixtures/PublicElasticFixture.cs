@@ -3,7 +3,6 @@
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
-using Events;
 using Helpers;
 using Marten;
 using Marten.Events;
@@ -17,17 +16,18 @@ using Nest;
 using Npgsql;
 using Xunit;
 using Xunit.Sdk;
+using IEvent = Events.IEvent;
 
 public class PublicElasticFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier;
-    private readonly HttpClient _httpClient;
-    private readonly IElasticClient _elasticClient;
-    private DocumentStore? _documentStore;
-
-    private readonly TestServer _testServer;
     private readonly IConfigurationRoot _configurationRoot;
+
+    private HttpClient? _httpClient;
+    private IElasticClient? _elasticClient;
+    private DocumentStore? _documentStore;
+    private TestServer? _testServer;
 
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -35,26 +35,55 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
     protected PublicElasticFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
-        GoToRootDirectory();
+        _configurationRoot = GetConfiguration();
+    }
 
-        _configurationRoot = SetConfigurationRoot();
+    public virtual async Task InitializeAsync()
+    {
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+            GetConnectionString(_configurationRoot, RootDatabase)
+        );
 
         _testServer = ConfigureTestServer();
 
-        ConfigureBrolFeeder();
+        ConfigureBrolFeeder(_testServer);
 
         _httpClient = _testServer.CreateClient();
-
         _elasticClient = CreateElasticClient(_testServer);
+        _documentStore = ConfigureDocumentStore(_testServer);
+
+        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
     }
 
-    private void ConfigureBrolFeeder()
-        => _testServer.Services.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
+    private IConfigurationRoot GetConfiguration()
+    {
+        var maybeRootDirectory = Directory
+            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
 
-    protected async Task AddEvent(string vCode, VerenigingWerdGeregistreerd eventToAdd)
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(rootDirectory)
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+        var tempConfiguration = builder.Build();
+        tempConfiguration["PostgreSQLOptions:database"] += _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
+        return tempConfiguration;
+    }
+
+    private static void ConfigureBrolFeeder(TestServer testServer)
+        => testServer.Services.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
+
+    protected async Task AddEvent(string vCode, IEvent eventToAdd)
     {
         if (_documentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
+
+        if (_elasticClient is not { })
+            throw new NullException("Elastic client cannot be null when adding an event");
 
         await using var session = _documentStore.OpenSession();
         session.Events.Append(vCode, eventToAdd);
@@ -82,40 +111,6 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         return await _httpClient.GetAsync(uri);
     }
 
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-        _httpClient.Dispose();
-        _testServer.Dispose();
-        _documentStore?.Dispose();
-
-        DropDatabase();
-
-        _elasticClient.Indices.Delete(VerenigingenIndexName);
-        _elasticClient.Indices.Refresh(Indices.All);
-    }
-
-    private static void GoToRootDirectory()
-    {
-        var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-        Directory.SetCurrentDirectory(rootDirectory);
-    }
-
-    private IConfigurationRoot SetConfigurationRoot()
-    {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-        var tempConfiguration = builder.Build();
-        tempConfiguration["PostgreSQLOptions:database"] += _identifier;
-        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
-        return tempConfiguration;
-    }
-
     private TestServer ConfigureTestServer()
     {
         IWebHostBuilder hostBuilder = new WebHostBuilder();
@@ -139,7 +134,7 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         client.Indices.Refresh(Indices.All);
     }
 
-    private DocumentStore ConfigureDocumentStore()
+    private DocumentStore ConfigureDocumentStore(TestServer testServer)
     {
         return DocumentStore.For(
             opts =>
@@ -149,19 +144,21 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
 
                 opts.Connection(connectionString);
 
-                opts.CreateDatabasesForTenants(c =>
-                {
-                    c.MaintenanceDatabase(rootConnectionString);
-                    c.ForTenant()
-                        .CheckAgainstPgDatabase()
-                        .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
-                });
+                opts.CreateDatabasesForTenants(
+                    c =>
+                    {
+                        c.MaintenanceDatabase(rootConnectionString);
+                        c.ForTenant()
+                            .CheckAgainstPgDatabase()
+                            .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
+                    });
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(_testServer.Services)), ProjectionLifecycle.Async);
+                        new MartenEventsConsumer(testServer.Services)),
+                    ProjectionLifecycle.Async);
             });
     }
 
@@ -189,18 +186,19 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
-    public virtual async Task InitializeAsync()
-    {
-        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
-        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
-
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetConnectionString(_configurationRoot, RootDatabase)
-        );
-        _documentStore = ConfigureDocumentStore();
-    }
-
     public Task DisposeAsync()
         => Task.CompletedTask;
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        _httpClient?.Dispose();
+        _testServer?.Dispose();
+        _documentStore?.Dispose();
+
+        DropDatabase();
+
+        _elasticClient?.Indices.Delete(VerenigingenIndexName);
+        _elasticClient?.Indices.Refresh(Indices.All);
+    }
 }

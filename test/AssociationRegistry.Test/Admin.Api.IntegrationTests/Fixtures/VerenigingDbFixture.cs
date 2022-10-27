@@ -30,7 +30,6 @@ public class VerenigingDbFixture : IDisposable
     private static string GetConnectionString()
     {
         var currentDirectory = Directory.GetCurrentDirectory();
-        Console.WriteLine(currentDirectory);
         var builder = new ConfigurationBuilder()
             .SetBasePath(currentDirectory)
             .AddJsonFile("appsettings.json", optional: true)
