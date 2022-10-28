@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
@@ -28,12 +29,18 @@ public class VerenigingenController : ApiController
     [Consumes("application/json")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerRequestExample(typeof(CreateVerenigingCommand), typeof(CreateVerenigingenRequestExamples))]
+    [SwaggerRequestExample(typeof(RegistreerVerenigingRequest), typeof(RegistreerVerenigingenRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Post([FromBody] CreateVerenigingCommand command)
+    public async Task<IActionResult> Post([FromBody] RegistreerVerenigingRequest request)
     {
-        var envelope = new CommandEnvelope<CreateVerenigingCommand>(command);
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var command = new RegistreerVerenigingCommand(request.Naam);
+
+        var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command);
         await _sender.Send(envelope);
         return Accepted();
     }
