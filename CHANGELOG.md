@@ -1,3 +1,10 @@
+## [1.51.1](https://github.com/informatievlaanderen/association-registry/compare/v1.51.0...v1.51.1) (2022-10-28)
+
+
+### Bug Fixes
+
+* or-1279 clean up ([5ac6c9c](https://github.com/informatievlaanderen/association-registry/commit/5ac6c9ce56d7bff811b9b1488cad64321167b6dd))
+
 # [1.51.0](https://github.com/informatievlaanderen/association-registry/compare/v1.50.0...v1.51.0) (2022-10-28)
 
 
