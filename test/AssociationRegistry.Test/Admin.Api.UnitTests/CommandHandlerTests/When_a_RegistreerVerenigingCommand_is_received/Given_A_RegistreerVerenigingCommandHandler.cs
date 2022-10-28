@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_CreateVerenigingCommand_is_received;
+﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_RegistreerVerenigingCommand_is_received;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
 using Events;
@@ -18,7 +18,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     }
 }
 
-public class Given_A_CreateVerenigingCommandHandler
+public class Given_A_RegistreerVerenigingCommandHandler
 {
     [Fact]
     public async Task Then_a_new_vereniging_is_saved_in_the_repository()
@@ -27,9 +27,9 @@ public class Given_A_CreateVerenigingCommandHandler
         var verenigingsRepository = new VerenigingRepositoryMock();
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService);
-        var createVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(new RegistreerVerenigingCommand("naam1"));
+        var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(new RegistreerVerenigingCommand("naam1"));
 
-        await handler.Handle(createVerenigingCommand, CancellationToken.None);
+        await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
         var invocation = verenigingsRepository.Invocations.Single();
         invocation.Vereniging.VCode.Should().Be(InMemorySequentialVCodeService.GetLast());

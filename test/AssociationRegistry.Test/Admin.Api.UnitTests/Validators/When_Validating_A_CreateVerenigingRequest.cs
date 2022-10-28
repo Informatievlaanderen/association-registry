@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Validators;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
-using FluentAssertions;
-using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class When_Validating_A_CreateVerenigingRequest
+public class When_Validating_A_RegistreerVerenigingRequest
 {
     public class Given_Name_Is_Empty_String
     {

@@ -1,3 +1,4 @@
+// ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace AssociationRegistry.Admin.Api.Verenigingen;
 
 using FluentValidation;

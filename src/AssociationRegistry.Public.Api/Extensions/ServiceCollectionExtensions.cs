@@ -76,7 +76,7 @@ public static class ServiceCollectionExtensions
         ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
-        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices.Verenigingen);
+        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
@@ -92,13 +92,13 @@ public static class ServiceCollectionExtensions
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
-        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri))
+        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
             .BasicAuthentication(
                 elasticSearchOptions.Username,
                 elasticSearchOptions.Password)
             .DefaultMappingFor(
                 typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(elasticSearchOptions.Indices.Verenigingen));
+                descriptor => descriptor.IndexName(elasticSearchOptions.Indices!.Verenigingen));
 
         var elasticClient = new ElasticClient(settings);
         return elasticClient;

@@ -25,7 +25,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
     {
         var fixture = new Fixture();
 
-        _classFixture.ElasticRepository
+        _classFixture.ElasticRepository!
             .Index(
                 new VerenigingDocument(
                     fixture.Create<string>(),
