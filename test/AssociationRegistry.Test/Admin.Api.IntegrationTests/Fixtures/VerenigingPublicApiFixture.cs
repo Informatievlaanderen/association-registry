@@ -18,8 +18,6 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
     public HttpClient? HttpClient { get; private set; }
     public IDocumentStore? DocumentStore { get; private set; }
 
-
-
     public async Task InitializeAsync()
     {
         var configuration = GetConfiguration();

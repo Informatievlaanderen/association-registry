@@ -9,12 +9,12 @@ using FluentAssertions;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]
-public class Given_An_Api : IDisposable
+public class Given_A_Valid_Request
 {
     private readonly VerenigingAdminApiFixture _apiFixture;
     private readonly Fixture _fixture;
 
-    public Given_An_Api(VerenigingAdminApiFixture apiFixture)
+    public Given_A_Valid_Request(VerenigingAdminApiFixture apiFixture)
     {
         _apiFixture = apiFixture;
         _fixture = new Fixture();
@@ -24,7 +24,7 @@ public class Given_An_Api : IDisposable
     public async Task Then_it_returns_an_accepted_response()
     {
         var content = GetContent(_fixture.Create<string>());
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
@@ -33,9 +33,9 @@ public class Given_An_Api : IDisposable
     {
         var expectedNaam = _fixture.Create<string>();
         var content = GetContent(expectedNaam);
-        await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", content);
+        await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
 
-        _apiFixture.DocumentStore.LightweightSession().Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+        _apiFixture.DocumentStore!.LightweightSession().Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .Where(e => e.Naam == expectedNaam)
             .Should().HaveCount(1);
     }
@@ -48,11 +48,6 @@ public class Given_An_Api : IDisposable
 
     private string GetJsonBody(string naam)
         => GetType()
-            .GetAssociatedResourceJson($"{nameof(Given_An_Api)}_{nameof(Then_it_returns_an_accepted_response)}")
+            .GetAssociatedResourceJson($"{nameof(Given_A_Valid_Request)}_{nameof(Then_it_returns_an_accepted_response)}")
             .Replace("{{vereniging.naam}}", naam);
-
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-    }
 }

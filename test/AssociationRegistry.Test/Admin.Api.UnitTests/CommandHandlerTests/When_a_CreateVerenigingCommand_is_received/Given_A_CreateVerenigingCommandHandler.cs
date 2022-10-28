@@ -26,8 +26,8 @@ public class Given_A_CreateVerenigingCommandHandler
         var vNummerService = new InMemorySequentialVCodeService();
         var verenigingsRepository = new VerenigingRepositoryMock();
 
-        var handler = new CreateVerenigingCommandHandler(verenigingsRepository, vNummerService);
-        var createVerenigingCommand = new CommandEnvelope<CreateVerenigingCommand>(new CreateVerenigingCommand("naam1"));
+        var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService);
+        var createVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(new RegistreerVerenigingCommand("naam1"));
 
         await handler.Handle(createVerenigingCommand, CancellationToken.None);
 
