@@ -32,14 +32,10 @@ public class Startup
     private IContainer _applicationContainer = null!;
 
     private readonly IConfiguration _configuration;
-    private readonly ILoggerFactory _loggerFactory;
 
-    public Startup(
-        IConfiguration configuration,
-        ILoggerFactory loggerFactory)
+    public Startup(IConfiguration configuration)
     {
         _configuration = configuration;
-        _loggerFactory = loggerFactory;
     }
 
     /// <summary>Configures services for the application.</summary>
