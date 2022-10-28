@@ -1,3 +1,13 @@
+# [1.51.0](https://github.com/informatievlaanderen/association-registry/compare/v1.50.0...v1.51.0) (2022-10-28)
+
+
+### Features
+
+* or-1270 extra logging ([d7f8aff](https://github.com/informatievlaanderen/association-registry/commit/d7f8aff117773b9bae24020d44fc0ce6e5f0d609))
+* or-1270 fix wait for ([e752b58](https://github.com/informatievlaanderen/association-registry/commit/e752b580e1fbe51237100e1dc0dc63fb512fd638))
+* or-1270 refactor 2.0 ([472fc87](https://github.com/informatievlaanderen/association-registry/commit/472fc876d608635b721b2c4c85cf59a6635a1b83))
+* or-1270 wait for elastic to become available ([ef0201c](https://github.com/informatievlaanderen/association-registry/commit/ef0201cf78e76895033bf61cea7d110f4b7a0fe4))
+
 # [1.50.0](https://github.com/informatievlaanderen/association-registry/compare/v1.49.0...v1.50.0) (2022-10-27)
 
 
