@@ -92,7 +92,7 @@ public class Startup
                         ApiInfo = (_, description) => new OpenApiInfo
                         {
                             Version = description.ApiVersion.ToString(),
-                            Title = "Basisregisters Vlaanderen Verenigingenregister ACM API",
+                            Title = "Basisregisters Vlaanderen Verenigingsregister ACM API",
                             Description = GetApiLeadingText(description),
                             Contact = new OpenApiContact
                             {
@@ -188,15 +188,15 @@ public class Startup
                     Api =
                     {
                         VersionProvider = apiVersionProvider,
-                        Info = groupName => $"Basisregisters Vlaanderen - Verenigingenregister ACM API {groupName}",
+                        Info = groupName => $"Basisregisters Vlaanderen - Verenigingsregister ACM API {groupName}",
                         CSharpClientOptions =
                         {
-                            ClassName = "Verenigingenregister",
+                            ClassName = "Verenigingsregister",
                             Namespace = "Be.Vlaanderen.Basisregisters",
                         },
                         TypeScriptClientOptions =
                         {
-                            ClassName = "Verenigingenregister",
+                            ClassName = "Verenigingsregister",
                         },
                     },
                     MiddlewareHooks =
@@ -207,5 +207,5 @@ public class Startup
     }
 
     private static string GetApiLeadingText(ApiVersionDescription description)
-        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingenregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
+        => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingsregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";
 }

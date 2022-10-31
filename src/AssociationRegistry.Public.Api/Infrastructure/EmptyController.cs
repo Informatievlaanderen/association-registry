@@ -14,5 +14,5 @@ public class EmptyController : ApiController
     public IActionResult Get()
         => Request.Headers[HeaderNames.Accept].ToString().Contains("text/html")
             ? new RedirectResult("/docs")
-            : new OkObjectResult($"Welcome to the Basisregisters Vlaanderen Public Api {Assembly.GetEntryAssembly()!.GetVersionText()}.");
+            : new OkObjectResult($"Welcome to the Basisregisters Vlaanderen Publieke Api {Assembly.GetEntryAssembly()!.GetVersionText()}.");
 }
