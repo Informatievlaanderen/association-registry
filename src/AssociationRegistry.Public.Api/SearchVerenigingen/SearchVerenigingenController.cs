@@ -101,8 +101,35 @@ public class SearchVerenigingenController : ApiController
     private static SearchVerenigingenResponse ToSearchVereningenResponse(
         ISearchResponse<VerenigingDocument> searchResponse,
         PaginationQueryParams paginationRequest)
-    {
-        var verenigingen = searchResponse.Hits.Select(
+        => new()
+        {
+            Verenigingen = GetVerenigingenFromResponse(searchResponse),
+            Facets = new Facets
+            {
+                HoofdActiviteiten = GetHoofdActiviteitFacets(searchResponse),
+            },
+            Metadata = GetMetadata(searchResponse, paginationRequest),
+        };
+
+    private static Metadata GetMetadata(ISearchResponse<VerenigingDocument> searchResponse, PaginationQueryParams paginationRequest)
+        => new(
+            new Pagination(
+                searchResponse.Total,
+                paginationRequest.Offset,
+                paginationRequest.Limit
+            )
+        );
+
+    private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
+        => searchResponse.Aggregations
+            .Terms(HoofdactiviteitenCountAggregateName)
+            .Buckets
+            .ToImmutableDictionary(
+                bucket => bucket.Key.ToString(),
+                bucket => bucket.DocCount ?? 0);
+
+    private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(ISearchResponse<VerenigingDocument> searchResponse)
+        => searchResponse.Hits.Select(
             x =>
                 new Vereniging(
                     x.Source.VCode,
@@ -115,34 +142,11 @@ public class SearchVerenigingenController : ApiController
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
                 )).ToImmutableArray();
 
-        var hoofdactiviteitenCountAggregate = searchResponse.Aggregations.Terms(HoofdactiviteitenCountAggregateName);
-        var facets = hoofdactiviteitenCountAggregate
-            .Buckets
-            .ToImmutableDictionary(
-                bucket => bucket.Key.ToString(),
-                bucket => bucket.DocCount ?? 0);
-
-        var metadata = new Metadata(
-            new Pagination(
-                searchResponse.Total,
-                paginationRequest.Offset,
-                paginationRequest.Limit
-            )
-        );
-
-        return new SearchVerenigingenResponse(
-            verenigingen,
-            facets,
-            metadata
-        );
-    }
-
     private static async Task<ISearchResponse<VerenigingDocument>> Search(
         IElasticClient client,
         string q,
         PaginationQueryParams paginationQueryParams)
-    {
-        return await client.SearchAsync<VerenigingDocument>(
+        => await client.SearchAsync<VerenigingDocument>(
             s => s
                 .From(paginationQueryParams.Offset)
                 .Size(paginationQueryParams.Limit)
@@ -164,5 +168,4 @@ public class SearchVerenigingenController : ApiController
                     )
                 )
         );
-    }
 }

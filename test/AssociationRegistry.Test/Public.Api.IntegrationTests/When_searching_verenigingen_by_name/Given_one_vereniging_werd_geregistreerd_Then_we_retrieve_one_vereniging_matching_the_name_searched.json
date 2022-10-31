@@ -44,8 +44,10 @@
       ]
     }
   ],
-  "facets":{
-    "buurtwerking": 1
+  "facets": {
+    "hoofdactiviteiten": {
+      "buurtwerking": 1
+    }
   },
   "metadata": {
     "pagination": {
