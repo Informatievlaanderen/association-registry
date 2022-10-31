@@ -5,7 +5,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using FluentAssertions;
-using Helpers;
+using Framework.Helpers;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]

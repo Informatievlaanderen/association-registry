@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.Fixtures;
 
 using AssociationRegistry.Admin.Api.Events;
-using Helpers;
+using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Microsoft.Extensions.Configuration;

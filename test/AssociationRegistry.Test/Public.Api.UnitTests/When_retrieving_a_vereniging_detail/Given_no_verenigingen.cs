@@ -3,9 +3,9 @@
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-using Stubs;
 using AutoFixture;
 using FluentAssertions;
+using Framework.Stubs;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 

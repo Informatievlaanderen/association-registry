@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Helpers;
+﻿namespace AssociationRegistry.Test.Framework.Helpers;
 
 using System.Text;
 

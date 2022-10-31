@@ -4,7 +4,7 @@ using System.Net;
 using System.Text;
 using Fixtures;
 using FluentAssertions;
-using Helpers;
+using Framework.Helpers;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]

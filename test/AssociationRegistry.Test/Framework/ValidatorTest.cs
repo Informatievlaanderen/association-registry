@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.UnitTests.Validators;
+namespace AssociationRegistry.Test.Framework;
 
 using Baseline;
 using FluentValidation;
