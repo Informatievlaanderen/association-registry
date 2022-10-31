@@ -1,3 +1,18 @@
+# [1.53.0](https://github.com/informatievlaanderen/association-registry/compare/v1.52.0...v1.53.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* or-1293 adjust namespaces ([36cdde5](https://github.com/informatievlaanderen/association-registry/commit/36cdde5dd246f9a651681836cd964d403e8edefd))
+* or-1293 move fix to base class ([848184e](https://github.com/informatievlaanderen/association-registry/commit/848184e188b999c7df0556f8b0e141f0bdd4749f))
+* or-1293 try manually setting DisplayNameResolver ([062a3fc](https://github.com/informatievlaanderen/association-registry/commit/062a3fcf952c6bb76043b29a5bf2b44dab712a99))
+* or-1293 use validator test class on inner classes ([0c4d217](https://github.com/informatievlaanderen/association-registry/commit/0c4d21783dde12bcd04c1e06127e9b4abe7f15e1))
+
+
+### Features
+
+* or-1293 update swagger docs ([88d2aa3](https://github.com/informatievlaanderen/association-registry/commit/88d2aa31772ed074fa1d94a4bf27c88dad5cc3d3))
+
 # [1.52.0](https://github.com/informatievlaanderen/association-registry/compare/v1.51.1...v1.52.0) (2022-10-31)
 
 
