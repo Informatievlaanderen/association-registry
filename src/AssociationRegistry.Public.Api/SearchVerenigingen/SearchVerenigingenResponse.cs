@@ -2,12 +2,19 @@ namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 [DataContract]
-public record SearchVerenigingenResponse(
-    [property: DataMember(Name = "Verenigingen")]
-    ImmutableArray<Vereniging> Verenigingen,
-    [property: DataMember(Name = "Facets")]
-    ImmutableDictionary<string, long> Facets,
-    [property: DataMember(Name = "Metadata")]
-    Metadata Metadata);
+public class SearchVerenigingenResponse
+{
+    [DataMember(Name = "Verenigingen")] public ImmutableArray<Vereniging> Verenigingen { get; set; }
+    [DataMember(Name = "Facets")] public Facets? Facets { get; set; }
+    [DataMember(Name = "Metadata")] public Metadata? Metadata { get; set; }
+}
+
+[DataContract]
+public class Facets
+{
+    [DataMember(Name = "hoofdactiviteiten")]
+    public IImmutableDictionary<string, long>? HoofdActiviteiten { get; set; }
+}

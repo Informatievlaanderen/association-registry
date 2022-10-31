@@ -7,8 +7,9 @@ using Swashbuckle.AspNetCore.Filters;
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
 {
     public SearchVerenigingenResponse GetExamples()
-        => new(
-            ImmutableArray.Create(
+        => new()
+        {
+            Verenigingen = ImmutableArray.Create(
                 new Vereniging(
                     "V1234567",
                     "FWA De vrolijke BA’s",
@@ -49,9 +50,13 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis"))
                 )),
-            ImmutableDictionary.Create<string, long>()
-                .Add("Cultuur", 1)
-                .Add("Sport", 1),
-            new Metadata(new Pagination(2, 0, 50))
-        );
+            Facets = new Facets
+            {
+                HoofdActiviteiten =
+                    ImmutableDictionary.Create<string, long>()
+                        .Add("Cultuur", 1)
+                        .Add("Sport", 1)
+            },
+            Metadata = new Metadata(new Pagination(2, 0, 50))
+        };
 }
