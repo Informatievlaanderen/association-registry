@@ -1,3 +1,10 @@
+# [1.52.0](https://github.com/informatievlaanderen/association-registry/compare/v1.51.1...v1.52.0) (2022-10-31)
+
+
+### Features
+
+* or-1273 move facets to specific object ([4d89787](https://github.com/informatievlaanderen/association-registry/commit/4d897878c85d08c2a235d69af04f32294b97d171))
+
 ## [1.51.1](https://github.com/informatievlaanderen/association-registry/compare/v1.51.0...v1.51.1) (2022-10-28)
 
 
