@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest

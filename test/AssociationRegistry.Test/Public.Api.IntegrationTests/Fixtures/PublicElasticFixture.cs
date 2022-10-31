@@ -3,7 +3,7 @@
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
-using Helpers;
+using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;

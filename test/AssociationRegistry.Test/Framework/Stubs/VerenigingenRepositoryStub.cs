@@ -1,8 +1,8 @@
-﻿using System.Collections.Immutable;
+﻿namespace AssociationRegistry.Test.Framework.Stubs;
+
+using System.Collections.Immutable;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-
-namespace AssociationRegistry.Test.Stubs;
 
 public class VerenigingenRepositoryStub : IVerenigingenRepository
 {

@@ -4,7 +4,7 @@ using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
-using Helpers;
+using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;

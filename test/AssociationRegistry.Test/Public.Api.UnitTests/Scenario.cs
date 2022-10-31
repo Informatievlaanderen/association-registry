@@ -4,8 +4,8 @@ using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.DetailVerenigingen;
 using AssociationRegistry.Public.Api.Infrastructure.Json;
 using AssociationRegistry.Public.Api.ListVerenigingen;
-using Stubs;
 using FluentAssertions;
+using Framework.Stubs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
