@@ -5,9 +5,9 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest
+public class When_Validating_A_RegistreerVerenigingRequest
 {
-    public class Given_Name_Is_Empty_String
+    public class Given_Name_Is_Empty_String : ValidatorTest
     {
         [Fact]
         public void Then_it_has_validation_error__naam_mag_niet_leeg_zijn()
@@ -21,7 +21,7 @@ public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest
         }
     }
 
-    public class Given_Name_Is_Null
+    public class Given_Name_Is_Null : ValidatorTest
     {
         [Fact]
         public void Then_it_has_validation_error__naam_is_verplicht()
@@ -34,7 +34,7 @@ public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest
         }
     }
 
-    public class Given_A_Valid_Naam
+    public class Given_A_Valid_Naam : ValidatorTest
     {
         [Fact]
         public void Then_it_has_no_validation_errors()
@@ -46,7 +46,7 @@ public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest
         }
     }
 
-    public class Given_A_Valid_Request
+    public class Given_A_Valid_Request : ValidatorTest
     {
         [Fact]
         public void Then_it_has_no_validation_errors()
