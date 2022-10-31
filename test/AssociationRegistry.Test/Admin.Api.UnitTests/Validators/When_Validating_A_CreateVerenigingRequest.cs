@@ -1,18 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Validators;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
-using Baseline;
-using FluentValidation;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class When_Validating_A_RegistreerVerenigingRequest
+public class When_Validating_A_RegistreerVerenigingRequest: ValidatorTest
 {
-    public When_Validating_A_RegistreerVerenigingRequest()
-    {
-        ValidatorOptions.Global.DisplayNameResolver = (_, member, _) => member?.Name.SplitPascalCase();
-    }
-
     public class Given_Name_Is_Empty_String
     {
         [Fact]
