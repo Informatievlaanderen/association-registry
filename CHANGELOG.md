@@ -1,3 +1,10 @@
+# [1.55.0](https://github.com/informatievlaanderen/association-registry/compare/v1.54.0...v1.55.0) (2022-11-02)
+
+
+### Features
+
+* or-1265 add dotcover to build.sh ([59ac443](https://github.com/informatievlaanderen/association-registry/commit/59ac4439676796aaffb7e36a1146cff9375c5b20))
+
 # [1.54.0](https://github.com/informatievlaanderen/association-registry/compare/v1.53.0...v1.54.0) (2022-11-02)
 
 
