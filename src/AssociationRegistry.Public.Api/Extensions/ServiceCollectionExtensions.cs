@@ -19,13 +19,14 @@ using SearchVerenigingen;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
-        services
-            .AddSingleton(sp => new VerenigingenBlobClient(
-                s3Options.Buckets[WellknownBuckets.Verenigingen.Name],
-                bucketName => new S3BlobClient(sp.GetRequiredService<AmazonS3Client>(), bucketName),
-                sp.GetRequiredService<ILogger<VerenigingenBlobClient>>()
-            ));
+    public static void AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options)
+        => services
+            .AddSingleton(
+                sp => new VerenigingenBlobClient(
+                    s3Options.Buckets[WellknownBuckets.Verenigingen.Name],
+                    bucketName => new S3BlobClient(sp.GetRequiredService<AmazonS3Client>(), bucketName),
+                    sp.GetRequiredService<ILogger<VerenigingenBlobClient>>()
+                ));
 
     public static void AddS3(this IServiceCollection services, IConfiguration configuration)
     {
@@ -42,7 +43,8 @@ public static class ServiceCollectionExtensions
                 throw new InvalidOperationException("The MINIO_ROOT_PASSWORD configuration variable was not set.");
             }
 
-            services.AddSingleton(new AmazonS3Client(
+            services.AddSingleton(
+                new AmazonS3Client(
                     new BasicAWSCredentials(
                         configuration.GetValue<string>("MINIO_ROOT_USER"),
                         configuration.GetValue<string>("MINIO_ROOT_PASSWORD")),
@@ -61,14 +63,16 @@ public static class ServiceCollectionExtensions
         }
     }
 
-    public static void AddDataCache(this IServiceCollection services) =>
-        services.AddSingleton<IVerenigingenRepository>(sp =>
-            VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
+    public static void AddDataCache(this IServiceCollection services)
+        => services.AddSingleton<IVerenigingenRepository>(
+            sp =>
+                VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
 
     public static void AddJsonLdContexts(this IServiceCollection services)
     {
-        services.AddSingleton<IVerenigingenRepository>(sp =>
-            VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
+        services.AddSingleton<IVerenigingenRepository>(
+            sp =>
+                VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
     }
 
     public static IServiceCollection AddElasticSearch(
@@ -87,7 +91,7 @@ public static class ServiceCollectionExtensions
     private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
     {
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.Create(verenigingenIndexName);
+            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
