@@ -1,3 +1,10 @@
+# [1.54.0](https://github.com/informatievlaanderen/association-registry/compare/v1.53.0...v1.54.0) (2022-11-02)
+
+
+### Features
+
+* or-1268 use fluent mapping for elastic ([6227ee0](https://github.com/informatievlaanderen/association-registry/commit/6227ee01b3bcfb0a76aacc040f9e94a9762d59e9))
+
 # [1.53.0](https://github.com/informatievlaanderen/association-registry/compare/v1.52.0...v1.53.0) (2022-10-31)
 
 
