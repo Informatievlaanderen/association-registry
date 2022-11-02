@@ -2,6 +2,7 @@
 
 using System.Reflection;
 using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Projections;
 using Framework.Helpers;
 using Marten;
@@ -129,7 +130,7 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.Create(verenigingenIndexName);
+        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
     }
