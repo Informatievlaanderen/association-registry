@@ -1,3 +1,10 @@
+## [1.55.1](https://github.com/informatievlaanderen/association-registry/compare/v1.55.0...v1.55.1) (2022-11-03)
+
+
+### Bug Fixes
+
+* or-1293 fix uri in docs ([8453e7d](https://github.com/informatievlaanderen/association-registry/commit/8453e7dde9240ff0f04ed28b695a0945bd8d63b9))
+
 # [1.55.0](https://github.com/informatievlaanderen/association-registry/compare/v1.54.0...v1.55.0) (2022-11-02)
 
 
