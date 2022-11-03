@@ -135,7 +135,7 @@ public class Startup
                             {
                                 Name = "Digitaal Vlaanderen",
                                 Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://public.api.verenigingen.vlaanderen.be"),
+                                Url = new Uri("https://public-api.verenigingen.vlaanderen.be"),
                             },
                         },
                         XmlCommentPaths = new[] { typeof(Startup).GetTypeInfo().Assembly.GetName().Name! },
