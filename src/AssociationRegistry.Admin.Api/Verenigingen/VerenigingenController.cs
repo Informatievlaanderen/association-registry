@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,10 +34,12 @@ public class VerenigingenController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post([FromBody] RegistreerVerenigingRequest request)
+    public async Task<IActionResult> Post(
+        [FromServices] IValidator<RegistreerVerenigingRequest> validator,
+        [FromBody] RegistreerVerenigingRequest request
+        )
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
         var command = new RegistreerVerenigingCommand(request.Naam);
 
