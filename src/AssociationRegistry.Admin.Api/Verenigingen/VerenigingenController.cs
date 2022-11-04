@@ -36,8 +36,7 @@ public class VerenigingenController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
         [FromServices] IValidator<RegistreerVerenigingRequest> validator,
-        [FromBody] RegistreerVerenigingRequest request
-        )
+        [FromBody] RegistreerVerenigingRequest request)
     {
         await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
