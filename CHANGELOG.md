@@ -1,3 +1,10 @@
+# [1.57.0](https://github.com/informatievlaanderen/association-registry/compare/v1.56.0...v1.57.0) (2022-11-04)
+
+
+### Features
+
+* or-1295 add tests for validation ([56865e6](https://github.com/informatievlaanderen/association-registry/commit/56865e62768581e0780f0a7ca6a9120d7c4609ea))
+
 # [1.56.0](https://github.com/informatievlaanderen/association-registry/compare/v1.55.1...v1.56.0) (2022-11-04)
 
 
