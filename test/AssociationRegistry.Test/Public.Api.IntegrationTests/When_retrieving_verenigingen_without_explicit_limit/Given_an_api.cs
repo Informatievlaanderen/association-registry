@@ -37,7 +37,7 @@ public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
     [Fact]
     public async Task Then_we_get_a_successful_detail_link_response()
     {
-        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen");
+        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen/");
         var content = await responseMessage.Content.ReadAsStringAsync();
         var deserializedContent = JToken.Parse(content);
 

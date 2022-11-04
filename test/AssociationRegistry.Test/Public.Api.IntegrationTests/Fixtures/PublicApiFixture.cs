@@ -3,6 +3,7 @@
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Extensions;
+using AssociationRegistry.Public.Api.Infrastructure;
 using AssociationRegistry.Public.Api.Projections;
 using Framework.Helpers;
 using Marten;
@@ -19,7 +20,7 @@ using Xunit;
 using Xunit.Sdk;
 using IEvent = Events.IEvent;
 
-public class PublicElasticFixture : IDisposable, IAsyncLifetime
+public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier;
@@ -30,10 +31,13 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
     private DocumentStore? _documentStore;
     private TestServer? _testServer;
 
+    public HttpClient HttpClient
+        => _httpClient!;
+
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
-    protected PublicElasticFixture(string identifier)
+    protected PublicApiFixture(string identifier)
     {
         _identifier += "_" + identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
@@ -160,6 +164,8 @@ public class PublicElasticFixture : IDisposable, IAsyncLifetime
                     new MartenSubscription(
                         new MartenEventsConsumer(testServer.Services)),
                     ProjectionLifecycle.Async);
+
+                opts.AddPostgresProjections();
             });
     }
 

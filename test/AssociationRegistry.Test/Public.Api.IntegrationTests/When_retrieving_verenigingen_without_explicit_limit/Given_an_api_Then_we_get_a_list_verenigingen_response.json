@@ -21,7 +21,7 @@
       ],
       "links": [
         {
-          "href": "/v1/verenigingen/V1234567",
+          "href": "/v1/verenigingen/static/V1234567",
           "type": "GET",
           "rel": "Detail"
         }

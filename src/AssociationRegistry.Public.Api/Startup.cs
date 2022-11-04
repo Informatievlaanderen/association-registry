@@ -11,6 +11,7 @@ using ConfigurationBindings;
 using Constants;
 using Extensions;
 using FluentValidation.AspNetCore;
+using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
@@ -181,7 +182,7 @@ public class Startup
 
     private static void AddMarten(IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
-        var martenConfiguration1 = services.AddMarten(
+        var martenConfiguration = services.AddMarten(
             serviceProvider =>
             {
                 var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
@@ -197,9 +198,10 @@ public class Startup
                         new MartenEventsConsumer(serviceProvider)),
                     ProjectionLifecycle.Async);
 
+                opts.AddPostgresProjections();
+
                 return opts;
             });
-        var martenConfiguration = martenConfiguration1;
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);

@@ -5,7 +5,7 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 
-public class One_vereniging_werd_geregistreerd_fixture : PublicElasticFixture
+public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 {
     public const string VCode = "v000001";
     public const string Naam = "Feestcommittee Oudenaarde";
