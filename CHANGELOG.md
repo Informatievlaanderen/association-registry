@@ -1,3 +1,10 @@
+# [1.56.0](https://github.com/informatievlaanderen/association-registry/compare/v1.55.1...v1.56.0) (2022-11-04)
+
+
+### Features
+
+* or-1295 throw validationException when modelstate is invalid ([765002e](https://github.com/informatievlaanderen/association-registry/commit/765002e90f5ed5a14b9730f6b24a67d13c287f9c))
+
 ## [1.55.1](https://github.com/informatievlaanderen/association-registry/compare/v1.55.0...v1.55.1) (2022-11-03)
 
 
