@@ -43,6 +43,6 @@ public class Given_A_Valid_Request
 
     private string GetJsonBody(string naam)
         => GetType()
-            .GetAssociatedResourceJson($"{nameof(Given_A_Valid_Request)}_{nameof(Then_it_returns_an_accepted_response)}")
+            .GetAssociatedResourceJson($"files.request.with_name")
             .Replace("{{vereniging.naam}}", naam);
 }
