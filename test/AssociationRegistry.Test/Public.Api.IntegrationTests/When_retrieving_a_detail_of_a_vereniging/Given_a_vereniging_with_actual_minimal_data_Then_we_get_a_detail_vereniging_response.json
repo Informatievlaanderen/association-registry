@@ -1,0 +1,7 @@
+{
+  "@context": "https://localhost:11003/v1/contexten/detail-vereniging-context.json",
+  "vereniging": {
+    "id": "v000001",
+    "naam": "Feestcommittee Oudenaarde"
+  }
+}

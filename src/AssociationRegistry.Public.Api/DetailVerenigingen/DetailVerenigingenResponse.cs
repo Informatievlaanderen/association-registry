@@ -46,6 +46,19 @@ public record VerenigingDetail(
     DateOnly LaatstGewijzigd
 );
 
+[DataContract]
+public record DetailVerenigingResponseWithActualData(
+    [property: DataMember(Name = "@context")]
+    string Context,
+    [property: DataMember(Name = "Vereniging")]
+    VerenigingDetailWithActualData VerenigingDetail);
+
+[DataContract]
+public record VerenigingDetailWithActualData(
+    [property: DataMember(Name = "Id")] string Id,
+    [property: DataMember(Name = "Naam")] string Naam
+);
+
 public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactGegeven> ContactGegevens);
 
 public record ContactGegeven(string Type, string Waarde);

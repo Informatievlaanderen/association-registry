@@ -18,21 +18,21 @@ public class Given_a_vereniging_with_all_fields : IClassFixture<VerenigingPublic
     [Fact]
     public async Task Then_we_get_a_successful_response()
     {
-        var response = await _httpClient.GetAsync("/v1/verenigingen/V1234567");
+        var response = await _httpClient.GetAsync("/v1/verenigingen/static/V1234567");
         response.Should().BeSuccessful();
     }
 
     [Fact]
     public async Task Then_we_get_json_ld_as_content_type()
     {
-        var response = await _httpClient.GetAsync("/v1/verenigingen/V1234567");
+        var response = await _httpClient.GetAsync("/v1/verenigingen/static/V1234567");
         response.Content.Headers.ContentType!.MediaType.Should().Be(WellknownMediaTypes.JsonLd);
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen/V1234567");
+        var responseMessage = await _httpClient.GetAsync("/v1/verenigingen/static/V1234567");
 
         var content = await responseMessage.Content.ReadAsStringAsync();
         var goldenMaster = GetType().GetAssociatedResourceJson(

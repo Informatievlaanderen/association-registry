@@ -15,6 +15,7 @@
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_name.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.empty.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
+    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_a_vereniging_with_actual_minimal_data_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_a_vereniging_with_all_fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_a_vereniging_with_minimal_fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
