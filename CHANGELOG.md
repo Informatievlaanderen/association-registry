@@ -1,3 +1,11 @@
+# [1.58.0](https://github.com/informatievlaanderen/association-registry/compare/v1.57.0...v1.58.0) (2022-11-04)
+
+
+### Features
+
+* or-1293 update beheer and acm swagger docs ([108b32a](https://github.com/informatievlaanderen/association-registry/commit/108b32a865bc951ad355f05c8231effc08f13942))
+* or-1295 add swagger example validationProblemDetail ([704c85a](https://github.com/informatievlaanderen/association-registry/commit/704c85af88e91ee6166a7481743967e57c422f9b))
+
 # [1.57.0](https://github.com/informatievlaanderen/association-registry/compare/v1.56.0...v1.57.0) (2022-11-04)
 
 
