@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
 [DataContract]
 public class SearchVerenigingenResponse

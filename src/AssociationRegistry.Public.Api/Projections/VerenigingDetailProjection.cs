@@ -1,26 +1,23 @@
 ﻿namespace AssociationRegistry.Public.Api.Projections;
 
 using Events;
-using Marten.Events.Projections;
+using Marten.Events.Aggregation;
 using Marten.Schema;
 
-public class VerenigingDetailProjection : MultiStreamAggregation<VerenigingDetailDocument, string>
+public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
 {
-    public VerenigingDetailProjection()
-    {
-        Identity<VerenigingWerdGeregistreerd>(verenigingWerdGeregistreerd => verenigingWerdGeregistreerd.VCode);
-    }
-
-    public void Apply(VerenigingWerdGeregistreerd verenigingWerdGeregistreerd, VerenigingDetailDocument document)
-    {
-        document.VCode = verenigingWerdGeregistreerd.VCode;
-        document.Naam = verenigingWerdGeregistreerd.Naam;
-    }
+    public VerenigingDetailDocument Create(VerenigingWerdGeregistreerd verenigingWerdGeregistreerd)
+        => new()
+        {
+            VCode = verenigingWerdGeregistreerd.VCode,
+            Naam = verenigingWerdGeregistreerd.Naam,
+        };
 }
 
 public class VerenigingDetailDocument
 {
     [Identity]
-    public string VCode { get; set; }
-    public string Naam { get; set; }
+    public string VCode { get; set; } = null!;
+
+    public string Naam { get; set; } = null!;
 }
