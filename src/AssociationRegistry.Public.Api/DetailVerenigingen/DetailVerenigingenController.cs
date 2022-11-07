@@ -62,7 +62,6 @@ public class DetailVerenigingenController : ApiController
         [FromServices] AppSettings appsettings,
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode)
-
     {
         await using var session = documentStore.LightweightSession();
         var maybeVereniging = await session.Query<VerenigingDetailDocument>()
