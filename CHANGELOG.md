@@ -1,3 +1,11 @@
+# [1.59.0](https://github.com/informatievlaanderen/association-registry/compare/v1.58.0...v1.59.0) (2022-11-07)
+
+
+### Features
+
+* or-1245 add vereniging detail projection + endpoint ([02bcfd0](https://github.com/informatievlaanderen/association-registry/commit/02bcfd000fe881e3ad424eeb06e019fdc06d3ae0))
+* or-1245 add verenigingen detail with actual data ([4ea361c](https://github.com/informatievlaanderen/association-registry/commit/4ea361c70afd17ddd792f5e0136cb55761bc9ea2))
+
 # [1.58.0](https://github.com/informatievlaanderen/association-registry/compare/v1.57.0...v1.58.0) (2022-11-04)
 
 
