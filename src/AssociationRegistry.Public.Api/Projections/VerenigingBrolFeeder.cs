@@ -12,7 +12,7 @@ public interface IVerenigingBrolFeeder
     string KorteNaam { get; }
     VerenigingDocument.Locatie Hoofdlocatie { get; }
     ImmutableArray<VerenigingDocument.Locatie> Locaties { get; }
-    string[] Hoofdactiviteiten { get; }
+    VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
     ImmutableArray<string> Activiteiten { get; }
     void SetStatic();
@@ -94,12 +94,12 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         }
     }
 
-    private string GetHoofdactiviteit()
+    private BrolFeederHoofdactiviteit GetHoofdactiviteit()
     {
         var hoofdactiviteiten = BrolFeederHoofdactiviteit.All();
         var index = _random.Next(hoofdactiviteiten.Count);
 
-        return hoofdactiviteiten[index].ToString();
+        return hoofdactiviteiten[index];
     }
 
     public string KorteNaam
@@ -126,10 +126,17 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
     private string GetPostcode()
         => $"{_random.Next(0, 999):0000}";
 
-    public string[] Hoofdactiviteiten
-        => isStatic
-            ? "Buurtwerking".ObjectToArray()
-            : ComposeArray(3, GetHoofdactiviteit).ToArray();
+    public VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten
+    {
+        get
+        {
+            var hoofdactiviteiten = isStatic
+                ? BrolFeederHoofdactiviteit.Create("BWRK").ObjectToArray()
+                : ComposeArray(3, GetHoofdactiviteit).ToArray();
+
+            return hoofdactiviteiten.Select(h => new VerenigingDocument.Hoofdactiviteit(h.Code, h.Naam)).ToArray();
+        }
+    }
 
     public string Doelgroep
         => isStatic

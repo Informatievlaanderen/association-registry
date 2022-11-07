@@ -5,7 +5,10 @@
       "naam": "Feestcommittee Oudenaarde",
       "korteNaam": "De korte naam",
       "hoofdactiviteiten": [
-        "Buurtwerking"
+        {
+          "code": "BWRK",
+          "name": "Buurtwerking"
+        }
       ],
       "hoofdlocatie": {
         "type": "",

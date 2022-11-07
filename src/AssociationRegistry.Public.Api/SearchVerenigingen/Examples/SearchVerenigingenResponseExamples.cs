@@ -14,7 +14,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V1234567",
                     "FWA De vrolijke BA’s",
                     "DVB",
-                    "Cultuur".ObjectToImmutableArray(),
+                    new Hoofdactiviteit("CULT", "Cultuur").ObjectToImmutableArray(),
                     new Locatie(
                         "Correspondentieadres",
                         "https://data.vlaanderen.be/id/adres/2272122",
@@ -34,7 +34,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V7654321",
                     "FWA De Bron",
                     string.Empty,
-                    "Sport".ObjectToImmutableArray(),
+                    new Hoofdactiviteit("SPRT", "Sport").ObjectToImmutableArray(),
                     new Locatie(
                         "Plaats van de activiteiten",
                         "https://data.vlaanderen.be/id/gemeente/44021",

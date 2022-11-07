@@ -9,41 +9,42 @@ using System.Linq;
 /// </summary>
 public class BrolFeederHoofdactiviteit
 {
-    private static readonly List<BrolFeederHoofdactiviteit> Hoofdactiviteiten = new()
+    private static readonly List<BrolFeederHoofdactiviteit> BrolFeederHoofdactiviteiten = new()
     {
-        new BrolFeederHoofdactiviteit("Buurtwerking"),
-        new BrolFeederHoofdactiviteit("Burgerinitiatief & Actiegroep"),
-        new BrolFeederHoofdactiviteit("Cultuur"),
-        new BrolFeederHoofdactiviteit("Creatief / Hobby"),
-        new BrolFeederHoofdactiviteit("Diversiteit & Integratie"),
-        new BrolFeederHoofdactiviteit("Duurzaamheid"),
-        new BrolFeederHoofdactiviteit("Gezondheid & Welzijn"),
-        new BrolFeederHoofdactiviteit("Internationaal & Onwikkelingssamenwerking"),
-        new BrolFeederHoofdactiviteit("Jeugdwerk"),
-        new BrolFeederHoofdactiviteit("Kunst, Erfgoed, Sociaal-cultureel werk & Media"),
-        new BrolFeederHoofdactiviteit("Levenbeschouwelijk"),
-        new BrolFeederHoofdactiviteit("Maatschappelijke dienstverlening"),
-        new BrolFeederHoofdactiviteit("Natuur & Klimaat & Milieu & Dierenwelzijn"),
-        new BrolFeederHoofdactiviteit("Onderwijs & Wetenschap"),
-        new BrolFeederHoofdactiviteit("Sport"),
-        new BrolFeederHoofdactiviteit("Toerisme"),
-        new BrolFeederHoofdactiviteit("Vorming"),
+        new BrolFeederHoofdactiviteit("BWRK", "Buurtwerking"),
+        new BrolFeederHoofdactiviteit("BIAG", "Burgerinitiatief & Actiegroep"),
+        new BrolFeederHoofdactiviteit("CULT", "Cultuur"),
+        new BrolFeederHoofdactiviteit("CREA", "Creatief / Hobby"),
+        new BrolFeederHoofdactiviteit("DINT", "Diversiteit & Integratie"),
+        new BrolFeederHoofdactiviteit("DRZH", "Duurzaamheid"),
+        new BrolFeederHoofdactiviteit("GEWE", "Gezondheid & Welzijn"),
+        new BrolFeederHoofdactiviteit("INOS", "Internationaal & Onwikkelingssamenwerking"),
+        new BrolFeederHoofdactiviteit("JGDW", "Jeugdwerk"),
+        new BrolFeederHoofdactiviteit("KESM", "Kunst, Erfgoed, Sociaal-cultureel werk & Media"),
+        new BrolFeederHoofdactiviteit("LEBE", "Levenbeschouwelijk"),
+        new BrolFeederHoofdactiviteit("MADI", "Maatschappelijke dienstverlening"),
+        new BrolFeederHoofdactiviteit("NKMD", "Natuur & Klimaat & Milieu & Dierenwelzijn"),
+        new BrolFeederHoofdactiviteit("ONWE", "Onderwijs & Wetenschap"),
+        new BrolFeederHoofdactiviteit("SPRT", "Sport"),
+        new BrolFeederHoofdactiviteit("TOER", "Toerisme"),
+        new BrolFeederHoofdactiviteit("VORM", "Vorming"),
     };
 
-    private readonly string _naam;
+    public string Naam { get; }
+    public string Code { get; }
 
-    private BrolFeederHoofdactiviteit(string naam)
-        => _naam = naam;
+    private BrolFeederHoofdactiviteit(string code, string naam)
+    {
+        Code = code;
+        Naam = naam;
+    }
 
     public static BrolFeederHoofdactiviteit Create(string key)
     {
-        var value = Hoofdactiviteiten.SingleOrDefault(p => p._naam == key);
+        var value = BrolFeederHoofdactiviteiten.SingleOrDefault(p => p.Code == key);
         return value ?? throw new KeyNotFoundException(key);
     }
 
     public static IImmutableList<BrolFeederHoofdactiviteit> All()
-        => Hoofdactiviteiten.ToImmutableList();
-
-    public override string ToString()
-        => _naam;
+        => BrolFeederHoofdactiviteiten.ToImmutableList();
 }

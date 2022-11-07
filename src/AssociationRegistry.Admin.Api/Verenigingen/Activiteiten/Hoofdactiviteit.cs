@@ -8,39 +8,40 @@ public class Hoofdactiviteit
 {
     private static readonly List<Hoofdactiviteit> Hoofdactiviteiten = new()
     {
-        new Hoofdactiviteit("Buurtwerking"),
-        new Hoofdactiviteit("Burgerinitiatief & Actiegroep"),
-        new Hoofdactiviteit("Cultuur"),
-        new Hoofdactiviteit("Creatief / Hobby"),
-        new Hoofdactiviteit("Diversiteit & Integratie"),
-        new Hoofdactiviteit("Duurzaamheid"),
-        new Hoofdactiviteit("Gezondheid & Welzijn"),
-        new Hoofdactiviteit("Internationaal & Onwikkelingssamenwerking"),
-        new Hoofdactiviteit("Jeugdwerk"),
-        new Hoofdactiviteit("Kunst, Erfgoed, Sociaal-cultureel werk & Media"),
-        new Hoofdactiviteit("Levenbeschouwelijk"),
-        new Hoofdactiviteit("Maatschappelijke dienstverlening"),
-        new Hoofdactiviteit("Natuur & Klimaat & Milieu & Dierenwelzijn"),
-        new Hoofdactiviteit("Onderwijs & Wetenschap"),
-        new Hoofdactiviteit("Sport"),
-        new Hoofdactiviteit("Toerisme"),
-        new Hoofdactiviteit("Vorming"),
+        new Hoofdactiviteit("BWRK", "Buurtwerking"),
+        new Hoofdactiviteit("BIAG", "Burgerinitiatief & Actiegroep"),
+        new Hoofdactiviteit("CULT", "Cultuur"),
+        new Hoofdactiviteit("CREA", "Creatief / Hobby"),
+        new Hoofdactiviteit("DINT", "Diversiteit & Integratie"),
+        new Hoofdactiviteit("DRZH", "Duurzaamheid"),
+        new Hoofdactiviteit("GEWE", "Gezondheid & Welzijn"),
+        new Hoofdactiviteit("INOS", "Internationaal & Onwikkelingssamenwerking"),
+        new Hoofdactiviteit("JGDW", "Jeugdwerk"),
+        new Hoofdactiviteit("KESM", "Kunst, Erfgoed, Sociaal-cultureel werk & Media"),
+        new Hoofdactiviteit("LEBE", "Levenbeschouwelijk"),
+        new Hoofdactiviteit("MADI", "Maatschappelijke dienstverlening"),
+        new Hoofdactiviteit("NKMD", "Natuur & Klimaat & Milieu & Dierenwelzijn"),
+        new Hoofdactiviteit("ONWE", "Onderwijs & Wetenschap"),
+        new Hoofdactiviteit("SPRT", "Sport"),
+        new Hoofdactiviteit("TOER", "Toerisme"),
+        new Hoofdactiviteit("VORM", "Vorming"),
     };
 
-    private readonly string _naam;
+    public string Naam { get; }
+    public string Code { get; }
 
-    private Hoofdactiviteit(string naam)
-        => _naam = naam;
+    private Hoofdactiviteit(string code, string naam)
+    {
+        Code = code;
+        Naam = naam;
+    }
 
     public static Hoofdactiviteit Create(string key)
     {
-        var value = Hoofdactiviteiten.SingleOrDefault(p => p._naam == key);
+        var value = Hoofdactiviteiten.SingleOrDefault(p => p.Code == key);
         return value ?? throw new KeyNotFoundException(key);
     }
 
     public static IImmutableList<Hoofdactiviteit> All()
         => Hoofdactiviteiten.ToImmutableList();
-
-    public override string ToString()
-        => _naam;
 }
