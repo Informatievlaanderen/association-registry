@@ -1,3 +1,10 @@
+# [1.60.0](https://github.com/informatievlaanderen/association-registry/compare/v1.59.0...v1.60.0) (2022-11-07)
+
+
+### Features
+
+* or-1271 add code to hoofdactiviteit ([533f20b](https://github.com/informatievlaanderen/association-registry/commit/533f20b037fe903809c87bab407994175420407a))
+
 # [1.59.0](https://github.com/informatievlaanderen/association-registry/compare/v1.58.0...v1.59.0) (2022-11-07)
 
 
