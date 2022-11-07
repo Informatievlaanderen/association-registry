@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
@@ -88,22 +89,24 @@ public class SearchVerenigingenController : ApiController
     [Produces(contentType: WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromServices] ElasticClient elasticClient,
+        [FromServices] AppSettings appSettings,
         [FromQuery] string q,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         var searchResponse = await Search(elasticClient, q, paginationQueryParams);
 
-        var response = ToSearchVereningenResponse(searchResponse, paginationQueryParams);
+        var response = ToSearchVereningenResponse(appSettings, searchResponse, paginationQueryParams);
 
         return Ok(response);
     }
 
     private static SearchVerenigingenResponse ToSearchVereningenResponse(
+        AppSettings appSettings,
         ISearchResponse<VerenigingDocument> searchResponse,
         PaginationQueryParams paginationRequest)
         => new()
         {
-            Verenigingen = GetVerenigingenFromResponse(searchResponse),
+            Verenigingen = GetVerenigingenFromResponse(appSettings, searchResponse),
             Facets = new Facets
             {
                 HoofdActiviteiten = GetHoofdActiviteitFacets(searchResponse),
@@ -128,7 +131,7 @@ public class SearchVerenigingenController : ApiController
                 bucket => bucket.Key.ToString(),
                 bucket => bucket.DocCount ?? 0);
 
-    private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(ISearchResponse<VerenigingDocument> searchResponse)
+    private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
             x =>
                 new Vereniging(
@@ -139,7 +142,8 @@ public class SearchVerenigingenController : ApiController
                     new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
-                    x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray()
+                    x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
+                    new VerenigingLinks(new Uri($"{appSettings.AssociationRegistryUri}v1/verenigingen/{x.Source.VCode}"))
                 )).ToImmutableArray();
 
     private static async Task<ISearchResponse<VerenigingDocument>> Search(
