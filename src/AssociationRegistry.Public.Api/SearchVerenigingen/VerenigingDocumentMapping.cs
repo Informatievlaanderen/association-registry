@@ -26,12 +26,11 @@ public static class VerenigingDocumentMapping
                         .Name(document => document.Locaties)
                         .IncludeInRoot()
                         .Properties(LocationMapping.Get))
-                .Text(
+                .Nested<VerenigingDocument.Hoofdactiviteit>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Hoofdactiviteiten)
-                        .Fields(
-                            x => x
-                                .Keyword(y => y.Name("keyword"))))
+                        .IncludeInRoot()
+                        .Properties(HoofdactiviteitMapping.Get))
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Doelgroep))
@@ -50,5 +49,18 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Gemeente));
+    }
+
+    private static class HoofdactiviteitMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Hoofdactiviteit> map)
+            => map
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Code))
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Naam)
+                        .Fields(x => x.Keyword(y => y.Name("keyword"))));
     }
 }

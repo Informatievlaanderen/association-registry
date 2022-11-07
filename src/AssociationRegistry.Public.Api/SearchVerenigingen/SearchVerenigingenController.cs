@@ -135,7 +135,7 @@ public class SearchVerenigingenController : ApiController
                     x.Source.VCode,
                     x.Source.Naam,
                     x.Source.KorteNaam,
-                    x.Source.Hoofdactiviteiten.ToImmutableArray(),
+                    x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
                     new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
@@ -163,7 +163,7 @@ public class SearchVerenigingenController : ApiController
                     aggregationContainerDescriptor => aggregationContainerDescriptor.Terms(
                         HoofdactiviteitenCountAggregateName,
                         valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                            .Field(document => document.Hoofdactiviteiten.Suffix("keyword"))
+                            .Field(document => document.Hoofdactiviteiten.Select(h => h.Naam).Suffix("keyword"))
                             .Size(20)
                     )
                 )
