@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
 
+using System;
 using System.Collections.Immutable;
 using Extensions;
 using Swashbuckle.AspNetCore.Filters;
@@ -11,7 +12,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
         {
             Verenigingen = ImmutableArray.Create(
                 new Vereniging(
-                    "V1234567",
+                    "V123456",
                     "FWA De vrolijke BA’s",
                     "DVB",
                     new Hoofdactiviteit("CULT", "Cultuur").ObjectToImmutableArray(),
@@ -29,9 +30,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Liedekerke")
                     ),
                     ImmutableArray.Create(
-                        new Activiteit(123, "Badminton"))),
+                        new Activiteit(123, "Badminton")),
+                    new VerenigingLinks(new Uri("https://???/verenigingen/v123456"))),
                 new Vereniging(
-                    "V7654321",
+                    "V765432",
                     "FWA De Bron",
                     string.Empty,
                     new Hoofdactiviteit("SPRT", "Sport").ObjectToImmutableArray(),
@@ -48,7 +50,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "9000",
                             "Gent")),
                     ImmutableArray.Create(
-                        new Activiteit(456, "Tennis"))
+                        new Activiteit(456, "Tennis")),
+                    new VerenigingLinks(new Uri("https://???/verenigingen/v765432"))
                 )),
             Facets = new Facets
             {

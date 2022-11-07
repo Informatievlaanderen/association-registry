@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
+using System;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
@@ -18,7 +19,9 @@ public record Vereniging(
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties,
     [property: DataMember(Name = "Activiteiten")]
-    ImmutableArray<Activiteit> Activiteiten);
+    ImmutableArray<Activiteit> Activiteiten,
+    [property: DataMember(Name = "Links")]
+    VerenigingLinks Links);
 
 [DataContract]
 public record Locatie(
@@ -41,3 +44,9 @@ public record Activiteit(
 public record Hoofdactiviteit(
     [property: DataMember(Name = "Code")] string Code,
     [property: DataMember(Name = "Name")] string Naam);
+
+[DataContract]
+public record VerenigingLinks(
+    [property: DataMember(Name = "Detail")]
+    Uri Detail
+);

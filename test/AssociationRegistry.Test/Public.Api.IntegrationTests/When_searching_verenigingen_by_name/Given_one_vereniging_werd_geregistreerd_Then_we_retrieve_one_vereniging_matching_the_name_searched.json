@@ -44,7 +44,10 @@
           "id": -1,
           "categorie": "Padel"
         }
-      ]
+      ],
+      "links": {
+        "detail": "https://localhost:11003/v1/verenigingen/v000001"
+      }
     }
   ],
   "facets": {
