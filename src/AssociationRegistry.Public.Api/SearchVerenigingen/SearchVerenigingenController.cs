@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
@@ -21,8 +20,6 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
-    private const string HoofdactiviteitenCountAggregateName = "Count_By_Hoofdactiviteit";
-
     /// <summary>
     /// Zoek verenigingen op. (statische dataset, momenteel niet gebruikt)
     /// </summary>
@@ -89,62 +86,16 @@ public class SearchVerenigingenController : ApiController
     [Produces(contentType: WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromServices] ElasticClient elasticClient,
-        [FromServices] AppSettings appSettings,
+        [FromServices] SearchVerenigingenMapper mapper,
         [FromQuery] string q,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         var searchResponse = await Search(elasticClient, q, paginationQueryParams);
 
-        var response = ToSearchVereningenResponse(appSettings, searchResponse, paginationQueryParams);
+        var response = mapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams);
 
         return Ok(response);
     }
-
-    private static SearchVerenigingenResponse ToSearchVereningenResponse(
-        AppSettings appSettings,
-        ISearchResponse<VerenigingDocument> searchResponse,
-        PaginationQueryParams paginationRequest)
-        => new()
-        {
-            Verenigingen = GetVerenigingenFromResponse(appSettings, searchResponse),
-            Facets = new Facets
-            {
-                HoofdActiviteiten = GetHoofdActiviteitFacets(searchResponse),
-            },
-            Metadata = GetMetadata(searchResponse, paginationRequest),
-        };
-
-    private static Metadata GetMetadata(ISearchResponse<VerenigingDocument> searchResponse, PaginationQueryParams paginationRequest)
-        => new(
-            new Pagination(
-                searchResponse.Total,
-                paginationRequest.Offset,
-                paginationRequest.Limit
-            )
-        );
-
-    private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
-        => searchResponse.Aggregations
-            .Terms(HoofdactiviteitenCountAggregateName)
-            .Buckets
-            .ToImmutableDictionary(
-                bucket => bucket.Key.ToString(),
-                bucket => bucket.DocCount ?? 0);
-
-    private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
-        => searchResponse.Hits.Select(
-            x =>
-                new Vereniging(
-                    x.Source.VCode,
-                    x.Source.Naam,
-                    x.Source.KorteNaam,
-                    x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
-                    new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
-                    x.Source.Doelgroep,
-                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
-                    x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.AssociationRegistryUri}v1/verenigingen/{x.Source.VCode}"))
-                )).ToImmutableArray();
 
     private static async Task<ISearchResponse<VerenigingDocument>> Search(
         IElasticClient client,
@@ -165,7 +116,7 @@ public class SearchVerenigingenController : ApiController
                 )
                 .Aggregations(
                     aggregationContainerDescriptor => aggregationContainerDescriptor.Terms(
-                        HoofdactiviteitenCountAggregateName,
+                        WellknownFacets.HoofdactiviteitenCountAggregateName,
                         valueCountAggregationDescriptor => valueCountAggregationDescriptor
                             .Field(document => document.Hoofdactiviteiten.Select(h => h.Naam).Suffix("keyword"))
                             .Size(20)

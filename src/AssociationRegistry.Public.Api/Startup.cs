@@ -30,6 +30,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projections;
 using S3;
+using SearchVerenigingen;
 using static ConfigHelpers;
 using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
 using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
@@ -90,6 +91,8 @@ public class Startup
 
         // todo: remove when detail api works with real projection
         services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(associationRegistryUri));
+
+        services.AddSingleton<SearchVerenigingenMapper>();
 
         AddSwagger(services);
 
