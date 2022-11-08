@@ -70,10 +70,8 @@ public class Startup
         var s3Options = new S3BlobClientOptions();
         _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
 
-        var organisationRegistryUri = _configuration.GetSection("OrganisationRegistryUri").Value;
-        var associationRegistryUri = _configuration.GetSection("AssociationRegistryUri").Value;
-
-        services.AddSingleton(_configuration.Get<AppSettings>());
+        var appSettings = _configuration.Get<AppSettings>();
+        services.AddSingleton(appSettings);
 
         services.AddElasticSearch(elasticSearchOptions);
 
@@ -89,8 +87,8 @@ public class Startup
         services.AddDataCache();
         services.AddJsonLdContexts();
 
-        // todo: remove when detail api works with real projection
-        services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(associationRegistryUri));
+        // todo: remove when static version of detail api is removed
+        services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(appSettings.BaseUrl));
 
         services.AddSingleton<SearchVerenigingenMapper>();
 

@@ -15,7 +15,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
 
     public DetailVerenigingResponse GetExamples()
         => new(
-            $"{_appSettings.AssociationRegistryUri}v1/contexten/detail-vereniging-context.json",
+            $"{_appSettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
             new VerenigingDetail(
                 "V123",
                 "Voorbeeld Vereniging",
@@ -40,7 +40,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 ImmutableArray.Create(
                     new Activiteit(
                         "Sport",
-                        new Uri($"{_appSettings.AssociationRegistryUri}v1/verenigingen/V12")
+                        new Uri($"{_appSettings.BaseUrl}v1/verenigingen/V12")
                     )
                 ),
                 ImmutableArray.Create(

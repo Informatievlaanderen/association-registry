@@ -15,7 +15,7 @@ public class ListVerenigingenResponseExamples : IExamplesProvider<ListVereniging
 
     public ListVerenigingenResponse GetExamples()
         => new(
-            $"{_appSettings.AssociationRegistryUri}v1/contexten/list-verenigingen-context.json",
+            $"{_appSettings.BaseUrl}v1/contexten/list-verenigingen-context.json",
             ImmutableArray.Create(
                 new ListVerenigingenResponseItem(
                     "V001",
@@ -25,12 +25,12 @@ public class ListVerenigingenResponseExamples : IExamplesProvider<ListVereniging
                     ImmutableArray.Create(
                         new Activiteit(
                             "Sport",
-                            new Uri($"{_appSettings.AssociationRegistryUri}v1/verenigingen/V001")
+                            new Uri($"{_appSettings.BaseUrl}v1/verenigingen/V001")
                         )
                     ),
                     ImmutableArray.Create(
                         new Link(
-                            $"{_appSettings.AssociationRegistryUri}v1/verenigingen/V001",
+                            $"{_appSettings.BaseUrl}v1/verenigingen/V001",
                             "GET",
                             "Detail")
                     )
@@ -43,12 +43,12 @@ public class ListVerenigingenResponseExamples : IExamplesProvider<ListVereniging
                     ImmutableArray.Create(
                         new Activiteit(
                             "Sport",
-                            new Uri($"{_appSettings.AssociationRegistryUri}v1/verenigingen/V001")
+                            new Uri($"{_appSettings.BaseUrl}v1/verenigingen/V001")
                         )
                     ),
                     ImmutableArray.Create(
                         new Link(
-                            $"{_appSettings.AssociationRegistryUri}v1/verenigingen/V002",
+                            $"{_appSettings.BaseUrl}v1/verenigingen/V002",
                             "GET",
                             "Detail")
                     )
@@ -61,12 +61,12 @@ public class ListVerenigingenResponseExamples : IExamplesProvider<ListVereniging
                     ImmutableArray.Create(
                         new Activiteit(
                             "Kaartclub",
-                            new Uri($"{_appSettings.AssociationRegistryUri}v1/verenigingen/V001")
+                            new Uri($"{_appSettings.BaseUrl}v1/verenigingen/V001")
                         )
                     ),
                     ImmutableArray.Create(
                         new Link(
-                            $"{_appSettings.AssociationRegistryUri}v1/verenigingen/V003",
+                            $"{_appSettings.BaseUrl}v1/verenigingen/V003",
                             "GET",
                             "Detail")
                     )
