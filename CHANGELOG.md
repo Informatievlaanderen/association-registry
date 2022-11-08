@@ -1,3 +1,10 @@
+# [1.61.0](https://github.com/informatievlaanderen/association-registry/compare/v1.60.0...v1.61.0) (2022-11-08)
+
+
+### Features
+
+* or-1277 add link in search verenigingen response to vereniging detail ([b1360ea](https://github.com/informatievlaanderen/association-registry/commit/b1360ea5d2c78e2cd2b2ce8e0219030c849726d8))
+
 # [1.60.0](https://github.com/informatievlaanderen/association-registry/compare/v1.59.0...v1.60.0) (2022-11-07)
 
 
