@@ -60,6 +60,7 @@ public class Startup
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
         services.AddTransient<Events.IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
+        services.AddSingleton<IClock, Clock>();
         ConfigureDefaultsForApi(services, _configuration);
 
         var containerBuilder = new ContainerBuilder();
@@ -243,13 +244,13 @@ public class Startup
     {
         const string sectionName = nameof(PostgreSqlOptionsSection);
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Host,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Username,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Password,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
     private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)

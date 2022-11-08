@@ -14,8 +14,8 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : Publ
 
     public static readonly IDictionary<string, VerenigingWerdGeregistreerd> Events = new Dictionary<string, VerenigingWerdGeregistreerd>()
     {
-        { VCode1, new VerenigingWerdGeregistreerd(VCode1, Fixture.Create<string>()) },
-        { VCode2, new VerenigingWerdGeregistreerd(VCode2, Fixture.Create<string>()) },
+        { VCode1, new VerenigingWerdGeregistreerd(VCode1, Fixture.Create<string>(), null, null, null, null, "Actief", DateTime.Today) },
+        { VCode2, new VerenigingWerdGeregistreerd(VCode2, Fixture.Create<string>(), null, null, null, null, "Actief", DateTime.Today) },
     };
 
     public const string VCode1 = "v000001";
@@ -53,7 +53,7 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data : IClassFixtur
 
         var jObject = JsonConvert.DeserializeObject<JObject>(content)!;
 
-        jObject.SelectToken("vereniging.id")!.Value<string>().Should().Be(vCode);
+        jObject.SelectToken("vereniging.vCode")!.Value<string>().Should().Be(vCode);
         jObject.SelectToken("vereniging.naam")!.Value<string>().Should()
             .Be(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture.Events[vCode].Naam);
     }

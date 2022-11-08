@@ -18,7 +18,7 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixt
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
+        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, null, null, null, null, "Actief", DateTime.Today));
     }
 }
 

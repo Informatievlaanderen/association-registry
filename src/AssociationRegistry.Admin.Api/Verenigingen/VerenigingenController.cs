@@ -42,7 +42,12 @@ public class VerenigingenController : ApiController
     {
         await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
-        var command = new RegistreerVerenigingCommand(request.Naam);
+        var command = new RegistreerVerenigingCommand(
+            request.Naam,
+            request.KorteNaam,
+            request.KorteBeschrijving,
+            request.StartDatum,
+            request.KboNummer);
 
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command);
         await _sender.Send(envelope);

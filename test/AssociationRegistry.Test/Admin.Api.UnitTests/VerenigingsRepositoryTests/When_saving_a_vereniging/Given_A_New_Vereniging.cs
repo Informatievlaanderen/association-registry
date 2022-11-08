@@ -32,13 +32,17 @@ public class Given_A_New_Vereniging
 
         var vCode = new VCode(1);
         var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = new Vereniging(vCode, naam);
+        var vereniging = new Vereniging(vCode, naam, null, null, null, null, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging);
 
         eventStore.Invocations.Should().HaveCount(1);
         var invocation = eventStore.Invocations.Single();
         invocation.AggregateId.Should().Be(vCode);
-        invocation.Events.Single().Should().BeEquivalentTo(new VerenigingWerdGeregistreerd(vCode, naam));
+
+        var theEvent = (VerenigingWerdGeregistreerd)invocation.Events.Single();
+
+        theEvent.VCode.Should().Be("V000001");
+        theEvent.Naam.Should().Be("Vereniging 1");
     }
 }

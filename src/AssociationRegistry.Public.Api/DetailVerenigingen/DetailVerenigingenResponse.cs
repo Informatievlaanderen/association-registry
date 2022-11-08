@@ -55,7 +55,7 @@ public record DetailVerenigingResponseWithActualData(
 
 [DataContract]
 public record VerenigingDetailWithActualData(
-    [property: DataMember(Name = "Id")] string Id,
+    [property: DataMember(Name = "VCode")] string VCode,
     [property: DataMember(Name = "Naam")] string Naam
 );
 

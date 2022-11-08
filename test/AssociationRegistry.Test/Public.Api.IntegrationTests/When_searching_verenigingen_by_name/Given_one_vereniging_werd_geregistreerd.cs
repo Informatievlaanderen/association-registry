@@ -17,7 +17,7 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
+        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, null, null, null, null, "Actief", new DateTime()));
     }
 }
 

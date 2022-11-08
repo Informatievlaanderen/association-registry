@@ -11,8 +11,9 @@
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_all_fields.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_empty_name.json" />
-    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_name.json" />
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.empty.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_Actual_Minimal_Data_Then_we_get_a_detail_vereniging_response.json" />
