@@ -44,7 +44,7 @@ public class DetailVerenigingenController : ApiController
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
-        return Ok(new DetailVerenigingResponse($"{appsettings.AssociationRegistryUri}v1/contexten/detail-vereniging-context.json", vereniging));
+        return Ok(new DetailVerenigingResponse($"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json", vereniging));
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public class DetailVerenigingenController : ApiController
             return NotFound();
 
         return Ok(new DetailVerenigingResponseWithActualData(
-            $"{appsettings.AssociationRegistryUri}v1/contexten/detail-vereniging-context.json",
+            $"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
             new VerenigingDetailWithActualData(vereniging.VCode, vereniging.Naam)));
     }
 }

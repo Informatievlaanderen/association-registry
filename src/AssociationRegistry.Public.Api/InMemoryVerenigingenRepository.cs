@@ -31,7 +31,7 @@ public class InMemoryVerenigingenRepository : IVerenigingenRepository
 
     public Task<int> TotalCount() => Task.FromResult(_verenigingenListItems.Length);
 
-    public static InMemoryVerenigingenRepository Create(string? associationRegistryUri)
+    public static InMemoryVerenigingenRepository Create(string? baseUrl)
         => new(
             new VerenigingListItem[]
             {
@@ -41,8 +41,8 @@ public class InMemoryVerenigingenRepository : IVerenigingenRepository
                     "DVB",
                     new Locatie("1770", "Liedekerke"),
                     ImmutableArray.Create(
-                        new Activiteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
-                        new Activiteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")))),
+                        new Activiteit("Badminton", new Uri($"{baseUrl}v1/verenigingen/V000010")),
+                        new Activiteit("Tennis", new Uri($"{baseUrl}v1/verenigingen/V000010")))),
             },
             new VerenigingDetail[]
             {
@@ -63,8 +63,8 @@ public class InMemoryVerenigingenRepository : IVerenigingenRepository
                             new ContactGegeven("telefoon", "100"))),
                     ImmutableArray.Create(new DetailVerenigingen.Locatie("1770", "Liedekerke")),
                     ImmutableArray.Create(
-                        new DetailVerenigingen.Activiteit("Badminton", new Uri($"{associationRegistryUri}v1/verenigingen/V000010")),
-                        new DetailVerenigingen.Activiteit("Tennis", new Uri($"{associationRegistryUri}v1/verenigingen/V000010"))),
+                        new DetailVerenigingen.Activiteit("Badminton", new Uri($"{baseUrl}v1/verenigingen/V000010")),
+                        new DetailVerenigingen.Activiteit("Tennis", new Uri($"{baseUrl}v1/verenigingen/V000010"))),
                     ImmutableArray.Create(
                         new ContactGegeven("telefoon", "025462323"),
                         new ContactGegeven("email", "info@dotimeforyou.be"),

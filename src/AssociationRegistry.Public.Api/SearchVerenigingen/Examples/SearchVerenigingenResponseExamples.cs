@@ -38,7 +38,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     ),
                     ImmutableArray.Create(
                         new Activiteit(123, "Badminton")),
-                    new VerenigingLinks(new Uri($"{_appSettings.AssociationRegistryUri}verenigingen/v123456"))),
+                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/v123456"))),
                 new Vereniging(
                     "V765432",
                     "FWA De Bron",
@@ -58,7 +58,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Gent")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis")),
-                    new VerenigingLinks(new Uri($"{_appSettings.AssociationRegistryUri}verenigingen/v765432"))
+                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/v765432"))
                 )),
             Facets = new Facets
             {

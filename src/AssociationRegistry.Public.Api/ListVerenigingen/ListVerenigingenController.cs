@@ -45,7 +45,7 @@ public class ListVerenigingenController : ApiController
         var paginationRequest = ExtractPaginationRequest(paginationQueryParams);
         var totalCount = await _verenigingenRepository.TotalCount();
         var listVerenigingenResponse = new ListVerenigingenResponse(
-            $"{appsettings.AssociationRegistryUri}v1/contexten/list-verenigingen-context.json",
+            $"{appsettings.BaseUrl}v1/contexten/list-verenigingen-context.json",
             (await _verenigingenRepository.List())
             .Skip(paginationRequest.Offset)
             .Take(paginationRequest.Limit)

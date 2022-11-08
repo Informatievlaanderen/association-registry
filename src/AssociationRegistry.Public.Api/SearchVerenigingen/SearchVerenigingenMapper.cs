@@ -58,6 +58,6 @@ public class SearchVerenigingenMapper
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.AssociationRegistryUri}v1/verenigingen/{x.Source.VCode}"))
+                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{x.Source.VCode}"))
                 )).ToImmutableArray();
 }
