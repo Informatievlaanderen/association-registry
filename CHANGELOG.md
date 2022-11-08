@@ -1,3 +1,10 @@
+# [1.62.0](https://github.com/informatievlaanderen/association-registry/compare/v1.61.0...v1.62.0) (2022-11-08)
+
+
+### Features
+
+* or-1277 use BaseUrl appsetting instead of AssociationRegistryUrl ([505b915](https://github.com/informatievlaanderen/association-registry/commit/505b91554baf8bb1e38ac89916cfe040578e9d92))
+
 # [1.61.0](https://github.com/informatievlaanderen/association-registry/compare/v1.60.0...v1.61.0) (2022-11-08)
 
 
