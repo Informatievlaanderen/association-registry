@@ -56,7 +56,19 @@ public record DetailVerenigingResponseWithActualData(
 [DataContract]
 public record VerenigingDetailWithActualData(
     [property: DataMember(Name = "VCode")] string VCode,
-    [property: DataMember(Name = "Naam")] string Naam
+    [property: DataMember(Name = "Naam")] string Naam,
+    [property: DataMember(Name = "KorteNaam")]
+    string? KorteNaam,
+    [property: DataMember(Name = "KorteBeschrijving")]
+    string? KorteBeschrijving,
+    [property: DataMember(Name = "Startdatum")]
+    DateOnly? Startdatum,
+    [property: DataMember(Name = "KboNummer")]
+    string? KboNummer,
+    [property: DataMember(Name = "Status")]
+    string Status,
+    [property: DataMember(Name = "DatumLaatsteAanpassing")]
+    DateOnly DatumLaatsteAanpassing
 );
 
 public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactGegeven> ContactGegevens);

@@ -6,17 +6,7 @@ public class KboNummer
 {
     private KboNummer(string kboNummer)
     {
-        var value = kboNummer
-            .Replace(" ", string.Empty)
-            .Replace(".", string.Empty);
-
-        if (value.Length != 10)
-            throw new InvalidKboNummer();
-
-        if (!ulong.TryParse(value, out _))
-            throw new InvalidKboNummer();
-
-        Value = value;
+        Value = kboNummer;
     }
 
     public string Value { get; }
@@ -25,7 +15,25 @@ public class KboNummer
         => Value;
 
     public static KboNummer? Create(string? maybeKboNummer)
-        => maybeKboNummer is { } kboNummer
-            ? new KboNummer(kboNummer)
-            : null;
+    {
+        if (maybeKboNummer is not { } kboNummer)
+            return null;
+
+        var value = Sanitize(kboNummer);
+
+        Validate(value);
+
+        return new KboNummer(value);
+    }
+
+    private static string Sanitize(string kboNummer)
+        => kboNummer
+            .Replace(" ", string.Empty)
+            .Replace(".", string.Empty);
+
+    private static void Validate(string value)
+    {
+        Throw<InvalidKboNummer>.If(value.Length != 10);
+        Throw<InvalidKboNummer>.If(!ulong.TryParse(value, out _));
+    }
 }

@@ -52,7 +52,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.Startdatum.Should().BeNull();
         theEvent.KboNummer.Should().BeNull();
         theEvent.Status.Should().Be("Actief");
-        theEvent.LaatstGewijzigd.Should().Be(clock.TodayAsDateTime);
+        theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }
 
     [Fact]
@@ -60,11 +60,13 @@ public class Given_A_RegistreerVerenigingCommandHandler
     {
         var vNummerService = new InMemorySequentialVCodeService();
         var verenigingsRepository = new VerenigingRepositoryMock();
-        var clock = new ClockStub(_fixture.Create<DateTime>());
+        var today = _fixture.Create<DateTime>();
+        var clock = new ClockStub(today);
+        var startdatumInThePast = today.AddDays(-3);
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(new DateTime(2022, 10, 1)), "0123456789"));
+            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456789"));
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
@@ -76,9 +78,9 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.Naam.Should().Be("naam1");
         theEvent.KorteNaam.Should().Be("korte naam");
         theEvent.KorteBeschrijving.Should().Be("korte beschrijving");
-        theEvent.Startdatum.Should().Be(new DateTime(2022, 10, 1));
+        theEvent.Startdatum.Should().Be(DateOnly.FromDateTime(startdatumInThePast));
         theEvent.KboNummer.Should().Be("0123456789");
         theEvent.Status.Should().Be("Actief");
-        theEvent.LaatstGewijzigd.Should().Be(clock.TodayAsDateTime);
+        theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }
 }

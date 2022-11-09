@@ -9,7 +9,6 @@ using SearchVerenigingen;
 
 public interface IVerenigingBrolFeeder
 {
-    string KorteNaam { get; }
     VerenigingDocument.Locatie Hoofdlocatie { get; }
     ImmutableArray<VerenigingDocument.Locatie> Locaties { get; }
     VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten { get; }
@@ -101,11 +100,6 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
 
         return hoofdactiviteiten[index];
     }
-
-    public string KorteNaam
-        => isStatic
-            ? "De korte naam"
-            : ComposeText(1);
 
     public VerenigingDocument.Locatie Hoofdlocatie
         => isStatic

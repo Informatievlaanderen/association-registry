@@ -18,6 +18,7 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
+using Marten.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -197,12 +198,24 @@ public class Startup
                     ProjectionLifecycle.Async);
 
                 opts.AddPostgresProjections();
-
+                opts.Serializer(CreateCustomMartenSerializer());
                 return opts;
             });
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+    }
+
+    private static JsonNetSerializer CreateCustomMartenSerializer()
+    {
+        var jsonNetSerializer = new JsonNetSerializer();
+        jsonNetSerializer.Customize(
+            s =>
+            {
+                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            });
+        return jsonNetSerializer;
     }
 
     private static void AddSwagger(IServiceCollection services)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AssociationRegistry.Events;
 using KboNummers;
+using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 
@@ -14,9 +15,9 @@ public class Vereniging
     {
         public VCode VCode { get; }
         public VerenigingsNaam Naam { get; }
-        public DateOnly? Startdatum { get; }
+        public Startdatum? Startdatum { get; }
 
-        private State(string vCode, string naam, DateOnly? startdatum)
+        private State(string vCode, string naam, Startdatum? startdatum)
         {
             Startdatum = startdatum;
             VCode = new VCode(vCode);
@@ -24,7 +25,7 @@ public class Vereniging
         }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
-            => new(@event.VCode, @event.Naam, @event.Startdatum.HasValue ? DateOnly.FromDateTime(@event.Startdatum.Value) : null);
+            => new(@event.VCode, @event.Naam, Startdatum.Create(@event.Startdatum));
     }
 
     private readonly State _state;
@@ -37,19 +38,19 @@ public class Vereniging
         VerenigingsNaam naam,
         string? korteNaam,
         string? korteBeschrijving,
-        DateOnly? startdatum,
+        Startdatum? startdatum,
         KboNummer? kboNummer,
-        DateOnly laatstGewijzigd)
+        DateOnly today)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
             naam,
             korteNaam,
             korteBeschrijving,
-            startdatum?.ToDateTime(TimeOnly.MinValue),
+            startdatum?.Value,
             kboNummer?.ToString(),
             "Actief",
-            laatstGewijzigd.ToDateTime(TimeOnly.MinValue));
+            today);
 
         _state = State.Apply(verenigingWerdGeregistreerdEvent);
         Events = Events.Append(verenigingWerdGeregistreerdEvent);

@@ -14,6 +14,7 @@ using Infrastructure.Json;
 using Infrastructure.Modules;
 using Marten;
 using Marten.Events;
+using Marten.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -153,8 +154,21 @@ public class Startup
                     opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
                     opts.Events.StreamIdentity = StreamIdentity.AsString;
                     opts.Storage.Add(new VCodeSequence(opts));
+                    opts.Serializer(CreateCustomMartenSerializer());
                 })
             .ApplyAllDatabaseChangesOnStartup();
+    }
+
+    public static JsonNetSerializer CreateCustomMartenSerializer()
+    {
+        var jsonNetSerializer = new JsonNetSerializer();
+        jsonNetSerializer.Customize(
+            s =>
+            {
+                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            });
+        return jsonNetSerializer;
     }
 
     private static void AddSwagger(IServiceCollection services)

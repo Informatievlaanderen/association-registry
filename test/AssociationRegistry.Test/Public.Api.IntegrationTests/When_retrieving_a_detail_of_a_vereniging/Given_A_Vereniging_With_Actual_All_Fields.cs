@@ -7,28 +7,33 @@ using Xunit;
 using AssociationRegistry.Public.Api.Constants;
 using Events;
 
-public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixture
+public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixture
 {
     public const string VCode = "v000001";
     private const string Naam = "Feestcommittee Oudenaarde";
+    private const string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
+    private const string? KorteNaam = "FOud";
+    private const string? KboNummer = "0123456789";
+    private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
-    public Given_A_Vereniging_With_Actual_Minimal_Data_Fixture() : base(nameof(Given_A_Vereniging_With_Actual_Minimal_Data_Fixture))
+
+    public Given_A_Vereniging_With_Actual_All_Fields_Fixture() : base(nameof(Given_A_Vereniging_With_Actual_All_Fields_Fixture))
     {
     }
 
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, null, null, null, null, "Actief", DateOnly.FromDateTime(DateTime.Today)));
+        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, KorteNaam, KorteBeschrijving, Startdatum, KboNummer, "Actief", DateOnly.FromDateTime(DateTime.Today)));
     }
 }
 
-public class Given_A_Vereniging_With_Actual_Minimal_Data : IClassFixture<Given_A_Vereniging_With_Actual_Minimal_Data_Fixture>
+public class Given_A_Vereniging_With_Actual_All_Fields : IClassFixture<Given_A_Vereniging_With_Actual_All_Fields_Fixture>
 {
-    private const string VCode = "v000001";
+    private const string VCode = Given_A_Vereniging_With_Actual_All_Fields_Fixture.VCode;
     private readonly HttpClient _httpClient;
 
-    public Given_A_Vereniging_With_Actual_Minimal_Data(Given_A_Vereniging_With_Actual_Minimal_Data_Fixture fixture)
+    public Given_A_Vereniging_With_Actual_All_Fields(Given_A_Vereniging_With_Actual_All_Fields_Fixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }
@@ -56,7 +61,7 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data : IClassFixture<Given_A
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging_With_Actual_Minimal_Data)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(Given_A_Vereniging_With_Actual_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

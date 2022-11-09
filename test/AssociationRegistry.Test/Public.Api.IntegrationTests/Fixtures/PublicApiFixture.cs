@@ -96,7 +96,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var daemon = await _documentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(1000));
 
         // Make sure all documents are properly indexed
         await _elasticClient.Indices.RefreshAsync(Indices.All);
@@ -157,6 +157,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                             .CheckAgainstPgDatabase()
                             .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
                     });
+
+                opts.Serializer(AssociationRegistry.Admin.Api.Startup.CreateCustomMartenSerializer());
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 

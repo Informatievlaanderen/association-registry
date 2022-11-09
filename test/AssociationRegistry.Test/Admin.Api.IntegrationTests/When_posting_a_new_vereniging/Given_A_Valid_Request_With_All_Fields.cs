@@ -58,7 +58,7 @@ public class Given_A_Valid_Request_With_All_Fields
             .SingleAsync(e => e.Naam == request.Naam);
         savedEvent.KorteNaam.Should().Be(request.KorteNaam);
         savedEvent.KorteBeschrijving.Should().Be(request.KorteBeschrijving);
-        savedEvent.Startdatum.Should().Be(request.Startdatum.ToDateTime(TimeOnly.MinValue));
+        savedEvent.Startdatum.Should().Be(request.Startdatum);
         savedEvent.KboNummer.Should().Be(request.KboNummer);
         savedEvent.Status.Should().Be("Actief");
     }

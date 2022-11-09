@@ -10,14 +10,14 @@
 /// <param name="Startdatum">DateOnly, but marten doesnt seem to support it.</param>
 /// <param name="KboNummer"></param>
 /// <param name="Status"></param>
-/// <param name="LaatstGewijzigd">DateOnly, but marten doesnt seem to support it.</param>
+/// <param name="DatumLaatsteAanpassing">DateOnly, but marten doesnt seem to support it.</param>
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
     string? KorteNaam,
     string? KorteBeschrijving,
-    DateTime? Startdatum,
+    DateOnly? Startdatum,
     string? KboNummer,
     string Status,
-    DateTime LaatstGewijzigd
+    DateOnly DatumLaatsteAanpassing
 ) : IEvent;
