@@ -14,18 +14,14 @@ public class Vereniging
     private class State
     {
         public VCode VCode { get; }
-        public VerenigingsNaam Naam { get; }
-        public Startdatum? Startdatum { get; }
 
-        private State(string vCode, string naam, Startdatum? startdatum)
+        private State(string vCode)
         {
-            Startdatum = startdatum;
             VCode = new VCode(vCode);
-            Naam = new VerenigingsNaam(naam);
         }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
-            => new(@event.VCode, @event.Naam, Startdatum.Create(@event.Startdatum));
+            => new(@event.VCode);
     }
 
     private readonly State _state;
