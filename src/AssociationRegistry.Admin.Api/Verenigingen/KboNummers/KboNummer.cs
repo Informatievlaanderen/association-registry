@@ -26,10 +26,20 @@ public class KboNummer
         return new KboNummer(value);
     }
 
+    /// <summary>
+    /// if kboNummer contains spaces or dots, the 5th and the 9th character are deleted
+    /// these are the only allowed positions for spaces or dots
+    /// </summary>
+    /// <param name="kboNummer"></param>
+    /// <returns></returns>
     private static string Sanitize(string kboNummer)
-        => kboNummer
-            .Replace(" ", string.Empty)
-            .Replace(".", string.Empty);
+    {
+        // ^ -> XOR
+        if (kboNummer.Contains(' ') ^ kboNummer.Contains('.'))
+            return kboNummer[..4] + kboNummer[5..8] + kboNummer[9..];
+
+        return kboNummer;
+    }
 
     private static void Validate(string value)
     {

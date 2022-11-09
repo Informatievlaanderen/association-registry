@@ -51,4 +51,44 @@ public class When_Creating_A_KboNummer
             factory.Should().Throw<InvalidKboNummer>();
         }
     }
+
+    public class Given_A_String_With_Wrongly_Placed_Spaces
+    {
+        [Theory]
+        [InlineData("123 1564 212")]
+        [InlineData("12 34 56 78 90")]
+        [InlineData(" 0123456789")]
+        [InlineData("0123456789 ")]
+        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
+        {
+            var factory = () => KboNummer.Create(kboNummerString);
+            factory.Should().Throw<InvalidKboNummer>();
+        }
+    }
+
+    public class Given_A_String_With_Wrongly_Placed_Dots
+    {
+        [Theory]
+        [InlineData("123.1564.212")]
+        [InlineData("12.34.56.78.90")]
+        [InlineData(".0123456789")]
+        [InlineData("0123456789.")]
+        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
+        {
+            var factory = () => KboNummer.Create(kboNummerString);
+            factory.Should().Throw<InvalidKboNummer>();
+        }
+    }
+
+    public class Given_A_String_With_Dots_And_Spaces
+    {
+        [Theory]
+        [InlineData("0000 000.000")]
+        [InlineData("1111.111 111")]
+        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
+        {
+            var factory = () => KboNummer.Create(kboNummerString);
+            factory.Should().Throw<InvalidKboNummer>();
+        }
+    }
 }
