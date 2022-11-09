@@ -1,3 +1,13 @@
+# [1.63.0](https://github.com/informatievlaanderen/association-registry/compare/v1.62.0...v1.63.0) (2022-11-09)
+
+
+### Features
+
+* or-1267 add fields to registreer vereniging ([4bdd708](https://github.com/informatievlaanderen/association-registry/commit/4bdd70819ca33e4cb2266a3d8c207851618934e8))
+* or-1267 cleanup vereniging state ([e90e6a1](https://github.com/informatievlaanderen/association-registry/commit/e90e6a19cf07d306e6b9f188a92cb35fde1e6288))
+* or-1267 cover extra validation ([a141891](https://github.com/informatievlaanderen/association-registry/commit/a141891a21a1b15d93564febda55c435cd909018))
+* or-1267 extra fields registreer vereniging: write-side (WIP) ([2f27b3e](https://github.com/informatievlaanderen/association-registry/commit/2f27b3e9a239b693ec5ff3330171dbd96256e8c3))
+
 # [1.62.0](https://github.com/informatievlaanderen/association-registry/compare/v1.61.0...v1.62.0) (2022-11-08)
 
 
