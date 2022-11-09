@@ -158,6 +158,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                             .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
                     });
 
+                opts.Serializer(MartenExtentions.CreateCustomMartenSerializer());
+
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                 opts.Projections.Add(

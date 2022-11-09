@@ -9,12 +9,12 @@ using Framework.Helpers;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]
-public class Given_A_Valid_Request
+public class Given_A_Valid_Request_With_Minimal_Fields
 {
     private readonly VerenigingAdminApiFixture _apiFixture;
     private readonly Fixture _fixture;
 
-    public Given_A_Valid_Request(VerenigingAdminApiFixture apiFixture)
+    public Given_A_Valid_Request_With_Minimal_Fields(VerenigingAdminApiFixture apiFixture)
     {
         _apiFixture = apiFixture;
         _fixture = new Fixture();
@@ -43,6 +43,6 @@ public class Given_A_Valid_Request
 
     private string GetJsonBody(string naam)
         => GetType()
-            .GetAssociatedResourceJson($"files.request.with_name")
+            .GetAssociatedResourceJson($"files.request.with_minimal_fields")
             .Replace("{{vereniging.naam}}", naam);
 }

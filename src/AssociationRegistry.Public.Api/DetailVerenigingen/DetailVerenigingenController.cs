@@ -73,6 +73,14 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(new DetailVerenigingResponseWithActualData(
             $"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
-            new VerenigingDetailWithActualData(vereniging.VCode, vereniging.Naam)));
+            new VerenigingDetailWithActualData(
+                vereniging.VCode,
+                vereniging.Naam,
+                vereniging.KorteNaam,
+                vereniging.KorteBeschrijving,
+                vereniging.Startdatum,
+                vereniging.KboNummer,
+                vereniging.Status,
+                vereniging.DatumLaatsteAanpassing)));
     }
 }

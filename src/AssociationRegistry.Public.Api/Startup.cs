@@ -9,15 +9,10 @@ using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Constants;
 using Extensions;
-using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
 using ListVerenigingen;
-using Marten;
-using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -80,7 +75,7 @@ public class Startup
 
         services.RegisterDomainEventHandlers(GetType().Assembly);
 
-        AddMarten(services, postgreSqlOptions, _configuration);
+        services.AddMarten(postgreSqlOptions, _configuration);
 
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
@@ -177,33 +172,6 @@ public class Startup
         => baseUrl.EndsWith("/")
             ? baseUrl[..^1]
             : baseUrl;
-
-    private static void AddMarten(IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
-    {
-        var martenConfiguration = services.AddMarten(
-            serviceProvider =>
-            {
-                var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
-
-                var opts = new StoreOptions();
-
-                opts.Connection(connectionString1);
-
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new MartenEventsConsumer(serviceProvider)),
-                    ProjectionLifecycle.Async);
-
-                opts.AddPostgresProjections();
-
-                return opts;
-            });
-
-        if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
-    }
 
     private static void AddSwagger(IServiceCollection services)
     {

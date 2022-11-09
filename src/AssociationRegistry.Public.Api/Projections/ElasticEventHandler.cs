@@ -21,7 +21,7 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
             new VerenigingDocument(
                 message.VCode,
                 message.Naam,
-                _brolFeeder.KorteNaam,
+                message.KorteNaam,
                 _brolFeeder.Hoofdlocatie,
                 _brolFeeder.Locaties.ToArray(),
                 _brolFeeder.Hoofdactiviteiten,

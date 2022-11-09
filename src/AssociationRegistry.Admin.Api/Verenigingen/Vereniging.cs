@@ -1,8 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AssociationRegistry.Events;
+using KboNummers;
+using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 
@@ -11,16 +14,14 @@ public class Vereniging
     private class State
     {
         public VCode VCode { get; }
-        public VerenigingsNaam Naam { get; }
 
-        private State(string vCode, string naam)
+        private State(string vCode)
         {
             VCode = new VCode(vCode);
-            Naam = new VerenigingsNaam(naam);
         }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
-            => new(@event.VCode, @event.Naam);
+            => new(@event.VCode);
     }
 
     private readonly State _state;
@@ -28,12 +29,27 @@ public class Vereniging
     public string VCode
         => _state.VCode;
 
-
-    public Vereniging(VCode vCode, VerenigingsNaam naam)
+    public Vereniging(
+        VCode vCode,
+        VerenigingsNaam naam,
+        string? korteNaam,
+        string? korteBeschrijving,
+        Startdatum? startdatum,
+        KboNummer? kboNummer,
+        DateOnly today)
     {
-        _state = State.Apply(new VerenigingWerdGeregistreerd(vCode, naam));
+        var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
+            vCode,
+            naam,
+            korteNaam,
+            korteBeschrijving,
+            startdatum?.Value,
+            kboNummer?.ToString(),
+            "Actief",
+            today);
 
-        Events = Events.Append(new VerenigingWerdGeregistreerd(vCode, naam));
+        _state = State.Apply(verenigingWerdGeregistreerdEvent);
+        Events = Events.Append(verenigingWerdGeregistreerdEvent);
     }
 
     public IEnumerable<IEvent> Events { get; } = new List<IEvent>();

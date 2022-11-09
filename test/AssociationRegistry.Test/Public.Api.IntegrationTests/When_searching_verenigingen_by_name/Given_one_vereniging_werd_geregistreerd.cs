@@ -9,6 +9,7 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 {
     public const string VCode = "v000001";
     public const string Naam = "Feestcommittee Oudenaarde";
+    private const string KorteNaam = "FOud";
 
     public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {
@@ -17,7 +18,7 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam));
+        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, KorteNaam, null, null, null, "Actief", DateOnly.MinValue));
     }
 }
 

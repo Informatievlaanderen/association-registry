@@ -3,7 +3,7 @@ namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 public record VerenigingDocument(
     string VCode,
     string Naam,
-    string KorteNaam,
+    string? KorteNaam,
     VerenigingDocument.Locatie Hoofdlocatie,
     VerenigingDocument.Locatie[] Locaties,
     VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten,
