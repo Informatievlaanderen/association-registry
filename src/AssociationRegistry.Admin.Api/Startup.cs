@@ -9,12 +9,10 @@ using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Constants;
 using Events;
+using Extentions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
-using Marten;
-using Marten.Events;
-using Marten.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,11 +53,11 @@ public class Startup
 
         AddSwagger(services);
 
-        AddMarten(services, postgreSqlOptions);
+        services.AddMarten(postgreSqlOptions);
 
         services.AddMediatR(typeof(Startup));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
-        services.AddTransient<Events.IEventStore, EventStore>();
+        services.AddTransient<IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
         services.AddSingleton<IClock, Clock>();
         ConfigureDefaultsForApi(services, _configuration);
@@ -145,31 +143,6 @@ public class Startup
         => baseUrl.EndsWith("/")
             ? baseUrl[..^1]
             : baseUrl;
-
-    private static void AddMarten(IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions)
-    {
-        services.AddMarten(
-                opts =>
-                {
-                    opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
-                    opts.Events.StreamIdentity = StreamIdentity.AsString;
-                    opts.Storage.Add(new VCodeSequence(opts));
-                    opts.Serializer(CreateCustomMartenSerializer());
-                })
-            .ApplyAllDatabaseChangesOnStartup();
-    }
-
-    public static JsonNetSerializer CreateCustomMartenSerializer()
-    {
-        var jsonNetSerializer = new JsonNetSerializer();
-        jsonNetSerializer.Customize(
-            s =>
-            {
-                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
-                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
-            });
-        return jsonNetSerializer;
-    }
 
     private static void AddSwagger(IServiceCollection services)
     {
@@ -266,10 +239,4 @@ public class Startup
         Throw<ArgumentNullException>
             .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
-
-    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host};" +
-           $"database={postgreSqlOptions.Database};" +
-           $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username}";
 }

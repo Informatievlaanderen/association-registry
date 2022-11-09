@@ -7,10 +7,10 @@
 /// <param name="Naam"></param>
 /// <param name="KorteNaam"></param>
 /// <param name="KorteBeschrijving"></param>
-/// <param name="Startdatum">DateOnly, but marten doesnt seem to support it.</param>
+/// <param name="Startdatum"></param>
 /// <param name="KboNummer"></param>
 /// <param name="Status"></param>
-/// <param name="DatumLaatsteAanpassing">DateOnly, but marten doesnt seem to support it.</param>
+/// <param name="DatumLaatsteAanpassing"></param>
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
