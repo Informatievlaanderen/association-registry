@@ -2,9 +2,9 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.KboNummers.Exceptions;
 
 using System;
 
-public class InvalidKboNummer : Exception
+public abstract class InvalidKboNummer : Exception
 {
-    public InvalidKboNummer() : base("Kbo nummer is ongeldig")
+    protected InvalidKboNummer(string message) : base(message)
     {
     }
 }

@@ -66,7 +66,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456789"));
+            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456749"));
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
@@ -79,7 +79,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.KorteNaam.Should().Be("korte naam");
         theEvent.KorteBeschrijving.Should().Be("korte beschrijving");
         theEvent.Startdatum.Should().Be(DateOnly.FromDateTime(startdatumInThePast));
-        theEvent.KboNummer.Should().Be("0123456789");
+        theEvent.KboNummer.Should().Be("0123456749");
         theEvent.Status.Should().Be("Actief");
         theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }

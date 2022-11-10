@@ -33,17 +33,23 @@ public class KboNummer
     /// <param name="kboNummer"></param>
     /// <returns></returns>
     private static string Sanitize(string kboNummer)
-    {
-        // ^ -> XOR
-        if (kboNummer.Contains(' ') ^ kboNummer.Contains('.'))
-            return kboNummer[..4] + kboNummer[5..8] + kboNummer[9..];
-
-        return kboNummer;
-    }
+        => kboNummer
+            .Replace(".", "")
+            .Replace(" ", "");
 
     private static void Validate(string value)
     {
-        Throw<InvalidKboNummer>.If(value.Length != 10);
-        Throw<InvalidKboNummer>.If(!ulong.TryParse(value, out _));
+        Throw<InvalidKboNummerChars>.IfNot(ulong.TryParse(value, out _));
+        Throw<InvalidKboNummerLength>.If(value.Length != 10);
+        Throw<InvalidKboNummerMod97>.IfNot(Modulo97Correct(value));
+    }
+
+    private static bool Modulo97Correct(string value)
+    {
+        var baseNumber = int.Parse(value[..8]);
+        var remainder = int.Parse(value[8..]);
+
+        var modulo97 = 97 - baseNumber % 97;
+        return modulo97 == remainder;
     }
 }

@@ -14,5 +14,8 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .NotEmpty()
             .WithMessage($"'{nameof(RegistreerVerenigingRequest.Naam)}' mag niet leeg zijn.")
             .When(request => request.Naam is { });
+        RuleFor(request => request.KboNummer)
+            .Length(10, int.MaxValue)
+            .When(request => request.KboNummer is { });
     }
 }
