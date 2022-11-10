@@ -10,10 +10,21 @@ public class When_Creating_A_KboNummer
     public class Given_A_Valid_String
     {
         [Theory]
-        [InlineData("0000000000", "0000000000")]
-        [InlineData("1111111111", "1111111111")]
-        [InlineData("1234.123.123", "1234123123")]
-        [InlineData("1234 123 123", "1234123123")]
+        [InlineData("0000000097", "0000000097")]
+        [InlineData("1111111145", "1111111145")]
+        [InlineData("1234.123.179", "1234123179")]
+        [InlineData("1234 123 179", "1234123179")]
+        [InlineData("0000 000.097", "0000000097")]
+        [InlineData("1111.111 145", "1111111145")]
+        [InlineData("123.1564.260", "1231564260")]
+        [InlineData("12.34.56.78.94", "1234567894")]
+        [InlineData(".0123456749", "0123456749")]
+        [InlineData("0123456749.", "0123456749")]
+        [InlineData("123 1564 260", "1231564260")]
+        [InlineData("12 34 56 78 94", "1234567894")]
+        [InlineData(" 0123456749", "0123456749")]
+        [InlineData("0123456749 ", "0123456749")]
+        [InlineData("0746889508", "0746889508")]
         public void Then_it_returns_a_kboNummer(string kboNummerString, string expectedKboNummer)
         {
             var kboNummer = KboNummer.Create(kboNummerString)!;
@@ -52,43 +63,14 @@ public class When_Creating_A_KboNummer
         }
     }
 
-    public class Given_A_String_With_Wrongly_Placed_Spaces
+    public class Given_Null_KboNummer
     {
-        [Theory]
-        [InlineData("123 1564 212")]
-        [InlineData("12 34 56 78 90")]
-        [InlineData(" 0123456789")]
-        [InlineData("0123456789 ")]
-        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
+        [Fact]
+        public void Then_it_returns_null()
         {
-            var factory = () => KboNummer.Create(kboNummerString);
-            factory.Should().Throw<InvalidKboNummer>();
-        }
-    }
+            var kboNummer = KboNummer.Create(null);
 
-    public class Given_A_String_With_Wrongly_Placed_Dots
-    {
-        [Theory]
-        [InlineData("123.1564.212")]
-        [InlineData("12.34.56.78.90")]
-        [InlineData(".0123456789")]
-        [InlineData("0123456789.")]
-        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
-        {
-            var factory = () => KboNummer.Create(kboNummerString);
-            factory.Should().Throw<InvalidKboNummer>();
-        }
-    }
-
-    public class Given_A_String_With_Dots_And_Spaces
-    {
-        [Theory]
-        [InlineData("0000 000.000")]
-        [InlineData("1111.111 111")]
-        public void Then_it_throws_an_InvalidKboNummerException(string kboNummerString)
-        {
-            var factory = () => KboNummer.Create(kboNummerString);
-            factory.Should().Throw<InvalidKboNummer>();
+            kboNummer.Should().BeNull();
         }
     }
 }

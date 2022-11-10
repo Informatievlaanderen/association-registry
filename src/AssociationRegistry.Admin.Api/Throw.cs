@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api;
 
 using System;
 
-public class Throw<TException> where TException : Exception
+public class Throw<TException> where TException : Exception, new()
 {
     public static void If(Func<bool> condition, string? message = null)
     {

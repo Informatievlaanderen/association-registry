@@ -31,7 +31,7 @@ public class Given_A_Valid_Request_With_All_Fields
             KorteNaam = _fixture.Create<string>(),
             KorteBeschrijving = _fixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
-            KboNummer = "0123456789",
+            KboNummer = "0123456749",
         };
         var content = GetJsonBody(request).AsJsonContent();
         var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
@@ -47,7 +47,7 @@ public class Given_A_Valid_Request_With_All_Fields
             KorteNaam = _fixture.Create<string>(),
             KorteBeschrijving = _fixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
-            KboNummer = "0123456789",
+            KboNummer = "0123456749",
         };
         var content = GetJsonBody(request).AsJsonContent();
         await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
