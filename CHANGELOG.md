@@ -1,3 +1,10 @@
+# [1.65.0](https://github.com/informatievlaanderen/association-registry/compare/v1.64.0...v1.65.0) (2022-11-10)
+
+
+### Features
+
+* or-1267 add test for mod97 ([2f3c59e](https://github.com/informatievlaanderen/association-registry/commit/2f3c59e8b0339804b9585fe0802eac213670574c))
+
 # [1.64.0](https://github.com/informatievlaanderen/association-registry/compare/v1.63.0...v1.64.0) (2022-11-10)
 
 
