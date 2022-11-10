@@ -1,3 +1,11 @@
+# [1.64.0](https://github.com/informatievlaanderen/association-registry/compare/v1.63.0...v1.64.0) (2022-11-10)
+
+
+### Features
+
+* or-1267 add some forgotten exceptions ([3b42334](https://github.com/informatievlaanderen/association-registry/commit/3b42334950a332f50c3bc06d506c9c77e8fe57fe))
+* or-1267 extra validatie, oa mod97 ([482d9e2](https://github.com/informatievlaanderen/association-registry/commit/482d9e21f76c6da0b8a5df774efc1bd85f9b51af))
+
 # [1.63.0](https://github.com/informatievlaanderen/association-registry/compare/v1.62.0...v1.63.0) (2022-11-09)
 
 
