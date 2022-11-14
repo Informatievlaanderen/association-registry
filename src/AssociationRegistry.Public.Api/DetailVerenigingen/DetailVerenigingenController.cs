@@ -80,7 +80,7 @@ public class DetailVerenigingenController : ApiController
                 vereniging.KorteBeschrijving,
                 vereniging.Startdatum,
                 vereniging.KboNummer,
-                vereniging.Status,
-                vereniging.DatumLaatsteAanpassing)));
+                vereniging.Status),
+            new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 }

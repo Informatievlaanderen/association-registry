@@ -51,7 +51,9 @@ public record DetailVerenigingResponseWithActualData(
     [property: DataMember(Name = "@context")]
     string Context,
     [property: DataMember(Name = "Vereniging")]
-    VerenigingDetailWithActualData VerenigingDetail);
+    VerenigingDetailWithActualData VerenigingDetail,
+    [property: DataMember(Name = "Metadata")]
+    Metadata Metadata);
 
 [DataContract]
 public record VerenigingDetailWithActualData(
@@ -66,10 +68,10 @@ public record VerenigingDetailWithActualData(
     [property: DataMember(Name = "KboNummer")]
     string? KboNummer,
     [property: DataMember(Name = "Status")]
-    string Status,
-    [property: DataMember(Name = "DatumLaatsteAanpassing")]
-    DateOnly DatumLaatsteAanpassing
+    string Status
 );
+
+public record Metadata(DateOnly DatumLaatsteAanpassing);
 
 public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactGegeven> ContactGegevens);
 
