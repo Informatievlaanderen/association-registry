@@ -1,3 +1,10 @@
+# [1.66.0](https://github.com/informatievlaanderen/association-registry/compare/v1.65.0...v1.66.0) (2022-11-14)
+
+
+### Features
+
+* or-1267 datumlaatsteaanpassing in metadata voor vereniging detail ([e36e773](https://github.com/informatievlaanderen/association-registry/commit/e36e77311d110cf0e670251e353affb883911682))
+
 # [1.65.0](https://github.com/informatievlaanderen/association-registry/compare/v1.64.0...v1.65.0) (2022-11-10)
 
 
