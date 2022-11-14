@@ -17,7 +17,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
             Startdatum = verenigingWerdGeregistreerd.Startdatum,
             KboNummer = verenigingWerdGeregistreerd.KboNummer,
             Status = verenigingWerdGeregistreerd.Status,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.DatumLaatsteAanpassing
+            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.DatumLaatsteAanpassing,
         };
 }
 
