@@ -1,3 +1,10 @@
+# [1.69.0](https://github.com/informatievlaanderen/association-registry/compare/v1.68.0...v1.69.0) (2022-11-15)
+
+
+### Features
+
+* or-1280 refactor: move stuff to domain project ([8ffa35a](https://github.com/informatievlaanderen/association-registry/commit/8ffa35ad7c5fc109b2e47cf62cfc608852a2ba5d))
+
 # [1.68.0](https://github.com/informatievlaanderen/association-registry/compare/v1.67.0...v1.68.0) (2022-11-15)
 
 
