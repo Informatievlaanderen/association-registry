@@ -51,9 +51,13 @@
     }
   ],
   "facets": {
-    "hoofdactiviteiten": {
-      "buurtwerking": 1
-    }
+    "hoofdactiviteiten": [
+      {
+        "code": "BWRK",
+        "naam": "Buurtwerking",
+        "aantal": 1
+      }
+    ]
   },
   "metadata": {
     "pagination": {

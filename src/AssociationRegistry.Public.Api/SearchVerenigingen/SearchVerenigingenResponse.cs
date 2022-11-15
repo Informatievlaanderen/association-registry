@@ -15,5 +15,6 @@ public class SearchVerenigingenResponse
 public class Facets
 {
     [DataMember(Name = "hoofdactiviteiten")]
-    public IImmutableDictionary<string, long>? HoofdActiviteiten { get; set; }
+    //public IImmutableDictionary<string, long>? HoofdActiviteiten { get; set; }
+    public ImmutableArray<HoofdActiviteitFacetItem>? HoofdActiviteiten { get; set; }
 }

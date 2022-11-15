@@ -57,10 +57,10 @@ public static class VerenigingDocumentMapping
             => map
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
-                        .Name(document => document.Code))
+                        .Name(document => document.Code)
+                        .Fields(x => x.Keyword(y => y.Name("keyword"))))
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
-                        .Name(document => document.Naam)
-                        .Fields(x => x.Keyword(y => y.Name("keyword"))));
+                        .Name(document => document.Naam));
     }
 }

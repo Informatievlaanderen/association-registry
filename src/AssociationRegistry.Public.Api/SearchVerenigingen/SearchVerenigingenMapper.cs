@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Constants;
 using Nest;
+using Projections;
 
 public class SearchVerenigingenMapper
 {
@@ -37,14 +39,35 @@ public class SearchVerenigingenMapper
                 paginationRequest.Limit
             )
         );
+    //
+    // private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
+    // {
+    //     var hoofdActiviteitFacets = searchResponse.Aggregations
+    //         .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+    //         .Buckets
+    //         .ToImmutableDictionary(
+    //             bucket => bucket.Key.ToString(),
+    //             bucket => bucket.DocCount ?? 0);
+    //     return hoofdActiviteitFacets;
+    // }
 
-    private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
-        => searchResponse.Aggregations
+    private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
+    {
+        var hoofdActiviteitFacets = searchResponse.Aggregations
             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-            .Buckets
-            .ToImmutableDictionary(
-                bucket => bucket.Key.ToString(),
-                bucket => bucket.DocCount ?? 0);
+            .Buckets;
+        // .ToImmutableDictionary(
+        //     bucket => bucket.Key.ToString(),
+        //     bucket => bucket.DocCount ?? 0);
+
+        return hoofdActiviteitFacets.Select(
+                bucket =>
+                {
+                    var hoofdActiviteit = BrolFeederHoofdactiviteit.Create(bucket.Key.ToString());
+                    return new HoofdActiviteitFacetItem(hoofdActiviteit.Code, hoofdActiviteit.Naam, bucket.DocCount ?? 0);
+                })
+            .ToImmutableArray();
+    }
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
@@ -61,3 +84,5 @@ public class SearchVerenigingenMapper
                     new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{x.Source.VCode}"))
                 )).ToImmutableArray();
 }
+
+public record HoofdActiviteitFacetItem(string Code, string Naam, long Aantal);

@@ -35,7 +35,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     private const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken?q=" + One_vereniging_werd_geregistreerd_fixture.VCode;
     private const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken?q=001";
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":{}}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_one_vereniging_werd_geregistreerd(One_vereniging_werd_geregistreerd_fixture classFixture)
     {
