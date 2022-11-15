@@ -1,3 +1,12 @@
+# [1.67.0](https://github.com/informatievlaanderen/association-registry/compare/v1.66.0...v1.67.0) (2022-11-15)
+
+
+### Features
+
+* or-1303 cleanup ([4710ae3](https://github.com/informatievlaanderen/association-registry/commit/4710ae3d223f432ce564862dae2a11d62bcdb361))
+* or-1303 modify hoofdactiviteitfacets so code and naam is returned instead of naam only ([5172675](https://github.com/informatievlaanderen/association-registry/commit/51726758a18d6a9a625a2198004422e37c179fbf))
+* or-1303 remove brolfeederhoofdactiviteit, move hoofdactiviteit to common project ([b545d41](https://github.com/informatievlaanderen/association-registry/commit/b545d415d582822140b88f751ea44b710bd32da0))
+
 # [1.66.0](https://github.com/informatievlaanderen/association-registry/compare/v1.65.0...v1.66.0) (2022-11-14)
 
 
