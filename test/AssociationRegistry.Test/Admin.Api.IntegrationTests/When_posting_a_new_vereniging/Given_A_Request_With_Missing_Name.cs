@@ -37,9 +37,12 @@ public class Given_A_Request_With_Missing_Name
         var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
         var expectedResponseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(GetJsonResponseBody());
 
-        responseContentObject.Should().BeEquivalentTo(expectedResponseContentObject, options => options
-            .Excluding(info => info!.ProblemInstanceUri)
-            .Excluding(info=>info!.ProblemTypeUri));    }
+        responseContentObject.Should().BeEquivalentTo(
+            expectedResponseContentObject,
+            options => options
+                .Excluding(info => info!.ProblemInstanceUri)
+                .Excluding(info => info!.ProblemTypeUri));
+    }
 
     private string GetJsonRequestBody()
         => GetType()

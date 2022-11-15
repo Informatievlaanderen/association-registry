@@ -46,7 +46,8 @@ public class Given_A_Request_With_Startdatum_In_The_Future
         responseContentObject.Should().BeEquivalentTo(
             expectedResponseContentObject,
             options => options
-                .Excluding(info => info!.ProblemInstanceUri));
+                .Excluding(info => info!.ProblemInstanceUri)
+                .Excluding(info => info!.ProblemTypeUri));
     }
 
     private string GetJsonRequestBody(DateOnly startdatum)
