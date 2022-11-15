@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Constants;
@@ -39,35 +38,19 @@ public class SearchVerenigingenMapper
                 paginationRequest.Limit
             )
         );
-    //
-    // private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
-    // {
-    //     var hoofdActiviteitFacets = searchResponse.Aggregations
-    //         .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-    //         .Buckets
-    //         .ToImmutableDictionary(
-    //             bucket => bucket.Key.ToString(),
-    //             bucket => bucket.DocCount ?? 0);
-    //     return hoofdActiviteitFacets;
-    // }
 
     private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
-    {
-        var hoofdActiviteitFacets = searchResponse.Aggregations
+        => searchResponse.Aggregations
             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-            .Buckets;
-        // .ToImmutableDictionary(
-        //     bucket => bucket.Key.ToString(),
-        //     bucket => bucket.DocCount ?? 0);
-
-        return hoofdActiviteitFacets.Select(
-                bucket =>
-                {
-                    var hoofdActiviteit = BrolFeederHoofdactiviteit.Create(bucket.Key.ToString());
-                    return new HoofdActiviteitFacetItem(hoofdActiviteit.Code, hoofdActiviteit.Naam, bucket.DocCount ?? 0);
-                })
+            .Buckets
+            .Select(CreateHoofdActiviteitFacetItem)
             .ToImmutableArray();
-    }
+
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(KeyedBucket<string> bucket)
+        => CreateHoofdActiviteitFacetItem(BrolFeederHoofdactiviteit.Create(bucket.Key), bucket.DocCount ?? 0);
+
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(BrolFeederHoofdactiviteit hoofdActiviteit, long aantal)
+        => new(hoofdActiviteit.Code, hoofdActiviteit.Naam, aantal);
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
@@ -75,7 +58,7 @@ public class SearchVerenigingenMapper
                 new Vereniging(
                     x.Source.VCode,
                     x.Source.Naam,
-                    x.Source.KorteNaam,
+                    x.Source.KorteNaam ?? string.Empty,
                     x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
                     new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,
@@ -84,5 +67,3 @@ public class SearchVerenigingenMapper
                     new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{x.Source.VCode}"))
                 )).ToImmutableArray();
 }
-
-public record HoofdActiviteitFacetItem(string Code, string Naam, long Aantal);

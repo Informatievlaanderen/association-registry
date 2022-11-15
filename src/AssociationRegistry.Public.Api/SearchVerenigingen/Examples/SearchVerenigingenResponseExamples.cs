@@ -62,14 +62,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 )),
             Facets = new Facets
             {
-                // HoofdActiviteiten =
-                //     ImmutableDictionary.Create<string, long>()
-                //         .Add("Cultuur", 1)
-                //         .Add("Sport", 1),
                 HoofdActiviteiten = ImmutableArray.Create(
                     new HoofdActiviteitFacetItem("CULT", "Cultuur", 1),
                     new HoofdActiviteitFacetItem("SPRT", "Sport", 1)
-                    )
+                ),
             },
             Metadata = new Metadata(new Pagination(2, 0, 50)),
         };
