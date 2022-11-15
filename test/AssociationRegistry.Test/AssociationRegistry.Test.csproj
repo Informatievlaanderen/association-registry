@@ -15,7 +15,9 @@
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_empty_name.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.empty.json" />
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.startdatum_in_future_validation_error.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_Actual_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_Actual_Minimal_Data_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />

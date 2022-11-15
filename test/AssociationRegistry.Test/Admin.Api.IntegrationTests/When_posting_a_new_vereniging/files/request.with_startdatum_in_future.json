@@ -1,0 +1,4 @@
+﻿{
+  "naam": "De naam van de vereniging",
+  "startdatum": "{{vereniging.startdatum}}"
+}
