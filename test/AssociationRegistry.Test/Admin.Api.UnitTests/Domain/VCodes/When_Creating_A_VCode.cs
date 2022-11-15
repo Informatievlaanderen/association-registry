@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.VCodes;
 
-using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using AssociationRegistry.VCodes;
 using AssociationRegistry.VCodes.Exceptions;
 using FluentAssertions;

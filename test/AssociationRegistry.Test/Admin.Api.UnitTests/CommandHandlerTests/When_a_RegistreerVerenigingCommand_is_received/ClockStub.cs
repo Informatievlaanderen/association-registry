@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_RegistreerVerenigingCommand_is_received;
 
-using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Framework;
 
 public class ClockStub : IClock

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.Api;
 
 using System;
 using ConfigurationBindings;
+using Framework;
 
 public static class ConfigHelpers
 {

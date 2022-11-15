@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
+﻿namespace AssociationRegistry.Vereniging;
 
 using System;
 using MediatR;
