@@ -1,2 +1,4 @@
 Be.Vlaanderen.Basisregisters.AggregateSource
 
+MediatR
+MediatR.Extensions.Microsoft.DependencyInjection

@@ -26,6 +26,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using VCodes;
+using Vereniging;
 using Verenigingen;
 using Verenigingen.VCodes;
 
@@ -57,7 +58,7 @@ public class Startup
 
         services.AddMarten(postgreSqlOptions);
 
-        services.AddMediatR(typeof(Startup));
+        services.AddMediatR(typeof(CommandEnvelope<>));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
         services.AddTransient<IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();

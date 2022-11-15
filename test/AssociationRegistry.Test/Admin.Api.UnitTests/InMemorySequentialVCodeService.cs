@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests;
 
 using System.Threading.Tasks;
-using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using VCodes;
 
 public class InMemorySequentialVCodeService : IVCodeService

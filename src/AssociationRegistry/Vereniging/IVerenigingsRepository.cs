@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
+﻿namespace AssociationRegistry.Vereniging;
 
 using System.Threading.Tasks;
-using Vereniging;
 
 public interface IVerenigingsRepository
 {

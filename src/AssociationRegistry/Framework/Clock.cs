@@ -1,7 +1,6 @@
-namespace AssociationRegistry.Admin.Api;
+namespace AssociationRegistry.Framework;
 
 using System;
-using Framework;
 
 public class Clock : IClock
 {

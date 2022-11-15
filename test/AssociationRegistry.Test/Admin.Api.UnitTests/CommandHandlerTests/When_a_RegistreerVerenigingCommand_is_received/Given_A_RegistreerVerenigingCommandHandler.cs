@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_RegistreerVerenigingCommand_is_received;
 
-using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Framework;
 using AutoFixture;
 using FluentAssertions;
 using Vereniging;
