@@ -1,8 +1,9 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.VCodes;
+namespace AssociationRegistry.VCodes;
 
 using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
+using Framework;
 
 public class VCode : ValueObject<VCode>
 {

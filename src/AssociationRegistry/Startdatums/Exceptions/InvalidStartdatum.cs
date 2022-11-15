@@ -1,10 +1,11 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Startdatums.Exceptions;
+namespace AssociationRegistry.Startdatums.Exceptions;
 
 using System;
 using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class InvalidStartdatum : Exception
+public class InvalidStartdatum : DomainException
 {
     public InvalidStartdatum() : base("Startdatum mag niet in de toekomst liggen.")
     {

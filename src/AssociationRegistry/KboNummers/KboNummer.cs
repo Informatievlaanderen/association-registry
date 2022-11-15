@@ -1,6 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.KboNummers;
+﻿namespace AssociationRegistry.KboNummers;
 
 using Exceptions;
+using Framework;
 
 public class KboNummer
 {

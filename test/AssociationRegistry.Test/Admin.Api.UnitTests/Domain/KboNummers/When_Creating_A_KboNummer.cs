@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.KboNummers;
 
-using AssociationRegistry.Admin.Api.Verenigingen.KboNummers;
-using AssociationRegistry.Admin.Api.Verenigingen.KboNummers.Exceptions;
+using AssociationRegistry.KboNummers;
+using AssociationRegistry.KboNummers.Exceptions;
 using FluentAssertions;
 using Xunit;
 

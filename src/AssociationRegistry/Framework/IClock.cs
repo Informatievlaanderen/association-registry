@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api;
+namespace AssociationRegistry.Framework;
 
 using System;
 

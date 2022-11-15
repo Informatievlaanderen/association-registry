@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.VCodes;
 
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
-using AssociationRegistry.Admin.Api.Verenigingen.VCodes.Exceptions;
+using AssociationRegistry.VCodes;
+using AssociationRegistry.VCodes.Exceptions;
 using FluentAssertions;
 using Xunit;
 

@@ -1,9 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen;
+namespace AssociationRegistry.Vereniging;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AssociationRegistry.Vereniging;
 using Framework;
 using KboNummers;
 using Startdatums;

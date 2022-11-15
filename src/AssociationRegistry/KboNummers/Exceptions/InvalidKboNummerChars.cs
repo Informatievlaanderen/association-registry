@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.KboNummers.Exceptions;
+namespace AssociationRegistry.KboNummers.Exceptions;
 
 public class InvalidKboNummerChars : InvalidKboNummer
 {

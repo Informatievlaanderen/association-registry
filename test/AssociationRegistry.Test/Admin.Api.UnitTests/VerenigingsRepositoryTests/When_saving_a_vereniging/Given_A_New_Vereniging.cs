@@ -3,10 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTest
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
-using AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen;
 using AssociationRegistry.Framework;
 using FluentAssertions;
+using VCodes;
 using Vereniging;
+using VerenigingsNamen;
 using Xunit;
 
 public class EventStoreMock : IEventStore
