@@ -1,8 +1,9 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen;
+﻿namespace AssociationRegistry.VerenigingsNamen;
 
 using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
+using Framework;
 
 public class VerenigingsNaam : ValueObject<VerenigingsNaam>
 {

@@ -1,10 +1,11 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.VCodes.Exceptions;
+namespace AssociationRegistry.VCodes.Exceptions;
 
 using System;
 using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public abstract class InvalidVCode : Exception
+public abstract class InvalidVCode : DomainException
 {
     protected InvalidVCode(string message) : base(message)
     {

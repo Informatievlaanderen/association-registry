@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]
-public class Given_A_Request_With_Missing_Name
+public class Given_A_Request_With_Invalid_KboNumber
 {
     private readonly VerenigingAdminApiFixture _apiFixture;
 
-    public Given_A_Request_With_Missing_Name(VerenigingAdminApiFixture apiFixture)
+    public Given_A_Request_With_Invalid_KboNumber(VerenigingAdminApiFixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -27,15 +27,15 @@ public class Given_A_Request_With_Missing_Name
     }
 
     [Fact]
-    public async Task Then_it_returns_a_validationproblemdetails_response()
+    public async Task Then_it_returns_a_problemdetails_response()
     {
         var content = GetJsonRequestBody().AsJsonContent();
         var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
-        var expectedResponseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(GetJsonResponseBody());
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
+        var expectedResponseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(GetJsonResponseBody());
 
         responseContentObject.Should().BeEquivalentTo(
             expectedResponseContentObject,
@@ -46,9 +46,9 @@ public class Given_A_Request_With_Missing_Name
 
     private string GetJsonRequestBody()
         => GetType()
-            .GetAssociatedResourceJson($"files.request.empty");
+            .GetAssociatedResourceJson($"files.request.with_invalid_kbonummer");
 
     private string GetJsonResponseBody()
         => GetType()
-            .GetAssociatedResourceJson($"files.response.not_null_validation_error");
+            .GetAssociatedResourceJson($"files.response.invalid_kbonummer_validation_error");
 }

@@ -1,7 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Startdatums;
+namespace AssociationRegistry.Startdatums;
 
 using System;
 using Exceptions;
+using Framework;
 
 public class Startdatum
 {

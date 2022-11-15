@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen.Exceptions;
+﻿namespace AssociationRegistry.VerenigingsNamen.Exceptions;
 
 using System;
 using System.Runtime.Serialization;

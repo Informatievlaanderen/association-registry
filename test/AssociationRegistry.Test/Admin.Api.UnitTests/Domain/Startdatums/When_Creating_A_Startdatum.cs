@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.Startdatums;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Startdatums;
-using AssociationRegistry.Admin.Api.Verenigingen.Startdatums.Exceptions;
+using AssociationRegistry.Startdatums;
+using AssociationRegistry.Startdatums.Exceptions;
 using CommandHandlerTests.When_a_RegistreerVerenigingCommand_is_received;
 using FluentAssertions;
 using Xunit;

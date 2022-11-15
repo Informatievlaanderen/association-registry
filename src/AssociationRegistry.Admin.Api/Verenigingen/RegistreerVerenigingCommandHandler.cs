@@ -2,10 +2,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using AssociationRegistry.VCodes;
+using Framework;
 using KboNummers;
 using MediatR;
 using Startdatums;
 using VCodes;
+using Vereniging;
 using VerenigingsNamen;
 
 public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelope<RegistreerVerenigingCommand>>

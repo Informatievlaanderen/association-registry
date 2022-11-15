@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.VerenigingsNamen;
 
-using AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen;
-using AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen.Exceptions;
+using AssociationRegistry.VerenigingsNamen;
+using AssociationRegistry.VerenigingsNamen.Exceptions;
 using FluentAssertions;
 using Xunit;
 

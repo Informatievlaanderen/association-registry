@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VCodes;
+﻿namespace AssociationRegistry.VCodes;
 
 using System.Threading.Tasks;
 

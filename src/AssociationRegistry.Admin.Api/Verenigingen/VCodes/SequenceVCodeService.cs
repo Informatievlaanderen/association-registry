@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AssociationRegistry.VCodes;
 using Marten;
 using Weasel.Postgresql;
 

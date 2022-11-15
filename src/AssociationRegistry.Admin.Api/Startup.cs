@@ -10,6 +10,7 @@ using ConfigurationBindings;
 using Constants;
 using Events;
 using Extentions;
+using Framework;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using VCodes;
 using Verenigingen;
 using Verenigingen.VCodes;
 

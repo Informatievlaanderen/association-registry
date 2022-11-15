@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
+using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
