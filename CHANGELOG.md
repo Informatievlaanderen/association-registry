@@ -1,3 +1,16 @@
+# [1.68.0](https://github.com/informatievlaanderen/association-registry/compare/v1.67.0...v1.68.0) (2022-11-15)
+
+
+### Features
+
+* or-1280 cleanup test project ([69b810b](https://github.com/informatievlaanderen/association-registry/commit/69b810bade9cf79d49953295c906d4e2d0e9c7c2))
+* or-1280 first try ([6c9f502](https://github.com/informatievlaanderen/association-registry/commit/6c9f5028f50dfd9e431a00f29594c40161cbc33d))
+* or-1280 fix tests ([4be691b](https://github.com/informatievlaanderen/association-registry/commit/4be691b9d4b2e5fca8bf4233c821f81001046738))
+* or-1280 make exceptions serializable ([382488a](https://github.com/informatievlaanderen/association-registry/commit/382488a93dfccbd9be47dce7e36eaf2108d2d00a))
+* or-1280 remove obsolete DomainException ([9773eeb](https://github.com/informatievlaanderen/association-registry/commit/9773eeb2b54635d6e71a38d51316b232d5ead2ba))
+* or-1280 return 400 on invalid kbo nummer ([cd03352](https://github.com/informatievlaanderen/association-registry/commit/cd03352a8a58169736052e770afe365e73b81cf3))
+* or-1280 return 400 on invalid startdatum ([febbb5b](https://github.com/informatievlaanderen/association-registry/commit/febbb5baa58aa6a200362f1e96c842300df42cd0))
+
 # [1.67.0](https://github.com/informatievlaanderen/association-registry/compare/v1.66.0...v1.67.0) (2022-11-15)
 
 
