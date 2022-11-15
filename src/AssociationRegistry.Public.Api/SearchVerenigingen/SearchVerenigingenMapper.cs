@@ -38,13 +38,18 @@ public class SearchVerenigingenMapper
             )
         );
 
-    private static ImmutableDictionary<string, long> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
+    private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Aggregations
             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
             .Buckets
-            .ToImmutableDictionary(
-                bucket => bucket.Key.ToString(),
-                bucket => bucket.DocCount ?? 0);
+            .Select(CreateHoofdActiviteitFacetItem)
+            .ToImmutableArray();
+
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(KeyedBucket<string> bucket)
+        => CreateHoofdActiviteitFacetItem(Activiteiten.Hoofdactiviteit.Create(bucket.Key), bucket.DocCount ?? 0);
+
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(Activiteiten.Hoofdactiviteit hoofdActiviteit, long aantal)
+        => new(hoofdActiviteit.Code, hoofdActiviteit.Naam, aantal);
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
@@ -52,7 +57,7 @@ public class SearchVerenigingenMapper
                 new Vereniging(
                     x.Source.VCode,
                     x.Source.Naam,
-                    x.Source.KorteNaam,
+                    x.Source.KorteNaam ?? string.Empty,
                     x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
                     new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Events;
+namespace AssociationRegistry.Framework;
 
 /// <summary>
 /// marker interface: do not add logic

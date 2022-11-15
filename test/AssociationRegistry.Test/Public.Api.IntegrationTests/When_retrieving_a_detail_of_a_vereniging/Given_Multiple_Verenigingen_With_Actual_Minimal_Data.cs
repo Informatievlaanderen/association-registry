@@ -4,9 +4,9 @@ using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
-using Events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vereniging;
 
 public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : PublicApiFixture
 {

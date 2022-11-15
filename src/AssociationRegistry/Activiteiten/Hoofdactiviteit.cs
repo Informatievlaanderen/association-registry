@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Activiteiten;
+namespace AssociationRegistry.Activiteiten;
 
 using System.Collections.Generic;
 using System.Collections.Immutable;

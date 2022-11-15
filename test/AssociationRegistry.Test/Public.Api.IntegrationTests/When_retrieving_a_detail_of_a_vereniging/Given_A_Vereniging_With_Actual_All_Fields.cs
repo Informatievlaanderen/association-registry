@@ -5,7 +5,7 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 using AssociationRegistry.Public.Api.Constants;
-using Events;
+using Vereniging;
 
 public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixture
 {

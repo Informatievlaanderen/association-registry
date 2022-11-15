@@ -4,8 +4,9 @@ using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using AssociationRegistry.Admin.Api.Verenigingen.VerenigingsNamen;
-using Events;
+using AssociationRegistry.Framework;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 
 public class EventStoreMock : IEventStore

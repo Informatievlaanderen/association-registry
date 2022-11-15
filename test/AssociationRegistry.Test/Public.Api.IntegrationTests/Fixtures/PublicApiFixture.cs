@@ -18,7 +18,7 @@ using Nest;
 using Npgsql;
 using Xunit;
 using Xunit.Sdk;
-using IEvent = Events.IEvent;
+using IEvent = AssociationRegistry.Framework.IEvent;
 
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {

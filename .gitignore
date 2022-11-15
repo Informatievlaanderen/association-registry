@@ -8,6 +8,8 @@ wwwroot/
 .idea/
 .ionide/
 .paket/
+dotCover.Output/
+dotCover.Output.html
 
 [Pp]ackages/
 [Pp]aket-files/

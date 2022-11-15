@@ -56,7 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "minio", "minio", "{A5715AC1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.Api", "src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj", "{DAF6443B-10E9-4847-9E1F-DBE275E8C750}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Events", "src\AssociationRegistry.Events\AssociationRegistry.Events.csproj", "{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry", "src\AssociationRegistry\AssociationRegistry.csproj", "{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

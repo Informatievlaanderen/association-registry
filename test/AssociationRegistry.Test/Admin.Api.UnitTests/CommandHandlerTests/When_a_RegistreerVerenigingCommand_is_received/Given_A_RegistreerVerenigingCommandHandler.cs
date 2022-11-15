@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AutoFixture;
-using Events;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
