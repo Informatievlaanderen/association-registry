@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.EventStoreTests.When_storing_an_event;
 
-using Events;
+using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

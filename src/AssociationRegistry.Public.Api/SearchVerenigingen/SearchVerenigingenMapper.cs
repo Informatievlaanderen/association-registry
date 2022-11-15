@@ -5,7 +5,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using Constants;
 using Nest;
-using Projections;
 
 public class SearchVerenigingenMapper
 {
@@ -47,9 +46,9 @@ public class SearchVerenigingenMapper
             .ToImmutableArray();
 
     private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(KeyedBucket<string> bucket)
-        => CreateHoofdActiviteitFacetItem(BrolFeederHoofdactiviteit.Create(bucket.Key), bucket.DocCount ?? 0);
+        => CreateHoofdActiviteitFacetItem(Activiteiten.Hoofdactiviteit.Create(bucket.Key), bucket.DocCount ?? 0);
 
-    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(BrolFeederHoofdactiviteit hoofdActiviteit, long aantal)
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(Activiteiten.Hoofdactiviteit hoofdActiviteit, long aantal)
         => new(hoofdActiviteit.Code, hoofdActiviteit.Naam, aantal);
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)

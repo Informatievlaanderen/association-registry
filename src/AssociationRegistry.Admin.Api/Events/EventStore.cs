@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Events;
 
 using System.Threading.Tasks;
-using AssociationRegistry.Events;
 using Baseline;
+using Framework;
 using Marten;
 
 public class EventStore : IEventStore

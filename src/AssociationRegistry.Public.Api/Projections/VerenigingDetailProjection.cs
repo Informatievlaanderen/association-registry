@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.Api.Projections;
 
 using System;
-using Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using Vereniging;
 
 public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
 {

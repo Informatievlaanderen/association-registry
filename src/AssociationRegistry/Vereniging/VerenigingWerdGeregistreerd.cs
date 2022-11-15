@@ -1,4 +1,6 @@
-﻿namespace AssociationRegistry.Events;
+﻿namespace AssociationRegistry.Vereniging;
+
+using Framework;
 
 /// <summary>
 ///

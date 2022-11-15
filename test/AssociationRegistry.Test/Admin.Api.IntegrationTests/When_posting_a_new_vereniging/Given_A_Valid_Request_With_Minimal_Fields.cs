@@ -2,10 +2,10 @@
 
 using System.Net;
 using AutoFixture;
-using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
+using Vereniging;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
-using Events;
 using Fixtures;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 
 public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture

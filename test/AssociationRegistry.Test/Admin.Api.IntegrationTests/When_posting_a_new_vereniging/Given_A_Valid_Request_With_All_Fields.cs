@@ -3,11 +3,11 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AutoFixture;
-using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
 using Marten;
+using Vereniging;
 using Xunit;
 
 [Collection(VerenigingAdminApiCollection.Name)]

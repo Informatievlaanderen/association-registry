@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Public.Api.Projections;
 
 using System.Threading.Tasks;
-using Events;
+using Framework;
 
 public interface IDomainEventHandler<in T>
     where T : class, IEvent

@@ -93,9 +93,9 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         }
     }
 
-    private BrolFeederHoofdactiviteit GetHoofdactiviteit()
+    private Activiteiten.Hoofdactiviteit GetHoofdactiviteit()
     {
-        var hoofdactiviteiten = BrolFeederHoofdactiviteit.All();
+        var hoofdactiviteiten = AssociationRegistry.Activiteiten.Hoofdactiviteit.All();
         var index = _random.Next(hoofdactiviteiten.Count);
 
         return hoofdactiviteiten[index];
@@ -125,7 +125,7 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         get
         {
             var hoofdactiviteiten = isStatic
-                ? BrolFeederHoofdactiviteit.Create("BWRK").ObjectToArray()
+                ? AssociationRegistry.Activiteiten.Hoofdactiviteit.Create("BWRK").ObjectToArray()
                 : ComposeArray(3, GetHoofdactiviteit).ToArray();
 
             return hoofdactiviteiten.Select(h => new VerenigingDocument.Hoofdactiviteit(h.Code, h.Naam)).ToArray();
