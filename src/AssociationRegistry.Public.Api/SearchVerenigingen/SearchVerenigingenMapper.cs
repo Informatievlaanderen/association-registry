@@ -54,17 +54,18 @@ public class SearchVerenigingenMapper
 
     // public for testing
     public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdActiviteitCode, string originalQuery)
-        => $"{appSettings.BaseUrl}v1/verenigingen/search?q={CalculateQuery(originalQuery, hoofdActiviteitCode)}";
+        => $"{appSettings.BaseUrl}v1/verenigingen/zoeken?q={CalculateQuery(originalQuery, hoofdActiviteitCode)}";
 
-    private static string CalculateQuery(string originalQuery, string hoofdActiviteitCode)
+    private static string CalculateQuery(string? originalQuery, string hoofdActiviteitCode)
     {
-        if (!originalQuery.Contains("hoofdactiviteiten.code"))
-            return string.IsNullOrWhiteSpace(originalQuery)
+        var originalQueryContainsHoofdactiviteitenFacets = originalQuery?.Contains("hoofdactiviteiten.code") ?? false;
+        if (!originalQueryContainsHoofdactiviteitenFacets)
+            return string.IsNullOrWhiteSpace(originalQuery) || originalQuery.Trim() == "*"
                 ? $"(hoofdactiviteiten.code:{hoofdActiviteitCode})"
                 : $"(hoofdactiviteiten.code:{hoofdActiviteitCode}) AND {originalQuery}";
 
         var regex = new Regex(@"\((hoofdactiviteiten\.code:[A-Z]{4}( OR hoofdactiviteiten\.code:[A-Z]{4})*)\)( AND .+)?");
-        var match = regex.Match(originalQuery);
+        var match = regex.Match(originalQuery ?? string.Empty);
 
         return $"({match.Groups[1].Value} OR hoofdactiviteiten.code:{hoofdActiviteitCode}){match.Groups[3].Value}";
     }

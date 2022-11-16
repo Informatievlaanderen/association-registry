@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
+using System.Text.RegularExpressions;
 using Fixtures;
 using FluentAssertions;
 using Vereniging;
@@ -102,5 +103,21 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
         var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanDeVCode);
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
+    }
+
+    [Fact]
+    public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
+    {
+        const string arbitrarySearchThatReturnsAResult = VerenigingenZoekenOpDeelVanNaamMetWildcards;
+        var content = await _classFixture.Search(arbitrarySearchThatReturnsAResult);
+
+        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteiten"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
+        var regexResult = regex.Match(content);
+        var urlFromFacets = regexResult.Groups[2].Value;
+
+        var contentFromFacetsUrl = await _classFixture.Search(urlFromFacets);
+
+        const string expectedUrl = "/v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK OR hoofdactiviteiten.code:BWRK) AND *dena*";
+        contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
