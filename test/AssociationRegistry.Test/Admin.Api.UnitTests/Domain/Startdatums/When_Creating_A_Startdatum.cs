@@ -52,7 +52,7 @@ public class When_Creating_A_Startdatum
             var startdatum = DateOnly.FromDateTime(new DateTime(3022, 10, 04));
             var factory = () => Startdatum.Create(ClockStub, startdatum);
 
-            factory.Should().Throw<InvalidStartdatum>();
+            factory.Should().Throw<InvalidStartdatumFuture>();
         }
     }
 }

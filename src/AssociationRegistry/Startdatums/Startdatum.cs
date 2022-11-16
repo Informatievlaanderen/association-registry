@@ -25,6 +25,6 @@ public class Startdatum
 
     private static void Validate(DateOnly today, DateOnly datum)
     {
-        Throw<InvalidStartdatum>.If(today < datum);
+        Throw<InvalidStartdatumFuture>.If(today < datum);
     }
 }
