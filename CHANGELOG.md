@@ -1,3 +1,12 @@
+# [1.70.0](https://github.com/informatievlaanderen/association-registry/compare/v1.69.0...v1.70.0) (2022-11-16)
+
+
+### Features
+
+* or-1267 add custom validation message for kbonummer too short ([5b97398](https://github.com/informatievlaanderen/association-registry/commit/5b9739814c30575abdb85d391bf680998f667486))
+* or-1267 add nice validation message for invalid date format ([dd80745](https://github.com/informatievlaanderen/association-registry/commit/dd807458cc9afbea18cc46612a58ae0e50a4cfbb))
+* or-1303 add query to hoofdactiviteiten facets ([4dbf820](https://github.com/informatievlaanderen/association-registry/commit/4dbf820ee96439a9fe7c7ed2faf56720524a0a24))
+
 # [1.69.0](https://github.com/informatievlaanderen/association-registry/compare/v1.68.0...v1.69.0) (2022-11-15)
 
 
