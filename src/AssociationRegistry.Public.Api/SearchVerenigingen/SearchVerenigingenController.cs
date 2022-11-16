@@ -92,7 +92,7 @@ public class SearchVerenigingenController : ApiController
     {
         var searchResponse = await Search(elasticClient, q, paginationQueryParams);
 
-        var response = mapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams);
+        var response = mapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q);
 
         return Ok(response);
     }

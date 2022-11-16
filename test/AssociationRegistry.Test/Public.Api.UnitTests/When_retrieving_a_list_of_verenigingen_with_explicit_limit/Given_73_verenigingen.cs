@@ -21,7 +21,9 @@ public class Given_73_verenigingen
     [Theory]
     [InlineData(0, 20, 20)]
     [InlineData(60, 20, 13)]
-    public async Task Then_a_list_with_correct_number_of_verenigingen_is_returned(int offset, int limit,
+    public async Task Then_a_list_with_correct_number_of_verenigingen_is_returned(
+        int offset,
+        int limit,
         int expectedNumberOfVerenigingen)
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen, offset, limit)).Verenigingen.Should()
             .HaveCount(expectedNumberOfVerenigingen);
@@ -31,7 +33,9 @@ public class Given_73_verenigingen
     [InlineData(60, 20, 60)]
     [InlineData(0, 64, 0)]
     [InlineData(10, 64, 10)]
-    public async Task Then_the_offset_is_returned(int offset, int limit,
+    public async Task Then_the_offset_is_returned(
+        int offset,
+        int limit,
         int expectedOffset)
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen, offset, limit)).Metadata.Pagination.Offset
             .Should().Be(expectedOffset);
@@ -39,7 +43,9 @@ public class Given_73_verenigingen
     [Theory]
     [InlineData(0, 20, 20)]
     [InlineData(60, 20, 20)]
-    public async Task Then_the_limit_is_returned(int offset, int limit,
+    public async Task Then_the_limit_is_returned(
+        int offset,
+        int limit,
         int expectedLimit)
         => (await Scenario.When_retrieving_a_list_of_verenigingen(_verenigingen, offset, limit)).Metadata.Pagination.Limit
             .Should().Be(expectedLimit);

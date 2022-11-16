@@ -55,7 +55,8 @@
       {
         "code": "BWRK",
         "naam": "Buurtwerking",
-        "aantal": 1
+        "aantal": 1,
+        "query": "https://localhost:11003/v1/verenigingen/search?q=(hoofdactiviteiten.code:BWRK) AND {{originalQuery}}"
       }
     ]
   },

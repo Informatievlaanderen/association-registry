@@ -63,8 +63,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             Facets = new Facets
             {
                 HoofdActiviteiten = ImmutableArray.Create(
-                    new HoofdActiviteitFacetItem("CULT", "Cultuur", 1),
-                    new HoofdActiviteitFacetItem("SPRT", "Sport", 1)
+                    new HoofdActiviteitFacetItem("CULT", "Cultuur", 1, $"{_appSettings.BaseUrl}verenigingen/search/q=hoofdactiviteiten.code:CULT"),
+                    new HoofdActiviteitFacetItem("SPRT", "Sport", 1, $"{_appSettings.BaseUrl}verenigingen/search/q=hoofdactiviteiten.code:SPRT")
                 ),
             },
             Metadata = new Metadata(new Pagination(2, 0, 50)),

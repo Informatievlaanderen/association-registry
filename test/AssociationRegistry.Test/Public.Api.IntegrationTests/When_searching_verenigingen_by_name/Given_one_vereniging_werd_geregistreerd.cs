@@ -53,7 +53,9 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpNaam);
 
-        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
+        var goldenMaster = _goldenMasterWithOneVereniging
+            .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.Naam);
+        content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
@@ -69,7 +71,9 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanNaamMetWildcards);
 
-        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
+        var goldenMaster = _goldenMasterWithOneVereniging
+            .Replace("{{originalQuery}}", "*dena*");
+        content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
@@ -77,7 +81,9 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpTermInNaam);
 
-        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
+        var goldenMaster = _goldenMasterWithOneVereniging
+            .Replace("{{originalQuery}}", "oudenaarde");
+        content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
@@ -85,7 +91,9 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     {
         var content = await _classFixture.Search(VerenigingenZoekenOpVCode);
 
-        content.Should().BeEquivalentJson(_goldenMasterWithOneVereniging);
+        var goldenMaster = _goldenMasterWithOneVereniging
+            .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.VCode);
+        content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
