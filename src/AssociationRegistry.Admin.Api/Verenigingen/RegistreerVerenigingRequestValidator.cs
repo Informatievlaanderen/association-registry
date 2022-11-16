@@ -16,6 +16,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .When(request => request.Naam is { });
         RuleFor(request => request.KboNummer)
             .Length(10, int.MaxValue)
+            .WithMessage("KboNummer moet 10 cijfers bevatten.")
             .When(request => request.KboNummer is { });
     }
 }
