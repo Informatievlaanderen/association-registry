@@ -1,3 +1,11 @@
+# [1.71.0](https://github.com/informatievlaanderen/association-registry/compare/v1.70.0...v1.71.0) (2022-11-16)
+
+
+### Features
+
+* or-1267 use tryparseexact instead of try-catch for dateonly convertors ([b1437cd](https://github.com/informatievlaanderen/association-registry/commit/b1437cd0c01727b10098633ccf4ffbecc877d511))
+* or-1303 add tests for facets, fixed some bugs ([31949ac](https://github.com/informatievlaanderen/association-registry/commit/31949ac4c2aa130158962290b05d76d53e556bbd))
+
 # [1.70.0](https://github.com/informatievlaanderen/association-registry/compare/v1.69.0...v1.70.0) (2022-11-16)
 
 
