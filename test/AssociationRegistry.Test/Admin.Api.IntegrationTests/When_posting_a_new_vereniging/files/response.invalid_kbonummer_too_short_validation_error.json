@@ -1,0 +1,15 @@
+{
+  "validationErrors": {
+    "kboNummer": [
+      {
+        "code": "LengthValidator",
+        "reason": "KboNummer moet 10 cijfers bevatten."
+      }
+    ]
+  },
+  "type": "urn:resharpertestrunner:validation",
+  "title": "Er heeft zich een fout voorgedaan!",
+  "detail": "Validatie mislukt!",
+  "status": 400,
+  "instance": "https://localhost:11003/v1/foutmeldingen/b43fe5ba4963500bb91c1fa5e314bff2"
+}
