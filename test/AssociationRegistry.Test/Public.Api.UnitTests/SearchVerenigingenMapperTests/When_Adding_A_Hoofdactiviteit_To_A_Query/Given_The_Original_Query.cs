@@ -5,7 +5,7 @@ using AssociationRegistry.Public.Api.SearchVerenigingen;
 using FluentAssertions;
 using Xunit;
 
-public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
+public class Given_The_Original_Query
 {
     private const string BaseUrl = "http://base/";
 
@@ -16,7 +16,7 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK)");
         }
     }
 
@@ -27,7 +27,18 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK) AND oudenaarde");
+        }
+    }
+
+    public class Given_An_OriginalQuery_That_Contains_Only_A_Star
+    {
+        [Fact]
+        public void Then_it_adds_the_hoofdactiviteit_to_the_query()
+        {
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "*");
+
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK)");
         }
     }
 
@@ -38,7 +49,7 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT)");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK)");
         }
     }
 
@@ -49,7 +60,7 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT)");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK)");
         }
     }
 
@@ -60,7 +71,7 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT) AND oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
         }
     }
 
@@ -71,7 +82,7 @@ public class Given_The_Original_Query_Did_Not_Contain_Hoofdactiviteiten
         {
             var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT) AND oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/search?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
         }
     }
 }
