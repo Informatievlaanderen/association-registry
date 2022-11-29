@@ -1,16 +1,14 @@
 ﻿namespace AssociationRegistry.KboNummers;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
 
-public class KboNummer
+public class KboNummer: StringValueObject<KboNummer>
 {
-    private KboNummer(string kboNummer)
+    private KboNummer(string kboNummer) : base(kboNummer)
     {
-        Value = kboNummer;
     }
-
-    public string Value { get; }
 
     public override string ToString()
         => Value;

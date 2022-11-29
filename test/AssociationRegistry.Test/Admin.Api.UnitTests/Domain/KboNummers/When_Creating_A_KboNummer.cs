@@ -27,9 +27,9 @@ public class When_Creating_A_KboNummer
         [InlineData("0746889508", "0746889508")]
         public void Then_it_returns_a_kboNummer(string kboNummerString, string expectedKboNummer)
         {
-            var kboNummer = KboNummer.Create(kboNummerString)!;
+            string kboNummer = KboNummer.Create(kboNummerString)!;
 
-            kboNummer.Value.Should().Be(expectedKboNummer);
+            kboNummer.Should().Be(expectedKboNummer);
         }
     }
 

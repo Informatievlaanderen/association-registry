@@ -17,7 +17,7 @@ public class Vereniging
 
         private State(string vCode)
         {
-            VCode = new VCode(vCode);
+            VCode = VCode.Create(vCode);
         }
 
         public static State Apply(VerenigingWerdGeregistreerd @event)
