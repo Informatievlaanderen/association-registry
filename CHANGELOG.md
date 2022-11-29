@@ -1,3 +1,10 @@
+# [1.72.0](https://github.com/informatievlaanderen/association-registry/compare/v1.71.0...v1.72.0) (2022-11-29)
+
+
+### Features
+
+* or-1301 update uri for public api ([52a1265](https://github.com/informatievlaanderen/association-registry/commit/52a126594f482870dce9099b54545e861ac2c031))
+
 # [1.71.0](https://github.com/informatievlaanderen/association-registry/compare/v1.70.0...v1.71.0) (2022-11-16)
 
 
