@@ -19,7 +19,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
         {
             Verenigingen = ImmutableArray.Create(
                 new Vereniging(
-                    "V123456",
+                    "V000001",
+                    "W0000001",
+                    "X1",
+                    "Y1001",
                     "FWA De vrolijke BA’s",
                     "DVB",
                     new Hoofdactiviteit("CULT", "Cultuur").ObjectToImmutableArray(),
@@ -40,7 +43,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new Activiteit(123, "Badminton")),
                     new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/v123456"))),
                 new Vereniging(
-                    "V765432",
+                    "V036651",
+                    "W0036651",
+                    "X36651",
+                    "Y36651",
                     "FWA De Bron",
                     string.Empty,
                     new Hoofdactiviteit("SPRT", "Sport").ObjectToImmutableArray(),

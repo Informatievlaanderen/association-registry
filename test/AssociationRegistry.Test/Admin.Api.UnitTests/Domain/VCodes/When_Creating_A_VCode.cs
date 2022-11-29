@@ -57,7 +57,7 @@ public class When_Creating_A_VCode
         [InlineData("V999999")]
         public void Then_it_returns_a_new_vcode_formatted_as_V000000(string strCode)
         {
-            var vCode = new VCode(strCode);
+            var vCode = VCode.Create(strCode);
 
             vCode.Value.Should().Be(strCode);
         }
@@ -72,7 +72,7 @@ public class When_Creating_A_VCode
         [InlineData("v999999", "V999999")]
         public void Then_it_returns_a_new_vcode_formatted_as_V000000(string strCode, string expectedVCode)
         {
-            var vCode = new VCode(strCode);
+            var vCode = VCode.Create(strCode);
 
             vCode.Value.Should().Be(expectedVCode);
         }
@@ -86,7 +86,7 @@ public class When_Creating_A_VCode
         [InlineData("V00001")]
         public void Then_It_Throws_an_InvalidVCodeLengthException(string strCode)
         {
-            var ctor = () => new VCode(strCode);
+            var ctor = () => VCode.Create(strCode);
             ctor.Should().Throw<InvalidVCodeLength>();
         }
     }
@@ -99,7 +99,7 @@ public class When_Creating_A_VCode
         [InlineData("ABCDEFG")]
         public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
         {
-            var ctor = () => new VCode(strCode);
+            var ctor = () => VCode.Create(strCode);
             ctor.Should().Throw<InvalidVCodeFormat>();
         }
     }
@@ -111,7 +111,7 @@ public class When_Creating_A_VCode
         [InlineData("V12345A")]
         public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
         {
-            var ctor = () => new VCode(strCode);
+            var ctor = () => VCode.Create(strCode);
             ctor.Should().Throw<InvalidVCodeFormat>();
         }
     }

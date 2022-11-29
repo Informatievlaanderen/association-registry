@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 [DataContract]
 public record Vereniging(
     [property: DataMember(Name = "VCode")] string VCode,
+    [property: DataMember(Name = "WCode")] string WCode,
+    [property: DataMember(Name = "XCode")] string XCode,
+    [property: DataMember(Name = "YCode")] string YCode,
     [property: DataMember(Name = "Naam")] string Naam,
     [property: DataMember(Name = "KorteNaam")]
     string KorteNaam,
