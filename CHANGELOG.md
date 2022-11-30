@@ -1,3 +1,13 @@
+# [1.73.0](https://github.com/informatievlaanderen/association-registry/compare/v1.72.0...v1.73.0) (2022-11-30)
+
+
+### Features
+
+* or-1338 add variations to vcode + refactor ([a30d347](https://github.com/informatievlaanderen/association-registry/commit/a30d3474e21f5059b789b2b1c85992d2c8ffb953))
+* or-1338 improve vCode ([2cf40b1](https://github.com/informatievlaanderen/association-registry/commit/2cf40b17c71a2c1678176707e9845e4fbc70c09c))
+* OR-1338 make tests fail ([949f212](https://github.com/informatievlaanderen/association-registry/commit/949f212d91e60914c27a56e9c924fd4c1a8a111d))
+* or-1338 make vcode futureproof ([10f8512](https://github.com/informatievlaanderen/association-registry/commit/10f8512dd62356f7e59c7689fbb456e3d0318e1d))
+
 # [1.72.0](https://github.com/informatievlaanderen/association-registry/compare/v1.71.0...v1.72.0) (2022-11-29)
 
 
