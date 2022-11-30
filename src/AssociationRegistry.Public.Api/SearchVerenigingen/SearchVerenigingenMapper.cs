@@ -77,10 +77,7 @@ public class SearchVerenigingenMapper
             {
                 var vCode = VCode.Create(x.Source.VCode);
                 return new Vereniging(
-                    vCode.Value,
-                    vCode.Value7,
-                    vCode.ValueNoPadding,
-                    vCode.ValueNoPaddingStartsWithK,
+                    vCode,
                     x.Source.Naam,
                     x.Source.KorteNaam ?? string.Empty,
                     x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
@@ -88,7 +85,7 @@ public class SearchVerenigingenMapper
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{x.Source.VCode}"))
+                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{vCode}"))
                 );
             }).ToImmutableArray();
 }

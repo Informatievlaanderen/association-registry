@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class OutOfRangeVCode : InvalidVCode
 {
-    public OutOfRangeVCode() : base("VCode must be between 1 and 999999 (inclusive)")
+    public OutOfRangeVCode() : base("VCode moet groter zijn dan 1000")
     {
     }
 

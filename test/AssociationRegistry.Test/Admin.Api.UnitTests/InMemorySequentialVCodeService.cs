@@ -5,14 +5,14 @@ using VCodes;
 
 public class InMemorySequentialVCodeService : IVCodeService
 {
-    private int _vCode = 0;
+    private int _vCode = 1000;
 
     public Task<VCode> GetNext()
-        => Task.FromResult(new VCode(++_vCode));
+        => Task.FromResult(VCode.Create(++_vCode));
 
     /// <summary>
     /// only for testing
     /// </summary>
     public string GetLast()
-        => new VCode(_vCode);
+        => VCode.Create(_vCode);
 }

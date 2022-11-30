@@ -11,7 +11,7 @@ public class VCodeSequence : FeatureSchemaBase
     private readonly int _startFrom;
     private readonly string _schema;
 
-    public VCodeSequence(StoreOptions options, int startFrom = 1) : base(nameof(VCodeSequence), options.Advanced.Migrator)
+    public VCodeSequence(StoreOptions options, int startFrom) : base(nameof(VCodeSequence), options.Advanced.Migrator)
     {
         _startFrom = startFrom;
         _schema = options.DatabaseSchemaName;

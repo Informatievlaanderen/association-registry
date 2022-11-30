@@ -4,7 +4,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
 
-public class KboNummer: StringValueObject<KboNummer>
+public class KboNummer : StringValueObject<KboNummer>
 {
     private KboNummer(string kboNummer) : base(kboNummer)
     {
