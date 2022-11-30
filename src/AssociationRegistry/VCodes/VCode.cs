@@ -13,11 +13,15 @@ public class VCode : ValueObject<VCode>
 
     public static VCode Create(string vCode)
     {
+        Throw<InvalidVCodeFormat>.IfNot(VCodeHasLengthEight(vCode));
         Throw<InvalidVCodeFormat>.IfNot(VCodeStartsWith_V(vCode));
         Throw<InvalidVCodeFormat>.IfNot(VCodeAfterV_IsNumeric(vCode));
 
         return Create(int.Parse(vCode[1..]));
     }
+
+    private static bool VCodeHasLengthEight(string vCode)
+        => vCode.Length == 8;
 
     public static VCode Create(int vCode)
     {
@@ -31,7 +35,7 @@ public class VCode : ValueObject<VCode>
     }
 
     public string Value
-        => $"V{_code:0000}";
+        => $"V{_code:0000000}";
 
     protected override IEnumerable<object> Reflect()
     {
