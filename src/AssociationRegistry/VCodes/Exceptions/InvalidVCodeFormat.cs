@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class InvalidVCodeFormat : InvalidVCode
 {
-    public InvalidVCodeFormat() : base("Format of VCode must be 'V000000'")
+    public InvalidVCodeFormat() : base("Formaat van de VCode moet 'V####' zijn")
     {
     }
 

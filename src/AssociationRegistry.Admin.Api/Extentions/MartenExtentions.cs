@@ -8,6 +8,7 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using Microsoft.Extensions.DependencyInjection;
+using VCodes;
 
 public static class MartenExtentions
 {
@@ -18,7 +19,7 @@ public static class MartenExtentions
                 {
                     opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
                     opts.Events.StreamIdentity = StreamIdentity.AsString;
-                    opts.Storage.Add(new VCodeSequence(opts));
+                    opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                     opts.Serializer(CreateCustomMartenSerializer());
                 })
             .ApplyAllDatabaseChangesOnStartup();

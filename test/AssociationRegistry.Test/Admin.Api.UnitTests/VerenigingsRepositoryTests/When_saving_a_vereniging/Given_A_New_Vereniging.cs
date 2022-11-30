@@ -31,7 +31,7 @@ public class Given_A_New_Vereniging
 
         var repo = new VerenigingsRepository(eventStore);
 
-        var vCode = new VCode(1);
+        var vCode = VCode.Create(1001);
         var naam = new VerenigingsNaam("Vereniging 1");
         var vereniging = new Vereniging(vCode, naam, null, null, null, null, DateOnly.FromDateTime(DateTime.Today));
 
@@ -43,7 +43,7 @@ public class Given_A_New_Vereniging
 
         var theEvent = (VerenigingWerdGeregistreerd)invocation.Events.Single();
 
-        theEvent.VCode.Should().Be("V000001");
+        theEvent.VCode.Should().Be("V1001");
         theEvent.Naam.Should().Be("Vereniging 1");
     }
 }
