@@ -15,7 +15,7 @@ public class When_Creating_A_VCode
         [InlineData(1234, "V0001234")]
         [InlineData(9876543, "V9876543")]
         [InlineData(9999999, "V9999999")]
-        public void Then_it_returns_a_new_vcode_formatted_as_V0000(int intCode, string expectedVCode)
+        public void Then_it_returns_a_new_vcode_formatted_as_V0000000(int intCode, string expectedVCode)
         {
             var vCode = VCode.Create(intCode);
 
@@ -44,7 +44,7 @@ public class When_Creating_A_VCode
         [InlineData("V0001002")]
         [InlineData("V0845685")]
         [InlineData("V9999999")]
-        public void Then_it_returns_a_new_vcode_formatted_as_V0000(string strCode)
+        public void Then_it_returns_a_new_vcode_formatted_as_V0000000(string strCode)
         {
             var vCode = VCode.Create(strCode);
 
@@ -59,7 +59,7 @@ public class When_Creating_A_VCode
         [InlineData("v0001002", "V0001002")]
         [InlineData("v0458565", "V0458565")]
         [InlineData("v9999999", "V9999999")]
-        public void Then_it_returns_a_new_vcode_formatted_as_V0000(string strCode, string expectedVCode)
+        public void Then_it_returns_a_new_vcode_formatted_as_V0000000(string strCode, string expectedVCode)
         {
             var vCode = VCode.Create(strCode);
 
@@ -85,6 +85,29 @@ public class When_Creating_A_VCode
         [Theory]
         [InlineData("VBCDEFGH")]
         [InlineData("V12345AB")]
+        public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
+        {
+            var ctor = () => VCode.Create(strCode);
+            ctor.Should().Throw<InvalidVCodeFormat>();
+        }
+    }
+
+    public class Given_A_String_With_Less_Than_Eight_Characters
+    {
+        [Theory]
+        [InlineData("V123456")]
+        [InlineData("V1")]
+        public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
+        {
+            var ctor = () => VCode.Create(strCode);
+            ctor.Should().Throw<InvalidVCodeFormat>();
+        }
+    }
+    public class Given_A_String_With_More_Than_Eight_Characters
+    {
+        [Theory]
+        [InlineData("V12345678")]
+        [InlineData("V12345678901234567890")]
         public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
         {
             var ctor = () => VCode.Create(strCode);

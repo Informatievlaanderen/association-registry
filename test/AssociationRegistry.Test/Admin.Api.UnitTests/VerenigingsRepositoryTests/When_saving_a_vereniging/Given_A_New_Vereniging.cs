@@ -43,7 +43,7 @@ public class Given_A_New_Vereniging
 
         var theEvent = (VerenigingWerdGeregistreerd)invocation.Events.Single();
 
-        theEvent.VCode.Should().Be("V1001");
+        theEvent.VCode.Should().Be("V0001001");
         theEvent.Naam.Should().Be("Vereniging 1");
     }
 }
