@@ -1,3 +1,10 @@
+# [1.74.0](https://github.com/informatievlaanderen/association-registry/compare/v1.73.0...v1.74.0) (2022-12-01)
+
+
+### Features
+
+* or-1338 fix issue with existing data ([e03a3e2](https://github.com/informatievlaanderen/association-registry/commit/e03a3e2eeb02412284343ef4dea3bc6cafb45b46))
+
 # [1.73.0](https://github.com/informatievlaanderen/association-registry/compare/v1.72.0...v1.73.0) (2022-11-30)
 
 
