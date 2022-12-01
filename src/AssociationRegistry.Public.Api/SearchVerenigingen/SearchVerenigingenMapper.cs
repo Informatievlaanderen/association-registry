@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Constants;
 using Nest;
-using VCodes;
 
 public class SearchVerenigingenMapper
 {
@@ -75,9 +74,8 @@ public class SearchVerenigingenMapper
         => searchResponse.Hits.Select(
             x =>
             {
-                var vCode = VCode.Create(x.Source.VCode);
                 return new Vereniging(
-                    vCode,
+                    x.Source.VCode,
                     x.Source.Naam,
                     x.Source.KorteNaam ?? string.Empty,
                     x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
@@ -85,7 +83,7 @@ public class SearchVerenigingenMapper
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{vCode}"))
+                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{(string?)x.Source.VCode}"))
                 );
             }).ToImmutableArray();
 }
