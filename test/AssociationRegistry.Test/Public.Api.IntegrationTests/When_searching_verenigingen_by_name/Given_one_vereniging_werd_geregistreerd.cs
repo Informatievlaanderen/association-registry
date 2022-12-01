@@ -8,7 +8,7 @@ using Xunit;
 
 public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 {
-    public const string VCode = "v0001001";
+    public const string VCode = "V0001001";
     public const string Naam = "Feestcommittee Oudenaarde";
     private const string KorteNaam = "FOud";
 
