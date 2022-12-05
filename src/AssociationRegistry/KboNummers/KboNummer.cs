@@ -15,10 +15,10 @@ public class KboNummer : StringValueObject<KboNummer>
 
     public static KboNummer? Create(string? maybeKboNummer)
     {
-        if (maybeKboNummer is not { } kboNummer)
+        if (string.IsNullOrEmpty(maybeKboNummer))
             return null;
 
-        var value = Sanitize(kboNummer);
+        var value = Sanitize(maybeKboNummer!);
 
         Validate(value);
 

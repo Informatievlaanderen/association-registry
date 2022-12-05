@@ -13,6 +13,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_all_fields.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_empty_name.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_invalid_kbonummer_too_short.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
