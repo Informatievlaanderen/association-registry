@@ -1,3 +1,10 @@
+## [1.74.1](https://github.com/informatievlaanderen/association-registry/compare/v1.74.0...v1.74.1) (2022-12-05)
+
+
+### Bug Fixes
+
+* or-1376 empty kbonumber should not be validated ([4c1161c](https://github.com/informatievlaanderen/association-registry/commit/4c1161c04efc8492e58e862281a02874fedd1ee8))
+
 # [1.74.0](https://github.com/informatievlaanderen/association-registry/compare/v1.73.0...v1.74.0) (2022-12-01)
 
 
