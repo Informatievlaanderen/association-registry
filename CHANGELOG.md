@@ -1,3 +1,10 @@
+# [1.76.0](https://github.com/informatievlaanderen/association-registry/compare/v1.75.0...v1.76.0) (2022-12-08)
+
+
+### Features
+
+* or-1190 add opentelemetry ([44f9e6c](https://github.com/informatievlaanderen/association-registry/commit/44f9e6c7369712f8de1461248f972a8e5e81e3d3))
+
 # [1.75.0](https://github.com/informatievlaanderen/association-registry/compare/v1.74.1...v1.75.0) (2022-12-08)
 
 
