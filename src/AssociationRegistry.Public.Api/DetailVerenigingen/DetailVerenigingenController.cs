@@ -51,6 +51,7 @@ public class DetailVerenigingenController : ApiController
     /// Vraag het detail van een vereniging op.
     /// </summary>
     /// <response code="200">Het detail van een vereniging</response>
+    /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("{vCode}")]
     [ProducesResponseType(typeof(DetailVerenigingResponseWithActualData), StatusCodes.Status200OK)]

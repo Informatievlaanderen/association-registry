@@ -6,11 +6,11 @@ using FluentAssertions;
 using Xunit;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_the_resource_exists : IClassFixture<VerenigingPublicApiFixture>
+public class Given_the_resource_exists : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
 
-    public Given_the_resource_exists(VerenigingPublicApiFixture fixture)
+    public Given_the_resource_exists(StaticPublicApiFixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }

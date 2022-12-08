@@ -8,12 +8,20 @@ using Framework.Helpers;
 using Newtonsoft.Json;
 using Xunit;
 
-[Collection(VerenigingAdminApiCollection.Name)]
-public class Given_A_Request_With_Invalid_KboNumber_Too_Short
+public class Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture : JsonRequestAdminApiFixture
 {
-    private readonly VerenigingAdminApiFixture _apiFixture;
+    public Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture() : base(
+        nameof(Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture),
+        "files.request.with_invalid_kbonummer_too_short")
+    {
+    }
+}
 
-    public Given_A_Request_With_Invalid_KboNumber_Too_Short(VerenigingAdminApiFixture apiFixture)
+public class Given_A_Request_With_Invalid_KboNumber_Too_Short : IClassFixture<Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture>
+{
+    private readonly Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture _apiFixture;
+
+    public Given_A_Request_With_Invalid_KboNumber_Too_Short(Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -21,16 +29,14 @@ public class Given_A_Request_With_Invalid_KboNumber_Too_Short
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var content = GetJsonRequestBody().AsJsonContent();
-        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task Then_it_returns_a_problemdetails_response()
     {
-        var content = GetJsonRequestBody().AsJsonContent();
-        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
 
@@ -43,10 +49,6 @@ public class Given_A_Request_With_Invalid_KboNumber_Too_Short
                 .Excluding(info => info!.ProblemInstanceUri)
                 .Excluding(info => info!.ProblemTypeUri));
     }
-
-    private string GetJsonRequestBody()
-        => GetType()
-            .GetAssociatedResourceJson($"files.request.with_invalid_kbonummer_too_short");
 
     private string GetJsonResponseBody()
         => GetType()

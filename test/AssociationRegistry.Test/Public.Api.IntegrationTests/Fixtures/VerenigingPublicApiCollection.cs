@@ -4,7 +4,7 @@ namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 [CollectionDefinition(Name)]
 public class VerenigingPublicApiCollection :
-    ICollectionFixture<VerenigingPublicApiFixture>
+    ICollectionFixture<StaticPublicApiFixture>
 {
     public const string Name = "Vereniging public api collection";
 }

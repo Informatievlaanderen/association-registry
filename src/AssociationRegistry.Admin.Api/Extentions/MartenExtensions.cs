@@ -10,17 +10,18 @@ using Marten.Services;
 using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 
-public static class MartenExtentions
+public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions)
+    public static IServiceCollection AddMarten(this IServiceCollection services, Connectionstrings connectionstrings)
     {
         services.AddMarten(
                 opts =>
                 {
-                    opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
+                    opts.Connection(connectionstrings[WellknownConnectionstrings.Tenant]);
                     opts.Events.StreamIdentity = StreamIdentity.AsString;
                     opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                     opts.Serializer(CreateCustomMartenSerializer());
+                    opts.Events.MetadataConfig.EnableAll();
                 })
             .ApplyAllDatabaseChangesOnStartup();
 

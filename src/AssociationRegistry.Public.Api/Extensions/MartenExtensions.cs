@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Projections;
 
-public static class MartenExtentions
+public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
@@ -34,6 +34,7 @@ public static class MartenExtentions
                     ProjectionLifecycle.Async);
 
                 opts.AddPostgresProjections();
+                opts.Events.MetadataConfig.EnableAll();
                 opts.Serializer(CreateCustomMartenSerializer());
                 return opts;
             });

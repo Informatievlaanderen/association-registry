@@ -1,10 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a_detail_of_a_vereniging;
 
 using System.Text.RegularExpressions;
+using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
 using AssociationRegistry.Public.Api.Constants;
+using NodaTime;
+using NodaTime.Extensions;
 using Vereniging;
 
 public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixture
@@ -14,6 +17,8 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     private const string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
     private const string? KorteNaam = "FOud";
     private const string? KboNummer = "0123456789";
+    private const string Initiator = "Een initiator";
+
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
 
@@ -24,7 +29,20 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     public override async Task InitializeAsync()
     {
         await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, KorteNaam, KorteBeschrijving, Startdatum, KboNummer, "Actief", DateOnly.FromDateTime(DateTime.Today)));
+        await AddEvent(
+            VCode,
+            new VerenigingWerdGeregistreerd(
+                VCode,
+                Naam,
+                KorteNaam,
+                KorteBeschrijving,
+                Startdatum,
+                KboNummer,
+                "Actief",
+                DateOnly.FromDateTime(DateTime.Today)),
+            new CommandMetadata(
+                Initiator,
+                new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
     }
 }
 

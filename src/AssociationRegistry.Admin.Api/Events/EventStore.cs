@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Events;
 
 using System.Threading.Tasks;
-using Baseline;
 using Framework;
 using Marten;
 
@@ -14,11 +13,14 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task Save(string aggregateId, params IEvent[] events)
+    public async Task Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
 
-        session.Events.Append(aggregateId, events.As<object[]>());
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, metadata.Tijdstip);
+
+        session.Events.Append(aggregateId, events);
 
         await session.SaveChangesAsync();
     }

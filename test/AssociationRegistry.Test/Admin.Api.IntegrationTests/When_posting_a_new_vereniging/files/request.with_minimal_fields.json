@@ -1,3 +1,4 @@
 ﻿{
-  "naam": "{{vereniging.naam}}"
+  "naam": "{{vereniging.naam}}",
+  "initiator": "{{vereniging.initiator}}"
 }

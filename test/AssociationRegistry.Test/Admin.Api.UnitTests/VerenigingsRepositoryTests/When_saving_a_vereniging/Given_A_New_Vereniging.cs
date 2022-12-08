@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTest
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using FluentAssertions;
 using VCodes;
 using Vereniging;
@@ -15,7 +16,7 @@ public class EventStoreMock : IEventStore
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task Save(string aggregateId, params IEvent[] events)
+    public async Task Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         Invocations.Add(new Invocation(aggregateId, events));
         await Task.CompletedTask;
@@ -35,7 +36,7 @@ public class Given_A_New_Vereniging
         var naam = new VerenigingsNaam("Vereniging 1");
         var vereniging = new Vereniging(vCode, naam, null, null, null, null, DateOnly.FromDateTime(DateTime.Today));
 
-        await repo.Save(vereniging);
+        await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
 
         eventStore.Invocations.Should().HaveCount(1);
         var invocation = eventStore.Invocations.Single();
@@ -45,5 +46,9 @@ public class Given_A_New_Vereniging
 
         theEvent.VCode.Should().Be("V0001001");
         theEvent.Naam.Should().Be("Vereniging 1");
+        theEvent.KorteNaam.Should().BeNull();
+        theEvent.KorteBeschrijving.Should().BeNull();
+        theEvent.KboNummer.Should().BeNull();
+        theEvent.Startdatum.Should().BeNull();
     }
 }

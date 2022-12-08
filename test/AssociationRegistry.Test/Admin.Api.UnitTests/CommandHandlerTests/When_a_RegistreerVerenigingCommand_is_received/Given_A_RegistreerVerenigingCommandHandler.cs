@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using FluentAssertions;
+using NodaTime.Extensions;
 using Vereniging;
 using Xunit;
 
@@ -12,7 +13,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task Save(Vereniging vereniging)
+    public async Task Save(Vereniging vereniging, CommandMetadata metadata)
     {
         Invocations.Add(new Invocation(vereniging));
         await Task.CompletedTask;
@@ -37,7 +38,8 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", null, null, null, null));
+            new RegistreerVerenigingCommand("naam1", null, null, null, null),
+            _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
@@ -66,7 +68,8 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456749"));
+            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456749"),
+            _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
