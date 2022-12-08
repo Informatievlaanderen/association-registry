@@ -14,9 +14,12 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task Save(string aggregateId, CommandMetadata commandMetadata, params IEvent[] events)
+    public async Task Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
+
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, metadata.Tijdstip);
 
         session.Events.Append(aggregateId, events.As<object[]>());
 
