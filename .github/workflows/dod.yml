@@ -1,6 +1,9 @@
 name: Definition of Done
 
-on: pull_request
+on:
+  pull_request:
+    types: [ opened ]
+
 
 jobs:
   welcome:
