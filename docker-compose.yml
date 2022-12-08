@@ -43,6 +43,17 @@ services:
      volumes:
        - pg-data:/var/lib/postgresql/data
 
+   otel-collector:
+     image: otel/opentelemetry-collector-contrib
+     command: ["--config=/etc/otel-collector-config.yaml"]
+     volumes:
+       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+     ports:
+       - "13133:13133" # health_check extension
+       - "4317:4317"   # OTLP gRPC receiver
+       - "4318:4318"   # OTLP http receiver
+
+
 volumes:
   minio-data:
   pg-data:
