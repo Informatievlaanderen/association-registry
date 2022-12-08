@@ -6,24 +6,29 @@ using Infrastructure.Json;
 using Verenigingen.VCodes;
 using Marten;
 using Marten.Events;
+using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 
 public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, Connectionstrings connectionstrings)
+    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
-        services.AddMarten(
-                opts =>
-                {
-                    opts.Connection(connectionstrings[WellknownConnectionstrings.Tenant]);
-                    opts.Events.StreamIdentity = StreamIdentity.AsString;
-                    opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-                    opts.Serializer(CreateCustomMartenSerializer());
-                    opts.Events.MetadataConfig.EnableAll();
-                })
-            .ApplyAllDatabaseChangesOnStartup();
+        var martenConfiguration = services.AddMarten(
+            opts =>
+            {
+                opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+                opts.Serializer(CreateCustomMartenSerializer());
+            });
+
+        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+
+        if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
+            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
         return services;
     }

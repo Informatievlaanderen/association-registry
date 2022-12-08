@@ -63,7 +63,7 @@ public class Startup
 
         AddSwagger(services);
 
-        services.AddMarten(connectionstrings);
+        services.AddMarten(postgreSqlOptionsSection, _configuration);
 
         services.AddMediatR(typeof(CommandEnvelope<>));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
