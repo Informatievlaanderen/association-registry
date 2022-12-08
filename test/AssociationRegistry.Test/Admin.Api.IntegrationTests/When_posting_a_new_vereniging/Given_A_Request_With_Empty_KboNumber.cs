@@ -6,12 +6,20 @@ using FluentAssertions;
 using Framework.Helpers;
 using Xunit;
 
-[Collection(VerenigingAdminApiCollection.Name)]
-public class Given_A_Request_With_Empty_KboNumber
+public class Given_A_Request_With_Empty_KboNumber_Fixture : JsonRequestAdminApiFixture
 {
-    private readonly VerenigingAdminApiFixture _apiFixture;
+    public Given_A_Request_With_Empty_KboNumber_Fixture() : base(
+        nameof(Given_A_Request_With_Empty_KboNumber_Fixture),
+        "files.request.with_empty_kbonummer")
+    {
+    }
+}
 
-    public Given_A_Request_With_Empty_KboNumber(VerenigingAdminApiFixture apiFixture)
+public class Given_A_Request_With_Empty_KboNumber : IClassFixture<Given_A_Request_With_Empty_KboNumber_Fixture>
+{
+    private readonly Given_A_Request_With_Empty_KboNumber_Fixture _apiFixture;
+
+    public Given_A_Request_With_Empty_KboNumber(Given_A_Request_With_Empty_KboNumber_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -19,13 +27,8 @@ public class Given_A_Request_With_Empty_KboNumber
     [Fact]
     public async Task Then_it_returns_an_ok_response()
     {
-        var content = GetJsonRequestBody().AsJsonContent();
-        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
-
-    private string GetJsonRequestBody()
-        => GetType()
-            .GetAssociatedResourceJson($"files.request.with_empty_kbonummer");
 
 }

@@ -66,13 +66,10 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         return tempConfiguration;
     }
 
-    protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
+    protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
-
-        if (metadata is null)
-            metadata = new CommandMetadata("OVO000001", new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
 
         var eventStore = new EventStore(DocumentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);
