@@ -35,7 +35,7 @@ jobs:
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root
-          POSTGRES_DB: verenigingsregister
+          POSTGRES_DB: verenigingsregister-testen
         ports:
           - 5432:5432
 
