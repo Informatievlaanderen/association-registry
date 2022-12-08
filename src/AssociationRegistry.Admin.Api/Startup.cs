@@ -63,6 +63,9 @@ public class Startup
         services.AddTransient<IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
         services.AddSingleton<IClock, Clock>();
+
+        services.AddOpenTelemetry();
+
         ConfigureDefaultsForApi(services, _configuration);
 
         var containerBuilder = new ContainerBuilder();
