@@ -13,7 +13,6 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     public const string VCode = "V0001001";
     public const string Naam = "Feestcommittee Oudenaarde";
     private const string KorteNaam = "FOud";
-    private const string Initiator = "Initiator";
 
     public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {
