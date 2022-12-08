@@ -1,3 +1,10 @@
+# [1.78.0](https://github.com/informatievlaanderen/association-registry/compare/v1.77.0...v1.78.0) (2022-12-08)
+
+
+### Features
+
+* or-1310 accept existence of events without initiator ([21d9c21](https://github.com/informatievlaanderen/association-registry/commit/21d9c212cbfcb83cb44c19f3efc2e090bca7c8f9))
+
 # [1.77.0](https://github.com/informatievlaanderen/association-registry/compare/v1.76.0...v1.77.0) (2022-12-08)
 
 
