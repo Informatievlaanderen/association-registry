@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -15,6 +16,7 @@ using Infrastructure.Modules;
 using ListVerenigingen;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Projections;
 using S3;
 using SearchVerenigingen;
@@ -67,6 +74,80 @@ public class Startup
 
         var appSettings = _configuration.Get<AppSettings>();
         services.AddSingleton(appSettings);
+
+        var assembly = typeof(Startup).Assembly;
+        var serviceName = assembly.FullName;
+        var serviceVersion = "1.0.0";
+        var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "unknown";
+        Action<ResourceBuilder> configureResource = r => r.AddService(
+                serviceName, serviceVersion: assemblyVersion, serviceInstanceId: Environment.MachineName)
+            .AddAttributes(
+                new Dictionary<string, object>()
+                {
+                    ["deployment.environment"] =
+                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant() ?? "unknown",
+                });
+
+
+        services.AddOpenTelemetryTracing(b =>
+        {
+            b
+                .AddSource(serviceName)
+                .ConfigureResource(configureResource).AddHttpClientInstrumentation()
+                .AddAspNetCoreInstrumentation(
+                    options =>
+                    {
+                        options.EnrichWithHttpRequest =
+                            (activity, request) => activity.SetParentId(request.Headers["traceparent"]);
+                        options.Filter = context => context.Request.Method != HttpMethods.Options;
+                    })
+                // .AddSqlClientInstrumentation(options => { options.SetDbStatementForText = true; })
+                .AddOtlpExporter(
+                    options =>
+                    {
+                        options.Protocol = OtlpExportProtocol.Grpc;
+                        options.Endpoint = new Uri("http://localhost:4317");
+                    });
+            // .AddConsoleExporter();
+        });
+
+        services.AddLogging(
+            builder =>
+            {
+                builder.ClearProviders();
+                builder.AddOpenTelemetry(
+                    options =>
+                    {
+                        options.ConfigureResource(configureResource);
+
+                        options.IncludeScopes = true;
+                        options.IncludeFormattedMessage = true;
+                        options.ParseStateValues = true;
+
+                        options.AddOtlpExporter(
+                                exporter =>
+                                {
+                                    exporter.Protocol = OtlpExportProtocol.Grpc;
+                                    exporter.Endpoint = new Uri("http://localhost:4317");
+                                })
+                            .AddConsoleExporter();
+                    });
+            });
+
+        services.AddOpenTelemetryMetrics(options =>
+        {
+            options.ConfigureResource(configureResource)
+                .AddRuntimeInstrumentation()
+                .AddHttpClientInstrumentation()
+                .AddAspNetCoreInstrumentation();
+
+            options.AddOtlpExporter(exporter =>
+            {
+                exporter.Protocol = OtlpExportProtocol.Grpc;
+                exporter.Endpoint = new Uri("http://localhost:4317");
+            });
+            // options.AddConsoleExporter();
+        });
 
         services.AddElasticSearch(elasticSearchOptions);
 
@@ -150,12 +231,12 @@ public class Startup
                             var connectionStrings = configuration
                                 .GetSection("ConnectionStrings")
                                 .GetChildren();
-
-                            foreach (var connectionString in connectionStrings)
-                                health.AddSqlServer(
-                                    connectionString.Value,
-                                    name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
-                                    tags: new[] { DatabaseTag, "sql", "sqlserver" });
+                            //
+                            // foreach (var connectionString in connectionStrings)
+                            //     health.AddSqlServer(
+                            //         connectionString.Value,
+                            //         name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
+                            //         tags: new[] { DatabaseTag, "sql", "sqlserver" });
 
                             // health.AddDbContextCheck<LegacyContext>(
                             //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
