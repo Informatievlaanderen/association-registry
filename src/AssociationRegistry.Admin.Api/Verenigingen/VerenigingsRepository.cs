@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
+using Framework;
 using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository
@@ -14,8 +15,8 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task Save(Vereniging vereniging)
+    public async Task Save(Vereniging vereniging, CommandMetadata metadata)
     {
-        await _eventStore.Save(vereniging.VCode, vereniging.Events.ToArray());
+        await _eventStore.Save(vereniging.VCode, metadata, vereniging.Events.ToArray());
     }
 }

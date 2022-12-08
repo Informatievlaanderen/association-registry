@@ -30,7 +30,7 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var vCode = await _vCodeService.GetNext();
         var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, _clock.Today);
-        await _verenigingsRepository.Save(vereniging);
+        await _verenigingsRepository.Save(vereniging, envelope.Metadata);
         return Unit.Value;
     }
 }
