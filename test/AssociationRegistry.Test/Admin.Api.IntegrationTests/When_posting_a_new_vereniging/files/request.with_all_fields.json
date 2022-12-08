@@ -4,5 +4,6 @@
   "korteNaam": "{{vereniging.korteNaam}}",
   "korteBeschrijving": "{{vereniging.korteBeschrijving}}",
   "startdatum": "{{vereniging.startdatum}}",
-  "kboNummer": "{{vereniging.kboNummer}}"
+  "kboNummer": "{{vereniging.kboNummer}}",
+  "initiator": "{{vereniging.initiator}}"
 }

@@ -6,11 +6,11 @@ using Xunit;
 using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_A_Vereniging_With_Minimal_Fields : IClassFixture<VerenigingPublicApiFixture>
+public class Given_A_Vereniging_With_Minimal_Fields : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
 
-    public Given_A_Vereniging_With_Minimal_Fields(VerenigingPublicApiFixture fixture)
+    public Given_A_Vereniging_With_Minimal_Fields(StaticPublicApiFixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }

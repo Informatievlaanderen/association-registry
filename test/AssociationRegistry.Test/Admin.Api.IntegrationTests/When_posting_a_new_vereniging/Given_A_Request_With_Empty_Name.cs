@@ -4,16 +4,23 @@ using System.Net;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
-using Framework.Helpers;
 using Newtonsoft.Json;
 using Xunit;
 
-[Collection(VerenigingAdminApiCollection.Name)]
-public class Given_A_Request_With_Empty_Name
+public class Given_A_Request_With_Empty_Name_Fixture : JsonRequestAdminApiFixture
 {
-    private readonly VerenigingAdminApiFixture _apiFixture;
+    public Given_A_Request_With_Empty_Name_Fixture() : base(
+        nameof(Given_A_Request_With_Empty_Name_Fixture),
+        "files.request.with_empty_name")
+    {
+    }
+}
 
-    public Given_A_Request_With_Empty_Name(VerenigingAdminApiFixture apiFixture)
+public class Given_A_Request_With_Empty_Name : IClassFixture<Given_A_Request_With_Empty_Name_Fixture>
+{
+    private readonly Given_A_Request_With_Empty_Name_Fixture _apiFixture;
+
+    public Given_A_Request_With_Empty_Name(Given_A_Request_With_Empty_Name_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -21,16 +28,14 @@ public class Given_A_Request_With_Empty_Name
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var content = GetJsonRequestBody().AsJsonContent();
-        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task Then_it_returns_a_validationproblemdetails_response()
     {
-        var content = GetJsonRequestBody().AsJsonContent();
-        var response = await _apiFixture.HttpClient!.PostAsync("/v1/verenigingen", content);
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
@@ -40,10 +45,6 @@ public class Given_A_Request_With_Empty_Name
             .Excluding(info => info!.ProblemInstanceUri)
             .Excluding(info=>info!.ProblemTypeUri));
     }
-
-    private string GetJsonRequestBody()
-        => GetType()
-            .GetAssociatedResourceJson($"files.request.with_empty_name");
 
     private string GetJsonResponseBody()
         => GetType()

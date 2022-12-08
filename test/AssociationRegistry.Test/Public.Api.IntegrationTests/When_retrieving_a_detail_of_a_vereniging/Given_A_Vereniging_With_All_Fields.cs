@@ -6,11 +6,11 @@ using FluentAssertions;
 using Xunit;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_A_Vereniging_With_All_Fields : IClassFixture<VerenigingPublicApiFixture>
+public class Given_A_Vereniging_With_All_Fields : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
 
-    public Given_A_Vereniging_With_All_Fields(VerenigingPublicApiFixture fixture)
+    public Given_A_Vereniging_With_All_Fields(StaticPublicApiFixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }
