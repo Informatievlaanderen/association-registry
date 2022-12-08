@@ -39,10 +39,10 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     public virtual async Task InitializeAsync()
     {
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetConnectionString(_configurationRoot, RootDatabase)
-        );
+        // await WaitFor.PostGreSQLToBecomeAvailable(
+        //     LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
+        //     GetConnectionString(_configurationRoot, RootDatabase)
+        // );
 
         DocumentStore = ConfigureDocumentStore();
         _testServer = ConfigureTestServer();
@@ -110,7 +110,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
             opts =>
             {
                 var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
-                var rootConnectionString = GetConnectionString(_configurationRoot, RootDatabase);
+                var rootConnectionString = GetRootConnectionString(_configurationRoot);
 
                 opts.Connection(connectionString);
 
@@ -155,6 +155,12 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
            $"database={database};" +
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
+
+    private static string GetRootConnectionString(IConfiguration configurationRoot)
+        => $"host={configurationRoot["RootPostgreSQLOptions:host"]};" +
+           $"database={configurationRoot["RootPostgreSQLOptions:database"]};" +
+           $"password={configurationRoot["RootPostgreSQLOptions:password"]};" +
+           $"username={configurationRoot["RootPostgreSQLOptions:username"]}";
 
     public Task DisposeAsync()
         => Task.CompletedTask;
