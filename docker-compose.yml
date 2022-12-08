@@ -30,18 +30,18 @@ services:
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
-  db:
-    container_name: pg_container
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: verenigingsregister
-    ports:
-      - "5432:5432"
-    volumes:
-      - pg-data:/var/lib/postgresql/data
+   db:
+     container_name: pg_container
+     image: postgres
+     restart: always
+     environment:
+       POSTGRES_DB: verenigingsregister
+       POSTGRES_USER: root
+       POSTGRES_PASSWORD: root
+     ports:
+       - "5432:5432"
+     volumes:
+       - pg-data:/var/lib/postgresql/data
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib

@@ -1,10 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_a_detail_of_a_vereniging;
 
 using System.Text.RegularExpressions;
+using Amazon.S3.Model;
+using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
 using AssociationRegistry.Public.Api.Constants;
+using NodaTime;
 using Vereniging;
 
 public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixture
