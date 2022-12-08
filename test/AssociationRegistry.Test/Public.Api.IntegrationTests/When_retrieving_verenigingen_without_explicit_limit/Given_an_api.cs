@@ -7,10 +7,10 @@ using Xunit;
 using AssociationRegistry.Public.Api.Constants;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-public class Given_an_api : IClassFixture<VerenigingPublicApiFixture>
+public class Given_an_api : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;
-    public Given_an_api(VerenigingPublicApiFixture fixture)
+    public Given_an_api(StaticPublicApiFixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }

@@ -13,6 +13,7 @@ using Framework;
 /// <param name="KboNummer"></param>
 /// <param name="Status"></param>
 /// <param name="DatumLaatsteAanpassing"></param>
+/// <param name="Inititator"></param>
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
@@ -21,5 +22,4 @@ public record VerenigingWerdGeregistreerd(
     DateOnly? Startdatum,
     string? KboNummer,
     string Status,
-    DateOnly DatumLaatsteAanpassing
-) : IEvent;
+    DateOnly DatumLaatsteAanpassing) : IEvent;

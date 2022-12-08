@@ -35,9 +35,9 @@ services:
      image: postgres
      restart: always
      environment:
+       POSTGRES_DB: verenigingsregister
        POSTGRES_USER: root
        POSTGRES_PASSWORD: root
-       POSTGRES_DB: verenigingsregister
      ports:
        - "5432:5432"
      volumes:

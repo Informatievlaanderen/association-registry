@@ -7,26 +7,19 @@ using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
+public class VerenigingAdminApiFixture : IDisposable
 {
-    private const string RootDatabase = @"postgres";
-    private TestServer? _testServer;
+    public HttpClient? HttpClient { get; }
+    private readonly TestServer? _testServer;
+    public IDocumentStore DocumentStore { get; }
 
-    public HttpClient? HttpClient { get; private set; }
-    public IDocumentStore? DocumentStore { get; private set; }
-
-    public async Task InitializeAsync()
+    public VerenigingAdminApiFixture()
     {
         var configuration = GetConfiguration();
-
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetRootConnectionString(configuration)
-        );
-
         var hostBuilder = new WebHostBuilder();
 
         hostBuilder.UseConfiguration(configuration);
@@ -37,7 +30,7 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
         _testServer = new TestServer(hostBuilder);
 
         HttpClient = _testServer.CreateClient();
-        DocumentStore = ((IDocumentStore?)_testServer.Services.GetService(typeof(IDocumentStore)))!;
+        DocumentStore = _testServer.Services.GetRequiredService<IDocumentStore>();
     }
 
     private static IConfigurationRoot GetConfiguration()
@@ -55,15 +48,6 @@ public class VerenigingAdminApiFixture : IDisposable, IAsyncLifetime
         var configurationRoot = builder.Build();
         return configurationRoot;
     }
-
-    private static string GetRootConnectionString(IConfiguration configurationRoot)
-        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
-           $"database={RootDatabase};" +
-           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
-           $"username={configurationRoot["PostgreSQLOptions:username"]}";
-
-    public Task DisposeAsync()
-        => Task.CompletedTask;
 
     public void Dispose()
     {
