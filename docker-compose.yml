@@ -32,7 +32,7 @@ services:
 
    db:
      container_name: pg_container
-     image: postgres
+     image: postgres:latest
      restart: always
      environment:
        POSTGRES_DB: verenigingsregister
