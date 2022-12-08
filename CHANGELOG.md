@@ -1,3 +1,11 @@
+# [1.75.0](https://github.com/informatievlaanderen/association-registry/compare/v1.74.1...v1.75.0) (2022-12-08)
+
+
+### Features
+
+* or-1310 add metadata ([da57bf5](https://github.com/informatievlaanderen/association-registry/commit/da57bf5469c55286c8314641ba79afd689900681))
+* or-1310 support nonnullable ref types ([98f9bae](https://github.com/informatievlaanderen/association-registry/commit/98f9baed3fc8c027242f5855ba3dcd77083e4f2d))
+
 ## [1.74.1](https://github.com/informatievlaanderen/association-registry/compare/v1.74.0...v1.74.1) (2022-12-05)
 
 
