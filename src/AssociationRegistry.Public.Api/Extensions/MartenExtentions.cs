@@ -33,6 +33,8 @@ public static class MartenExtentions
                         new MartenEventsConsumer(serviceProvider)),
                     ProjectionLifecycle.Async);
 
+                opts.Events.MetadataConfig.EnableAll();
+
                 opts.AddPostgresProjections();
                 opts.Serializer(CreateCustomMartenSerializer());
                 return opts;
