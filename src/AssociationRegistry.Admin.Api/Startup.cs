@@ -152,6 +152,7 @@ public class Startup
         services.AddSwaggerGen(
             options =>
             {
+                options.SupportNonNullableReferenceTypes();
                 options.MapType<DateOnly>(
                     () => new OpenApiSchema
                     {
