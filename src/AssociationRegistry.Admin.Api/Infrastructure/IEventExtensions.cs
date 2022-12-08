@@ -10,7 +10,7 @@ public static class IEventExtensions
             ?.GetString() ?? string.Empty;
 
     private static JsonElement? MaybeGetHeaderJsonElement(this IEvent source, string propertyName)
-        => source.HasHeader(propertyName)
+        => !source.HasHeader(propertyName)
             ? null
             :(JsonElement)source.GetHeader(propertyName)!;
 
