@@ -1,3 +1,20 @@
+# [1.77.0](https://github.com/informatievlaanderen/association-registry/compare/v1.76.0...v1.77.0) (2022-12-08)
+
+
+### Features
+
+* or-1310 add historiek projection and actual metadata ([8429543](https://github.com/informatievlaanderen/association-registry/commit/842954338151c6d6650a4ae48436f0e3c101fb52))
+* or-1310 add test for metadata ([0093551](https://github.com/informatievlaanderen/association-registry/commit/00935512c386c30989058b5cc8e848c3cd5396f1))
+* or-1310 add well-known media types ([11f676e](https://github.com/informatievlaanderen/association-registry/commit/11f676eda8c53b597394c927c9e7b536d006fa07))
+* or-1310 enable headers ([0de16c3](https://github.com/informatievlaanderen/association-registry/commit/0de16c3d83d960236530e65226f8d29ec55c9949))
+* or-1310 enable headers and add 404 ([ec9ff70](https://github.com/informatievlaanderen/association-registry/commit/ec9ff70d9f195890f0f009989303082bb332c683))
+* or-1310 run daemon when not disabled ([238d6e9](https://github.com/informatievlaanderen/association-registry/commit/238d6e955dde1df818fe1d9e2dcd9641ed528ab7))
+
+
+### Reverts
+
+* Revert "feat: or-1310 add test for metadata" ([928a128](https://github.com/informatievlaanderen/association-registry/commit/928a128f6f6beb3da4829fadf672563afd4e89e0))
+
 # [1.76.0](https://github.com/informatievlaanderen/association-registry/compare/v1.75.0...v1.76.0) (2022-12-08)
 
 
