@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.EventStoreTests.Wh
 using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;
+using NodaTime.Extensions;
 using Xunit;
 
 [Collection(VerenigingDbCollection.Name)]
@@ -18,7 +19,12 @@ public class Given_An_Event
         var eventStore = await VerenigingDbFixture.CreateEventStore();
 
         // act
-        await eventStore.Save(streamId, someEvent);
+        await eventStore.Save(
+            streamId,
+            new CommandMetadata(
+                "SomeInitiator",
+                new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()),
+            someEvent);
 
         // assert
         var events = await GetEventsFromDb(streamId);

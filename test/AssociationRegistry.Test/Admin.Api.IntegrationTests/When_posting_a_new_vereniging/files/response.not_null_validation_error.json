@@ -5,6 +5,12 @@
         "code": "NotNullValidator",
         "reason": "'Naam' is verplicht."
       }
+    ],
+    "initiator": [
+      {
+        "code": "NotNullValidator",
+        "reason": "'Initiator' is verplicht."
+      }
     ]
   },
   "type": "urn:resharpertestrunner:validation",

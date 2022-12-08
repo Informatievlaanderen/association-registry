@@ -1,13 +1,18 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen;
 
+using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Constants;
 using FluentValidation;
 using Framework;
+using Marten;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NodaTime;
+using Projections;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -51,8 +56,44 @@ public class VerenigingenController : ApiController
             request.StartDatum,
             request.KboNummer);
 
-        var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command);
+        var metaData = new CommandMetadata(request.Initiator, new Instant());
+        var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         await _sender.Send(envelope);
         return Accepted();
+    }
+
+
+    /// <summary>
+    /// Vraag de historiek van een vereniging op.
+    /// </summary>
+    /// <response code="200">De historiek van een vereniging</response>
+    /// <response code="404">De historiek van de gevraagde vereniging is niet gevonden</response>
+    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    [HttpGet("{vCode}/historiek")]
+    [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [Produces(contentType: WellknownMediaTypes.Json)]
+    public async Task<IActionResult> Historiek(
+        [FromServices] IDocumentStore documentStore,
+        [FromRoute] string vCode)
+    {
+        await using var session = documentStore.LightweightSession();
+        var maybeHistoriekVereniging = await session.Query<VerenigingHistoriekDocument>()
+            .Where(document => document.VCode == vCode)
+            .SingleAsync();
+
+        if (maybeHistoriekVereniging is not { } historiek)
+            return NotFound();
+
+        return Ok(
+            new HistoriekResponse(
+                vCode,
+                historiek.Gebeurtenissen.Select(
+                    gebeurtenis => new HistoriekGebeurtenisResponse(
+                        gebeurtenis.Gebeurtenis,
+                        gebeurtenis.Initiator,
+                        gebeurtenis.Tijdstip)).ToList()));
     }
 }

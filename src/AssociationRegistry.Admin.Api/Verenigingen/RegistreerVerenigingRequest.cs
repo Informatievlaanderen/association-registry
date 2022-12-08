@@ -10,6 +10,10 @@ public class RegistreerVerenigingRequest
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]
+    public string Initiator { get; init; } = null!;
+    /// <summary>Naam van de vereniging</summary>
+    [DataMember]
+    [Required]
     public string Naam { get; init; } = null!;
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember]
