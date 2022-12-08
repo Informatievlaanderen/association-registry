@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.Fixtures;
+namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
