@@ -1,3 +1,10 @@
+# [1.79.0](https://github.com/informatievlaanderen/association-registry/compare/v1.78.0...v1.79.0) (2022-12-08)
+
+
+### Features
+
+* or-1310 fix ternary ([f6b2ed2](https://github.com/informatievlaanderen/association-registry/commit/f6b2ed2ea73ba15f026d52afc5bf2d2d4fdb4f7e))
+
 # [1.78.0](https://github.com/informatievlaanderen/association-registry/compare/v1.77.0...v1.78.0) (2022-12-08)
 
 
