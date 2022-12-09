@@ -1,3 +1,10 @@
+# [1.80.0](https://github.com/informatievlaanderen/association-registry/compare/v1.79.0...v1.80.0) (2022-12-09)
+
+
+### Features
+
+* or-1310 fix hasHeader ([6dda0eb](https://github.com/informatievlaanderen/association-registry/commit/6dda0eb598143be6cfa11e1f0a97538af8c5a026))
+
 # [1.79.0](https://github.com/informatievlaanderen/association-registry/compare/v1.78.0...v1.79.0) (2022-12-08)
 
 
