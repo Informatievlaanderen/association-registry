@@ -15,5 +15,5 @@ public static class IEventExtensions
             :(JsonElement)source.GetHeader(propertyName)!;
 
     private static bool HasHeader(this IEvent source, string propertyName)
-        => !source.Headers?.ContainsKey(propertyName) ?? false;
+        => source.Headers?.ContainsKey(propertyName) ?? false;
 }
