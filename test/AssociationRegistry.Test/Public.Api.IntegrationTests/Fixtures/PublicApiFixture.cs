@@ -17,7 +17,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
-using NodaTime;
 using NodaTime.Extensions;
 using Npgsql;
 using Xunit;
