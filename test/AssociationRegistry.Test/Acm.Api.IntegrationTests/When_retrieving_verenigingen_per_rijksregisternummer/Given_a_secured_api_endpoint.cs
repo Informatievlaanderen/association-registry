@@ -5,7 +5,6 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 
-[Collection(VerenigingAcmApiCollection.Name)]
 public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture>
 {
     private readonly AcmIntegrationTestHelper _testHelper;
