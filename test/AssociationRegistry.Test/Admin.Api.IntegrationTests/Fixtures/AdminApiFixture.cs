@@ -5,7 +5,9 @@ using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Events;
 using AssociationRegistry.Admin.Api.Extentions;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Extensions;
 using Framework.Helpers;
 using Marten;
@@ -14,8 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NodaTime.Extensions;
 using Npgsql;
+using VCodes;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = AssociationRegistry.Framework.IEvent;
@@ -63,7 +65,6 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
-        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
         return tempConfiguration;
     }
 
