@@ -26,6 +26,7 @@ public class Given_A_Request_With_Startdatum_In_The_Future_Fixture : AdminApiFix
             .Replace("{{vereniging.startdatum}}", startdatum.ToString("yyyy-MM-dd"));
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Startdatum_In_The_Future : IClassFixture<Given_A_Request_With_Startdatum_In_The_Future_Fixture>
 {
     private readonly Given_A_Request_With_Startdatum_In_The_Future_Fixture _apiFixture;

@@ -16,6 +16,7 @@ public class Given_A_Request_With_Empty_Name_Fixture : JsonRequestAdminApiFixtur
     }
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Empty_Name : IClassFixture<Given_A_Request_With_Empty_Name_Fixture>
 {
     private readonly Given_A_Request_With_Empty_Name_Fixture _apiFixture;

@@ -35,6 +35,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture
             .Replace("{{vereniging.initiator}}", request.Initiator);
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_Valid_Request_With_Minimal_Fields_Fixture>
 {
     private readonly Given_A_Valid_Request_With_Minimal_Fields_Fixture _apiFixture;
@@ -44,6 +45,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
         _apiFixture = apiFixture;
     }
 
+
     [Fact]
     public async Task Then_it_returns_an_accepted_response()
     {
@@ -51,7 +53,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
-    [Fact]
+
     public async Task Then_it_saves_the_events()
     {
         await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);

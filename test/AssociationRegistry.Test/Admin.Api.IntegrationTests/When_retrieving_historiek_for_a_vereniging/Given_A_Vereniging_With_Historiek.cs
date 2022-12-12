@@ -35,6 +35,7 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
     }
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Vereniging_With_Historiek : IClassFixture<Given_A_Vereniging_With_Historiek_Fixture>
 {
     private const string VCode = Given_A_Vereniging_With_Historiek_Fixture.VCode;

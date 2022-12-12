@@ -17,6 +17,7 @@ public class Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture : JsonRequ
     }
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Invalid_KboNumber_Too_Short : IClassFixture<Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture>
 {
     private readonly Given_A_Request_With_Invalid_KboNumber_Too_Short_Fixture _apiFixture;

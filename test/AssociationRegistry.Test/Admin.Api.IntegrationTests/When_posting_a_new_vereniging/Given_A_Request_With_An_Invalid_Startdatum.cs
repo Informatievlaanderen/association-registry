@@ -16,11 +16,58 @@ public class Given_A_Request_With_An_Invalid_Startdatum_Fixture : JsonRequestAdm
     }
 }
 
+public class Given_A_Request_With_An_Invalid_Startdatum_Fixture2 : JsonRequestAdminApiFixture
+{
+    public Given_A_Request_With_An_Invalid_Startdatum_Fixture2() : base(
+        nameof(Given_A_Request_With_An_Invalid_Startdatum_Fixture2),
+        "files.request.with_an_invalid_startdatum")
+    {
+    }
+}
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_An_Invalid_Startdatum: IClassFixture<Given_A_Request_With_An_Invalid_Startdatum_Fixture>
 {
     private readonly Given_A_Request_With_An_Invalid_Startdatum_Fixture _apiFixture;
 
     public Given_A_Request_With_An_Invalid_Startdatum(Given_A_Request_With_An_Invalid_Startdatum_Fixture apiFixture)
+    {
+        _apiFixture = apiFixture;
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_badrequest_response()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_problemdetails_response()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
+        var expectedResponseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(GetJsonResponseBody());
+
+        responseContentObject.Should().BeEquivalentTo(
+            expectedResponseContentObject,
+            options => options
+                .Excluding(info => info!.ProblemInstanceUri)
+                .Excluding(info => info!.ProblemTypeUri));
+    }
+
+    private string GetJsonResponseBody()
+        => GetType()
+            .GetAssociatedResourceJson($"files.response.invalid_startdatum_validation_error");
+}
+[Collection(VerenigingAdminApiCollection.Name)]
+public class Given_A_Request_With_An_Invalid_Startdatum2: IClassFixture<Given_A_Request_With_An_Invalid_Startdatum_Fixture2>
+{
+    private readonly Given_A_Request_With_An_Invalid_Startdatum_Fixture2 _apiFixture;
+
+    public Given_A_Request_With_An_Invalid_Startdatum2(Given_A_Request_With_An_Invalid_Startdatum_Fixture2 apiFixture)
     {
         _apiFixture = apiFixture;
     }

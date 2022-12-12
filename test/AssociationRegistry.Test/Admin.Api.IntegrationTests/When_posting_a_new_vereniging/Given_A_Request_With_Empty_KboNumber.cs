@@ -14,7 +14,7 @@ public class Given_A_Request_With_Empty_KboNumber_Fixture : JsonRequestAdminApiF
     {
     }
 }
-
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Empty_KboNumber : IClassFixture<Given_A_Request_With_Empty_KboNumber_Fixture>
 {
     private readonly Given_A_Request_With_Empty_KboNumber_Fixture _apiFixture;

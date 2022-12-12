@@ -17,6 +17,7 @@ public class Given_A_Request_With_Missing_Name_Fixture : JsonRequestAdminApiFixt
     }
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Missing_Name : IClassFixture<Given_A_Request_With_Missing_Name_Fixture>
 {
     private readonly Given_A_Request_With_Missing_Name_Fixture _apiFixture;

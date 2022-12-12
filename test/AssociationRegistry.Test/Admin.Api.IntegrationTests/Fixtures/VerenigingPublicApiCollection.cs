@@ -3,7 +3,7 @@
 using Xunit;
 
 [CollectionDefinition(Name)]
-public class VerenigingAdminApiCollection : ICollectionFixture<VerenigingAdminApiFixture>
+public class VerenigingAdminApiCollection
 {
     public const string Name = "Vereniging admin api collection";
 }

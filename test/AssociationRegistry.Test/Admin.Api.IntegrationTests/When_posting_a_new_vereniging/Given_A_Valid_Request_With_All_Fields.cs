@@ -54,14 +54,14 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         _apiFixture = apiFixture;
     }
 
-    [Fact]
+
     public async Task Then_it_returns_an_accepted_response()
     {
         var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
-    [Fact]
+
     public async Task Then_it_saves_the_events()
     {
         await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);

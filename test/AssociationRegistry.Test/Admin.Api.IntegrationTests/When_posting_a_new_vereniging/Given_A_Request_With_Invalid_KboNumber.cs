@@ -17,6 +17,7 @@ public class Given_A_Request_With_Invalid_KboNumber_Fixture : JsonRequestAdminAp
     }
 }
 
+[Collection(VerenigingAdminApiCollection.Name)]
 public class Given_A_Request_With_Invalid_KboNumber : IClassFixture<Given_A_Request_With_Invalid_KboNumber_Fixture>
 {
     private readonly Given_A_Request_With_Invalid_KboNumber_Fixture _apiFixture;
