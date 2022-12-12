@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using VCodes;
+using Weasel.Core;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = AssociationRegistry.Framework.IEvent;
@@ -107,7 +108,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     private DocumentStore ConfigureDocumentStore()
     {
-        return DocumentStore.For(
+        var configureDocumentStore = DocumentStore.For(
             opts =>
             {
                 var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
@@ -124,13 +125,15 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                             .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
                     });
 
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(MartenExtensions.CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
-
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-
                 opts.AddPostgresProjections();
+                opts.AutoCreateSchemaObjects = AutoCreate.All;
             });
+        configureDocumentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+        return configureDocumentStore;
     }
 
     private void DropDatabase()
