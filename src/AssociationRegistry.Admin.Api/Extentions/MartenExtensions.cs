@@ -11,6 +11,7 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using VCodes;
 
 public static class MartenExtentions
@@ -49,6 +50,7 @@ public static class MartenExtentions
         jsonNetSerializer.Customize(
             s =>
             {
+                s.DateParseHandling = DateParseHandling.None;
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });

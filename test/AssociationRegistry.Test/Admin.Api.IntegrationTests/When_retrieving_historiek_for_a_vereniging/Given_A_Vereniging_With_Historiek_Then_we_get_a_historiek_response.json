@@ -4,7 +4,7 @@
     {
       "gebeurtenis": "VerenigingWerdGeregistreerd",
       "initiator": "Een initiator",
-      "tijdstip": "12/31/2021 23:00:00"
+      "tijdstip": "2022-01-01T00:00:00Z"
     }
   ]
 }
