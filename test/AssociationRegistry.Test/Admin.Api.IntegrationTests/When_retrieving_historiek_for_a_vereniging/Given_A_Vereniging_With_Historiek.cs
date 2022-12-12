@@ -31,7 +31,7 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
                 DatumLaatsteAanpassing: DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator: "Een initiator",
-                Tijdstip: new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
+                Tijdstip: new DateTimeOffset(2022, 1, 1, 0,0,0, TimeSpan.Zero).ToInstant()));
     }
 }
 
