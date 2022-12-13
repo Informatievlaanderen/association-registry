@@ -1,3 +1,13 @@
+## [1.81.1](https://github.com/informatievlaanderen/association-registry/compare/v1.81.0...v1.81.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* or-1310 correct Tijdstip ([8d33a33](https://github.com/informatievlaanderen/association-registry/commit/8d33a33f0f9c73c569b989fd66471cfdc0fcd9b8))
+* or-1310 fix unknown vcode test ([5223b8c](https://github.com/informatievlaanderen/association-registry/commit/5223b8c4dce6d13d6b9212875531bff0e3503e40))
+* or-1310 remove unneeded test code ([fdcf28c](https://github.com/informatievlaanderen/association-registry/commit/fdcf28cf9f8a644fb32fcbfbaa59d7fb2a50662d))
+* or-1310 unknown vcode returns 404 ([94dd629](https://github.com/informatievlaanderen/association-registry/commit/94dd62982a633f29cab0ccd8bc7db58ba3778e26))
+
 # [1.81.0](https://github.com/informatievlaanderen/association-registry/compare/v1.80.0...v1.81.0) (2022-12-13)
 
 
