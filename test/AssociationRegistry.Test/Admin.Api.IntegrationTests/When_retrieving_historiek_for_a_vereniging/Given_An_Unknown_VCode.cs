@@ -12,7 +12,7 @@ public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture
 {
     public const string VCode = "v9999999";
 
-    public Given_An_Unknown_Vereniging_Fixture() : base(nameof(Given_A_Vereniging_With_Historiek_Fixture))
+    public Given_An_Unknown_Vereniging_Fixture() : base(nameof(Given_An_Unknown_Vereniging_Fixture))
     {
     }
 
