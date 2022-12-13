@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Api.Infrastructure;
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text.Json;
 using Marten.Events;
 using NodaTime;

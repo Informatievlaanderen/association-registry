@@ -66,7 +66,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     {
         await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
 
-        var savedEvent = await _apiFixture.DocumentStore!
+        var savedEvent = await _apiFixture.DocumentStore
             .LightweightSession().Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .SingleAsync(e => e.Naam == _apiFixture.Request.Naam);

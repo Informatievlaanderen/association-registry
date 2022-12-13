@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.When_posting_a_new
 using System.Net;
 using Fixtures;
 using FluentAssertions;
-using Framework.Helpers;
 using Xunit;
 
 public class Given_A_Request_With_Empty_KboNumber_Fixture : JsonRequestAdminApiFixture

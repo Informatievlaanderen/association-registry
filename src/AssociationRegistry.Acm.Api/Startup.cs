@@ -3,7 +3,6 @@ namespace AssociationRegistry.Acm.Api;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Modules;

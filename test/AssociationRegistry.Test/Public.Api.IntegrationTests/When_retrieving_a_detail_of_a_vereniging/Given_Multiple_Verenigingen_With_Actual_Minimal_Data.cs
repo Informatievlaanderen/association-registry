@@ -27,7 +27,6 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : Publ
 
     public override async Task InitializeAsync()
     {
-        await base.InitializeAsync();
         await AddEvent(VCode1, Events[VCode1]);
         await AddEvent(VCode2, Events[VCode2]);
     }

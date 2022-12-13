@@ -21,6 +21,7 @@
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.invalid_kbonummer_too_short_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
+    <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.missing_name_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.startdatum_in_future_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_retrieving_historiek_for_a_vereniging\Given_A_Vereniging_With_Historiek_Then_we_get_a_historiek_response.json" />

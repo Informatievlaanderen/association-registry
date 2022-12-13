@@ -18,7 +18,7 @@ public class KboNummer : StringValueObject<KboNummer>
         if (string.IsNullOrEmpty(maybeKboNummer))
             return null;
 
-        var value = Sanitize(maybeKboNummer!);
+        var value = Sanitize(maybeKboNummer);
 
         Validate(value);
 
