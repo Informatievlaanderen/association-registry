@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry", "src\AssociationRegistry\AssociationRegistry.csproj", "{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.OpenTelemetry", "src\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj", "{C25E2A86-E408-42C0-BAB8-560B19067014}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C25E2A86-E408-42C0-BAB8-560B19067014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C25E2A86-E408-42C0-BAB8-560B19067014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C25E2A86-E408-42C0-BAB8-560B19067014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C25E2A86-E408-42C0-BAB8-560B19067014}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -98,5 +104,6 @@ Global
 		{A5715AC1-4220-431A-B298-BCA9D857870B} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
 		{DAF6443B-10E9-4847-9E1F-DBE275E8C750} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{C25E2A86-E408-42C0-BAB8-560B19067014} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal
