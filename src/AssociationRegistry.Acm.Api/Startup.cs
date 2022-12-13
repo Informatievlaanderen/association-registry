@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Extensions;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -53,6 +54,7 @@ public class Startup
         services.AddS3(_configuration);
         services.AddBlobClients(s3Options);
         services.AddDataCache();
+        services.AddOpenTelemetry();
         services.AddAuthentication(
                 options =>
                 {
