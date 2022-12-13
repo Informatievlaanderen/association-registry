@@ -56,7 +56,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
     {
         await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
 
-        _apiFixture.DocumentStore!.LightweightSession().Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+        _apiFixture.DocumentStore.LightweightSession().Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .Where(e => e.Naam == _apiFixture.Request.Naam)
             .Should().HaveCount(1);
     }

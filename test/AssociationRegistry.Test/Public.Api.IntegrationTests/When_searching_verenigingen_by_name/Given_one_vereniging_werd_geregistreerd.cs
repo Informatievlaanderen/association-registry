@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
 using System.Text.RegularExpressions;
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Vereniging;
@@ -19,10 +17,17 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     }
 
     public override async Task InitializeAsync()
-    {
-        await base.InitializeAsync();
-        await AddEvent(VCode, new VerenigingWerdGeregistreerd(VCode, Naam, KorteNaam, null, null, null, "Actief", DateOnly.MinValue));
-    }
+        => await AddEvent(
+            VCode,
+            new VerenigingWerdGeregistreerd(
+                VCode,
+                Naam,
+                KorteNaam,
+                null,
+                null,
+                null,
+                "Actief",
+                DateOnly.MinValue));
 }
 
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>

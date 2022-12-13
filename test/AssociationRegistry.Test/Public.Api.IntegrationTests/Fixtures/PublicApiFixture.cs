@@ -7,7 +7,6 @@ using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Infrastructure;
 using AssociationRegistry.Public.Api.Projections;
-using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
@@ -29,11 +28,11 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
 
-    private IElasticClient? _elasticClient;
-    private DocumentStore? _documentStore;
-    private TestServer? _testServer;
+    private readonly IElasticClient _elasticClient;
+    private readonly DocumentStore _documentStore;
+    private readonly TestServer _testServer;
 
-    public HttpClient HttpClient { get; private set; }
+    public HttpClient HttpClient { get; }
 
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -42,14 +41,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     {
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
-    }
-
-    public virtual async Task InitializeAsync()
-    {
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-            GetConnectionString(_configurationRoot, RootDatabase)
-        );
 
         _testServer = ConfigureTestServer();
 
@@ -58,10 +49,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         HttpClient = _testServer.CreateClient();
         _elasticClient = CreateElasticClient(_testServer);
         _documentStore = ConfigureDocumentStore(_testServer);
-
-        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
         ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
     }
+
 
     private IConfigurationRoot GetConfiguration()
     {
@@ -198,19 +188,22 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
-
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        HttpClient?.Dispose();
-        _testServer?.Dispose();
-        _documentStore?.Dispose();
+        HttpClient.Dispose();
+        _testServer.Dispose();
+        _documentStore.Dispose();
 
         DropDatabase();
 
-        _elasticClient?.Indices.Delete(VerenigingenIndexName);
-        _elasticClient?.Indices.Refresh(Indices.All);
+        _elasticClient.Indices.Delete(VerenigingenIndexName);
+        _elasticClient.Indices.Refresh(Indices.All);
     }
+
+    public virtual Task InitializeAsync()
+        => Task.CompletedTask;
+
+    public virtual Task DisposeAsync()
+        => Task.CompletedTask;
 }

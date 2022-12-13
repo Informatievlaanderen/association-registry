@@ -16,9 +16,7 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
     }
 
     public override async Task InitializeAsync()
-    {
-        await base.InitializeAsync();
-        await AddEvent(
+        => await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(
                 VCode: VCode,
@@ -32,7 +30,6 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
             new CommandMetadata(
                 Initiator: "Een initiator",
                 Tijdstip: new DateTimeOffset(2022, 1, 1, 0,0,0, TimeSpan.Zero).ToInstant()));
-    }
 }
 
 public class Given_A_Vereniging_With_Historiek : IClassFixture<Given_A_Vereniging_With_Historiek_Fixture>

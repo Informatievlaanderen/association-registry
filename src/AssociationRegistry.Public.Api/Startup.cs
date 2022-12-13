@@ -53,7 +53,7 @@ public class Startup
     /// <param name="services">The collection of services to configure the application with.</param>
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-        var postgreSqlOptions = _configuration.GetSection("PostgreSQLOptions")
+        var postgreSqlOptions = _configuration.GetSection(PostgreSqlOptionsSection.Name)
             .Get<PostgreSqlOptionsSection>();
 
         ThrowIfInvalidPostgreSqlOptions(postgreSqlOptions);
@@ -148,22 +148,22 @@ public class Startup
                             options.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                             options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         },
-                        AfterHealthChecks = health =>
-                        {
-                            var connectionStrings = configuration
-                                .GetSection("ConnectionStrings")
-                                .GetChildren();
-                            //
-                            // foreach (var connectionString in connectionStrings)
-                            //     health.AddSqlServer(
-                            //         connectionString.Value,
-                            //         name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
-                            //         tags: new[] { DatabaseTag, "sql", "sqlserver" });
-
-                            // health.AddDbContextCheck<LegacyContext>(
-                            //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
-                            //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
-                        },
+                        // AfterHealthChecks = health =>
+                        // {
+                        //     var connectionStrings = configuration
+                        //         .GetSection("ConnectionStrings")
+                        //         .GetChildren();
+                        //     //
+                        //     // foreach (var connectionString in connectionStrings)
+                        //     //     health.AddSqlServer(
+                        //     //         connectionString.Value,
+                        //     //         name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
+                        //     //         tags: new[] { DatabaseTag, "sql", "sqlserver" });
+                        //
+                        //     // health.AddDbContextCheck<LegacyContext>(
+                        //     //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
+                        //     //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
+                        // },
                     },
                 });
     }

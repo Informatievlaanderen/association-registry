@@ -3,7 +3,6 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using FluentAssertions;
-using NodaTime.Extensions;
 using Vereniging;
 using Xunit;
 
