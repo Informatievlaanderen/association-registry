@@ -35,10 +35,15 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>
         var eventStore = new EventStore(_fixture.DocumentStore);
 
         // act
-        await eventStore.Save(streamId, new CommandMetadata("SomeInitiator", new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()), someEvent);
+        await eventStore.Save(
+            streamId,
+            new CommandMetadata(
+                "SomeInitiator",
+                new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant()),
+            someEvent);
 
         // assert
-        var events = await GetEventsFromDb(streamId, _fixture.DocumentStore!);
+        var events = await GetEventsFromDb(streamId, _fixture.DocumentStore);
         events.Should().HaveCount(1);
         var single = events.Single();
         single.Data.As<SomeEvent>().Should().BeEquivalentTo(someEvent);
@@ -46,7 +51,8 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>
         single.StreamKey.Should().Be(streamId);
         single.EventType.Should().Be<SomeEvent>();
         single.GetHeaderString(MetadataHeaderNames.Initiator).Should().Be("SomeInitiator");
-        single.GetHeaderInstant(MetadataHeaderNames.Tijdstip).Should().Be(new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
+        single.GetHeaderInstant(MetadataHeaderNames.Tijdstip).Should().Be(
+            new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant());
     }
 
     private static async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId, IDocumentStore documentStore)

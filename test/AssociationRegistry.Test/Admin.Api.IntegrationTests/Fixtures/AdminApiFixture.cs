@@ -3,13 +3,10 @@ namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.Fixtures;
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Events;
-using AssociationRegistry.Admin.Api.Extentions;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api.Extensions;
-using AssociationRegistry.Public.Api.Extensions;
-using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -29,23 +26,15 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
 
-    private TestServer? _testServer;
+    private readonly TestServer _testServer;
 
-    public DocumentStore? DocumentStore { get; private set; }
-    public HttpClient HttpClient { get; private set; }
+    public DocumentStore DocumentStore { get; }
+    public HttpClient HttpClient { get; }
 
     protected AdminApiFixture(string identifier)
     {
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
-    }
-
-    public virtual async Task InitializeAsync()
-    {
-        // await WaitFor.PostGreSQLToBecomeAvailable(
-        //     LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostgresTestLogger"),
-        //     GetConnectionString(_configurationRoot, RootDatabase)
-        // );
 
         DocumentStore = ConfigureDocumentStore();
         _testServer = ConfigureTestServer();
@@ -166,16 +155,19 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
            $"password={configurationRoot["RootPostgreSQLOptions:password"]};" +
            $"username={configurationRoot["RootPostgreSQLOptions:username"]}";
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
-
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        HttpClient?.Dispose();
-        _testServer?.Dispose();
-        DocumentStore?.Dispose();
+        HttpClient.Dispose();
+        _testServer.Dispose();
+        DocumentStore.Dispose();
 
         DropDatabase();
     }
+
+    public virtual Task InitializeAsync()
+        => Task.CompletedTask;
+
+    public virtual Task DisposeAsync()
+        => Task.CompletedTask;
 }

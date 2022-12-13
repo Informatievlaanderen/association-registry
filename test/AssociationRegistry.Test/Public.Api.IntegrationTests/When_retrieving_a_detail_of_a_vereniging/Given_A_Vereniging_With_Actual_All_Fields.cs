@@ -6,7 +6,6 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 using AssociationRegistry.Public.Api.Constants;
-using NodaTime;
 using NodaTime.Extensions;
 using Vereniging;
 
@@ -27,9 +26,7 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     }
 
     public override async Task InitializeAsync()
-    {
-        await base.InitializeAsync();
-        await AddEvent(
+        => await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(
                 VCode,
@@ -43,7 +40,6 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
             new CommandMetadata(
                 Initiator,
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
-    }
 }
 
 public class Given_A_Vereniging_With_Actual_All_Fields : IClassFixture<Given_A_Vereniging_With_Actual_All_Fields_Fixture>

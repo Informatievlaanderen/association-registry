@@ -13,7 +13,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
                 new(
                     "VerenigingWerdGeregistreerd",
                     "OVO0000001",
-                    "11/30/2022 23:00:00")
+                    "11/30/2022 23:00:00"),
             }
         );
 }

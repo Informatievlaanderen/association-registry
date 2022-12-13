@@ -19,7 +19,7 @@ public class VerenigingHistoriekProjection : SingleStreamAggregation<VerenigingH
                     nameof(VerenigingWerdGeregistreerd),
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator),
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-                )
+                ),
             });
 }
 

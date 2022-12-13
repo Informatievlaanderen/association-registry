@@ -48,18 +48,10 @@ public class Startup
     /// <param name="services">The collection of services to configure the application with.</param>
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-        var postgreSqlOptionsSection = _configuration.GetSection("PostgreSQLOptions")
+        var postgreSqlOptionsSection = _configuration.GetSection(PostgreSqlOptionsSection.Name)
             .Get<PostgreSqlOptionsSection>();
 
         ThrowIfInvalidPostgreSqlOptions(postgreSqlOptionsSection);
-
-        var connectionString = new PostgreSqlConnectionString(postgreSqlOptionsSection);
-
-        var connectionstrings = new Connectionstrings
-        {
-            { WellknownConnectionstrings.Tenant, connectionString },
-        };
-        services.AddSingleton(connectionstrings);
 
         AddSwagger(services);
 
