@@ -15,22 +15,26 @@ public static class ServiceCollectionExtensions
     public static void AddOpenTelemetry(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
-        var serviceName = executingAssembly.FullName;
-        var serviceVersion = "1.0.0";
+        var serviceName = executingAssembly.FullName!;
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
-        Action<ResourceBuilder> configureResource = r => r.AddService(
-                serviceName, serviceVersion: assemblyVersion, serviceInstanceId: Environment.MachineName)
+        var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
+
+        Action<ResourceBuilder> configureResource = r => r
+            .AddService(
+                serviceName,
+                serviceVersion: assemblyVersion,
+                serviceInstanceId: Environment.MachineName)
             .AddAttributes(
-                new Dictionary<string, object>()
+                new Dictionary<string, object>
                 {
                     ["deployment.environment"] =
-                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant() ?? "unknown",
+                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant()
+                        ?? "unknown",
                 });
 
         services.AddOpenTelemetryTracing(
-            b =>
-            {
-                b
+            builder =>
+                builder
                     .AddSource(serviceName)
                     .ConfigureResource(configureResource).AddHttpClientInstrumentation()
                     .AddAspNetCoreInstrumentation(
@@ -45,49 +49,43 @@ public static class ServiceCollectionExtensions
                         options =>
                         {
                             options.Protocol = OtlpExportProtocol.Grpc;
-                            options.Endpoint = new Uri("http://localhost:4317");
-                        });
-                // .AddConsoleExporter();
-            });
+                            options.Endpoint = new Uri(collectorUrl);
+                        }));
 
         services.AddLogging(
             builder =>
-            {
-                builder.ClearProviders();
-                builder.AddOpenTelemetry(
-                    options =>
-                    {
-                        options.ConfigureResource(configureResource);
+                builder
+                    .ClearProviders()
+                    .AddOpenTelemetry(
+                        options =>
+                        {
+                            options.ConfigureResource(configureResource);
 
-                        options.IncludeScopes = true;
-                        options.IncludeFormattedMessage = true;
-                        options.ParseStateValues = true;
+                            options.IncludeScopes = true;
+                            options.IncludeFormattedMessage = true;
+                            options.ParseStateValues = true;
 
-                        options.AddOtlpExporter(
-                                exporter =>
-                                {
-                                    exporter.Protocol = OtlpExportProtocol.Grpc;
-                                    exporter.Endpoint = new Uri("http://localhost:4317");
-                                })
-                            .AddConsoleExporter();
-                    });
-            });
+                            options.AddOtlpExporter(
+                                    exporter =>
+                                    {
+                                        exporter.Protocol = OtlpExportProtocol.Grpc;
+                                        exporter.Endpoint = new Uri(collectorUrl);
+                                    })
+                                .AddConsoleExporter();
+                        }));
 
         services.AddOpenTelemetryMetrics(
             options =>
-            {
-                options.ConfigureResource(configureResource)
+                options
+                    .ConfigureResource(configureResource)
                     .AddRuntimeInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddAspNetCoreInstrumentation();
-
-                options.AddOtlpExporter(
-                    exporter =>
-                    {
-                        exporter.Protocol = OtlpExportProtocol.Grpc;
-                        exporter.Endpoint = new Uri("http://localhost:4317");
-                    });
-                // options.AddConsoleExporter();
-            });
+                    .AddAspNetCoreInstrumentation()
+                    .AddOtlpExporter(
+                        exporter =>
+                        {
+                            exporter.Protocol = OtlpExportProtocol.Grpc;
+                            exporter.Endpoint = new Uri(collectorUrl);
+                        }));
     }
 }
