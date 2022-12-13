@@ -1,0 +1,45 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+exporters:
+
+  logging:
+
+  otlphttp/elastic:
+    compression: none
+    endpoint: https://c761e7ca88ee45119a091f137b73fcad.es.ops.vl.be:9243
+    headers:
+      Authorization: "Bearer ktMYK66vnu6B8RNgAy"
+
+  otlp/elastic:
+    endpoint: https://c761e7ca88ee45119a091f137b73fcad.es.ops.vl.be:9243
+    headers:
+      Authorization: "Bearer ktMYK66vnu6B8RNgAy"
+
+processors:
+  batch:
+
+extensions:
+  health_check:
+  pprof:
+    endpoint: :1888
+  zpages:
+    endpoint: :55679
+
+service:
+  extensions: [pprof, zpages, health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, otlp/elastic]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, otlp/elastic]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/elastic]

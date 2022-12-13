@@ -162,6 +162,7 @@ public static class ServiceCollectionExtensions
                                 (activity, request) => activity.SetParentId(request.Headers["traceparent"]);
                             options.Filter = context => context.Request.Method != HttpMethods.Options;
                         })
+                    .AddHttpClientInstrumentation()
                     // .AddSqlClientInstrumentation(options => { options.SetDbStatementForText = true; })
                     .AddOtlpExporter(
                         options =>
