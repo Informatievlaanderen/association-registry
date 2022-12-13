@@ -9,12 +9,13 @@ using global::OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 public static class ServiceCollectionExtensions
 {
     public static void AddOpenTelemetry(this IServiceCollection services)
     {
-        var executingAssembly = Assembly.GetExecutingAssembly();
+        var executingAssembly = Assembly.GetEntryAssembly()!;
         var serviceName = executingAssembly.FullName!;
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
         var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
@@ -44,7 +45,7 @@ public static class ServiceCollectionExtensions
                                 (activity, request) => activity.SetParentId(request.Headers["traceparent"]);
                             options.Filter = context => context.Request.Method != HttpMethods.Options;
                         })
-                    // .AddSqlClientInstrumentation(options => { options.SetDbStatementForText = true; })
+                    .AddNpgsql()
                     .AddOtlpExporter(
                         options =>
                         {
