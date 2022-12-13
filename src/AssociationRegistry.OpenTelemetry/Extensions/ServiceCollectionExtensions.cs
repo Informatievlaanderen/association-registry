@@ -55,7 +55,6 @@ public static class ServiceCollectionExtensions
         services.AddLogging(
             builder =>
                 builder
-                    .ClearProviders()
                     .AddOpenTelemetry(
                         options =>
                         {
@@ -66,12 +65,11 @@ public static class ServiceCollectionExtensions
                             options.ParseStateValues = true;
 
                             options.AddOtlpExporter(
-                                    exporter =>
-                                    {
-                                        exporter.Protocol = OtlpExportProtocol.Grpc;
-                                        exporter.Endpoint = new Uri(collectorUrl);
-                                    })
-                                .AddConsoleExporter();
+                                exporter =>
+                                {
+                                    exporter.Protocol = OtlpExportProtocol.Grpc;
+                                    exporter.Endpoint = new Uri(collectorUrl);
+                                });
                         }));
 
         services.AddOpenTelemetryMetrics(
