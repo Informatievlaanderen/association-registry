@@ -56,7 +56,7 @@ public class VerenigingenController : ApiController
             request.StartDatum,
             request.KboNummer);
 
-        var metaData = new CommandMetadata(request.Initiator, new Instant());
+        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         await _sender.Send(envelope);
         return Accepted();
