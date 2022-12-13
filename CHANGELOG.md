@@ -1,3 +1,28 @@
+# [1.81.0](https://github.com/informatievlaanderen/association-registry/compare/v1.80.0...v1.81.0) (2022-12-13)
+
+
+### Bug Fixes
+
+* OR-1310 pass initiator to test request ([5eb8332](https://github.com/informatievlaanderen/association-registry/commit/5eb8332b0e1a046c2cc21638b97579b3eee7e6ee))
+* or-1310 revert sdk ([7070487](https://github.com/informatievlaanderen/association-registry/commit/7070487bebc0954efb4d65f0a6fd260afd971180))
+* or-1310 run on hosted ([4529002](https://github.com/informatievlaanderen/association-registry/commit/452900295bb380420a772522a423a3bf7355a151))
+* or-1310 update db name ([144d5d1](https://github.com/informatievlaanderen/association-registry/commit/144d5d18522d83ffca0d90caff36af87d865cbdc))
+
+
+### Features
+
+* or-1310 add historiek for verenigingen ([e4b25a5](https://github.com/informatievlaanderen/association-registry/commit/e4b25a57e7209f7add24e423e6c8f5fd229dd974))
+* or-1310 add root conn ([0daa408](https://github.com/informatievlaanderen/association-registry/commit/0daa4089dc93574428f710f2af6209445b1ae8cb))
+* or-1310 deserialize tijdstip as string io datetime ([c007428](https://github.com/informatievlaanderen/association-registry/commit/c00742878587f13db8fe021f555ee5a926d076e0))
+* or-1310 don't wait for postgres and use root conn ([72ee705](https://github.com/informatievlaanderen/association-registry/commit/72ee7055d08062d6719fd15cba311e6d259ce706))
+* or-1310 revert some changes ([5abde27](https://github.com/informatievlaanderen/association-registry/commit/5abde270ee927807c2fc46403c0c2a3c918a3a81))
+* or-1310 run daemon when not disabled ([f0ad0b8](https://github.com/informatievlaanderen/association-registry/commit/f0ad0b863b61f784416418e5cc7f6c6d53bdf62f))
+
+
+### Reverts
+
+* Revert "chore: or-1310 disable a bunch of tests" ([8bee38f](https://github.com/informatievlaanderen/association-registry/commit/8bee38f7362285da541e573acb2d59464e0e1c7a))
+
 # [1.80.0](https://github.com/informatievlaanderen/association-registry/compare/v1.79.0...v1.80.0) (2022-12-09)
 
 
