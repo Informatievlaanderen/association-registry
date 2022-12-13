@@ -25,6 +25,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Extensions;
 using VCodes;
 using Vereniging;
 using Verenigingen;
