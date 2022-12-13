@@ -22,12 +22,10 @@ public class Given_An_Unknown_Vereniging : IClassFixture<Given_An_Unknown_Vereni
 {
     private const string VCode = Given_An_Unknown_Vereniging_Fixture.VCode;
     private readonly HttpClient _httpClient;
-    private readonly string _goldenMasterFile;
 
     public Given_An_Unknown_Vereniging(Given_An_Unknown_Vereniging_Fixture fixture)
     {
         _httpClient = fixture.HttpClient;
-        _goldenMasterFile = $"{nameof(Given_A_Vereniging_With_Historiek)}_{nameof(Then_we_get_a_correct_response)}";
     }
 
     [Fact]
@@ -35,16 +33,5 @@ public class Given_An_Unknown_Vereniging : IClassFixture<Given_An_Unknown_Vereni
     {
         var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}/historiek");
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-    }
-
-    public async Task Then_we_get_a_correct_response()
-    {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}/historiek");
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
-
-        var goldenMaster = GetType().GetAssociatedResourceJson(_goldenMasterFile);
-
-        content.Should().BeEquivalentJson(goldenMaster);
     }
 }
