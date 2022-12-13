@@ -82,7 +82,7 @@ public class VerenigingenController : ApiController
         await using var session = documentStore.LightweightSession();
         var maybeHistoriekVereniging = await session.Query<VerenigingHistoriekDocument>()
             .Where(document => document.VCode == vCode)
-            .SingleAsync();
+            .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)
             return NotFound();
