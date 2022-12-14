@@ -1,3 +1,17 @@
+# [1.82.0](https://github.com/informatievlaanderen/association-registry/compare/v1.81.1...v1.82.0) (2022-12-14)
+
+
+### Bug Fixes
+
+* or-1190 add paket dependencies ([c82cb55](https://github.com/informatievlaanderen/association-registry/commit/c82cb55de1ebd37614f3b89e313c2f2b721a3cdc))
+
+
+### Features
+
+* or-1190 add otlp in all projects ([eb8560b](https://github.com/informatievlaanderen/association-registry/commit/eb8560b0972bd66cbb22a19ac08d084f5771506e))
+* or-1190 npgsql telemetry ([5d8dfb7](https://github.com/informatievlaanderen/association-registry/commit/5d8dfb77d71912c0384b4490cc2c844e6645ec90))
+* or-1190 provide simple otel-collector; don't log via otlp ([6e9ab64](https://github.com/informatievlaanderen/association-registry/commit/6e9ab644e67023849577e288a1960292eb4f8c59))
+
 ## [1.81.1](https://github.com/informatievlaanderen/association-registry/compare/v1.81.0...v1.81.1) (2022-12-13)
 
 
