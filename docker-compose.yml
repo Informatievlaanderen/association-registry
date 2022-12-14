@@ -30,7 +30,7 @@ services:
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
-   db:
+  db:
      container_name: pg_container
      image: postgres:latest
      restart: always
