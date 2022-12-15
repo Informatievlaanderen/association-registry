@@ -28,7 +28,7 @@ public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture
     {
         var client = await _testHelper.CreateAcmClient("vo_info");
         var response = await client.GetAsync($"{Route}?rijksregisternummer=123456");
-        response.Should().HaveStatusCode(HttpStatusCode.Unauthorized);
+        response.Should().HaveStatusCode(HttpStatusCode.Forbidden);
     }
 
     [Fact]
