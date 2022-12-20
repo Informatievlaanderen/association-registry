@@ -60,7 +60,7 @@ jobs:
         echo '1'
         ls ${{ github.workspace }}/identityserver
         echo '2'
-        ls ${{ runner.workspace }}/identityserver
+        ls ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
 
     - name: Cache Paket
       uses: actions/cache@v3
