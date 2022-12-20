@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.ListVerenigingen;
+namespace AssociationRegistry.Public.Api.Infrastructure;
 
 using System.Runtime.Serialization;
 
