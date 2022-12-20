@@ -57,9 +57,9 @@ jobs:
 
     - name: list folder
       run: |
-        echo '1'
+        echo ${{ github.workspace }}/identityserver
         ls ${{ github.workspace }}/identityserver
-        echo '2'
+        echo ${{ github.workspace }}/identityserver
         ls ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
 
     - name: Cache Paket
