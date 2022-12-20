@@ -2,11 +2,11 @@
 
 public class ContactInfo
 {
-    private ContactInfo(string contactnaam, string? email, string? telefoonNummer, string? website)
+    private ContactInfo(string contactnaam, string? email, string? telefoon, string? website)
     {
         Contactnaam = contactnaam;
         Email = email;
-        TelefoonNummer = telefoonNummer;
+        Telefoon = telefoon;
         Website = website;
     }
 
@@ -15,6 +15,6 @@ public class ContactInfo
 
     public string Contactnaam { get; }
     public string? Email { get; }
-    public string? TelefoonNummer { get; }
+    public string? Telefoon { get; }
     public string? Website { get; }
 }

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
 using System;
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -39,8 +38,6 @@ public record VerenigingDetailWithActualData(
 
 public record Metadata(DateOnly DatumLaatsteAanpassing);
 
-public record ContactPersoon(string Voornaam, string Achternaam, ImmutableArray<ContactInfo> ContactGegevens);
-
 [DataContract]
 public record ContactInfo(
     [property: DataMember(Name = "Contactnaam")]
@@ -52,5 +49,3 @@ public record ContactInfo(
     [property: DataMember(Name = "Website")]
     string? Website
 );
-
-public record Activiteit(string Type, Uri Beheerder);

@@ -21,7 +21,7 @@ public class When_Creating_A_Contacten
             contactLijst.Should().HaveCount(1);
             contactLijst[0].Contactnaam.Should().Be("De router");
             contactLijst[0].Email.Should().Be("ip@adress.com");
-            contactLijst[0].TelefoonNummer.Should().Be("255.255.255.0");
+            contactLijst[0].Telefoon.Should().Be("255.255.255.0");
             contactLijst[0].Website.Should().Be("127.0.0.1");
         }
     }

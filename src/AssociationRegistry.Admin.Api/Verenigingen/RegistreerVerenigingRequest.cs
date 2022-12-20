@@ -40,7 +40,7 @@ public class RegistreerVerenigingRequest
     {
         [DataMember] public string Contactnaam { get; set; } = null!;
         [DataMember] public string? Email { get; set; }
-        [DataMember] public string? TelefoonNummer { get; set; }
+        [DataMember] public string? Telefoon { get; set; }
         [DataMember] public string? Website { get; set; }
     }
 }
