@@ -17,7 +17,7 @@ services:
     volumes:
       - ./identityserver:/home/identityserver
     environment:
-      - IdentityServer__ConfigFolder=/home/identityserver/
+        - IdentityServer__ConfigFolder=/home/identityserver/
     ports:
       - "5051:80"
 

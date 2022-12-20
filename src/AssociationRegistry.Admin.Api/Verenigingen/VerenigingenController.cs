@@ -54,7 +54,10 @@ public class VerenigingenController : ApiController
             request.KorteNaam,
             request.KorteBeschrijving,
             request.StartDatum,
-            request.KboNummer);
+            request.KboNummer,
+            request.Contacten.Select(
+                c =>
+                    new RegistreerVerenigingCommand.ContactInfo(c.Contactnaam, c.Email, c.TelefoonNummer, c.Website)));
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);

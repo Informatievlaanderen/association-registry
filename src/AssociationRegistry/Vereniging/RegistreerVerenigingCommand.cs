@@ -8,4 +8,12 @@ public record RegistreerVerenigingCommand(
     string? KorteNaam,
     string? KorteBeschrijving,
     DateOnly? Startdatum,
-    string? KboNummber) : IRequest<Unit>;
+    string? KboNummber,
+    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten) : IRequest<Unit>
+{
+    public record ContactInfo(
+        string Contactnaam,
+        string? Email = null,
+        string? TelefoonNummer = null,
+        string? Website = null);
+}

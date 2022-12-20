@@ -12,7 +12,8 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task Save(Vereniging vereniging, CommandMetadata metadata)    {
+    public async Task Save(Vereniging vereniging, CommandMetadata metadata)
+    {
         Invocations.Add(new Invocation(vereniging));
         await Task.CompletedTask;
     }
@@ -36,7 +37,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", null, null, null, null),
+            new RegistreerVerenigingCommand("naam1", null, null, null, null, null),
             _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
@@ -51,7 +52,6 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.KorteBeschrijving.Should().BeNull();
         theEvent.Startdatum.Should().BeNull();
         theEvent.KboNummer.Should().BeNull();
-        theEvent.Status.Should().Be("Actief");
         theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }
 
@@ -66,7 +66,20 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", "korte naam", "korte beschrijving", DateOnly.FromDateTime(startdatumInThePast), "0123456749"),
+            new RegistreerVerenigingCommand(
+                "naam1",
+                "korte naam",
+                "korte beschrijving",
+                DateOnly.FromDateTime(startdatumInThePast),
+                "0123456749",
+                new List<RegistreerVerenigingCommand.ContactInfo>
+                {
+                    new(
+                        "Algemeen",
+                        "info@dummy.com",
+                        "1234567890",
+                        "www.test-website.be"),
+                }),
             _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
@@ -81,7 +94,10 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.KorteBeschrijving.Should().Be("korte beschrijving");
         theEvent.Startdatum.Should().Be(DateOnly.FromDateTime(startdatumInThePast));
         theEvent.KboNummer.Should().Be("0123456749");
-        theEvent.Status.Should().Be("Actief");
         theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
+        theEvent.Contacten![0].Contactnaam.Should().Be("Algemeen");
+        theEvent.Contacten[0].Email.Should().Be("info@dummy.com");
+        theEvent.Contacten[0].TelefoonNummer.Should().Be("1234567890");
+        theEvent.Contacten[0].Website.Should().Be("www.test-website.be");
     }
 }

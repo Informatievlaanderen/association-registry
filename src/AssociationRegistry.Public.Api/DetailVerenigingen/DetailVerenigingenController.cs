@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
-using ListVerenigingen;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,34 +17,34 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
-    private readonly IVerenigingenRepository _verenigingenRepository;
+    // private readonly IVerenigingenRepository _verenigingenRepository;
 
-    public DetailVerenigingenController(IVerenigingenRepository verenigingenRepository)
-    {
-        _verenigingenRepository = verenigingenRepository;
-    }
+    // public DetailVerenigingenController(IVerenigingenRepository verenigingenRepository)
+    // {
+    //     // _verenigingenRepository = verenigingenRepository;
+    // }
 
-    /// <summary>
-    /// Vraag het detail van een vereniging op.
-    /// </summary>
-    /// <response code="200">Het detail van een vereniging</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
-    [HttpGet("static/{vCode}")]
-    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [Produces(contentType: WellknownMediaTypes.JsonLd)]
-    public async Task<IActionResult> Detail(
-        [FromServices] AppSettings appsettings,
-        [FromRoute] string vCode)
-    {
-        var maybeVereniging = await _verenigingenRepository.Detail(vCode);
-        if (maybeVereniging is not { } vereniging)
-            return NotFound();
-
-        return Ok(new DetailVerenigingResponse($"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json", vereniging));
-    }
+    // /// <summary>
+    // /// Vraag het detail van een vereniging op.
+    // /// </summary>
+    // /// <response code="200">Het detail van een vereniging</response>
+    // /// <response code="500">Als er een interne fout is opgetreden.</response>
+    // [HttpGet("static/{vCode}")]
+    // [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    // [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
+    // [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    // [Produces(contentType: WellknownMediaTypes.JsonLd)]
+    // public async Task<IActionResult> Detail(
+    //     [FromServices] AppSettings appsettings,
+    //     [FromRoute] string vCode)
+    // {
+    //     var maybeVereniging = await _verenigingenRepository.Detail(vCode);
+    //     if (maybeVereniging is not { } vereniging)
+    //         return NotFound();
+    //
+    //     return Ok(new DetailVerenigingResponse($"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json", vereniging));
+    // }
 
     /// <summary>
     /// Vraag het detail van een vereniging op.
@@ -56,7 +55,7 @@ public class DetailVerenigingenController : ApiController
     [HttpGet("{vCode}")]
     [ProducesResponseType(typeof(DetailVerenigingResponseWithActualData), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseWithActualData))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> DetailWithActualData(
@@ -81,7 +80,14 @@ public class DetailVerenigingenController : ApiController
                 vereniging.KorteBeschrijving,
                 vereniging.Startdatum,
                 vereniging.KboNummer,
-                vereniging.Status),
+                vereniging.Status,
+                vereniging.Contacten.Select(
+                        info => new ContactInfo(
+                            info.Contactnaam,
+                            info.Email,
+                            info.Telefoon,
+                            info.Website))
+                    .ToArray()),
             new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 }

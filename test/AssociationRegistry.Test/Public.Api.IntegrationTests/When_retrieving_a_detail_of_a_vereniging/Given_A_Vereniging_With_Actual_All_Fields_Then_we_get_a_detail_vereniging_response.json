@@ -7,7 +7,15 @@
     "korteBeschrijving": "Het feestcommittee van Oudenaarde",
     "kboNummer": "0123456789",
     "startdatum": "2022-11-09",
-    "status": "Actief"
+    "status": "Actief",
+    "contacten":[
+      {
+        "contactnaam": "Algemeen",
+        "email": "info@FOud.be",
+        "telefoon": "1111.11.11.11",
+        "website": "www.oudenaarde.be/feest"
+      }
+    ]
   },
   "metadata": {
     "datumLaatsteAanpassing": ""

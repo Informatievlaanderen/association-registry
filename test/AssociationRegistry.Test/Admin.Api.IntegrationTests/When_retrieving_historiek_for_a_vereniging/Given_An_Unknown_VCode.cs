@@ -1,11 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.When_retrieving_historiek_for_a_vereniging;
 
 using System.Net;
-using AssociationRegistry.Framework;
 using Fixtures;
-using Vereniging;
 using FluentAssertions;
-using NodaTime.Extensions;
 using Xunit;
 
 public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture

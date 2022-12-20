@@ -18,6 +18,13 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     private const string? KboNummer = "0123456789";
     private const string Initiator = "Een initiator";
 
+    private readonly VerenigingWerdGeregistreerd.ContactInfo ContactInfo = new(
+        "Algemeen",
+        "info@FOud.be",
+        "1111.11.11.11",
+        "www.oudenaarde.be/feest");
+
+
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
 
@@ -26,7 +33,8 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     }
 
     public override async Task InitializeAsync()
-        => await AddEvent(
+    {
+        await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(
                 VCode,
@@ -35,11 +43,12 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                "Actief",
+                new[] { ContactInfo },
                 DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator,
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
+    }
 }
 
 public class Given_A_Vereniging_With_Actual_All_Fields : IClassFixture<Given_A_Vereniging_With_Actual_All_Fields_Fixture>
