@@ -24,13 +24,13 @@ jobs:
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
       acm:
-        image: ghcr.io/informatievlaanderen/identity-server-fake:e52b719
+        image: ghcr.io/informatievlaanderen/identity-server-fake:latest
         env:
-          IdentityServer__ConfigFolder: /home/identityserver/
+          IdentityServer__ConfigFolder: /home/identityserver/config
         ports:
           - 5051:80
         volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver
+          - ${{ github.workspace }}/identityserver:/home/identityserver/config
 
       db:
         image: postgres
@@ -59,7 +59,7 @@ jobs:
       run: |
         echo ${{ github.workspace }}/identityserver
         ls ${{ github.workspace }}/identityserver
-        echo ${{ github.workspace }}/identityserver
+        echo ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
         ls ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
 
     - name: Cache Paket
