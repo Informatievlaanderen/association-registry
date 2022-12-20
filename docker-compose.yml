@@ -13,7 +13,7 @@ services:
     command: server --console-address :9001 /data
 
   acm:
-    image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
+    image: ghcr.io/informatievlaanderen/identity-server-fake:latest
     volumes:
       - ./identityserver:/home/identityserver
     environment:
