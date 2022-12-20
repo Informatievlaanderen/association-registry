@@ -55,7 +55,7 @@ jobs:
     - name: list folder
       run: |
         echo '1'
-        ls ${{ github.workspace }}/identityserver
+        ls ${{ github.workspace }}/${{ github.event.repository.name }}/identityserver
         echo '2'
         ls ${{ runner.workspace }}/identityserver
 
