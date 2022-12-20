@@ -17,7 +17,8 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixt
     }
 
     public override async Task InitializeAsync()
-        => await AddEvent(
+    {
+        await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(
                 VCode,
@@ -26,8 +27,9 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixt
                 null,
                 null,
                 null,
-                "Actief",
+                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 DateOnly.FromDateTime(DateTime.Today)));
+    }
 }
 
 public class Given_A_Vereniging_With_Actual_Minimal_Data : IClassFixture<Given_A_Vereniging_With_Actual_Minimal_Data_Fixture>

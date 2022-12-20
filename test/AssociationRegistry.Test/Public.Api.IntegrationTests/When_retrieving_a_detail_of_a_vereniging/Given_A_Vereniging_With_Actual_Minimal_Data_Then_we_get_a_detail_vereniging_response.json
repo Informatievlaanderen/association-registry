@@ -7,7 +7,8 @@
     "korteBeschrijving": null,
     "startdatum": null,
     "kboNummer": null,
-    "status": "Actief"
+    "status": "Actief",
+    "contacten": []
   },
   "metadata": {
     "datumLaatsteAanpassing": ""

@@ -82,7 +82,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             throw new NullException("Elastic client cannot be null when adding an event");
 
         if (metadata is null)
-            metadata = new CommandMetadata("OVO000001", new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
+            metadata = new CommandMetadata(vCode, new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
 
         var eventStore = new EventStore(_documentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);

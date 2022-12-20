@@ -12,7 +12,6 @@ using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
-using ListVerenigingen;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -25,11 +24,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using Projections;
-using S3;
 using SearchVerenigingen;
 using static ConfigHelpers;
-using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
-using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -39,14 +35,11 @@ public class Startup
     private IContainer _applicationContainer = null!;
 
     private readonly IConfiguration _configuration;
-    private readonly ILoggerFactory _loggerFactory;
 
     public Startup(
-        IConfiguration configuration,
-        ILoggerFactory loggerFactory)
+        IConfiguration configuration)
     {
         _configuration = configuration;
-        _loggerFactory = loggerFactory;
     }
 
     /// <summary>Configures services for the application.</summary>
@@ -63,9 +56,6 @@ public class Startup
 
         ThrowIfInvalidElasticOptions(elasticSearchOptions);
 
-        var s3Options = new S3BlobClientOptions();
-        _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-
         var appSettings = _configuration.Get<AppSettings>();
         services.AddSingleton(appSettings);
 
@@ -80,14 +70,6 @@ public class Startup
 
         services.AddMarten(postgreSqlOptions, _configuration);
 
-        services.AddS3(_configuration);
-        services.AddBlobClients(s3Options);
-        services.AddDataCache();
-        services.AddJsonLdContexts();
-
-        // todo: remove when static version of detail api is removed
-        services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(appSettings.BaseUrl));
-
         services.AddSingleton<SearchVerenigingenMapper>();
 
         AddSwagger(services);
@@ -95,7 +77,7 @@ public class Startup
         ConfigureDefaultsForApi(services, _configuration);
 
         var containerBuilder = new ContainerBuilder();
-        containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
+        containerBuilder.RegisterModule(new ApiModule(services));
         _applicationContainer = containerBuilder.Build();
 
         return new AutofacServiceProvider(_applicationContainer);

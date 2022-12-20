@@ -10,7 +10,7 @@ jobs:
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     services:
       minio:
@@ -24,11 +24,13 @@ jobs:
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
       acm:
-        image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
+        image: ghcr.io/informatievlaanderen/identity-server-fake:latest
+        env:
+          IdentityServer__ConfigFolder: /home/identityserver/config
         ports:
           - 5051:80
         volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver
+          - ${{ github.workspace }}/identityserver:/home/identityserver/config
 
       db:
         image: postgres
@@ -49,8 +51,16 @@ jobs:
           xpack.security.transport.ssl.enabled: false
 
     steps:
+
     - name: Checkout Code
       uses: actions/checkout@v3
+
+    - name: list folder
+      run: |
+        echo ${{ github.workspace }}/identityserver
+        ls ${{ github.workspace }}/identityserver
+        echo ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
+        ls ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
 
     - name: Cache Paket
       uses: actions/cache@v3

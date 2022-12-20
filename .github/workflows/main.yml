@@ -24,7 +24,9 @@ jobs:
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
       acm:
-        image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
+        image: ghcr.io/informatievlaanderen/identity-server-fake:e52b719
+        env:
+          IdentityServer__ConfigFolder: /home/identityserver/
         ports:
           - 5051:80
         volumes:
