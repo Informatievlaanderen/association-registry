@@ -118,6 +118,46 @@ public class When_Validating_A_RegistreerVerenigingRequest
         }
     }
 
+    public class Given_A_Locaties_Array_With_Two_Different_Locations : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_no_validation_error()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var identiekLocatie = new RegistreerVerenigingRequest.Locatie
+            {
+                LocatieType = LocatieTypes.Activiteiten,
+                Huisnummer = "23",
+                Gemeente = "Zonnedorp",
+                Postcode = "0123",
+                Straatnaam = "Kerkstraat",
+                Land = "Belgie",
+            };
+            var andereLocatie = new RegistreerVerenigingRequest.Locatie
+            {
+                LocatieType = LocatieTypes.Activiteiten,
+                Huisnummer = "23",
+                Gemeente = "Anderdorp",
+                Postcode = "0123",
+                Straatnaam = "Kerkstraat",
+                Land = "Belgie",
+            };
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    identiekLocatie,
+                    andereLocatie,
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+    }
+
     public class Given_A_Locaties_Array_With_Two_Identical_Locations : ValidatorTest
     {
         [Fact]
@@ -127,6 +167,10 @@ public class When_Validating_A_RegistreerVerenigingRequest
             var identiekLocatie = new RegistreerVerenigingRequest.Locatie
             {
                 LocatieType = LocatieTypes.Activiteiten,
+                Huisnummer = "23",
+                Gemeente = "Zonnedorp",
+                Postcode = "0123",
+                Land = "Belgie",
             };
             var request = new RegistreerVerenigingRequest
             {
@@ -239,7 +283,10 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = locationType,
                         Straatnaam = "dezeStraat",
-                        Huisnummer = "69"
+                        Huisnummer = "23",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
                     },
                 },
             };
@@ -325,6 +372,10 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = string.Empty,
+                        Huisnummer = "23",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
                     },
                 },
             };
@@ -350,6 +401,10 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     new RegistreerVerenigingRequest.Locatie
                     {
                         LocatieType = LocatieTypes.Activiteiten,
+                        Huisnummer = "23",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
                     },
                 },
             };
@@ -376,6 +431,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
                         Huisnummer = string.Empty,
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
                     },
                 },
             };
@@ -402,6 +460,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
                     },
                 },
             };
@@ -427,8 +488,10 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
-                        Huisnummer = "69",
-                        Postcode = "0123",
+                        Gemeente = "Zonnedorp",
+                        Huisnummer = "23",
+                        Land = "Belgie",
+                        Postcode = string.Empty,
                     },
                 },
             };
@@ -442,7 +505,7 @@ public class When_Validating_A_RegistreerVerenigingRequest
     public class Given_A_Locatie_Without_A_Postcode : ValidatorTest
     {
         [Fact]
-        public void Then_it_has_validation_error__huisnummer_is_verplicht()
+        public void Then_it_has_validation_error__postcode_is_verplicht()
         {
             var validator = new RegistreerVerenigingRequestValidator();
             var request = new RegistreerVerenigingRequest
@@ -455,7 +518,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
-                        Huisnummer = "69"
+                        Gemeente = "Zonnedorp",
+                        Huisnummer = "23",
+                        Land = "Belgie"
                     },
                 },
             };
@@ -481,6 +546,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Land = "Belgie",
                         Gemeente = string.Empty,
                     },
                 },
@@ -508,6 +576,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Land = "Belgie"
                     },
                 },
             };
@@ -533,6 +604,9 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Gemeente = "Hottentot",
                         Land = string.Empty,
                     },
                 },
@@ -560,7 +634,7 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     {
                         LocatieType = LocatieTypes.Activiteiten,
                         Straatnaam = "Dezestraat",
-                        Huisnummer = "69",
+                        Huisnummer = "23",
                         Postcode = "0123",
                         Gemeente = "Hottentot",
                     },

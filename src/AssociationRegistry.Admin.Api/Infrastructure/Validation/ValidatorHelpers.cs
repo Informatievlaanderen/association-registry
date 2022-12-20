@@ -7,7 +7,7 @@ using FluentValidation.Internal;
 
 public static class ValidatorHelpers
 {
-    public static void NotNullOrEmpty<T>(this AbstractValidator<T> validator, Expression<Func<T, string?>> expression)
+    public static void RequireNotNullOrEmpty<T>(this AbstractValidator<T> validator, Expression<Func<T, string?>> expression)
     {
         validator.RuleFor(expression)
             .NotNull()

@@ -12,8 +12,10 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 {
     public RegistreerVerenigingRequestValidator()
     {
-        this.NotNullOrEmpty(request => request.Initiator);
-        this.NotNullOrEmpty(request => request.Naam);
+        this.RequireNotNullOrEmpty(request => request.Initiator);
+
+        this.RequireNotNullOrEmpty(request => request.Naam);
+
         RuleFor(request => request.KboNummer)
             .Length(10, int.MaxValue)
             .WithMessage("KboNummer moet 10 cijfers bevatten.")
@@ -45,19 +47,18 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     {
         public LocatieValidator()
         {
-            When(
-                locatie => string.IsNullOrEmpty(locatie.LocatieType),
-                () => { this.NotNullOrEmpty(locatie => locatie.LocatieType); }
-            ).Otherwise(
-                () =>
-                {
-                    RuleFor(locatie => locatie.LocatieType)
-                        .Must(BeAValidLocationTypeValue)
-                        .WithMessage($"'LocatieType' moet een geldige waarde hebben. ({LocatieTypes.Correspondentie}, {LocatieTypes.Activiteiten}");
-                });
+            this.RequireNotNullOrEmpty(locatie => locatie.LocatieType);
 
-            this.NotNullOrEmpty(locatie => locatie.Straatnaam);
-            this.NotNullOrEmpty(locatie => locatie.Huisnummer);
+            RuleFor(locatie => locatie.LocatieType)
+                .Must(BeAValidLocationTypeValue)
+                .WithMessage($"'LocatieType' moet een geldige waarde hebben. ({LocatieTypes.Correspondentie}, {LocatieTypes.Activiteiten}")
+                .When(locatie => !string.IsNullOrEmpty(locatie.LocatieType));
+
+            this.RequireNotNullOrEmpty(locatie => locatie.Straatnaam);
+            this.RequireNotNullOrEmpty(locatie => locatie.Huisnummer);
+            this.RequireNotNullOrEmpty(locatie => locatie.Gemeente);
+            this.RequireNotNullOrEmpty(locatie => locatie.Land);
+            this.RequireNotNullOrEmpty(locatie => locatie.Postcode);
         }
 
         private static bool BeAValidLocationTypeValue(string locatieType)
