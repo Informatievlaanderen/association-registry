@@ -24,11 +24,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using Projections;
-using S3;
 using SearchVerenigingen;
 using static ConfigHelpers;
-using ListVerenigingActiviteit = ListVerenigingen.Activiteit;
-using DetailVerenigingActiviteit = DetailVerenigingen.Activiteit;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
@@ -59,9 +56,6 @@ public class Startup
 
         ThrowIfInvalidElasticOptions(elasticSearchOptions);
 
-        var s3Options = new S3BlobClientOptions();
-        _configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-
         var appSettings = _configuration.Get<AppSettings>();
         services.AddSingleton(appSettings);
 
@@ -75,14 +69,6 @@ public class Startup
         services.RegisterDomainEventHandlers(GetType().Assembly);
 
         services.AddMarten(postgreSqlOptions, _configuration);
-
-        services.AddS3(_configuration);
-        services.AddBlobClients(s3Options);
-        services.AddDataCache();
-        services.AddJsonLdContexts();
-
-        // todo: remove when static version of detail api is removed
-        // services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(appSettings.BaseUrl));
 
         services.AddSingleton<SearchVerenigingenMapper>();
 
