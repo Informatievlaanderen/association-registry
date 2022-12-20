@@ -52,15 +52,15 @@ jobs:
 
     steps:
 
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
     - name: list folder
       run: |
         echo '1'
-        ls ${{ github.workspace }}/${{ github.event.repository.name }}/identityserver
+        ls ${{ github.workspace }}/identityserver
         echo '2'
         ls ${{ runner.workspace }}/identityserver
-
-    - name: Checkout Code
-      uses: actions/checkout@v3
 
     - name: Cache Paket
       uses: actions/cache@v3
