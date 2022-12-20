@@ -8,6 +8,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
 using Marten;
+using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
 
@@ -25,6 +26,14 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
+            Contacten = new RegistreerVerenigingRequest.Contact[]
+            {
+                new()
+                {
+                    Contactnaam = "Algemeen",
+                    Email = "random@adress.be",
+                },
+            },
         };
         Content = GetJsonBody(request).AsJsonContent();
         Request = request;
@@ -42,7 +51,8 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
             .Replace("{{vereniging.startdatum}}", request.StartDatum!.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
-            .Replace("{{vereniging.initiator}}", request.Initiator);
+            .Replace("{{vereniging.initiator}}", request.Initiator)
+            .Replace("{{vereniging.contacten}}", JsonConvert.SerializeObject(request.Contacten));
 }
 
 public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid_Request_With_All_Fields_Fixture>
@@ -74,6 +84,9 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.KorteBeschrijving.Should().Be(_apiFixture.Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(_apiFixture.Request.StartDatum);
         savedEvent.KboNummer.Should().Be(_apiFixture.Request.KboNummer);
-        savedEvent.Status.Should().Be("Actief");
+        savedEvent.Contacten![0].Contactnaam.Should().Be(_apiFixture.Request.Contacten[0].Contactnaam);
+        savedEvent.Contacten[0].Email.Should().Be(_apiFixture.Request.Contacten[0].Email);
+        savedEvent.Contacten[0].Website.Should().Be(_apiFixture.Request.Contacten[0].Website);
+        savedEvent.Contacten[0].TelefoonNummer.Should().Be(_apiFixture.Request.Contacten[0].TelefoonNummer);
     }
 }

@@ -12,7 +12,6 @@ using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
 using Infrastructure.Modules;
-using ListVerenigingen;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -39,14 +38,11 @@ public class Startup
     private IContainer _applicationContainer = null!;
 
     private readonly IConfiguration _configuration;
-    private readonly ILoggerFactory _loggerFactory;
 
     public Startup(
-        IConfiguration configuration,
-        ILoggerFactory loggerFactory)
+        IConfiguration configuration)
     {
         _configuration = configuration;
-        _loggerFactory = loggerFactory;
     }
 
     /// <summary>Configures services for the application.</summary>
@@ -86,7 +82,7 @@ public class Startup
         services.AddJsonLdContexts();
 
         // todo: remove when static version of detail api is removed
-        services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(appSettings.BaseUrl));
+        // services.AddSingleton<IVerenigingenRepository>(_ => InMemoryVerenigingenRepository.Create(appSettings.BaseUrl));
 
         services.AddSingleton<SearchVerenigingenMapper>();
 
@@ -95,7 +91,7 @@ public class Startup
         ConfigureDefaultsForApi(services, _configuration);
 
         var containerBuilder = new ContainerBuilder();
-        containerBuilder.RegisterModule(new ApiModule(_configuration, services, _loggerFactory));
+        containerBuilder.RegisterModule(new ApiModule(services));
         _applicationContainer = containerBuilder.Build();
 
         return new AutofacServiceProvider(_applicationContainer);

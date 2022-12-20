@@ -22,12 +22,8 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
             new VerenigingWerdGeregistreerd(
                 VCode,
                 Naam,
-                KorteNaam,
-                null,
-                null,
-                null,
-                "Actief",
-                DateOnly.MinValue));
+                KorteNaam
+            ) { DatumLaatsteAanpassing = DateOnly.MinValue });
 }
 
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>

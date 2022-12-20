@@ -3,6 +3,7 @@ namespace AssociationRegistry.Vereniging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Contacten;
 using Framework;
 using KboNummers;
 using Startdatums;
@@ -36,6 +37,7 @@ public class Vereniging
         string? korteBeschrijving,
         Startdatum? startdatum,
         KboNummer? kboNummer,
+        Contacten contacten,
         DateOnly today)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
@@ -45,7 +47,7 @@ public class Vereniging
             korteBeschrijving,
             startdatum?.Value,
             kboNummer?.ToString(),
-            "Actief",
+            VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contacten),
             today);
 
         _state = State.Apply(verenigingWerdGeregistreerdEvent);

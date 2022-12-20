@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Contacten;
 using Framework;
 
 /// <summary>
@@ -17,9 +18,20 @@ using Framework;
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
-    string? KorteNaam,
-    string? KorteBeschrijving,
-    DateOnly? Startdatum,
-    string? KboNummer,
-    string Status,
-    DateOnly DatumLaatsteAanpassing) : IEvent;
+    string? KorteNaam = null,
+    string? KorteBeschrijving = null,
+    DateOnly? Startdatum = null,
+    string? KboNummer = null,
+    VerenigingWerdGeregistreerd.ContactInfo[]? Contacten = null,
+    DateOnly? DatumLaatsteAanpassing = null) : IEvent
+{
+    public record ContactInfo(
+        string Contactnaam,
+        string? Email,
+        string? TelefoonNummer,
+        string? Website)
+    {
+        public static ContactInfo[] FromContacten(Contacten contacten)
+            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.TelefoonNummer, c.Website)).ToArray();
+    }
+}
