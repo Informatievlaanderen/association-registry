@@ -37,7 +37,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1", null, null, null, null, null),
+            new RegistreerVerenigingCommand("naam1"),
             _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
