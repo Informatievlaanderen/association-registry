@@ -12,7 +12,7 @@ public record RegistreerVerenigingCommand(
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten = null) : IRequest<Unit>
 {
     public record ContactInfo(
-        string Contactnaam,
+        string? Contactnaam = null,
         string? Email = null,
         string? Telefoon = null,
         string? Website = null);

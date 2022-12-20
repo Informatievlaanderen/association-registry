@@ -33,14 +33,29 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public string? KboNummer { get; init; }
 
+    /// <summary>
+    /// De contacten van deze vereniging
+    /// </summary>
     [DataMember] public Contact[] Contacten { get; set; } = Array.Empty<Contact>();
 
     [DataContract]
     public class Contact
     {
-        [DataMember] public string Contactnaam { get; set; } = null!;
+        /// <summary>
+        /// Een groeperingsved dat beschrijft welke contactgegevens worden opgegeven
+        /// </summary>
+        [DataMember] public string? Contactnaam { get; set; }
+        /// <summary>
+        /// Een email adres
+        /// </summary>
         [DataMember] public string? Email { get; set; }
+        /// <summary>
+        ///  Een telefoonnummer
+        /// </summary>
         [DataMember] public string? Telefoon { get; set; }
+        /// <summary>
+        /// Een website link
+        /// </summary>
         [DataMember] public string? Website { get; set; }
     }
 }
