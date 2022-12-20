@@ -26,7 +26,7 @@ jobs:
       acm:
         image: ghcr.io/informatievlaanderen/identity-server-fake:033d00a
         env:
-          IdentityServer_ConfigFolder: /home/identityserver/
+          IdentityServer__ConfigFolder: /home/identityserver/
         ports:
           - 5051:80
         volumes:
