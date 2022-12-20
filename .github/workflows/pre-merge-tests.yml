@@ -29,8 +29,8 @@ jobs:
           IdentityServer__ConfigFolder: /home/identityserver/config
         ports:
           - 5051:80
-        volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver/config
+#        volumes:
+#          - ${{ github.workspace }}/identityserver:/home/identityserver/config
 
       db:
         image: postgres
