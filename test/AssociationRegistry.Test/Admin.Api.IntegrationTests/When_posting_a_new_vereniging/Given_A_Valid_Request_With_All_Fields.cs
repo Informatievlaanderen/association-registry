@@ -26,7 +26,7 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
-            Contacten = new RegistreerVerenigingRequest.Contact[]
+            Contacten = new RegistreerVerenigingRequest.ContactInfo[]
             {
                 new()
                 {
