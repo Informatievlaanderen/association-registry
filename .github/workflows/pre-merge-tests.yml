@@ -51,6 +51,14 @@ jobs:
           xpack.security.transport.ssl.enabled: false
 
     steps:
+
+    - name: list folder
+      run: |
+        echo '1'
+        ls ${{ github.workspace }}/identityserver
+        echo '2'
+        ls ${{ runner.workspace }}/identityserver
+
     - name: Checkout Code
       uses: actions/checkout@v3
 
