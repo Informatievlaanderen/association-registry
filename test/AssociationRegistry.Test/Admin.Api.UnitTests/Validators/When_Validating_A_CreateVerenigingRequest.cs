@@ -170,6 +170,32 @@ public class When_Validating_A_RegistreerVerenigingRequest
         }
     }
 
+    public class Given_A_Locatie_With_An_Empty_LocatieType : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__locatieType_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = string.Empty,
+                        Straatnaam = "dezeStraat",
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.LocatieType)}")
+                .WithErrorMessage("'LocatieType' mag niet leeg zijn.");
+        }
+    }
+
     public class Given_A_Locatie_With_An_Invalid_LocatieType : ValidatorTest
     {
         [Fact]
@@ -212,6 +238,8 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     new RegistreerVerenigingRequest.Locatie
                     {
                         LocatieType = locationType,
+                        Straatnaam = "dezeStraat",
+                        Huisnummer = "69"
                     },
                 },
             };
@@ -281,6 +309,32 @@ public class When_Validating_A_RegistreerVerenigingRequest
         }
     }
 
+    public class Given_A_Locatie_With_An_Empty_Straatnaam : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__straatnaam_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = string.Empty,
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Straatnaam)}")
+                .WithErrorMessage("'Straatnaam' mag niet leeg zijn.");
+        }
+    }
+
     public class Given_A_Locatie_Without_A_Straatnaam : ValidatorTest
     {
         [Fact]
@@ -303,6 +357,219 @@ public class When_Validating_A_RegistreerVerenigingRequest
 
             result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Straatnaam)}")
                 .WithErrorMessage("'Straatnaam' is verplicht.");
+        }
+    }
+    public class Given_A_Locatie_With_An_Empty_Huisnummer : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__huisnummer_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = string.Empty,
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Huisnummer)}")
+                .WithErrorMessage("'Huisnummer' mag niet leeg zijn.");
+        }
+    }
+
+    public class Given_A_Locatie_Without_A_Huisnummer : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__huisnummer_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Huisnummer)}")
+                .WithErrorMessage("'Huisnummer' is verplicht.");
+        }
+    }
+    public class Given_A_Locatie_With_An_Empty_Postcode : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__postcode_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "69",
+                        Postcode = "0123",
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Postcode)}")
+                .WithErrorMessage("'Postcode' mag niet leeg zijn.");
+        }
+    }
+
+    public class Given_A_Locatie_Without_A_Postcode : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__huisnummer_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "69"
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Postcode)}")
+                .WithErrorMessage("'Postcode' is verplicht.");
+        }
+    }
+    public class Given_A_Locatie_With_An_Empty_Gemeente : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__gemeente_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Gemeente = string.Empty,
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Gemeente)}")
+                .WithErrorMessage("'Gemeente' mag niet leeg zijn.");
+        }
+    }
+
+    public class Given_A_Locatie_Without_A_Gemeente : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__gemeente_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Gemeente)}")
+                .WithErrorMessage("'Gemeente' is verplicht.");
+        }
+    }
+    public class Given_A_Locatie_With_An_Empty_Land : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__land_mag_niet_leeg_zijn()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Land = string.Empty,
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Land)}")
+                .WithErrorMessage("'Land' mag niet leeg zijn.");
+        }
+    }
+
+    public class Given_A_Locatie_Without_A_Land : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_validation_error__land_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Locaties = new[]
+                {
+                    new RegistreerVerenigingRequest.Locatie
+                    {
+                        LocatieType = LocatieTypes.Activiteiten,
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "69",
+                        Postcode = "0123",
+                        Gemeente = "Hottentot",
+                    },
+                },
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Land)}")
+                .WithErrorMessage("'Land' is verplicht.");
         }
     }
 }

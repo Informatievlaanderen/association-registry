@@ -47,7 +47,8 @@ public class RegistreerVerenigingRequest
         ///   - Activiteiten<br/>
         ///   - Correspondentie - Slecht één maal mogelijk<br/>
         /// </summary>
-        [DataMember] public string LocatieType { get; set; } = null!;
+        [DataMember]
+        public string LocatieType { get; set; } = null!;
 
         /// <summary>
         /// Zet true als deze locatie de hoofdlocatie van de verenigign is.<br/>
@@ -67,5 +68,35 @@ public class RegistreerVerenigingRequest
         /// </summary>
         [DataMember]
         public string Straatnaam { get; set; } = null!;
+
+        /// <summary>
+        /// He huisnummer van de locatie
+        /// </summary>
+        [DataMember]
+        public string Huisnummer { get; set; } = null!;
+
+        /// <summary>
+        /// Het busnummer van de locatie
+        /// </summary>
+        [DataMember]
+        public string? Busnummer { get; set; }
+
+        /// <summary>
+        /// De postcode van de locatie
+        /// </summary>
+        [DataMember]
+        public string Postcode { get; set; } = null!;
+
+        /// <summary>
+        /// De gemeente van de locatie
+        /// </summary>
+        [DataMember]
+        public string Gemeente { get; set; }
+
+        /// <summary>
+        /// Het land van de locatie
+        /// </summary>
+        [DataMember]
+        public string Land { get; set; }
     }
 }

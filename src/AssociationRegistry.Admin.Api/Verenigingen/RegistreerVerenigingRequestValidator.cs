@@ -57,6 +57,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
                 });
 
             this.NotNullOrEmpty(locatie => locatie.Straatnaam);
+            this.NotNullOrEmpty(locatie => locatie.Huisnummer);
         }
 
         private static bool BeAValidLocationTypeValue(string locatieType)
