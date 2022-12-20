@@ -36,10 +36,10 @@ public class RegistreerVerenigingRequest
     /// <summary>
     /// De contacten van deze vereniging
     /// </summary>
-    [DataMember] public Contact[] Contacten { get; set; } = Array.Empty<Contact>();
+    [DataMember] public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
 
     [DataContract]
-    public class Contact
+    public class ContactInfo
     {
         /// <summary>
         /// Een groeperingsved dat beschrijft welke contactgegevens worden opgegeven

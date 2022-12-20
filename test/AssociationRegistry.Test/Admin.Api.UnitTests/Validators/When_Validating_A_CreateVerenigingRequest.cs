@@ -94,9 +94,98 @@ public class When_Validating_A_RegistreerVerenigingRequest
         public void Then_it_has_no_validation_errors()
         {
             var validator = new RegistreerVerenigingRequestValidator();
-            var result = validator.TestValidate(new RegistreerVerenigingRequest { Naam = "abcd", Initiator = "OVO000001"});
+            var result = validator.TestValidate(new RegistreerVerenigingRequest { Naam = "abcd", Initiator = "OVO000001" });
 
             result.ShouldNotHaveAnyValidationErrors();
         }
     }
+
+    public class Given_An_Empty_Contacten_Array : ValidatorTest
+    {
+        [Fact]
+        public void Then_it_has_no_validation_errors()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Contacten = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+    }
+
+    public class Given_A_Contact_Without_Any_Values
+    {
+        [Fact]
+        public void Then_it_has_validation_error__minsten_1_waarde_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Contacten = new []{new RegistreerVerenigingRequest.ContactInfo()},
+            };
+
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor(vereniging => vereniging.Contacten)
+                .WithErrorMessage("Een contact moet minstens één waarde bevatten.");
+        }
+    }
+
+    public class Given_A_Contact_With_Only_A_Contactnaam
+    {
+        [Fact]
+        public void Then_it_has_validation_error__minsten_1_waarde_is_verplicht()
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Contacten = new []{new RegistreerVerenigingRequest.ContactInfo
+                {
+                    Contactnaam = "iets zinnig",
+                }},
+            };
+
+            var result = validator.TestValidate(request);
+
+            result.ShouldHaveValidationErrorFor(vereniging => vereniging.Contacten)
+                .WithErrorMessage("Een contact moet minstens één waarde bevatten.");
+        }
+    }
+
+    public class Given_An_Contact_With_One_Or_More_Values : ValidatorTest
+    {
+        [Theory]
+        [InlineData("em@il.com", "0123456", "www.ebsi.ti")]
+        [InlineData(null, null, "www.other.site")]
+        [InlineData(null, "9876543210", null)]
+        [InlineData("yet@another.mail", null, null)]
+        public void Then_it_has_no_validation_errors(string email, string telefoon, string website)
+        {
+            var validator = new RegistreerVerenigingRequestValidator();
+            var request = new RegistreerVerenigingRequest
+            {
+                Naam = "abcd",
+                Initiator = "OVO000001",
+                Contacten = new []{new RegistreerVerenigingRequest.ContactInfo
+                {
+                    Email = email,
+                    Telefoon = telefoon,
+                    Website = website,
+                }},
+            };
+            var result = validator.TestValidate(request);
+
+            result.ShouldNotHaveAnyValidationErrors();
+        }
+    }
+
 }
