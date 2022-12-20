@@ -28,10 +28,10 @@ public record VerenigingWerdGeregistreerd(
     public record ContactInfo(
         string Contactnaam,
         string? Email,
-        string? TelefoonNummer,
+        string? Telefoon,
         string? Website)
     {
         public static ContactInfo[] FromContacten(Contacten contacten)
-            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.TelefoonNummer, c.Website)).ToArray();
+            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website)).ToArray();
     }
 }

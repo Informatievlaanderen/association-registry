@@ -28,7 +28,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                             {
                                 Contactnaam = c.Contactnaam,
                                 Email = c.Email,
-                                Telefoon = c.TelefoonNummer,
+                                Telefoon = c.Telefoon,
                                 Website = c.Website,
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailContactInfoDocument>(),

@@ -27,6 +27,6 @@ public class Contacten : List<ContactInfo>
                     info => ContactInfo.CreateInstance(
                         info.Contactnaam,
                         info.Email,
-                        info.TelefoonNummer,
+                        info.Telefoon,
                         info.Website)));
 }

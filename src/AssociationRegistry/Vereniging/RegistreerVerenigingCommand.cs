@@ -14,6 +14,6 @@ public record RegistreerVerenigingCommand(
     public record ContactInfo(
         string Contactnaam,
         string? Email = null,
-        string? TelefoonNummer = null,
+        string? Telefoon = null,
         string? Website = null);
 }

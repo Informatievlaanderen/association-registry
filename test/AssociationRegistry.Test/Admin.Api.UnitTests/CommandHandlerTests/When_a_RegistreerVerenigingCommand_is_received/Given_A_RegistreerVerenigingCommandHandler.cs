@@ -97,7 +97,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
         theEvent.Contacten![0].Contactnaam.Should().Be("Algemeen");
         theEvent.Contacten[0].Email.Should().Be("info@dummy.com");
-        theEvent.Contacten[0].TelefoonNummer.Should().Be("1234567890");
+        theEvent.Contacten[0].Telefoon.Should().Be("1234567890");
         theEvent.Contacten[0].Website.Should().Be("www.test-website.be");
     }
 }
