@@ -7,18 +7,10 @@ on:
       - main
 
 jobs:
-  checkout:
-    if: github.repository_owner == 'Informatievlaanderen'
-    name: Run Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
     runs-on: ubuntu-latest
-    needs: checkout
 
     services:
       minio:
@@ -59,10 +51,14 @@ jobs:
           xpack.security.transport.ssl.enabled: false
 
     steps:
-    - name: list folder
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Run ACM container
+      shell: bash
       run: |
-        echo ${{ github.workspace }}/identityserver
-        ls ${{ github.workspace }}/identityserver
+        docker run -p 5051:80 -e IdentityServer__ConfigFolder=/home/identityserver/config -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:latest
+
     - name: Cache Paket
       uses: actions/cache@v3
       env:
