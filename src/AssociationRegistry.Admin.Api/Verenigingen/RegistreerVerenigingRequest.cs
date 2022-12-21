@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 [DataContract]
 public class RegistreerVerenigingRequest
 {
-    /// <summary>Naam van de vereniging</summary>
+    /// <summary>Instantie die de vereniging aanmaakt</summary>
     [DataMember]
     [Required]
     public string Initiator { get; init; } = null!;
@@ -36,7 +36,8 @@ public class RegistreerVerenigingRequest
     /// <summary>
     /// De contacten van deze vereniging
     /// </summary>
-    [DataMember] public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
+    [DataMember]
+    public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
 
     [DataContract]
     public class ContactInfo
@@ -44,19 +45,27 @@ public class RegistreerVerenigingRequest
         /// <summary>
         /// Een groeperingsved dat beschrijft welke contactgegevens worden opgegeven
         /// </summary>
-        [DataMember] public string? Contactnaam { get; set; }
+        [DataMember]
+        public string? Contactnaam { get; set; }
+
         /// <summary>
         /// Een email adres
         /// </summary>
-        [DataMember] public string? Email { get; set; }
+        [DataMember]
+        public string? Email { get; set; }
+
         /// <summary>
         ///  Een telefoonnummer
         /// </summary>
-        [DataMember] public string? Telefoon { get; set; }
+        [DataMember]
+        public string? Telefoon { get; set; }
+
         /// <summary>
         /// Een website link
         /// </summary>
-        [DataMember] public string? Website { get; set; }
+        [DataMember]
+        public string? Website { get; set; }
+
         /// <summary>
         /// Een socialmedia identifier
         /// </summary>

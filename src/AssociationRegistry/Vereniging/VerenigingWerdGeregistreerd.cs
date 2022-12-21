@@ -32,7 +32,7 @@ public record VerenigingWerdGeregistreerd(
         string? Website,
         string? SocialMedia)
     {
-        public static ContactInfo[] FromContacten(Contacten contacten)
-            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
+        public static ContactInfo[] FromContacten(ContactLijst contactLijst)
+            => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
     }
 }

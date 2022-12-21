@@ -8,7 +8,6 @@ using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
 using Vereniging;
-using VerenigingDetailContactInfoDocument = VerenigingDetailDocument.ContactInfo;
 
 public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
 {
@@ -24,7 +23,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing ?? DateOnly.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contacten = verenigingWerdGeregistreerd.Data.Contacten?.Select(
-                            c => new VerenigingDetailContactInfoDocument()
+                            c => new VerenigingDetailDocument.ContactInfo()
                             {
                                 Contactnaam = c.Contactnaam,
                                 Email = c.Email,
@@ -32,7 +31,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                                 Website = c.Website,
                                 SocialMedia = c.SocialMedia,
                             }).ToArray()
-                        ?? Array.Empty<VerenigingDetailContactInfoDocument>(),
+                        ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
         };
 }
 

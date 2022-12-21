@@ -2,24 +2,24 @@
 
 using Vereniging;
 
-public class Contacten : List<ContactInfo>
+public class ContactLijst : List<ContactInfo>
 {
-    internal Contacten(IEnumerable<ContactInfo> listOfContactInfo)
+    private ContactLijst(IEnumerable<ContactInfo> listOfContactInfo)
     {
         AddRange(listOfContactInfo);
     }
 
-    private Contacten()
+    private ContactLijst()
     {
     }
 
-    public static Contacten Empty
+    public static ContactLijst Empty
         => new();
 
-    public static Contacten Create(IEnumerable<ContactInfo>? listOfContactInfo)
-        => listOfContactInfo is null ? Empty : new Contacten(listOfContactInfo);
+    public static ContactLijst Create(IEnumerable<ContactInfo>? listOfContactInfo)
+        => listOfContactInfo is null ? Empty : new ContactLijst(listOfContactInfo);
 
-    public static Contacten Create(IEnumerable<RegistreerVerenigingCommand.ContactInfo>? listOfContactInfo)
+    public static ContactLijst Create(IEnumerable<RegistreerVerenigingCommand.ContactInfo>? listOfContactInfo)
         => listOfContactInfo is null
             ? Empty
             : Create(

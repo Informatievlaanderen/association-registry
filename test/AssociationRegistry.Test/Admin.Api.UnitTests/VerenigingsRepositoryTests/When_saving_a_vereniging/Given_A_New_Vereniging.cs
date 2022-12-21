@@ -34,7 +34,7 @@ public class Given_A_New_Vereniging
 
         var vCode = VCode.Create(1001);
         var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = new Vereniging(vCode, naam, null, null, null, null, Contacten.Contacten.Empty, DateOnly.FromDateTime(DateTime.Today));
+        var vereniging = new Vereniging(vCode, naam, null, null, null, null, Contacten.ContactLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
         eventStore.Invocations.Should().HaveCount(1);
