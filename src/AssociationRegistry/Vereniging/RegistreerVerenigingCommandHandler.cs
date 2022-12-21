@@ -8,6 +8,7 @@ using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 using Framework;
+using Locaties;
 using MediatR;
 
 public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelope<RegistreerVerenigingCommand>>
@@ -29,10 +30,23 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
+        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToDomain));
         var contacten = ContactLijst.Create(command.Contacten);
         var vCode = await _vCodeService.GetNext();
-        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten, _clock.Today);
+        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten,locatieLijst, _clock.Today);
         await _verenigingsRepository.Save(vereniging, envelope.Metadata);
         return Unit.Value;
     }
+
+    private static Locatie ToDomain(RegistreerVerenigingCommand.Locatie loc)
+        => Locatie.CreateInstance(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.HoofdLocatie,
+            loc.LocatieType);
 }

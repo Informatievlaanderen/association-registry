@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.Api.Projections;
 
 using System.Linq;
 using System.Threading.Tasks;
+using Constants;
 using SearchVerenigingen;
 using Vereniging;
 
@@ -22,11 +23,15 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
                 message.VCode,
                 message.Naam,
                 message.KorteNaam,
-                _brolFeeder.Hoofdlocatie,
-                _brolFeeder.Locaties.ToArray(),
+                message.Locaties.Select(ToDocument).ToArray(),
                 _brolFeeder.Hoofdactiviteiten,
                 _brolFeeder.Doelgroep,
                 _brolFeeder.Activiteiten.ToArray()
             )
         );
+
+    private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
+        => new(loc.LocatieType, loc.Naam, loc.ToAdresString(), loc.HoofdLocatie);
+
+
 }

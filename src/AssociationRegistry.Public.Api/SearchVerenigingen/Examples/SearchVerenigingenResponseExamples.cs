@@ -23,18 +23,13 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "FWA De vrolijke BA’s",
                     "DVB",
                     new Hoofdactiviteit("CULT", "Cultuur").ObjectToImmutableArray(),
-                    new Locatie(
-                        "Correspondentieadres",
-                        "https://data.vlaanderen.be/id/adres/2272122",
-                        "1770",
-                        "Liedekerke"),
                     "18+",
                     ImmutableArray.Create(
                         new Locatie(
-                            "Correspondentieadres",
-                            "https://data.vlaanderen.be/id/adres/2272122",
-                            "1770",
-                            "Liedekerke")
+                            "Correspondentie",
+                            true,
+                            "kerkstraat 5, 1770 Liedekerke, Belgie",
+                            null)
                     ),
                     ImmutableArray.Create(
                         new Activiteit(123, "Badminton")),
@@ -44,18 +39,13 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "FWA De Bron",
                     string.Empty,
                     new Hoofdactiviteit("SPRT", "Sport").ObjectToImmutableArray(),
-                    new Locatie(
-                        "Plaats van de activiteiten",
-                        "https://data.vlaanderen.be/id/gemeente/44021",
-                        "9000",
-                        "Gent"),
                     "Alle leeftijden",
                     ImmutableArray.Create(
                         new Locatie(
-                            "Plaats van de activiteiten",
-                            "https://data.vlaanderen.be/id/gemeente/44021",
-                            "9000",
-                            "Gent")),
+                            "Activiteiten",
+                            false,
+                            "dorpstraat 91, 9000 Gent, Belgie",
+                            "Cursuszaal")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis")),
                     new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/V0036651"))

@@ -28,6 +28,7 @@ public class Given_A_Vereniging_Fixture : PublicApiFixture
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 DateOnly.FromDateTime(DateTime.Today)));
     }
 }

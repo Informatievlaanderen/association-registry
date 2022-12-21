@@ -57,13 +57,26 @@ public class VerenigingenController : ApiController
             request.KboNummer,
             request.Contacten.Select(
                 c =>
-                    new RegistreerVerenigingCommand.ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)));
+                    new RegistreerVerenigingCommand.ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)),
+            request.Locaties.Select(ToCommandLocatie).ToArray());
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         await _sender.Send(envelope);
         return Accepted();
     }
+
+    private static RegistreerVerenigingCommand.Locatie ToCommandLocatie(RegistreerVerenigingRequest.Locatie loc)
+        => new(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.HoofdLocatie,
+            loc.LocatieType);
 
 
     /// <summary>

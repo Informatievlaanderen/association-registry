@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.DetailVerenigingen;
 
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -24,9 +25,9 @@ public class DetailVerenigingenController : ApiController
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("{vCode}")]
-    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DetailVerenigingResponseExamples), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponse))]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(contentType: WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
@@ -43,7 +44,7 @@ public class DetailVerenigingenController : ApiController
             return NotFound();
 
         return Ok(
-            new DetailVerenigingResponse(
+            new DetailVerenigingResponseWithActualData(
                 $"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
                 new VerenigingDetail(
                     vereniging.VCode,
@@ -60,7 +61,11 @@ public class DetailVerenigingenController : ApiController
                                 info.Telefoon,
                                 info.Website,
                                 info.SocialMedia))
-                        .ToArray()),
+                        .ToArray(),
+                    vereniging.Locaties.Select(ToResponse).ToImmutableArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
+
+    private Locatie ToResponse(VerenigingDetailDocument.Locatie loc)
+        => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }

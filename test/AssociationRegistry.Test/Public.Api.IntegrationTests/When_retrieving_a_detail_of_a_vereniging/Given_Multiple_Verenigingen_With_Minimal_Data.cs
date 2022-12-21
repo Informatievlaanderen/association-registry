@@ -19,7 +19,8 @@ public class Given_Multiple_Verenigingen_With_Minimal_Data_Fixture : PublicApiFi
     };
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode)
-        => new(vCode, Fixture.Create<string>(), null, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), DateOnly.FromDateTime(DateTime.Today));
+        => new(vCode, Fixture.Create<string>(), null, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            DateOnly.FromDateTime(DateTime.Today));
 
     public const string VCode1 = "v000001";
     public const string VCode2 = "v000002";

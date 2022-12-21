@@ -26,6 +26,7 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
                 Startdatum: DateOnly.FromDateTime(new DateTime(2022, 11, 9)),
                 KboNummer: "0123456789",
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 DatumLaatsteAanpassing: DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator: "Een initiator",

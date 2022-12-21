@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using Constants;
 using Framework;
 using Infrastructure;
 using Marten.Events;
@@ -32,6 +33,22 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                                 SocialMedia = c.SocialMedia,
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
+            Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+        };
+
+    private static VerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
+        => new()
+        {
+            Hoofdlocatie = loc.HoofdLocatie,
+            Naam = loc.Naam,
+            Type = loc.LocatieType,
+            Straatnaam = loc.Straatnaam,
+            Huisnummer = loc.Huisnummer,
+            Busnummer = loc.Busnummer,
+            Postcode = loc.Postcode,
+            Gemeente = loc.Gemeente,
+            Land = loc.Land,
+            Adres = loc.ToAdresString(),
         };
 }
 
@@ -46,7 +63,7 @@ public class VerenigingDetailDocument
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
     public DateOnly DatumLaatsteAanpassing { get; set; }
-
+    public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
 
     public class ContactInfo
@@ -56,5 +73,27 @@ public class VerenigingDetailDocument
         public string? Telefoon { get; set; }
         public string? Website { get; set; }
         public string? SocialMedia { get; set; }
+    }
+
+    public class Locatie
+    {
+        public string Type { get; set; } = null!;
+
+        public bool Hoofdlocatie { get; set; }
+
+        public string Adres { get; set; } = null!;
+        public string? Naam { get; set; }
+
+        public string Straatnaam { get; set; } = null!;
+
+        public string Huisnummer { get; set; } = null!;
+
+        public string? Busnummer { get; set; }
+
+        public string Postcode { get; set; } = null!;
+
+        public string Gemeente { get; set; } = null!;
+
+        public string Land { get; set; } = null!;
     }
 }

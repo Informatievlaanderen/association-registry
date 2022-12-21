@@ -4,7 +4,6 @@ public record VerenigingDocument(
     string VCode,
     string Naam,
     string? KorteNaam,
-    VerenigingDocument.Locatie Hoofdlocatie,
     VerenigingDocument.Locatie[] Locaties,
     VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten,
     string Doelgroep,
@@ -12,8 +11,10 @@ public record VerenigingDocument(
 )
 {
     public record Locatie(
-        string Postcode,
-        string Gemeente);
+        string Type,
+        string? Naam,
+        string Adres,
+        bool Hoofdlocatie);
 
     public record Hoofdactiviteit(
         string Code,
