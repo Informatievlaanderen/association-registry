@@ -10,25 +10,18 @@
           "name": "Buurtwerking"
         }
       ],
-      "hoofdlocatie": {
-        "type": "",
-        "adresId": "",
-        "postcode": "0123",
-        "gemeente": "abcdefg"
-      },
       "doelgroep": "+18",
       "locaties": [
         {
-          "type": "",
-          "adresId": "",
-          "postcode": "0123",
-          "gemeente": "abcdefg"
+          "type": "Correspondentie",
+          "naam": "Gemeentehuis",
+          "adres": "dorpstraat 1 bus 1b, 9636 Oudenaarde, Belgie"
         },
         {
-          "type": "",
-          "adresId": "",
-          "postcode": "0987",
-          "gemeente": "zyxwv"
+          "type": "Activiteiten",
+          "hoofdlocatie": true,
+          "naam": "Feestzaal",
+          "adres": "kerkstraat 42, 9636 Oudenaarde, Belgie"
         }
       ],
       "activiteiten": [

@@ -23,6 +23,7 @@ public record VerenigingWerdGeregistreerd(
     DateOnly? Startdatum,
     string? KboNummer,
     VerenigingWerdGeregistreerd.ContactInfo[]? Contacten,
+    VerenigingWerdGeregistreerd.Locatie[] Locaties,
     DateOnly? DatumLaatsteAanpassing) : IEvent
 {
     public record ContactInfo(
@@ -35,4 +36,15 @@ public record VerenigingWerdGeregistreerd(
         public static ContactInfo[] FromContacten(ContactLijst contactLijst)
             => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
     }
+
+    public record Locatie(
+        string? Naam,
+        string Straatnaam,
+        string Huisnummer,
+        string? Busnummer,
+        string Postcode,
+        string Gemeente,
+        string Land,
+        bool HoofdLocatie,
+        string LocatieType);
 }

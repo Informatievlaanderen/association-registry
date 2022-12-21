@@ -9,8 +9,6 @@ using SearchVerenigingen;
 
 public interface IVerenigingBrolFeeder
 {
-    VerenigingDocument.Locatie Hoofdlocatie { get; }
-    ImmutableArray<VerenigingDocument.Locatie> Locaties { get; }
     VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
     ImmutableArray<string> Activiteiten { get; }
@@ -100,25 +98,6 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
 
         return hoofdactiviteiten[index];
     }
-
-    public VerenigingDocument.Locatie Hoofdlocatie
-        => isStatic
-            ? new VerenigingDocument.Locatie("0123", "abcdefg")
-            : new VerenigingDocument.Locatie(GetPostcode(), ComposeText(1));
-
-    public ImmutableArray<VerenigingDocument.Locatie> Locaties
-        => isStatic
-            ? new[]
-                {
-                    new VerenigingDocument.Locatie("0123", "abcdefg"),
-                    new VerenigingDocument.Locatie("0987", "zyxwv"),
-                }
-                .ToImmutableArray()
-            : ComposeArray(3, () => new VerenigingDocument.Locatie(GetPostcode(), ComposeText(1)))
-                .ToImmutableArray();
-
-    private string GetPostcode()
-        => $"{_random.Next(0, 999):0000}";
 
     public VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten
     {

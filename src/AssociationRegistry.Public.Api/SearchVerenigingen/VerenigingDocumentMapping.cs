@@ -18,11 +18,6 @@ public static class VerenigingDocumentMapping
                         .Name(document => document.KorteNaam))
                 .Nested<VerenigingDocument.Locatie>(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Hoofdlocatie)
-                        .IncludeInRoot()
-                        .Properties(LocationMapping.Get))
-                .Nested<VerenigingDocument.Locatie>(
-                    propertyDescriptor => propertyDescriptor
                         .Name(document => document.Locaties)
                         .IncludeInRoot()
                         .Properties(LocationMapping.Get))
@@ -45,10 +40,16 @@ public static class VerenigingDocumentMapping
             => map
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Postcode))
+                        .Name(document => document.Naam))
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Gemeente));
+                        .Name(document => document.Adres))
+                .Text(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Hoofdlocatie))
+                .Text(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Type));
     }
 
     private static class HoofdactiviteitMapping

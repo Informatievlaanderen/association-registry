@@ -79,11 +79,13 @@ public class SearchVerenigingenMapper
                     x.Source.Naam,
                     x.Source.KorteNaam ?? string.Empty,
                     x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
-                    new Locatie(string.Empty, string.Empty, x.Source.Hoofdlocatie.Postcode, x.Source.Hoofdlocatie.Gemeente),
                     x.Source.Doelgroep,
-                    x.Source.Locaties.Select(locatie => new Locatie(string.Empty, string.Empty, locatie.Postcode, locatie.Gemeente)).ToImmutableArray(),
+                    x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
                     new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{(string?)x.Source.VCode}"))
                 );
             }).ToImmutableArray();
+
+    private static Locatie ToLocatieResponse(VerenigingDocument.Locatie loc)
+        => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam);
 }

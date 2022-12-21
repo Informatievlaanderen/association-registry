@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using ContactInfo;
 using FluentAssertions;
+using Locaties;
 using VCodes;
 using Vereniging;
 using VerenigingsNamen;
@@ -35,7 +36,7 @@ public class Given_A_New_Vereniging
 
         var vCode = VCode.Create(1001);
         var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = new Vereniging(vCode, naam, null, null, null, null, ContactLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+        var vereniging = new Vereniging(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
         eventStore.Invocations.Should().HaveCount(1);

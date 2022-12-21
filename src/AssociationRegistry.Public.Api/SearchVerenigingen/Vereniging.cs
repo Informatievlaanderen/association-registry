@@ -12,8 +12,6 @@ public record Vereniging(
     string KorteNaam,
     [property: DataMember(Name = "Hoofdactiviteiten")]
     ImmutableArray<Hoofdactiviteit> Hoofdactiviteiten,
-    [property: DataMember(Name = "Hoofdlocatie")]
-    Locatie Hoofdlocatie,
     [property: DataMember(Name = "Doelgroep")]
     string Doelgroep,
     [property: DataMember(Name = "Locaties")]
@@ -25,12 +23,12 @@ public record Vereniging(
 [DataContract]
 public record Locatie(
     [property: DataMember(Name = "Type")] string Type,
-    [property: DataMember(Name = "AdresId")]
-    string AdresId,
-    [property: DataMember(Name = "Postcode")]
-    string Postcode,
-    [property: DataMember(Name = "Gemeente")]
-    string Gemeente
+    [property: DataMember(Name = "Hoofdlocatie",EmitDefaultValue = false)]
+    bool Hoofdlocatie,
+    [property: DataMember(Name = "Adres")]
+    string Adres,
+    [property: DataMember(Name = "Naam")]
+    string? Naam
 );
 
 [DataContract]

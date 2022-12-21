@@ -6,6 +6,7 @@ using System.Linq;
 using ContactInfo;
 using Framework;
 using KboNummers;
+using Locaties;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
@@ -38,6 +39,7 @@ public class Vereniging
         Startdatum? startdatum,
         KboNummer? kboNummer,
         ContactLijst contactLijst,
+        LocatieLijst locatieLijst,
         DateOnly today)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
@@ -48,11 +50,27 @@ public class Vereniging
             startdatum?.Value,
             kboNummer?.ToString(),
             VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contactLijst),
+            ToEvent(locatieLijst),
             today);
 
         _state = State.Apply(verenigingWerdGeregistreerdEvent);
         Events = Events.Append(verenigingWerdGeregistreerdEvent);
     }
+
+    private static VerenigingWerdGeregistreerd.Locatie[] ToEvent(LocatieLijst locatieLijst)
+        => locatieLijst.Select(ToEvent).ToArray();
+
+    private static VerenigingWerdGeregistreerd.Locatie ToEvent(Locatie loc)
+        => new(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.IsHoofdlocatie,
+            loc.LocatieType);
 
     public IEnumerable<IEvent> Events { get; } = new List<IEvent>();
 }

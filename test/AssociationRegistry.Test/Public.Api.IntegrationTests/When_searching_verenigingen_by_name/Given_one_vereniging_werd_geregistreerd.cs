@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_searching_verenigingen_by_name;
 
 using System.Text.RegularExpressions;
+using AssociationRegistry.Admin.Api.Constants;
 using Fixtures;
 using FluentAssertions;
 using Vereniging;
@@ -11,6 +12,9 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     public const string VCode = "V0001001";
     public const string Naam = "Feestcommittee Oudenaarde";
     private const string KorteNaam = "FOud";
+
+    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, LocatieTypes.Correspondentie);
+    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, LocatieTypes.Activiteiten);
 
     public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {
@@ -26,7 +30,11 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), DateOnly.MinValue);
+        => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
+        {
+            gemeentehuis,
+            feestzaal,
+        },DateOnly.MinValue);
 }
 
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>

@@ -9,7 +9,8 @@ public record RegistreerVerenigingCommand(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummber,
-    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten) : IRequest<Unit>
+    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten,
+    RegistreerVerenigingCommand.Locatie[] Locaties) : IRequest<Unit>
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -17,4 +18,15 @@ public record RegistreerVerenigingCommand(
         string? Telefoon,
         string? Website,
         string? SocialMedia);
+
+    public record Locatie(
+        string? Naam,
+        string Straatnaam,
+        string Huisnummer,
+        string? Busnummer,
+        string Postcode,
+        string Gemeente,
+        string Land,
+        bool HoofdLocatie,
+        string LocatieType);
 }

@@ -2,6 +2,9 @@
 
 namespace AssociationRegistry.Admin.Api.Verenigingen;
 
+using System;
+using System.Linq;
+using Constants;
 using FluentValidation;
 using Infrastructure.Validation;
 
@@ -9,8 +12,10 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 {
     public RegistreerVerenigingRequestValidator()
     {
-        this.NotNullOrEmpty(request => request.Initiator);
-        this.NotNullOrEmpty(request => request.Naam);
+        this.RequireNotNullOrEmpty(request => request.Initiator);
+
+        this.RequireNotNullOrEmpty(request => request.Naam);
+
         RuleFor(request => request.KboNummer)
             .Length(10, int.MaxValue)
             .WithMessage("KboNummer moet 10 cijfers bevatten.")
@@ -18,6 +23,49 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleForEach(request => request.Contacten)
             .Must(HaveAtLeastOneValue)
             .WithMessage("Een contact moet minstens één waarde bevatten.");
+
+        RuleFor(request => request.Locaties)
+            .Must(NotHaveDuplicates)
+            .WithMessage("Identieke locaties zijn niet toegelaten.");
+        RuleFor(request => request.Locaties)
+            .Must(NotHaveMultipleCorresporentieLocaties)
+            .WithMessage("Er mag maximum één coresporentie locatie opgegeven worden.");
+        RuleFor(request => request.Locaties)
+            .Must(NotHaveMultipleHoofdLocaties)
+            .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
+        RuleForEach(request => request.Locaties)
+            .SetValidator(new LocatieValidator());
+    }
+
+    private static bool NotHaveMultipleHoofdLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
+        => locaties.Count(l => l.HoofdLocatie) <= 1;
+
+    private static bool NotHaveMultipleCorresporentieLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
+        => locaties.Count(l => string.Equals(l.LocatieType, LocatieTypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
+
+    private static bool NotHaveDuplicates(RegistreerVerenigingRequest.Locatie[] locaties)
+        => locaties.Length == locaties.Distinct().Count();
+
+    private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
+    {
+        public LocatieValidator()
+        {
+            this.RequireNotNullOrEmpty(locatie => locatie.LocatieType);
+
+            RuleFor(locatie => locatie.LocatieType)
+                .Must(BeAValidLocationTypeValue)
+                .WithMessage($"'LocatieType' moet een geldige waarde hebben. ({LocatieTypes.Correspondentie}, {LocatieTypes.Activiteiten}")
+                .When(locatie => !string.IsNullOrEmpty(locatie.LocatieType));
+
+            this.RequireNotNullOrEmpty(locatie => locatie.Straatnaam);
+            this.RequireNotNullOrEmpty(locatie => locatie.Huisnummer);
+            this.RequireNotNullOrEmpty(locatie => locatie.Gemeente);
+            this.RequireNotNullOrEmpty(locatie => locatie.Land);
+            this.RequireNotNullOrEmpty(locatie => locatie.Postcode);
+        }
+
+        private static bool BeAValidLocationTypeValue(string locatieType)
+            => LocatieTypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
     }
 
     private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)

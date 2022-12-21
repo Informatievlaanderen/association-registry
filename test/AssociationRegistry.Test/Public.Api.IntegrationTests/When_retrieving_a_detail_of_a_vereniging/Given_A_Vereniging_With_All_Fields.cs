@@ -45,6 +45,7 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
                 Startdatum,
                 KboNummer,
                 new[] { ContactInfo },
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator,
