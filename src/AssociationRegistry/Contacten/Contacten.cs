@@ -28,5 +28,6 @@ public class Contacten : List<ContactInfo>
                         info.Contactnaam,
                         info.Email,
                         info.Telefoon,
-                        info.Website)));
+                        info.Website,
+                        info.SocialMedia)));
 }

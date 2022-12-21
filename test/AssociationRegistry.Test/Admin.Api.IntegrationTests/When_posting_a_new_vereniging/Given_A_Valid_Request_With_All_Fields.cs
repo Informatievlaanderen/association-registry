@@ -32,6 +32,9 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
                 {
                     Contactnaam = "Algemeen",
                     Email = "random@adress.be",
+                    Telefoon = "0123456789",
+                    Website = "www.website.be",
+                    SocialMedia = "#social",
                 },
             },
         };
@@ -88,5 +91,6 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.Contacten[0].Email.Should().Be(_apiFixture.Request.Contacten[0].Email);
         savedEvent.Contacten[0].Website.Should().Be(_apiFixture.Request.Contacten[0].Website);
         savedEvent.Contacten[0].Telefoon.Should().Be(_apiFixture.Request.Contacten[0].Telefoon);
+        savedEvent.Contacten[0].SocialMedia.Should().Be(_apiFixture.Request.Contacten[0].SocialMedia);
     }
 }

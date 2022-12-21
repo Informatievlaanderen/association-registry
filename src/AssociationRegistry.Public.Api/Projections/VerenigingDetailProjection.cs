@@ -30,6 +30,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                                 Email = c.Email,
                                 Telefoon = c.Telefoon,
                                 Website = c.Website,
+                                SocialMedia = c.SocialMedia,
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailContactInfoDocument>(),
         };
@@ -55,5 +56,6 @@ public class VerenigingDetailDocument
         public string? Email { get; set; }
         public string? Telefoon { get; set; }
         public string? Website { get; set; }
+        public string? SocialMedia { get; set; }
     }
 }

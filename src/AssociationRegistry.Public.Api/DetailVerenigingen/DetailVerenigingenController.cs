@@ -58,7 +58,8 @@ public class DetailVerenigingenController : ApiController
                                 info.Contactnaam,
                                 info.Email,
                                 info.Telefoon,
-                                info.Website))
+                                info.Website,
+                                info.SocialMedia))
                         .ToArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }

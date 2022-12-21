@@ -164,11 +164,12 @@ public class When_Validating_A_RegistreerVerenigingRequest
     public class Given_An_Contact_With_One_Or_More_Values : ValidatorTest
     {
         [Theory]
-        [InlineData("em@il.com", "0123456", "www.ebsi.ti")]
-        [InlineData(null, null, "www.other.site")]
-        [InlineData(null, "9876543210", null)]
-        [InlineData("yet@another.mail", null, null)]
-        public void Then_it_has_no_validation_errors(string email, string telefoon, string website)
+        [InlineData("em@il.com", "0123456", "www.ebsi.ti", "www.socialMedia.com")]
+        [InlineData(null, null, "www.other.site", null)]
+        [InlineData(null, null, null, "@media")]
+        [InlineData(null, "9876543210", null, null)]
+        [InlineData("yet@another.mail", null, null, null)]
+        public void Then_it_has_no_validation_errors(string? email, string? telefoon, string? website, string? socialMedia)
         {
             var validator = new RegistreerVerenigingRequestValidator();
             var request = new RegistreerVerenigingRequest
@@ -180,6 +181,7 @@ public class When_Validating_A_RegistreerVerenigingRequest
                     Email = email,
                     Telefoon = telefoon,
                     Website = website,
+                    SocialMedia = socialMedia,
                 }},
             };
             var result = validator.TestValidate(request);

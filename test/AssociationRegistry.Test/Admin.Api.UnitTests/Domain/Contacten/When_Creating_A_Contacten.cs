@@ -13,7 +13,7 @@ public class When_Creating_A_Contacten
         {
             var listOfContactInfo = new List<ContactInfo>
             {
-                ContactInfo.CreateInstance("De router", "ip@adress.com", "255.255.255.0", "127.0.0.1"),
+                ContactInfo.CreateInstance("De router", "ip@adress.com", "255.255.255.0", "127.0.0.1", "#home"),
             };
 
             var contactLijst = Contacten.Create(listOfContactInfo);

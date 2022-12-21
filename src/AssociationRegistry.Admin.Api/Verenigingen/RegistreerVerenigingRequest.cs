@@ -57,5 +57,10 @@ public class RegistreerVerenigingRequest
         /// Een website link
         /// </summary>
         [DataMember] public string? Website { get; set; }
+        /// <summary>
+        /// Een socialmedia identifier
+        /// </summary>
+        [DataMember]
+        public string? SocialMedia { get; set; }
     }
 }
