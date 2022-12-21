@@ -18,12 +18,12 @@ using Framework;
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
-    string? KorteNaam = null,
-    string? KorteBeschrijving = null,
-    DateOnly? Startdatum = null,
-    string? KboNummer = null,
-    VerenigingWerdGeregistreerd.ContactInfo[]? Contacten = null,
-    DateOnly? DatumLaatsteAanpassing = null) : IEvent
+    string? KorteNaam,
+    string? KorteBeschrijving,
+    DateOnly? Startdatum,
+    string? KboNummer,
+    VerenigingWerdGeregistreerd.ContactInfo[]? Contacten,
+    DateOnly? DatumLaatsteAanpassing) : IEvent
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -34,6 +34,5 @@ public record VerenigingWerdGeregistreerd(
     {
         public static ContactInfo[] FromContacten(Contacten contacten)
             => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
-
     }
 }

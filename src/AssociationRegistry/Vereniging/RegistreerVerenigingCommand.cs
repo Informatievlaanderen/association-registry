@@ -5,16 +5,16 @@ using MediatR;
 
 public record RegistreerVerenigingCommand(
     string Naam,
-    string? KorteNaam = null,
-    string? KorteBeschrijving = null,
-    DateOnly? Startdatum = null,
-    string? KboNummber = null,
-    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten = null) : IRequest<Unit>
+    string? KorteNaam,
+    string? KorteBeschrijving,
+    DateOnly? Startdatum,
+    string? KboNummber,
+    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten) : IRequest<Unit>
 {
     public record ContactInfo(
-        string? Contactnaam = null,
-        string? Email = null,
-        string? Telefoon = null,
-        string? Website = null,
-        string? SocialMedia = null);
+        string? Contactnaam,
+        string? Email,
+        string? Telefoon,
+        string? Website,
+        string? SocialMedia);
 }

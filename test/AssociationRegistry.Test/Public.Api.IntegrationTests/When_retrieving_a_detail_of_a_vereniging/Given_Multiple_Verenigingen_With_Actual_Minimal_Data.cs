@@ -14,9 +14,12 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : Publ
 
     public static readonly IDictionary<string, VerenigingWerdGeregistreerd> Events = new Dictionary<string, VerenigingWerdGeregistreerd>()
     {
-        { VCode1, new VerenigingWerdGeregistreerd(VCode1, Fixture.Create<string>()) { DatumLaatsteAanpassing = DateOnly.FromDateTime(DateTime.Today) } },
-        { VCode2, new VerenigingWerdGeregistreerd(VCode2, Fixture.Create<string>()) { DatumLaatsteAanpassing = DateOnly.FromDateTime(DateTime.Today) } },
+        { VCode1, VerenigingWerdGeregistreerd(VCode1)},
+        { VCode2, VerenigingWerdGeregistreerd(VCode2) },
     };
+
+    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode)
+        => new(vCode, Fixture.Create<string>(), null, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), DateOnly.FromDateTime(DateTime.Today));
 
     public const string VCode1 = "v000001";
     public const string VCode2 = "v000002";

@@ -37,7 +37,7 @@ public class Given_A_RegistreerVerenigingCommandHandler
 
         var handler = new RegistreerVerenigingCommandHandler(verenigingsRepository, vNummerService, clock);
         var registreerVerenigingCommand = new CommandEnvelope<RegistreerVerenigingCommand>(
-            new RegistreerVerenigingCommand("naam1"),
+            RegistreerVerenigingCommand("naam1"),
             _fixture.Create<CommandMetadata>());
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
@@ -54,6 +54,9 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.KboNummer.Should().BeNull();
         theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }
+
+    private static RegistreerVerenigingCommand RegistreerVerenigingCommand(string naam)
+        => new(naam, null, null, null, null, Array.Empty<RegistreerVerenigingCommand.ContactInfo>());
 
     [Fact]
     public async Task Given_All_fields_Then_a_new_vereniging_is_saved_in_the_repository()

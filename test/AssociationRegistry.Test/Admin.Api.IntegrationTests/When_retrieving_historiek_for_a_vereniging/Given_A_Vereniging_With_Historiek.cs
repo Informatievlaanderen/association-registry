@@ -25,10 +25,11 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
                 KorteBeschrijving: "Het feestcommittee van Oudenaarde",
                 Startdatum: DateOnly.FromDateTime(new DateTime(2022, 11, 9)),
                 KboNummer: "0123456789",
+                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 DatumLaatsteAanpassing: DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator: "Een initiator",
-                Tijdstip: new DateTimeOffset(2022, 1, 1, 0,0,0, TimeSpan.Zero).ToInstant()));
+                Tijdstip: new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant()));
 }
 
 public class Given_A_Vereniging_With_Historiek : IClassFixture<Given_A_Vereniging_With_Historiek_Fixture>
