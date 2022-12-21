@@ -30,7 +30,7 @@ jobs:
         ports:
           - 5051:80
         volumes:
-          - ${{ runner.temp }}/identityserver:/home/identityserver/config
+          - ${{ runner.temp }}/../identityserver:/home/identityserver/config
 
       db:
         image: postgres
@@ -57,7 +57,7 @@ jobs:
 
     - name: copy files to tmp
       run: |
-        cp ${{ github.workspace }}/identityserver/*.json ${{ runner.temp }}/identityserver
+        cp ${{ github.workspace }}/identityserver/*.json ${{ runner.temp }}/../identityserver
 
     - name: list folder
       run: |
