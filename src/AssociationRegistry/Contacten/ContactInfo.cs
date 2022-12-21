@@ -1,5 +1,8 @@
 ﻿namespace AssociationRegistry.Contacten;
 
+using Exceptions;
+using Framework;
+
 public class ContactInfo
 {
     private ContactInfo(string? contactnaam, string? email, string? telefoon, string? website, string? socialMedia)
@@ -12,7 +15,13 @@ public class ContactInfo
     }
 
     public static ContactInfo CreateInstance(string? contactnaam, string? email, string? telefoonNummer, string? website, string? socialMedia)
-        => new(contactnaam, email, telefoonNummer, website, socialMedia);
+    {
+        Throw<NoContactInfo>.If(NoValuesForAll(email, telefoonNummer, website, socialMedia));
+        return new ContactInfo(contactnaam, email, telefoonNummer, website, socialMedia);
+    }
+
+    private static bool NoValuesForAll(params string?[] args)
+        => args.All(string.IsNullOrEmpty);
 
     public string? Contactnaam { get; }
     public string? Email { get; }

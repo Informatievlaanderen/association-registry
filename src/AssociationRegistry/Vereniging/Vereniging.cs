@@ -37,7 +37,7 @@ public class Vereniging
         string? korteBeschrijving,
         Startdatum? startdatum,
         KboNummer? kboNummer,
-        Contacten contacten,
+        ContactLijst contactLijst,
         DateOnly today)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
@@ -47,7 +47,7 @@ public class Vereniging
             korteBeschrijving,
             startdatum?.Value,
             kboNummer?.ToString(),
-            VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contacten),
+            VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contactLijst),
             today);
 
         _state = State.Apply(verenigingWerdGeregistreerdEvent);

@@ -4,19 +4,19 @@ using AssociationRegistry.Contacten;
 using FluentAssertions;
 using Xunit;
 
-public class When_Creating_A_Contacten
+public class When_Creating_A_ContactLijst
 {
     public class Given_A_List_Of_ContactInfo
     {
         [Fact]
-        public void Then_It_Returns_A_Filled_Contacten()
+        public void Then_It_Returns_A_Filled_ContactLijst()
         {
             var listOfContactInfo = new List<ContactInfo>
             {
                 ContactInfo.CreateInstance("De router", "ip@adress.com", "255.255.255.0", "127.0.0.1", "#home"),
             };
 
-            var contactLijst = Contacten.Create(listOfContactInfo);
+            var contactLijst = ContactLijst.Create(listOfContactInfo);
 
             contactLijst.Should().HaveCount(1);
             contactLijst[0].Contactnaam.Should().Be("De router");
@@ -32,7 +32,7 @@ public class When_Creating_A_Contacten
         public void Then_It_Returns_An_Empty_ContactLijst()
         {
             var listOfContactInfo = Array.Empty<ContactInfo>();
-            var contactLijst = Contacten.Create(listOfContactInfo);
+            var contactLijst = ContactLijst.Create(listOfContactInfo);
             contactLijst.Should().BeEmpty();
         }
     }
@@ -42,7 +42,7 @@ public class When_Creating_A_Contacten
         [Fact]
         public void Then_It_Returns_An_Empty_ContactLijst()
         {
-            var contactLijst = Contacten.Create((ContactInfo[]?)null);
+            var contactLijst = ContactLijst.Create((ContactInfo[]?)null);
             contactLijst.Should().BeEmpty();
         }
     }
