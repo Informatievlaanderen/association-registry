@@ -8,11 +8,11 @@ using Xunit.Abstractions;
 
 public class Given_a_secured_api_endpoint: IClassFixture<VerenigingAcmApiFixture>
 {
-    private readonly ITestOutputHelper _outputHelper;
+    private readonly ITestOutputHelper? _outputHelper;
     private readonly AcmIntegrationTestHelper _testHelper;
     private const string Route = "/v1/verenigingen";
 
-    public Given_a_secured_api_endpoint(VerenigingAcmApiFixture fixture, ITestOutputHelper outputHelper)
+    public Given_a_secured_api_endpoint(VerenigingAcmApiFixture fixture, ITestOutputHelper? outputHelper)
     {
         _outputHelper = outputHelper;
         _testHelper = new AcmIntegrationTestHelper(fixture);

@@ -22,7 +22,8 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
         "Algemeen",
         "info@FOud.be",
         "1111.11.11.11",
-        "www.oudenaarde.be/feest");
+        "www.oudenaarde.be/feest",
+        "#FOudenaarde");
 
 
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));

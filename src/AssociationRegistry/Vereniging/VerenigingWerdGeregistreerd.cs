@@ -26,12 +26,14 @@ public record VerenigingWerdGeregistreerd(
     DateOnly? DatumLaatsteAanpassing = null) : IEvent
 {
     public record ContactInfo(
-        string Contactnaam,
+        string? Contactnaam,
         string? Email,
         string? Telefoon,
-        string? Website)
+        string? Website,
+        string? SocialMedia)
     {
         public static ContactInfo[] FromContacten(Contacten contacten)
-            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website)).ToArray();
+            => contacten.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
+
     }
 }

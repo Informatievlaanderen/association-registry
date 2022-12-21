@@ -42,10 +42,11 @@ public record Metadata(DateOnly DatumLaatsteAanpassing);
 public record ContactInfo(
     [property: DataMember(Name = "Contactnaam")]
     string? Contactnaam,
-    [property: DataMember(Name = "Email")]
-    string? Email,
+    [property: DataMember(Name = "Email")] string? Email,
     [property: DataMember(Name = "Telefoon")]
     string? Telefoon,
     [property: DataMember(Name = "Website")]
-    string? Website
+    string? Website,
+    [property: DataMember(Name = "SocialMedia")]
+    string? SocialMedia
 );

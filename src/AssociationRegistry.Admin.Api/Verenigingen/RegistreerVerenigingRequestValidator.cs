@@ -23,5 +23,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
         => !string.IsNullOrEmpty(contactInfo.Email) ||
            !string.IsNullOrEmpty(contactInfo.Telefoon) ||
-           !string.IsNullOrEmpty(contactInfo.Website);
+           !string.IsNullOrEmpty(contactInfo.Website) ||
+           !string.IsNullOrEmpty(contactInfo.SocialMedia);
 }

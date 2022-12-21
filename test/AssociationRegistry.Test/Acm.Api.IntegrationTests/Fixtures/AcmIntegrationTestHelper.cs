@@ -22,14 +22,14 @@ public class AcmIntegrationTestHelper
     public async Task<HttpClient> CreateAcmClient()
         => await CreateAcmClient("dv_verenigingsregister_hoofdvertegenwoordigers");
 
-    public async Task<HttpClient> CreateAcmClient(string scope, ITestOutputHelper testOutputHelper = null)
+    public async Task<HttpClient> CreateAcmClient(string scope, ITestOutputHelper? testOutputHelper = null)
         => await CreateMachine2MachineClientFor("acmClient", scope, "secret", testOutputHelper);
 
     private async Task<HttpClient> CreateMachine2MachineClientFor(
         string clientId,
         string scope,
         string clientSecret,
-        ITestOutputHelper testOutputHelper = null)
+        ITestOutputHelper? testOutputHelper = null)
     {
         var editApiConfiguration = _fixture.ConfigurationRoot!.GetSection(nameof(OAuth2IntrospectionOptions))
             .Get<OAuth2IntrospectionOptions>();

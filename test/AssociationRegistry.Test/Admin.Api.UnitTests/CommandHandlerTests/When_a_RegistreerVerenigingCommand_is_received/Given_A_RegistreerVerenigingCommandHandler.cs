@@ -78,7 +78,8 @@ public class Given_A_RegistreerVerenigingCommandHandler
                         "Algemeen",
                         "info@dummy.com",
                         "1234567890",
-                        "www.test-website.be"),
+                        "www.test-website.be",
+                        "@test"),
                 }),
             _fixture.Create<CommandMetadata>());
 
@@ -99,5 +100,6 @@ public class Given_A_RegistreerVerenigingCommandHandler
         theEvent.Contacten[0].Email.Should().Be("info@dummy.com");
         theEvent.Contacten[0].Telefoon.Should().Be("1234567890");
         theEvent.Contacten[0].Website.Should().Be("www.test-website.be");
+        theEvent.Contacten[0].SocialMedia.Should().Be("@test");
     }
 }
