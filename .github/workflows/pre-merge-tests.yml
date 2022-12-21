@@ -10,7 +10,7 @@ jobs:
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     services:
       minio:
@@ -30,7 +30,7 @@ jobs:
         ports:
           - 5051:80
         volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver/config
+          - ${{ runner.temp }}/identityserver:/home/identityserver/config
 
       db:
         image: postgres
@@ -55,12 +55,16 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    - name: copy files to tmp
+      run: |
+        cp ${{ github.workspace }}/identityserver/*.json ${{ runner.temp }}/identityserver
+
     - name: list folder
       run: |
         echo ${{ github.workspace }}/identityserver
         ls ${{ github.workspace }}/identityserver
-        echo ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
-        ls ${{ runner.workspace }}/${{ github.event.repository.name }}/identityserver
+        echo {{ runner.temp }}/identityserver
+        ls {{ runner.temp }}/identityserver
 
     - name: Cache Paket
       uses: actions/cache@v3
