@@ -23,15 +23,6 @@ jobs:
           MINIO_ROOT_USER: Q3AM3UQ867SPQQA43P2F
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
-      acm:
-        image: ghcr.io/informatievlaanderen/identity-server-fake:e52b719
-        env:
-          IdentityServer__ConfigFolder: /home/identityserver/
-        ports:
-          - 5051:80
-        volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver
-
       db:
         image: postgres
         env:
@@ -57,6 +48,11 @@ jobs:
     # build
     - name: Checkout Code
       uses: actions/checkout@v3
+
+    - name: Run ACM container
+      shell: bash
+      run: |
+        docker run -d --name acm -p 5051:80 -e IdentityServer__ConfigFolder=/home/identityserver/config -v ${{ github.workspace }}/identityserver:/home/identityserver/config ghcr.io/informatievlaanderen/identity-server-fake:latest
 
     - name: Cache NPM
       uses: actions/cache@v3
@@ -234,6 +230,10 @@ jobs:
         name: admin-api
         path: ~/ar-admin-api-image.tar
 
+    - name: Run ACM container
+      shell: bash
+      run: |
+        docker logs acm
     # name: Upload artifact
     # /build
 #

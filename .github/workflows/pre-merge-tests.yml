@@ -23,15 +23,6 @@ jobs:
           MINIO_ROOT_USER: Q3AM3UQ867SPQQA43P2F
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
-      acm:
-        image: ghcr.io/informatievlaanderen/identity-server-fake:latest
-        env:
-          IdentityServer__ConfigFolder: /home/identityserver/config
-        ports:
-          - 5051:80
-        volumes:
-          - ${{ github.workspace }}/identityserver:/home/identityserver
-
       db:
         image: postgres
         env:
@@ -168,7 +159,6 @@ jobs:
       shell: bash
       run: |
         docker logs acm
-
 
   notify:
     if: ${{ always() }}
