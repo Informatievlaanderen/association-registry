@@ -57,7 +57,7 @@ jobs:
     - name: Run ACM container
       shell: bash
       run: |
-        docker run -d -p 5051:80 -e IdentityServer__ConfigFolder=/home/identityserver/config -v ${{ github.workspace }}/identityserver:/home/identityserver/config ghcr.io/informatievlaanderen/identity-server-fake:latest
+        docker run -d --name acm -p 5051:80 -e IdentityServer__ConfigFolder=/home/identityserver/config -v ${{ github.workspace }}/identityserver:/home/identityserver/config ghcr.io/informatievlaanderen/identity-server-fake:latest
 
     - name: Cache Paket
       uses: actions/cache@v3
@@ -163,6 +163,11 @@ jobs:
       shell: bash
       run: |
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+    - name: Run ACM container
+      shell: bash
+      run: |
+        docker logs acm
 
 
   notify:
