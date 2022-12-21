@@ -7,6 +7,9 @@ on:
       - main
 
 jobs:
+  checkout:
+    - name: Checkout Code
+      uses: actions/checkout@v3
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
@@ -30,7 +33,7 @@ jobs:
         ports:
           - 5051:80
         volumes:
-          - ${{ github.workspace }}/../identityserver:/home/identityserver/config
+          - ${{ github.workspace }}/identityserver:/home/identityserver
 
       db:
         image: postgres
@@ -51,21 +54,10 @@ jobs:
           xpack.security.transport.ssl.enabled: false
 
     steps:
-
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
-    - name: copy files to tmp
-      run: |
-        cp ${{ github.workspace }}/identityserver/*.json ${{ github.workspace }}/../identityserver
-
     - name: list folder
       run: |
         echo ${{ github.workspace }}/identityserver
         ls ${{ github.workspace }}/identityserver
-        echo {{ runner.temp }}/identityserver
-        ls {{ runner.temp }}/identityserver
-
     - name: Cache Paket
       uses: actions/cache@v3
       env:
