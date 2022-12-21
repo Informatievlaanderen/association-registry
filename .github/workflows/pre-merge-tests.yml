@@ -8,8 +8,12 @@ on:
 
 jobs:
   checkout:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+    if: github.repository_owner == 'Informatievlaanderen'
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
