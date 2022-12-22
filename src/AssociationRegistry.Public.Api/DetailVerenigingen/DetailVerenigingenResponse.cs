@@ -47,8 +47,8 @@ public record VerenigingDetail(
     string? KboNummer,
     [property: DataMember(Name = "Status")]
     string Status,
-    [property: DataMember(Name = "Contacten")]
-    ContactInfo[] Contacten,
+    [property: DataMember(Name = "ContactInfoLijst")]
+    ContactInfo[] ContactInfoLijst,
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties);
 
