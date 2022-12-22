@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.Contacten;
+﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.ContactInfo;
 
-using AssociationRegistry.Contacten;
+using AssociationRegistry.ContactInfo;
 using FluentAssertions;
 using Xunit;
 

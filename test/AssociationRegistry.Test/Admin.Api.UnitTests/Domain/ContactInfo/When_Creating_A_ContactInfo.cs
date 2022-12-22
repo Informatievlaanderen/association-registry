@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.Contacten;
+﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.Domain.ContactInfo;
 
-using AssociationRegistry.Contacten;
-using AssociationRegistry.Contacten.Exceptions;
+using AssociationRegistry.ContactInfo;
+using AssociationRegistry.ContactInfo.Exceptions;
 using FluentAssertions;
 using Xunit;
 
-public class When_Createing_A_ContactInfo
+public class When_Creating_A_ContactInfo
 {
     public class Given_All_Null
     {
@@ -16,6 +16,7 @@ public class When_Createing_A_ContactInfo
             factory.Should().Throw<NoContactInfo>();
         }
     }
+
     public class Given_Only_A_Name
     {
         [Fact]

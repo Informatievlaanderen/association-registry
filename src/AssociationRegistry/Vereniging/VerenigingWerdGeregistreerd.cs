@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Contacten;
+using ContactInfo;
 using Framework;
 
 /// <summary>

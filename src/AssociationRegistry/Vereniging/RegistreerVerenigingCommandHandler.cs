@@ -2,7 +2,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Contacten;
+using ContactInfo;
 using KboNummers;
 using Startdatums;
 using VCodes;
