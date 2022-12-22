@@ -68,7 +68,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
         var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(20));
     }
 
     public async Task<string> Search(string uri)
