@@ -1,3 +1,15 @@
+# [1.88.0](https://github.com/informatievlaanderen/association-registry/compare/v1.87.0...v1.88.0) (2022-12-22)
+
+
+### Bug Fixes
+
+* or-1278 match duplicate locations ([be75558](https://github.com/informatievlaanderen/association-registry/commit/be755586ccad25e83e25778f679a109adeb6cfb5))
+
+
+### Features
+
+* or-1276 add postcode and gemeente to search projection location ([3fe381d](https://github.com/informatievlaanderen/association-registry/commit/3fe381d39fc6a79c4487e615d4b395e9bede5908))
+
 # [1.87.0](https://github.com/informatievlaanderen/association-registry/compare/v1.86.0...v1.87.0) (2022-12-22)
 
 
