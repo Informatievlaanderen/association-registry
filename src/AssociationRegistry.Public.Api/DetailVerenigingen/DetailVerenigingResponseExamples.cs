@@ -2,7 +2,7 @@
 
 using Swashbuckle.AspNetCore.Filters;
 
-public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponseWithActualData>
+public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
     private readonly AppSettings _appSettings;
 
@@ -11,6 +11,6 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
         _appSettings = appSettings;
     }
 
-    public DetailVerenigingResponseWithActualData GetExamples()
+    public DetailVerenigingResponse GetExamples()
         => null;
 }

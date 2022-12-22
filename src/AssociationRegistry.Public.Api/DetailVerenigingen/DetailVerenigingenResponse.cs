@@ -25,7 +25,7 @@ public record Locatie(
 );
 
 [DataContract]
-public record DetailVerenigingResponseWithActualData(
+public record DetailVerenigingResponse(
     [property: DataMember(Name = "@context")]
     string Context,
     [property: DataMember(Name = "Vereniging")]

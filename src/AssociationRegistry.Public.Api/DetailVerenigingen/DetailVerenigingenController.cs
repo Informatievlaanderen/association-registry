@@ -44,7 +44,7 @@ public class DetailVerenigingenController : ApiController
             return NotFound();
 
         return Ok(
-            new DetailVerenigingResponseWithActualData(
+            new DetailVerenigingResponse(
                 $"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
                 new VerenigingDetail(
                     vereniging.VCode,
@@ -66,6 +66,6 @@ public class DetailVerenigingenController : ApiController
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private Locatie ToResponse(VerenigingDetailDocument.Locatie loc)
+    private static Locatie ToResponse(VerenigingDetailDocument.Locatie loc)
         => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }
