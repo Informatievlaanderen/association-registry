@@ -104,7 +104,7 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         get
         {
             var hoofdactiviteiten = isStatic
-                ? AssociationRegistry.Activiteiten.Hoofdactiviteit.Create("BWRK").ObjectToArray()
+                ? AssociationRegistry.Activiteiten.Hoofdactiviteit.Create("BWWC").ObjectToArray()
                 : ComposeArray(3, GetHoofdactiviteit).ToArray();
 
             return hoofdactiviteiten.Select(h => new VerenigingDocument.Hoofdactiviteit(h.Code, h.Naam)).ToArray();
