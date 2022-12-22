@@ -1,0 +1,16 @@
+{
+  "vereniging": {
+    "vCode": "v000001",
+    "naam": "Feestcommittee Oudenaarde",
+    "korteNaam": null,
+    "korteBeschrijving": null,
+    "startdatum": null,
+    "kboNummer": null,
+    "status": "Actief",
+    "contacten": [],
+    "locaties":[]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": ""
+  }
+}

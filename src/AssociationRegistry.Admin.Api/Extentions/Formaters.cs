@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Constants;
+﻿namespace AssociationRegistry.Admin.Api.Extentions;
 
 using Vereniging;
 
