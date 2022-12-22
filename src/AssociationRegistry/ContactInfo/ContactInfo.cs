@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Contacten;
+﻿namespace AssociationRegistry.ContactInfo;
 
-using Exceptions;
 using Framework;
+using Exceptions;
 
 public class ContactInfo
 {
