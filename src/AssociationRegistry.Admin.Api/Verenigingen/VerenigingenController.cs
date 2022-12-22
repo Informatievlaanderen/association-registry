@@ -55,7 +55,7 @@ public class VerenigingenController : ApiController
             request.KorteBeschrijving,
             request.StartDatum,
             request.KboNummer,
-            request.Contacten.Select(ToContactInfo),
+            request.ContactInfoLijst.Select(ToContactInfo),
             request.Locaties.Select(ToLocatie).ToArray());
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());

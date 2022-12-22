@@ -14,7 +14,7 @@ public class With_Only_A_Contactnaam
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            Contacten = new []{new RegistreerVerenigingRequest.ContactInfo
+            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo
             {
                 Contactnaam = "iets zinnig",
             }},
@@ -22,7 +22,7 @@ public class With_Only_A_Contactnaam
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Contacten)
+        result.ShouldHaveValidationErrorFor(vereniging => vereniging.ContactInfoLijst)
             .WithErrorMessage("Een contact moet minstens één waarde bevatten.");
     }
 }

@@ -20,7 +20,7 @@ public class With_One_Or_More_Values : ValidatorTest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            Contacten = new []{new RegistreerVerenigingRequest.ContactInfo
+            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo
             {
                 Email = email,
                 Telefoon = telefoon,

@@ -26,7 +26,7 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
-            Contacten = new RegistreerVerenigingRequest.ContactInfo[]
+            ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
             {
                 new()
                 {
@@ -70,7 +70,7 @@ public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
             .Replace("{{vereniging.startdatum}}", request.StartDatum!.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
-            .Replace("{{vereniging.contacten}}", JsonConvert.SerializeObject(request.Contacten))
+            .Replace("{{vereniging.contacten}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties));
 }
 
@@ -104,7 +104,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.Startdatum.Should().Be(_apiFixture.Request.StartDatum);
         savedEvent.KboNummer.Should().Be(_apiFixture.Request.KboNummer);
         savedEvent.Contacten.Should().HaveCount(1);
-        savedEvent.Contacten[0].Should().BeEquivalentTo(_apiFixture.Request.Contacten[0]);
+        savedEvent.Contacten[0].Should().BeEquivalentTo(_apiFixture.Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
     }

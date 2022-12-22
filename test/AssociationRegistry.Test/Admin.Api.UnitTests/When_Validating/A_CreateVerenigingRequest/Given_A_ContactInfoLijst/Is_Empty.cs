@@ -15,7 +15,7 @@ public class Is_Empty : ValidatorTest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            Contacten = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
         };
         var result = validator.TestValidate(request);
 

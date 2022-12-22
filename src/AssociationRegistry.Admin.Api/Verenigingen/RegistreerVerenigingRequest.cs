@@ -37,7 +37,7 @@ public class RegistreerVerenigingRequest
     /// De contacten van deze vereniging
     /// </summary>
     [DataMember]
-    public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
+    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
 
     /// <summary>Alle locaties waar deze vereiging actief is.</summary>
     [DataMember]

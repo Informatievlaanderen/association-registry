@@ -14,12 +14,12 @@ public class Without_Any_Values
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            Contacten = new []{new RegistreerVerenigingRequest.ContactInfo()},
+            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo()},
         };
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Contacten)
+        result.ShouldHaveValidationErrorFor(vereniging => vereniging.ContactInfoLijst)
             .WithErrorMessage("Een contact moet minstens één waarde bevatten.");
     }
 }
