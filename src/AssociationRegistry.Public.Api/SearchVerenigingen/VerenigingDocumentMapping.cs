@@ -49,7 +49,13 @@ public static class VerenigingDocumentMapping
                         .Name(document => document.Hoofdlocatie))
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Type));
+                        .Name(document => document.Type))
+                .Text(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Postcode))
+                .Text(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Gemeente));
     }
 
     private static class HoofdactiviteitMapping

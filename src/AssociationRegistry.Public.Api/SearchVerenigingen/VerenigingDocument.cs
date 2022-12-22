@@ -14,7 +14,9 @@ public record VerenigingDocument(
         string Type,
         string? Naam,
         string Adres,
-        bool Hoofdlocatie);
+        bool Hoofdlocatie,
+        string Postcode,
+        string Gemeente);
 
     public record Hoofdactiviteit(
         string Code,

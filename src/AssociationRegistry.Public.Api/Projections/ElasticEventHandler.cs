@@ -31,7 +31,7 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
         );
 
     private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
-        => new(loc.LocatieType, loc.Naam, loc.ToAdresString(), loc.HoofdLocatie);
+        => new(loc.LocatieType, loc.Naam, loc.ToAdresString(), loc.HoofdLocatie, loc.Postcode, loc.Gemeente);
 
 
 }
