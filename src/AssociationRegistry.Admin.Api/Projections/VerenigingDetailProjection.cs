@@ -1,14 +1,14 @@
-﻿namespace AssociationRegistry.Public.Api.Projections;
+﻿namespace AssociationRegistry.Admin.Api.Projections;
 
 using System;
 using System.Linq;
-using Extensions;
 using Framework;
+using Vereniging;
+using Extentions;
 using Infrastructure;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using Vereniging;
 
 public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
 {

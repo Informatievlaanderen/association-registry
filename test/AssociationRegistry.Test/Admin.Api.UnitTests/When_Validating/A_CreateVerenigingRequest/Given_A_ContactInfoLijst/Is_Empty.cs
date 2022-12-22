@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.When_Validating.A_CreateVerenigingRequest.Given_A_ContactInfoLijst;
 
 using AssociationRegistry.Admin.Api.Verenigingen;
-using AssociationRegistry.Test.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 

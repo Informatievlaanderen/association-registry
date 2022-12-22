@@ -104,8 +104,8 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.Startdatum.Should().Be(_apiFixture.Request.StartDatum);
         savedEvent.KboNummer.Should().Be(_apiFixture.Request.KboNummer);
         savedEvent.Contacten.Should().HaveCount(1);
-        savedEvent.Contacten[0].Should().BeEquivalentTo(_apiFixture.Request.ContactInfoLijst[0]);
+        savedEvent.Contacten![0].Should().BeEquivalentTo(_apiFixture.Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
-        savedEvent.Locaties[0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
+        savedEvent.Locaties![0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
     }
 }

@@ -1,0 +1,24 @@
+{
+  "vereniging": {
+    "vCode": "v000001",
+    "naam": "Feestcommittee Oudenaarde",
+    "korteNaam": "FOud",
+    "korteBeschrijving": "Het feestcommittee van Oudenaarde",
+    "kboNummer": "0123456789",
+    "startdatum": "2022-11-09",
+    "status": "Actief",
+    "contacten": [
+      {
+        "contactnaam": "Algemeen",
+        "email": "info@FOud.be",
+        "telefoon": "1111.11.11.11",
+        "website": "www.oudenaarde.be/feest",
+        "socialMedia": "#FOudenaarde"
+      }
+    ],
+    "locaties":[]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": ""
+  }
+}

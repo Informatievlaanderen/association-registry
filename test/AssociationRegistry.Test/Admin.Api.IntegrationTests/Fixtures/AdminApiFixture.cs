@@ -23,7 +23,7 @@ using IEvent = AssociationRegistry.Framework.IEvent;
 public class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier;
+    private readonly string _identifier = "a_";
     private readonly IConfigurationRoot _configurationRoot;
 
     private readonly TestServer _testServer;

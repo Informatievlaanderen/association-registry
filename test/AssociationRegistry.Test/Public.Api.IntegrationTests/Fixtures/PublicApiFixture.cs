@@ -25,7 +25,7 @@ using IEvent = AssociationRegistry.Framework.IEvent;
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier;
+    private readonly string _identifier = "p_";
     private readonly IConfigurationRoot _configurationRoot;
 
     private readonly IElasticClient _elasticClient;

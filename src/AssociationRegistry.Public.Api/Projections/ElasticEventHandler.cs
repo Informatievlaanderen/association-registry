@@ -2,7 +2,7 @@ namespace AssociationRegistry.Public.Api.Projections;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Constants;
+using Extensions;
 using SearchVerenigingen;
 using Vereniging;
 
