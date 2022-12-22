@@ -1,3 +1,10 @@
+# [1.85.0](https://github.com/informatievlaanderen/association-registry/compare/v1.84.0...v1.85.0) (2022-12-22)
+
+
+### Features
+
+* OR-1278 rename to ContactInfoLijst ([ce6c016](https://github.com/informatievlaanderen/association-registry/commit/ce6c016ed2dda1bbe38a0dc3ab3406cf07ea03ba))
+
 # [1.84.0](https://github.com/informatievlaanderen/association-registry/compare/v1.83.0...v1.84.0) (2022-12-22)
 
 
