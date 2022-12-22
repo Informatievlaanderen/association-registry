@@ -1,3 +1,58 @@
+# [1.83.0](https://github.com/informatievlaanderen/association-registry/compare/v1.82.0...v1.83.0) (2022-12-22)
+
+
+### Bug Fixes
+
+* or-1278 add environment variable to acm container ([f300d70](https://github.com/informatievlaanderen/association-registry/commit/f300d701839ad5dd023469d6504b1b173a9c2bfa))
+* OR-1278 use correct config folder env var ([235422b](https://github.com/informatievlaanderen/association-registry/commit/235422bab3a7addcb65e930d32c0f45ad7d1b67e))
+
+
+### Features
+
+* or-1278 add comments to request ([dec255b](https://github.com/informatievlaanderen/association-registry/commit/dec255b6edf17030f507522d48247514219a49d8))
+* OR-1278 add contactgegevens ([4afc6b0](https://github.com/informatievlaanderen/association-registry/commit/4afc6b01ccd49a96c8efc46d7a97d38d015f0a5e))
+* OR-1278 add logs ([8baeb65](https://github.com/informatievlaanderen/association-registry/commit/8baeb6566773d0fe0769b353c4366a62dc9cf05d))
+* OR-1278 add needs ([683518c](https://github.com/informatievlaanderen/association-registry/commit/683518c9c1263908f20fb630779f105b2bc0c36b))
+* or-1278 add social media as contactInfo ([27ad76b](https://github.com/informatievlaanderen/association-registry/commit/27ad76b813503e105a33b6d9faaf35f38d9e2fc6))
+* or-1278 add social media as contactInfo ([df74b11](https://github.com/informatievlaanderen/association-registry/commit/df74b1134f87edac8910e3aa45edce97d0f2438a))
+* OR-1278 checkout in separate job ([3a52343](https://github.com/informatievlaanderen/association-registry/commit/3a52343b7691e0b455932012ea9830f5dd6e0f64))
+* OR-1278 checkout in separate job ([19dcd11](https://github.com/informatievlaanderen/association-registry/commit/19dcd11bc29b9466b616cdb8f58671a9a44ca3d0))
+* OR-1278 detach ([24b544e](https://github.com/informatievlaanderen/association-registry/commit/24b544e0d08421ca8f0883e70b82962316304896))
+* or-1278 fix acm commands ([6cd4603](https://github.com/informatievlaanderen/association-registry/commit/6cd46033412d302864e0fee21f367229248d2286))
+* OR-1278 list identityserver dirs ([cfbe7a4](https://github.com/informatievlaanderen/association-registry/commit/cfbe7a487870703a8ca346cc86a8afb1ddb90de1))
+* OR-1278 list identityserver dirs ([1f92b10](https://github.com/informatievlaanderen/association-registry/commit/1f92b104f3df5cdf4b12bfc403516e7e91f76298))
+* OR-1278 list identityserver dirs ([2e1a9b2](https://github.com/informatievlaanderen/association-registry/commit/2e1a9b201737b2267ca4f42fa7d6458cbf845cde))
+* OR-1278 list identityserver dirs ([974acff](https://github.com/informatievlaanderen/association-registry/commit/974acff5c0cc77d9f593b8cb3bfc51a920e7d7fd))
+* OR-1278 list identityserver dirs ([3d9ca63](https://github.com/informatievlaanderen/association-registry/commit/3d9ca63fe80ccb194efc27dd6a93249d8fd4c05c))
+* OR-1278 log always ([1d72beb](https://github.com/informatievlaanderen/association-registry/commit/1d72bebaae346089d1003cf30ccf9408116189ec))
+* OR-1278 output acm response ([8a07442](https://github.com/informatievlaanderen/association-registry/commit/8a07442ac16de70b47a742a9be47c1ce8655ae73))
+* or-1278 remove 'actual data' for deatils ([f4d120b](https://github.com/informatievlaanderen/association-registry/commit/f4d120b1aebc3d3070cf9f06349d4ea829dfa3f6))
+* or-1278 remove 'actual data' for deatils ([202b218](https://github.com/informatievlaanderen/association-registry/commit/202b21819dfba812dc5a449cbfe4a2f159a08972))
+* OR-1278 remove mapping ([df49a54](https://github.com/informatievlaanderen/association-registry/commit/df49a54113e448ab73fa5f3769af455a34f5718b))
+* OR-1278 remove static endpoints ([6f411e3](https://github.com/informatievlaanderen/association-registry/commit/6f411e39b3db54bf0a0d1b831875546a61cfb94f))
+* OR-1278 rename TelefoonNummer to Telefoon ([7c8d6b2](https://github.com/informatievlaanderen/association-registry/commit/7c8d6b26a8ca3ccb35337282a3ec5671779c9128))
+* OR-1278 run acm container and only that one ([1f91204](https://github.com/informatievlaanderen/association-registry/commit/1f912041e0de2c279415e2efcf8341bc6caf0600))
+* OR-1278 run docker from bash ([3836abe](https://github.com/informatievlaanderen/association-registry/commit/3836abed785899abbd25431d557d0ec12bf891b5))
+* OR-1278 run on selfhosted ([41cc8c5](https://github.com/informatievlaanderen/association-registry/commit/41cc8c5f02c88081322d25328a99d21c400b4235))
+* OR-1278 run on selfhosted ([af35798](https://github.com/informatievlaanderen/association-registry/commit/af3579875b4204b0ccbd3a36f6ec49a64ebd1b5c))
+* OR-1278 run on ubuntu-latest ([574af7e](https://github.com/informatievlaanderen/association-registry/commit/574af7e416dd9eabb0d99f6f34f785a104a63fc6))
+* OR-1278 trim trailing slashes ([1fe6e99](https://github.com/informatievlaanderen/association-registry/commit/1fe6e99ad61fd63c86ac48c464d08febb3471f13))
+* or-1278 update formating ([67b7c8f](https://github.com/informatievlaanderen/association-registry/commit/67b7c8f6c8cda469329d232fcae6a56993f832cc))
+* OR-1278 update identity-server-fake img ([44c4b1a](https://github.com/informatievlaanderen/association-registry/commit/44c4b1acc435a21f2ceb859c850885147a73e718))
+* OR-1278 update identity-server-fake img to 5d2dc68 ([8fd8f9e](https://github.com/informatievlaanderen/association-registry/commit/8fd8f9e94032db93538811ea4bacdf953e162b82))
+* OR-1278 update identity-server-fake img to e52b719 ([ede000f](https://github.com/informatievlaanderen/association-registry/commit/ede000f0d02f45fe56d25755d3c3dab923c36b7e))
+* OR-1278 use correct folder in docker ([16afb1f](https://github.com/informatievlaanderen/association-registry/commit/16afb1f9f0e8a8cc14aad9d3fd8f86eca37a127b))
+* OR-1278 use parent folder ([5b8d3cc](https://github.com/informatievlaanderen/association-registry/commit/5b8d3cc60d0a84e288d6b8e4f3597aafe2684c62))
+* OR-1278 use parent folder ([20e1400](https://github.com/informatievlaanderen/association-registry/commit/20e140062d03e6a8ed60ae9901b35badc8f6c12c))
+* OR-1278 use tmp folder ([ce83e87](https://github.com/informatievlaanderen/association-registry/commit/ce83e8712352a7a61da1ca7bed7672f28117eca8))
+* OR-1278 validate contact input ([788b0ea](https://github.com/informatievlaanderen/association-registry/commit/788b0eaf58f298d91e00f0bbbe624f5796004356))
+
+
+### Reverts
+
+* Revert "feat: OR-1278 run on ubuntu-latest" ([93cf117](https://github.com/informatievlaanderen/association-registry/commit/93cf11713fce29af014175ca48279d9513ee0290))
+* Revert "feat: OR-1278 remove mapping" ([95d4d0a](https://github.com/informatievlaanderen/association-registry/commit/95d4d0a4ab0a1954cefe87258b078c550366aeca))
+
 # [1.82.0](https://github.com/informatievlaanderen/association-registry/compare/v1.81.1...v1.82.0) (2022-12-14)
 
 
