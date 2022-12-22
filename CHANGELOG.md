@@ -1,3 +1,11 @@
+# [1.87.0](https://github.com/informatievlaanderen/association-registry/compare/v1.86.0...v1.87.0) (2022-12-22)
+
+
+### Features
+
+* or-1278 rename detail response to ContactInfoLijst ([60250cb](https://github.com/informatievlaanderen/association-registry/commit/60250cbc69db8c0c27de2194684eb44bbd8a3fbe))
+* or-1406 replace hoofdactiviteiten list in brolfeeder ([f334bf6](https://github.com/informatievlaanderen/association-registry/commit/f334bf6405e7f9256afcca37c5adbbc0add62362))
+
 # [1.86.0](https://github.com/informatievlaanderen/association-registry/compare/v1.85.0...v1.86.0) (2022-12-22)
 
 
