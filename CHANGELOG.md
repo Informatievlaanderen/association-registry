@@ -1,3 +1,13 @@
+# [1.84.0](https://github.com/informatievlaanderen/association-registry/compare/v1.83.0...v1.84.0) (2022-12-22)
+
+
+### Features
+
+* or-1276 add locatie to initial create ([95a7e0d](https://github.com/informatievlaanderen/association-registry/commit/95a7e0d4c53af5e60b3541b907f233aed8cb8df7))
+* or-1276 remove WithActualData postfix ([555169f](https://github.com/informatievlaanderen/association-registry/commit/555169f8b9693c36ee4b49d58e024ecbaf3bf8e4))
+* or-1276 rename mapping methods ([5e90302](https://github.com/informatievlaanderen/association-registry/commit/5e90302d40ea2256b0fa08b01085eefb3d7f0965))
+* or-1278 refactor tests ([372eeee](https://github.com/informatievlaanderen/association-registry/commit/372eeee559e163639a100bc40de67a2ddbf94597))
+
 # [1.83.0](https://github.com/informatievlaanderen/association-registry/compare/v1.82.0...v1.83.0) (2022-12-22)
 
 
