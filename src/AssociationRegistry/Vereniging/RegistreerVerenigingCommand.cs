@@ -9,8 +9,8 @@ public record RegistreerVerenigingCommand(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummber,
-    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? Contacten,
-    RegistreerVerenigingCommand.Locatie[] Locaties) : IRequest<Unit>
+    IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
+    IEnumerable<RegistreerVerenigingCommand.Locatie> Locaties) : IRequest<Unit>
 {
     public record ContactInfo(
         string? Contactnaam,
