@@ -30,15 +30,15 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
-        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToDomain));
-        var contacten = ContactLijst.Create(command.Contacten);
+        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
+        var contacten = ContactLijst.Create(command.ContactInfoLijst);
         var vCode = await _vCodeService.GetNext();
         var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten,locatieLijst, _clock.Today);
         await _verenigingsRepository.Save(vereniging, envelope.Metadata);
         return Unit.Value;
     }
 
-    private static Locatie ToDomain(RegistreerVerenigingCommand.Locatie loc)
+    private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
         => Locatie.CreateInstance(
             loc.Naam,
             loc.Straatnaam,

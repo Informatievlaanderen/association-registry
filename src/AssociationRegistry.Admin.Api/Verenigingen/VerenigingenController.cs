@@ -55,10 +55,8 @@ public class VerenigingenController : ApiController
             request.KorteBeschrijving,
             request.StartDatum,
             request.KboNummer,
-            request.Contacten.Select(
-                c =>
-                    new RegistreerVerenigingCommand.ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)),
-            request.Locaties.Select(ToCommandLocatie).ToArray());
+            request.Contacten.Select(ToContactInfo),
+            request.Locaties.Select(ToLocatie).ToArray());
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
@@ -66,7 +64,10 @@ public class VerenigingenController : ApiController
         return Accepted();
     }
 
-    private static RegistreerVerenigingCommand.Locatie ToCommandLocatie(RegistreerVerenigingRequest.Locatie loc)
+    private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(RegistreerVerenigingRequest.ContactInfo c)
+        => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);
+
+    private static RegistreerVerenigingCommand.Locatie ToLocatie(RegistreerVerenigingRequest.Locatie loc)
         => new(
             loc.Naam,
             loc.Straatnaam,

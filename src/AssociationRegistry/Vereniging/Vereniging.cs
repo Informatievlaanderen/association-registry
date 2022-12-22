@@ -50,17 +50,17 @@ public class Vereniging
             startdatum?.Value,
             kboNummer?.ToString(),
             VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contactLijst),
-            ToEvent(locatieLijst),
+            ToLocatieLijst(locatieLijst),
             today);
 
         _state = State.Apply(verenigingWerdGeregistreerdEvent);
         Events = Events.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    private static VerenigingWerdGeregistreerd.Locatie[] ToEvent(LocatieLijst locatieLijst)
-        => locatieLijst.Select(ToEvent).ToArray();
+    private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
+        => locatieLijst.Select(ToLocatie).ToArray();
 
-    private static VerenigingWerdGeregistreerd.Locatie ToEvent(Locatie loc)
+    private static VerenigingWerdGeregistreerd.Locatie ToLocatie(Locatie loc)
         => new(
             loc.Naam,
             loc.Straatnaam,
