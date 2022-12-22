@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using Framework;
 using FluentValidation.TestHelper;
+using Newtonsoft.Json;
 using Xunit;
 
 public class With_Two_Identical_Locations : ValidatorTest
@@ -26,8 +27,8 @@ public class With_Two_Identical_Locations : ValidatorTest
             Initiator = "OVO000001",
             Locaties = new[]
             {
-                identiekLocatie,
-                identiekLocatie,
+                Copy(identiekLocatie),
+                Copy(identiekLocatie),
             },
         };
         var result = validator.TestValidate(request);
@@ -35,4 +36,7 @@ public class With_Two_Identical_Locations : ValidatorTest
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Locaties)
             .WithErrorMessage("Identieke locaties zijn niet toegelaten.");
     }
+
+    private static T Copy<T>(T obj)
+        => JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj))!;
 }

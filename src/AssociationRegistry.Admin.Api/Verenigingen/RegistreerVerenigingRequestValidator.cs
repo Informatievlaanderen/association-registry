@@ -44,7 +44,10 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         => locaties.Count(l => string.Equals(l.LocatieType, LocatieTypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
 
     private static bool NotHaveDuplicates(RegistreerVerenigingRequest.Locatie[] locaties)
-        => locaties.Length == locaties.Distinct().Count();
+        => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
+
+    private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
+        => new { l.LocatieType, l.Naam, l.HoofdLocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {
