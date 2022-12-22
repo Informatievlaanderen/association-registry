@@ -8,7 +8,7 @@
     "kboNummer": "0123456789",
     "startdatum": "2022-11-09",
     "status": "Actief",
-    "contacten": [
+    "contactInfoLijst": [
       {
         "contactnaam": "Algemeen",
         "email": "info@FOud.be",
