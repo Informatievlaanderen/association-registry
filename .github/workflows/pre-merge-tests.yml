@@ -155,7 +155,8 @@ jobs:
       run: |
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-    - name: Run ACM container
+    - name: Shows logs ACM container
+      if: ${{ always() }}
       shell: bash
       run: |
         docker logs acm
