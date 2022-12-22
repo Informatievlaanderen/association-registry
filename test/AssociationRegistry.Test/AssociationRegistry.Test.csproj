@@ -25,8 +25,8 @@
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.startdatum_in_future_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_retrieving_historiek_for_a_vereniging\Given_A_Vereniging_With_Historiek_Then_we_get_a_historiek_response.json" />
-    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_Actual_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_Actual_Minimal_Data_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\response.not_null_validation_error.json" />
     <EmbeddedResource Include="Admin.Api.IntegrationTests\When_posting_a_new_vereniging\files\request.with_invalid_kbonummer.json" />
