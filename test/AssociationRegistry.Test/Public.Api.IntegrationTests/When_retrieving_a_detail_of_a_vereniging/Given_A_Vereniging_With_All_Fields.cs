@@ -9,7 +9,7 @@ using AssociationRegistry.Public.Api.Constants;
 using NodaTime.Extensions;
 using Vereniging;
 
-public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixture
+public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
 {
     public const string VCode = "v000001";
     private const string Naam = "Feestcommittee Oudenaarde";
@@ -29,7 +29,7 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
 
-    public Given_A_Vereniging_With_Actual_All_Fields_Fixture() : base(nameof(Given_A_Vereniging_With_Actual_All_Fields_Fixture))
+    public Given_A_Vereniging_With_All_Fields_Fixture() : base(nameof(Given_A_Vereniging_With_All_Fields_Fixture))
     {
     }
 
@@ -52,12 +52,12 @@ public class Given_A_Vereniging_With_Actual_All_Fields_Fixture : PublicApiFixtur
     }
 }
 
-public class Given_A_Vereniging_With_Actual_All_Fields : IClassFixture<Given_A_Vereniging_With_Actual_All_Fields_Fixture>
+public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Vereniging_With_All_Fields_Fixture>
 {
-    private const string VCode = Given_A_Vereniging_With_Actual_All_Fields_Fixture.VCode;
+    private const string VCode = Given_A_Vereniging_With_All_Fields_Fixture.VCode;
     private readonly HttpClient _httpClient;
 
-    public Given_A_Vereniging_With_Actual_All_Fields(Given_A_Vereniging_With_Actual_All_Fields_Fixture fixture)
+    public Given_A_Vereniging_With_All_Fields(Given_A_Vereniging_With_All_Fields_Fixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }
@@ -85,7 +85,7 @@ public class Given_A_Vereniging_With_Actual_All_Fields : IClassFixture<Given_A_V
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging_With_Actual_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(Given_A_Vereniging_With_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

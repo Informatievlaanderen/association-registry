@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Vereniging;
 
-public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : PublicApiFixture
+public class Given_Multiple_Verenigingen_With_Minimal_Data_Fixture : PublicApiFixture
 {
     private static readonly Fixture Fixture = new();
 
@@ -24,7 +24,7 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : Publ
     public const string VCode1 = "v000001";
     public const string VCode2 = "v000002";
 
-    public Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture() : base(nameof(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture))
+    public Given_Multiple_Verenigingen_With_Minimal_Data_Fixture() : base(nameof(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture))
     {
     }
 
@@ -35,18 +35,18 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture : Publ
     }
 }
 
-public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data : IClassFixture<Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture>
+public class Given_Multiple_Verenigingen_With_Minimal_Data : IClassFixture<Given_Multiple_Verenigingen_With_Minimal_Data_Fixture>
 {
     private readonly HttpClient _httpClient;
 
-    public Given_Multiple_Verenigingen_With_Actual_Minimal_Data(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture fixture)
+    public Given_Multiple_Verenigingen_With_Minimal_Data(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }
 
     [Theory]
-    [InlineData(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture.VCode1)]
-    [InlineData(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture.VCode2)]
+    [InlineData(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.VCode1)]
+    [InlineData(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.VCode2)]
     public async Task Then_we_get_a_detail_vereniging_response(string vCode)
     {
         var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{vCode}");
@@ -57,6 +57,6 @@ public class Given_Multiple_Verenigingen_With_Actual_Minimal_Data : IClassFixtur
 
         jObject.SelectToken("vereniging.vCode")!.Value<string>().Should().Be(vCode);
         jObject.SelectToken("vereniging.naam")!.Value<string>().Should()
-            .Be(Given_Multiple_Verenigingen_With_Actual_Minimal_Data_Fixture.Events[vCode].Naam);
+            .Be(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.Events[vCode].Naam);
     }
 }

@@ -11,16 +11,16 @@ public record Locatie(
     string Gemeentenaam);
 
 [DataContract]
-public record DetailVerenigingResponseWithActualData(
+public record DetailVerenigingResponse(
     [property: DataMember(Name = "@context")]
     string Context,
     [property: DataMember(Name = "Vereniging")]
-    VerenigingDetailWithActualData VerenigingDetail,
+    VerenigingDetail VerenigingDetail,
     [property: DataMember(Name = "Metadata")]
     Metadata Metadata);
 
 [DataContract]
-public record VerenigingDetailWithActualData(
+public record VerenigingDetail(
     [property: DataMember(Name = "VCode")] string VCode,
     [property: DataMember(Name = "Naam")] string Naam,
     [property: DataMember(Name = "KorteNaam")]

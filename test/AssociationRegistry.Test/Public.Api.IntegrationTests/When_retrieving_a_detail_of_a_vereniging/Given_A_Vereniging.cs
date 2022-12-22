@@ -7,12 +7,12 @@ using Xunit;
 using AssociationRegistry.Public.Api.Constants;
 using Vereniging;
 
-public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixture
+public class Given_A_Vereniging_Fixture : PublicApiFixture
 {
     public const string VCode = "v000001";
     private const string Naam = "Feestcommittee Oudenaarde";
 
-    public Given_A_Vereniging_With_Actual_Minimal_Data_Fixture() : base(nameof(Given_A_Vereniging_With_Actual_Minimal_Data_Fixture))
+    public Given_A_Vereniging_Fixture() : base(nameof(Given_A_Vereniging_Fixture))
     {
     }
 
@@ -32,12 +32,12 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data_Fixture : PublicApiFixt
     }
 }
 
-public class Given_A_Vereniging_With_Actual_Minimal_Data : IClassFixture<Given_A_Vereniging_With_Actual_Minimal_Data_Fixture>
+public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
 {
     private const string VCode = "v000001";
     private readonly HttpClient _httpClient;
 
-    public Given_A_Vereniging_With_Actual_Minimal_Data(Given_A_Vereniging_With_Actual_Minimal_Data_Fixture fixture)
+    public Given_A_Vereniging(Given_A_Vereniging_Fixture fixture)
     {
         _httpClient = fixture.HttpClient;
     }
@@ -65,7 +65,7 @@ public class Given_A_Vereniging_With_Actual_Minimal_Data : IClassFixture<Given_A
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging_With_Actual_Minimal_Data)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(Given_A_Vereniging)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
