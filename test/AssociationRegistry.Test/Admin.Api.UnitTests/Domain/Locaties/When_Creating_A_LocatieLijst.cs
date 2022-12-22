@@ -40,15 +40,7 @@ public class When_Creating_A_LocatieLijst
             var locatieLijst = LocatieLijst.CreateInstance(listOfLocatie);
 
             locatieLijst.Should().HaveCount(1);
-            locatieLijst[0].IsHoofdlocatie.Should().BeTrue();
-            locatieLijst[0].Huisnummer.Should().Be("1");
-            locatieLijst[0].LocatieType.Should().Be(LocatieTypes.Activiteiten);
-            locatieLijst[0].Naam.Should().Be("Kerker");
-            locatieLijst[0].Busnummer.Should().Be("-1");
-            locatieLijst[0].Gemeente.Should().Be("penoze");
-            locatieLijst[0].Land.Should().Be("Nederland");
-            locatieLijst[0].Postcode.Should().Be("666");
-            locatieLijst[0].Straatnaam.Should().Be("kerkstraat");
+            locatieLijst[0].Should().BeEquivalentTo(listOfLocatie[0]);
         }
     }
 }

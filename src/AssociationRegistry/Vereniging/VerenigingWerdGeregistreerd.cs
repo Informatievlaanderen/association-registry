@@ -22,7 +22,7 @@ public record VerenigingWerdGeregistreerd(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummer,
-    VerenigingWerdGeregistreerd.ContactInfo[]? Contacten,
+    VerenigingWerdGeregistreerd.ContactInfo[] Contacten,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     DateOnly? DatumLaatsteAanpassing) : IEvent
 {
