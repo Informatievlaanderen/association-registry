@@ -25,7 +25,7 @@ public class DetailVerenigingenController : ApiController
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("{vCode}")]
-    [ProducesResponseType(typeof(DetailVerenigingResponseExamples), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -62,10 +62,10 @@ public class DetailVerenigingenController : ApiController
                                 info.Website,
                                 info.SocialMedia))
                         .ToArray(),
-                    vereniging.Locaties.Select(ToResponse).ToImmutableArray()),
+                    vereniging.Locaties.Select(ToLocatie).ToImmutableArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private static Locatie ToResponse(VerenigingDetailDocument.Locatie loc)
+    private static Locatie ToLocatie(VerenigingDetailDocument.Locatie loc)
         => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }
