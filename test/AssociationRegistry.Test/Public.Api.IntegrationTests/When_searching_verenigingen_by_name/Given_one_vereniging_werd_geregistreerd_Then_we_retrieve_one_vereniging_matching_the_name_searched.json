@@ -15,13 +15,17 @@
         {
           "type": "Correspondentie",
           "naam": "Gemeentehuis",
-          "adres": "dorpstraat 1 bus 1b, 9636 Oudenaarde, Belgie"
+          "adres": "dorpstraat 1 bus 1b, 9636 Oudenaarde, Belgie",
+          "postcode": "9636",
+          "gemeente": "Oudenaarde"
         },
         {
           "type": "Activiteiten",
           "hoofdlocatie": true,
           "naam": "Feestzaal",
-          "adres": "kerkstraat 42, 9636 Oudenaarde, Belgie"
+          "adres": "kerkstraat 42, 9636 Oudenaarde, Belgie",
+          "postcode": "9636",
+          "gemeente": "Oudenaarde"
         }
       ],
       "activiteiten": [

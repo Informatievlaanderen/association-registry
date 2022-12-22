@@ -29,7 +29,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Correspondentie",
                             true,
                             "kerkstraat 5, 1770 Liedekerke, Belgie",
-                            null)
+                            null,
+                            "1770",
+                            "Liedekerke")
                     ),
                     ImmutableArray.Create(
                         new Activiteit(123, "Badminton")),
@@ -45,7 +47,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Activiteiten",
                             false,
                             "dorpstraat 91, 9000 Gent, Belgie",
-                            "Cursuszaal")),
+                            "Cursuszaal",
+                            "9000",
+                            "Gent")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis")),
                     new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/V0036651"))

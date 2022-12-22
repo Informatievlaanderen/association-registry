@@ -87,5 +87,5 @@ public class SearchVerenigingenMapper
             }).ToImmutableArray();
 
     private static Locatie ToLocatieResponse(VerenigingDocument.Locatie loc)
-        => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam);
+        => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
 }

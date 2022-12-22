@@ -28,7 +28,11 @@ public record Locatie(
     [property: DataMember(Name = "Adres")]
     string Adres,
     [property: DataMember(Name = "Naam")]
-    string? Naam
+    string? Naam,
+    [property: DataMember(Name = "Postcode")]
+    string Postcode,
+    [property: DataMember(Name = "Gemeente")]
+    string Gemeente
 );
 
 [DataContract]
