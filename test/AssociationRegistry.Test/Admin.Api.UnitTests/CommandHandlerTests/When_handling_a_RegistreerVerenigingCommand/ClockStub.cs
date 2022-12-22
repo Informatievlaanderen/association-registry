@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_a_RegistreerVerenigingCommand_is_received;
+namespace AssociationRegistry.Test.Admin.Api.UnitTests.CommandHandlerTests.When_handling_a_RegistreerVerenigingCommand;
 
 using AssociationRegistry.Framework;
 

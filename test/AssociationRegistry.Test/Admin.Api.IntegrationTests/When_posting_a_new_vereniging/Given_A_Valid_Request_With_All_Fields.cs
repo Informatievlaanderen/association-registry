@@ -103,20 +103,9 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.KorteBeschrijving.Should().Be(_apiFixture.Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(_apiFixture.Request.StartDatum);
         savedEvent.KboNummer.Should().Be(_apiFixture.Request.KboNummer);
-        savedEvent.Contacten![0].Contactnaam.Should().Be(_apiFixture.Request.Contacten[0].Contactnaam);
-        savedEvent.Contacten[0].Email.Should().Be(_apiFixture.Request.Contacten[0].Email);
-        savedEvent.Contacten[0].Website.Should().Be(_apiFixture.Request.Contacten[0].Website);
-        savedEvent.Contacten[0].Telefoon.Should().Be(_apiFixture.Request.Contacten[0].Telefoon);
-        savedEvent.Contacten[0].SocialMedia.Should().Be(_apiFixture.Request.Contacten[0].SocialMedia);
+        savedEvent.Contacten.Should().HaveCount(1);
+        savedEvent.Contacten[0].Should().BeEquivalentTo(_apiFixture.Request.Contacten[0]);
         savedEvent.Locaties.Should().HaveCount(1);
-        savedEvent.Locaties[0].HoofdLocatie.Should().Be(_apiFixture.Request.Locaties[0].HoofdLocatie);
-        savedEvent.Locaties[0].Huisnummer.Should().Be(_apiFixture.Request.Locaties[0].Huisnummer);
-        savedEvent.Locaties[0].LocatieType.Should().Be(_apiFixture.Request.Locaties[0].LocatieType);
-        savedEvent.Locaties[0].Naam.Should().Be(_apiFixture.Request.Locaties[0].Naam);
-        savedEvent.Locaties[0].Busnummer.Should().Be(_apiFixture.Request.Locaties[0].Busnummer);
-        savedEvent.Locaties[0].Gemeente.Should().Be(_apiFixture.Request.Locaties[0].Gemeente);
-        savedEvent.Locaties[0].Land.Should().Be(_apiFixture.Request.Locaties[0].Land);
-        savedEvent.Locaties[0].Postcode.Should().Be(_apiFixture.Request.Locaties[0].Postcode);
-        savedEvent.Locaties[0].Straatnaam.Should().Be(_apiFixture.Request.Locaties[0].Straatnaam);
+        savedEvent.Locaties[0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
     }
 }
