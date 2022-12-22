@@ -8,6 +8,7 @@ using Infrastructure;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using SearchVerenigingen;
 using Vereniging;
 
 public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
@@ -33,7 +34,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                                 SocialMedia = c.SocialMedia,
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
-            Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<VerenigingDetailDocument.Locatie>(),
         };
 
     private static VerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)

@@ -23,7 +23,7 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
                 message.VCode,
                 message.Naam,
                 message.KorteNaam,
-                message.Locaties.Select(ToDocument).ToArray(),
+                message.Locaties?.Select(ToDocument).ToArray() ?? System.Array.Empty<VerenigingDocument.Locatie>(),
                 _brolFeeder.Hoofdactiviteiten,
                 _brolFeeder.Doelgroep,
                 _brolFeeder.Activiteiten.ToArray()
