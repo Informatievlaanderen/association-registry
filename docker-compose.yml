@@ -13,11 +13,9 @@ services:
     command: server --console-address :9001 /data
 
   acm:
-    image: ghcr.io/informatievlaanderen/identity-server-fake:latest
+    image: ghcr.io/informatievlaanderen/identity-server-fake:1284967
     volumes:
       - ./identityserver:/home/identityserver
-    environment:
-        - IdentityServer__ConfigFolder=/home/identityserver/
     ports:
       - "5051:80"
 
