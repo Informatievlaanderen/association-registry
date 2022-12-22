@@ -1,3 +1,10 @@
+# [1.86.0](https://github.com/informatievlaanderen/association-registry/compare/v1.85.0...v1.86.0) (2022-12-22)
+
+
+### Features
+
+* OR-1278 make new fields nullable ([c83ca3b](https://github.com/informatievlaanderen/association-registry/commit/c83ca3b2bb352438a043400de8ec62bcbecfb005))
+
 # [1.85.0](https://github.com/informatievlaanderen/association-registry/compare/v1.84.0...v1.85.0) (2022-12-22)
 
 
