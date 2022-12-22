@@ -8,23 +8,26 @@ public class Hoofdactiviteit
 {
     private static readonly List<Hoofdactiviteit> Hoofdactiviteiten = new()
     {
-        new Hoofdactiviteit("BWRK", "Buurtwerking"),
         new Hoofdactiviteit("BIAG", "Burgerinitiatief & Actiegroep"),
-        new Hoofdactiviteit("CULT", "Cultuur"),
-        new Hoofdactiviteit("CREA", "Creatief / Hobby"),
+        new Hoofdactiviteit("BWWC", "Buurtwerking & Wijkcomité"),
         new Hoofdactiviteit("DINT", "Diversiteit & Integratie"),
-        new Hoofdactiviteit("DRZH", "Duurzaamheid"),
         new Hoofdactiviteit("GEWE", "Gezondheid & Welzijn"),
+        new Hoofdactiviteit("HOSP", "Hobby & Spel"),
         new Hoofdactiviteit("INOS", "Internationaal & Onwikkelingssamenwerking"),
         new Hoofdactiviteit("JGDW", "Jeugdwerk"),
-        new Hoofdactiviteit("KESM", "Kunst, Erfgoed, Sociaal-cultureel werk & Media"),
+        new Hoofdactiviteit("KLDU", "Klimaat & Duurzaamheid"),
+        new Hoofdactiviteit("KECU", "Kunsten, Erfgoed & Cultuur"),
         new Hoofdactiviteit("LEBE", "Levenbeschouwelijk"),
-        new Hoofdactiviteit("MADI", "Maatschappelijke dienstverlening"),
-        new Hoofdactiviteit("NKMD", "Natuur & Klimaat & Milieu & Dierenwelzijn"),
-        new Hoofdactiviteit("ONWE", "Onderwijs & Wetenschap"),
+        new Hoofdactiviteit("MADP", "Maatschappelijke dienstverlening & Politiek"),
+        new Hoofdactiviteit("MEDG", "Mediawijsheid & Digitale geletterdheid"),
+        new Hoofdactiviteit("MROW", "Mobiliteit, Ruimtelijke ordening & Wonen"),
+        new Hoofdactiviteit("NMDW", "Natuur, Milieu & Dierenwelzijn"),
+        new Hoofdactiviteit("VORM", "Onderwijs & Vorming"),
+        new Hoofdactiviteit("VORM", "Sociaal-cultureel volwassenenwerk"),
         new Hoofdactiviteit("SPRT", "Sport"),
+        new Hoofdactiviteit("ONWE", "Technologie & Wetenschap"),
         new Hoofdactiviteit("TOER", "Toerisme"),
-        new Hoofdactiviteit("VORM", "Vorming"),
+
     };
 
     public string Naam { get; }

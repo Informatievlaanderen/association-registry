@@ -14,9 +14,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC)");
         }
     }
 
@@ -25,9 +25,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "oudenaarde");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC) AND oudenaarde");
         }
     }
 
@@ -36,9 +36,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "*");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "*");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC)");
         }
     }
 
@@ -47,9 +47,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT)");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "(hoofdactiviteiten.code:SPRT)");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWWC)");
         }
     }
 
@@ -58,9 +58,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT)");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT)");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK)");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWWC)");
         }
     }
 
@@ -69,9 +69,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT) AND oudenaarde");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "(hoofdactiviteiten.code:SPRT) AND oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:BWWC) AND oudenaarde");
         }
     }
 
@@ -80,9 +80,9 @@ public class Given_The_Original_Query
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
         {
-            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWRK", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT) AND oudenaarde");
+            var newQuery = SearchVerenigingenMapper.AddHoofdactiviteitToQuery(new AppSettings { BaseUrl = BaseUrl }, "BWWC", "(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT) AND oudenaarde");
 
-            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWRK) AND oudenaarde");
+            newQuery.Should().Be($"{BaseUrl}v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:SPRT OR hoofdactiviteiten.code:DINT OR hoofdactiviteiten.code:BWWC) AND oudenaarde");
         }
     }
 }

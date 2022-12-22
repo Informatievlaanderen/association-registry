@@ -6,8 +6,8 @@
       "korteNaam": "FOud",
       "hoofdactiviteiten": [
         {
-          "code": "BWRK",
-          "name": "Buurtwerking"
+          "code": "BWWC",
+          "name": "Buurtwerking & Wijkcomité"
         }
       ],
       "doelgroep": "+18",
@@ -46,10 +46,10 @@
   "facets": {
     "hoofdactiviteiten": [
       {
-        "code": "BWRK",
-        "naam": "Buurtwerking",
+        "code": "BWWC",
+        "naam": "Buurtwerking & Wijkcomité",
         "aantal": 1,
-        "query": "https://localhost:11003/v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWRK) AND {{originalQuery}}"
+        "query": "https://localhost:11003/v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC) AND {{originalQuery}}"
       }
     ]
   },
