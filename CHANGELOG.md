@@ -1,3 +1,15 @@
+# [1.89.0](https://github.com/informatievlaanderen/association-registry/compare/v1.88.1...v1.89.0) (2022-12-23)
+
+
+### Bug Fixes
+
+* or-1330 increase waiting for stale data to 20 seconds ([b3a89cc](https://github.com/informatievlaanderen/association-registry/commit/b3a89cce2c57230ea1b10e540c8d2acbebce4a01))
+
+
+### Features
+
+* or-1330 add detail vereniging to beheer api ([a402678](https://github.com/informatievlaanderen/association-registry/commit/a402678717b4f111b0e22b8da4b30276d8b1fef6))
+
 ## [1.88.1](https://github.com/informatievlaanderen/association-registry/compare/v1.88.0...v1.88.1) (2022-12-23)
 
 
