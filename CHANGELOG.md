@@ -1,3 +1,10 @@
+## [1.88.1](https://github.com/informatievlaanderen/association-registry/compare/v1.88.0...v1.88.1) (2022-12-23)
+
+
+### Bug Fixes
+
+* or-1406 fix double code for hoofdactiviteiten ([b65d76f](https://github.com/informatievlaanderen/association-registry/commit/b65d76fcd70b6e0b55cad3eaf883d456057da34b))
+
 # [1.88.0](https://github.com/informatievlaanderen/association-registry/compare/v1.87.0...v1.88.0) (2022-12-22)
 
 
