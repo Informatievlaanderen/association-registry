@@ -23,7 +23,7 @@ public class Hoofdactiviteit
         new Hoofdactiviteit("MROW", "Mobiliteit, Ruimtelijke ordening & Wonen"),
         new Hoofdactiviteit("NMDW", "Natuur, Milieu & Dierenwelzijn"),
         new Hoofdactiviteit("VORM", "Onderwijs & Vorming"),
-        new Hoofdactiviteit("VORM", "Sociaal-cultureel volwassenenwerk"),
+        new Hoofdactiviteit("SOVO", "Sociaal-cultureel volwassenenwerk"),
         new Hoofdactiviteit("SPRT", "Sport"),
         new Hoofdactiviteit("ONWE", "Technologie & Wetenschap"),
         new Hoofdactiviteit("TOER", "Toerisme"),
