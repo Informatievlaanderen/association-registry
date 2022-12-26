@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using Extensions;
 using FluentValidation;
 using Framework;
 using Marten;
@@ -43,7 +44,7 @@ public class VerenigingenController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Post(
+    public async Task<AcceptedResult> Post(
         [FromServices] IValidator<RegistreerVerenigingRequest> validator,
         [FromBody] RegistreerVerenigingRequest request)
     {
@@ -60,8 +61,9 @@ public class VerenigingenController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
-        await _sender.Send(envelope);
-        return Accepted();
+        var registratieResult = await _sender.Send(envelope);
+
+        return this.AcceptedRegistratie(registratieResult);
     }
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(RegistreerVerenigingRequest.ContactInfo c)

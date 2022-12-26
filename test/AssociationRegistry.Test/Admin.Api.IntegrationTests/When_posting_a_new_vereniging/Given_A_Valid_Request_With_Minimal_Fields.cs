@@ -1,11 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.When_posting_a_new_vereniging;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
+using Microsoft.AspNetCore.Http.Headers;
+using Moq;
 using Vereniging;
 using Xunit;
 
@@ -59,5 +62,24 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
         _apiFixture.DocumentStore.LightweightSession().Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .Where(e => e.Naam == _apiFixture.Request.Naam)
             .Should().HaveCount(1);
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_location_header()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        response.Headers.Location!.OriginalString.Should().StartWith("/v1/verenigingen/V");
+    }
+
+    [Fact]
+    public async Task Then_it_returns_an_etag_header()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence);
+        sequenceValues.Should().HaveCount(1);
+        var sequence = Convert.ToInt64(sequenceValues.Single());
+        sequence.Should().BeGreaterThan(0);
     }
 }

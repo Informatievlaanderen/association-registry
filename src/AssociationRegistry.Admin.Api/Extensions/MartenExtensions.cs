@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Admin.Api.Extentions;
+﻿namespace AssociationRegistry.Admin.Api.Extensions;
 
-using ConfigurationBindings;
-using Constants;
+using AssociationRegistry.Admin.Api.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Json;
+using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
+using AssociationRegistry.VCodes;
 using Infrastructure;
-using Infrastructure.Json;
-using Verenigingen.VCodes;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -12,7 +13,6 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using VCodes;
 
 public static class MartenExtentions
 {

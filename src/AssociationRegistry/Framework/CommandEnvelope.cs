@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Framework;
 
 using MediatR;
+using Vereniging;
 
-public record CommandEnvelope<TCommand>(TCommand Command, CommandMetadata Metadata) : IRequest<Unit> where TCommand : IRequest<Unit>;
+public record CommandEnvelope<TCommand>(TCommand Command, CommandMetadata Metadata) : IRequest<RegistratieResult> where TCommand : IRequest<RegistratieResult>;

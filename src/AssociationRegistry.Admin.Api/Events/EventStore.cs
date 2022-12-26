@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Events;
 
+using System.Linq;
 using System.Threading.Tasks;
 using Framework;
 using JasperFx.Core.Reflection;
@@ -14,15 +15,17 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
+    public async Task<long> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
 
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, metadata.Tijdstip);
 
-        session.Events.Append(aggregateId, events.As<object[]>());
+        var streamAction = session.Events.Append(aggregateId, events.As<object[]>());
 
         await session.SaveChangesAsync();
+
+        return streamAction.Events.Max(@event => @event.Sequence);
     }
 }

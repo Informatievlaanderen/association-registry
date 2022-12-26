@@ -18,10 +18,10 @@ public class EventStoreMock : IEventStore
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
+    public async Task<long> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         Invocations.Add(new Invocation(aggregateId, events));
-        await Task.CompletedTask;
+        return await Task.FromResult(-1);
     }
 }
 

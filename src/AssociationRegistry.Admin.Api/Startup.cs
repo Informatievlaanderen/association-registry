@@ -9,7 +9,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Constants;
 using Events;
-using Extentions;
+using Extensions;
 using Framework;
 using Infrastructure.Configuration;
 using Infrastructure.Json;

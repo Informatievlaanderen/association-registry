@@ -10,7 +10,7 @@ public record RegistreerVerenigingCommand(
     DateOnly? Startdatum,
     string? KboNummber,
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
-    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties) : IRequest<Unit>
+    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties) : IRequest<RegistratieResult>
 {
     public record ContactInfo(
         string? Contactnaam,

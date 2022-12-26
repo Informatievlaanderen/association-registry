@@ -5,5 +5,5 @@ using Framework;
 
 public interface IEventStore
 {
-    Task Save(string aggregateId, CommandMetadata commandMetadata, params IEvent[] events);
+    Task<long> Save(string aggregateId, CommandMetadata commandMetadata, params IEvent[] events);
 }
