@@ -30,6 +30,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     public DocumentStore DocumentStore { get; }
     public HttpClient HttpClient { get; }
+    public AdminApiClient AdminApiClient { get; }
 
     protected AdminApiFixture(string identifier)
     {
@@ -40,6 +41,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         _testServer = ConfigureTestServer();
 
         HttpClient = _testServer.CreateClient();
+        AdminApiClient = new AdminApiClient(HttpClient);
     }
 
     private IConfigurationRoot GetConfiguration()
@@ -58,17 +60,19 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         return tempConfiguration;
     }
 
-    protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
+    protected async Task<long> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         var eventStore = new EventStore(DocumentStore);
-        await eventStore.Save(vCode, metadata, eventToAdd);
+        var sequence = await eventStore.Save(vCode, metadata, eventToAdd);
 
         var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(20));
+
+        return sequence;
     }
 
     public async Task<string> Search(string uri)

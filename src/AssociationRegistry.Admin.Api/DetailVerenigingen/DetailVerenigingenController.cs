@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.DetailVerenigingen;
 
 using System.Collections.Immutable;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -30,11 +31,16 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
-        [FromRoute] string vCode)
+        [FromRoute] string vCode,
+        [FromQuery] long expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
+
+        if (!await session.HasReachedSequence<VerenigingDetailDocument>(expectedSequence))
+            return StatusCode(StatusCodes.Status412PreconditionFailed);
+
         var maybeVereniging = await session.Query<VerenigingDetailDocument>()
-            .Where(document => document.VCode == vCode)
+            .WithVCode(vCode)
             .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
