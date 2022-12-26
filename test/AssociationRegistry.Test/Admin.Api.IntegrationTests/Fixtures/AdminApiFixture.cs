@@ -7,6 +7,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api.Extensions;
+using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,10 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
+
+        WaitFor.PostGreSQLToBecomeAvailable(
+            LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForPostGreSQLTestLogger"),
+            GetConnectionString(_configurationRoot, RootDatabase)).GetAwaiter().GetResult();
 
         DocumentStore = ConfigureDocumentStore();
         _testServer = ConfigureTestServer();
