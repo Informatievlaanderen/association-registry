@@ -12,15 +12,18 @@ public class AdminApiClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null)
-        => expectedSequence == null ?
-            await _httpClient.GetAsync($"/v1/verenigingen/{vCode}") :
-            await _httpClient.GetAsync($"/v1/verenigingen/{vCode}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
+        => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
 
-    public async Task<HttpResponseMessage> GetHistoriek(string vCode)
-        => await _httpClient.GetAsync($"/v1/verenigingen/{vCode}/historiek");
+    public async Task<HttpResponseMessage> GetHistoriek(string vCode, long? expectedSequence = null)
+        => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
 
     public async Task<HttpResponseMessage> RegistreerVereniging(StringContent content)
         => await _httpClient.PostAsync("/v1/verenigingen", content);
+
+    private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
+        => expectedSequence == null ?
+            await _httpClient.GetAsync(requestUri) :
+            await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
 
     public void Dispose()
     {
