@@ -44,11 +44,11 @@ public class Given_Multiple_Verenigingen_With_Minimal_Data_Fixture : AdminApiFix
 
 public class Given_Multiple_Verenigingen_With_Minimal_Data : IClassFixture<Given_Multiple_Verenigingen_With_Minimal_Data_Fixture>
 {
-    private readonly HttpClient _httpClient;
+    private readonly AdminApiClient _adminApiClient;
 
     public Given_Multiple_Verenigingen_With_Minimal_Data(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _adminApiClient = fixture.AdminApiClient;
     }
 
     [Theory]
@@ -56,7 +56,7 @@ public class Given_Multiple_Verenigingen_With_Minimal_Data : IClassFixture<Given
     [InlineData(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.VCode2)]
     public async Task Then_we_get_a_detail_vereniging_response(string vCode)
     {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{vCode}");
+        var responseMessage = await _adminApiClient.GetDetail(vCode);
 
         var content = await responseMessage.Content.ReadAsStringAsync();
 

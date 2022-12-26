@@ -87,14 +87,14 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_returns_an_accepted_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
 
         var savedEvent = await _apiFixture.DocumentStore
             .LightweightSession().Events
@@ -113,7 +113,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_returns_a_location_header()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
         response.Headers.Location!.OriginalString.Should().StartWith("/v1/verenigingen/V");
     }
@@ -121,7 +121,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_returns_a_sequence_header()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
         var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence);
         sequenceValues.Should().HaveCount(1);

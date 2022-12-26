@@ -28,14 +28,14 @@ public class Given_A_Request_With_An_Invalid_Startdatum: IClassFixture<Given_A_R
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task Then_it_returns_a_problemdetails_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
 

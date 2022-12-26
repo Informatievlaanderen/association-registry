@@ -26,7 +26,7 @@ public class Given_A_Request_With_Empty_KboNumber : IClassFixture<Given_A_Reques
     [Fact]
     public async Task Then_it_returns_an_ok_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 

@@ -36,26 +36,26 @@ public class Given_A_Vereniging_With_Historiek_Fixture : AdminApiFixture
 public class Given_A_Vereniging_With_Historiek : IClassFixture<Given_A_Vereniging_With_Historiek_Fixture>
 {
     private const string VCode = Given_A_Vereniging_With_Historiek_Fixture.VCode;
-    private readonly HttpClient _httpClient;
+    private readonly AdminApiClient _adminApiClient;
     private readonly string _goldenMasterFile;
 
     public Given_A_Vereniging_With_Historiek(Given_A_Vereniging_With_Historiek_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _adminApiClient = fixture.AdminApiClient;
         _goldenMasterFile = $"{nameof(Given_A_Vereniging_With_Historiek)}_{nameof(Then_we_get_a_historiek_response)}";
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
     {
-        var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}/historiek");
+        var response = await _adminApiClient.GetHistoriek(VCode);
         response.Should().BeSuccessful();
     }
 
     [Fact]
     public async Task Then_we_get_a_historiek_response()
     {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}/historiek");
+        var responseMessage = await _adminApiClient.GetHistoriek(VCode);
 
         var content = await responseMessage.Content.ReadAsStringAsync();
 

@@ -29,7 +29,6 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly TestServer _testServer;
 
     public DocumentStore DocumentStore { get; }
-    public HttpClient HttpClient { get; }
     public AdminApiClient AdminApiClient { get; }
 
     protected AdminApiFixture(string identifier)
@@ -40,8 +39,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         DocumentStore = ConfigureDocumentStore();
         _testServer = ConfigureTestServer();
 
-        HttpClient = _testServer.CreateClient();
-        AdminApiClient = new AdminApiClient(HttpClient);
+        AdminApiClient = new AdminApiClient(_testServer.CreateClient());
     }
 
     private IConfigurationRoot GetConfiguration()
@@ -73,20 +71,6 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(20));
 
         return sequence;
-    }
-
-    public async Task<string> Search(string uri)
-    {
-        var responseMessage = await GetResponseMessage(uri);
-        return await responseMessage.Content.ReadAsStringAsync();
-    }
-
-    public async Task<HttpResponseMessage> GetResponseMessage(string uri)
-    {
-        if (HttpClient is null)
-            throw new NullReferenceException("HttpClient needs to be set before performing a get");
-
-        return await HttpClient.GetAsync(uri);
     }
 
     private TestServer ConfigureTestServer()
@@ -162,7 +146,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        HttpClient.Dispose();
+        AdminApiClient.Dispose();
         _testServer.Dispose();
         DocumentStore.Dispose();
 
