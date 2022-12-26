@@ -1,3 +1,13 @@
+# [1.90.0](https://github.com/informatievlaanderen/association-registry/compare/v1.89.0...v1.90.0) (2022-12-26)
+
+
+### Features
+
+* OR-1415 make location header absolute ([9a14e3e](https://github.com/informatievlaanderen/association-registry/commit/9a14e3e184e05b568fdf1fe33c58d894dbf76d92))
+* OR-1415 return sequence ([a92f155](https://github.com/informatievlaanderen/association-registry/commit/a92f1551d3f22b51bef80c141b2079d8d92282bc))
+* OR-1415 use sequence for Historiek ([e9d119e](https://github.com/informatievlaanderen/association-registry/commit/e9d119e43a74984623540e52ce24aa0f32a43bd5))
+* OR-1415 use sequence to check precondition ([8d854a5](https://github.com/informatievlaanderen/association-registry/commit/8d854a55df0d8438bdb96b74964f2dd28200655c))
+
 # [1.89.0](https://github.com/informatievlaanderen/association-registry/compare/v1.88.1...v1.89.0) (2022-12-23)
 
 
