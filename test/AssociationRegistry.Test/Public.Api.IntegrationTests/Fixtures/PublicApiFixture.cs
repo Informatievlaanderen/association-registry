@@ -7,6 +7,7 @@ using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Extensions;
 using AssociationRegistry.Public.Api.Infrastructure;
 using AssociationRegistry.Public.Api.Projections;
+using AssociationRegistry.Public.Api.Projections.Search;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;

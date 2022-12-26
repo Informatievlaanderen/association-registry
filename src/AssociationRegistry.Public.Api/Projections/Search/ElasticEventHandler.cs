@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Projections;
+namespace AssociationRegistry.Public.Api.Projections.Search;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,6 +32,4 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
 
     private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
         => new(loc.LocatieType, loc.Naam, loc.ToAdresString(), loc.HoofdLocatie, loc.Postcode, loc.Gemeente);
-
-
 }

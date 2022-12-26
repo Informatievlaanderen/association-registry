@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Tests.When_Saving_A_Document_To_E
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Projections;
+using AssociationRegistry.Public.Api.Projections.Search;
 using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Framework.Helpers;
 using Microsoft.Extensions.Configuration;

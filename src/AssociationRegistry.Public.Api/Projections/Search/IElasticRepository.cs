@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Projections;
+namespace AssociationRegistry.Public.Api.Projections.Search;
 
 using System.Threading.Tasks;
 

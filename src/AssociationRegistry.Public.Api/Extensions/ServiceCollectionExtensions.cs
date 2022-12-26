@@ -7,6 +7,7 @@ using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Projections;
+using Projections.Search;
 using SearchVerenigingen;
 
 public static class ServiceCollectionExtensions

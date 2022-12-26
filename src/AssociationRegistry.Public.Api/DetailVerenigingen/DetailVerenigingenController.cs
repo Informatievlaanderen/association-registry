@@ -10,6 +10,7 @@ using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projections;
+using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
