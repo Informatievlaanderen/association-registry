@@ -10,6 +10,8 @@ using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
 
+public record Metadata(long Sequence);
+
 public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
 {
     public VerenigingDetailDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
@@ -34,6 +36,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<VerenigingDetailDocument.Locatie>(),
+            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence)
         };
 
     private static VerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
@@ -52,7 +55,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
         };
 }
 
-public class VerenigingDetailDocument
+public class VerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -65,6 +68,7 @@ public class VerenigingDetailDocument
     public DateOnly DatumLaatsteAanpassing { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
+    public Metadata Metadata { get; set; } = null!;
 
     public class ContactInfo
     {

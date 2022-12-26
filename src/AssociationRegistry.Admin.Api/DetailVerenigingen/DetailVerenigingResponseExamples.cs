@@ -12,5 +12,5 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
     }
 
     public DetailVerenigingResponse GetExamples()
-        => null;
+        => null!;
 }

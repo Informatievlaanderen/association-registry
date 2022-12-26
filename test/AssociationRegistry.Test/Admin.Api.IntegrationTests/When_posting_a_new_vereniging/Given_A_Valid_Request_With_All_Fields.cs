@@ -119,7 +119,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     }
 
     [Fact]
-    public async Task Then_it_returns_an_etag_header()
+    public async Task Then_it_returns_a_sequence_header()
     {
         var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
         response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
