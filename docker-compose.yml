@@ -32,7 +32,7 @@ services:
 
   db:
     container_name: pg_container
-    image: postgres:latest
+    image: postgres:15.0
     restart: always
     environment:
       POSTGRES_USER: root
