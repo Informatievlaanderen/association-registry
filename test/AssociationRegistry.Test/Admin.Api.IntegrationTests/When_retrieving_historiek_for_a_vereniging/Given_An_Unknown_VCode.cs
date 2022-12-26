@@ -18,17 +18,17 @@ public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture
 public class Given_An_Unknown_Vereniging : IClassFixture<Given_An_Unknown_Vereniging_Fixture>
 {
     private const string VCode = Given_An_Unknown_Vereniging_Fixture.VCode;
-    private readonly HttpClient _httpClient;
+    private readonly AdminApiClient _adminApiClient;
 
     public Given_An_Unknown_Vereniging(Given_An_Unknown_Vereniging_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _adminApiClient = fixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_404()
     {
-        var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}/historiek");
+        var response = await _adminApiClient.GetHistoriek(VCode);
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 }

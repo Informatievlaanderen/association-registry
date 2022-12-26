@@ -28,14 +28,14 @@ public class Given_A_Request_With_Missing_Name : IClassFixture<Given_A_Request_W
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task Then_it_returns_a_validationproblemdetails_response()
     {
-        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
 
         var responseContent = await response.Content.ReadAsStringAsync();
 

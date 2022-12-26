@@ -55,24 +55,24 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
 public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Vereniging_With_All_Fields_Fixture>
 {
     private const string VCode = Given_A_Vereniging_With_All_Fields_Fixture.VCode;
-    private readonly HttpClient _httpClient;
+    private readonly AdminApiClient _adminApiClient;
 
     public Given_A_Vereniging_With_All_Fields(Given_A_Vereniging_With_All_Fields_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _adminApiClient = fixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
     {
-        var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}");
+        var response = await _adminApiClient.GetDetail(VCode);
         response.Should().BeSuccessful();
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}");
+        var responseMessage = await _adminApiClient.GetDetail(VCode);
 
         var content = await responseMessage.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
