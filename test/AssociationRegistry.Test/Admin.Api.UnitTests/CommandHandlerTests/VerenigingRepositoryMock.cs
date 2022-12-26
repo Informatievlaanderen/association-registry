@@ -9,9 +9,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task Save(Vereniging vereniging, CommandMetadata metadata)
+    public async Task<long> Save(Vereniging vereniging, CommandMetadata metadata)
     {
         Invocations.Add(new Invocation(vereniging));
-        await Task.CompletedTask;
+        return await Task.FromResult(-1L);
     }
 }

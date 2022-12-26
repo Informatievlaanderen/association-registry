@@ -5,5 +5,5 @@ using Framework;
 
 public interface IVerenigingsRepository
 {
-    Task Save(Vereniging vereniging, CommandMetadata metadata);
+    Task<long> Save(Vereniging vereniging, CommandMetadata metadata);
 }

@@ -2,6 +2,7 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AutoFixture;
 using Fixtures;
@@ -107,5 +108,24 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.Contacten![0].Should().BeEquivalentTo(_apiFixture.Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_location_header()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        response.Headers.Location!.OriginalString.Should().StartWith("/v1/verenigingen/V");
+    }
+
+    [Fact]
+    public async Task Then_it_returns_an_etag_header()
+    {
+        var response = await _apiFixture.HttpClient.PostAsync("/v1/verenigingen", _apiFixture.Content);
+        response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence);
+        sequenceValues.Should().HaveCount(1);
+        var sequence = Convert.ToInt64(sequenceValues.Single());
+        sequence.Should().BeGreaterThan(0);
     }
 }
