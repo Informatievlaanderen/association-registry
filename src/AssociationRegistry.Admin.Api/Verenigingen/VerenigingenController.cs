@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using DetailVerenigingen;
 using Extensions;
 using FluentValidation;
 using Framework;
@@ -96,9 +97,14 @@ public class VerenigingenController : ApiController
     [Produces(contentType: WellknownMediaTypes.Json)]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,
-        [FromRoute] string vCode)
+        [FromRoute] string vCode,
+        [FromQuery] long? expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
+
+        if (!await session.HasReachedSequence<VerenigingHistoriekDocument>(expectedSequence))
+            return StatusCode(StatusCodes.Status412PreconditionFailed);
+
         var maybeHistoriekVereniging = await session.Query<VerenigingHistoriekDocument>()
             .Where(document => document.VCode == vCode)
             .SingleOrDefaultAsync();

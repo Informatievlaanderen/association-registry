@@ -20,12 +20,14 @@ public class VerenigingHistoriekProjection : SingleStreamAggregation<VerenigingH
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator),
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
                 ),
-            });
+            },
+            new Metadata(verenigingWerdGeregistreerd.Sequence));
 }
 
 public record VerenigingHistoriekDocument(
     [property: Identity] string VCode,
-    List<VerenigingHistoriekGebeurtenis> Gebeurtenissen);
+    List<VerenigingHistoriekGebeurtenis> Gebeurtenissen,
+    Metadata Metadata) : IMetadata;
 
 public record VerenigingHistoriekGebeurtenis(
     string Gebeurtenis,
