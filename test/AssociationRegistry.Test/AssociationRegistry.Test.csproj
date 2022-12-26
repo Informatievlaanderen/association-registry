@@ -40,8 +40,5 @@
     </None>
     <EmbeddedResource Include="Public.Api.IntegrationTests\When_searching_verenigingen_by_name\Given_one_vereniging_werd_geregistreerd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\Stubs" />
-  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

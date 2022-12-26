@@ -31,6 +31,12 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     public DocumentStore DocumentStore { get; }
     public AdminApiClient AdminApiClient { get; }
 
+    public IConfigurationRoot Configuration
+        => _configurationRoot;
+
+    public IServiceProvider ServiceProvider
+        => _testServer.Services;
+
     protected AdminApiFixture(string identifier)
     {
         _identifier += identifier.ToLowerInvariant();
