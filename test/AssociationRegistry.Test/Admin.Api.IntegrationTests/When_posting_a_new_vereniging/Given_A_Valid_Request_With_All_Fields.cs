@@ -4,14 +4,18 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Public.Api;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
 using Marten;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
+using AppSettings = AssociationRegistry.Admin.Api.AppSettings;
 
 public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
 {
@@ -115,7 +119,8 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     {
         var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
-        response.Headers.Location!.OriginalString.Should().StartWith("/v1/verenigingen/V");
+        response.Headers.Location!.OriginalString.Should()
+            .StartWith($"{_apiFixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

@@ -24,7 +24,7 @@ jobs:
           MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
 
       db:
-        image: postgres
+        image: postgres:15.0
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: root

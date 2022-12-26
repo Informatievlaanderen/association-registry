@@ -63,6 +63,11 @@ public class Startup
         services.AddTransient<IEventStore, EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
         services.AddSingleton<IClock, Clock>();
+        services.AddSingleton(
+            new AppSettings
+            {
+                BaseUrl = _configuration.GetValue<string>("BaseUrl").TrimEnd('/'),
+            });
 
         services.AddOpenTelemetry();
 
@@ -146,9 +151,7 @@ public class Startup
         => TrimTrailingSlash(configuration.GetValue<string>("BaseUrl"));
 
     private static string TrimTrailingSlash(string baseUrl)
-        => baseUrl.EndsWith("/")
-            ? baseUrl[..^1]
-            : baseUrl;
+        => baseUrl.TrimEnd('/');
 
     private static void AddSwagger(IServiceCollection services)
     {

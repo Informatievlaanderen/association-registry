@@ -13,6 +13,7 @@ using Marten;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NodaTime;
 using Projections;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,10 +28,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class VerenigingenController : ApiController
 {
     private readonly ISender _sender;
+    private readonly AppSettings _appSettings;
 
-    public VerenigingenController(ISender sender)
+    public VerenigingenController(ISender sender, AppSettings appSettings)
     {
         _sender = sender;
+        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -64,7 +67,7 @@ public class VerenigingenController : ApiController
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _sender.Send(envelope);
 
-        return this.AcceptedRegistratie(registratieResult);
+        return this.AcceptedRegistratie(_appSettings, registratieResult);
     }
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(RegistreerVerenigingRequest.ContactInfo c)

@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 public static class ControllerExtensions
 {
-    public static AcceptedResult AcceptedWithLocation(this ApiController source, VCode vCode)
-        => source.Accepted($"/v1/verenigingen/{vCode}");
-
-    public static AcceptedResult AcceptedRegistratie(this ApiController source, RegistratieResult registratieResult)
+    public static AcceptedResult AcceptedRegistratie(this ApiController source, AppSettings appSettings, RegistratieResult registratieResult)
     {
         source.Response.AddSequenceHeader(registratieResult.Sequence);
-        return source.AcceptedWithLocation(registratieResult.Vcode);
+        return source.Accepted($"{appSettings.BaseUrl}/v1/verenigingen/{registratieResult.Vcode}");
     }
 }
