@@ -12,6 +12,7 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Projections;
+using Projections.Search;
 
 public static class MartenExtensions
 {

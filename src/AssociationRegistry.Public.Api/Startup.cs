@@ -24,6 +24,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using Projections;
+using Projections.Search;
 using SearchVerenigingen;
 using static ConfigHelpers;
 
