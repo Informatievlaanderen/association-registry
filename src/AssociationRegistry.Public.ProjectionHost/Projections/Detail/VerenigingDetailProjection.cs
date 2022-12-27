@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using System;
-using Extensions;
 using Framework;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;

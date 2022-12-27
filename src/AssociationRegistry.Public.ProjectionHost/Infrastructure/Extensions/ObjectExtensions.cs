@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost.Extensions;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 
 using System.Collections.Immutable;
 

@@ -2,7 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Extensions;
+using Infrastructure.Extensions;
 using Schema.Search;
 using Vereniging;
 

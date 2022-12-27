@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplicationBuilder;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;

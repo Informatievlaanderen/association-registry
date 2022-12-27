@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplication;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
 
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 

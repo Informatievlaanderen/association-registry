@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Public.ProjectionHost.Extensions;
+﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 
+using Schema.Search;
 using Nest;
 using Nest.Specification.IndicesApi;
-using Schema.Search;
 
 public static class ElasticClientExtentions
 {

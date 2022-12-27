@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost.ConfigurationBindings;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.ConfigurationBindings;
 
 public class PostgreSqlOptionsSection
 {
