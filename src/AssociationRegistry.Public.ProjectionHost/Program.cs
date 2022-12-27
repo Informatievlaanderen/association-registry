@@ -1,4 +1,6 @@
+using System.Globalization;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using AssociationRegistry.OpenTelemetry.Extensions;
@@ -12,17 +14,19 @@ using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
-using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Destructurama;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -30,7 +34,22 @@ using Serilog;
 using Serilog.Debugging;
 using ApiControllerSpec = AssociationRegistry.Public.ProjectionHost.ApiControllerSpec;
 
+const string defaultCulture = "en-GB";
+const string supportedCultures = "en-GB;en-US;en;nl-BE;nl;fr-BE;fr";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(
+    options =>
+        options.Listen(
+            new IPEndPoint(IPAddress.Any, 11005),
+            listenOptions =>
+            {
+                listenOptions.UseConnectionLogging();
+
+                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+            })
+);
 
 SelfLog.Enable(Console.WriteLine);
 
@@ -61,13 +80,42 @@ builder.Services
 var martenConfiguration = AddMarten(builder);
 
 if (builder.Configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-    martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+{
+    var martenConfigurationExpression = martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+}
+
+builder.Services
+    .Configure<RequestLocalizationOptions>(
+        opts =>
+        {
+            const string fallbackCulture = "en-GB";
+            var defaultRequestCulture = new RequestCulture(new CultureInfo(fallbackCulture));
+            var supportedCulturesOrDefault = new[] { new CultureInfo(fallbackCulture) };
+
+            opts.DefaultRequestCulture = defaultRequestCulture;
+            opts.SupportedCultures = supportedCulturesOrDefault;
+            opts.SupportedUICultures = supportedCulturesOrDefault;
+
+            opts.FallBackToParentCultures = true;
+            opts.FallBackToParentUICultures = true;
+        });
 
 builder.Services.AddOpenTelemetry();
 builder.Services.AddElasticSearch(elasticSearchOptions);
-builder.Services.AddMvc();
+builder.Services
+    .AddMvc()
+    .AddDataAnnotationsLocalization();
 
-AddSwagger(builder.Services);
+builder.Services
+    .AddLocalization(cfg =>
+    {
+        cfg.ResourcesPath = "Resources";
+    })
+    // .AddSingleton<IStringLocalizerFactory, SharedStringLocalizerFactory<Program>>()
+    .AddSingleton<ResourceManagerStringLocalizerFactory, ResourceManagerStringLocalizerFactory>();
+
+
+AddSwagger(builder);
 
 builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -85,25 +133,54 @@ builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpec
 //     .ConfigureOptions<ProblemDetailsSetup>()
 //     .AddProblemDetails();
 
+
+
 var app = builder.Build();
+
+app.MapPost(
+    "/rebuild",
+    async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+    {
+        var projectionDaemon = await store.BuildProjectionDaemonAsync();
+        await projectionDaemon.RebuildProjection<VerenigingDetailProjection>(cancellationToken);
+        logger.LogInformation("Rebuild complete");
+    });
+
+UseSwagger(app);
 
 await DistributedLock<Program>.RunAsync(
     async () => { app.Run(); },
     DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
     NullLogger.Instance);
 
-static void AddSwagger(IServiceCollection services)
+static void AddSwagger(WebApplicationBuilder builder)
 {
-    services.AddSwaggerGen(
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(options =>
+            options.SwaggerDoc("v1",
+                new OpenApiInfo
+                {
+                    Title = "Basisregisters Vlaanderen Verenigingsregister Publieke Projecties API",
+                    Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Digitaal Vlaanderen",
+                        Email = "digitaal.vlaanderen@vlaanderen.be",
+                        Url = new Uri("https://publiek.verenigingen.vlaanderen.be"),
+                    }
+                })
+        );
+}
+
+void UseSwagger(WebApplication webApplication)
+{
+    webApplication.UseSwagger();
+    webApplication.UseSwaggerUI();
+    webApplication.UseReDoc(
         options =>
         {
-            options.MapType<DateOnly>(
-                () => new OpenApiSchema
-                {
-                    Type = "string",
-                    Format = "date",
-                    Pattern = "yyyy-MM-dd",
-                });
+            options.RoutePrefix = "docs";
+            options.DocumentTitle = "Swagger Demo Documentation";
         });
 }
 
@@ -287,3 +364,6 @@ ElasticSearchOptionsSection GetValidElasticSearchOptionsOrThrow(WebApplicationBu
 
 static string GetBaseUrlForExceptions(IConfiguration configuration)
     => configuration.GetValue<string>("BaseUrl").TrimEnd('/');
+
+static string GetApiLeadingText(ApiVersionDescription description)
+    => $"Momenteel leest u de documentatie voor versie {description.ApiVersion} van de Basisregisters Vlaanderen Verenigingsregister ACM API{string.Format(description.IsDeprecated ? ", **deze API versie is niet meer ondersteund * *." : ".")}";

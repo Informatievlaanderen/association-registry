@@ -11,9 +11,13 @@ Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 
 Microsoft.AspNetCore.Mvc.Versioning
 Microsoft.AspNetCore.Mvc.NewtonsoftJson
+Microsoft.Extensions.Localization
+Microsoft.Extensions.DependencyInjection
 
 Swashbuckle.AspNetCore.Swagger
 Swashbuckle.AspNetCore.SwaggerGen
+Swashbuckle.AspNetCore.SwaggerUI
+Swashbuckle.AspNetCore.ReDoc
 
 NodaTime.Serialization.JsonNet
 
