@@ -12,14 +12,14 @@ class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
         {
             OverrideSpecifiedNames = true,
             ProcessDictionaryKeys = true,
-            ProcessExtensionDataNames = true
+            ProcessExtensionDataNames = true,
         };
 
-    public DefaultApiJsonContractResolver(NamingStrategy namingStrategy)
+    private DefaultApiJsonContractResolver(NamingStrategy namingStrategy)
         => NamingStrategy = namingStrategy;
 
     public static DefaultApiJsonContractResolver UsingDefaultNamingStrategy()
-        => new DefaultApiJsonContractResolver(DefaultNamingStrategy);
+        => new(DefaultNamingStrategy);
 
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {

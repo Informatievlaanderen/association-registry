@@ -36,7 +36,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                             }).ToArray()
                         ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<VerenigingDetailDocument.Locatie>(),
-            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence)
+            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
         };
 
     private static VerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)

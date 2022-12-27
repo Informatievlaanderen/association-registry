@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Extensions;
 
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 public static class Formaters
 {

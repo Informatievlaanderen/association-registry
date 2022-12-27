@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplicationBuilder;
 
-using AssociationRegistry.Public.ProjectionHost.ConfigurationBindings;
-using AssociationRegistry.Public.ProjectionHost.Constants;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
-using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using ConfigurationBindings;
+using Constants;
+using Infrastructure.Json;
+using Projections.Detail;
+using Projections.Search;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
@@ -57,7 +57,7 @@ public static class ConfigureMartenExtensions
         }
 
         var martenConfigurationExpression = services.AddMarten(
-            serviceProvider =>
+            _ =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
                     .Get<PostgreSqlOptionsSection>();

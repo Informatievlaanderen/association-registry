@@ -126,7 +126,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     {
         var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.Content);
         response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
-        var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence);
+        var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
         sequenceValues.Should().HaveCount(1);
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(0);

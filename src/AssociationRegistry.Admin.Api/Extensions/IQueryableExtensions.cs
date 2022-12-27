@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Admin.Api.DetailVerenigingen;
+namespace AssociationRegistry.Admin.Api.Extensions;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Marten;
 using Projections;
+using Marten;
 
 // ReSharper disable once InconsistentNaming
 public static class IQueryableExtensions
@@ -12,6 +12,7 @@ public static class IQueryableExtensions
         => source.Where(x => x.VCode == vCode);
 }
 
+// ReSharper disable once InconsistentNaming
 public static class IDocumentSessionExtensions
 {
     public static async Task<bool> HasReachedSequence<T>(this IDocumentSession source, long? expectedSequence) where T : IMetadata

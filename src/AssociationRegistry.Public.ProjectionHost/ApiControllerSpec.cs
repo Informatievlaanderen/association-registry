@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 public class ApiControllerSpec : IApiControllerSpecification
 {
-    private readonly Type ApiControllerType = typeof(ApiController).GetTypeInfo();
+    private readonly Type _apiControllerType = typeof(ApiController).GetTypeInfo();
 
     public bool IsSatisfiedBy(ControllerModel controller) =>
-        ApiControllerType.IsAssignableFrom(controller.ControllerType);
+        _apiControllerType.IsAssignableFrom(controller.ControllerType);
 }
 
 public abstract class ApiController : ControllerBase { }

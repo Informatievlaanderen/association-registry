@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Public.ProjectionHost;
 
 using System;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Public.ProjectionHost.ConfigurationBindings;
+using Framework;
+using ConfigurationBindings;
 
 public static class ConfigHelpers
 {

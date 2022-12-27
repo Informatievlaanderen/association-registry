@@ -15,7 +15,7 @@ public static class MartenExtensions
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
-            serviceProvider =>
+            _ =>
             {
                 var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
 
