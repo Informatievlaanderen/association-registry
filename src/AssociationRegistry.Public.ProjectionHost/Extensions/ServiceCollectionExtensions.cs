@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Extensions;
+﻿namespace AssociationRegistry.Public.ProjectionHost.Extensions;
 
 using System;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Reflection;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using SearchVerenigingen;
+using Projections.Search;
 
 public static class ServiceCollectionExtensions
 {
@@ -43,5 +43,22 @@ public static class ServiceCollectionExtensions
         return elasticClient;
     }
 
-
+    public static IServiceCollection RegisterDomainEventHandlers(this IServiceCollection services, Assembly assembly)
+    {
+        assembly.GetTypes()
+            .Where(
+                item => item.GetInterfaces()
+                            .Where(i => i.IsGenericType)
+                            .Any(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
+                        && !item.IsAbstract && !item.IsInterface)
+            .ToList()
+            .ForEach(
+                serviceType =>
+                {
+                    // allow only 1 eventhandler per class
+                    var interfaceType = serviceType.GetInterfaces().Single(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>));
+                    services.AddScoped(interfaceType, serviceType);
+                });
+        return services;
+    }
 }

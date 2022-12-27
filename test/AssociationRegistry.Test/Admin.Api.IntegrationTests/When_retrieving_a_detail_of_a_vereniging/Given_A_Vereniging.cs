@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.When_retrieving_a_
 
 using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;

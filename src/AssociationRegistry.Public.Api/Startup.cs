@@ -23,8 +23,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
-using Projections;
-using Projections.Search;
 using SearchVerenigingen;
 using static ConfigHelpers;
 
@@ -63,11 +61,6 @@ public class Startup
         services.AddOpenTelemetry();
 
         services.AddElasticSearch(elasticSearchOptions);
-
-        services.AddTransient<IElasticRepository, ElasticRepository>();
-        services.AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>();
-
-        services.RegisterDomainEventHandlers(GetType().Assembly);
 
         services.AddMarten(postgreSqlOptions, _configuration);
 

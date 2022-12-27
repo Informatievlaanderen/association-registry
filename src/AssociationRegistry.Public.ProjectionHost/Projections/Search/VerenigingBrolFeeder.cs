@@ -1,11 +1,10 @@
-namespace AssociationRegistry.Public.Api.Projections.Search;
+namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Extensions;
-using SearchVerenigingen;
 
 public interface IVerenigingBrolFeeder
 {
