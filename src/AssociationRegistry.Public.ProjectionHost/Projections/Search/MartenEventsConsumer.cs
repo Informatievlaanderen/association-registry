@@ -20,6 +20,8 @@ public class MartenEventsConsumer : IMartenEventsConsumer
     {
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
+            if (!@event.EventType.IsAssignableTo(typeof(AssociationRegistry.Framework.IEvent)))
+                return;
             var eventHandlers = _serviceProvider.GetServices(typeof(IDomainEventHandler<>).MakeGenericType(@event.EventType));
 
             foreach (var eventHandler in eventHandlers)
