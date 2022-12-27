@@ -10,7 +10,7 @@ using Projections.Search;
 
 public static class ServiceCollectionExtensions
 {
-   public static IServiceCollection AddElasticSearch(
+   public static IServiceCollection ConfigureElasticSearch(
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {

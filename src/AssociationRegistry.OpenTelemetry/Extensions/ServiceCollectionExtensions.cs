@@ -13,7 +13,7 @@ using Npgsql;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddOpenTelemetry(this IServiceCollection services)
+    public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetEntryAssembly()!;
         var serviceName = executingAssembly.FullName!;
@@ -86,5 +86,7 @@ public static class ServiceCollectionExtensions
                             exporter.Protocol = OtlpExportProtocol.Grpc;
                             exporter.Endpoint = new Uri(collectorUrl);
                         }));
+
+        return services;
     }
 }
