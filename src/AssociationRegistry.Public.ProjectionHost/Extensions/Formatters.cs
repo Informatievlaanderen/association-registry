@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Vereniging;
 
-public static class Formaters
+public static class Formatters
 {
     public static string ToAdresString(this VerenigingWerdGeregistreerd.Locatie locatie)
         => $"{locatie.Straatnaam} {locatie.Huisnummer}" +
