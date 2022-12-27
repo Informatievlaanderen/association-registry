@@ -1,9 +1,9 @@
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program;
+
 using System.Reflection;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
-namespace AssociationRegistry.Public.ProjectionHost;
 
 class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
 {

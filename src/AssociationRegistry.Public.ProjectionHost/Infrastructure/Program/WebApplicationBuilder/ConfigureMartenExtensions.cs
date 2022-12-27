@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplicationBuilder;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
 using Constants;
-using Infrastructure.Json;
 using Projections.Detail;
 using Projections.Search;
+using ConfigurationBindings;
+using Json;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;

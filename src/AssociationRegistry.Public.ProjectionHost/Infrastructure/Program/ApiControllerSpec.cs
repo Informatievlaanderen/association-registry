@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program;
 
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;

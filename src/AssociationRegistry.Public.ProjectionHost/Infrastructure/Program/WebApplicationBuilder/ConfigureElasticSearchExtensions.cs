@@ -1,15 +1,16 @@
-﻿namespace AssociationRegistry.Public.ProjectionHost.Extensions;
+﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using System;
 using System.Linq;
 using System.Reflection;
-using ConfigurationBindings;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Projections.Search;
 using Schema.Search;
+using ConfigurationBindings;
+using Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
 
-public static class ServiceCollectionExtensions
+public static class ConfigureElasticSearchExtensions
 {
    public static IServiceCollection ConfigureElasticSearch(
         this IServiceCollection services,

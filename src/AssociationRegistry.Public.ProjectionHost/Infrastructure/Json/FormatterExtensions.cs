@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.ProjectionHost;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
 
 using Be.Vlaanderen.Basisregisters.Converters.TrimString;
 using Be.Vlaanderen.Basisregisters.Utilities;
@@ -7,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NodaTime;
 using NodaTime.Serialization.JsonNet;
+using Program;
 
 public static class FormatterExtensions
 {

@@ -2,9 +2,9 @@ using System.Net;
 using System.Text;
 using AssociationRegistry.OpenTelemetry.Extensions;
 using AssociationRegistry.Public.ProjectionHost;
-using AssociationRegistry.Public.ProjectionHost.Extensions;
-using AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplication;
-using AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplicationBuilder;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Marten;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Debugging;
-using ApiControllerSpec = AssociationRegistry.Public.ProjectionHost.ApiControllerSpec;
+using ApiControllerSpec = AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.ApiControllerSpec;
 
 var builder = WebApplication.CreateBuilder(args);
 
