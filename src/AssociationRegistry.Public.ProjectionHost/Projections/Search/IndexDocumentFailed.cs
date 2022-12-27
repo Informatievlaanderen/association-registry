@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Projections.Search;
+namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using System;
 

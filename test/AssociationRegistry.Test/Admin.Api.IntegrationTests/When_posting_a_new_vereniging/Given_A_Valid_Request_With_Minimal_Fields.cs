@@ -7,8 +7,6 @@ using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Framework.Helpers;
-using Microsoft.AspNetCore.Http.Headers;
-using Moq;
 using Vereniging;
 using Xunit;
 

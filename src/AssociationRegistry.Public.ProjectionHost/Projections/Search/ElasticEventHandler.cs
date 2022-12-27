@@ -1,9 +1,8 @@
-namespace AssociationRegistry.Public.Api.Projections.Search;
+namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using System.Linq;
 using System.Threading.Tasks;
 using Extensions;
-using SearchVerenigingen;
 using Vereniging;
 
 public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistreerd>

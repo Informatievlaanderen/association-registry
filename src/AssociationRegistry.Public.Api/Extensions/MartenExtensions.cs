@@ -2,17 +2,13 @@
 
 using ConfigurationBindings;
 using Constants;
-using Infrastructure;
 using Infrastructure.Json;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
-using Marten.Events.Projections;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Projections;
-using Projections.Search;
 
 public static class MartenExtensions
 {
@@ -29,19 +25,12 @@ public static class MartenExtensions
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new MartenEventsConsumer(serviceProvider)),
-                    ProjectionLifecycle.Async);
-
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.AddPostgresProjections();
                 opts.Events.MetadataConfig.EnableAll();
                 opts.Serializer(CreateCustomMartenSerializer());
                 return opts;
             });
-
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 

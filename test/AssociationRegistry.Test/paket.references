@@ -10,7 +10,7 @@ FluentAssertions.Json
 Moq
 Marten
 NEST
-
+Microsoft.AspNetCore.Mvc.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
