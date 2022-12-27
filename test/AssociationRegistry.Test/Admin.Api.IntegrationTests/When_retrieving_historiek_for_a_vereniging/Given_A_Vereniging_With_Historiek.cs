@@ -53,10 +53,8 @@ public class Given_A_Vereniging_With_Historiek : IClassFixture<Given_A_Verenigin
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-    {
-        (await _adminApiClient.GetHistoriek(VCode, _fixture.Sequence))
+        => (await _adminApiClient.GetHistoriek(VCode, _fixture.Sequence))
             .Should().BeSuccessful();
-    }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()

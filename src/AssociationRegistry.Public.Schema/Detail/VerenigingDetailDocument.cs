@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+﻿namespace AssociationRegistry.Public.Schema.Detail;
 
 using System;
 using Marten.Schema;

@@ -18,7 +18,7 @@ public static class ConfigureSwaggerExtensions
                         Name = "Digitaal Vlaanderen",
                         Email = "digitaal.vlaanderen@vlaanderen.be",
                         Url = new Uri("https://publiek.verenigingen.vlaanderen.be"),
-                    }
+                    },
                 })
         );
         return source;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Extensions;
+using Schema.Search;
 
 public interface IVerenigingBrolFeeder
 {

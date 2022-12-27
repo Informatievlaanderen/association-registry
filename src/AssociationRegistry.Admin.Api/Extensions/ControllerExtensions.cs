@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Extensions;
 
-using AssociationRegistry.VCodes;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Mvc;
 

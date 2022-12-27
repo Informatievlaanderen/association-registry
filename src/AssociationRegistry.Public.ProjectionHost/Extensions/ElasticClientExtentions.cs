@@ -2,7 +2,7 @@
 
 using Nest;
 using Nest.Specification.IndicesApi;
-using Projections.Search;
+using Schema.Search;
 
 public static class ElasticClientExtentions
 {

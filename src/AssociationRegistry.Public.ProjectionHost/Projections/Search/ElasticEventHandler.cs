@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using System.Linq;
 using System.Threading.Tasks;
 using Extensions;
+using Schema.Search;
 using Vereniging;
 
 public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistreerd>
@@ -22,7 +23,7 @@ public class ElasticEventHandler : IDomainEventHandler<VerenigingWerdGeregistree
                 message.VCode,
                 message.Naam,
                 message.KorteNaam,
-                message.Locaties?.Select(ToDocument).ToArray() ?? System.Array.Empty<VerenigingDocument.Locatie>(),
+                message.Locaties?.Select(ToDocument).ToArray() ?? Array.Empty<VerenigingDocument.Locatie>(),
                 _brolFeeder.Hoofdactiviteiten,
                 _brolFeeder.Doelgroep,
                 _brolFeeder.Activiteiten.ToArray()

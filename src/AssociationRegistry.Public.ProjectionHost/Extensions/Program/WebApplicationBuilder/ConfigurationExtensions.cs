@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Extensions.Program.WebApplicationBuilder;
 
-using AssociationRegistry.Public.ProjectionHost.ConfigurationBindings;
+using ConfigurationBindings;
 
 public static class ConfigurationExtensions
 {

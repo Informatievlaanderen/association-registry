@@ -2,10 +2,10 @@ namespace AssociationRegistry.Admin.Api.DetailVerenigingen;
 
 using System.Collections.Immutable;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
