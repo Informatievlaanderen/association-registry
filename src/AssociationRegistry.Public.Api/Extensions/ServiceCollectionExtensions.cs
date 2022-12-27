@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Extensions;
 
 using System;
-using System.Linq;
-using System.Reflection;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
