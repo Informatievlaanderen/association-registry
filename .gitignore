@@ -1,4 +1,5 @@
 appsettings.*.json
+!appsettings.development.json
 *.Importer-*.config
 wwwroot/
 
