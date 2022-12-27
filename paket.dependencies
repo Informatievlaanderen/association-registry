@@ -60,6 +60,7 @@ nuget Destructurama.JsonNet 2.0.0
 
 // FIX SWASHBUCKLE ASSEMBLY VERSION MISMATCH
 nuget Swashbuckle.AspNetCore.SwaggerGen 6.3.0
+nuget Swashbuckle.AspNetCore.ReDoc 6.3.0
 
 // .NET CLASSIC STUFF
 nuget EntityFramework 6.4.4
