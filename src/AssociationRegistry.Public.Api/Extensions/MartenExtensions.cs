@@ -27,7 +27,6 @@ public static class MartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Events.MetadataConfig.EnableAll();
                 opts.Serializer(CreateCustomMartenSerializer());
                 return opts;
             });

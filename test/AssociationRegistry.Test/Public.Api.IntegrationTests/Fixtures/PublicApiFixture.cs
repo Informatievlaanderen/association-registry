@@ -48,7 +48,7 @@
 
             CreateDatabase();
 
-            _testServer = ConfigureApiTestServer();
+            _testServer = ConfigurePublicApiTestServer();
 
             HttpClient = _testServer.CreateClient();
             _elasticClient = CreateElasticClient(_testServer);
@@ -117,7 +117,7 @@
             return await HttpClient.GetAsync(uri);
         }
 
-        private TestServer ConfigureApiTestServer()
+        private TestServer ConfigurePublicApiTestServer()
         {
             IWebHostBuilder hostBuilder = new WebHostBuilder();
             hostBuilder.UseConfiguration(_configurationRoot);
@@ -135,6 +135,7 @@
                     {
                         builder.UseContentRoot(Directory.GetCurrentDirectory());
                         builder.UseSetting("PostgreSQLOptions:database", _identifier);
+                        builder.UseConfiguration(_configurationRoot);
                         builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                     });
 

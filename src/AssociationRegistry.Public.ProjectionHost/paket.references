@@ -3,8 +3,29 @@ Marten
 NEST
 
 Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
+Be.Vlaanderen.Basisregisters.Converters.TrimString
+Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
+Be.Vlaanderen.Basisregisters.ProblemDetails
+Be.Vlaanderen.Basisregisters.Api
+Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 
 Microsoft.AspNetCore.Mvc.Versioning
+Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
 Swashbuckle.AspNetCore.Swagger
 Swashbuckle.AspNetCore.SwaggerGen
+
+NodaTime.Serialization.JsonNet
+
+Serilog
+Serilog.Formatting.Compact
+Serilog.Enrichers.Environment
+Serilog.Enrichers.Thread
+Serilog.Extensions.Logging
+Serilog.Settings.Configuration
+Serilog.Sinks.Console
+Serilog.Sinks.File
+
+Destructurama.JsonNet
+
+FluentValidation
