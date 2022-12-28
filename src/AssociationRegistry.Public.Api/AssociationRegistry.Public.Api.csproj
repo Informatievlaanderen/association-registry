@@ -64,14 +64,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="json-ld-contexts\detail-vereniging-context.json" />
-    <EmbeddedResource Include="json-ld-contexts\list-verenigingen-context.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Contexten\detail-vereniging-context.json" />
+    <EmbeddedResource Include="Contexten\list-verenigingen-context.json" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

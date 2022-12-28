@@ -2,8 +2,8 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Events;
 using Framework;
+using Infrastructure.EventStore;
 using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository
