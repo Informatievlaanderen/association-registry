@@ -2,10 +2,10 @@
 
 using System;
 using System.Linq;
-using Extensions;
 using Framework;
 using Vereniging;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;

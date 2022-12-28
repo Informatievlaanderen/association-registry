@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Infrastructure.Configuration;
+namespace AssociationRegistry.Public.Api.Infrastructure.Caching;
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;

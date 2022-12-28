@@ -1,36 +1,35 @@
-﻿namespace AssociationRegistry.Admin.Api.Extensions;
+﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using AssociationRegistry.Public.Api.Constants;
+using AssociationRegistry.Public.Api.Infrastructure.Json;
 using ConfigurationBindings;
-using Constants;
-using Infrastructure.Json;
-using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
-using VCodes;
-using Infrastructure;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 
-public static class MartenExtentions
+public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
-            opts =>
+            _ =>
             {
-                opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
+                var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
+
+                var opts = new StoreOptions();
+
+                opts.Connection(connectionString1);
+
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
-                opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-                opts.Serializer(CreateCustomMartenSerializer());
+
                 opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections();
+
+                opts.Serializer(CreateCustomMartenSerializer());
+                return opts;
             });
-
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
@@ -50,7 +49,6 @@ public static class MartenExtentions
         jsonNetSerializer.Customize(
             s =>
             {
-                s.DateParseHandling = DateParseHandling.None;
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });

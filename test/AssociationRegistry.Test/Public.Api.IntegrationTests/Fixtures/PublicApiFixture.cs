@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
-using AssociationRegistry.Admin.Api.Events;
+using AssociationRegistry.Admin.Api.Infrastructure.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api;
-using AssociationRegistry.Public.Api.Extensions;
+using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
 using Marten.Events;

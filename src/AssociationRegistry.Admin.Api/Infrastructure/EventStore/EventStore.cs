@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Events;
+namespace AssociationRegistry.Admin.Api.Infrastructure.EventStore;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Framework;
+using AssociationRegistry.Framework;
 using JasperFx.Core.Reflection;
 using Marten;
 

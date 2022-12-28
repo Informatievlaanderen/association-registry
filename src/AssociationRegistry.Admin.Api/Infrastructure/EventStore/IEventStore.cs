@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Admin.Api.Events;
+namespace AssociationRegistry.Admin.Api.Infrastructure.EventStore;
 
 using System.Threading.Tasks;
-using Framework;
+using AssociationRegistry.Framework;
 
 public interface IEventStore
 {

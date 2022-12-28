@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api;
+﻿namespace AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 
 public class AppSettings
 {

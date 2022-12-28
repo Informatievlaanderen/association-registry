@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Public.Api.Extensions;
+﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using AssociationRegistry.Public.Api.SearchVerenigingen;
 using Nest;
 using Nest.Specification.IndicesApi;
-using SearchVerenigingen;
 
 public static class ElasticClientExtentions
 {

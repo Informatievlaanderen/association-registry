@@ -6,10 +6,10 @@ using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
-using ConfigurationBindings;
 using Constants;
-using Extensions;
-using Infrastructure.Configuration;
+using Infrastructure.Caching;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Modules;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +24,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using SearchVerenigingen;
-using static ConfigHelpers;
+using static Infrastructure.ConfigHelpers;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup
