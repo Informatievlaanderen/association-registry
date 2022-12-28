@@ -1,8 +1,7 @@
-namespace AssociationRegistry.Public.Api.Contexts;
+namespace AssociationRegistry.Public.Api.Contexten;
 
+using AssociationRegistry.Public.Api.Constants;
 using Be.Vlaanderen.Basisregisters.Api;
-using Constants;
-using json_ld_contexts;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiVersion("1.0")]

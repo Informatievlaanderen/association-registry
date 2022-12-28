@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
-using AppSettings = AssociationRegistry.Admin.Api.AppSettings;
+using AppSettings = AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings.AppSettings;
 
 public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
 {

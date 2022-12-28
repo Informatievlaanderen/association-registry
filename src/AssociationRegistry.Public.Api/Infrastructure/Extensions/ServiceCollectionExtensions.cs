@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Public.Api.Extensions;
+﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using System;
+using AssociationRegistry.Public.Api.SearchVerenigingen;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using SearchVerenigingen;
 
 public static class ServiceCollectionExtensions
 {

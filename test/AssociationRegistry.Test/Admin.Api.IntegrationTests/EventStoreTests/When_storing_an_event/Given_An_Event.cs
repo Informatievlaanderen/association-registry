@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.IntegrationTests.EventStoreTests.When_storing_an_event;
 
-using AssociationRegistry.Admin.Api.Events;
+using AssociationRegistry.Admin.Api.Infrastructure.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api.Infrastructure;
 using Fixtures;

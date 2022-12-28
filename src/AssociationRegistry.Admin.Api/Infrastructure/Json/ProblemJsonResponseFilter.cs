@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api;
+namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
 using System.Collections.Generic;
 using System.Linq;

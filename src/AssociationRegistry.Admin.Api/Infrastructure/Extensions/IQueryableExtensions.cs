@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Projections;
+using AssociationRegistry.Admin.Api.Projections;
 using Marten;
 
 // ReSharper disable once InconsistentNaming

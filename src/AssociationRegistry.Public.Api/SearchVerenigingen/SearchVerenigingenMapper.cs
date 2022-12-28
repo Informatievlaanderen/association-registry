@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Constants;
+using Infrastructure.ConfigurationBindings;
 using Nest;
 
 public class SearchVerenigingenMapper

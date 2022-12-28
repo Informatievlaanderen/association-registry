@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Extensions;
+namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using System.Collections.Immutable;
 

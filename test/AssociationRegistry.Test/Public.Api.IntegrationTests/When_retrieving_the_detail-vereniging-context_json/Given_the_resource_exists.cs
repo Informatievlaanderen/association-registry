@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.IntegrationTests.When_retrieving_the_detail_vereniging_context_json;
 
-using AssociationRegistry.Public.Api.json_ld_contexts;
+using AssociationRegistry.Public.Api.Contexten;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

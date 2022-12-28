@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.ConfigurationBindings;
+namespace AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 
 public class PostgreSqlOptionsSection
 {
