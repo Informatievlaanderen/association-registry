@@ -3,12 +3,10 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 using System.Linq;
 using System.Threading.Tasks;
 using Constants;
-using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Marten;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projections.Historiek;
@@ -21,15 +19,6 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class VerenigingenHistoriekController : ApiController
 {
-    private readonly ISender _sender;
-    private readonly AppSettings _appSettings;
-
-    public VerenigingenHistoriekController(ISender sender, AppSettings appSettings)
-    {
-        _sender = sender;
-        _appSettings = appSettings;
-    }
-
     /// <summary>
     /// Vraag de historiek van een vereniging op.
     /// </summary>

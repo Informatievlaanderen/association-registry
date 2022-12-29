@@ -23,7 +23,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
-using SearchVerenigingen;
+using Verenigingen.Search;
 using static Infrastructure.ConfigHelpers;
 
 /// <summary>Represents the startup process for the application.</summary>
@@ -64,7 +64,7 @@ public class Startup
 
         services.AddMarten(postgreSqlOptions, _configuration);
 
-        services.AddSingleton<SearchVerenigingenMapper>();
+        services.AddSingleton<SearchVerenigingenResponseMapper>();
 
         AddSwagger(services);
 

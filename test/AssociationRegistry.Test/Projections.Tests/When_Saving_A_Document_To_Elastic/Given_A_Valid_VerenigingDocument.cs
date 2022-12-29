@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Projections.Tests.When_Saving_A_Document_To_Elastic;
 
-using AssociationRegistry.Public.Api.SearchVerenigingen;
+using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Xunit;
 
