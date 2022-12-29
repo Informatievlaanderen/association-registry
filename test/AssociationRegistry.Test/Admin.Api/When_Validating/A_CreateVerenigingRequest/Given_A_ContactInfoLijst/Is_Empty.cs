@@ -1,0 +1,24 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Validating.A_CreateVerenigingRequest.Given_A_ContactInfoLijst;
+
+using FluentValidation.TestHelper;
+using Framework;
+using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using Xunit;
+
+public class Is_Empty : ValidatorTest
+{
+    [Fact]
+    public void Then_it_has_no_validation_errors()
+    {
+        var validator = new RegistreerVerenigingRequestValidator();
+        var request = new RegistreerVerenigingRequest
+        {
+            Naam = "abcd",
+            Initiator = "OVO000001",
+            ContactInfoLijst = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
+        };
+        var result = validator.TestValidate(request);
+
+        result.ShouldNotHaveAnyValidationErrors();
+    }
+}
