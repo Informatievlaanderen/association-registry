@@ -2,7 +2,7 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;

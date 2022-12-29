@@ -1,15 +1,15 @@
-namespace AssociationRegistry.Admin.Api.DetailVerenigingen;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using Infrastructure.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Projections;
+using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]

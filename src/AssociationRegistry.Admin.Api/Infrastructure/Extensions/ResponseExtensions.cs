@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
+using Infrastructure;
 using Microsoft.AspNetCore.Http;
 
 public static class ResponseExtensions

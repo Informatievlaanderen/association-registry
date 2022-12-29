@@ -1,12 +1,12 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
-namespace AssociationRegistry.Admin.Api.Verenigingen;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.Linq;
 using Constants;
-using FluentValidation;
 using Infrastructure.Validation;
+using FluentValidation;
 
 public class RegistreerVerenigingRequestValidator : AbstractValidator<RegistreerVerenigingRequest>
 {

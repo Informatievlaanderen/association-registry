@@ -1,8 +1,10 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.Serialization;
+using Vereniging;
 
 [DataContract]
 public class RegistreerVerenigingRequest
@@ -139,4 +141,31 @@ public class RegistreerVerenigingRequest
         [DataMember]
         public string Land { get; set; } = null!;
     }
+
+    public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
+        => new(
+            Naam,
+            KorteNaam,
+            KorteBeschrijving,
+            StartDatum,
+            KboNummer,
+            ContactInfoLijst.Select(ToContactInfo),
+            Locaties.Select(ToLocatie).ToArray());
+
+    private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(ContactInfo c)
+        => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);
+
+    private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
+        => new(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.HoofdLocatie,
+            loc.LocatieType);
+
+
 }

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
-using AssociationRegistry.Public.Api.SearchVerenigingen;
+using SearchVerenigingen;
 using Nest;
 using Nest.Specification.IndicesApi;
 

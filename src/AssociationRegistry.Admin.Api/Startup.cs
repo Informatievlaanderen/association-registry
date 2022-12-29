@@ -8,6 +8,7 @@ using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
 using Framework;
+using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.EventStore;
@@ -26,10 +27,9 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
+using VCodeGeneration;
 using VCodes;
 using Vereniging;
-using Verenigingen;
-using Verenigingen.VCodes;
 
 /// <summary>Represents the startup process for the application.</summary>
 public class Startup

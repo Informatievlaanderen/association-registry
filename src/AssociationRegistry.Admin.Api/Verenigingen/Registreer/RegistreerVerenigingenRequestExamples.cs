@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using Swashbuckle.AspNetCore.Filters;
 

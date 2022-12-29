@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using System.Linq;
 using System.Threading.Tasks;
+using EventStore;
 using Framework;
-using Infrastructure.EventStore;
 using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository

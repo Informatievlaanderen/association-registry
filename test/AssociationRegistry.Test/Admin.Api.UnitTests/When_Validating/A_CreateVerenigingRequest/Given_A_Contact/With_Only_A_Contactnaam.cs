@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.UnitTests.When_Validating.A_CreateVerenigingRequest.Given_A_Contact;
 
-using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
