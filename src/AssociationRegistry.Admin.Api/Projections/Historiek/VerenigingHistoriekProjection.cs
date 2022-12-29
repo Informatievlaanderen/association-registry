@@ -1,8 +1,9 @@
-namespace AssociationRegistry.Admin.Api.Projections;
+namespace AssociationRegistry.Admin.Api.Projections.Historiek;
 
 using System.Collections.Generic;
 using Framework;
 using Vereniging;
+using Detail;
 using Infrastructure;
 using Marten.Events;
 using Marten.Events.Aggregation;

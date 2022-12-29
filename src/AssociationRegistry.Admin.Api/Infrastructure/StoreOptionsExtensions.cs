@@ -3,6 +3,8 @@ namespace AssociationRegistry.Admin.Api.Infrastructure;
 using Marten;
 using Marten.Events.Projections;
 using Projections;
+using Projections.Detail;
+using Projections.Historiek;
 
 public static class StoreOptionsExtensions
 {

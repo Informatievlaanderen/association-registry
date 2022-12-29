@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.EventStore;
 
 using System.Linq;
 using System.Threading.Tasks;
-using AssociationRegistry.Framework;
+using Framework;
 using JasperFx.Core.Reflection;
 using Marten;
 

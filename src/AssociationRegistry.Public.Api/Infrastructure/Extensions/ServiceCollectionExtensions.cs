@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using System;
-using AssociationRegistry.Public.Api.SearchVerenigingen;
+using SearchVerenigingen;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;

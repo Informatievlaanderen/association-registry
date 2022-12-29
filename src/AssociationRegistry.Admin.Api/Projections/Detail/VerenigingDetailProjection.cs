@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections;
+﻿namespace AssociationRegistry.Admin.Api.Projections.Detail;
 
 using System;
 using System.Linq;
+using Infrastructure.Extensions;
 using Framework;
 using Vereniging;
 using Infrastructure;
-using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
