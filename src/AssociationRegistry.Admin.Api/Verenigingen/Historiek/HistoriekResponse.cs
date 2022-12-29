@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;

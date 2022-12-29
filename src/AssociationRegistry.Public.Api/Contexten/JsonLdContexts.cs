@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.Api.Contexten;
 
-using AssociationRegistry.Public.Api.Infrastructure.Extensions;
+using Infrastructure.Extensions;
 
 public static class JsonLdContexts
 {

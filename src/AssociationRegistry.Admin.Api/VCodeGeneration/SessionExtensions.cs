@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.VCodes;
+namespace AssociationRegistry.Admin.Api.VCodeGeneration;
 
 using Marten;
 using Weasel.Postgresql;

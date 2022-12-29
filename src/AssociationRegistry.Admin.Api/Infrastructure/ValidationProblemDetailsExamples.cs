@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
