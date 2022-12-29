@@ -7,11 +7,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
+using EventStore;
 using Framework;
-using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
-using Infrastructure.EventStore;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Modules;
@@ -60,7 +59,7 @@ public class Startup
 
         services.AddMediatR(typeof(CommandEnvelope<>));
         services.AddTransient<IVerenigingsRepository, VerenigingsRepository>();
-        services.AddTransient<IEventStore, EventStore>();
+        services.AddTransient<IEventStore, EventStore.EventStore>();
         services.AddSingleton<IVCodeService, SequenceVCodeService>();
         services.AddSingleton<IClock, Clock>();
         services.AddSingleton(

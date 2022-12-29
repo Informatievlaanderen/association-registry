@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.IntegrationTests.Fixtures;
 
 using System.Reflection;
-using AssociationRegistry.Admin.Api.Infrastructure.EventStore;
+using AssociationRegistry.Admin.Api.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;

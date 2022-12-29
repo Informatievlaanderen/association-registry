@@ -1,13 +1,14 @@
-namespace AssociationRegistry.Public.Api.SearchVerenigingen;
+namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Constants;
+using AssociationRegistry.Public.Schema.Search;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Constants;
 using Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,7 @@ public class SearchVerenigingenController : ApiController
     [Produces(contentType: WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromServices] ElasticClient elasticClient,
-        [FromServices] SearchVerenigingenMapper mapper,
+        [FromServices] SearchVerenigingenResponseMapper responseMapper,
         [FromQuery] string? q,
         [FromQuery(Name = "facets.hoofdactiviteiten")] string? hoofdactiviteiten,
         [FromQuery] PaginationQueryParams paginationQueryParams)
@@ -67,7 +68,7 @@ public class SearchVerenigingenController : ApiController
 
         var searchResponse = await Search(elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
 
-        var response = mapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var response = responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
     }
@@ -101,7 +102,7 @@ public class SearchVerenigingenController : ApiController
                                         containerDescriptor => containerDescriptor.Bool(
                                             queryDescriptor => queryDescriptor.Must(
                                                 m => m.QueryString(qs => qs.Query(q))))).Aggregations(
-                                        agg => agg.Terms(
+                                        agg2 => agg2.Terms(
                                             WellknownFacets.HoofdactiviteitenCountAggregateName,
                                             valueCountAggregationDescriptor => valueCountAggregationDescriptor
                                                 .Field(document => document.Hoofdactiviteiten.Select(h => h.Code).Suffix("keyword"))

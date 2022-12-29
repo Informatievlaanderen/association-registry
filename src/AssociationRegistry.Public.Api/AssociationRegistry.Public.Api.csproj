@@ -74,5 +74,9 @@
     <EmbeddedResource Include="Contexten\list-verenigingen-context.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Verenigingen" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

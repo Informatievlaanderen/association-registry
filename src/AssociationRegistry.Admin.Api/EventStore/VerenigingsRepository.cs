@@ -1,8 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
+﻿namespace AssociationRegistry.Admin.Api.EventStore;
 
 using System.Linq;
 using System.Threading.Tasks;
-using EventStore;
 using Framework;
 using Vereniging;
 

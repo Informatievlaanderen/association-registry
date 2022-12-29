@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.UnitTests.VerenigingsRepositoryTests.When_saving_a_vereniging;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.EventStore;
+using AssociationRegistry.Admin.Api.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using ContactInfo;
