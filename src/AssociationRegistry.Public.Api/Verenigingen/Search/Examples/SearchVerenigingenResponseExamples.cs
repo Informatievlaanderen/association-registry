@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.SearchVerenigingen.Examples;
+namespace AssociationRegistry.Public.Api.Verenigingen.Search.Examples;
 
 using System;
 using System.Collections.Immutable;

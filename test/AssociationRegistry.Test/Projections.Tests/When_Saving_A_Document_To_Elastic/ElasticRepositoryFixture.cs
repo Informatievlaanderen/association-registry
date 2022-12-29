@@ -3,12 +3,12 @@ namespace AssociationRegistry.Test.Projections.Tests.When_Saving_A_Document_To_E
 using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using AssociationRegistry.Public.Schema.Search;
 using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Xunit;
-using VerenigingDocument = AssociationRegistry.Public.Api.SearchVerenigingen.VerenigingDocument;
 
 public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 {

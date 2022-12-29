@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.SearchVerenigingen;
+namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using System.Collections.Immutable;
 using System.Runtime.Serialization;

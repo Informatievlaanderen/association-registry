@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text;
 using AssociationRegistry.OpenTelemetry.Extensions;
-using AssociationRegistry.Public.ProjectionHost;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;

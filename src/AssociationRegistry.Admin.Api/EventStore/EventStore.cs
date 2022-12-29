@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.EventStore;
+namespace AssociationRegistry.Admin.Api.EventStore;
 
 using System.Linq;
 using System.Threading.Tasks;

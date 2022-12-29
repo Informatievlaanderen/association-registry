@@ -1,19 +1,19 @@
-﻿namespace AssociationRegistry.Public.Api.SearchVerenigingen;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Constants;
 using Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Public.Schema.Search;
 using Nest;
 
-public class SearchVerenigingenMapper
+public class SearchVerenigingenResponseMapper
 {
     private readonly AppSettings _appSettings;
 
-    public SearchVerenigingenMapper(AppSettings appSettings)
+    public SearchVerenigingenResponseMapper(AppSettings appSettings)
     {
         _appSettings = appSettings;
     }
