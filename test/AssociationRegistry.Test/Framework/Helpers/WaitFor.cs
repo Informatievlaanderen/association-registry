@@ -65,7 +65,7 @@ public static class WaitFor
                     logger.LogWarning(exception, "Encountered an exception while waiting for {ServiceName} to become available", serviceName);
                 }
 
-                await Task.Delay(1000, cancellationToken);
+                await Task.Delay(1000*tryCount, cancellationToken);
             }
         }
 
