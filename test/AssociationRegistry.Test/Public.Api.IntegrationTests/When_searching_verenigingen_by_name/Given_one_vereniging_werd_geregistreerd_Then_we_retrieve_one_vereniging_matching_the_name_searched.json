@@ -53,7 +53,7 @@
         "code": "BWWC",
         "naam": "Buurtwerking & Wijkcomité",
         "aantal": 1,
-        "query": "https://localhost:11003/v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC) AND {{originalQuery}}"
+        "query": "https://localhost:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BWWC"
       }
     ]
   },

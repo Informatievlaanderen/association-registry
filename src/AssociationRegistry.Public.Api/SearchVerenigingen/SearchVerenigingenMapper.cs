@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.SearchVerenigingen;
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -19,13 +20,14 @@ public class SearchVerenigingenMapper
     public SearchVerenigingenResponse ToSearchVereningenResponse(
         ISearchResponse<VerenigingDocument> searchResponse,
         PaginationQueryParams paginationRequest,
-        string originalQuery)
+        string originalQuery,
+        string[] hoofdactiviteiten)
         => new()
         {
             Verenigingen = GetVerenigingenFromResponse(_appSettings, searchResponse),
             Facets = new Facets
             {
-                HoofdActiviteiten = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery),
+                HoofdActiviteiten = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
             },
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
@@ -39,36 +41,57 @@ public class SearchVerenigingenMapper
             )
         );
 
-    private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse, string originalQuery)
-        => searchResponse.Aggregations
+    private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(
+        AppSettings appSettings,
+        ISearchResponse<VerenigingDocument> searchResponse,
+        string originalQuery,
+        string[] hoofdactiviteiten)
+    {
+        return searchResponse.Aggregations
+            .Filter(WellknownFacets.GlobalAggregateName)
+            .Filter(WellknownFacets.FilterAggregateName)
             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
             .Buckets
-            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery))
+            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
             .ToImmutableArray();
+    }
 
-    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(AppSettings appSettings, KeyedBucket<string> bucket, string originalQuery)
-        => CreateHoofdActiviteitFacetItem(appSettings, Activiteiten.Hoofdactiviteit.Create(bucket.Key), bucket.DocCount ?? 0, originalQuery);
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(
+        AppSettings appSettings,
+        KeyedBucket<string> bucket,
+        string originalQuery,
+        string[] originalHoofdactiviteiten)
+        => CreateHoofdActiviteitFacetItem(
+            appSettings,
+            Activiteiten.Hoofdactiviteit.Create(bucket.Key),
+            bucket.DocCount ?? 0,
+            originalQuery,
+            originalHoofdactiviteiten);
 
-    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(AppSettings appSettings, Activiteiten.Hoofdactiviteit hoofdActiviteit, long aantal, string originalQuery)
-        => new(hoofdActiviteit.Code, hoofdActiviteit.Naam, aantal, AddHoofdactiviteitToQuery(appSettings, hoofdActiviteit.Code, originalQuery));
+    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(
+        AppSettings appSettings,
+        Activiteiten.Hoofdactiviteit facetHoofdActiviteit,
+        long aantal,
+        string originalQuery,
+        string[] originalHoofdactiviteiten)
+        => new(
+            facetHoofdActiviteit.Code,
+            facetHoofdActiviteit.Naam,
+            aantal,
+            AddHoofdactiviteitToQuery(
+                appSettings,
+                facetHoofdActiviteit.Code,
+                originalQuery,
+                originalHoofdactiviteiten));
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdActiviteitCode, string originalQuery)
-        => $"{appSettings.BaseUrl}v1/verenigingen/zoeken?q={CalculateQuery(originalQuery, hoofdActiviteitCode)}";
+    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdActiviteitCode, string originalQuery, string[] hoofdactiviteiten)
+        => $"{appSettings.BaseUrl}v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteiten={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdActiviteitCode)}";
 
-    private static string CalculateQuery(string? originalQuery, string hoofdActiviteitCode)
-    {
-        var originalQueryContainsHoofdactiviteitenFacets = originalQuery?.Contains("hoofdactiviteiten.code") ?? false;
-        if (!originalQueryContainsHoofdactiviteitenFacets)
-            return string.IsNullOrWhiteSpace(originalQuery) || originalQuery.Trim() == "*"
-                ? $"(hoofdactiviteiten.code:{hoofdActiviteitCode})"
-                : $"(hoofdactiviteiten.code:{hoofdActiviteitCode}) AND {originalQuery}";
-
-        var regex = new Regex(@"\((hoofdactiviteiten\.code:[A-Z]{4}( OR hoofdactiviteiten\.code:[A-Z]{4})*)\)( AND .+)?");
-        var match = regex.Match(originalQuery ?? string.Empty);
-
-        return $"({match.Groups[1].Value} OR hoofdactiviteiten.code:{hoofdActiviteitCode}){match.Groups[3].Value}";
-    }
+    private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
+        => string.Join(
+            ',',
+            originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
