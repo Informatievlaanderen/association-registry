@@ -215,6 +215,21 @@ jobs:
         name: public-api
         path: ~/ar-public-api-image.tar
 
+    - name: Save Public Projections Image
+      if: env.RELEASE_VERSION != 'none'
+      shell: bash
+      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER -o ~/ar-public-projections-image.tar
+      env:
+        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+        SEMVER: ${{ env.RELEASE_VERSION }}
+
+    - name: Upload Public Projections artifact
+      if: env.RELEASE_VERSION != 'none'
+      uses: actions/upload-artifact@v3
+      with:
+        name: public-projections
+        path: ~/ar-public-projections-image.tar
+
     - name: Save Admin Api Image
       if: env.RELEASE_VERSION != 'none'
       shell: bash
@@ -394,6 +409,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-public-api-image.tar
 
+      - name: Download Public Projections artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-projections
+          path: ~/
+
+      - name: Load Public Projections image
+        shell: bash
+        run: docker image load -i ~/ar-public-projections-image.tar
+
       - name: Download Admin Api artifact
         uses: actions/download-artifact@v3
         with:
@@ -411,6 +436,7 @@ jobs:
           echo $SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
@@ -455,6 +481,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-public-api-image.tar
 
+      - name: Download Public Projections artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: public-projections
+          path: ~/
+
+      - name: Load Public Projections image
+        shell: bash
+        run: docker image load -i ~/ar-public-projections-image.tar
+
       - name: Download Admin Api artifact
         uses: actions/download-artifact@v3
         with:
@@ -473,6 +509,8 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-projections:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
         env:
@@ -492,6 +530,7 @@ jobs:
           [
               'association-registry-acm-api',
               'association-registry-public-api',
+              'association-registry-public-projections',
               'association-registry-admin-api',
           ]
     steps:

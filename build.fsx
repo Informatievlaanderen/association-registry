@@ -57,6 +57,7 @@ Target.create "Publish_Solution" (fun _ ->
   [
     "AssociationRegistry.Acm.Api"
     "AssociationRegistry.Public.Api"
+    "AssociationRegistry.Public.ProjectionHost"
     "AssociationRegistry.Admin.Api"
   ] |> List.iter publishSource)
 
@@ -64,6 +65,7 @@ Target.create "Pack_Solution" (fun _ ->
   [
     "AssociationRegistry.Acm.Api"
     "AssociationRegistry.Public.Api"
+    "AssociationRegistry.Public.ProjectionHost"
     "AssociationRegistry.Admin.Api"
   ] |> List.iter pack)
 
@@ -72,6 +74,9 @@ Target.create "PushContainer_AcmApi" (fun _ -> push "acm-api")
 
 Target.create "Containerize_PublicApi" (fun _ -> containerize "AssociationRegistry.Public.Api" "public-api")
 Target.create "PushContainer_PublicApi" (fun _ -> push "public-api")
+
+Target.create "Containerize_PublicProjections" (fun _ -> containerize "AssociationRegistry.Public.Api" "public-projections")
+Target.create "PushContainer_PublicProjections" (fun _ -> push "public-projections")
 
 Target.create "Containerize_AdminApi" (fun _ -> containerize "AssociationRegistry.Admin.Api" "admin-api")
 Target.create "PushContainer_AdminApi" (fun _ -> push "admin-api")
@@ -107,6 +112,7 @@ Target.create "Push" ignore
 "Pack"
   ==> "Containerize_AcmApi"
   ==> "Containerize_PublicApi"
+  ==> "Containerize_PublicProjections"
   ==> "Containerize_AdminApi"
   ==> "Containerize"
 // Possibly add more projects to containerize here
@@ -115,6 +121,7 @@ Target.create "Push" ignore
   ==> "DockerLogin"
   ==> "PushContainer_AcmApi"
   ==> "PushContainer_PublicApi"
+  ==> "PushContainer_PublicProjections"
   ==> "PushContainer_AdminApi"
   ==> "Push"
 // Possibly add more projects to push here
