@@ -131,7 +131,7 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
 
         var contentFromFacetsUrl = await _classFixture.Search(urlFromFacets);
 
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=(hoofdactiviteiten.code:BWWC OR hoofdactiviteiten.code:BWWC) AND *dena*";
+        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
