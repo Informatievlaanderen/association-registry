@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Schema.Search;
 
-public static class ServiceCollectionExtensions
+public static class ElasticSearchExtensions
 {
    public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
@@ -40,6 +40,4 @@ public static class ServiceCollectionExtensions
         var elasticClient = new ElasticClient(settings);
         return elasticClient;
     }
-
-
 }
