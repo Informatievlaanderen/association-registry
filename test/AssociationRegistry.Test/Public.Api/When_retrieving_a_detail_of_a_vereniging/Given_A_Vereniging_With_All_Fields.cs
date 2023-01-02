@@ -56,33 +56,33 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
 public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Vereniging_With_All_Fields_Fixture>
 {
     private const string VCode = Given_A_Vereniging_With_All_Fields_Fixture.VCode;
-    private readonly HttpClient _httpClient;
+    private readonly PublicApiClient _publicApiClient;
 
     public Given_A_Vereniging_With_All_Fields(Given_A_Vereniging_With_All_Fields_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _publicApiClient = fixture.PublicApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
     {
-        var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}");
+        var response = await _publicApiClient.GetDetail(VCode);
         response.Should().BeSuccessful();
     }
 
     [Fact]
     public async Task Then_we_get_json_ld_as_content_type()
     {
-        var response = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}");
+        var response = await _publicApiClient.GetDetail(VCode);
         response.Content.Headers.ContentType!.MediaType.Should().Be(WellknownMediaTypes.JsonLd);
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{VCode}");
+        var response = await _publicApiClient.GetDetail(VCode);
 
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(

@@ -4,7 +4,6 @@ using System.Net;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
-using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Constants;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
@@ -31,7 +30,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     {
         _apiFixture = apiFixture;
         var fixture = new Fixture();
-        var request = new RegistreerVerenigingRequest
+        Request = new RegistreerVerenigingRequest
         {
             Naam = fixture.Create<string>(),
             KorteNaam = fixture.Create<string>(),
@@ -66,24 +65,21 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
                 },
             },
         };
-        Content = GetJsonBody(request).AsJsonContent();
-        Request = request;
     }
 
     private RegistreerVerenigingRequest Request { get; }
-    private StringContent Content { get; }
 
     [Fact]
     public async Task Then_it_returns_an_accepted_response()
     {
-        var response = _apiFixture.AdminApiClient.RegistreerVereniging(Content).GetAwaiter().GetResult();
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        _apiFixture.AdminApiClient.RegistreerVereniging(Content).GetAwaiter().GetResult();
+        _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
 
         var savedEvent = await _apiFixture.DocumentStore
             .LightweightSession().Events
@@ -102,7 +98,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_returns_a_location_header()
     {
-        var response = _apiFixture.AdminApiClient.RegistreerVereniging(Content).GetAwaiter().GetResult();
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
 
         response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
         response.Headers.Location!.OriginalString.Should()
@@ -112,7 +108,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_returns_a_sequence_header()
     {
-        var response = _apiFixture.AdminApiClient.RegistreerVereniging(Content).GetAwaiter().GetResult();
+        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
 
         response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
         var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
