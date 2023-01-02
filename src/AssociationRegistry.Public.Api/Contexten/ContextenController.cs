@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Public.Api.Contexten;
 
-using Constants;
 using Be.Vlaanderen.Basisregisters.Api;
+using Constants;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiVersion("1.0")]

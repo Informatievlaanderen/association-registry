@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Public.Api.Infrastructure;
 
 using System;
-using Framework;
 using ConfigurationBindings;
+using Framework;
 
 public static class ConfigHelpers
 {

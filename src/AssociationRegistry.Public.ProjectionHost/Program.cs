@@ -5,7 +5,6 @@ using AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Marten;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;

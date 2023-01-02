@@ -38,11 +38,11 @@ public class Given_Two_Verenigingen_With_Minimal_Data_Fixture : PublicApiFixture
 
 public class Given_Two_Verenigingen_With_Minimal_Data : IClassFixture<Given_Two_Verenigingen_With_Minimal_Data_Fixture>
 {
-    private readonly HttpClient _httpClient;
+    private readonly PublicApiClient _publicApiClient;
 
     public Given_Two_Verenigingen_With_Minimal_Data(Given_Two_Verenigingen_With_Minimal_Data_Fixture fixture)
     {
-        _httpClient = fixture.HttpClient;
+        _publicApiClient = fixture.PublicApiClient;
     }
 
     [Theory]
@@ -50,9 +50,9 @@ public class Given_Two_Verenigingen_With_Minimal_Data : IClassFixture<Given_Two_
     [InlineData(Given_Two_Verenigingen_With_Minimal_Data_Fixture.VCode2)]
     public async Task Then_we_get_a_detail_vereniging_response(string vCode)
     {
-        var responseMessage = await _httpClient.GetAsync($"/v1/verenigingen/{vCode}");
+        var response = await _publicApiClient.GetDetail(vCode);
 
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync();
 
         var jObject = JsonConvert.DeserializeObject<JObject>(content)!;
 

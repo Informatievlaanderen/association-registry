@@ -32,7 +32,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private readonly IDocumentStore _documentStore;
     private readonly TestServer _testServer;
 
-    public HttpClient HttpClient { get; }
+    //public HttpClient HttpClient { get; }
+    public PublicApiClient PublicApiClient { get; }
 
     private string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
@@ -46,7 +47,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         _testServer = ConfigurePublicApiTestServer();
 
-        HttpClient = _testServer.CreateClient();
+        PublicApiClient = new PublicApiClient(_testServer.CreateClient());
         _elasticClient = CreateElasticClient(_testServer);
         var projectionServices = RunProjectionHost();
         _documentStore = projectionServices.GetRequiredService<IDocumentStore>();
@@ -95,20 +96,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         // Make sure all documents are properly indexed
         await _elasticClient.Indices.RefreshAsync(Indices.All);
-    }
-
-    public async Task<string> Search(string uri)
-    {
-        var responseMessage = await GetResponseMessage(uri);
-        return await responseMessage.Content.ReadAsStringAsync();
-    }
-
-    public async Task<HttpResponseMessage> GetResponseMessage(string uri)
-    {
-        if (HttpClient is null)
-            throw new NullReferenceException("HttpClient needs to be set before performing a get");
-
-        return await HttpClient.GetAsync(uri);
     }
 
     private TestServer ConfigurePublicApiTestServer()
@@ -196,7 +183,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        HttpClient.Dispose();
+        PublicApiClient.Dispose();
         _testServer.Dispose();
         _documentStore.Dispose();
 

@@ -4,7 +4,6 @@ using System.Net;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
-using Framework.Helpers;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -14,13 +13,13 @@ public class Given_A_Request_With_Startdatum_In_The_Future_Fixture : AdminApiFix
         nameof(Given_A_Request_With_Startdatum_In_The_Future_Fixture))
     {
         var startdatum = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
-        Content = GetJsonRequestBody(startdatum).AsJsonContent();
+        Content = GetJsonRequestBody(startdatum);
     }
 
-    public StringContent Content { get; }
+    public string Content { get; }
 
 
-    private string GetJsonRequestBody(DateOnly startdatum)
+    public string GetJsonRequestBody(DateOnly startdatum)
         => GetType()
             .GetAssociatedResourceJson($"files.request.with_startdatum_in_future")
             .Replace("{{vereniging.startdatum}}", startdatum.ToString("yyyy-MM-dd"));

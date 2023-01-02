@@ -39,35 +39,27 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 
 public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>
 {
-    private readonly One_vereniging_werd_geregistreerd_fixture _classFixture;
     private readonly string _goldenMasterWithOneVereniging;
-
-    private const string VerenigingenZoekenOpNaam = "/v1/verenigingen/zoeken?q=" + One_vereniging_werd_geregistreerd_fixture.Naam;
-    private const string VerenigingenZoekenOpDeelVanEenTermVanDeNaam = "/v1/verenigingen/zoeken?q=dena";
-    private const string VerenigingenZoekenOpDeelVanNaamMetWildcards = "/v1/verenigingen/zoeken?q=*dena*";
-    private const string VerenigingenZoekenOpTermInNaam = "/v1/verenigingen/zoeken?q=oudenaarde";
-
-    private const string VerenigingenZoekenOpVCode = "/v1/verenigingen/zoeken?q=" + One_vereniging_werd_geregistreerd_fixture.VCode;
-    private const string VerenigingenZoekenOpDeelVanDeVCode = "/v1/verenigingen/zoeken?q=001";
+    private readonly PublicApiClient _publicApiClient;
 
     private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_one_vereniging_werd_geregistreerd(One_vereniging_werd_geregistreerd_fixture classFixture)
     {
-        _classFixture = classFixture;
+        _publicApiClient = classFixture.PublicApiClient;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _classFixture.GetResponseMessage(VerenigingenZoekenOpNaam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.Naam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpNaam);
-
+        var response = await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.Naam);
+        var content = await response.Content.ReadAsStringAsync();
         var goldenMaster = _goldenMasterWithOneVereniging
             .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
@@ -76,7 +68,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanEenTermVanDeNaam);
+        var response = await _publicApiClient.Search("dena");
+        var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
@@ -84,7 +77,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanNaamMetWildcards);
+        var response = await _publicApiClient.Search("*dena*");
+        var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
             .Replace("{{originalQuery}}", "*dena*");
@@ -94,7 +88,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpTermInNaam);
+        var response = await _publicApiClient.Search("oudenaarde");
+        var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
             .Replace("{{originalQuery}}", "oudenaarde");
@@ -104,7 +99,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpVCode);
+        var response = await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.VCode);
+        var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
             .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.VCode);
@@ -114,7 +110,8 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
-        var content = await _classFixture.Search(VerenigingenZoekenOpDeelVanDeVCode);
+        var response = await _publicApiClient.Search("001");
+        var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
@@ -122,14 +119,15 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
-        const string arbitrarySearchThatReturnsAResult = VerenigingenZoekenOpDeelVanNaamMetWildcards;
-        var content = await _classFixture.Search(arbitrarySearchThatReturnsAResult);
+        var response = await _publicApiClient.Search("*dena*");
+        var content = await response.Content.ReadAsStringAsync();
 
         var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteiten"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
         var regexResult = regex.Match(content);
         var urlFromFacets = regexResult.Groups[2].Value;
 
-        var contentFromFacetsUrl = await _classFixture.Search(urlFromFacets);
+        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
+        var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
 
         const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
