@@ -11,6 +11,7 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
+using Wolverine;
 
 public static class ConfigureMartenExtensions
 {
@@ -57,7 +58,7 @@ public static class ConfigureMartenExtensions
         }
 
         var martenConfigurationExpression = services.AddMarten(
-            _ =>
+            serviceProvider =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
                     .Get<PostgreSqlOptionsSection>();
@@ -74,7 +75,7 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add<VerenigingDetailProjection>();
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(services.BuildServiceProvider())),
+                        new MartenEventsConsumer(serviceProvider.GetRequiredService<IMessageBus>())),
                     ProjectionLifecycle.Async);
 
                 opts.Serializer(CreateCustomMartenSerializer());
