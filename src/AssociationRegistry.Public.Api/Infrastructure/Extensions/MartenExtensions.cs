@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using ConfigurationBindings;
 using Constants;
 using Json;
-using ConfigurationBindings;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;

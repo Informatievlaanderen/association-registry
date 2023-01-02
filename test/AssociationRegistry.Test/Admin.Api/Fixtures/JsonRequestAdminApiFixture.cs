@@ -1,16 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
-using Framework.Helpers;
-
 public class JsonRequestAdminApiFixture : AdminApiFixture
 {
-    public StringContent Content { get; }
+    public string JsonContent { get; }
 
-    public JsonRequestAdminApiFixture(string name, string file) : base(name)
+    protected JsonRequestAdminApiFixture(string name, string file) : base(name)
     {
-        Content = GetJsonRequestBody(file).AsJsonContent();
-    }
-    private string GetJsonRequestBody(string file)
-        => GetType()
+        JsonContent = GetType()
             .GetAssociatedResourceJson(file);
+    }
 }

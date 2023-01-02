@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Constants;
-using AssociationRegistry.Public.Schema.Search;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Constants;
 using Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
+using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
