@@ -75,6 +75,7 @@ nuget Structurizr.AdrTools 0.9.3
 
 // MARTEN
 nuget Marten 6.0.0-alpha.6
+nuget WolverineFx 0.9.6
 
 // MediatR
 nuget MediatR 11.0.0
