@@ -1,3 +1,10 @@
+# [1.92.0](https://github.com/informatievlaanderen/association-registry/compare/v1.91.0...v1.92.0) (2023-01-03)
+
+
+### Features
+
+* OR-1297 add wolverine to tracing ([b02f6dc](https://github.com/informatievlaanderen/association-registry/commit/b02f6dcc436e3b1be69978cc6699d8ac325a2249))
+
 # [1.91.0](https://github.com/informatievlaanderen/association-registry/compare/v1.90.0...v1.91.0) (2023-01-03)
 
 
