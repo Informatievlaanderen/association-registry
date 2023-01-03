@@ -2,6 +2,41 @@
   <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.App.props" />
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+
+    <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>6.0.3</RuntimeFrameworkVersion>
+    <DisableImplicitFrameworkReferences>false</DisableImplicitFrameworkReferences>
+
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <OutputType>Exe</OutputType>
+
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Disable Paket restore under NCrunch build -->
+    <PaketRestoreDisabled Condition="'$(NCrunch)' == '1'">True</PaketRestoreDisabled>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
      <EnableDefaultContentItems>false</EnableDefaultContentItems>
  </PropertyGroup>
