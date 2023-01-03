@@ -51,7 +51,8 @@ public static class ServiceCollectionExtensions
                         {
                             options.Protocol = OtlpExportProtocol.Grpc;
                             options.Endpoint = new Uri(collectorUrl);
-                        }));
+                        })
+                    .AddSource("Wolverine"));
 
         services.AddLogging(
             builder =>
