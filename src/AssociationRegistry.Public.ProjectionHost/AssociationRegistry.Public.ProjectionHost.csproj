@@ -46,7 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Dockerfile" />
+    <Content Include="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Remove="init.sh" />
+    <Content Include="init.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
