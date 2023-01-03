@@ -1,3 +1,13 @@
+# [1.91.0](https://github.com/informatievlaanderen/association-registry/compare/v1.90.0...v1.91.0) (2023-01-03)
+
+
+### Features
+
+* OR-1297 add rebuild functionality ([f8753db](https://github.com/informatievlaanderen/association-registry/commit/f8753db141717ae38c6df9ba5a29bd7ffa2e31d4))
+* OR-1297 add some vbr code (maybe) ([4b6ccaa](https://github.com/informatievlaanderen/association-registry/commit/4b6ccaaee103c845fee13d95eba0cd721c3dbb08))
+* OR-1297 move projections into projection host (tests working) ([d59635b](https://github.com/informatievlaanderen/association-registry/commit/d59635b23a27718d9e267dbf621bdb0d50510050))
+* OR-1417 separate hoofdactiviteiten facets from querystring and use global filter ([b780d0c](https://github.com/informatievlaanderen/association-registry/commit/b780d0cce8864b215de9b49c4e3e494a8e88c98f))
+
 # [1.90.0](https://github.com/informatievlaanderen/association-registry/compare/v1.89.0...v1.90.0) (2022-12-26)
 
 
