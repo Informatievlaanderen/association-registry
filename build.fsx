@@ -63,10 +63,11 @@ Target.create "Publish_Solution" (fun _ ->
 
 Target.create "Pack_Solution" (fun _ ->
   [
-    "AssociationRegistry.Acm.Api"
-    "AssociationRegistry.Public.Api"
-    "AssociationRegistry.Public.ProjectionHost"
-    "AssociationRegistry.Admin.Api"
+    // Don't pack for now, since we're not using these packages
+    // "AssociationRegistry.Acm.Api"
+    // "AssociationRegistry.Public.Api"
+    // "AssociationRegistry.Public.ProjectionHost"
+    // "AssociationRegistry.Admin.Api"
   ] |> List.iter pack)
 
 Target.create "Containerize_AcmApi" (fun _ -> containerize "AssociationRegistry.Acm.Api" "acm-api")
@@ -75,7 +76,7 @@ Target.create "PushContainer_AcmApi" (fun _ -> push "acm-api")
 Target.create "Containerize_PublicApi" (fun _ -> containerize "AssociationRegistry.Public.Api" "public-api")
 Target.create "PushContainer_PublicApi" (fun _ -> push "public-api")
 
-Target.create "Containerize_PublicProjections" (fun _ -> containerize "AssociationRegistry.Public.Api" "public-projections")
+Target.create "Containerize_PublicProjections" (fun _ -> containerize "AssociationRegistry.Public.ProjectionHost" "public-projections")
 Target.create "PushContainer_PublicProjections" (fun _ -> push "public-projections")
 
 Target.create "Containerize_AdminApi" (fun _ -> containerize "AssociationRegistry.Admin.Api" "admin-api")
