@@ -38,7 +38,7 @@ public static class MartenExtentions
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)
-        => $"host={postgreSqlOptions.Host}:5432;" +
+        => $"host={postgreSqlOptions.Host};" +
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
