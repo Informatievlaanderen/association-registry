@@ -1,3 +1,10 @@
+# [1.93.0](https://github.com/informatievlaanderen/association-registry/compare/v1.92.0...v1.93.0) (2023-01-03)
+
+
+### Features
+
+* OR-1297 don't add port to host ([39f9790](https://github.com/informatievlaanderen/association-registry/commit/39f979045f77baf065906bf552df838f21deb813))
+
 # [1.92.0](https://github.com/informatievlaanderen/association-registry/compare/v1.91.0...v1.92.0) (2023-01-03)
 
 
