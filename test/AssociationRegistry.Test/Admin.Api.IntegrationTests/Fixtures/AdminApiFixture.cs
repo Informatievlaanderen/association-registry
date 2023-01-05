@@ -43,12 +43,8 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(new Dictionary<string, string>
-                                {
-                                    {$"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName},
-                                    {"DisableDaemon", true.ToString()},
-                                })
-                            );
+                    );
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName);
                     builder.ConfigureServices(
                         (context, _) =>
                         {
