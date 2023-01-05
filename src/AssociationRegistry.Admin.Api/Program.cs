@@ -125,6 +125,7 @@ public class Program
             {
                 ApiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>(),
                 DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Beheer API {groupName}",
+                FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
                 CSharpClient =
                 {
                     ClassName = "Verenigingsregister",
