@@ -61,6 +61,7 @@ using Serilog;
 using Serilog.Debugging;
 using Swashbuckle.AspNetCore.Filters;
 using VCodeGeneration;
+using Wolverine;
 
 public class Program
 {
@@ -86,6 +87,10 @@ public class Program
         ConfigureLogger(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
+
+        builder.Host.UseWolverine(
+            options => options.Handlers.Discovery(
+                source => source.IncludeAssembly(typeof(Vereniging).Assembly)));
 
         var app = builder.Build();
 
@@ -275,7 +280,6 @@ public class Program
             .AddTransient<IEventStore, EventStore.EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
-            .AddMediatR(typeof(CommandEnvelope<>))
             .AddOpenTelemetry()
             .AddHttpContextAccessor();
 

@@ -11,7 +11,7 @@ using Framework;
 using Locaties;
 using MediatR;
 
-public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelope<RegistreerVerenigingCommand>,  RegistratieResult>
+public class RegistreerVerenigingCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingsRepository;
     private readonly IVCodeService _vCodeService;
@@ -24,9 +24,9 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         _clock = clock;
     }
 
-    public async Task<RegistratieResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> envelope, CancellationToken cancellationToken)
+    public async Task<RegistratieResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> message, CancellationToken cancellationToken)
     {
-        var command = envelope.Command;
+        var command = message.Command;
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
@@ -34,7 +34,7 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         var contacten = ContactLijst.Create(command.ContactInfoLijst);
         var vCode = await _vCodeService.GetNext();
         var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten,locatieLijst, _clock.Today);
-        var sequence = await _verenigingsRepository.Save(vereniging, envelope.Metadata);
+        var sequence = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return new RegistratieResult(vCode, sequence);
     }
 
