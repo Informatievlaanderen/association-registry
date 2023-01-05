@@ -1,3 +1,15 @@
+# [1.94.0](https://github.com/informatievlaanderen/association-registry/compare/v1.93.0...v1.94.0) (2023-01-05)
+
+
+### Features
+
+* OR-1278 adjust namespaces ([de2af4c](https://github.com/informatievlaanderen/association-registry/commit/de2af4ca65bd96ec6debfabc1e54cc9eae8de518))
+* OR-1278 flatten tests ([f3d021c](https://github.com/informatievlaanderen/association-registry/commit/f3d021c308ef792e9ebcf36f13596568ab4d2bff))
+* OR-1278 restructure admin api ([569dea1](https://github.com/informatievlaanderen/association-registry/commit/569dea1db0882c31a6ca3209a46a80c94a8c2c93))
+* OR-1278 restructure public api ([fe94415](https://github.com/informatievlaanderen/association-registry/commit/fe9441515450244edb9dccaf28d77dac817563cd))
+* OR-1297 rename extensions ([b4cb84b](https://github.com/informatievlaanderen/association-registry/commit/b4cb84b04609999943ac813dc8345dd40b3e93d1))
+* OR-1297 use wolverine in projections ([efb6b19](https://github.com/informatievlaanderen/association-registry/commit/efb6b1980de7648ab292a4d29cf8c81761924fdd))
+
 # [1.93.0](https://github.com/informatievlaanderen/association-registry/compare/v1.92.0...v1.93.0) (2023-01-03)
 
 
