@@ -38,13 +38,17 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName);
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
+                                .AddInMemoryCollection(new []
+                                {
+                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName)
+                                })
                     );
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName);
                     builder.ConfigureServices(
                         (context, _) =>
                         {
