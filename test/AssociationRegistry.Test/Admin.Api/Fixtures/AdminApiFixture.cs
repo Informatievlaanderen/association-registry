@@ -1,16 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using System.Reflection;
-using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api;
 using global::AssociationRegistry.Admin.Api.EventStore;
-using global::AssociationRegistry.Admin.Api.Extensions;
-using global::AssociationRegistry.Admin.Api.Infrastructure;
+using global::AssociationRegistry.Admin.Api.Extensions.AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using global::AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using global::AssociationRegistry.Admin.Api.VCodeGeneration;
 using global::AssociationRegistry.Framework;
-using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

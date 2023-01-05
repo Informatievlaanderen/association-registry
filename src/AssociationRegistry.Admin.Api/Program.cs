@@ -237,6 +237,7 @@ public class Program
 
         app.Run();
 
+
         static void ConfigureMiddleware(IApplicationBuilder app)
         {
             app

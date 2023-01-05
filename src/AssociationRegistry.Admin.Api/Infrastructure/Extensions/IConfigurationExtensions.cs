@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Extensions;
+namespace AssociationRegistry.Admin.Api.Extensions;
 
 using System;
 using Framework;
