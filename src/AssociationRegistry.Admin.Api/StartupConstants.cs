@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿namespace AssociationRegistry.Admin.Api;
+
+using System.Linq;
 using System.Net.Http;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Microsoft.Net.Http.Headers;
 
-public class StartupConstants
+
+public static class StartupConstants
 {
     public static readonly string[] ExposedHeaders =
     {

@@ -21,7 +21,7 @@ public static class MartenExtentions
         var martenConfiguration = services.AddMarten(
             opts =>
             {
-                opts.Connection(GetPostgresConnectionString(postgreSqlOptions));
+                opts.Connection(postgreSqlOptions.GetConnectionString());
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
@@ -37,7 +37,7 @@ public static class MartenExtentions
         return services;
     }
 
-    private static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
+    public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)
         => $"host={postgreSqlOptions.Host}:5432;" +
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
