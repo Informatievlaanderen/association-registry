@@ -5,7 +5,7 @@ using ConfigurationBindings;
 using Framework;
 using Microsoft.Extensions.Configuration;
 
-public static class IConfigurationExtensions
+public static class ConfigurationExtensions
 {
     public static PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
