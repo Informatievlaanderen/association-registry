@@ -48,12 +48,12 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.ConfigureServices(
                         (context, _) =>
                         {
-                            EnureDbExists(context.Configuration.GetPostgreSqlOptionsSection());
+                            EnsureDbExists(context.Configuration.GetPostgreSqlOptionsSection());
                         });
                 });
     }
 
-    private static void EnureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
+    private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
     {
         Marten.DocumentStore.For(
             options =>
