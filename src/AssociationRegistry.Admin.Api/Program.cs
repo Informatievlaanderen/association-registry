@@ -11,14 +11,9 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Constants;
-using Events;
-using Extensions;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
-using Verenigingen;
-using AssociationRegistry.Admin.Api.Verenigingen.VCodes;
 using Framework;
-using AssociationRegistry.OpenTelemetry.Extensions;
 using VCodes;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -33,7 +28,10 @@ using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Destructurama;
+using EventStore;
 using FluentValidation;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -58,10 +56,12 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using VCodeGeneration;
 
 public class Program
 {
@@ -270,7 +270,7 @@ public class Program
                     {
                         BaseUrl = builder.Configuration.GetBaseUrl(),
                     })
-                .AddTransient<IEventStore, EventStore>()
+                .AddTransient<IEventStore, EventStore.EventStore>()
                 .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                 .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                 .AddMediatR(typeof(CommandEnvelope<>))

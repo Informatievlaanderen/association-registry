@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 using System.Reflection;
 using global::AssociationRegistry.Admin.Api;
 using global::AssociationRegistry.Admin.Api.EventStore;
-using global::AssociationRegistry.Admin.Api.Extensions.AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using global::AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Framework;

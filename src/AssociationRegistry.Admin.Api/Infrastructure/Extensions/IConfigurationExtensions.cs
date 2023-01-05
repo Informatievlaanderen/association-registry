@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using System;
+using ConfigurationBindings;
 using Framework;
-using Infrastructure.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 
 public static class IConfigurationExtensions

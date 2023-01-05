@@ -20,7 +20,7 @@ using Npgsql;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
-using Program = Program;
+using Program = global::AssociationRegistry.Public.ProjectionHost.Program;
 
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {

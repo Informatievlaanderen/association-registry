@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
+using System.Reflection;
 using Constants;
 using Projections.Detail;
 using Projections.Search;
@@ -17,7 +18,7 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
     {
-        source.RegisterDomainEventHandlers(typeof(global::Program).Assembly);
+        source.RegisterDomainEventHandlers(Assembly.GetExecutingAssembly());
 
         source
             .AddTransient<IElasticRepository, ElasticRepository>()
@@ -34,7 +35,8 @@ public static class ConfigureMartenExtensions
     }
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
-        IServiceCollection services, ConfigurationManager configurationManager)
+        IServiceCollection services,
+        ConfigurationManager configurationManager)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
         {
@@ -83,5 +85,4 @@ public static class ConfigureMartenExtensions
             });
         return martenConfigurationExpression;
     }
-
 }
