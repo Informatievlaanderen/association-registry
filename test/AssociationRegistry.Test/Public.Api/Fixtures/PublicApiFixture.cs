@@ -144,6 +144,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                 var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
                 var rootConnectionString = GetConnectionString(_configurationRoot, RootDatabase);
                 opts.Connection(connectionString);
+                opts.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
                 opts.CreateDatabasesForTenants(
                     c =>
                     {
@@ -199,3 +200,5 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public virtual Task DisposeAsync()
         => Task.CompletedTask;
 }
+
+// Implement IRetryPolicy interface
