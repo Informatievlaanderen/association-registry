@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Validating.A_CreateVerenigingRequest.Given_A_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_CreateVerenigingRequest.Given_A_Locatie;
 
 using AutoFixture;
 using FluentValidation.TestHelper;

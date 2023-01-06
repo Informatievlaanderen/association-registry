@@ -1,8 +1,9 @@
-namespace AssociationRegistry.Test.Public.Api.When_retrieving_the_detail_vereniging_context_json;
+namespace AssociationRegistry.Test.Public.Api.Public.Api.When_retrieving_the_detail_vereniging_context_json;
 
+using AssociationRegistry.Public.Api.Contexten;
 using Fixtures;
 using FluentAssertions;
-using global::AssociationRegistry.Public.Api.Contexten;
+using Framework;
 using Xunit;
 
 [Collection(VerenigingPublicApiCollection.Name)]

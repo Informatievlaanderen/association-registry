@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
+﻿namespace AssociationRegistry.Test.Public.Api.Public.Api.Fixtures;
 
 public class PublicApiClient : IDisposable
 {

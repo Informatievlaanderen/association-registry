@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
+namespace AssociationRegistry.Test.Public.Api.Public.Api.When_retrieving_a_detail_of_a_vereniging;
 
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Vereniging;
 using Xunit;
 
 public class Given_Two_Verenigingen_With_Minimal_Data_Fixture : PublicApiFixture

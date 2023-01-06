@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Validating.A_CreateVerenigingRequest.Given_KboNumber;
+namespace AssociationRegistry.Test.Admin.Api.When_validating.A_CreateVerenigingRequest.Given_KboNumber;
 
 using FluentValidation.TestHelper;
 using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;

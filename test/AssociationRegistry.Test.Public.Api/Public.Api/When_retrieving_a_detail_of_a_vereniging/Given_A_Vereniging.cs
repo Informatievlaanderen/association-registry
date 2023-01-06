@@ -1,10 +1,11 @@
-namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
+namespace AssociationRegistry.Test.Public.Api.Public.Api.When_retrieving_a_detail_of_a_vereniging;
 
 using System.Text.RegularExpressions;
+using AssociationRegistry.Public.Api.Constants;
+using AssociationRegistry.Vereniging;
 using Fixtures;
 using FluentAssertions;
-using global::AssociationRegistry.Public.Api.Constants;
-using Vereniging;
+using Framework;
 using Xunit;
 
 public class Given_A_Vereniging_Fixture : PublicApiFixture

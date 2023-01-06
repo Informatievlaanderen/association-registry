@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
+﻿namespace AssociationRegistry.Test.Public.Api.Public.Api.Fixtures;
 
 using System.Reflection;
-using global::AssociationRegistry.Admin.Api.EventStore;
-using global::AssociationRegistry.Framework;
-using global::AssociationRegistry.Public.Api;
-using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
-using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using Admin.Api.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +20,6 @@ using Npgsql;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
-using Program = global::AssociationRegistry.Public.ProjectionHost.Program;
 
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
@@ -110,7 +109,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private IServiceProvider RunProjectionHost()
     {
-        var webApplicationFactory = new WebApplicationFactory<Program>()
+        var webApplicationFactory = new WebApplicationFactory<global::AssociationRegistry.Public.ProjectionHost.Program>()
             .WithWebHostBuilder(
                 builder =>
                 {

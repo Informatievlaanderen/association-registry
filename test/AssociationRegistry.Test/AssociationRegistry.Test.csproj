@@ -29,16 +29,12 @@
     <EmbeddedResource Include="Admin.Api\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Admin.Api\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="Admin.Api\When_retrieving_historiek_for_a_vereniging\Given_A_Vereniging_With_Historiek_Then_we_get_a_historiek_response.json" />
-    <EmbeddedResource Include="Public.Api\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="Public.Api\When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="Public.Api\When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
     <EmbeddedResource Include="Admin.Api\When_posting_a_new_vereniging\files\response.not_null_validation_error.json" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Public.Api\When_searching_verenigingen_by_name\Given_one_vereniging_werd_geregistreerd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Admin.Api\EventStore" />

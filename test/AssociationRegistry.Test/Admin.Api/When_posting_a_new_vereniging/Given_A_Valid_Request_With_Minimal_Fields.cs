@@ -58,7 +58,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
     {
         var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
         response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
-        response.Headers.Location!.OriginalString.Should().StartWith("https://localhost:11003/v1/verenigingen/V");
+        response.Headers.Location!.OriginalString.Should().StartWith("https://127.0.0.1:11003/v1/verenigingen/V");
     }
 
     [Fact]

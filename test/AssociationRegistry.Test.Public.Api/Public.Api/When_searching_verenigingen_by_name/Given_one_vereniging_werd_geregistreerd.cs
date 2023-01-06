@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_name;
+namespace AssociationRegistry.Test.Public.Api.Public.Api.When_searching_verenigingen_by_name;
 
 using System.Text.RegularExpressions;
+using AssociationRegistry.Vereniging;
 using Fixtures;
 using FluentAssertions;
-using global::AssociationRegistry.Admin.Api.Constants;
-using Vereniging;
+using Framework;
 using Xunit;
 
 public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
@@ -13,8 +13,8 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     public const string Naam = "Feestcommittee Oudenaarde";
     private const string KorteNaam = "FOud";
 
-    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, LocatieTypes.Correspondentie);
-    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, LocatieTypes.Activiteiten);
+    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
+    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
 
     public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
     {

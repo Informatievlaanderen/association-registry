@@ -43,7 +43,7 @@
         }
       ],
       "links": {
-        "detail": "https://localhost:11003/v1/verenigingen/V0001001"
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001001"
       }
     }
   ],
@@ -53,7 +53,7 @@
         "code": "BWWC",
         "naam": "Buurtwerking & Wijkcomité",
         "aantal": 1,
-        "query": "https://localhost:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BWWC"
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BWWC"
       }
     ]
   },

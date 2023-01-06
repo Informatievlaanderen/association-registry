@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Validating.A_CreateVerenigingRequest;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_CreateVerenigingRequest;
 
 using FluentValidation.TestHelper;
 using Framework;

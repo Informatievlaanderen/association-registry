@@ -1,5 +1,5 @@
 {
-  "@context": "https://localhost:11003/v1/contexten/list-verenigingen-context.json",
+  "@context": "https://127.0.0.1:11003/v1/contexten/list-verenigingen-context.json",
   "verenigingen": [
     {
       "id": "V1234567",
@@ -12,11 +12,11 @@
       "activiteiten": [
         {
           "type": "Badminton",
-          "beheerder": "https://localhost:11003/v1/verenigingen/V000010"
+          "beheerder": "https://127.0.0.1:11003/v1/verenigingen/V000010"
         },
         {
           "type": "Tennis",
-          "beheerder": "https://localhost:11003/v1/verenigingen/V000010"
+          "beheerder": "https://127.0.0.1:11003/v1/verenigingen/V000010"
         }
       ],
       "links": [

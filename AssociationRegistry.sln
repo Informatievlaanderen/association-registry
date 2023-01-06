@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.Schema", "src\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj", "{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Public.Api", "test\AssociationRegistry.Test.Public.Api\AssociationRegistry.Test.Public.Api.csproj", "{558493F5-01DC-4603-B00C-002D07FA12DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558493F5-01DC-4603-B00C-002D07FA12DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558493F5-01DC-4603-B00C-002D07FA12DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558493F5-01DC-4603-B00C-002D07FA12DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558493F5-01DC-4603-B00C-002D07FA12DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -122,5 +128,6 @@ Global
 		{C25E2A86-E408-42C0-BAB8-560B19067014} = {20B970CD-1737-4427-A924-D299A42346FE}
 		{3393EDF4-1C36-4683-A2C7-EA1129EB3C7D} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{558493F5-01DC-4603-B00C-002D07FA12DA} = {C812C887-6495-405A-8B99-4F686D243126}
 	EndGlobalSection
 EndGlobal

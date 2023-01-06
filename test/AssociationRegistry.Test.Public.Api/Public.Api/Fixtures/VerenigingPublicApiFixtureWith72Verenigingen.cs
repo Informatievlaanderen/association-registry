@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
+﻿namespace AssociationRegistry.Test.Public.Api.Public.Api.Fixtures;
 
 using System.Reflection;
-using global::AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
