@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.AssociationRegistry.Startdatums;
 
-using Admin.Api.CommandHandler.When_handling_a_RegistreerVerenigingCommand;
 using FluentAssertions;
+using Framework;
 using global::AssociationRegistry.Startdatums;
 using global::AssociationRegistry.Startdatums.Exceptions;
 using Xunit;

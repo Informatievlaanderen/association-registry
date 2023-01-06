@@ -166,6 +166,4 @@ public class RegistreerVerenigingRequest
             loc.Land,
             loc.HoofdLocatie,
             loc.LocatieType);
-
-
 }

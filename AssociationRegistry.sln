@@ -67,6 +67,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.Schema", "src\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj", "{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Admin.Api", "test\AssociationRegistry.Test.Admin.Api\AssociationRegistry.Test.Admin.Api.csproj", "{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Public.Api", "test\AssociationRegistry.Test.Public.Api\AssociationRegistry.Test.Public.Api.csproj", "{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +112,14 @@ Global
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -122,5 +134,7 @@ Global
 		{C25E2A86-E408-42C0-BAB8-560B19067014} = {20B970CD-1737-4427-A924-D299A42346FE}
 		{3393EDF4-1C36-4683-A2C7-EA1129EB3C7D} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{4CE5590C-5B04-4A95-9B2C-B7AD1619D2C5} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F} = {C812C887-6495-405A-8B99-4F686D243126}
+		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1} = {C812C887-6495-405A-8B99-4F686D243126}
 	EndGlobalSection
 EndGlobal
