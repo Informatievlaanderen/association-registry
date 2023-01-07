@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.EventStore;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
@@ -46,7 +46,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
                                 .AddInMemoryCollection(new []
                                 {
-                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName)
+                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName),
                                 })
                     );
                     builder.ConfigureServices(

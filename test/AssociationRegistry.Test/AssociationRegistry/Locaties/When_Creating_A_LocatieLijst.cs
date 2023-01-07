@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.AssociationRegistry.Locaties;
 
 using FluentAssertions;
-using global::AssociationRegistry.Admin.Api.Constants;
+using Admin.Api.Constants;
 using global::AssociationRegistry.Locaties;
 using Xunit;
 

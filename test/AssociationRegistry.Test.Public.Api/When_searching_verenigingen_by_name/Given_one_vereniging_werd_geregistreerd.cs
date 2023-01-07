@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_name;
 
 using System.Text.RegularExpressions;
-using AssociationRegistry.Test.Public.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

@@ -5,11 +5,9 @@ using System.Linq;
 using Infrastructure.Extensions;
 using Framework;
 using Vereniging;
-using Infrastructure;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using Public.ProjectionHost.Infrastructure;
 
 public record Metadata(long Sequence);
 

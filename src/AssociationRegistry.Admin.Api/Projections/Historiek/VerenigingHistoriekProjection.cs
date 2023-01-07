@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using Framework;
 using Vereniging;
 using Detail;
-using Infrastructure;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using Public.ProjectionHost.Infrastructure;
 
 public class VerenigingHistoriekProjection : SingleStreamAggregation<VerenigingHistoriekDocument>
 {

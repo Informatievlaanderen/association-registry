@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using EventStore;
 using Constants;
 using Infrastructure.Configuration;
 using Infrastructure.Json;
@@ -28,11 +29,9 @@ using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Destructurama;
-using EventStore;
 using FluentValidation;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -48,7 +47,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -278,7 +276,7 @@ public class Program
                 {
                     BaseUrl = builder.Configuration.GetBaseUrl(),
                 })
-            .AddTransient<IEventStore, EventStore.EventStore>()
+            .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()

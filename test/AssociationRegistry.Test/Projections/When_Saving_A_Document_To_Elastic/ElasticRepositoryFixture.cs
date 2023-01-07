@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Projections.When_Saving_A_Document_To_Elastic
 
 using System.Reflection;
 using Framework.Helpers;
-using global::AssociationRegistry.Public.Api;
+using Public.Api;
 using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
-using global::AssociationRegistry.Public.Schema.Search;
+using Public.Schema.Search;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;

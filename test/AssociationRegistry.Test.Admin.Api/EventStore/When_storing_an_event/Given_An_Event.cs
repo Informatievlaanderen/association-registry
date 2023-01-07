@@ -1,12 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.EventStore.When_storing_an_event;
 
+using AssociationRegistry.EventStore;
 using Fixtures;
 using FluentAssertions;
-using global::AssociationRegistry.Admin.Api.EventStore;
 using global::AssociationRegistry.Framework;
 using Marten;
 using NodaTime.Extensions;
-using Public.ProjectionHost.Infrastructure;
 using Xunit;
 
 public class Given_An_Event_Fixture : AdminApiFixture

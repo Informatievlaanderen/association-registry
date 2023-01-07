@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingsRepository.When_saving_a_vereniging;
 
+using AssociationRegistry.EventStore;
 using AutoFixture;
 using ContactInfo;
 using FluentAssertions;
-using global::AssociationRegistry.Admin.Api.EventStore;
 using global::AssociationRegistry.Framework;
 using Locaties;
 using VCodes;

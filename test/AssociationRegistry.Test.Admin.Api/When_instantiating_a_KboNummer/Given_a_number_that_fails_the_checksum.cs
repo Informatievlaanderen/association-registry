@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_instantiating_a_KboNummer;
 
-using AssociationRegistry.KboNummers;
-using AssociationRegistry.KboNummers.Exceptions;
+using KboNummers;
+using KboNummers.Exceptions;
 using Xunit;
 
 public class Given_a_number_that_fails_the_checksum
