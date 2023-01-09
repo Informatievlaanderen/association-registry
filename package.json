@@ -108,19 +108,17 @@
     },
     "prepare": [
       {
-        "path": "@semantic-release/exec",
-        "cmd": "echo ${nextRelease.version} > semver"
-      },
-      {
         "path": "@semantic-release/changelog",
         "changelogFile": "CHANGELOG.md"
       },
       {
         "path": "@semantic-release/npm",
         "npmPublish": false
-      }
-    ],
-    "publish": [
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "echo ${nextRelease.version} > semver"
+      },
       {
         "path": "@semantic-release/exec",
         "cmd": "CI_BUILD_NUMBER=${nextRelease.version} ./build.sh Containerize"
@@ -133,7 +131,9 @@
           "package-lock.json"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      },
+      }
+    ],
+    "publish": [
       {
         "path": "@semantic-release/github",
         "assets": [
