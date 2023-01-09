@@ -78,6 +78,9 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Semantic Release dry-run
+        run: npm run semantic-release -d
+
       - name: Restore dotnet tools
         shell: bash
         run: |
@@ -306,6 +309,25 @@ jobs:
       - name: Dotnet publish
         shell: bash
         run: dotnet publish -o out --no-build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/AssociationRegistry.Public.Api/
+
+      - name: Containerize Public Api
+        shell: bash
+        run: build.sh Containerize_PublicApi
+
+      - name: Save Public Api Image
+        if: env.RELEASE_VERSION != 'none'
+        shell: bash
+        run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          SEMVER: ${{ env.RELEASE_VERSION }}
+
+      - name: Upload Public Api artifact
+        if: env.RELEASE_VERSION != 'none'
+        uses: actions/upload-artifact@v3
+        with:
+          name: public-api
+          path: ~/ar-public-api-image.tar
 
       - name: Upload Acm Api artifact
         if: env.RELEASE_VERSION != 'none'
