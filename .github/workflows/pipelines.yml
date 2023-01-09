@@ -80,7 +80,7 @@ jobs:
 
       - name: Run Semantic Release dry-run
         shell: bash
-        run: unset GITHUB_ACTIONS && npx semantic-release --dry-run --no-ci
+        run: npx semantic-release --dry-run --no-ci --branches master,$CI_COMMIT_BRANCH
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
