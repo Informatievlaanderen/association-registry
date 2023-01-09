@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Acm.Api.When_retrieving_verenigingen_per_rijksregisternummer;
+﻿namespace AssociationRegistry.Test.Acm.Api.When_retrieving_Verenigingen_for_Rijksregisternummer;
 
 using System.Net;
 using Fixtures;
