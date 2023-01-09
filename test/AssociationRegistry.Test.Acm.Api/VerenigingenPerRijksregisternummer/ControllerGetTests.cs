@@ -20,14 +20,13 @@ public class ControllerGetTests
     public async Task Test_7103654987()
     {
         var controller = new VerenigingenPerRijksregisternummerController();
-
-        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103654987");
-
-        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
-
         var expectedVerenigingen = ImmutableArray.Create(
             new Vereniging("V0000001", "De eenzame in de lijst")
         );
+
+        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103654987");
+        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
+
         verenigingenResponse.Should()
             .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse("7103654987", expectedVerenigingen));
     }
@@ -36,14 +35,13 @@ public class ControllerGetTests
     public async Task Test_7103()
     {
         var controller = new VerenigingenPerRijksregisternummerController();
-
-        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103");
-
-        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
-
         var expectedVerenigingen = ImmutableArray.Create(
             new Vereniging("V0000001", "De eenzame in de lijst")
         );
+
+        var response = (OkObjectResult)await controller.Get(_verenigingenRepository, "7103");
+        var verenigingenResponse = (GetVerenigingenPerRijksregisternummerResponse)response.Value!;
+
         verenigingenResponse.Should()
             .BeEquivalentTo(new GetVerenigingenPerRijksregisternummerResponse("7103", expectedVerenigingen));
     }
