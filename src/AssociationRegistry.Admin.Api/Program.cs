@@ -506,8 +506,8 @@ public class Program
         ValidatorOptions.Global.DisplayNameResolver =
             (_, member, _) =>
                 member != null
-                    ? GlobalStringLocalizer.Instance.GetLocalizer<StartupDefaults.DefaultResources>().GetString(() => member.Name)
-                    : null;
+                    ? GlobalStringLocalizer.Instance.GetLocalizer<StartupDefaults.DefaultResources>().GetString(() => member?.Name ?? string.Empty)
+                    : string.Empty;
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

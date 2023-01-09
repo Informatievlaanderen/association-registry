@@ -6,7 +6,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class Given_A_Locaties_Array_With_Multiple_Corresporentie_Locaties : ValidatorTest
+public class With_Multiple_Corresporentie_Locaties : ValidatorTest
 {
     [Fact]
     public void Then_it_has_validation_error__niet_meer_dan_1_corresporentie_locatie()
