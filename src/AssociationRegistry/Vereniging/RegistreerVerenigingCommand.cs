@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System;
-using MediatR;
 
 public record RegistreerVerenigingCommand(
     string Naam,
@@ -10,7 +9,7 @@ public record RegistreerVerenigingCommand(
     DateOnly? Startdatum,
     string? KboNummber,
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
-    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties) : IRequest<RegistratieResult>
+    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties)
 {
     public record ContactInfo(
         string? Contactnaam,

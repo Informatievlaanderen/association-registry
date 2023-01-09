@@ -17,8 +17,6 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
     {
-        source.RegisterDomainEventHandlers(typeof(global::Program).Assembly);
-
         source
             .AddTransient<IElasticRepository, ElasticRepository>()
             .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>();
@@ -83,5 +81,4 @@ public static class ConfigureMartenExtensions
             });
         return martenConfigurationExpression;
     }
-
 }

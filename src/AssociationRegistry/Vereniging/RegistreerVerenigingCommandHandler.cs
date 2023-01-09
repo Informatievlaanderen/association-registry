@@ -1,17 +1,14 @@
-﻿namespace AssociationRegistry.Vereniging;
+﻿using AssociationRegistry.ContactInfo;
+using AssociationRegistry.Framework;
+using AssociationRegistry.KboNummers;
+using AssociationRegistry.Locaties;
+using AssociationRegistry.Startdatums;
+using AssociationRegistry.VCodes;
+using AssociationRegistry.VerenigingsNamen;
 
-using System.Threading;
-using System.Threading.Tasks;
-using ContactInfo;
-using KboNummers;
-using Startdatums;
-using VCodes;
-using VerenigingsNamen;
-using Framework;
-using Locaties;
-using MediatR;
+namespace AssociationRegistry.Vereniging;
 
-public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelope<RegistreerVerenigingCommand>,  RegistratieResult>
+public class RegistreerVerenigingCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingsRepository;
     private readonly IVCodeService _vCodeService;
@@ -24,20 +21,19 @@ public class RegistreerVerenigingCommandHandler : IRequestHandler<CommandEnvelop
         _clock = clock;
     }
 
-    public async Task<RegistratieResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> envelope, CancellationToken cancellationToken)
+    public async Task<RegistratieResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> message, CancellationToken cancellationToken)
     {
-        var command = envelope.Command;
+        var command = message.Command;
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
         var contacten = ContactLijst.Create(command.ContactInfoLijst);
         var vCode = await _vCodeService.GetNext();
-        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten,locatieLijst, _clock.Today);
-        var sequence = await _verenigingsRepository.Save(vereniging, envelope.Metadata);
+        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten, locatieLijst, _clock.Today);
+        var sequence = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return new RegistratieResult(vCode, sequence);
     }
-
     private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
         => Locatie.CreateInstance(
             loc.Naam,

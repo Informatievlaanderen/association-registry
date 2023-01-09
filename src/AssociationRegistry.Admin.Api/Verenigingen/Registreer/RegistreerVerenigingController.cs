@@ -9,11 +9,11 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
 using Infrastructure;
-using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
+using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
@@ -23,12 +23,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class RegistreerVerenigingController : ApiController
 {
-    private readonly ISender _sender;
+    private readonly IMessageBus _bus;
     private readonly AppSettings _appSettings;
 
-    public RegistreerVerenigingController(ISender sender, AppSettings appSettings)
+    public RegistreerVerenigingController(IMessageBus bus, AppSettings appSettings)
     {
-        _sender = sender;
+        _bus = bus;
         _appSettings = appSettings;
     }
 
@@ -54,7 +54,7 @@ public class RegistreerVerenigingController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
-        var registratieResult = await _sender.Send(envelope);
+        var registratieResult = await _bus.InvokeAsync<RegistratieResult>(envelope);
 
         return this.AcceptedRegistratie(_appSettings, registratieResult);
     }

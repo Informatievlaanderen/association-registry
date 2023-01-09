@@ -35,7 +35,6 @@ public class DetailVerenigingenController : ApiController
         [FromQuery] long expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
-
         if (!await session.HasReachedSequence<VerenigingDetailDocument>(expectedSequence))
             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
@@ -48,7 +47,7 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(
             new DetailVerenigingResponse(
-                new VerenigingDetail(
+                new DetailVerenigingResponse.VerenigingDetail(
                     vereniging.VCode,
                     vereniging.Naam,
                     vereniging.KorteNaam,
@@ -57,7 +56,7 @@ public class DetailVerenigingenController : ApiController
                     vereniging.KboNummer,
                     vereniging.Status,
                     vereniging.Contacten.Select(
-                            info => new ContactInfo(
+                            info => new DetailVerenigingResponse.VerenigingDetail.ContactInfo(
                                 info.Contactnaam,
                                 info.Email,
                                 info.Telefoon,
@@ -65,9 +64,9 @@ public class DetailVerenigingenController : ApiController
                                 info.SocialMedia))
                         .ToArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray()),
-                new Metadata(vereniging.DatumLaatsteAanpassing)));
+                new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private static Locatie ToLocatie(VerenigingDetailDocument.Locatie loc)
+    private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(VerenigingDetailDocument.Locatie loc)
         => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }

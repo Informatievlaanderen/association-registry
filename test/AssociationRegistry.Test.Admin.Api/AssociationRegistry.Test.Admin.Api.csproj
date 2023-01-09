@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_empty_name.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_missing_name.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.missing_name_error.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.not_empty_validation_error.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.not_null_validation_error.json" />
+    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.startdatum_in_future_validation_error.json" />
+    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="When_retrieving_historiek_for_a_vereniging\Given_A_Vereniging_With_Historiek_Then_we_get_a_historiek_response.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
+    <ProjectReference Include="..\..\src\AssociationRegistry\AssociationRegistry.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

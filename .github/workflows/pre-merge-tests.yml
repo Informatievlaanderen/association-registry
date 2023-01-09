@@ -11,44 +11,41 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
     runs-on: ubuntu-latest
-
-    services:
-      minio:
-        image: bitnami/minio:latest
-        ports:
-          - 9010:9000
-          - 9011:9001
-        env:
-          MINIO_DEFAULT_BUCKETS: verenigingen
-          MINIO_ROOT_USER: Q3AM3UQ867SPQQA43P2F
-          MINIO_ROOT_PASSWORD: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
-
-      db:
-        image: postgres:15.0
-        env:
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: root
-          POSTGRES_DB: verenigingsregister
-        ports:
-          - 5432:5432
-
-      elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-        ports:
-          - "9200:9200"
-        env:
-          ELASTIC_PASSWORD: local_development
-          discovery.type: single-node
-          xpack.security.transport.ssl.enabled: false
+    strategy:
+      matrix:
+        projects:
+          [
+            "test/AssociationRegistry.Test",
+            "test/AssociationRegistry.Test.Public.Api",
+            "test/AssociationRegistry.Test.Admin.Api",
+          ]
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    - name: Run es container
+      shell: bash
+      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test'
+      run: |
+        docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+
     - name: Run ACM container
       shell: bash
+      if: matrix.projects == 'test/AssociationRegistry.Test'
       run: |
         docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+
+    - name: Run db container
+      shell: bash
+      run: |
+        docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+    - name: Run minio container
+      shell: bash
+      if: matrix.projects == 'test/AssociationRegistry.Test'
+      run: |
+        docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
 
     - name: Cache Paket
       uses: actions/cache@v3
@@ -135,7 +132,7 @@ jobs:
         mkdir .sonar/scanner
         dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
 
-    - name: Build and analyze
+    - name: Start sonar scanner
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -143,11 +140,14 @@ jobs:
       run: |
         ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
 
-    - name: Run Pre-merge Tests
+    - name: Build
       shell: bash
-      run: ./build.sh Test_Solution
+      run: ./build.sh Build
 
-    - name: Build and analyze
+    - name: Run all tests
+      run: dotnet test ${{matrix.projects}}
+
+    - name: Analyze with sonar scanner
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -156,10 +156,28 @@ jobs:
         ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
     - name: Shows logs ACM container
-      if: ${{ always() }}
+      if: ${{ failure() }}
       shell: bash
       run: |
         docker logs acm
+
+    - name: Shows logs elasticsearch container
+      if: ${{ failure() }}
+      shell: bash
+      run: |
+        docker logs elasticsearch
+
+    - name: Shows logs db container
+      if: ${{ failure() }}
+      shell: bash
+      run: |
+        docker logs db
+
+    - name: Shows logs minio container
+      if: ${{ failure() }}
+      shell: bash
+      run: |
+        docker logs minio
 
   notify:
     if: ${{ always() }}

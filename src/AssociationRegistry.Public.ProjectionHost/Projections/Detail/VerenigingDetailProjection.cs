@@ -2,7 +2,6 @@
 
 using System;
 using Framework;
-using Infrastructure;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
