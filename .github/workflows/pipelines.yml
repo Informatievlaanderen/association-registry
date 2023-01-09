@@ -8,7 +8,6 @@ on:
 
 concurrency: Pipeline
 jobs:
-
   build-acm-api:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Build ACM Api
@@ -48,14 +47,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
-      - name: Cache Python
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pip
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-
       - name: Parse repository name
         run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
         shell: bash
@@ -68,11 +59,6 @@ jobs:
         with:
           dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
       - name: Node version
         shell: bash
         run: node --version
@@ -80,10 +66,6 @@ jobs:
       - name: .NET version
         shell: bash
         run: dotnet --info
-
-      - name: Python version
-        shell: bash
-        run: python --version
 
       - name: Install NPM dependencies
         shell: bash
@@ -197,7 +179,7 @@ jobs:
 
   build-public-api:
     if: github.repository_owner == 'Informatievlaanderen'
-    name: Build ACM Api
+    name: Build Public Api
     runs-on: ubuntu-latest
 
     steps:
@@ -234,14 +216,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
-      - name: Cache Python
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pip
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-
       - name: Parse repository name
         run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
         shell: bash
@@ -254,11 +228,6 @@ jobs:
         with:
           dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
       - name: Node version
         shell: bash
         run: node --version
@@ -266,10 +235,6 @@ jobs:
       - name: .NET version
         shell: bash
         run: dotnet --info
-
-      - name: Python version
-        shell: bash
-        run: python --version
 
       - name: Install NPM dependencies
         shell: bash
@@ -392,19 +357,19 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: acm-api-publish
-            path: out/acm-api/
+            path: dist/AssociationRegistry.Acm.Api/linux/
 
 
         - name: Download Public Api artifact
           uses: actions/download-artifact@v3
           with:
             name: public-api-publish
-            path: out/public-api/
+            path: dist/AssociationRegistry.Public.Api/linux/
 
-        - name: Shows public api
+        - name: Containerize Acm Api
           shell: bash
-          run: ls -tail out/public-api
+          run: build.sh Containerize_AcmApi
 
-        - name: Shows acm api
+        - name: Containerize Public Api
           shell: bash
-          run: ls -tail out/public-api
+          run: build.sh Containerize_PublicApi
