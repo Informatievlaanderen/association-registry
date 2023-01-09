@@ -1,3 +1,10 @@
+# [1.95.0](https://github.com/informatievlaanderen/association-registry/compare/v1.94.0...v1.95.0) (2023-01-09)
+
+
+### Features
+
+* or-1193 make admin api work without vbr lib ([#141](https://github.com/informatievlaanderen/association-registry/issues/141)) ([6cd15c1](https://github.com/informatievlaanderen/association-registry/commit/6cd15c11e7a2f9b315a1ee25408a4813e36dc6fa))
+
 # [1.94.0](https://github.com/informatievlaanderen/association-registry/compare/v1.93.0...v1.94.0) (2023-01-05)
 
 
