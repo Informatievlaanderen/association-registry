@@ -75,7 +75,7 @@ public class Program
         await DistributedLock<Program>.RunAsync(
             async () => await app.RunAsync(),
             DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
-            NullLogger.Instance);
+            app.Services.GetRequiredService<ILogger<Program>>());
     }
 
     static void ConfigureEncoding()
