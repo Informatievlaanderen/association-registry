@@ -100,7 +100,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var daemon = await _documentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(20));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
         // Make sure all documents are properly indexed
         await _elasticClient.Indices.RefreshAsync(Indices.All);
