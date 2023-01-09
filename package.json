@@ -30,8 +30,7 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "semantic-release": "semantic-release",
-    "dry-run": "npm run semantic-release -- -d"
+    "semantic-release": "semantic-release"
   },
   "husky": {
     "hooks": {
