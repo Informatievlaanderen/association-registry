@@ -80,7 +80,7 @@ jobs:
 
       - name: Run Semantic Release dry-run
         shell: bash
-        run: npm run semantic-release -- -d
+        run: npx run semantic-release -d
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
