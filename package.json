@@ -60,10 +60,6 @@
     ],
     "analyzeCommits": [
       {
-        "path": "@semantic-release/exec",
-        "cmd": "echo Next version: ${nextRelease.version}"
-      },
-      {
       "path": "@semantic-release/commit-analyzer",
       "preset": "angular",
       "releaseRules": [
@@ -94,7 +90,12 @@
         ]
       }
     }],
-    "generateNotes": {
+    "generateNotes": [
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "echo Next version: ${nextRelease.version}"
+      },
+      {
       "path": "@semantic-release/release-notes-generator",
       "preset": "angular",
       "parserOpts": {
@@ -110,7 +111,7 @@
           "subject"
         ]
       }
-    },
+    }],
     "prepare": [
       {
         "path": "@semantic-release/changelog",
@@ -122,7 +123,7 @@
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "echo ${nextRelease.version} > semver"
+        "cmd": "CI_BUILD_NUMBER=${nextRelease.version} ./build.sh Containerize"
       },
       {
         "path": "@semantic-release/exec",
