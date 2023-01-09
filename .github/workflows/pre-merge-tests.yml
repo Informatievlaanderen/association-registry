@@ -155,8 +155,11 @@ jobs:
       shell: bash
       run: ./build.sh Build
 
-    - name: Run general tests
-      run: dotnet test ${{matrix.projects}}
+    - name: Run validator tests
+      run: dotnet test ${{matrix.projects}} --filter "Category=Validator"
+
+    - name: Run other tests
+      run: dotnet test ${{matrix.projects}} --filter "Category!=Validator"
 
     - name: Build and analyze
       env:
