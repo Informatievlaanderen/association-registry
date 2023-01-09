@@ -2,9 +2,10 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
-public class Without_Any_Values
+public class Without_Any_Values : ValidatorTest
 {
     [Fact]
     public void Then_it_has_validation_error__minsten_1_waarde_is_verplicht()

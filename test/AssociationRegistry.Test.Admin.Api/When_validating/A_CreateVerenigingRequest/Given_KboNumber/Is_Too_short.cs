@@ -2,9 +2,10 @@ namespace AssociationRegistry.Test.Admin.Api.When_validating.A_CreateVerenigingR
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
-public class Is_Too_short
+public class Is_Too_short : ValidatorTest
 {
     [Fact]
     public void Then_it_has_validation_error__naam_is_verplicht()

@@ -161,7 +161,10 @@ jobs:
     - name: Run other tests
       run: dotnet test ${{matrix.projects}} --filter "Category!=Validator"
 
-    - name: Build and analyze
+    - name: Run all tests
+      run: dotnet test ${{matrix.projects}}
+
+    - name: Analyze with sonar scanner
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
