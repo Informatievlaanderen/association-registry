@@ -1,0 +1,408 @@
+name: CI/CD
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - main
+
+concurrency: CI
+jobs:
+
+  build-acm-api:
+    if: github.repository_owner == 'Informatievlaanderen'
+    name: Build ACM Api
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run es container
+        shell: bash
+        run: |
+          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+
+      - name: Run ACM container
+        shell: bash
+        run: |
+          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+
+      - name: Run db container
+        shell: bash
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+      - name: Run minio container
+        shell: bash
+        run: |
+          docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
+
+      - name: Cache Paket
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache Python
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Node version
+        shell: bash
+        run: node --version
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Python version
+        shell: bash
+        run: python --version
+
+      - name: Install NPM dependencies
+        shell: bash
+        run: npm install --legacy-peer-deps
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: ./.sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir .sonar
+          mkdir .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+
+      - name: Start sonar scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: bash
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
+
+      - name: Paket install
+        shell: bash
+        run: dotnet paket install
+
+      - name: Paket install
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore tests
+        shell: bash
+        run: dotnet restore test/AssociationRegistry.Test.Acm.Api
+
+      - name: Dotnet build tests
+        shell: bash
+        run: dotnet build --no-restore --runtime 'linux-x64' test/AssociationRegistry.Test.Acm.Api
+
+      - name: Run all tests
+        run: dotnet test test/AssociationRegistry.Test.Acm.Api
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore src/AssociationRegistry.Acm.Api/
+
+      - name: Dotnet build
+        shell: bash
+        run: dotnet build --no-restore --runtime 'linux-x64' src/AssociationRegistry.Acm.Api/
+
+      - name: Dotnet publish
+        shell: bash
+        run: dotnet publish -o out --no-build --no-restore --runtime 'linux-x64' src/AssociationRegistry.Acm.Api/
+
+      - name: Upload Acm Api artifact
+        if: env.RELEASE_VERSION != 'none'
+        uses: actions/upload-artifact@v3
+        with:
+          name: acm-api-publish
+          path: out/
+
+      - name: Analyze with sonar scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: bash
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Shows logs ACM container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs acm
+
+      - name: Shows logs elasticsearch container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs elasticsearch
+
+      - name: Shows logs db container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs db
+
+      - name: Shows logs minio container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs minio
+
+  build-public-api:
+    if: github.repository_owner == 'Informatievlaanderen'
+    name: Build ACM Api
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run es container
+        shell: bash
+        run: |
+          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+
+      - name: Run ACM container
+        shell: bash
+        run: |
+          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+
+      - name: Run db container
+        shell: bash
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+      - name: Run minio container
+        shell: bash
+        run: |
+          docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
+
+      - name: Cache Paket
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Cache Python
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Node version
+        shell: bash
+        run: node --version
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Python version
+        shell: bash
+        run: python --version
+
+      - name: Install NPM dependencies
+        shell: bash
+        run: npm install --legacy-peer-deps
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: ./.sonar/scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir .sonar
+          mkdir .sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+
+      - name: Start sonar scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: bash
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
+
+      - name: Paket install
+        shell: bash
+        run: dotnet paket install
+
+      - name: Paket install
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore tests
+        shell: bash
+        run: dotnet restore test/AssociationRegistry.Test.Public.Api
+
+      - name: Dotnet build tests
+        shell: bash
+        run: dotnet build --no-restore --runtime 'linux-x64' test/AssociationRegistry.Test.Public.Api
+
+      - name: Run all tests
+        run: dotnet test test/AssociationRegistry.Test.Public.Api
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore src/AssociationRegistry.Public.Api/
+
+      - name: Dotnet build
+        shell: bash
+        run: dotnet build --no-restore --runtime 'linux-x64' src/AssociationRegistry.Public.Api/
+
+      - name: Dotnet publish
+        shell: bash
+        run: dotnet publish -o out --no-build --no-restore --runtime 'linux-x64' src/AssociationRegistry.Public.Api/
+
+      - name: Upload Acm Api artifact
+        if: env.RELEASE_VERSION != 'none'
+        uses: actions/upload-artifact@v3
+        with:
+          name: public-api-publish
+          path: out/
+
+      - name: Analyze with sonar scanner
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: bash
+        run: |
+          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+      - name: Shows logs ACM container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs acm
+
+      - name: Shows logs elasticsearch container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs elasticsearch
+
+      - name: Shows logs db container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs db
+
+      - name: Shows logs minio container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs minio
+
+
+
+  containerize:
+      needs: [ build-public-api, build-acm-api ]
+      steps:
+        - name: Download Acm Api artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: acm-api-publish
+            path: out/acm-api/
+
+
+        - name: Download Public Api artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: public-api-publish
+            path: out/public-api/
+
+        - name: Shows public api
+          shell: bash
+          run: ls -tail out/public-api
+
+        - name: Shows acm api
+          shell: bash
+          run: ls -tail out/public-api
