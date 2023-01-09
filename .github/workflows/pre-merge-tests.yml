@@ -27,13 +27,13 @@ jobs:
 
     - name: Run es container
       shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test'
+      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
       run: |
         docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 
     - name: Run ACM container
       shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test'
+      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
       run: |
         docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
