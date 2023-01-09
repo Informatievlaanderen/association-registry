@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.AssociationRegistry.VerenigingsNamen;
+﻿namespace AssociationRegistry.Test;
 
+using VerenigingsNamen;
+using VerenigingsNamen.Exceptions;
 using FluentAssertions;
-using global::AssociationRegistry.VerenigingsNamen;
-using global::AssociationRegistry.VerenigingsNamen.Exceptions;
 using Xunit;
 
-public class When_Createing_A_VerenigingsNaam
+public class When_Creating_A_VerenigingsNaam
 {
     public class Given_A_Naam
     {

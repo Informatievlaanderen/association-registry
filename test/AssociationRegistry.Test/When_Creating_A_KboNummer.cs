@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.AssociationRegistry.KboNummers;
+﻿namespace AssociationRegistry.Test;
 
+using KboNummers;
+using KboNummers.Exceptions;
 using FluentAssertions;
-using global::AssociationRegistry.KboNummers;
-using global::AssociationRegistry.KboNummers.Exceptions;
 using Xunit;
 
 public class When_Creating_A_KboNummer
