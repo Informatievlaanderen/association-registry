@@ -11,6 +11,14 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        projects:
+          [
+            "test/AssociationRegistry.Test",
+            "test/AssociationRegistry.Test.Public.Api",
+            "test/AssociationRegistry.Test.Admin.Api",
+          ]
 
     services:
       minio:
@@ -148,13 +156,7 @@ jobs:
       run: ./build.sh Build
 
     - name: Run general tests
-      run: dotnet test test/AssociationRegistry.Test
-
-    - name: Run public api tests
-      run: dotnet test test/AssociationRegistry.Test.Public.Api
-
-    - name: Run admin api tests
-      run: dotnet test test/AssociationRegistry.Test.Admin.Api
+      run: dotnet test {{matrix.projects}}
 
     - name: Build and analyze
       env:
