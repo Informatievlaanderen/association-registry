@@ -269,6 +269,7 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
 
         builder.Services
+            .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
             .AddSingleton<IClock, Clock>()
             .AddSingleton(

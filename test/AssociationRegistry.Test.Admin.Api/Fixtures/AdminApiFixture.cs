@@ -6,11 +6,13 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using Framework.Helpers;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -55,6 +57,9 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
                             EnsureDbExists(context.Configuration.GetPostgreSqlOptionsSection());
                         });
                 });
+        var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
+        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
+            .GetAwaiter().GetResult();
     }
 
     private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)

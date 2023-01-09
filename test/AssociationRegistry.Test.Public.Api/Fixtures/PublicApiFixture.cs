@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using System.Reflection;
+using Framework.Helpers;
 using EventStore;
 using global::AssociationRegistry.Framework;
 using global::AssociationRegistry.Public.Api;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using NodaTime.Extensions;
 using Npgsql;
@@ -44,12 +46,17 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         _identifier += identifier.ToLowerInvariant();
         _configurationRoot = GetConfiguration();
 
+        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<PublicApiFixture>(), GetConnectionString(_configurationRoot, RootDatabase))
+            .GetAwaiter().GetResult();
         CreateDatabase();
 
         _testServer = ConfigurePublicApiTestServer();
 
         PublicApiClient = new PublicApiClient(_testServer.CreateClient());
         _elasticClient = CreateElasticClient(_testServer);
+        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, _testServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
+            .GetAwaiter().GetResult();
+
         var projectionServices = RunProjectionHost();
         _documentStore = projectionServices.GetRequiredService<IDocumentStore>();
         ConfigureBrolFeeder(projectionServices);
