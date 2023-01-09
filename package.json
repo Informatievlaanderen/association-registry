@@ -58,6 +58,12 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ],
+    "verifyReleaseCmd": [
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "echo HELLOOO"
+      }
+    ],
     "analyzeCommits": {
       "path": "@semantic-release/commit-analyzer",
       "preset": "angular",
