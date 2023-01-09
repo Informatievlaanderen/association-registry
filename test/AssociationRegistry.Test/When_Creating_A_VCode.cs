@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.AssociationRegistry.VCodes;
+﻿namespace AssociationRegistry.Test;
 
+using VCodes;
+using VCodes.Exceptions;
 using FluentAssertions;
-using global::AssociationRegistry.VCodes;
-using global::AssociationRegistry.VCodes.Exceptions;
 using Xunit;
 
 public class When_Creating_A_VCode

@@ -7,12 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Acm.Api\AssociationRegistry.Acm.Api.csproj" />
-    <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
-    <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
-    <ProjectReference Include="..\..\src\AssociationRegistry.Public.ProjectionHost\AssociationRegistry.Public.ProjectionHost.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

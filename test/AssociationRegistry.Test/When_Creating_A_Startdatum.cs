@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Test.AssociationRegistry.Startdatums;
+namespace AssociationRegistry.Test;
 
-using FluentAssertions;
+using Startdatums;
+using Startdatums.Exceptions;
 using Framework;
-using global::AssociationRegistry.Startdatums;
-using global::AssociationRegistry.Startdatums.Exceptions;
+using FluentAssertions;
 using Xunit;
 
 public class When_Creating_A_Startdatum

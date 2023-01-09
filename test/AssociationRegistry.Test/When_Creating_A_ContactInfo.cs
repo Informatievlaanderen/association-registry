@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.AssociationRegistry.ContactInfo;
+﻿namespace AssociationRegistry.Test;
 
+using ContactInfo;
+using ContactInfo.Exceptions;
 using FluentAssertions;
-using global::AssociationRegistry.ContactInfo;
-using global::AssociationRegistry.ContactInfo.Exceptions;
 using Xunit;
 
 public class When_Creating_A_ContactInfo

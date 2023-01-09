@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.AssociationRegistry.Locaties;
+﻿namespace AssociationRegistry.Test;
 
-using FluentAssertions;
 using Admin.Api.Constants;
-using global::AssociationRegistry.Locaties;
+using Locaties;
+using FluentAssertions;
 using Xunit;
 
 public class When_Creating_A_LocatieLijst
