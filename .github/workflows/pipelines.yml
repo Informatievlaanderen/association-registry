@@ -85,7 +85,7 @@ jobs:
 
       - name: Run Semantic Release dry-run
         shell: bash
-        run: npx semantic-release --dry-run --no-ci --branches main,${{ steps.extract_branch.outputs.branch }}
+        run: npx semantic-release --dry-run --branches main,${{ steps.extract_branch.outputs.branch }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
