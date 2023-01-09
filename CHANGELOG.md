@@ -1,3 +1,10 @@
+## [1.95.1](https://github.com/informatievlaanderen/association-registry/compare/v1.95.0...v1.95.1) (2023-01-09)
+
+
+### Bug Fixes
+
+* or-1297 use real logger ([7406e7a](https://github.com/informatievlaanderen/association-registry/commit/7406e7a37475525dc3ea3d36a758661bf5b1e66d))
+
 # [1.95.0](https://github.com/informatievlaanderen/association-registry/compare/v1.94.0...v1.95.0) (2023-01-09)
 
 
