@@ -1,3 +1,19 @@
+## [1.95.3](https://github.com/informatievlaanderen/association-registry/compare/v1.95.2...v1.95.3) (2023-01-09)
+
+
+### Bug Fixes
+
+* echo next version during analyzeCommits ([65166b8](https://github.com/informatievlaanderen/association-registry/commit/65166b854a1e95ed61609fbdec7a8dbd954ff5a0))
+* echo next version during generateNotes ([2dae4b6](https://github.com/informatievlaanderen/association-registry/commit/2dae4b6ed434e3a7f2147c484e39df07064670b2))
+* set release version after dry-run ([1e90160](https://github.com/informatievlaanderen/association-registry/commit/1e90160edcadcc5af18757f4187b7b76f92153d2))
+* try verify-release ([047e990](https://github.com/informatievlaanderen/association-registry/commit/047e990314a6736178406afc246d703896fb5218))
+
+
+### Reverts
+
+* Revert "fix: use --prepare" ([c7c744c](https://github.com/informatievlaanderen/association-registry/commit/c7c744c581ab0b897279cdba4b77246d6ba0c974))
+* Revert "fix: move prepare steps to publish" ([39b6614](https://github.com/informatievlaanderen/association-registry/commit/39b6614627acd1c7c954a220e05aa2b1cb03fc21))
+
 ## [1.95.1](https://github.com/informatievlaanderen/association-registry/compare/v1.95.0...v1.95.1) (2023-01-09)
 
 
