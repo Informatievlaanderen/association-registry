@@ -79,7 +79,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Semantic Release dry-run
-        run: npm run semantic-release -d
+        run: npm run dry-run
 
       - name: Restore dotnet tools
         shell: bash
