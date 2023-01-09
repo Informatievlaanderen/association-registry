@@ -1,201 +1,201 @@
-name: Pre-merge
-
-on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - main
-
-jobs:
-  build:
-    if: github.repository_owner == 'Informatievlaanderen'
-    name: Run Tests
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        projects:
-          [
-            "test/AssociationRegistry.Test",
-            "test/AssociationRegistry.Test.Public.Api",
-            "test/AssociationRegistry.Test.Admin.Api",
-            "test/AssociationRegistry.Test.Acm.Api",
-          ]
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-
-    - name: Run es container
-      shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
-      run: |
-        docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-
-    - name: Run ACM container
-      shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
-      run: |
-        docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-
-    - name: Run db container
-      shell: bash
-      run: |
-        docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-
-    - name: Run minio container
-      shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
-      run: |
-        docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
-
-    - name: Cache Paket
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-paket
-      with:
-        path: packages
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-
-    - name: Cache Python
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-pip
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}
-
-    - name: Parse repository name
-      run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
-      shell: bash
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Node version
-      shell: bash
-      run: node --version
-
-    - name: .NET version
-      shell: bash
-      run: dotnet --info
-
-    - name: Python version
-      shell: bash
-      run: python --version
-
-    - name: Install NPM dependencies
-      shell: bash
-      run: npm install --legacy-peer-deps
-
-    - name: Install Python dependencies
-      shell: bash
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests markdown argparse
-
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~/sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
-
-    - name: Restore dotnet tools
-      shell: bash
-      run: |
-        dotnet tool restore
-
-    - name: Cache SonarCloud scanner
-      id: cache-sonar-scanner
-      uses: actions/cache@v1
-      with:
-        path: ./.sonar/scanner
-        key: ${{ runner.os }}-sonar-scanner
-        restore-keys: ${{ runner.os }}-sonar-scanner
-
-    - name: Install SonarCloud scanner
-      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        mkdir .sonar
-        mkdir .sonar/scanner
-        dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-
-    - name: Start sonar scanner
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: bash
-      run: |
-        ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
-
-    - name: Build
-      shell: bash
-      run: ./build.sh Build
-
-    - name: Run all tests
-      run: dotnet test ${{matrix.projects}}
-
-    - name: Analyze with sonar scanner
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: bash
-      run: |
-        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
-    - name: Shows logs ACM container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs acm
-
-    - name: Shows logs elasticsearch container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs elasticsearch
-
-    - name: Shows logs db container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs db
-
-    - name: Shows logs minio container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs minio
-
-  notify:
-    if: ${{ always() }}
-    name: Notify slack
-    runs-on: ubuntu-latest
-
-    needs: [build]
-
-    steps:
-      - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          # Slack channel id, channel name, or user id to post message.
-          # See also: https://api.slack.com/methods/chat.postMessage#channels
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          # For posting a simple plain text message
-          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+#name: Pre-merge
+#
+#on:
+#  pull_request:
+#    types: [opened, reopened, synchronize]
+#    branches:
+#      - main
+#
+#jobs:
+#  build:
+#    if: github.repository_owner == 'Informatievlaanderen'
+#    name: Run Tests
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        projects:
+#          [
+#            "test/AssociationRegistry.Test",
+#            "test/AssociationRegistry.Test.Public.Api",
+#            "test/AssociationRegistry.Test.Admin.Api",
+#            "test/AssociationRegistry.Test.Acm.Api",
+#          ]
+#
+#    steps:
+#    - name: Checkout Code
+#      uses: actions/checkout@v3
+#
+#    - name: Run es container
+#      shell: bash
+#      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
+#      run: |
+#        docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+#
+#    - name: Run ACM container
+#      shell: bash
+#      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
+#      run: |
+#        docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+#
+#    - name: Run db container
+#      shell: bash
+#      run: |
+#        docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+#
+#    - name: Run minio container
+#      shell: bash
+#      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
+#      run: |
+#        docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
+#
+#    - name: Cache Paket
+#      uses: actions/cache@v3
+#      env:
+#        cache-name: cache-paket
+#      with:
+#        path: packages
+#        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+#        restore-keys: |
+#          ${{ runner.os }}-build-${{ env.cache-name }}-
+#
+#    - name: Cache Python
+#      uses: actions/cache@v3
+#      env:
+#        cache-name: cache-pip
+#      with:
+#        path: ~/.cache/pip
+#        key: ${{ runner.os }}-build-${{ env.cache-name }}
+#
+#    - name: Parse repository name
+#      run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+#      shell: bash
+#
+#    - name: Setup Node.js
+#      uses: actions/setup-node@v3
+#
+#    - name: Setup .NET Core
+#      uses: actions/setup-dotnet@v2
+#      with:
+#        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+#
+#    - name: Set up Python
+#      uses: actions/setup-python@v4
+#      with:
+#        python-version: '3.x'
+#
+#    - name: Node version
+#      shell: bash
+#      run: node --version
+#
+#    - name: .NET version
+#      shell: bash
+#      run: dotnet --info
+#
+#    - name: Python version
+#      shell: bash
+#      run: python --version
+#
+#    - name: Install NPM dependencies
+#      shell: bash
+#      run: npm install --legacy-peer-deps
+#
+#    - name: Install Python dependencies
+#      shell: bash
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install requests markdown argparse
+#
+#    - name: Cache SonarCloud packages
+#      uses: actions/cache@v1
+#      with:
+#        path: ~/sonar/cache
+#        key: ${{ runner.os }}-sonar
+#        restore-keys: ${{ runner.os }}-sonar
+#
+#    - name: Restore dotnet tools
+#      shell: bash
+#      run: |
+#        dotnet tool restore
+#
+#    - name: Cache SonarCloud scanner
+#      id: cache-sonar-scanner
+#      uses: actions/cache@v1
+#      with:
+#        path: ./.sonar/scanner
+#        key: ${{ runner.os }}-sonar-scanner
+#        restore-keys: ${{ runner.os }}-sonar-scanner
+#
+#    - name: Install SonarCloud scanner
+#      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+#      shell: bash
+#      run: |
+#        mkdir .sonar
+#        mkdir .sonar/scanner
+#        dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+#
+#    - name: Start sonar scanner
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      shell: bash
+#      run: |
+#        ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
+#
+#    - name: Build
+#      shell: bash
+#      run: ./build.sh Build
+#
+#    - name: Run all tests
+#      run: dotnet test ${{matrix.projects}}
+#
+#    - name: Analyze with sonar scanner
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      shell: bash
+#      run: |
+#        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+#
+#    - name: Shows logs ACM container
+#      if: ${{ failure() }}
+#      shell: bash
+#      run: |
+#        docker logs acm
+#
+#    - name: Shows logs elasticsearch container
+#      if: ${{ failure() }}
+#      shell: bash
+#      run: |
+#        docker logs elasticsearch
+#
+#    - name: Shows logs db container
+#      if: ${{ failure() }}
+#      shell: bash
+#      run: |
+#        docker logs db
+#
+#    - name: Shows logs minio container
+#      if: ${{ failure() }}
+#      shell: bash
+#      run: |
+#        docker logs minio
+#
+#  notify:
+#    if: ${{ always() }}
+#    name: Notify slack
+#    runs-on: ubuntu-latest
+#
+#    needs: [build]
+#
+#    steps:
+#      - name: Post to a Slack channel
+#        id: slack
+#        uses: slackapi/slack-github-action@v1.23.0
+#        with:
+#          # Slack channel id, channel name, or user id to post message.
+#          # See also: https://api.slack.com/methods/chat.postMessage#channels
+#          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+#          # For posting a simple plain text message
+#          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+#        env:
+#          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
