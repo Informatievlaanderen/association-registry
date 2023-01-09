@@ -32,6 +32,7 @@ using Destructurama;
 using FluentValidation;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
+using JasperFx.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -502,12 +503,6 @@ public class Program
                     options.DocInclusionPredicate((_, _) => true);
                 })
             .AddSwaggerGenNewtonsoftSupport();
-
-        ValidatorOptions.Global.DisplayNameResolver =
-            (_, member, _) =>
-                member != null
-                    ? GlobalStringLocalizer.Instance.GetLocalizer<StartupDefaults.DefaultResources>().GetString(() => member?.Name ?? string.Empty)
-                    : string.Empty;
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }
