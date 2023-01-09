@@ -78,9 +78,14 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Run Semantic Release dry-run
         shell: bash
-        run: npx semantic-release --dry-run --no-ci --branches main,$CI_COMMIT_BRANCH
+        run: npx semantic-release --dry-run --no-ci --branches main,${{ steps.extract_branch.outputs.branch }}
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
