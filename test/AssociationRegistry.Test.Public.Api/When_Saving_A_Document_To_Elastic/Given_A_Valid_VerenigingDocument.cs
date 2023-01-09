@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Projections.When_Saving_A_Document_To_Elastic;
+namespace AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
 
+using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
-using Public.Schema.Search;
 using Xunit;
 
 public class Given_A_Valid_VerenigingDocument_Fixture : ElasticRepositoryFixture
