@@ -4,6 +4,7 @@ using FluentValidation;
 using JasperFx.Core;
 using Xunit.Categories;
 
+[Category("Validator")]
 public abstract class ValidatorTest
 {
     protected ValidatorTest()
