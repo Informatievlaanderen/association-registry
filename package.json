@@ -93,7 +93,7 @@
     "generateNotes": [
       {
         "path": "@semantic-release/exec",
-        "cmd": "echo Next version: ${nextRelease.version}"
+        "cmd": "echo ${nextRelease.version} > semver"
       },
       {
       "path": "@semantic-release/release-notes-generator",
@@ -120,10 +120,6 @@
       {
         "path": "@semantic-release/npm",
         "npmPublish": false
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "CI_BUILD_NUMBER=${nextRelease.version} ./build.sh Containerize"
       },
       {
         "path": "@semantic-release/exec",
