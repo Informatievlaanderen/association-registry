@@ -294,9 +294,9 @@ jobs:
 #
 #
 
-  build:
+  release:
     if: github.repository_owner == 'Informatievlaanderen'
-    name: Build
+    name: Semantic Release
     runs-on: ubuntu-latest
     needs: [build-acm-api, build-public-api, build-public-projections, build-admin-api]
 
@@ -563,8 +563,8 @@ jobs:
 #        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   publish_to_atlassian:
-    if: needs.build.outputs.version != 'none'
-    needs: [build]
+    if: needs.release.outputs.version != 'none'
+    needs: [release]
     name: Publish to Atlassian
     runs-on: ubuntu-latest
     steps:
@@ -605,7 +605,7 @@ jobs:
           pip install requests markdown argparse
 
       - name: Publish to Confluence
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         shell: bash
         run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-confluence.sh
         env:
@@ -614,7 +614,7 @@ jobs:
           CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
 
       - name: Create Jira Release
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         shell: bash
         run: ./packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-jira.sh
         env:
@@ -623,16 +623,16 @@ jobs:
           CONFLUENCE_PASSWORD: ${{ secrets.VBR_CONFLUENCE_PASSWORD }}
           JIRA_PREFIX: Association
           JIRA_PROJECT: OR
-          JIRA_VERSION: ${{ needs.build.outputs.version }}
+          JIRA_VERSION: ${{ needs.release.outputs.version }}
 
   push_images_to_test:
-    if: needs.build.outputs.version != 'none'
-    needs: [build]
+    if: needs.release.outputs.version != 'none'
+    needs: [release]
     name: Push images to Test
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials (Test)
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_TST }}
@@ -640,7 +640,7 @@ jobs:
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
       - name: Login to Amazon ECR (Test)
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
       - name: Download Acm Api artifact
@@ -684,7 +684,7 @@ jobs:
         run: docker image load -i ~/ar-admin-api-image.tar
 
       - name: Push docker images to ECR Test
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         shell: bash
         run: |
           echo $SEMVER
@@ -694,17 +694,17 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ needs.build.outputs.version }}
+          SEMVER: ${{ needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
 
   push_images_to_staging:
-    if: needs.build.outputs.version != 'none'
-    needs: [set-release-version, build]
+    if: needs.release.outputs.version != 'none'
+    needs: [set-release-version, release]
     name: Push images to Staging
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials (Staging)
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID }}
@@ -712,7 +712,7 @@ jobs:
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
       - name: Login to Amazon ECR (Staging)
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v1.5.3
 
       - name: Download Acm Api artifact
@@ -756,7 +756,7 @@ jobs:
         run: docker image load -i ~/ar-admin-api-image.tar
 
       - name: Push docker images to ECR Staging
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         shell: bash
         run: |
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
@@ -770,12 +770,12 @@ jobs:
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-          SEMVER: ${{ needs.build.outputs.version }}
+          SEMVER: ${{ needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
 
   deploy_test:
-    if: needs.build.outputs.version != 'none'
-    needs: [set-release-version, push_images_to_test, build]
+    if: needs.release.outputs.version != 'none'
+    needs: [set-release-version, push_images_to_test, release]
     name: Deploy to Test
     runs-on: ubuntu-latest
     strategy:
@@ -791,16 +791,16 @@ jobs:
       - name: debug_output
         shell: bash
         run: |
-          echo ${{ needs.build.outputs.version }}
+          echo ${{ needs.release.outputs.version }}
       - name: CD
-        if: needs.build.outputs.version != 'none'
+        if: needs.release.outputs.version != 'none'
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
         uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: test
-          version: ${{ needs.build.outputs.version }}
+          version: ${{ needs.release.outputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID }}
