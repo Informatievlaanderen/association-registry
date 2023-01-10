@@ -318,35 +318,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
 
-#    - name: Cache Paket
-#      uses: actions/cache@v3
-#      env:
-#        cache-name: cache-paket
-#      with:
-#        path: packages
-#        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-#        restore-keys: |
-#          ${{ runner.os }}-build-${{ env.cache-name }}-
-
-#    - name: Cache Python
-#      uses: actions/cache@v3
-#      env:
-#        cache-name: cache-pip
-#      with:
-#        path: ~/.cache/pip
-#        key: ${{ runner.os }}-build-${{ env.cache-name }}
-
     - name: Parse repository name
       run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
       shell: bash
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
-
-#    - name: Setup .NET Core
-#      uses: actions/setup-dotnet@v2
-#      with:
-#        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -375,37 +352,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests markdown argparse
 
-#    - name: Cache SonarCloud packages
-#      uses: actions/cache@v1
-#      with:
-#        path: ~/sonar/cache
-#        key: ${{ runner.os }}-sonar
-#        restore-keys: ${{ runner.os }}-sonar
-
-#    - name: Cache SonarCloud scanner
-#      id: cache-sonar-scanner
-#      uses: actions/cache@v1
-#      with:
-#        path: ./.sonar/scanner
-#        key: ${{ runner.os }}-sonar-scanner
-#        restore-keys: ${{ runner.os }}-sonar-scanner
-
-#    - name: Install SonarCloud scanner
-#      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-#      shell: bash
-#      run: |
-#        mkdir .sonar
-#        mkdir .sonar/scanner
-#        dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-
-#    - name: Build and analyze
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#      shell: bash
-#      run: |
-#        ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
-
     - name: Run Semantic Release
       shell: bash
       run: npx semantic-release
@@ -430,81 +376,6 @@ jobs:
         echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
       shell: bash
 
-#    - name: Build and analyze
-#      if: env.RELEASE_VERSION != 'none'
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#      shell: bash
-#      run: |
-#        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-
-#    - name: Save Acm Api Image
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER -o ~/ar-acm-api-image.tar
-#      env:
-#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#
-#    - name: Upload Acm Api artifact
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: acm-api
-#        path: ~/ar-acm-api-image.tar
-
-#    - name: Save Public Api Image
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
-#      env:
-#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#
-#    - name: Upload Public Api artifact
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: public-api
-#        path: ~/ar-public-api-image.tar
-#
-#    - name: Save Public Projections Image
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER -o ~/ar-public-projections-image.tar
-#      env:
-#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#
-#    - name: Upload Public Projections artifact
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: public-projections
-#        path: ~/ar-public-projections-image.tar
-#
-#    - name: Save Admin Api Image
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER -o ~/ar-admin-api-image.tar
-#      env:
-#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#
-#    - name: Upload Admin Api artifact
-#      if: env.RELEASE_VERSION != 'none'
-#      uses: actions/upload-artifact@v3
-#      with:
-#        name: admin-api
-#        path: ~/ar-admin-api-image.tar
-#
-#    - name: Run ACM container
-#      shell: bash
-#      run: |
-#        docker logs acm
-    # name: Upload artifact
-    # /build
 #
 #    - name: Configure AWS credentials (Production)
 #      if: env.RELEASE_VERSION != 'none'
@@ -550,17 +421,6 @@ jobs:
 #        BUILD_DOCKER_REGISTRY_PRD: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_PRD }}
 #        SEMVER: ${{ env.RELEASE_VERSION }}
 #        WORKSPACE: ${{ github.workspace }}
-
-#    - name: Publish to NuGet
-#      if: env.RELEASE_VERSION != 'none'
-#      shell: bash
-#      run: |
-#        node packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/ci-nuget.js dist/nuget/$LIBNAME.Api.$SEMVER.nupkg
-#      env:
-#        LIBNAME: Be.Vlaanderen.Basisregisters.OrganisationRegistry
-#        SEMVER: ${{ env.RELEASE_VERSION }}
-#        NUGET_HOST: ${{ secrets.NUGET_HOST }}
-#        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
   publish_to_atlassian:
     if: needs.release.outputs.version != 'none'
