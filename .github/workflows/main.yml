@@ -54,6 +54,7 @@ jobs:
 
   build-containers:
     uses: ./.github/workflows/build-image.yml
+    needs: [ set-release-version ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: acm-api
