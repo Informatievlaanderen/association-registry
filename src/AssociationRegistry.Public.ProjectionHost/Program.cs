@@ -11,7 +11,6 @@ using Marten;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Debugging;
