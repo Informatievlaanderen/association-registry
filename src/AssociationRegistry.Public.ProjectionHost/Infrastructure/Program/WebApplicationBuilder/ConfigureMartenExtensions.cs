@@ -70,7 +70,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.Add<PubliekVerenigingDetailProjection>();
+                opts.Projections.Add<PubliekVerenigingDetailProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(serviceProvider.GetRequiredService<IMessageBus>())),
