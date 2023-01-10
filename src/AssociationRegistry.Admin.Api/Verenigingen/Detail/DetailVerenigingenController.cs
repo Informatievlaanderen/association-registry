@@ -32,7 +32,7 @@ public class DetailVerenigingenController : ApiController
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,
-        [FromQuery] long expectedSequence)
+        [FromQuery] long? expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
         if (!await session.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
