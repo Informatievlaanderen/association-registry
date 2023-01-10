@@ -1,3 +1,10 @@
+# [1.96.0](https://github.com/informatievlaanderen/association-registry/compare/v1.95.6...v1.96.0) (2023-01-10)
+
+
+### Features
+
+* or-1297 rename contacten; make sure projections don't interfere with eachother ([548b901](https://github.com/informatievlaanderen/association-registry/commit/548b901ec2bed938d2a7322e35ea8620d64b68c1))
+
 ## [1.95.6](https://github.com/informatievlaanderen/association-registry/compare/v1.95.5...v1.95.6) (2023-01-10)
 
 
