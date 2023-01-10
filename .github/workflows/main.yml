@@ -84,7 +84,7 @@ jobs:
       image-file: ar-public-projections-image.tar
       image-name: public-projections
       test-project: test/AssociationRegistry.Test.Public.Api
-      build-project: src/AssociationRegistry.Public.Projections/
+      build-project: src/AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
