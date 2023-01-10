@@ -1,3 +1,19 @@
+## [1.95.4](https://github.com/informatievlaanderen/association-registry/compare/v1.95.3...v1.95.4) (2023-01-10)
+
+
+### Bug Fixes
+
+* add docker registry ([8ea23cc](https://github.com/informatievlaanderen/association-registry/commit/8ea23ccb9dacd0b0987bb217d19e7afd0d55a0fa))
+* build acm api separately ([2602153](https://github.com/informatievlaanderen/association-registry/commit/2602153d5b4c54bc70e4ea2dad78a79b9d5d06e3))
+* pass semver, build all via reusable ([6c7d4ae](https://github.com/informatievlaanderen/association-registry/commit/6c7d4ae48a1fefdfd3f0ea3e3bdaad1c8e71e980))
+* reusable workflow depends on set-release ([bb73f77](https://github.com/informatievlaanderen/association-registry/commit/bb73f772a74e89c3464e55032a447dbbe06ef6a4))
+* run all services ([6569511](https://github.com/informatievlaanderen/association-registry/commit/6569511619ef5312b1b972adc8f2310355f4ab2b))
+* try reusable workflow ([4bf4492](https://github.com/informatievlaanderen/association-registry/commit/4bf44920b8b7307ee42700822c14bbdea74593b4))
+* typo in artifact name ([b175606](https://github.com/informatievlaanderen/association-registry/commit/b175606f4c9db5021c8c945e7c5b3379f068f05f))
+* use build targets ([039d3bd](https://github.com/informatievlaanderen/association-registry/commit/039d3bdbbd7b1ac745c7bd6d5d4d521924591283))
+* use correct dist folder ([a2b949a](https://github.com/informatievlaanderen/association-registry/commit/a2b949a0a458c66217466928197599fbbe0e9a33))
+* use correct path ([17ff060](https://github.com/informatievlaanderen/association-registry/commit/17ff06057537f4058b5be65211b05543c437aa5e))
+
 ## [1.95.3](https://github.com/informatievlaanderen/association-registry/compare/v1.95.2...v1.95.3) (2023-01-09)
 
 
