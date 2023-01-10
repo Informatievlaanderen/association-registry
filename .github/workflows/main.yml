@@ -60,8 +60,8 @@ jobs:
       build-target: Containerize_AcmApi
       image-file: ar-acm-api-image.tar
       image-name: acm-api
-      test-project: test/AssociationRegistry.Test.Acm.Api
-      build-project: src/AssociationRegistry.Acm.Api/
+      test-project: AssociationRegistry.Test.Acm.Api
+      build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -73,8 +73,8 @@ jobs:
       build-target: Containerize_PublicApi
       image-file: ar-public-api-image.tar
       image-name: public-api
-      test-project: test/AssociationRegistry.Test.Public.Api
-      build-project: src/AssociationRegistry.Public.Api/
+      test-project: AssociationRegistry.Test.Public.Api
+      build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -86,8 +86,8 @@ jobs:
       build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
       image-name: public-projections
-      test-project: test/AssociationRegistry.Test.Public.Api
-      build-project: src/AssociationRegistry.Public.ProjectionHost/
+      test-project: AssociationRegistry.Test.Public.Api
+      build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -99,8 +99,8 @@ jobs:
       build-target: Containerize_AdminApi
       image-file: ar-admin-api-image.tar
       image-name: admin-api
-      test-project: test/AssociationRegistry.Test.Admin.Api
-      build-project: src/AssociationRegistry.Admin.Api/
+      test-project: AssociationRegistry.Test.Admin.Api
+      build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 #
