@@ -53,6 +53,7 @@ jobs:
         shell: bash
 
   build-acm-api:
+    name: Build ACM Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -66,6 +67,7 @@ jobs:
     secrets: inherit
 
   build-public-api:
+    name: Build Public Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -79,6 +81,7 @@ jobs:
     secrets: inherit
 
   build-public-projections:
+    name: Build Public Projections
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -92,6 +95,7 @@ jobs:
     secrets: inherit
 
   build-admin-api:
+    name: Build Admin Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -304,26 +308,6 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Run es container
-      shell: bash
-      run: |
-        docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-
-    - name: Run ACM container
-      shell: bash
-      run: |
-        docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-
-    - name: Run db container
-      shell: bash
-      run: |
-        docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-
-    - name: Run minio container
-      shell: bash
-      run: |
-        docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
-
     - name: Cache NPM
       uses: actions/cache@v3
       env:
@@ -334,23 +318,23 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
 
-    - name: Cache Paket
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-paket
-      with:
-        path: packages
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
+#    - name: Cache Paket
+#      uses: actions/cache@v3
+#      env:
+#        cache-name: cache-paket
+#      with:
+#        path: packages
+#        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+#        restore-keys: |
+#          ${{ runner.os }}-build-${{ env.cache-name }}-
 
-    - name: Cache Python
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-pip
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}
+#    - name: Cache Python
+#      uses: actions/cache@v3
+#      env:
+#        cache-name: cache-pip
+#      with:
+#        path: ~/.cache/pip
+#        key: ${{ runner.os }}-build-${{ env.cache-name }}
 
     - name: Parse repository name
       run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
@@ -359,10 +343,10 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+#    - name: Setup .NET Core
+#      uses: actions/setup-dotnet@v2
+#      with:
+#        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -391,36 +375,36 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests markdown argparse
 
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~/sonar/cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
+#    - name: Cache SonarCloud packages
+#      uses: actions/cache@v1
+#      with:
+#        path: ~/sonar/cache
+#        key: ${{ runner.os }}-sonar
+#        restore-keys: ${{ runner.os }}-sonar
 
-    - name: Cache SonarCloud scanner
-      id: cache-sonar-scanner
-      uses: actions/cache@v1
-      with:
-        path: ./.sonar/scanner
-        key: ${{ runner.os }}-sonar-scanner
-        restore-keys: ${{ runner.os }}-sonar-scanner
+#    - name: Cache SonarCloud scanner
+#      id: cache-sonar-scanner
+#      uses: actions/cache@v1
+#      with:
+#        path: ./.sonar/scanner
+#        key: ${{ runner.os }}-sonar-scanner
+#        restore-keys: ${{ runner.os }}-sonar-scanner
 
-    - name: Install SonarCloud scanner
-      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        mkdir .sonar
-        mkdir .sonar/scanner
-        dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
+#    - name: Install SonarCloud scanner
+#      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+#      shell: bash
+#      run: |
+#        mkdir .sonar
+#        mkdir .sonar/scanner
+#        dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
 
-    - name: Build and analyze
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: bash
-      run: |
-        ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
+#    - name: Build and analyze
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      shell: bash
+#      run: |
+#        ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
 
     - name: Run Semantic Release
       shell: bash
@@ -446,14 +430,14 @@ jobs:
         echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
       shell: bash
 
-    - name: Build and analyze
-      if: env.RELEASE_VERSION != 'none'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: bash
-      run: |
-        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+#    - name: Build and analyze
+#      if: env.RELEASE_VERSION != 'none'
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      shell: bash
+#      run: |
+#        ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
 #    - name: Save Acm Api Image
 #      if: env.RELEASE_VERSION != 'none'
@@ -470,55 +454,55 @@ jobs:
 #        name: acm-api
 #        path: ~/ar-acm-api-image.tar
 
-    - name: Save Public Api Image
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
-      env:
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-        SEMVER: ${{ env.RELEASE_VERSION }}
-
-    - name: Upload Public Api artifact
-      if: env.RELEASE_VERSION != 'none'
-      uses: actions/upload-artifact@v3
-      with:
-        name: public-api
-        path: ~/ar-public-api-image.tar
-
-    - name: Save Public Projections Image
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER -o ~/ar-public-projections-image.tar
-      env:
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-        SEMVER: ${{ env.RELEASE_VERSION }}
-
-    - name: Upload Public Projections artifact
-      if: env.RELEASE_VERSION != 'none'
-      uses: actions/upload-artifact@v3
-      with:
-        name: public-projections
-        path: ~/ar-public-projections-image.tar
-
-    - name: Save Admin Api Image
-      if: env.RELEASE_VERSION != 'none'
-      shell: bash
-      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER -o ~/ar-admin-api-image.tar
-      env:
-        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-        SEMVER: ${{ env.RELEASE_VERSION }}
-
-    - name: Upload Admin Api artifact
-      if: env.RELEASE_VERSION != 'none'
-      uses: actions/upload-artifact@v3
-      with:
-        name: admin-api
-        path: ~/ar-admin-api-image.tar
-
-    - name: Run ACM container
-      shell: bash
-      run: |
-        docker logs acm
+#    - name: Save Public Api Image
+#      if: env.RELEASE_VERSION != 'none'
+#      shell: bash
+#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER -o ~/ar-public-api-image.tar
+#      env:
+#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+#        SEMVER: ${{ env.RELEASE_VERSION }}
+#
+#    - name: Upload Public Api artifact
+#      if: env.RELEASE_VERSION != 'none'
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: public-api
+#        path: ~/ar-public-api-image.tar
+#
+#    - name: Save Public Projections Image
+#      if: env.RELEASE_VERSION != 'none'
+#      shell: bash
+#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER -o ~/ar-public-projections-image.tar
+#      env:
+#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+#        SEMVER: ${{ env.RELEASE_VERSION }}
+#
+#    - name: Upload Public Projections artifact
+#      if: env.RELEASE_VERSION != 'none'
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: public-projections
+#        path: ~/ar-public-projections-image.tar
+#
+#    - name: Save Admin Api Image
+#      if: env.RELEASE_VERSION != 'none'
+#      shell: bash
+#      run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER -o ~/ar-admin-api-image.tar
+#      env:
+#        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+#        SEMVER: ${{ env.RELEASE_VERSION }}
+#
+#    - name: Upload Admin Api artifact
+#      if: env.RELEASE_VERSION != 'none'
+#      uses: actions/upload-artifact@v3
+#      with:
+#        name: admin-api
+#        path: ~/ar-admin-api-image.tar
+#
+#    - name: Run ACM container
+#      shell: bash
+#      run: |
+#        docker logs acm
     # name: Upload artifact
     # /build
 #
