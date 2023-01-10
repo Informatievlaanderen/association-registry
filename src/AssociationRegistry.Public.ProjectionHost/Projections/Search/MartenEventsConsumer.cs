@@ -21,7 +21,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
             var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<> ).MakeGenericType(@event.EventType), @event)!;
-            await _bus.InvokeAsync(eventEnvelope);
+            await _bus.PublishAsync(eventEnvelope);
         }
     }
 }

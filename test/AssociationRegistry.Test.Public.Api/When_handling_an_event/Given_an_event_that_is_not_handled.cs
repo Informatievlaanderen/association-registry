@@ -1,14 +1,15 @@
-namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_name;
+namespace AssociationRegistry.Test.Public.Api.When_handling_an_event;
 
 using System.Text.RegularExpressions;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
-using Fixtures;
+using AssociationRegistry.Test.Public.Api.Fixtures;
+using AssociationRegistry.Test.Public.Api.Framework;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
+using When_searching_verenigingen_by_name;
 using Xunit;
 
-public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
+public class Given_an_unhandled_event_fixture : PublicApiFixture
 {
     public const string VCode = "V0001001";
     public const string Naam = "Feestcommittee Oudenaarde";
@@ -17,7 +18,7 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
     private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
     private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
 
-    public One_vereniging_werd_geregistreerd_fixture() : base(nameof(One_vereniging_werd_geregistreerd_fixture))
+    public Given_an_unhandled_event_fixture() : base(nameof(Given_an_unhandled_event_fixture))
     {
     }
 
@@ -43,14 +44,14 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
         },DateOnly.MinValue);
 }
 
-public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_vereniging_werd_geregistreerd_fixture>
+public class Given_an_unhandled_event : IClassFixture<Given_an_unhandled_event_fixture>
 {
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
     private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
-    public Given_one_vereniging_werd_geregistreerd(One_vereniging_werd_geregistreerd_fixture classFixture)
+    public Given_an_unhandled_event(Given_an_unhandled_event_fixture classFixture)
     {
         _publicApiClient = classFixture.PublicApiClient;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
@@ -59,15 +60,15 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.Naam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(Given_an_unhandled_event_fixture.Naam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.Naam);
+        var response = await _publicApiClient.Search(Given_an_unhandled_event_fixture.Naam);
         var content = await response.Content.ReadAsStringAsync();
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.Naam);
+            .Replace("{{originalQuery}}", Given_an_unhandled_event_fixture.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -105,11 +106,11 @@ public class Given_one_vereniging_werd_geregistreerd : IClassFixture<One_verenig
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var response = await _publicApiClient.Search(One_vereniging_werd_geregistreerd_fixture.VCode);
+        var response = await _publicApiClient.Search(Given_an_unhandled_event_fixture.VCode);
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", One_vereniging_werd_geregistreerd_fixture.VCode);
+            .Replace("{{originalQuery}}", Given_an_unhandled_event_fixture.VCode);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
