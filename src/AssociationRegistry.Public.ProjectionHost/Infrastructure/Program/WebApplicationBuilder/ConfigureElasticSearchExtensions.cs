@@ -44,23 +44,4 @@ public static class ConfigureElasticSearchExtensions
         var elasticClient = new ElasticClient(settings);
         return elasticClient;
     }
-
-    public static IServiceCollection RegisterDomainEventHandlers(this IServiceCollection services, Assembly assembly)
-    {
-        assembly.GetTypes()
-            .Where(
-                item => item.GetInterfaces()
-                            .Where(i => i.IsGenericType)
-                            .Any(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
-                        && !item.IsAbstract && !item.IsInterface)
-            .ToList()
-            .ForEach(
-                serviceType =>
-                {
-                    // allow only 1 eventhandler per class
-                    var interfaceType = serviceType.GetInterfaces().Single(i => i.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>));
-                    services.AddScoped(interfaceType, serviceType);
-                });
-        return services;
-    }
 }
