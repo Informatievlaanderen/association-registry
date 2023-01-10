@@ -1,3 +1,10 @@
+# [1.97.0](https://github.com/informatievlaanderen/association-registry/compare/v1.96.0...v1.97.0) (2023-01-10)
+
+
+### Features
+
+* or-1415 make expected sequence optional ([45b18f4](https://github.com/informatievlaanderen/association-registry/commit/45b18f426170718692db8ce058af09587a0119e8))
+
 # [1.96.0](https://github.com/informatievlaanderen/association-registry/compare/v1.95.6...v1.96.0) (2023-01-10)
 
 
