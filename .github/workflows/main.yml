@@ -182,6 +182,7 @@ jobs:
         shell: bash
         run: CI_BUILD_NUMBER=$SEMVER ./build.sh Containerize_AcmApi
         env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
 
       - name: Show images
