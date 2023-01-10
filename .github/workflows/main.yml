@@ -57,6 +57,7 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
+      build-target: Containerize_AcmApi
       image-file: ar-acm-api-image.tar
       image-name: acm-api
       test-project: test/AssociationRegistry.Test.Acm.Api
@@ -69,6 +70,7 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
+      build-target: Containerize_PublicApi
       image-file: ar-public-api-image.tar
       image-name: public-api
       test-project: test/AssociationRegistry.Test.Public.Api
@@ -81,6 +83,7 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
+      build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
       image-name: public-projections
       test-project: test/AssociationRegistry.Test.Public.Api
@@ -93,6 +96,7 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     with:
+      build-target: Containerize_AdminApi
       image-file: ar-admin-api-image.tar
       image-name: admin-api
       test-project: test/AssociationRegistry.Test.Admin.Api
