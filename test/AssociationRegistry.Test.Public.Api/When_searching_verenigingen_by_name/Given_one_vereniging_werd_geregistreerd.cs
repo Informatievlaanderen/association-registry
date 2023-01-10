@@ -23,7 +23,6 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
 
     public override async Task InitializeAsync()
     {
-        await AddEvent(VCode, new EenEvent());
         await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd(
@@ -31,9 +30,6 @@ public class One_vereniging_werd_geregistreerd_fixture : PublicApiFixture
                 Naam,
                 KorteNaam));
     }
-
-    public record EenEvent : IEvent;
-
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
         => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
