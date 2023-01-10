@@ -110,12 +110,12 @@ Target.create "Push" ignore
   ==> "Pack_Solution"
   ==> "Pack"
 
-"Pack"
-  // ==> "Containerize_AcmApi"
-  ==> "Containerize_PublicApi"
-  ==> "Containerize_PublicProjections"
-  ==> "Containerize_AdminApi"
-  ==> "Containerize"
+// "Pack"
+//   // ==> "Containerize_AcmApi"
+//   ==> "Containerize_PublicApi"
+//   ==> "Containerize_PublicProjections"
+//   ==> "Containerize_AdminApi"
+//   ==> "Containerize"
 // Possibly add more projects to containerize here
 
 "Containerize"

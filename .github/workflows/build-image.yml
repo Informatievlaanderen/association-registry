@@ -15,6 +15,9 @@ on:
       build-project: #src/AssociationRegistry.Acm.Api/
         required: true
         type: string
+      semver:
+        required: true
+        type: string
 
 jobs:
   build-image:
@@ -25,7 +28,7 @@ jobs:
         shell: bash
         run: echo $SEMVER
         env:
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
+          SEMVER: ${{ inputs.semver }}
 
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -145,22 +148,22 @@ jobs:
         run: CI_BUILD_NUMBER=$SEMVER ./build.sh Containerize_AcmApi
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
+          SEMVER: ${{ inputs.semver }}
 
       - name: Show images
         shell: bash
         run: docker images
 
       - name: Save Acm Api Image
-        if: needs.set-release-version.outputs.version != 'none'
+        if: inputs.semver != 'none'
         shell: bash
         run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/${{ inputs.image-name }}:$SEMVER -o ~/${{ inputs.image-file}}
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ needs.set-release-version.outputs.version }}
+          SEMVER: ${{ inputs.semver }}
 
       - name: Upload Acm Api artifact
-        if: needs.set-release-version.outputs.version != 'none'
+        if: inputs.semver != 'none'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.image-name }}
