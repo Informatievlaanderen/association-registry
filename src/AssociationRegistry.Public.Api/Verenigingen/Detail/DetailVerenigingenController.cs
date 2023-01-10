@@ -37,7 +37,7 @@ public class DetailVerenigingenController : ApiController
         [FromRoute] string vCode)
     {
         await using var session = documentStore.LightweightSession();
-        var maybeVereniging = await session.Query<VerenigingDetailDocument>()
+        var maybeVereniging = await session.Query<PubliekVerenigingDetailDocument>()
             .Where(document => document.VCode == vCode)
             .SingleOrDefaultAsync();
 
@@ -55,7 +55,7 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Startdatum,
                     vereniging.KboNummer,
                     vereniging.Status,
-                    vereniging.Contacten.Select(
+                    vereniging.ContactInfoLijst.Select(
                             info => new ContactInfo(
                                 info.Contactnaam,
                                 info.Email,
@@ -67,6 +67,6 @@ public class DetailVerenigingenController : ApiController
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private static Locatie ToLocatie(VerenigingDetailDocument.Locatie loc)
+    private static Locatie ToLocatie(PubliekVerenigingDetailDocument.Locatie loc)
         => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }

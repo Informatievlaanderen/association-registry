@@ -66,7 +66,7 @@ public class Program
             async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                await projectionDaemon.RebuildProjection<VerenigingDetailProjection>(cancellationToken);
+                await projectionDaemon.RebuildProjection<PubliekVerenigingDetailProjection>(cancellationToken);
                 logger.LogInformation("Rebuild complete");
             });
 

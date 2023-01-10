@@ -35,10 +35,10 @@ public class DetailVerenigingenController : ApiController
         [FromQuery] long expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
-        if (!await session.HasReachedSequence<VerenigingDetailDocument>(expectedSequence))
+        if (!await session.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
-        var maybeVereniging = await session.Query<VerenigingDetailDocument>()
+        var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
             .WithVCode(vCode)
             .SingleOrDefaultAsync();
 
@@ -55,7 +55,7 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Startdatum,
                     vereniging.KboNummer,
                     vereniging.Status,
-                    vereniging.Contacten.Select(
+                    vereniging.ContactInfoLijst.Select(
                             info => new DetailVerenigingResponse.VerenigingDetail.ContactInfo(
                                 info.Contactnaam,
                                 info.Email,
@@ -67,6 +67,6 @@ public class DetailVerenigingenController : ApiController
                 new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(VerenigingDetailDocument.Locatie loc)
+    private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }

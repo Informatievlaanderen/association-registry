@@ -90,8 +90,8 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.StartDatum);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
-        savedEvent.Contacten.Should().HaveCount(1);
-        savedEvent.Contacten![0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
+        savedEvent.ContactInfoLijst.Should().HaveCount(1);
+        savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(Request.Locaties[0]);
     }
@@ -128,6 +128,6 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
             .Replace("{{vereniging.startdatum}}", request.StartDatum!.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
-            .Replace("{{vereniging.contacten}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
+            .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties));
 }

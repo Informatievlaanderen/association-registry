@@ -49,7 +49,7 @@ public class Vereniging
             korteBeschrijving,
             startdatum?.Value,
             kboNummer?.ToString(),
-            VerenigingWerdGeregistreerd.ContactInfo.FromContacten(contactLijst),
+            VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(contactLijst),
             ToLocatieLijst(locatieLijst),
             today);
 

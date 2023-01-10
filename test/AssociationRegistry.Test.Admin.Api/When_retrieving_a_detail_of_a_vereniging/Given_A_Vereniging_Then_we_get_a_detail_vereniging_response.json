@@ -7,7 +7,7 @@
     "startdatum": null,
     "kboNummer": null,
     "status": "Actief",
-    "contacten": [],
+    "contactInfoLijst": [],
     "locaties":[]
   },
   "metadata": {

@@ -11,9 +11,9 @@ using Marten.Schema;
 
 public record Metadata(long Sequence);
 
-public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDetailDocument>
+public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVerenigingDetailDocument>
 {
-    public VerenigingDetailDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
         => new()
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
@@ -24,8 +24,8 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing ?? DateOnly.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
-            Contacten = verenigingWerdGeregistreerd.Data.Contacten?.Select(
-                            c => new VerenigingDetailDocument.ContactInfo()
+            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
+                            c => new BeheerVerenigingDetailDocument.ContactInfo()
                             {
                                 Contactnaam = c.Contactnaam,
                                 Email = c.Email,
@@ -33,12 +33,12 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
                                 Website = c.Website,
                                 SocialMedia = c.SocialMedia,
                             }).ToArray()
-                        ?? Array.Empty<VerenigingDetailDocument.ContactInfo>(),
-            Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<VerenigingDetailDocument.Locatie>(),
+                        ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
+            Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
         };
 
-    private static VerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
+    private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
             Hoofdlocatie = loc.HoofdLocatie,
@@ -54,7 +54,7 @@ public class VerenigingDetailProjection : SingleStreamAggregation<VerenigingDeta
         };
 }
 
-public class VerenigingDetailDocument : IVCode, IMetadata
+public class BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -66,7 +66,7 @@ public class VerenigingDetailDocument : IVCode, IMetadata
     public string Status { get; set; } = null!;
     public DateOnly DatumLaatsteAanpassing { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
-    public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
+    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Metadata Metadata { get; set; } = null!;
 
     public class ContactInfo

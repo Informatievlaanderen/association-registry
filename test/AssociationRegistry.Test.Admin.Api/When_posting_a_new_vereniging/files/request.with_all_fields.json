@@ -6,6 +6,6 @@
   "startdatum": "{{vereniging.startdatum}}",
   "kboNummer": "{{vereniging.kboNummer}}",
   "initiator": "{{vereniging.initiator}}",
-  "contactInfoLijst": {{vereniging.contacten}},
+  "contactInfoLijst": {{vereniging.contactInfoLijst}},
   "locaties": {{vereniging.locaties}}
 }

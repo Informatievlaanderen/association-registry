@@ -70,11 +70,12 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.Add<VerenigingDetailProjection>();
+                opts.Projections.Add<PubliekVerenigingDetailProjection>();
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(serviceProvider.GetRequiredService<IMessageBus>())),
-                    ProjectionLifecycle.Async);
+                    ProjectionLifecycle.Async,
+                    "PubliekVerenigingZoekenDocument");
 
                 opts.Serializer(CreateCustomMartenSerializer());
                 return opts;

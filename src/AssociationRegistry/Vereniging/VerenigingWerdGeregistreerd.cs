@@ -22,7 +22,7 @@ public record VerenigingWerdGeregistreerd(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummer,
-    VerenigingWerdGeregistreerd.ContactInfo[]? Contacten,
+    VerenigingWerdGeregistreerd.ContactInfo[]? ContactInfoLijst,
     VerenigingWerdGeregistreerd.Locatie[]? Locaties,
     DateOnly? DatumLaatsteAanpassing) : IEvent
 {
@@ -33,7 +33,7 @@ public record VerenigingWerdGeregistreerd(
         string? Website,
         string? SocialMedia)
     {
-        public static ContactInfo[] FromContacten(ContactLijst contactLijst)
+        public static ContactInfo[] FromContactInfoLijst(ContactLijst contactLijst)
             => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
     }
 

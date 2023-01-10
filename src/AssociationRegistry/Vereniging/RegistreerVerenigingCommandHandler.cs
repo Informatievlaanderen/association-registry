@@ -28,9 +28,9 @@ public class RegistreerVerenigingCommandHandler
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
-        var contacten = ContactLijst.Create(command.ContactInfoLijst);
+        var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
         var vCode = await _vCodeService.GetNext();
-        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contacten, locatieLijst, _clock.Today);
+        var vereniging = new Vereniging(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contactInfoLijst, locatieLijst, _clock.Today);
         var sequence = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return new RegistratieResult(vCode, sequence);
     }

@@ -25,8 +25,8 @@ public record DetailVerenigingResponse(
         string? KboNummer,
         [property: DataMember(Name = "Status")]
         string Status,
-        [property: DataMember(Name = "Contacten")]
-        VerenigingDetail.ContactInfo[] Contacten,
+        [property: DataMember(Name = "ContactInfoLijst")]
+        VerenigingDetail.ContactInfo[] ContactInfoLijst,
         [property: DataMember(Name = "Locaties")]
         ImmutableArray<VerenigingDetail.Locatie> Locaties)
     {

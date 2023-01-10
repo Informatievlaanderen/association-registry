@@ -8,12 +8,12 @@ using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
 
-public class VerenigingHistoriekProjection : SingleStreamAggregation<VerenigingHistoriekDocument>
+public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
-    public VerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
         => new(
             verenigingWerdGeregistreerd.Data.VCode,
-            new List<VerenigingHistoriekGebeurtenis>
+            new List<BeheerVerenigingHistoriekGebeurtenis>
             {
                 new(
                     nameof(VerenigingWerdGeregistreerd),
@@ -24,12 +24,12 @@ public class VerenigingHistoriekProjection : SingleStreamAggregation<VerenigingH
             new Metadata(verenigingWerdGeregistreerd.Sequence));
 }
 
-public record VerenigingHistoriekDocument(
+public record BeheerVerenigingHistoriekDocument(
     [property: Identity] string VCode,
-    List<VerenigingHistoriekGebeurtenis> Gebeurtenissen,
+    List<BeheerVerenigingHistoriekGebeurtenis> Gebeurtenissen,
     Metadata Metadata) : IMetadata;
 
-public record VerenigingHistoriekGebeurtenis(
+public record BeheerVerenigingHistoriekGebeurtenis(
     string Gebeurtenis,
     string Initiator,
     string Tijdstip);

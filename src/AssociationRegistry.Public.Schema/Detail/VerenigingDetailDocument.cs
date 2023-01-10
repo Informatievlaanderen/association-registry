@@ -3,7 +3,7 @@
 using System;
 using Marten.Schema;
 
-public class VerenigingDetailDocument
+public class PubliekVerenigingDetailDocument
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -15,7 +15,7 @@ public class VerenigingDetailDocument
     public string Status { get; set; } = null!;
     public DateOnly DatumLaatsteAanpassing { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
-    public ContactInfo[] Contacten { get; set; } = Array.Empty<ContactInfo>();
+    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
 
     public class ContactInfo
     {

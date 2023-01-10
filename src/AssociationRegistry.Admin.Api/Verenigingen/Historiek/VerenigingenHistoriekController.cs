@@ -38,10 +38,10 @@ public class VerenigingenHistoriekController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        if (!await session.HasReachedSequence<VerenigingHistoriekDocument>(expectedSequence))
+        if (!await session.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
-        var maybeHistoriekVereniging = await session.Query<VerenigingHistoriekDocument>()
+        var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
             .Where(document => document.VCode == vCode)
             .SingleOrDefaultAsync();
 

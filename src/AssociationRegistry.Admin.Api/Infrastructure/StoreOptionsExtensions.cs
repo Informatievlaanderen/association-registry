@@ -9,7 +9,7 @@ public static class StoreOptionsExtensions
 {
     public static void AddPostgresProjections(this StoreOptions source)
     {
-        source.Projections.Add<VerenigingHistoriekProjection>(ProjectionLifecycle.Async);
-        source.Projections.Add<VerenigingDetailProjection>(ProjectionLifecycle.Async);
+        source.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
+        source.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
     }
 }
