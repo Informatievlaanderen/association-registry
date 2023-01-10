@@ -202,7 +202,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: acm-api
-          path: ~/ar-acn-api-image.tar
+          path: ~/ar-acm-api-image.tar
 
       - name: Analyze with sonar scanner
         env:
