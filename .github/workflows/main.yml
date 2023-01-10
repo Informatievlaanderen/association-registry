@@ -52,6 +52,15 @@ jobs:
           echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
         shell: bash
 
+  build-containers:
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image-file: ar-acm-api-image.tar
+      image-name: acm-api
+      test-project: test/AssociationRegistry.Test.Acm.Api
+      build-project: src/AssociationRegistry.Acm.Api/
+    secrets: inherit
+
   build-acm-api:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Build ACM Api
