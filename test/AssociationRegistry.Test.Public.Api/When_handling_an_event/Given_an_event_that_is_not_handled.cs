@@ -1,22 +1,19 @@
 namespace AssociationRegistry.Test.Public.Api.When_handling_an_event;
 
-using System.Text.RegularExpressions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Public.Api.Fixtures;
-using AssociationRegistry.Test.Public.Api.Framework;
-using AssociationRegistry.Vereniging;
+using AssociationRegistry.Public.ProjectionHost;
+using AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using Fixtures;
 using FluentAssertions;
-using When_searching_verenigingen_by_name;
+using Marten;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Wolverine;
 using Xunit;
+using IEvent = AssociationRegistry.Framework.IEvent;
 
-public class Given_an_unhandled_event_fixture : PublicApiFixture
+public class Given_an_unhandled_event_fixture : ProjectionHostFixture
 {
     public const string VCode = "V0001001";
-    public const string Naam = "Feestcommittee Oudenaarde";
-    private const string KorteNaam = "FOud";
-
-    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
-    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
 
     public Given_an_unhandled_event_fixture() : base(nameof(Given_an_unhandled_event_fixture))
     {
@@ -24,119 +21,35 @@ public class Given_an_unhandled_event_fixture : PublicApiFixture
 
     public override async Task InitializeAsync()
     {
-        await AddEvent(VCode, new EenEvent());
-        await AddEvent(
-            VCode,
-            VerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                KorteNaam));
+        await AddEvent(VCode, new AnUnhandledEvent());
     }
 
-    public record EenEvent : IEvent;
-
-
-    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
-        {
-            gemeentehuis,
-            feestzaal,
-        },DateOnly.MinValue);
+    public record AnUnhandledEvent : IEvent;
 }
 
 public class Given_an_unhandled_event : IClassFixture<Given_an_unhandled_event_fixture>
 {
-    private readonly string _goldenMasterWithOneVereniging;
-    private readonly PublicApiClient _publicApiClient;
+    private readonly WebApplicationFactory<Program> _projectionHost;
+    private readonly IDocumentStore _documentStore;
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
-
-    public Given_an_unhandled_event(Given_an_unhandled_event_fixture classFixture)
+    public Given_an_unhandled_event(Given_an_unhandled_event_fixture fixture)
     {
-        _publicApiClient = classFixture.PublicApiClient;
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+        _projectionHost = fixture.ProjectionHost;
+        _documentStore = fixture.DocumentStore;
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(Given_an_unhandled_event_fixture.Naam)).Should().BeSuccessful();
-
-    [Fact]
-    public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
+    public async Task Then_No_exceptions_Are_Thrown()
     {
-        var response = await _publicApiClient.Search(Given_an_unhandled_event_fixture.Naam);
-        var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", Given_an_unhandled_event_fixture.Naam);
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
-    {
-        var response = await _publicApiClient.Search("dena");
-        var content = await response.Content.ReadAsStringAsync();
-
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
-    {
-        var response = await _publicApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*dena*");
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
-    {
-        var response = await _publicApiClient.Search("oudenaarde");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oudenaarde");
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
-    {
-        var response = await _publicApiClient.Search(Given_an_unhandled_event_fixture.VCode);
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", Given_an_unhandled_event_fixture.VCode);
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
-    {
-        var response = await _publicApiClient.Search("001");
-        var content = await response.Content.ReadAsStringAsync();
-
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-
-    [Fact]
-    public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
-    {
-        var response = await _publicApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteiten"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
-        var regexResult = regex.Match(content);
-        var urlFromFacets = regexResult.Groups[2].Value;
-
-        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
-        var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
-
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
-        contentFromFacetsUrl.Should().Contain(expectedUrl);
+        var consumer = new MartenEventsConsumer(_projectionHost.Services.GetRequiredService<IMessageBus>());
+        var consumeForElastic = () => consumer.ConsumeAsync(
+            new[]
+            {
+                _documentStore
+                    .OpenSession()
+                    .Events
+                    .Append(Given_an_unhandled_event_fixture.VCode, new Given_an_unhandled_event_fixture.AnUnhandledEvent()),
+            });
+        await consumeForElastic.Should().NotThrowAsync();
     }
 }
