@@ -1,3 +1,10 @@
+## [1.95.6](https://github.com/informatievlaanderen/association-registry/compare/v1.95.5...v1.95.6) (2023-01-10)
+
+
+### Bug Fixes
+
+* remove dod.yml, rename main workflow ([782a74e](https://github.com/informatievlaanderen/association-registry/commit/782a74e0a4bdd834473f9958cb5c81cfc0e021a7))
+
 ## [1.95.5](https://github.com/informatievlaanderen/association-registry/compare/v1.95.4...v1.95.5) (2023-01-10)
 
 
