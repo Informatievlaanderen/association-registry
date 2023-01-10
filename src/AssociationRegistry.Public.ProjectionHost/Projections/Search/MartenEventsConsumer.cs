@@ -18,6 +18,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
 
     public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
     {
+
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
             var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<> ).MakeGenericType(@event.EventType), @event)!;
