@@ -1,3 +1,11 @@
+## [1.95.5](https://github.com/informatievlaanderen/association-registry/compare/v1.95.4...v1.95.5) (2023-01-10)
+
+
+### Bug Fixes
+
+* remove sonar scanner from build, rename build to release ([9e3a56e](https://github.com/informatievlaanderen/association-registry/commit/9e3a56e84f09ad4fd26fc852d8626b2c0ab1bfbe))
+* remove sonar scanner from build, rename build to release ([4a9657c](https://github.com/informatievlaanderen/association-registry/commit/4a9657cca17be735c62142448979d7ad912177d5))
+
 ## [1.95.4](https://github.com/informatievlaanderen/association-registry/compare/v1.95.3...v1.95.4) (2023-01-10)
 
 
