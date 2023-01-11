@@ -32,14 +32,14 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .Must(NotHaveMultipleCorresporentieLocaties)
             .WithMessage("Er mag maximum één coresporentie locatie opgegeven worden.");
         RuleFor(request => request.Locaties)
-            .Must(NotHaveMultipleHoofdLocaties)
+            .Must(NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
         RuleForEach(request => request.Locaties)
             .SetValidator(new LocatieValidator());
     }
 
-    private static bool NotHaveMultipleHoofdLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
-        => locaties.Count(l => l.HoofdLocatie) <= 1;
+    private static bool NotHaveMultipleHoofdlocaties(RegistreerVerenigingRequest.Locatie[] locaties)
+        => locaties.Count(l => l.Hoofdlocatie) <= 1;
 
     private static bool NotHaveMultipleCorresporentieLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
         => locaties.Count(l => string.Equals(l.LocatieType, LocatieTypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
@@ -48,7 +48,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
     private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
-        => new { l.LocatieType, l.Naam, l.HoofdLocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
+        => new { l.LocatieType, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {

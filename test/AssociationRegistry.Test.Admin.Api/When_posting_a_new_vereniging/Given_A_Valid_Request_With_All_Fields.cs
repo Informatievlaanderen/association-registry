@@ -61,7 +61,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
                     Postcode = "0123",
                     Gemeente = "Nothingham",
                     Land = "Belgie",
-                    HoofdLocatie = true,
+                    Hoofdlocatie = true,
                     LocatieType = LocatieTypes.Correspondentie,
                 },
             },

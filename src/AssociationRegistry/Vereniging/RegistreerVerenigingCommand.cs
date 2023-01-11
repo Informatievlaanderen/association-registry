@@ -26,6 +26,6 @@ public record RegistreerVerenigingCommand(
         string Postcode,
         string Gemeente,
         string Land,
-        bool HoofdLocatie,
+        bool Hoofdlocatie,
         string LocatieType);
 }
