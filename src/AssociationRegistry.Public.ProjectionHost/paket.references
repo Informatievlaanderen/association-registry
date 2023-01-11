@@ -11,6 +11,7 @@ Microsoft.AspNetCore.Mvc.Versioning
 Microsoft.AspNetCore.Mvc.NewtonsoftJson
 Microsoft.Extensions.Localization
 Microsoft.Extensions.DependencyInjection
+Microsoft.Extensions.Diagnostics.HealthChecks
 
 Swashbuckle.AspNetCore.Swagger
 Swashbuckle.AspNetCore.SwaggerGen

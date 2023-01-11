@@ -19,6 +19,10 @@ using ApiControllerSpec = AssociationRegistry.Public.ProjectionHost.Infrastructu
 
 namespace AssociationRegistry.Public.ProjectionHost;
 
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Linq;
+
 public class Program
 {
     public static async Task Main(string[] args)
@@ -56,6 +60,8 @@ public class Program
             .AddMvc()
             .AddDataAnnotationsLocalization();
 
+        builder.Services.AddHealthChecks();
+
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
         var app = builder.Build();
@@ -70,6 +76,7 @@ public class Program
             });
 
         app.SetUpSwagger();
+        ConfigureHealtChecks(app);
 
         await DistributedLock<Program>.RunAsync(
             async () => await app.RunAsync(),
@@ -100,5 +107,50 @@ public class Program
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
                 "Encountered a fatal exception, exiting program.");
+    }
+
+    private static void ConfigureHealtChecks(WebApplication app)
+    {
+        var healthCheckOptions = new HealthCheckOptions
+        {
+            AllowCachingResponses = false,
+
+            ResultStatusCodes =
+            {
+                [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable,
+            },
+
+            ResponseWriter = (httpContext, healthReport) =>
+            {
+                httpContext.Response.ContentType = "application/json";
+
+                var json = new JObject(
+                    new JProperty("status", healthReport.Status.ToString()),
+                    new JProperty("totalDuration", healthReport.TotalDuration.ToString()),
+                    new JProperty(
+                        "results",
+                        new JObject(
+                            healthReport.Entries.Select(
+                                pair =>
+                                    new JProperty(
+                                        pair.Key,
+                                        new JObject(
+                                            new JProperty("status", pair.Value.Status.ToString()),
+                                            new JProperty("duration", pair.Value.Duration),
+                                            new JProperty("description", pair.Value.Description),
+                                            new JProperty("exception", pair.Value.Exception?.Message),
+                                            new JProperty(
+                                                "data",
+                                                new JObject(
+                                                    pair.Value.Data.Select(
+                                                        p => new JProperty(p.Key, p.Value))))))))));
+
+                return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
+            },
+        };
+
+        app.UseHealthChecks("/health", healthCheckOptions);
     }
 }
