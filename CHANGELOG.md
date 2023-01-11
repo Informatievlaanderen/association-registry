@@ -1,3 +1,10 @@
+# [1.100.0](https://github.com/informatievlaanderen/association-registry/compare/v1.99.0...v1.100.0) (2023-01-11)
+
+
+### Features
+
+* or-1297 use console lifetime ([35cea0d](https://github.com/informatievlaanderen/association-registry/commit/35cea0dadc8cdde6c31d814896526b2378072deb))
+
 # [1.99.0](https://github.com/informatievlaanderen/association-registry/compare/v1.98.0...v1.99.0) (2023-01-11)
 
 
