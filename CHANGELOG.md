@@ -1,3 +1,10 @@
+# [1.98.0](https://github.com/informatievlaanderen/association-registry/compare/v1.97.0...v1.98.0) (2023-01-11)
+
+
+### Features
+
+* or-1297 add test to verify no exception is thrown when unhandled event is processed ([430c394](https://github.com/informatievlaanderen/association-registry/commit/430c3943a3510ac4f170bd83baa3da5d6d59a22c))
+
 # [1.97.0](https://github.com/informatievlaanderen/association-registry/compare/v1.96.0...v1.97.0) (2023-01-10)
 
 
