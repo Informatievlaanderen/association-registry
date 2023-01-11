@@ -1,3 +1,10 @@
+# [1.99.0](https://github.com/informatievlaanderen/association-registry/compare/v1.98.0...v1.99.0) (2023-01-11)
+
+
+### Features
+
+* or-1297 add health check ([c689a44](https://github.com/informatievlaanderen/association-registry/commit/c689a44b478adb2c1b1fd42bee0811db8bce5226))
+
 # [1.98.0](https://github.com/informatievlaanderen/association-registry/compare/v1.97.0...v1.98.0) (2023-01-11)
 
 
