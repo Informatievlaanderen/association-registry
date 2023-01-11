@@ -9,6 +9,7 @@ using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
 using Marten.Events;
+using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -34,6 +35,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private readonly IElasticClient _elasticClient;
     private readonly IDocumentStore _documentStore;
     private readonly TestServer _publicApiServer;
+    private IProjectionDaemon _daemon;
 
     //public HttpClient HttpClient { get; }
     public PublicApiClient PublicApiClient { get; }
@@ -59,6 +61,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var projectionServices = RunProjectionHost();
         _documentStore = projectionServices.GetRequiredService<IDocumentStore>();
+        _daemon = _documentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
+        _daemon.StartAllShards().GetAwaiter().GetResult();
+
         ConfigureBrolFeeder(projectionServices);
 
         ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
@@ -93,16 +98,15 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (_elasticClient is not { })
             throw new NullException("Elastic client cannot be null when adding an event");
 
+        if (_daemon is not { })
+            throw new NullException("Projection daemon cannot be null when adding an event");
+
         metadata ??= new CommandMetadata(vCode, new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
 
         var eventStore = new EventStore(_documentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);
 
-        var daemon = await _documentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-
-        // Make sure all documents are properly indexed
+        await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
         await _elasticClient.Indices.RefreshAsync(Indices.All);
     }
 

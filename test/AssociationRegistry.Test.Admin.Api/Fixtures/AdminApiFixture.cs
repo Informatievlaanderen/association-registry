@@ -8,6 +8,7 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Framework.Helpers;
 using Marten;
+using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly string _dbName = "a_";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
+    private IProjectionDaemon _daemon;
 
     public IDocumentStore DocumentStore
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
@@ -60,6 +62,9 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+
+        _daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
+        _daemon.StartAllShards().GetAwaiter().GetResult();
     }
 
     private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
@@ -103,9 +108,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore);
         var sequence = await eventStore.Save(vCode, metadata, eventToAdd);
 
-        var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
         return sequence;
     }

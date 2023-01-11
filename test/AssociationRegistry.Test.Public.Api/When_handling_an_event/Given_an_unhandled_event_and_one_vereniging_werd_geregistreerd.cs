@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Public.Api.When_handling_an_event;
 
 using System.Text.RegularExpressions;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Public.Api.Fixtures;
-using AssociationRegistry.Test.Public.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Fixtures;
+using Framework;
+using Vereniging;
 using FluentAssertions;
 using Xunit;
 
