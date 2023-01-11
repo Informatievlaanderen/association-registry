@@ -25,6 +25,16 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
         "www.oudenaarde.be/feest",
         "#FOudenaarde");
 
+    private readonly VerenigingWerdGeregistreerd.Locatie Locatie = new(
+        "Correspondentie",
+        "Stationsstraat",
+        "1",
+        "B",
+        "1790",
+        "Affligem",
+        "België",
+        true,
+        "Correspondentie");
 
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
@@ -45,7 +55,7 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
                 Startdatum,
                 KboNummer,
                 new[] { ContactInfo },
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                new[] { Locatie },
                 DateOnly.FromDateTime(DateTime.Today)),
             new CommandMetadata(
                 Initiator,

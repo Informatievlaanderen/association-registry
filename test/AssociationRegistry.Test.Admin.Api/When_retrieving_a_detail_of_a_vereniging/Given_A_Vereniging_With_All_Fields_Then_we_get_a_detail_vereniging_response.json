@@ -16,7 +16,20 @@
         "socialMedia": "#FOudenaarde"
       }
     ],
-    "locaties":[]
+    "locaties":[
+      {
+        "locatieType": "Correspondentie",
+        "hoofdlocatie": true,
+        "adres": "Stationsstraat 1 bus B, 1790 Affligem, België",
+        "naam": "Correspondentie",
+        "straatnaam": "Stationsstraat",
+        "huisnummer": "1",
+        "busnummer": "B",
+        "postcode": "1790",
+        "gemeente": "Affligem",
+        "land": "België"
+      }
+    ]
   },
   "metadata": {
     "datumLaatsteAanpassing": ""

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record Locatie(
-    [property: DataMember(Name = "Type")] string Type,
+    [property: DataMember(Name = "LocatieType")] string LocatieType,
     [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
     bool Hoofdlocatie,
     [property: DataMember(Name = "Adres")] string Adres,
