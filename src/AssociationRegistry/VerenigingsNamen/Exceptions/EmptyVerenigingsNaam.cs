@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class EmptyVerenigingsNaam : Exception
 {
-    public EmptyVerenigingsNaam() : base("The field 'naam' should have a value.")
+    public EmptyVerenigingsNaam() : base("De naam van de vereniging is verplicht.")
     {
     }
 
