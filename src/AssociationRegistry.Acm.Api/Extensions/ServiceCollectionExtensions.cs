@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
+    public static IServiceCollection AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
         services
             .AddSingleton(sp => new VerenigingenBlobClient(
                 s3Options.Buckets[WellknownBuckets.Verenigingen.Name],
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
                 sp.GetRequiredService<ILogger<VerenigingenBlobClient>>()
             ));
 
-    public static void AddS3(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddS3(this IServiceCollection services, IConfiguration configuration)
     {
         // Use MINIO
         if (configuration.GetValue<string>("MINIO_SERVER") != null)
@@ -52,9 +52,11 @@ public static class ServiceCollectionExtensions
         {
             services.AddSingleton(new AmazonS3Client());
         }
+
+        return services;
     }
 
-    public static void AddDataCache(this IServiceCollection services)
+    public static IServiceCollection AddDataCache(this IServiceCollection services)
         => services.AddSingleton<IVerenigingenRepository>(
             sp =>
                 VerenigingenRepository.Load(sp.GetRequiredService<VerenigingenBlobClient>()).GetAwaiter().GetResult());
