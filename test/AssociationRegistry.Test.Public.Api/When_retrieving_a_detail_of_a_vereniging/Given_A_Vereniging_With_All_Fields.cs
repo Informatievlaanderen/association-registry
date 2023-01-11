@@ -36,6 +36,7 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
 
     public override async Task InitializeAsync()
     {
+        await base.InitializeAsync();
         await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(

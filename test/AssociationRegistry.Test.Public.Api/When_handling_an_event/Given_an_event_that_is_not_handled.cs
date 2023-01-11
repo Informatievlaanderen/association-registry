@@ -21,6 +21,7 @@ public class Given_an_unhandled_event_fixture : ProjectionHostFixture
 
     public override async Task InitializeAsync()
     {
+        await base.InitializeAsync();
         await AddEvent(VCode, new AnUnhandledEvent());
     }
 

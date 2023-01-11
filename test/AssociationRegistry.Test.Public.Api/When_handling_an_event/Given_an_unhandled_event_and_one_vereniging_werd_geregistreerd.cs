@@ -23,6 +23,7 @@ public class Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture : Pub
 
     public override async Task InitializeAsync()
     {
+        await base.InitializeAsync();
         await AddEvent(VCode, new EenEvent());
         await AddEvent(
             VCode,
@@ -33,11 +34,20 @@ public class Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture : Pub
     }
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
-        {
-            gemeentehuis,
-            feestzaal,
-        },DateOnly.MinValue);
+        => new(
+            vCode,
+            naam,
+            korteNaam,
+            null,
+            null,
+            null,
+            Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            new[]
+            {
+                gemeentehuis,
+                feestzaal,
+            },
+            DateOnly.MinValue);
 }
 
 public record EenEvent : IEvent;

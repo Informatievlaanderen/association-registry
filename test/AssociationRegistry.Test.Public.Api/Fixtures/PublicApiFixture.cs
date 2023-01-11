@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using System.Reflection;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
 using Framework.Helpers;
 using EventStore;
 using global::AssociationRegistry.Framework;
@@ -8,7 +11,6 @@ using global::AssociationRegistry.Public.Api;
 using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
-using Marten.Events;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -16,10 +18,8 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using NodaTime.Extensions;
-using Npgsql;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -28,63 +28,61 @@ using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
+    private readonly TestcontainerDatabase _postgreSqlContainer;
+
     private const string RootDatabase = @"postgres";
     private readonly string _identifier = "p_";
-    private readonly IConfigurationRoot _configurationRoot;
 
-    private readonly IElasticClient _elasticClient;
-    private readonly IDocumentStore _documentStore;
-    private readonly TestServer _publicApiServer;
-    private IProjectionDaemon _daemon;
+    private IElasticClient _elasticClient = null!;
+    private IDocumentStore _documentStore = null!;
+    private TestServer _publicApiServer = null!;
+    private IProjectionDaemon _daemon = null!;
 
     //public HttpClient HttpClient { get; }
-    public PublicApiClient PublicApiClient { get; }
+    public PublicApiClient PublicApiClient
+        => new(_publicApiServer.CreateClient());
 
     private string VerenigingenIndexName
-        => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
+        => _identifier;
 
     protected PublicApiFixture(string identifier)
     {
         _identifier += identifier.ToLowerInvariant();
-        _configurationRoot = GetConfiguration();
 
-        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<PublicApiFixture>(), GetConnectionString(_configurationRoot, RootDatabase))
-            .GetAwaiter().GetResult();
-        CreateDatabase();
-
-        _publicApiServer = ConfigurePublicApiTestServer();
-
-        PublicApiClient = new PublicApiClient(_publicApiServer.CreateClient());
-        _elasticClient = CreateElasticClient(_publicApiServer);
-        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, _publicApiServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
-            .GetAwaiter().GetResult();
-
-        var projectionServices = RunProjectionHost();
-        _documentStore = projectionServices.GetRequiredService<IDocumentStore>();
-        _daemon = _documentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
-        _daemon.StartAllShards().GetAwaiter().GetResult();
-
-        ConfigureBrolFeeder(projectionServices);
-
-        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+        _postgreSqlContainer = new TestcontainersBuilder<PostgreSqlTestcontainer>()
+            .WithDatabase(
+                new PostgreSqlTestcontainerConfiguration()
+                {
+                    Database = identifier,
+                    Username = "username",
+                    Password = "Password",
+                })
+            .Build();
     }
 
 
-    private IConfigurationRoot GetConfiguration()
+    private IConfigurationRoot GetConfiguration(TestcontainerDatabase postgreSqlContainer)
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(GetRootDirectory())
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+        var tempConfiguration = builder.Build();
+        tempConfiguration["PostgreSQLOptions:database"] = postgreSqlContainer.Database;
+        tempConfiguration["PostgreSQLOptions:username"] = postgreSqlContainer.Username;
+        tempConfiguration["PostgreSQLOptions:password"] = postgreSqlContainer.Password;
+        tempConfiguration["PostgreSQLOptions:host"] = postgreSqlContainer.Hostname + ":" + postgreSqlContainer.Port;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
+        return tempConfiguration;
+    }
+
+    private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
             .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
-
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(rootDirectory)
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-        var tempConfiguration = builder.Build();
-        tempConfiguration["PostgreSQLOptions:database"] = _identifier;
-        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
-        return tempConfiguration;
+        return rootDirectory;
     }
 
     private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
@@ -110,25 +108,32 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         await _elasticClient.Indices.RefreshAsync(Indices.All);
     }
 
-    private TestServer ConfigurePublicApiTestServer()
+    private TestServer ConfigurePublicApiTestServer(TestcontainerDatabase postgreSqlContainer)
     {
         IWebHostBuilder hostBuilder = new WebHostBuilder();
-        hostBuilder.UseConfiguration(_configurationRoot);
+        hostBuilder.UseConfiguration(GetConfiguration(postgreSqlContainer));
+        hostBuilder.UseSetting("PostgreSQLOptions:database", postgreSqlContainer.Database);
+        hostBuilder.UseSetting("PostgreSQLOptions:username", postgreSqlContainer.Username);
+        hostBuilder.UseSetting("PostgreSQLOptions:password", postgreSqlContainer.Password);
+        hostBuilder.UseSetting("PostgreSQLOptions:host", postgreSqlContainer.Hostname + ":" + postgreSqlContainer.Port);
         hostBuilder.UseStartup<Startup>();
         hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
         hostBuilder.UseTestServer();
         return new TestServer(hostBuilder);
     }
 
-    private IServiceProvider RunProjectionHost()
+    private IServiceProvider RunProjectionHost(TestcontainerDatabase postgreSqlContainer)
     {
         var webApplicationFactory = new WebApplicationFactory<ProjectionHostProgram>()
             .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting("PostgreSQLOptions:database", _identifier);
-                    builder.UseConfiguration(_configurationRoot);
+                    builder.UseSetting("PostgreSQLOptions:database", postgreSqlContainer.Database);
+                    builder.UseSetting("PostgreSQLOptions:username", postgreSqlContainer.Username);
+                    builder.UseSetting("PostgreSQLOptions:password", postgreSqlContainer.Password);
+                    builder.UseSetting("PostgreSQLOptions:host", postgreSqlContainer.Hostname + ":" + postgreSqlContainer.Port);
+                    builder.UseConfiguration(GetConfiguration(postgreSqlContainer));
                     builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
@@ -148,44 +153,44 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         client.Indices.Refresh(Indices.All);
     }
 
-    private void CreateDatabase()
-    {
-        DocumentStore.For(
-            opts =>
-            {
-                var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
-                var rootConnectionString = GetConnectionString(_configurationRoot, RootDatabase);
-                opts.Connection(connectionString);
-                opts.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
-                opts.CreateDatabasesForTenants(
-                    c =>
-                    {
-                        c.MaintenanceDatabase(rootConnectionString);
-                        c.ForTenant()
-                            .CheckAgainstPgDatabase()
-                            .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
-                    });
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-            });
-    }
+    // private void CreateDatabase()
+    // {
+    //     DocumentStore.For(
+    //         opts =>
+    //         {
+    //             var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);
+    //             var rootConnectionString = GetConnectionString(_configurationRoot, RootDatabase);
+    //             opts.Connection(connectionString);
+    //             opts.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
+    //             opts.CreateDatabasesForTenants(
+    //                 c =>
+    //                 {
+    //                     c.MaintenanceDatabase(rootConnectionString);
+    //                     c.ForTenant()
+    //                         .CheckAgainstPgDatabase()
+    //                         .WithOwner(_configurationRoot["PostgreSQLOptions:username"]);
+    //                 });
+    //             opts.Events.StreamIdentity = StreamIdentity.AsString;
+    //         });
+    // }
 
-    private void DropDatabase()
-    {
-        using var connection = new NpgsqlConnection(GetConnectionString(_configurationRoot, RootDatabase));
-        using var cmd = connection.CreateCommand();
-        try
-        {
-            connection.Open();
-            // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
-            cmd.ExecuteNonQuery();
-        }
-        finally
-        {
-            connection.Close();
-            connection.Dispose();
-        }
-    }
+    // private void DropDatabase()
+    // {
+    //     using var connection = new NpgsqlConnection(GetConnectionString(_configurationRoot, RootDatabase));
+    //     using var cmd = connection.CreateCommand();
+    //     try
+    //     {
+    //         connection.Open();
+    //         // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
+    //         cmd.CommandText += $"DROP DATABASE IF EXISTS {_configurationRoot["PostgreSQLOptions:database"]} WITH (FORCE);";
+    //         cmd.ExecuteNonQuery();
+    //     }
+    //     finally
+    //     {
+    //         connection.Close();
+    //         connection.Dispose();
+    //     }
+    // }
 
     private static string GetConnectionString(IConfiguration configurationRoot, string database)
         => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
@@ -198,19 +203,35 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         GC.SuppressFinalize(this);
         PublicApiClient.Dispose();
         _publicApiServer.Dispose();
-        _documentStore.Dispose();
-
-        DropDatabase();
 
         _elasticClient.Indices.Delete(VerenigingenIndexName);
         _elasticClient.Indices.Refresh(Indices.All);
     }
 
-    public virtual Task InitializeAsync()
-        => Task.CompletedTask;
+    public virtual async Task InitializeAsync()
+    {
+        await _postgreSqlContainer.StartAsync();
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+        _publicApiServer = ConfigurePublicApiTestServer(_postgreSqlContainer);
+
+        _elasticClient = CreateElasticClient(_publicApiServer);
+        WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, _publicApiServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
+            .GetAwaiter().GetResult();
+
+        var projectionServices = RunProjectionHost(_postgreSqlContainer);
+        _documentStore = projectionServices.GetRequiredService<IDocumentStore>();
+        _daemon = _documentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
+        _daemon.StartAllShards().GetAwaiter().GetResult();
+
+        ConfigureBrolFeeder(projectionServices);
+
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+    }
+
+    public virtual async Task DisposeAsync()
+    {
+        await _postgreSqlContainer.DisposeAsync();
+    }
 }
 
 // Implement IRetryPolicy interface
