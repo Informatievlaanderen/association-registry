@@ -40,7 +40,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         {
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
-            Type = loc.LocatieType,
+            LocatieType = loc.LocatieType,
             Straatnaam = loc.Straatnaam,
             Huisnummer = loc.Huisnummer,
             Busnummer = loc.Busnummer,
