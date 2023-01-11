@@ -1,3 +1,10 @@
+## [1.101.1](https://github.com/informatievlaanderen/association-registry/compare/v1.101.0...v1.101.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* fix typos ([917eaff](https://github.com/informatievlaanderen/association-registry/commit/917eaff6b53cb3bea0dbfc062fccaf8ff91f8519))
+
 # [1.101.0](https://github.com/informatievlaanderen/association-registry/compare/v1.100.0...v1.101.0) (2023-01-11)
 
 
