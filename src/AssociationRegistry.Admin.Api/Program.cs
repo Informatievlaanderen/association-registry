@@ -100,7 +100,7 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseMiddleware<ProblemDetailsMiddleware>();
-        ConfigerExceptionHandler(app);
+        ConfigureExceptionHandler(app);
         ConfigureMiddleware(app);
 
         app.UseMiddleware<AddProblemJsonHeaderMiddleware>();
@@ -192,7 +192,7 @@ public class Program
         app.UseHealthChecks("/health", healthCheckOptions);
     }
 
-    private static void ConfigerExceptionHandler(WebApplication app)
+    private static void ConfigureExceptionHandler(WebApplication app)
     {
         var problemDetailsHelper = app.Services.GetRequiredService<ProblemDetailsHelper>();
         var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger<ApiExceptionHandler>();

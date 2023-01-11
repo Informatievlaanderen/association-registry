@@ -41,7 +41,7 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
 
-    /// <summary>Alle locaties waar deze vereiging actief is.</summary>
+    /// <summary>Alle locaties waar deze vereniging actief is.</summary>
     [DataMember]
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
 
@@ -49,13 +49,13 @@ public class RegistreerVerenigingRequest
     public class ContactInfo
     {
         /// <summary>
-        /// Een groeperingsved dat beschrijft welke contactgegevens worden opgegeven
+        /// Een groeperingsveld dat beschrijft welke contactgegevens worden opgegeven
         /// </summary>
         [DataMember]
         public string? Contactnaam { get; set; }
 
         /// <summary>
-        /// Een email adres
+        /// Een e-mailadres
         /// </summary>
         [DataMember]
         public string? Email { get; set; }
@@ -93,7 +93,7 @@ public class RegistreerVerenigingRequest
         public string LocatieType { get; set; } = null!;
 
         /// <summary>
-        /// Zet true als deze locatie de hoofdlocatie van de verenigign is.<br/>
+        /// Zet true als deze locatie de hoofdlocatie van de vereniging is.<br/>
         /// Maximum één aanduiden.
         /// </summary>
         [DataMember]
