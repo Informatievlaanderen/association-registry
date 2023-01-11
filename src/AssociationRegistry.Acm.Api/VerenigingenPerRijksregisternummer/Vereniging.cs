@@ -4,5 +4,5 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record Vereniging(
-    [property: DataMember] string Id,
+    [property: DataMember] string VCode,
     [property: DataMember] string Naam);
