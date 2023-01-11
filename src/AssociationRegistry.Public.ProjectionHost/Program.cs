@@ -64,6 +64,8 @@ public class Program
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
+        builder.Host.UseConsoleLifetime();
+
         var app = builder.Build();
 
         app.MapPost(
