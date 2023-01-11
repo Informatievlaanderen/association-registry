@@ -1,3 +1,10 @@
+# [1.101.0](https://github.com/informatievlaanderen/association-registry/compare/v1.100.0...v1.101.0) (2023-01-11)
+
+
+### Features
+
+* or-1337 translate error messages ([ba3c129](https://github.com/informatievlaanderen/association-registry/commit/ba3c129a3795503c7b4f8ab58d9067809c9d33df))
+
 # [1.100.0](https://github.com/informatievlaanderen/association-registry/compare/v1.99.0...v1.100.0) (2023-01-11)
 
 
