@@ -32,7 +32,6 @@ using Destructurama;
 using FluentValidation;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
-using JasperFx.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -82,7 +81,7 @@ public class Program
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
 
-        ConfigereKesrel(builder);
+        ConfigereKestrel(builder);
         ConfigureLogger(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
@@ -110,7 +109,9 @@ public class Program
         ConfigureRequestLocalization(app);
         ConfigureSwagger(app);
 
-        app.UseMvc();
+        // Deze volgorde is belangrijk ! DKW
+        app.UseRouting()
+           .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
 
@@ -282,7 +283,8 @@ public class Program
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
-            .AddHttpContextAccessor();
+            .AddHttpContextAccessor()
+            .AddControllers();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -541,7 +543,7 @@ public class Program
             logger);
     }
 
-    private static void ConfigereKesrel(WebApplicationBuilder builder)
+    private static void ConfigereKestrel(WebApplicationBuilder builder)
     {
         builder.WebHost.ConfigureKestrel(
             options =>
@@ -574,22 +576,22 @@ public class Program
         AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
             Log.Debug(
                 eventArgs.Exception,
-                "FirstChanceException event raised in {AppDomain}.",
+                "FirstChanceException event raised in {AppDomain}",
                 AppDomain.CurrentDomain.FriendlyName);
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                "Encountered a fatal exception, exiting program.");
+                "Encountered a fatal exception, exiting program");
     }
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started."));
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));
 
         app.Lifetime.ApplicationStopping.Register(
             () =>
             {
-                Log.Information("Application stopping.");
+                Log.Information("Application stopping");
                 Log.CloseAndFlush();
             });
 
