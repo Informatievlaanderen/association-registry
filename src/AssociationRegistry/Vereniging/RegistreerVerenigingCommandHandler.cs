@@ -43,6 +43,6 @@ public class RegistreerVerenigingCommandHandler
             loc.Postcode,
             loc.Gemeente,
             loc.Land,
-            loc.HoofdLocatie,
+            loc.Hoofdlocatie,
             loc.LocatieType);
 }

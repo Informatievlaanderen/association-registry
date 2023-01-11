@@ -6,7 +6,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class With_Multiple_HoofdLocaties : ValidatorTest
+public class With_Multiple_Hoofdlocaties : ValidatorTest
 {
     [Fact]
     public void Then_it_has_validation_error__niet_meer_dan_1_hoofdlocatie()
@@ -21,12 +21,12 @@ public class With_Multiple_HoofdLocaties : ValidatorTest
                 new RegistreerVerenigingRequest.Locatie
                 {
                     LocatieType = LocatieTypes.Activiteiten,
-                    HoofdLocatie = true,
+                    Hoofdlocatie = true,
                 },
                 new RegistreerVerenigingRequest.Locatie
                 {
                     LocatieType = LocatieTypes.Activiteiten,
-                    HoofdLocatie = true,
+                    Hoofdlocatie = true,
                 },
             },
         };

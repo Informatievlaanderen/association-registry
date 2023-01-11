@@ -97,7 +97,7 @@ public class RegistreerVerenigingRequest
         /// Maximum één aanduiden.
         /// </summary>
         [DataMember]
-        public bool HoofdLocatie { get; set; } = false;
+        public bool Hoofdlocatie { get; set; } = false;
 
         /// <summary>
         /// Een beschrijvende naam voor de locatie
@@ -164,6 +164,6 @@ public class RegistreerVerenigingRequest
             loc.Postcode,
             loc.Gemeente,
             loc.Land,
-            loc.HoofdLocatie,
+            loc.Hoofdlocatie,
             loc.LocatieType);
 }

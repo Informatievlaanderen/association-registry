@@ -38,7 +38,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
-            Hoofdlocatie = loc.HoofdLocatie,
+            Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
             Type = loc.LocatieType,
             Straatnaam = loc.Straatnaam,
