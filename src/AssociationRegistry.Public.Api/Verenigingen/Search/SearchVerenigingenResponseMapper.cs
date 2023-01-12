@@ -111,5 +111,5 @@ public class SearchVerenigingenResponseMapper
             }).ToImmutableArray();
 
     private static Locatie ToLocatieResponse(VerenigingDocument.Locatie loc)
-        => new(loc.Type, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
+        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
 }

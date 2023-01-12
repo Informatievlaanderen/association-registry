@@ -22,7 +22,7 @@ public record Vereniging(
 
 [DataContract]
 public record Locatie(
-    [property: DataMember(Name = "Type")] string Type,
+    [property: DataMember(Name = "Locatietype")] string Locatietype,
     [property: DataMember(Name = "Hoofdlocatie",EmitDefaultValue = false)]
     bool Hoofdlocatie,
     [property: DataMember(Name = "Adres")]

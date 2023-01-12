@@ -11,7 +11,7 @@ public record VerenigingDocument(
 )
 {
     public record Locatie(
-        string Type,
+        string Locatietype,
         string? Naam,
         string Adres,
         bool Hoofdlocatie,

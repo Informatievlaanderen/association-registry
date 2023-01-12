@@ -49,7 +49,7 @@ public static class VerenigingDocumentMapping
                         .Name(document => document.Hoofdlocatie))
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Type))
+                        .Name(document => document.Locatietype))
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Postcode))
