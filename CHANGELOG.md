@@ -1,3 +1,10 @@
+# [1.102.0](https://github.com/informatievlaanderen/association-registry/compare/v1.101.5...v1.102.0) (2023-01-12)
+
+
+### Features
+
+* or-1415 elaborate on vr-sequence ([18021dd](https://github.com/informatievlaanderen/association-registry/commit/18021dd0ee945471757cd7bf1c2611c6dd0fb35e))
+
 ## [1.101.5](https://github.com/informatievlaanderen/association-registry/compare/v1.101.4...v1.101.5) (2023-01-12)
 
 ## [1.101.4](https://github.com/informatievlaanderen/association-registry/compare/v1.101.3...v1.101.4) (2023-01-12)
