@@ -85,11 +85,11 @@ jobs:
 
       - name: Dotnet restore
         shell: bash
-        run: dotnet restore src/${{ inputs.build-project }} --runtime linux-x64
+        run: dotnet restore --runtime linux-x64
 
       - name: Dotnet build
         shell: bash
-        run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/${{ inputs.build-project }}
+        run: dotnet build --no-restore
 
       - name: Analyze with sonar scanner
         env:
