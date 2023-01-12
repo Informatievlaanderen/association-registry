@@ -4,44 +4,29 @@ using System.Reflection;
 using global::AssociationRegistry.Public.Api;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 public class StaticPublicApiFixture : IDisposable
 {
     public HttpClient HttpClient { get; }
-    private readonly TestServer _testServer;
+    private readonly WebApplicationFactory<Program> _webApplicationFactory;
     public IDocumentStore DocumentStore { get; }
 
     public StaticPublicApiFixture()
     {
-        var configurationRoot = GetConfiguration();
-        var hostBuilder = new WebHostBuilder();
-
-        hostBuilder.UseConfiguration(configurationRoot);
-        hostBuilder.UseStartup<Startup>();
-
-        hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-
-        hostBuilder.UseTestServer();
-
-        _testServer = new TestServer(hostBuilder);
-
-        HttpClient = _testServer.CreateClient();
-        DocumentStore = _testServer.Services.GetRequiredService<IDocumentStore>();
+        _webApplicationFactory = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(
+                builder => { builder.UseConfiguration(GetConfiguration()); });
+        HttpClient = _webApplicationFactory.CreateClient();
+        DocumentStore = _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
     }
 
     private static IConfigurationRoot GetConfiguration()
     {
-        var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-
         var builder = new ConfigurationBuilder()
-            .SetBasePath(rootDirectory)
+            .SetBasePath(GetRootDirectory())
             .AddJsonFile("appsettings.json", optional: true)
             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
 
@@ -49,10 +34,19 @@ public class StaticPublicApiFixture : IDisposable
         return configurationRoot;
     }
 
+    private static string GetRootDirectory()
+    {
+        var maybeRootDirectory = Directory
+            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
+        return rootDirectory;
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
         HttpClient.Dispose();
-        _testServer.Dispose();
+        _webApplicationFactory.Dispose();
     }
 }

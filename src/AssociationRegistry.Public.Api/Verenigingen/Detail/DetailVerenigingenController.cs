@@ -46,7 +46,7 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(
             new DetailVerenigingResponse(
-                $"{appsettings.BaseUrl}v1/contexten/detail-vereniging-context.json",
+                $"{appsettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 new VerenigingDetail(
                     vereniging.VCode,
                     vereniging.Naam,
