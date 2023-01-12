@@ -12,9 +12,16 @@ on:
     types:
       - completed
 
-run-name: Deploy To Staging v${{ toJson(github.event.workflow_run.workflow) }}
+run-name: Deploy To Staging v${{ github.event.workflow_run.workflow.name }}
 
 jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print
+        shell: bash
+        run: echo ${{ toJson(github.event.workflow_run.workflow.jobs ) }}
+
   deployment:
     environment: staging
     runs-on: ubuntu-latest
