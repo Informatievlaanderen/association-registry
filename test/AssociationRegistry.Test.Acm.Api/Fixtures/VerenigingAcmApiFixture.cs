@@ -53,7 +53,7 @@ public class VerenigingAcmApiFixture : IDisposable
     private void CreateS3BucketsIfNeeded()
     {
         var amazonS3Client = Server.Services.GetRequiredService<AmazonS3Client>();
-        var bucketName = Configuration?["S3BlobClientOptions:Buckets:Verenigingen:Name"];
+        var bucketName = Configuration["S3BlobClientOptions:Buckets:Verenigingen:Name"];
 
         var bucketExists = AmazonS3Util.DoesS3BucketExistV2Async(amazonS3Client, bucketName).GetAwaiter().GetResult();
         if (!bucketExists)
