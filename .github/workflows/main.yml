@@ -194,7 +194,7 @@ jobs:
       run-docker-acm: false
       run-docker-minio: false
       run-docker-db: true
-      run-docker-elasticsearch: false
+      run-docker-elasticsearch: true
     secrets: inherit
 
   build-admin-api:
