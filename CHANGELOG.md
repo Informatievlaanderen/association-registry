@@ -1,3 +1,5 @@
+## [1.101.5](https://github.com/informatievlaanderen/association-registry/compare/v1.101.4...v1.101.5) (2023-01-12)
+
 ## [1.101.4](https://github.com/informatievlaanderen/association-registry/compare/v1.101.3...v1.101.4) (2023-01-12)
 
 ## [1.101.3](https://github.com/informatievlaanderen/association-registry/compare/v1.101.2...v1.101.3) (2023-01-12)
