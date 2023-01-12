@@ -8,20 +8,20 @@ using Framework;
 using Newtonsoft.Json;
 using Xunit;
 
-public class Given_A_Request_With_Empty_Name_Fixture : JsonRequestAdminApiFixture
+public class Given_An_Invalid_Request_With_Missing_Name_Fixture : JsonRequestAdminApiFixture
 {
-    public Given_A_Request_With_Empty_Name_Fixture() : base(
-        nameof(Given_A_Request_With_Empty_Name_Fixture),
-        "files.request.with_empty_name")
+    public Given_An_Invalid_Request_With_Missing_Name_Fixture() : base(
+        nameof(Given_An_Invalid_Request_With_Missing_Name_Fixture),
+        "files.request.with_missing_name")
     {
     }
 }
 
-public class Given_A_Request_With_Empty_Name : IClassFixture<Given_A_Request_With_Empty_Name_Fixture>
+public class Given_An_Invalid_Request_With_Missing_Name : IClassFixture<Given_An_Invalid_Request_With_Missing_Name_Fixture>
 {
-    private readonly Given_A_Request_With_Empty_Name_Fixture _apiFixture;
+    private readonly Given_An_Invalid_Request_With_Missing_Name_Fixture _apiFixture;
 
-    public Given_A_Request_With_Empty_Name(Given_A_Request_With_Empty_Name_Fixture apiFixture)
+    public Given_An_Invalid_Request_With_Missing_Name(Given_An_Invalid_Request_With_Missing_Name_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -37,17 +37,20 @@ public class Given_A_Request_With_Empty_Name : IClassFixture<Given_A_Request_Wit
     public async Task Then_it_returns_a_validationproblemdetails_response()
     {
         var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.JsonContent);
+
         var responseContent = await response.Content.ReadAsStringAsync();
 
         var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
         var expectedResponseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(GetJsonResponseBody());
 
-        responseContentObject.Should().BeEquivalentTo(expectedResponseContentObject, options => options
-            .Excluding(info => info!.ProblemInstanceUri)
-            .Excluding(info=>info!.ProblemTypeUri));
+        responseContentObject.Should().BeEquivalentTo(
+            expectedResponseContentObject,
+            options => options
+                .Excluding(info => info!.ProblemInstanceUri)
+                .Excluding(info => info!.ProblemTypeUri));
     }
 
     private string GetJsonResponseBody()
         => GetType()
-            .GetAssociatedResourceJson($"files.response.not_empty_validation_error");
+            .GetAssociatedResourceJson($"files.response.missing_name_error");
 }
