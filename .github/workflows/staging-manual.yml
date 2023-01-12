@@ -12,7 +12,7 @@ on:
     types:
       - completed
 
-run-name: ${{ github.event.workflow_run.workflow.jobs.release.outputs.version }}
+run-name: Deploy To Staging v${{ github.event.workflow_run.workflow.jobs.release.outputs.version }}
 
 jobs:
   deployment:
