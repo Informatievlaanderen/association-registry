@@ -1,29 +1,13 @@
 name: Manual Deploy To Staging
 
 on:
-#  workflow_dispatch:
-#    inputs:
-#      version:
-#        description: 'Version (format: x.xxx.x, ie: 1.221.1)'
-#        required: true
-
-  workflow_run:
-    workflows: [Main]
-    types:
-      - completed
-
-run-name: Deploy To Staging v${{ github.event.workflow_run.workflow.name }}
-
-jobs:
-  print:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print
-        shell: bash
-        run: echo ${{ toJson(github.event.workflow_run ) }}
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (format: x.xxx.x, ie: 1.221.1)'
+        required: true
 
   deployment:
-    environment: staging
     runs-on: ubuntu-latest
     strategy:
       matrix:
