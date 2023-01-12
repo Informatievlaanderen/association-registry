@@ -474,7 +474,7 @@ public class Program
                         new OpenApiInfo
                         {
                             Version = "v1",
-                            Title = "Basisregisters Vlaanderen Verenigingsregister Beheer API",
+                            Title = "Basisregisters Vlaanderen Verenigingsregister ACM API",
                             Description = "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister ACM API.",
                             Contact = new OpenApiContact
                             {

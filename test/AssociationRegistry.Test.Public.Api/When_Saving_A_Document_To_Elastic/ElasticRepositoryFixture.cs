@@ -67,7 +67,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
 

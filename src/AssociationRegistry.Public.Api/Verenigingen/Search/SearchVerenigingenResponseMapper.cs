@@ -87,7 +87,7 @@ public class SearchVerenigingenResponseMapper
 
     // public for testing
     public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdActiviteitCode, string originalQuery, string[] hoofdactiviteiten)
-        => $"{appSettings.BaseUrl}v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteiten={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdActiviteitCode)}";
+        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteiten={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdActiviteitCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
         => string.Join(
@@ -106,7 +106,7 @@ public class SearchVerenigingenResponseMapper
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}v1/verenigingen/{(string?)x.Source.VCode}"))
+                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)x.Source.VCode}"))
                 );
             }).ToImmutableArray();
 

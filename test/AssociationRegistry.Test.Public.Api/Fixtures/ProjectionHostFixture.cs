@@ -4,14 +4,12 @@ using System.Reflection;
 using Framework.Helpers;
 using EventStore;
 using global::AssociationRegistry.Framework;
-using global::AssociationRegistry.Public.Api;
 using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -54,6 +52,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, ProjectionHost.Services.GetRequiredService<ILogger<ProjectionHostFixture>>())
             .GetAwaiter().GetResult();
 
+        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
         DocumentStore = ProjectionHost.Services.GetRequiredService<IDocumentStore>();
         ConfigureBrolFeeder(ProjectionHost.Services);
     }
@@ -62,7 +61,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Startup).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+            .GetParent(typeof(ProjectionHostProgram).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
 
@@ -98,16 +97,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
         // Make sure all documents are properly indexed
         await _elasticClient.Indices.RefreshAsync(Indices.All);
-    }
-
-    private TestServer ConfigurePublicApiTestServer()
-    {
-        IWebHostBuilder hostBuilder = new WebHostBuilder();
-        hostBuilder.UseConfiguration(_configurationRoot);
-        hostBuilder.UseStartup<Startup>();
-        hostBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-        hostBuilder.UseTestServer();
-        return new TestServer(hostBuilder);
     }
 
     private WebApplicationFactory<ProjectionHostProgram> RunProjectionHost()
