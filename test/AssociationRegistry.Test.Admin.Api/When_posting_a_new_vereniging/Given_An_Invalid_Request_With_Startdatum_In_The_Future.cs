@@ -8,10 +8,10 @@ using Framework;
 using Newtonsoft.Json;
 using Xunit;
 
-public class Given_A_Request_With_Startdatum_In_The_Future_Fixture : AdminApiFixture
+public class Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture : AdminApiFixture
 {
-    public Given_A_Request_With_Startdatum_In_The_Future_Fixture() : base(
-        nameof(Given_A_Request_With_Startdatum_In_The_Future_Fixture))
+    public Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture() : base(
+        nameof(Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture))
     {
         var startdatum = DateOnly.FromDateTime(DateTime.Today.AddDays(1));
         Content = GetJsonRequestBody(startdatum);
@@ -26,12 +26,12 @@ public class Given_A_Request_With_Startdatum_In_The_Future_Fixture : AdminApiFix
             .Replace("{{vereniging.startdatum}}", startdatum.ToString("yyyy-MM-dd"));
 }
 
-public class Given_A_Request_With_Startdatum_In_The_Future : IClassFixture<Given_A_Request_With_Startdatum_In_The_Future_Fixture>
+public class Given_An_Invalid_Request_With_Startdatum_In_The_Future : IClassFixture<Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture>
 {
-    private readonly Given_A_Request_With_Startdatum_In_The_Future_Fixture _apiFixture;
+    private readonly Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture _apiFixture;
 
 
-    public Given_A_Request_With_Startdatum_In_The_Future(Given_A_Request_With_Startdatum_In_The_Future_Fixture apiFixture)
+    public Given_An_Invalid_Request_With_Startdatum_In_The_Future(Given_An_Invalid_Request_With_Startdatum_In_The_Future_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
