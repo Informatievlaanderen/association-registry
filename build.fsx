@@ -17,7 +17,7 @@ let copyright = "Copyright (c) Vlaamse overheid"
 let company = "Vlaamse overheid"
 
 let dockerRepository = "association-registry"
-let assemblyVersionNumber = (sprintf "%s")
+let assemblyVersionNumber = (sprintf "%s.0")
 let nugetVersionNumber = (sprintf "%s")
 
 let buildSolution = buildSolution assemblyVersionNumber
