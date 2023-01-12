@@ -12,11 +12,12 @@ on:
     types:
       - completed
 
+run-name: ${{ github.event.workflow_run.workflow.jobs.release.outputs.version }}
+
 jobs:
   deployment:
     environment: staging
     runs-on: ubuntu-latest
-    run-name: ${{ github.event.workflow_run.workflow.jobs.release.outputs.version }}
     strategy:
       matrix:
         services:
