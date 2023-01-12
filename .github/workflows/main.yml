@@ -155,6 +155,10 @@ jobs:
       test-project: AssociationRegistry.Test.Acm.Api
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: true
+      run-docker-minio: true
+      run-docker-db: true
+      run-docker-elasticsearch: false
     secrets: inherit
 
   build-public-api:
@@ -169,6 +173,10 @@ jobs:
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-minio: false
+      run-docker-db: true
+      run-docker-elasticsearch: true
     secrets: inherit
 
   build-public-projections:
@@ -183,6 +191,10 @@ jobs:
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-minio: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
     secrets: inherit
 
   build-admin-api:
@@ -197,6 +209,10 @@ jobs:
       test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-minio: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
     secrets: inherit
 #
 #  build-acm-api:
