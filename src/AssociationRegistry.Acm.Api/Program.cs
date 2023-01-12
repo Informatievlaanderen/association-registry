@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api;
+namespace AssociationRegistry.Acm.Api;
 
 using System;
 using System.Collections.Generic;
@@ -10,11 +10,11 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using Acm.Api;
-using Acm.Api.Extensions;
-using Acm.Api.Infrastructure.Configuration;
-using Acm.Api.Infrastructure.Extentions;
-using Acm.Api.S3;
+using Extensions;
+using Infrastructure.Configuration;
+using Infrastructure.Extentions;
+using S3;
+using AssociationRegistry.OpenTelemetry.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -26,10 +26,12 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
+using Constants;
 using Destructurama;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -52,7 +54,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 using Swashbuckle.AspNetCore.Filters;
@@ -103,6 +104,7 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
+            .UseAuthorization()
             .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
@@ -332,7 +334,11 @@ public class Program
                             .AllowCredentials());
                 })
             .AddControllersAsServices()
-            .AddAuthorization()
+            .AddAuthorization(
+                options =>
+                    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                        .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.ACM)
+                        .Build())
             .AddNewtonsoftJson(
                 opt =>
                 {
