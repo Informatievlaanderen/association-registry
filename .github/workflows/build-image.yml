@@ -138,6 +138,13 @@ jobs:
         shell: bash
         run: dotnet restore src/${{ inputs.build-project }} --runtime linux-x64
 
+      - name: Set solution info
+        shell: bash
+        run: CI_BUILD_NUMBER=$SEMVER ./build.sh SetSolutionInfo
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          SEMVER: ${{ inputs.semver }}
+
       - name: Dotnet build
         shell: bash
         run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/${{ inputs.build-project }}
@@ -145,13 +152,6 @@ jobs:
       - name: Dotnet publish
         shell: bash
         run: dotnet publish -o dist/${{ inputs.build-project }}/linux --no-build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/${{ inputs.build-project }}
-
-      - name: Containerize Api
-        shell: bash
-        run: CI_BUILD_NUMBER=$SEMVER ./build.sh SetSolutionInfo
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ inputs.semver }}
 
       - name: Containerize Api
         shell: bash
