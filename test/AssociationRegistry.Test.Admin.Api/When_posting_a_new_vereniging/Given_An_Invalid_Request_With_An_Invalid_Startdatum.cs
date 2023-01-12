@@ -8,20 +8,20 @@ using Framework;
 using Newtonsoft.Json;
 using Xunit;
 
-public class Given_A_Request_With_An_Invalid_Startdatum_Fixture : JsonRequestAdminApiFixture
+public class Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture : JsonRequestAdminApiFixture
 {
-    public Given_A_Request_With_An_Invalid_Startdatum_Fixture() : base(
-        nameof(Given_A_Request_With_An_Invalid_Startdatum_Fixture),
+    public Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture() : base(
+        nameof(Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture),
         "files.request.with_an_invalid_startdatum")
     {
     }
 }
 
-public class Given_A_Request_With_An_Invalid_Startdatum: IClassFixture<Given_A_Request_With_An_Invalid_Startdatum_Fixture>
+public class Given_An_Invalid_Request_With_An_Invalid_Startdatum: IClassFixture<Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture>
 {
-    private readonly Given_A_Request_With_An_Invalid_Startdatum_Fixture _apiFixture;
+    private readonly Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture _apiFixture;
 
-    public Given_A_Request_With_An_Invalid_Startdatum(Given_A_Request_With_An_Invalid_Startdatum_Fixture apiFixture)
+    public Given_An_Invalid_Request_With_An_Invalid_Startdatum(Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
