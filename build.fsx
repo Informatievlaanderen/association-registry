@@ -17,7 +17,7 @@ let copyright = "Copyright (c) Vlaamse overheid"
 let company = "Vlaamse overheid"
 
 let dockerRepository = "association-registry"
-let assemblyVersionNumber = (sprintf "2.%s")
+let assemblyVersionNumber = (sprintf "%s")
 let nugetVersionNumber = (sprintf "%s")
 
 let buildSolution = buildSolution assemblyVersionNumber
@@ -50,6 +50,11 @@ Target.create "Restore_Solution" (fun _ -> restore "AssociationRegistry")
 Target.create "Build_Solution" (fun _ ->
   setVersions "SolutionInfo.cs"
   buildSolution "AssociationRegistry")
+
+Target.create "SetSolutionInfo" (fun _ ->
+  setVersions "SolutionInfo.cs"
+ )
+
 
 Target.create "Test_Solution" (fun _ -> testSolution "AssociationRegistry")
 
