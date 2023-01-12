@@ -1,3 +1,13 @@
+## [1.101.2](https://github.com/informatievlaanderen/association-registry/compare/v1.101.1...v1.101.2) (2023-01-12)
+
+
+### Bug Fixes
+
+* or-1551 always use locatieType ([2717e73](https://github.com/informatievlaanderen/association-registry/commit/2717e734fbc509b088ba79b0e85f73ed2fbd62c4))
+* or-1551 correct hoofdlocatie to always be lower case ([8d564f8](https://github.com/informatievlaanderen/association-registry/commit/8d564f8e50e5994e3050e55c3c8a4dbeb094c11c))
+* or-1551 rename locatieType to locatietype ([afd86fb](https://github.com/informatievlaanderen/association-registry/commit/afd86fb89702893e4899d3ab93b0c9a7b413986d))
+* or-1551 renamed Id to VCode in ACM.Api ([5270a8b](https://github.com/informatievlaanderen/association-registry/commit/5270a8bd99b69ef4877a66e03bedc94a59a5f0cb))
+
 ## [1.101.1](https://github.com/informatievlaanderen/association-registry/compare/v1.101.0...v1.101.1) (2023-01-11)
 
 
