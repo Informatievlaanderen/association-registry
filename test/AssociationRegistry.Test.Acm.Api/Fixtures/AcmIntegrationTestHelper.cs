@@ -29,7 +29,7 @@ public class AcmIntegrationTestHelper
         string scope,
         string clientSecret)
     {
-        var editApiConfiguration = _fixture.ConfigurationRoot!.GetSection(nameof(OAuth2IntrospectionOptions))
+        var editApiConfiguration = _fixture.Configuration!.GetSection(nameof(OAuth2IntrospectionOptions))
             .Get<OAuth2IntrospectionOptions>();
 
         var tokenClient = new TokenClient(
