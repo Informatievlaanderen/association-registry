@@ -5,16 +5,11 @@ using System.Net.Http;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Microsoft.Net.Http.Headers;
 
-
 public static class StartupConstants
 {
     public static readonly string[] ExposedHeaders =
     {
-        HeaderNames.Location,
-        // ExtractFilteringRequestExtension.HeaderName,
-        // AddSortingExtension.HeaderName,
-        // AddPaginationExtension.HeaderName,
-        AddVersionHeaderMiddleware.HeaderName,
+        HeaderNames.Location, AddVersionHeaderMiddleware.HeaderName,
         AddCorrelationIdToResponseMiddleware.HeaderName,
         AddHttpSecurityHeadersMiddleware.PoweredByHeaderName,
         AddHttpSecurityHeadersMiddleware.ContentTypeOptionsHeaderName,
@@ -41,9 +36,6 @@ public static class StartupConstants
         HeaderNames.Origin,
         HeaderNames.Authorization,
         HeaderNames.IfMatch,
-        // ExtractFilteringRequestExtension.HeaderName,
-        // AddSortingExtension.HeaderName,
-        // AddPaginationExtension.HeaderName,
     };
 
     public const string AllowAnyOrigin = "AllowAnyOrigin";

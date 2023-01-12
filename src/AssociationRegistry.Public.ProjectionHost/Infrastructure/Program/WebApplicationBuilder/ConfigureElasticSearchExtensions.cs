@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using System;
-using System.Linq;
-using System.Reflection;
-using Projections.Search;
 using Schema.Search;
 using ConfigurationBindings;
 using Extensions;

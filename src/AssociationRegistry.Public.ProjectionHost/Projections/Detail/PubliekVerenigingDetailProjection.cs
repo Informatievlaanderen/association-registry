@@ -5,7 +5,6 @@ using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
-using Marten.Schema;
 using Schema.Detail;
 using Vereniging;
 
