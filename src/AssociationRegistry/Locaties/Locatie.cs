@@ -10,9 +10,9 @@ public class Locatie
     public string Gemeente { get; }
     public string Land { get; }
     public bool IsHoofdlocatie { get; }
-    public string LocatieType { get; }
+    public string Locatietype { get; }
 
-    private Locatie(string? naam, string straatnaam, string huisnummer, string? busnummer, string postcode, string gemeente, string land, bool isHoofdlocatie, string locatieType)
+    private Locatie(string? naam, string straatnaam, string huisnummer, string? busnummer, string postcode, string gemeente, string land, bool isHoofdlocatie, string locatietype)
     {
         Naam = naam;
         Straatnaam = straatnaam;
@@ -22,7 +22,7 @@ public class Locatie
         Gemeente = gemeente;
         Land = land;
         IsHoofdlocatie = isHoofdlocatie;
-        LocatieType = locatieType;
+        Locatietype = locatietype;
     }
 
     public static Locatie CreateInstance(string? naam, string straatnaam, string huisnummer, string? busnummer, string postcode, string gemeente, string land, bool isHoofdlocatie, string locatieType)

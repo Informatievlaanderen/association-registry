@@ -42,24 +42,24 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         => locaties.Count(l => l.Hoofdlocatie) <= 1;
 
     private static bool NotHaveMultipleCorresporentieLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
-        => locaties.Count(l => string.Equals(l.LocatieType, LocatieTypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
+        => locaties.Count(l => string.Equals(l.Locatietype, Locatietypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
 
     private static bool NotHaveDuplicates(RegistreerVerenigingRequest.Locatie[] locaties)
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
     private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
-        => new { l.LocatieType, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
+        => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {
         public LocatieValidator()
         {
-            this.RequireNotNullOrEmpty(locatie => locatie.LocatieType);
+            this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
 
-            RuleFor(locatie => locatie.LocatieType)
+            RuleFor(locatie => locatie.Locatietype)
                 .Must(BeAValidLocationTypeValue)
-                .WithMessage($"'LocatieType' moet een geldige waarde hebben. ({LocatieTypes.Correspondentie}, {LocatieTypes.Activiteiten}")
-                .When(locatie => !string.IsNullOrEmpty(locatie.LocatieType));
+                .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietypes.Correspondentie}, {Locatietypes.Activiteiten}")
+                .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
             this.RequireNotNullOrEmpty(locatie => locatie.Straatnaam);
             this.RequireNotNullOrEmpty(locatie => locatie.Huisnummer);
@@ -69,7 +69,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         }
 
         private static bool BeAValidLocationTypeValue(string locatieType)
-            => LocatieTypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
+            => Locatietypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
     }
 
     private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)

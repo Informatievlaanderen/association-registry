@@ -44,5 +44,5 @@ public class RegistreerVerenigingCommandHandler
             loc.Gemeente,
             loc.Land,
             loc.Hoofdlocatie,
-            loc.LocatieType);
+            loc.Locatietype);
 }

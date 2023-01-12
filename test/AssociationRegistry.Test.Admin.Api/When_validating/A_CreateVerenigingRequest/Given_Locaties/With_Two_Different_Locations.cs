@@ -14,7 +14,7 @@ public class With_Two_Different_Locations : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var identiekLocatie = new RegistreerVerenigingRequest.Locatie
         {
-            LocatieType = LocatieTypes.Activiteiten,
+            Locatietype = Locatietypes.Activiteiten,
             Huisnummer = "23",
             Gemeente = "Zonnedorp",
             Postcode = "0123",
@@ -23,7 +23,7 @@ public class With_Two_Different_Locations : ValidatorTest
         };
         var andereLocatie = new RegistreerVerenigingRequest.Locatie
         {
-            LocatieType = LocatieTypes.Activiteiten,
+            Locatietype = Locatietypes.Activiteiten,
             Huisnummer = "23",
             Gemeente = "Anderdorp",
             Postcode = "0123",

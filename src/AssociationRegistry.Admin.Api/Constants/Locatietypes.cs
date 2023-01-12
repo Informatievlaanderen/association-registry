@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Constants;
 
-public class LocatieTypes
+public class Locatietypes
 {
     public const string Correspondentie = "Correspondentie";
     public const string Activiteiten = "Activiteiten";

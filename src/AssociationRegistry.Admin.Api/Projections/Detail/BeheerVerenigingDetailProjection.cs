@@ -43,7 +43,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         {
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
-            LocatieType = loc.LocatieType,
+            Locatietype = loc.Locatietype,
             Straatnaam = loc.Straatnaam,
             Huisnummer = loc.Huisnummer,
             Busnummer = loc.Busnummer,
@@ -80,7 +80,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
 
     public class Locatie
     {
-        public string LocatieType { get; set; } = null!;
+        public string Locatietype { get; set; } = null!;
 
         public bool Hoofdlocatie { get; set; }
 

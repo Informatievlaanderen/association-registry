@@ -44,7 +44,7 @@ public class Given_A_RegistreerVerenigingCommand_With_All_Data
                 },
                 new RegistreerVerenigingCommand.Locatie[]
                 {
-                    new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, LocatieTypes.Activiteiten),
+                    new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten),
                 }),
             _fixture.Create<CommandMetadata>());
 

@@ -5,10 +5,10 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class With_An_Empty_LocatieType : ValidatorTest
+public class Without_A_Locatietype : ValidatorTest
 {
     [Fact]
-    public void Then_it_has_validation_error__locatieType_mag_niet_leeg_zijn()
+    public void Then_it_has_validation_error__locatieType_is_verplicht()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
@@ -19,14 +19,13 @@ public class With_An_Empty_LocatieType : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = string.Empty,
                     Straatnaam = "dezeStraat",
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.LocatieType)}")
-            .WithErrorMessage("'LocatieType' mag niet leeg zijn.");
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Locatietype)}")
+            .WithErrorMessage("'Locatietype' is verplicht.");
     }
 }

@@ -20,11 +20,11 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Correspondentie,
+                    Locatietype = Locatietypes.Correspondentie,
                 },
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Correspondentie,
+                    Locatietype = Locatietypes.Correspondentie,
                 },
             },
         };

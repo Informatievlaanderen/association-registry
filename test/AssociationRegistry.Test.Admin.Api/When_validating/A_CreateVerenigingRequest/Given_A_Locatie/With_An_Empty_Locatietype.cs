@@ -1,17 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_CreateVerenigingRequest.Given_A_Locatie;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class With_A_Valid_LocatieType : ValidatorTest
+public class With_An_Empty_Locatietype : ValidatorTest
 {
-    [Theory]
-    [InlineData(LocatieTypes.Correspondentie)]
-    [InlineData(LocatieTypes.Activiteiten)]
-    public void Then_it_has_no_validation_errors(string locationType)
+    [Fact]
+    public void Then_it_has_validation_error__locatieType_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
@@ -22,17 +19,14 @@ public class With_A_Valid_LocatieType : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = locationType,
+                    Locatietype = string.Empty,
                     Straatnaam = "dezeStraat",
-                    Huisnummer = "23",
-                    Gemeente = "Zonnedorp",
-                    Postcode = "0123",
-                    Land = "Belgie",
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Locatietype)}")
+            .WithErrorMessage("'Locatietype' mag niet leeg zijn.");
     }
 }
