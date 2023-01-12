@@ -20,7 +20,7 @@ public class Without_A_Straatnaam : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Activiteiten,
+                    Locatietype = Locatietypes.Activiteiten,
                     Huisnummer = "23",
                     Gemeente = "Zonnedorp",
                     Postcode = "0123",

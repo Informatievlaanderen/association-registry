@@ -28,7 +28,7 @@ public class PubliekVerenigingDetailDocument
 
     public class Locatie
     {
-        public string LocatieType { get; set; } = null!;
+        public string Locatietype { get; set; } = null!;
 
         public bool Hoofdlocatie { get; set; }
 

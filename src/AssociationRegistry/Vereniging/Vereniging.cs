@@ -70,7 +70,7 @@ public class Vereniging
             loc.Gemeente,
             loc.Land,
             loc.IsHoofdlocatie,
-            loc.LocatieType);
+            loc.Locatietype);
 
     public IEnumerable<IEvent> Events { get; } = new List<IEvent>();
 }

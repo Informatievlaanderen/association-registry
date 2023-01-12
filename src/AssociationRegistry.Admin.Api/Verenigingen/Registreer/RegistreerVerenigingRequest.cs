@@ -90,7 +90,7 @@ public class RegistreerVerenigingRequest
         ///   - Correspondentie - Slecht één maal mogelijk<br/>
         /// </summary>
         [DataMember]
-        public string LocatieType { get; set; } = null!;
+        public string Locatietype { get; set; } = null!;
 
         /// <summary>
         /// Zet true als deze locatie de hoofdlocatie van de vereniging is.<br/>
@@ -165,5 +165,5 @@ public class RegistreerVerenigingRequest
             loc.Gemeente,
             loc.Land,
             loc.Hoofdlocatie,
-            loc.LocatieType);
+            loc.Locatietype);
 }

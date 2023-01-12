@@ -46,5 +46,5 @@ public record VerenigingWerdGeregistreerd(
         string Gemeente,
         string Land,
         bool Hoofdlocatie,
-        string LocatieType);
+        string Locatietype);
 }

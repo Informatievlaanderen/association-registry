@@ -62,7 +62,7 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
                     Gemeente = "Nothingham",
                     Land = "Belgie",
                     Hoofdlocatie = true,
-                    LocatieType = LocatieTypes.Correspondentie,
+                    Locatietype = Locatietypes.Correspondentie,
                 },
             },
         };

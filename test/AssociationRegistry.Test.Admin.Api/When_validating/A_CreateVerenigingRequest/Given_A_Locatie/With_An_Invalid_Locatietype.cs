@@ -7,7 +7,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class With_An_Invalid_LocatieType : ValidatorTest
+public class With_An_Invalid_Locatietype : ValidatorTest
 {
     [Fact]
     public void Then_it_has_validation_error__locatieType_moet_juiste_waarde_hebben()
@@ -21,13 +21,13 @@ public class With_An_Invalid_LocatieType : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = new Fixture().Create<string>(),
+                    Locatietype = new Fixture().Create<string>(),
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.LocatieType)}")
-            .WithErrorMessage($"'LocatieType' moet een geldige waarde hebben. ({LocatieTypes.Correspondentie}, {LocatieTypes.Activiteiten}");
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Locatietype)}")
+            .WithErrorMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietypes.Correspondentie}, {Locatietypes.Activiteiten}");
     }
 }

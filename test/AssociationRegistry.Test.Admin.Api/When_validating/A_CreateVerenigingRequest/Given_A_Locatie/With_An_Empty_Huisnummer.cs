@@ -20,7 +20,7 @@ public class With_An_Empty_Huisnummer : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Activiteiten,
+                    Locatietype = Locatietypes.Activiteiten,
                     Straatnaam = "Dezestraat",
                     Huisnummer = string.Empty,
                     Gemeente = "Zonnedorp",

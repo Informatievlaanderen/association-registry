@@ -20,12 +20,12 @@ public class With_Multiple_Hoofdlocaties : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Activiteiten,
+                    Locatietype = Locatietypes.Activiteiten,
                     Hoofdlocatie = true,
                 },
                 new RegistreerVerenigingRequest.Locatie
                 {
-                    LocatieType = LocatieTypes.Activiteiten,
+                    Locatietype = Locatietypes.Activiteiten,
                     Hoofdlocatie = true,
                 },
             },
