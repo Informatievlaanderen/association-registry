@@ -1,3 +1,10 @@
+## [1.101.3](https://github.com/informatievlaanderen/association-registry/compare/v1.101.2...v1.101.3) (2023-01-12)
+
+
+### Bug Fixes
+
+* or-1551 rename locatie type to locatietype in search projection ([3e591be](https://github.com/informatievlaanderen/association-registry/commit/3e591be1c5a1cb801f2f67e60d52b6354003c668))
+
 ## [1.101.2](https://github.com/informatievlaanderen/association-registry/compare/v1.101.1...v1.101.2) (2023-01-12)
 
 
