@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Print
         shell: bash
-        run: echo ${{ toJson(github.event.workflow_run.workflow.jobs ) }}
+        run: echo ${{ toJson(github.event.workflow_run ) }}
 
   deployment:
     environment: staging
