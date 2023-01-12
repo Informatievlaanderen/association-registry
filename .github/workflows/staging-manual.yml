@@ -7,6 +7,7 @@ on:
         description: 'Version (format: x.xxx.x, ie: 1.221.1)'
         required: true
 
+jobs:
   deployment:
     runs-on: ubuntu-latest
     strategy:
