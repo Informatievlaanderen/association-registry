@@ -21,8 +21,11 @@ public class DetailVerenigingenController : ApiController
     /// <summary>
     /// Vraag het detail van een vereniging op.
     /// </summary>
+    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
+    /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("{vCode}")]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]

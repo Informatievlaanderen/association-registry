@@ -35,6 +35,11 @@ public class RegistreerVerenigingController : ApiController
     /// <summary>
     /// Registreer een vereniging.
     /// </summary>
+    /// <remarks>
+    /// Bij het registreren van de vereniging wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
+    /// al is doorgestroomd naar deze endpoints.
+    /// </remarks>
     [HttpPost]
     [Consumes("application/json")]
     [Produces("application/json")]
