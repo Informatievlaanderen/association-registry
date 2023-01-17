@@ -108,7 +108,7 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         var eventStore = new EventStore(DocumentStore);
-        var sequence = await eventStore.Save(vCode, metadata, eventToAdd);
+        var sequence = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
         await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 

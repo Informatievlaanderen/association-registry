@@ -41,9 +41,4 @@ public class EventStore : IEventStore
         return await session.Events.AggregateStreamAsync<T>(id) ??
                throw new AggregateNotFoundException(id, typeof(T));
     }
-
-    // public async Task<IEventStream<Vereniging>> Load(IDocumentSession session, string vCode)
-    // {
-    //     return await session.Events.FetchForWriting<Vereniging>(vCode);
-    // }
 }
