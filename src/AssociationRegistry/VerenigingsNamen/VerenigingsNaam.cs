@@ -5,7 +5,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
 
-public class VerenigingsNaam : ValueObject<VerenigingsNaam>
+public class VerenigingsNaam : ValueObject<VerenigingsNaam>, IEquatable<string>
 {
     private readonly string _naam;
 
@@ -14,6 +14,9 @@ public class VerenigingsNaam : ValueObject<VerenigingsNaam>
         Throw<EmptyVerenigingsNaam>.IfNullOrWhiteSpace(naam);
         _naam = naam;
     }
+
+    public bool Equals(string? other)
+        => _naam.Equals(other);
 
     public override string ToString()
         => _naam;

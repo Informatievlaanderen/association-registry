@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging;
 
 using AutoFixture;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using global::AssociationRegistry.Framework;

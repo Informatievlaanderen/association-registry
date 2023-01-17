@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 
+using Events;
 using Vereniging;
 
 public static class Formatters

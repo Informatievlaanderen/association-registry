@@ -1,17 +1,33 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler;
 
 using global::AssociationRegistry.Framework;
+using VCodes;
 using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
-    public record Invocation(Vereniging Vereniging);
+    private readonly Vereniging? _verenigingToLoad;
 
-    public readonly List<Invocation> Invocations = new();
+    public record InvocationSave(Vereniging Vereniging);
+    public record InvocationLoad(VCode VCode);
+
+    public readonly List<InvocationSave> InvocationsSave = new();
+    public readonly List<InvocationLoad> InvocationsLoad = new();
+
+    public VerenigingRepositoryMock(Vereniging? verenigingToLoad = null)
+    {
+        _verenigingToLoad = verenigingToLoad;
+    }
 
     public async Task<long> Save(Vereniging vereniging, CommandMetadata metadata)
     {
-        Invocations.Add(new Invocation(vereniging));
+        InvocationsSave.Add(new InvocationSave(vereniging));
         return await Task.FromResult(-1L);
+    }
+
+    public async Task<Vereniging> Load(VCode vCode)
+    {
+        InvocationsLoad.Add(new InvocationLoad(vCode));
+        return (await Task.FromResult(_verenigingToLoad))!;
     }
 }

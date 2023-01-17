@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.When_handling_a_RegistreerVerenigingCommand;
 
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using global::AssociationRegistry.Admin.Api.Constants;
 using global::AssociationRegistry.Framework;
 using Vereniging;
+using Vereniging.RegistreerVereniging;
 using Xunit;
 
 public class Given_A_RegistreerVerenigingCommand_With_All_Data
@@ -50,9 +52,9 @@ public class Given_A_RegistreerVerenigingCommand_With_All_Data
 
         await handler.Handle(registreerVerenigingCommand, CancellationToken.None);
 
-        var invocation = verenigingsRepository.Invocations.Single();
+        var invocation = verenigingsRepository.InvocationsSave.Single();
         invocation.Vereniging.VCode.Should().Be(vNummerService.GetLast());
-        var theEvent = (VerenigingWerdGeregistreerd)invocation.Vereniging.Events.Single();
+        var theEvent = (VerenigingWerdGeregistreerd)invocation.Vereniging.UncommittedEvents.Single();
 
         theEvent.VCode.Should().Be(vNummerService.GetLast());
         theEvent.Naam.Should().Be("naam1");

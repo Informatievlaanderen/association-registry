@@ -4,34 +4,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ContactInfo;
+using Events;
 using Framework;
 using KboNummers;
 using Locaties;
+using Marten.Schema;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 
 public class Vereniging
 {
-    private class State
+    public record State
     {
-        public VCode VCode { get; }
+        public VCode VCode { get; set; }
+        public string Naam { get; set; }
 
-        private State(string vCode)
+        public State(string vCode)
         {
             VCode = VCode.Create(vCode);
         }
-
-        public static State Apply(VerenigingWerdGeregistreerd @event)
-            => new(@event.VCode);
     }
 
-    private readonly State _state;
+    private State _state;
 
+    [Identity]
     public string VCode
-        => _state.VCode;
+    {
+        get => _state.VCode;
+        set => _state = _state with { VCode = VCodes.VCode.Create(value) };
+    }
 
-    public Vereniging(
+    public Vereniging()
+    {
+    }
+
+    private Vereniging(
         VCode vCode,
         VerenigingsNaam naam,
         string? korteNaam,
@@ -40,7 +48,7 @@ public class Vereniging
         KboNummer? kboNummer,
         ContactLijst contactLijst,
         LocatieLijst locatieLijst,
-        DateOnly today)
+        DateOnly datumLaatsteAanpassing)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -51,11 +59,17 @@ public class Vereniging
             kboNummer?.ToString(),
             VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(contactLijst),
             ToLocatieLijst(locatieLijst),
-            today);
+            datumLaatsteAanpassing);
 
-        _state = State.Apply(verenigingWerdGeregistreerdEvent);
-        Events = Events.Append(verenigingWerdGeregistreerdEvent);
+        Apply(verenigingWerdGeregistreerdEvent);
+        UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
+
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, DateOnly datumLaatsteAanpassing)
+        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, datumLaatsteAanpassing);
+
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
+        => new(vCode: vCode, naam: naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, datumLaatsteAanpassing);
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();
@@ -72,5 +86,26 @@ public class Vereniging
             loc.IsHoofdlocatie,
             loc.Locatietype);
 
-    public IEnumerable<IEvent> Events { get; } = new List<IEvent>();
+    public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
+
+    public void ClearEvents()
+    {
+        UncommittedEvents = new List<IEvent>();
+    }
+
+    public void WijzigNaam(VerenigingsNaam naam)
+    {
+        if (naam.Equals(_state.Naam)) return;
+
+        var @event = new NaamWerdGewijzigd(VCode, naam);
+        Apply(@event);
+        UncommittedEvents = UncommittedEvents.Append(@event);
+    }
+
+    public void Apply(VerenigingWerdGeregistreerd @event)
+        => _state = new State(@event.VCode) { Naam = @event.Naam };
+
+    public void Apply(NaamWerdGewijzigd @event)
+        => _state = _state with { Naam = @event.Naam };
+
 }
