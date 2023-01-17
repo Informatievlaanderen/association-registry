@@ -57,13 +57,13 @@ public class Given_Multiple_Verenigingen_With_Minimal_Data : IClassFixture<Given
     [InlineData(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.VCode2)]
     public async Task Then_we_get_a_detail_vereniging_response(string vCode)
     {
-        var responseMessage = await _adminApiClient.GetDetail(vCode);
+        var responseMessage = await _adminApiClient.GetDetail(vCode.ToUpperInvariant());
 
         var content = await responseMessage.Content.ReadAsStringAsync();
 
         var jObject = JsonConvert.DeserializeObject<JObject>(content)!;
 
-        jObject.SelectToken("vereniging.vCode")!.Value<string>().Should().Be(vCode);
+        jObject.SelectToken("vereniging.vCode")!.Value<string>().Should().Be(vCode.ToUpperInvariant());
         jObject.SelectToken("vereniging.naam")!.Value<string>().Should()
             .Be(Given_Multiple_Verenigingen_With_Minimal_Data_Fixture.Events[vCode].Naam);
     }

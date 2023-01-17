@@ -13,7 +13,7 @@ using Xunit;
 public class With_A_Naam_Fixture : AdminApiFixture2
 {
     public HttpResponseMessage Response = null!;
-    public const string VCode = "v0001001";
+    public const string VCode = "V0001001";
     public const string NieuweVerenigingsNaam = "De nieuwe vereniging";
     private const string JsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
 
