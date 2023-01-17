@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_veren
 
 using System.Net;
 using System.Text.RegularExpressions;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;

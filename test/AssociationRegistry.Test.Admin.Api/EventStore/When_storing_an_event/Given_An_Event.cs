@@ -15,7 +15,7 @@ public class Given_An_Event_Fixture : AdminApiFixture
     }
 }
 
-public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>
+public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
 {
     private readonly AdminApiFixture _fixture;
 
@@ -25,7 +25,6 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>
     }
 
     [Fact]
-    // TODO clear DB after test
     public async Task Then_it_is_persisted_in_the_database()
     {
         // arrange
@@ -63,4 +62,9 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     private record SomeEvent(string Name) : IEvent;
+
+    public void Dispose()
+    {
+        _fixture.DocumentStore.Advanced.Clean.DeleteAllEventData();
+    }
 }

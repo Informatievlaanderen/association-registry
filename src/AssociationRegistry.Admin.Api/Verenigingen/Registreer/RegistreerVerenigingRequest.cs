@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using Vereniging;
+using Vereniging.RegistreerVereniging;
 
 [DataContract]
 public class RegistreerVerenigingRequest

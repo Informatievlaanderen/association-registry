@@ -2,6 +2,7 @@
 
 using System.Net;
 using AutoFixture;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;
@@ -11,7 +12,6 @@ using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Vereniging;
 using Xunit;
 using AppSettings = global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings.AppSettings;
 

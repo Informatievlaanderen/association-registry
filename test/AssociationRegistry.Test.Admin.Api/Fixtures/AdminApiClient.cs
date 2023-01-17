@@ -22,9 +22,10 @@ public class AdminApiClient : IDisposable
         => await _httpClient.PostAsync("/v1/verenigingen", content.AsJsonContent());
 
     private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
-        => expectedSequence == null ?
-            await _httpClient.GetAsync(requestUri) :
-            await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
+        => expectedSequence == null ? await _httpClient.GetAsync(requestUri) : await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
+
+    public async Task<HttpResponseMessage> PatchVereniging(string vCode, string content)
+        => await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
 
     public void Dispose()
     {

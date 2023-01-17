@@ -2,6 +2,7 @@
 
 using System.Net;
 using AutoFixture;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;

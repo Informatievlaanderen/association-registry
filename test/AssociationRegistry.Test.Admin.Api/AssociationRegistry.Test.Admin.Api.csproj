@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
@@ -19,6 +20,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Given_A_Vereniging\When_Retrieving_Historiek_Then_we_get_a_historiek_response.json" />
     <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_all_fields.json" />
     <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
     <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
@@ -29,7 +31,6 @@
     <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.missing_name_error.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="When_retrieving_historiek_for_a_vereniging\Given_A_Vereniging_With_Historiek_Then_we_get_a_historiek_response.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />

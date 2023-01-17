@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.ContactInfo;
 
 using Vereniging;
+using Vereniging.RegistreerVereniging;
 
 public class ContactLijst : List<ContactInfo>
 {

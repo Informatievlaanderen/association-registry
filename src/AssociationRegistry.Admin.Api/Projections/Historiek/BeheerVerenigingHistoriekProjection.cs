@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Framework;
 using Vereniging;
 using Detail;
+using Events;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;

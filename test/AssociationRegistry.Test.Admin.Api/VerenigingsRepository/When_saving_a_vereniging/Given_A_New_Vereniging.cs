@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingsRepository.When_saving_a
 using AssociationRegistry.EventStore;
 using AutoFixture;
 using ContactInfo;
+using Events;
 using FluentAssertions;
 using global::AssociationRegistry.Framework;
 using Locaties;
@@ -10,19 +11,6 @@ using VCodes;
 using Vereniging;
 using VerenigingsNamen;
 using Xunit;
-
-public class EventStoreMock : IEventStore
-{
-    public record Invocation(string AggregateId, IEvent[] Events);
-
-    public readonly List<Invocation> Invocations = new();
-
-    public async Task<long> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
-    {
-        Invocations.Add(new Invocation(aggregateId, events));
-        return await Task.FromResult(-1);
-    }
-}
 
 public class Given_A_New_Vereniging
 {
@@ -35,7 +23,7 @@ public class Given_A_New_Vereniging
 
         var vCode = VCode.Create(1001);
         var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = new Vereniging(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+        var vereniging = Vereniging.Registreer(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
         eventStore.Invocations.Should().HaveCount(1);

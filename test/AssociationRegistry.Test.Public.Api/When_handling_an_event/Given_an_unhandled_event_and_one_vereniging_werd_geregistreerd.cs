@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.When_handling_an_event;
 
 using System.Text.RegularExpressions;
 using AssociationRegistry.Framework;
+using Events;
 using Fixtures;
 using Framework;
 using Vereniging;

@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using Events;
 using Infrastructure.Extensions;
 using Framework;
 using Vereniging;
