@@ -45,7 +45,7 @@ public class VerenigingenHistoriekController : ApiController
             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
-            .Where(document => document.VCode == vCode)
+            .WithVCode(vCode)
             .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)

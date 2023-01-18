@@ -28,7 +28,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 public record BeheerVerenigingHistoriekDocument(
     [property: Identity] string VCode,
     List<BeheerVerenigingHistoriekGebeurtenis> Gebeurtenissen,
-    Metadata Metadata) : IMetadata;
+    Metadata Metadata) : IMetadata, IVCode;
 
 public record BeheerVerenigingHistoriekGebeurtenis(
     string Gebeurtenis,

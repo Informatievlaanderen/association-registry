@@ -57,7 +57,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
 
 public class BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
-    [Identity] public string VCode { get; set; } = null!;
+    [Identity] public string VCode { get; init; } = null!;
 
     public string Naam { get; set; } = null!;
     public string? KorteNaam { get; set; }
