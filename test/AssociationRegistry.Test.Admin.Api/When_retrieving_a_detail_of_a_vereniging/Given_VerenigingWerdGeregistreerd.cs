@@ -13,13 +13,13 @@ using global::AssociationRegistry.Framework;
 using VCodes;
 using Xunit;
 
-public class Given_A_Vereniging_Fixture : AdminApiFixture
+public class Given_VerenigingWerdGeregistreerd_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
 
-    public Given_A_Vereniging_Fixture() : base(nameof(Given_A_Vereniging_Fixture))
+    public Given_VerenigingWerdGeregistreerd_Fixture() : base(nameof(Given_VerenigingWerdGeregistreerd_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         VCode = _fixture.Create<VCode>();
@@ -38,13 +38,13 @@ public class Given_A_Vereniging_Fixture : AdminApiFixture
     }
 }
 
-public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
+public class Given_VerenigingWerdGeregistreerd : IClassFixture<Given_VerenigingWerdGeregistreerd_Fixture>
 {
     private readonly string _vCode;
-    private readonly Given_A_Vereniging_Fixture _fixture;
+    private readonly Given_VerenigingWerdGeregistreerd_Fixture _fixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_A_Vereniging(Given_A_Vereniging_Fixture fixture)
+    public Given_VerenigingWerdGeregistreerd(Given_VerenigingWerdGeregistreerd_Fixture fixture)
     {
         _fixture = fixture;
         _vCode = fixture.VCode;
