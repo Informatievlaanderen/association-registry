@@ -11,7 +11,7 @@ using Xunit;
 
 public class Given_A_Vereniging_Fixture : PublicApiFixture
 {
-    public const string VCode = "v000001";
+    public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
 
     public Given_A_Vereniging_Fixture() : base(nameof(Given_A_Vereniging_Fixture))
@@ -37,7 +37,7 @@ public class Given_A_Vereniging_Fixture : PublicApiFixture
 
 public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
 {
-    private const string VCode = "v000001";
+    private const string VCode = "V000001";
     private readonly PublicApiClient _publicApiClient;
 
     public Given_A_Vereniging(Given_A_Vereniging_Fixture fixture)

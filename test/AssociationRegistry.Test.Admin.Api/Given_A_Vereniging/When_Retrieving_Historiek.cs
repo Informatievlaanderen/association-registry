@@ -12,7 +12,7 @@ using Xunit;
 public class When_Retrieving_Historiek_Fixture : AdminApiFixture
 {
     public long Sequence { get; private set; }
-    public const string VCode = "v0001001";
+    public const string VCode = "V0001001";
 
     public When_Retrieving_Historiek_Fixture() : base(nameof(When_Retrieving_Historiek_Fixture))
     {
