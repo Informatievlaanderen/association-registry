@@ -11,9 +11,10 @@ using Marten.Schema;
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
     public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
-        => new(
-            verenigingWerdGeregistreerd.Data.VCode,
-            new List<BeheerVerenigingHistoriekGebeurtenis>
+        => new()
+        {
+            VCode = verenigingWerdGeregistreerd.Data.VCode,
+            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
             {
                 new(
                     nameof(VerenigingWerdGeregistreerd),
@@ -21,13 +22,28 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
                 ),
             },
-            new Metadata(verenigingWerdGeregistreerd.Sequence));
+            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
+        };
+
+    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen.Add(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                nameof(NaamWerdGewijzigd),
+                naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
+                naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
+        );
+        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
+    }
 }
 
-public record BeheerVerenigingHistoriekDocument(
-    [property: Identity] string VCode,
-    List<BeheerVerenigingHistoriekGebeurtenis> Gebeurtenissen,
-    Metadata Metadata) : IMetadata, IVCode;
+public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode
+{
+    [Identity] public string VCode { get; set; } = null!;
+    public List<BeheerVerenigingHistoriekGebeurtenis> Gebeurtenissen { get; set; } = null!;
+    public Metadata Metadata { get; set; } = null!;
+}
 
 public record BeheerVerenigingHistoriekGebeurtenis(
     string Gebeurtenis,

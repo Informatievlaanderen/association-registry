@@ -25,18 +25,24 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing ?? DateOnly.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
-                            c => new BeheerVerenigingDetailDocument.ContactInfo()
-                            {
-                                Contactnaam = c.Contactnaam,
-                                Email = c.Email,
-                                Telefoon = c.Telefoon,
-                                Website = c.Website,
-                                SocialMedia = c.SocialMedia,
-                            }).ToArray()
-                        ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
+                                   c => new BeheerVerenigingDetailDocument.ContactInfo()
+                                   {
+                                       Contactnaam = c.Contactnaam,
+                                       Email = c.Email,
+                                       Telefoon = c.Telefoon,
+                                       Website = c.Website,
+                                       SocialMedia = c.SocialMedia,
+                                   }).ToArray()
+                               ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
         };
+
+    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Naam = naamWerdGewijzigd.Data.Naam;
+        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
+    }
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
