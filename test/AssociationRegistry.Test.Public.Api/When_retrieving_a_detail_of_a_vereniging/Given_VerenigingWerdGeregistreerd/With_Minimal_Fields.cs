@@ -1,19 +1,19 @@
-namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
+namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging.Given_VerenigingWerdGeregistreerd;
 
 using System.Text.RegularExpressions;
-using Events;
-using Fixtures;
+using AssociationRegistry.Events;
+using AssociationRegistry.Public.Api.Constants;
+using AssociationRegistry.Test.Public.Api.Fixtures;
+using AssociationRegistry.Test.Public.Api.Framework;
 using FluentAssertions;
-using Framework;
-using global::AssociationRegistry.Public.Api.Constants;
 using Xunit;
 
-public class Given_VerenigingWerdGeregistreerd_Fixture : PublicApiFixture
+public class With_Minimal_Fields_Fixture : PublicApiFixture
 {
     public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
 
-    public Given_VerenigingWerdGeregistreerd_Fixture() : base(nameof(Given_VerenigingWerdGeregistreerd_Fixture))
+    public With_Minimal_Fields_Fixture() : base(nameof(With_Minimal_Fields_Fixture))
     {
     }
 
@@ -34,12 +34,12 @@ public class Given_VerenigingWerdGeregistreerd_Fixture : PublicApiFixture
     }
 }
 
-public class Given_VerenigingWerdGeregistreerd : IClassFixture<Given_VerenigingWerdGeregistreerd_Fixture>
+public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 {
     private const string VCode = "V000001";
     private readonly PublicApiClient _publicApiClient;
 
-    public Given_VerenigingWerdGeregistreerd(Given_VerenigingWerdGeregistreerd_Fixture werdGeregistreerdFixture)
+    public With_Minimal_Fields(With_Minimal_Fields_Fixture werdGeregistreerdFixture)
     {
         _publicApiClient = werdGeregistreerdFixture.PublicApiClient;
     }
@@ -67,7 +67,7 @@ public class Given_VerenigingWerdGeregistreerd : IClassFixture<Given_VerenigingW
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_VerenigingWerdGeregistreerd)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(With_Minimal_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

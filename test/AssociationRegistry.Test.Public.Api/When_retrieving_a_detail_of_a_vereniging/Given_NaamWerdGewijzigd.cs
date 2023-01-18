@@ -62,7 +62,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fix
     }
 
     [Fact]
-    public async Task Then_we_get_a_detail_vereniging_response()
+    public async Task Then_we_get_a_detail_vereniging_response_with_the_new_name()
     {
         var responseMessage = await _publicApiClient.GetDetail(VCode);
 
@@ -70,7 +70,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fix
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_VerenigingWerdGeregistreerd)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(Given_NaamWerdGewijzigd)}_{nameof(Then_we_get_a_detail_vereniging_response_with_the_new_name)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

@@ -60,8 +60,8 @@ public class RegistreerVerenigingController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
-        var registratieResult = await _bus.InvokeAsync<RegistratieResult>(envelope);
+        var registratieResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-        return this.AcceptedRegistratie(_appSettings, registratieResult);
+        return this.AcceptedCommand(_appSettings, registratieResult);
     }
 }

@@ -21,7 +21,7 @@ public class RegistreerVerenigingCommandHandler
         _clock = clock;
     }
 
-    public async Task<RegistratieResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> message, CancellationToken cancellationToken)
+    public async Task<CommandResult> Handle(CommandEnvelope<RegistreerVerenigingCommand> message, CancellationToken cancellationToken)
     {
         var command = message.Command;
         var naam = new VerenigingsNaam(command.Naam);
@@ -32,7 +32,7 @@ public class RegistreerVerenigingCommandHandler
         var vCode = await _vCodeService.GetNext();
         var vereniging = Vereniging.Registreer(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contactInfoLijst, locatieLijst, _clock.Today);
         var sequence = await _verenigingsRepository.Save(vereniging, message.Metadata);
-        return new RegistratieResult(vCode, sequence);
+        return new CommandResult(vCode, sequence);
     }
     private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
         => Locatie.CreateInstance(
