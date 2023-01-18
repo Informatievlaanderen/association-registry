@@ -1,3 +1,20 @@
+# [1.103.0](https://github.com/informatievlaanderen/association-registry/compare/v1.102.0...v1.103.0) (2023-01-18)
+
+
+### Bug Fixes
+
+* or-1365 fix warnigs ([08eba1f](https://github.com/informatievlaanderen/association-registry/commit/08eba1fa6a44ced065cf25fa3752855d3371feb1))
+
+
+### Features
+
+* or-1193 expand docs ([0638a84](https://github.com/informatievlaanderen/association-registry/commit/0638a8498275ea6f94bde892edc5f58decdcd28e))
+* or-1365 add projections ([4407189](https://github.com/informatievlaanderen/association-registry/commit/44071897bc40a53f32d1fb3130026ea9195a4c22))
+* or-1365 add sequence header in response ([08f2832](https://github.com/informatievlaanderen/association-registry/commit/08f2832cccc31b9ef5c112bfc5a36b4ff5417a0a))
+* or-1365 allow wijzig naam ([d808564](https://github.com/informatievlaanderen/association-registry/commit/d808564a86e57475d9a10d1166b059a2d0a1cbf3))
+* or-1365 ignore null naam ([1c8e524](https://github.com/informatievlaanderen/association-registry/commit/1c8e52462c1130ac909e851230287dc201655fab))
+* or-1365 use testcontainer for postgresDb AdminApi ([c9ae1c3](https://github.com/informatievlaanderen/association-registry/commit/c9ae1c3208c5d771d263458f7083849d722a7de4))
+
 # [1.102.0](https://github.com/informatievlaanderen/association-registry/compare/v1.101.5...v1.102.0) (2023-01-12)
 
 
