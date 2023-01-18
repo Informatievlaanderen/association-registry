@@ -6,23 +6,22 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using Framework.Helpers;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
-using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
 
 public class AdminApiFixture : IDisposable, IAsyncLifetime
 {
-    private readonly string _dbName = "a_";
-
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
+    private readonly PostgreSqlTestcontainer _pgContainer;
     private IProjectionDaemon _daemon;
 
     public IDocumentStore DocumentStore
@@ -36,33 +35,42 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected AdminApiFixture(string dbName)
     {
-        _dbName += dbName;
+        _pgContainer = new TestcontainersBuilder<PostgreSqlTestcontainer>()
+            .WithDatabase(
+                new PostgreSqlTestcontainerConfiguration()
+                {
+                    Database = "a_" + dbName,
+                    Username = "username",
+                    Password = "password",
+                })
+            .WithCleanUp(true)
+            .Build();
+        _pgContainer.StartAsync().GetAwaiter().GetResult();
+
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _pgContainer.Database);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Host)}", _pgContainer.Hostname + ":" + _pgContainer.Port);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Password)}", _pgContainer.Password);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Username)}", _pgContainer.Username);
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(new []
-                                {
-                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _dbName),
-                                })
+                                .AddInMemoryCollection(
+                                    new[]
+                                    {
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _pgContainer.Database),
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Host)}", _pgContainer.Hostname + ":" + _pgContainer.Port),
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Password)}", _pgContainer.Password),
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Username)}", _pgContainer.Username),
+                                    })
                     );
-                    builder.ConfigureServices(
-                        (context, _) =>
-                        {
-                            EnsureDbExists(context.Configuration.GetPostgreSqlOptionsSection());
-                        });
                 });
-        var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
-        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
-            .GetAwaiter().GetResult();
-
         _daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
         _daemon.StartAllShards().GetAwaiter().GetResult();
     }
@@ -102,10 +110,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task<long> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
-        if (DocumentStore is not { })
-            throw new NullException("DocumentStore cannot be null when adding an event");
-
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = _webApplicationFactory.Services.GetRequiredService<IEventStore>();
         var sequence = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
         await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
@@ -116,6 +121,7 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        _pgContainer.StopAsync().GetAwaiter().GetResult();
         AdminApiClient.Dispose();
         _webApplicationFactory.Dispose();
     }

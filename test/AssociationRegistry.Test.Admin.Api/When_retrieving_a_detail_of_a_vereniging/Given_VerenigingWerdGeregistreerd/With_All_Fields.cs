@@ -1,25 +1,25 @@
-namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging;
+namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging.Given_VerenigingWerdGeregistreerd;
 
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AutoFixture;
 using Events;
+using AssociationRegistry.Framework;
 using Fixtures;
-using FluentAssertions;
 using Framework;
-using global::AssociationRegistry.Framework;
 using VCodes;
+using AutoFixture;
+using FluentAssertions;
 using Xunit;
 
-public class Given_VerenigingWerdGeregistreerd_Fixture : AdminApiFixture
+public class With_All_Fields_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
 
-    public Given_VerenigingWerdGeregistreerd_Fixture() : base(nameof(Given_VerenigingWerdGeregistreerd_Fixture))
+    public With_All_Fields_Fixture() : base(nameof(With_All_Fields_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         VCode = _fixture.Create<VCode>();
@@ -38,13 +38,13 @@ public class Given_VerenigingWerdGeregistreerd_Fixture : AdminApiFixture
     }
 }
 
-public class Given_VerenigingWerdGeregistreerd : IClassFixture<Given_VerenigingWerdGeregistreerd_Fixture>
+public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 {
     private readonly string _vCode;
-    private readonly Given_VerenigingWerdGeregistreerd_Fixture _fixture;
+    private readonly With_All_Fields_Fixture _fixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_VerenigingWerdGeregistreerd(Given_VerenigingWerdGeregistreerd_Fixture fixture)
+    public With_All_Fields(With_All_Fields_Fixture fixture)
     {
         _fixture = fixture;
         _vCode = fixture.VCode;
