@@ -6,46 +6,37 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Fixtures;
 using AutoFixture;
 using FluentAssertions;
-using Marten;
-using NodaTime.Extensions;
+using Framework;
+using VCodes;
 using Xunit;
 
 public class With_A_Naam_Fixture : AdminApiFixture2
 {
     public HttpResponseMessage Response = null!;
-    public const string VCode = "V0001001";
+    private readonly string _vCode;
+    private readonly Fixture _fixture;
     public const string NieuweVerenigingsNaam = "De nieuwe vereniging";
-    private const string JsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
 
     public With_A_Naam_Fixture() : base(
         nameof(With_A_Naam_Fixture))
     {
+        _fixture = new Fixture().CustomizeAll();
+        _vCode = _fixture.Create<VCode>();
     }
 
     protected override async Task Given()
     {
-        var fixture = new Fixture();
         await AddEvent(
-            VCode,
-            new VerenigingWerdGeregistreerd(
-                VCode,
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                fixture.Create<string>(),
-                DateOnly.FromDateTime(fixture.Create<DateTime>()),
-                fixture.Create<string>(),
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(DateTime.Today)),
-            new CommandMetadata(
-                fixture.Create<string>(),
-                new DateTime(2022, 1, 1).ToUniversalTime().ToInstant())
+            _vCode,
+            _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = _vCode },
+            _fixture.Create<CommandMetadata>()
         );
     }
 
     protected override async Task When()
     {
-        Response = await AdminApiClient.PatchVereniging(VCode, JsonBody);
+        var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
+        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody);
     }
 }
 

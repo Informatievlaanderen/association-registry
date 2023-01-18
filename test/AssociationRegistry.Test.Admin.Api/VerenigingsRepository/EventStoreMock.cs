@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingsRepository.When_saving_a_vereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingsRepository;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
