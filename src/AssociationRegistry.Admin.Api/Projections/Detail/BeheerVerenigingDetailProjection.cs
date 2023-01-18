@@ -8,6 +8,7 @@ using Framework;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using NodaTime.Text;
 
 public record Metadata(long Sequence);
 
@@ -22,7 +23,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing ?? DateOnly.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)),
+            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing!.Value /*?? DateOnly.FromDateTime(InstantPattern.General.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)).Value))*/,
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
                                    c => new BeheerVerenigingDetailDocument.ContactInfo()

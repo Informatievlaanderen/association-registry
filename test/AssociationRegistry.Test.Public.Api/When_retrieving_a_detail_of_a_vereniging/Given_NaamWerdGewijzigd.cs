@@ -8,12 +8,12 @@ using Framework;
 using global::AssociationRegistry.Public.Api.Constants;
 using Xunit;
 
-public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : PublicApiFixture
+public class Given_NaamWerdGewijzigd_Fixture : PublicApiFixture
 {
     public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
 
-    public Given_A_Vereniging_With_A_Changed_Naam_Fixture() : base(nameof(Given_A_Vereniging_With_A_Changed_Naam_Fixture))
+    public Given_NaamWerdGewijzigd_Fixture() : base(nameof(Given_NaamWerdGewijzigd_Fixture))
     {
     }
 
@@ -37,14 +37,14 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : PublicApiFixture
     }
 }
 
-public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vereniging_With_A_Changed_Naam_Fixture>
+public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fixture>
 {
     private const string VCode = "V000001";
     private readonly PublicApiClient _publicApiClient;
 
-    public Given_A_Vereniging_With_A_Changed_Naam(Given_A_Vereniging_With_A_Changed_Naam_Fixture fixture)
+    public Given_NaamWerdGewijzigd(Given_NaamWerdGewijzigd_Fixture werdGewijzigdFixture)
     {
-        _publicApiClient = fixture.PublicApiClient;
+        _publicApiClient = werdGewijzigdFixture.PublicApiClient;
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(Given_VerenigingWerdGeregistreerd)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
