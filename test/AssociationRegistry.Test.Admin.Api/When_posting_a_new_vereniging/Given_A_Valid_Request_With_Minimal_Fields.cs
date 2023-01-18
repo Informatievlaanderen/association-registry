@@ -8,7 +8,6 @@ using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture

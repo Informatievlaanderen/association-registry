@@ -19,8 +19,8 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                 Land = "België",
                 Locatietype = Locatietypes.Activiteiten,
                 Postcode = "1000",
-                Straatnaam = "Straatnaam"
-            }
+                Straatnaam = "Straatnaam",
+            },
         }, KboNummer = "BE0123456789",
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
             ContactInfoLijst = new []
@@ -31,8 +31,8 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Email = "algemeen@example.com",
                     Telefoon = "000000000",
                     Website = "https://example.com",
-                    SocialMedia = "@example"
-                }
-            }
+                    SocialMedia = "@example",
+                },
+            },
         };
 }

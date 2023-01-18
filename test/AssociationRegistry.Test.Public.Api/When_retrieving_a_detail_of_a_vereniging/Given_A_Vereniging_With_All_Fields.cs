@@ -8,7 +8,6 @@ using Framework;
 using global::AssociationRegistry.Framework;
 using global::AssociationRegistry.Public.Api.Constants;
 using NodaTime.Extensions;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture

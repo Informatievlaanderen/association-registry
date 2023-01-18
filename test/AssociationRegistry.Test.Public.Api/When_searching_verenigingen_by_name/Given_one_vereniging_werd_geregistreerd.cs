@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_nam
 using System.Text.RegularExpressions;
 using Events;
 using Framework;
-using Vereniging;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

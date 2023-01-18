@@ -4,7 +4,6 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Projections.Detail;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -84,9 +83,9 @@ public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
             ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
             ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
-            ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
             ""status"": ""Actief"",
-            ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst.Select(x => $@"{{
+            ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
                 ""contactnaam"": ""{x.Contactnaam}"",
                 ""email"": ""{x.Email}"",
                 ""telefoon"": ""{x.Telefoon}"",
@@ -94,7 +93,7 @@ public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
                 ""socialMedia"": ""{x.SocialMedia}""
             }}"))}
             ],
-            ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+            ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
                 ""locatietype"": ""{x.Locatietype}"",
                 { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
                 ""adres"": ""{x.ToAdresString()}"",
@@ -113,9 +112,6 @@ public class Given_A_Vereniging : IClassFixture<Given_A_Vereniging_Fixture>
         }}
         }}
 ";
-
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(expected);
     }

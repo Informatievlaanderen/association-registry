@@ -4,7 +4,6 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using global::AssociationRegistry.Framework;
-using Vereniging;
 using Vereniging.RegistreerVereniging;
 using Xunit;
 

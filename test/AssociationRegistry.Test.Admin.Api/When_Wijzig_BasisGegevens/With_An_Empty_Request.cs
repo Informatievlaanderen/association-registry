@@ -1,12 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_BasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AutoFixture;
+using Fixtures;
 using FluentAssertions;
-using NodaTime.Extensions;
 using Xunit;
 
 public class With_An_Empty_Request_Fixture : AdminApiFixture

@@ -6,9 +6,6 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Framework;
 using JasperFx.Core.Reflection;
 using Marten;
-using Marten.Events;
-using VCodes;
-using Vereniging;
 using IEvent = Framework.IEvent;
 
 public class EventStore : IEventStore

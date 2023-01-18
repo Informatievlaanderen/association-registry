@@ -7,7 +7,6 @@ using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Framework;
 using NodaTime.Extensions;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
@@ -91,6 +90,8 @@ public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Verenigi
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
             $"{nameof(Given_A_Vereniging_With_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+
+        goldenMaster = goldenMaster.Replace("{vCode}", VCode);
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

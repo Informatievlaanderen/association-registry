@@ -6,7 +6,6 @@ using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Vereniging;
 using Xunit;
 
 public class Given_Two_Verenigingen_With_Minimal_Data_Fixture : PublicApiFixture

@@ -4,31 +4,25 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Marten;
-using Moq;
 using VCodes;
 using Vereniging;
 using Vereniging.WijzigBasisgegevens;
-using VerenigingsNamen;
 using Xunit;
 
 public class With_A_Naam
 {
     private const string VCodeValue = "V0001001";
-    private readonly WijzigBasisgegevensCommand _command;
-    private readonly WijzigBasisgegevensCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private VerenigingRepositoryMock.InvocationSave _invocationSave;
+    private readonly VerenigingRepositoryMock.InvocationSave _invocationSave;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private const string NieuweNaam = "De nieuwe naam";
 
     public With_A_Naam()
     {
-        _commandHandler = new WijzigBasisgegevensCommandHandler();
-        _command = new WijzigBasisgegevensCommand(VCodeValue,NieuweNaam);
-        _fixture = new Fixture();
+        var commandHandler = new WijzigBasisgegevensCommandHandler();
+        var command = new WijzigBasisgegevensCommand(VCodeValue,NieuweNaam);
+        var fixture = new Fixture();
 
-        var commandMetadata = _fixture.Create<CommandMetadata>();
+        var commandMetadata = fixture.Create<CommandMetadata>();
 
         var naam = "GRUB";
         var datumLaatsteAanpassing = new DateOnly(2023, 1, 1);
@@ -40,8 +34,8 @@ public class With_A_Naam
         var verenigingRepositoryMock = new VerenigingRepositoryMock(
             vereniging);
         _verenigingRepositoryMock = verenigingRepositoryMock;
-        _commandHandler.Handle(
-            new CommandEnvelope<WijzigBasisgegevensCommand>(_command, commandMetadata),
+        commandHandler.Handle(
+            new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
             _verenigingRepositoryMock).GetAwaiter().GetResult();
 
         _invocationSave = _verenigingRepositoryMock.InvocationsSave.Single();

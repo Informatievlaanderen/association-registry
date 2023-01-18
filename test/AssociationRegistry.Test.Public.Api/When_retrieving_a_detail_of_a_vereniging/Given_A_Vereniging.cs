@@ -6,7 +6,6 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Public.Api.Constants;
-using Vereniging;
 using Xunit;
 
 public class Given_A_Vereniging_Fixture : PublicApiFixture
