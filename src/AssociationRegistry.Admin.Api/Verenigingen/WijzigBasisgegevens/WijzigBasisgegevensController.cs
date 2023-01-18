@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
 using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
+using Registreer;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Vereniging.RegistreerVereniging;
@@ -33,22 +35,26 @@ public class WijzigBasisgegevensController : ApiController
     /// <summary>
     /// Wijzig de basisgegevens van een vereniging.
     /// </summary>
+    /// <remarks>
+    /// Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
+    /// </remarks>
+    /// <param name="vCode">De VCode van de vereniging</param>
     [HttpPatch]
     [Consumes("application/json")]
     [Produces("application/json")]
-    // [SwaggerRequestExample(typeof(RegistreerVerenigingRequest), typeof(RegistreerVerenigingenRequestExamples))]
-    // [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [SwaggerRequestExample(typeof(WijzigBasisgegevensRequest), typeof(WijzigBasisgegevensRequestExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
-    // [ProducesResponseType(StatusCodes.Status202Accepted)]
-    // [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-    // [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Patch(
         [FromServices] WijzigBasisgegevensRequestValidator validator,
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode)
     {
         if (request is null) return BadRequest();
-        await validator.ValidateAndThrowAsync(request);
+        await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
         var command = request.ToWijzigBasisgegevensCommand(vCode);
 
