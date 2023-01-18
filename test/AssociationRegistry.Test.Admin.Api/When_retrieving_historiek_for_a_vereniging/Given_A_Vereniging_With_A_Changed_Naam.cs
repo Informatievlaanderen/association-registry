@@ -13,44 +13,45 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
+public class Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
-    public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
+    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
+    private readonly NaamWerdGewijzigd _naamWerdGewijzigd;
+    public CommandMetadata? Metadata;
 
-    public Given_A_Vereniging_With_A_Changed_Naam_Fixture() : base(nameof(Given_A_Vereniging_With_A_Changed_Naam_Fixture))
+    public Given_NaamWerdGewijzigd_Fixture() : base(nameof(Given_NaamWerdGewijzigd_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         VCode = _fixture.Create<VCode>();
-        VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        NaamWerdGewijzigd = _fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
+        _verenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        _naamWerdGewijzigd = _fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
     }
 
     public long Sequence { get; private set; }
 
     public override async Task InitializeAsync()
     {
-        var metadata = _fixture.Create<CommandMetadata>();
+        Metadata = _fixture.Create<CommandMetadata>();
         await AddEvent(
             VCode,
-            VerenigingWerdGeregistreerd,
-            metadata);
+            _verenigingWerdGeregistreerd,
+            Metadata);
         Sequence = await AddEvent(
             VCode,
-            NaamWerdGewijzigd,
-            metadata);
+            _naamWerdGewijzigd,
+            Metadata);
     }
 }
 
-public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vereniging_With_A_Changed_Naam_Fixture>
+public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fixture>
 {
     private readonly string _vCode;
-    private readonly Given_A_Vereniging_With_A_Changed_Naam_Fixture _fixture;
+    private readonly Given_NaamWerdGewijzigd_Fixture _fixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_A_Vereniging_With_A_Changed_Naam(Given_A_Vereniging_With_A_Changed_Naam_Fixture fixture)
+    public Given_NaamWerdGewijzigd(Given_NaamWerdGewijzigd_Fixture fixture)
     {
         _fixture = fixture;
         _vCode = fixture.VCode;
@@ -82,42 +83,22 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
-{{
-    ""vereniging"": {{
-            ""vCode"": ""{_fixture.VCode}"",
-            ""naam"": ""{_fixture.NaamWerdGewijzigd.Naam}"",
-            ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
-            ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
-            ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""status"": ""Actief"",
-            ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
-                ""contactnaam"": ""{x.Contactnaam}"",
-                ""email"": ""{x.Email}"",
-                ""telefoon"": ""{x.Telefoon}"",
-                ""website"": ""{x.Website}"",
-                ""socialMedia"": ""{x.SocialMedia}""
-            }}"))}
-            ],
-            ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
-                ""locatietype"": ""{x.Locatietype}"",
-                {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
-                ""adres"": ""{x.ToAdresString()}"",
-                ""naam"": ""{x.Naam}"",
-                ""straatnaam"": ""{x.Straatnaam}"",
-                ""huisnummer"": ""{x.Huisnummer}"",
-                ""busnummer"": ""{x.Busnummer}"",
-                ""postcode"": ""{x.Postcode}"",
-                ""gemeente"": ""{x.Gemeente}"",
-                ""land"": ""{x.Land}""
-            }}"))}
-            ]
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
-        }}
-        }}
-";
+            {{
+                ""vCode"": ""{_fixture.VCode}"",
+                ""gebeurtenissen"": [
+                    {{
+                        ""gebeurtenis"": ""VerenigingWerdGeregistreerd"",
+                        ""initiator"":""{_fixture.Metadata.Initiator}"",
+                        ""tijdstip"":""{_fixture.Metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""NaamWerdGewijzigd"",
+                        ""initiator"":""{_fixture.Metadata.Initiator}"",
+                        ""tijdstip"":""{_fixture.Metadata.Tijdstip}""
+                    }}
+                ]
+            }}
+        ";
 
         content.Should().BeEquivalentJson(expected);
     }

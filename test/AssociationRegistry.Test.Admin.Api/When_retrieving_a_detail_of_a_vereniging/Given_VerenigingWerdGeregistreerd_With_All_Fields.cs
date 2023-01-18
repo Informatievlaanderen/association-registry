@@ -9,7 +9,7 @@ using global::AssociationRegistry.Framework;
 using NodaTime.Extensions;
 using Xunit;
 
-public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
+public class Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture : AdminApiFixture
 {
     public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
@@ -39,7 +39,7 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
 
-    public Given_A_Vereniging_With_All_Fields_Fixture() : base(nameof(Given_A_Vereniging_With_All_Fields_Fixture))
+    public Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture() : base(nameof(Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture))
     {
     }
 
@@ -63,12 +63,12 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : AdminApiFixture
     }
 }
 
-public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Vereniging_With_All_Fields_Fixture>
+public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture>
 {
-    private const string VCode = Given_A_Vereniging_With_All_Fields_Fixture.VCode;
+    private const string VCode = Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture.VCode;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_A_Vereniging_With_All_Fields(Given_A_Vereniging_With_All_Fields_Fixture fixture)
+    public Given_A_Vereniging_With_All_Fields(Given_VerenigingWerdGeregistreerd_With_All_Fields_Fixture fixture)
     {
         _adminApiClient = fixture.AdminApiClient;
     }
