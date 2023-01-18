@@ -21,9 +21,4 @@ public class VerenigingsRepository : IVerenigingsRepository
     public async Task<Vereniging> Load(VCode vCode)
         => await _eventStore.Load<Vereniging>(vCode);
 
-    // public async Task<Vereniging> Load(VCode vCode)
-    // {
-    //     var events = await _eventStore.Load(vCode.Value);
-    //     return new Vereniging();
-    // }
 }
