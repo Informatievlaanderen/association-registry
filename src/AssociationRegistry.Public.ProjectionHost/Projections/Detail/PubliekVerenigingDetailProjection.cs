@@ -35,6 +35,11 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
         };
 
+    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.Naam = naamWerdGewijzigd.Data.Naam;
+    }
+
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
