@@ -23,8 +23,8 @@ public class Given_Two_Verenigingen_With_Minimal_Data_Fixture : PublicApiFixture
         => new(vCode, Fixture.Create<string>(), null, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             DateOnly.FromDateTime(DateTime.Today));
 
-    public const string VCode1 = "v000001";
-    public const string VCode2 = "v000002";
+    public const string VCode1 = "V000001";
+    public const string VCode2 = "V000002";
 
     public Given_Two_Verenigingen_With_Minimal_Data_Fixture() : base(nameof(Given_Two_Verenigingen_With_Minimal_Data_Fixture))
     {

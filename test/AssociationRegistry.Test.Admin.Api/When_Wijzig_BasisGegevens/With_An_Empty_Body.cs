@@ -12,7 +12,7 @@ using Xunit;
 public class With_An_Empty_Body_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
-    public const string VCode = "v0001001";
+    public const string VCode = "V0001001";
 
     public With_An_Empty_Body_Fixture() : base(
         nameof(With_An_Empty_Body_Fixture))

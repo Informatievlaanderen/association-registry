@@ -11,7 +11,7 @@ using Xunit;
 
 public class With_An_Empty_Request_Fixture : AdminApiFixture
 {
-    public const string VCode = "v0001001";
+    public const string VCode = "V0001001";
 
     public With_An_Empty_Request_Fixture() : base(
         nameof(With_An_Empty_Request_Fixture))

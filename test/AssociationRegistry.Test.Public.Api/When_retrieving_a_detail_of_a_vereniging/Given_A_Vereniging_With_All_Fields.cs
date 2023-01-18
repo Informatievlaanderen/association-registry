@@ -13,7 +13,7 @@ using Xunit;
 
 public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
 {
-    public const string VCode = "v000001";
+    public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
     private const string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
     private const string? KorteNaam = "FOud";
