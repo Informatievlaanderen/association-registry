@@ -10,7 +10,8 @@ public class WijzigBasisgegevensCommandHandler
     {
         var vereniging = await repository.Load(VCode.Create(message.Command.VCode));
 
-        vereniging.WijzigNaam(new VerenigingsNaam(message.Command.Naam!));
+        if (message.Command.Naam is { } naam)
+            vereniging.WijzigNaam(new VerenigingsNaam(naam));
 
         await repository.Save(vereniging, message.Metadata);
     }
