@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 public static class ControllerExtensions
 {
-    public static AcceptedResult AcceptedRegistratie(this ApiController source, AppSettings appSettings, RegistratieResult registratieResult)
+    public static AcceptedResult AcceptedCommand(this ApiController source, AppSettings appSettings, CommandResult commandResult)
     {
-        source.Response.AddSequenceHeader(registratieResult.Sequence);
-        return source.Accepted($"{appSettings.BaseUrl}/v1/verenigingen/{registratieResult.Vcode}");
+        source.Response.AddSequenceHeader(commandResult.Sequence);
+        return source.Accepted($"{appSettings.BaseUrl}/v1/verenigingen/{commandResult.Vcode}");
     }
 }

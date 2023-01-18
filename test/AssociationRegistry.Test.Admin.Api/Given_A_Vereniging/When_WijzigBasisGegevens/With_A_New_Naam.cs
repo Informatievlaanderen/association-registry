@@ -1,12 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
@@ -53,6 +56,24 @@ public class With_A_Naam : IClassFixture<With_A_Naam_Fixture>
     public void Then_it_returns_an_accepted_response()
     {
         _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_location_header()
+    {
+        _apiFixture.Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _apiFixture.Response.Headers.Location!.OriginalString.Should()
+            .StartWith($"{_apiFixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+    }
+
+    [Fact]
+    public async Task Then_it_returns_a_sequence_header()
+    {
+        _apiFixture.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        var sequenceValues = _apiFixture.Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
+        sequenceValues.Should().HaveCount(1);
+        var sequence = Convert.ToInt64(sequenceValues.Single());
+        sequence.Should().BeGreaterThan(0);
     }
 
     [Fact]

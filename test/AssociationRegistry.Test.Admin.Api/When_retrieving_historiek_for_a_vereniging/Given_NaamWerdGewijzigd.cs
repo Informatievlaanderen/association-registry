@@ -86,7 +86,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fix
                 ""gebeurtenissen"": [
                     {{
                         ""gebeurtenis"": ""VerenigingWerdGeregistreerd"",
-                        ""initiator"":""{_fixture.Metadata.Initiator}"",
+                        ""initiator"":""{_fixture.Metadata!.Initiator}"",
                         ""tijdstip"":""{_fixture.Metadata.Tijdstip}""
                     }},
                     {{

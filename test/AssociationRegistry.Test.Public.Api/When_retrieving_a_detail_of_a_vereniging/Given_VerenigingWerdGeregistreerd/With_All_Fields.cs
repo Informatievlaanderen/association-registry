@@ -1,16 +1,16 @@
-namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
+namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging.Given_VerenigingWerdGeregistreerd;
 
 using System.Text.RegularExpressions;
-using Events;
-using Fixtures;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Public.Api.Constants;
+using AssociationRegistry.Test.Public.Api.Fixtures;
+using AssociationRegistry.Test.Public.Api.Framework;
 using FluentAssertions;
-using Framework;
-using global::AssociationRegistry.Framework;
-using global::AssociationRegistry.Public.Api.Constants;
 using NodaTime.Extensions;
 using Xunit;
 
-public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
+public class With_All_Fields_Fixture : PublicApiFixture
 {
     public const string VCode = "V000001";
     private const string Naam = "Feestcommittee Oudenaarde";
@@ -41,7 +41,7 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
     private DateOnly? Startdatum { get; } = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
 
-    public Given_A_Vereniging_With_All_Fields_Fixture() : base(nameof(Given_A_Vereniging_With_All_Fields_Fixture))
+    public With_All_Fields_Fixture() : base(nameof(With_All_Fields_Fixture))
     {
     }
 
@@ -65,12 +65,12 @@ public class Given_A_Vereniging_With_All_Fields_Fixture : PublicApiFixture
     }
 }
 
-public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Vereniging_With_All_Fields_Fixture>
+public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 {
-    private const string VCode = Given_A_Vereniging_With_All_Fields_Fixture.VCode;
+    private const string VCode = With_All_Fields_Fixture.VCode;
     private readonly PublicApiClient _publicApiClient;
 
-    public Given_A_Vereniging_With_All_Fields(Given_A_Vereniging_With_All_Fields_Fixture fixture)
+    public With_All_Fields(With_All_Fields_Fixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
     }
@@ -98,7 +98,7 @@ public class Given_A_Vereniging_With_All_Fields : IClassFixture<Given_A_Verenigi
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_A_Vereniging_With_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(With_All_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

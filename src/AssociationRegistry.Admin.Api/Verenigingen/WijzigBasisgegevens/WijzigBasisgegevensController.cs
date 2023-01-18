@@ -6,6 +6,8 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
 using Framework;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -22,10 +24,12 @@ using Wolverine;
 public class WijzigBasisgegevensController : ApiController
 {
     private readonly IMessageBus _bus;
+    private readonly AppSettings _appSettings;
 
-    public WijzigBasisgegevensController(IMessageBus bus)
+    public WijzigBasisgegevensController(IMessageBus bus, AppSettings appSettings)
     {
         _bus = bus;
+        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -56,8 +60,8 @@ public class WijzigBasisgegevensController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
-        var registratieResult = await _bus.InvokeAsync<RegistratieResult>(envelope);
+        var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-        return Accepted();
+        return this.AcceptedCommand(_appSettings, wijzigResult);
     }
 }
