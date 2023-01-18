@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.When_validating.A_WijzigBasisgegevensRequest;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using FluentValidation.TestHelper;
 using Xunit;

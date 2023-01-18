@@ -8,7 +8,6 @@ using global::AssociationRegistry.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
-using Vereniging;
 using Xunit;
 
 public class Given_Multiple_Verenigingen_With_Minimal_Data_Fixture : AdminApiFixture

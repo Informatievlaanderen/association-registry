@@ -4,12 +4,8 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Marten;
-using Moq;
-using VCodes;
 using Vereniging;
 using Vereniging.WijzigBasisgegevens;
-using VerenigingsNamen;
 using Xunit;
 
 public class With_An_Unmodified_Naam

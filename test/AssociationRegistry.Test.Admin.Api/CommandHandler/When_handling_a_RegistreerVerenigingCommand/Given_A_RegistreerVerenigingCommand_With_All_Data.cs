@@ -5,7 +5,6 @@ using Events;
 using FluentAssertions;
 using global::AssociationRegistry.Admin.Api.Constants;
 using global::AssociationRegistry.Framework;
-using Vereniging;
 using Vereniging.RegistreerVereniging;
 using Xunit;
 

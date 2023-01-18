@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging;
 
 using System.Net;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Fixtures;
+using Framework;
 using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;

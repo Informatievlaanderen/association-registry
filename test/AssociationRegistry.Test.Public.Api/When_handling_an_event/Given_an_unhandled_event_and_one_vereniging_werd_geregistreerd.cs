@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using Framework;
-using Vereniging;
 using FluentAssertions;
 using Xunit;
 

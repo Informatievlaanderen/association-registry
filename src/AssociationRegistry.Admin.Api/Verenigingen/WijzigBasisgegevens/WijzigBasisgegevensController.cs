@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System.Threading.Tasks;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using Infrastructure;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -13,7 +12,6 @@ using NodaTime;
 using Registreer;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
-using Vereniging.RegistreerVereniging;
 using Vereniging.WijzigBasisgegevens;
 using Wolverine;
 
@@ -24,12 +22,10 @@ using Wolverine;
 public class WijzigBasisgegevensController : ApiController
 {
     private readonly IMessageBus _bus;
-    private readonly AppSettings _appSettings;
 
-    public WijzigBasisgegevensController(IMessageBus bus, AppSettings appSettings)
+    public WijzigBasisgegevensController(IMessageBus bus)
     {
         _bus = bus;
-        _appSettings = appSettings;
     }
 
     /// <summary>
