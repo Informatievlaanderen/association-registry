@@ -12,7 +12,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
+public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
@@ -28,8 +28,9 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
         _korteNaamWerdGewijzigd = _fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
     }
 
+    public HttpResponseMessage Response { get; set; } = null!;
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         Metadata = _fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
         await AddEvent(
@@ -41,27 +42,26 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
             _korteNaamWerdGewijzigd,
             Metadata);
     }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.GetHistoriek(VCode);
+    }
 }
 
 public class Given_KorteNaamWerdGewijzigd : IClassFixture<Given_KorteNaamWerdGewijzigd_Fixture>
 {
-    private readonly string _vCode;
     private readonly Given_KorteNaamWerdGewijzigd_Fixture _fixture;
-    private readonly AdminApiClient _adminApiClient;
 
     public Given_KorteNaamWerdGewijzigd(Given_KorteNaamWerdGewijzigd_Fixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VCode;
-        _adminApiClient = fixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _adminApiClient.GetHistoriek(_vCode);
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _fixture.Response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
