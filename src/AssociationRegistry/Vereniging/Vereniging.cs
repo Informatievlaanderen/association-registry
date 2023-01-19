@@ -18,7 +18,9 @@ public class Vereniging
     public record State
     {
         public VCode VCode { get; set; }
-        public string Naam { get; set; }
+        public VerenigingsNaam Naam { get; set; }
+
+        public string? KorteNaam { get; set; }
 
         public State(string vCode)
         {
@@ -102,10 +104,26 @@ public class Vereniging
         UncommittedEvents = UncommittedEvents.Append(@event);
     }
 
+    public void WijzigKorteNaam(string korteNaam)
+    {
+        if (korteNaam.Equals(_state.KorteNaam)) return;
+
+        var @event = new KorteNaamWerdGewijzigd(VCode, korteNaam);
+        Apply(@event);
+        UncommittedEvents = UncommittedEvents.Append(@event);
+    }
+
     public void Apply(VerenigingWerdGeregistreerd @event)
-        => _state = new State(@event.VCode) { Naam = @event.Naam };
+        => _state = new State(@event.VCode)
+        {
+            Naam = new VerenigingsNaam(@event.Naam),
+            KorteNaam = @event.KorteNaam,
+        };
 
     public void Apply(NaamWerdGewijzigd @event)
-        => _state = _state with { Naam = @event.Naam };
+        => _state = _state with { Naam = new VerenigingsNaam(@event.Naam) };
+
+    public void Apply(KorteNaamWerdGewijzigd @event)
+        => _state = _state with { KorteNaam = @event.KorteNaam };
 
 }

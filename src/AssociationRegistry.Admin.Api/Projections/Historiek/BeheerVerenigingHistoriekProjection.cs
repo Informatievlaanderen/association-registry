@@ -36,6 +36,18 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         );
         document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
     }
+
+    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen.Add(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                nameof(KorteNaamWerdGewijzigd),
+                korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
+                korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
+        );
+        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence };
+    }
 }
 
 public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode

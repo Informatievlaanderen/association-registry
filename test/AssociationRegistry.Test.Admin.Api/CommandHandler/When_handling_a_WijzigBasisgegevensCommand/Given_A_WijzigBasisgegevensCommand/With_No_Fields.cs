@@ -18,7 +18,7 @@ public class With_No_Fields
     public With_No_Fields()
     {
         var commandHandler = new WijzigBasisgegevensCommandHandler();
-        var command = new WijzigBasisgegevensCommand(VCodeValue,null);
+        var command = new WijzigBasisgegevensCommand(VCodeValue);
         var fixture = new Fixture();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
