@@ -44,6 +44,13 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
                 GetConnectionString(GetConfiguration(), RootDatabase))
             .GetAwaiter().GetResult();
 
+        EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
+
+        WaitFor.PostGreSQLToBecomeAvailable(
+                new NullLogger<AdminApiFixture2>(),
+                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database))
+            .GetAwaiter().GetResult();
+
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
@@ -60,11 +67,6 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
                                     new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
                                 })
                     );
-                    builder.ConfigureServices(
-                        (context, _) =>
-                        {
-                            EnsureDbExists(context.Configuration.GetPostgreSqlOptionsSection());
-                        });
                 });
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture2>(), GetRootConnectionString(postgreSqlOptionsSection))
