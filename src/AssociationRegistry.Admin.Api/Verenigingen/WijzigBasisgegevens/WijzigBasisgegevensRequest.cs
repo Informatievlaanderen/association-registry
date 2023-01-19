@@ -18,6 +18,11 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? Naam { get; set; }
 
+    /// <summary>
+    /// Nieuwe korte naam van de vereniging
+    /// </summary>
+    public string? KorteNaam { get; set; }
+
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(vCode, Naam);
 }

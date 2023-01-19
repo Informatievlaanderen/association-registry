@@ -7,11 +7,12 @@ using Xunit;
 public class Given_A_Request_With_All_Nulls
 {
     [Fact]
-    public void Then_it_should_not_have_errors()
+    public void Then_it_should_have_errors()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
-        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null });
+        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null, KorteNaam = null});
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldHaveValidationErrorFor("request")
+            .WithErrorMessage("Een request mag niet leeg zijn.");
     }
 }
