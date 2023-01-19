@@ -39,6 +39,11 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
     protected AdminApiFixture2(string identifier)
     {
         _identifier += identifier.ToLowerInvariant();
+        WaitFor.PostGreSQLToBecomeAvailable(
+                new NullLogger<AdminApiFixture2>(),
+                GetConnectionString(GetConfiguration(), RootDatabase))
+            .GetAwaiter().GetResult();
+
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
