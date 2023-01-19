@@ -9,17 +9,17 @@ using Vereniging;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
 
-public class With_A_Naam
+public class With_A_Korte_Naam
 {
     private const string VCodeValue = "V0001001";
     private readonly VerenigingRepositoryMock.InvocationSave _invocationSave;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private const string NieuweNaam = "De nieuwe naam";
+    private const string NieuweKorteNaam = "De nieuwe korte naam";
 
-    public With_A_Naam()
+    public With_A_Korte_Naam()
     {
         var commandHandler = new WijzigBasisgegevensCommandHandler();
-        var command = new WijzigBasisgegevensCommand(VCodeValue, Naam:NieuweNaam);
+        var command = new WijzigBasisgegevensCommand(VCodeValue, KorteNaam:NieuweKorteNaam);
         var fixture = new Fixture();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -50,10 +50,10 @@ public class With_A_Naam
     }
 
     [Fact]
-    public void Then_A_NaamWerdGewijzigd_Event_Is_Saved()
+    public void Then_A_KorteNaamWerdGewijzigd_Event_Is_Saved()
     {
         _invocationSave.Vereniging.UncommittedEvents.Should().BeEquivalentTo(
-            new [] { new NaamWerdGewijzigd(VCodeValue, NieuweNaam )},
+            new [] { new KorteNaamWerdGewijzigd(VCodeValue, NieuweKorteNaam )},
             options => options.WithStrictOrdering() );
     }
 }

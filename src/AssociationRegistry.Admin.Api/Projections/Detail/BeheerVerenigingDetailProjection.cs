@@ -45,6 +45,12 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
     }
 
+    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
+        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence };
+    }
+
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {

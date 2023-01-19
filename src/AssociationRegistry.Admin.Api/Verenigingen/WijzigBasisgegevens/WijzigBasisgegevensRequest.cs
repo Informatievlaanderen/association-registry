@@ -21,8 +21,9 @@ public class WijzigBasisgegevensRequest
     /// <summary>
     /// Nieuwe korte naam van de vereniging
     /// </summary>
+    [DataMember]
     public string? KorteNaam { get; set; }
 
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
-        => new(vCode, Naam);
+        => new(vCode, Naam, KorteNaam);
 }

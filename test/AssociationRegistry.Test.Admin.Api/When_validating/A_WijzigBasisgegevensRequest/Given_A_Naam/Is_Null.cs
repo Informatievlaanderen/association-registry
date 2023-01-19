@@ -8,11 +8,11 @@ using Xunit;
 public class Is_Null : ValidatorTest
 {
     [Fact]
-    public void Then_it_has_no_validation_errors()
+    public void Then_it_has_no_validation_error_for_naam()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
         var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null });
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldNotHaveValidationErrorFor(nameof(WijzigBasisgegevensRequest.Naam));
     }
 }
