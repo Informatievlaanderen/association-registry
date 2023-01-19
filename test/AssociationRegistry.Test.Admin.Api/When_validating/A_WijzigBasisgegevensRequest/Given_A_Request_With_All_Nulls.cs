@@ -10,7 +10,7 @@ public class Given_A_Request_With_All_Nulls
     public void Then_it_should_have_errors()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
-        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null, KorteNaam = null});
+        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null, KorteNaam = null, Initiator = ""});
 
         result.ShouldHaveValidationErrorFor("request")
             .WithErrorMessage("Een request mag niet leeg zijn.");

@@ -7,7 +7,7 @@ using Vereniging.WijzigBasisgegevens;
 [DataContract]
 public class WijzigBasisgegevensRequest
 {
-    /// <summary>Instantie die de vereniging aanmaakt</summary>
+    /// <summary>Instantie die de vereniging wijzigt</summary>
     [DataMember]
     [Required]
     public string Initiator { get; init; } = null!;

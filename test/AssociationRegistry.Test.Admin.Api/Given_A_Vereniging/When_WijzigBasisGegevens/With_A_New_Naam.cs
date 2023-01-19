@@ -13,15 +13,15 @@ using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
-public class With_A_Naam_Fixture : AdminApiFixture2
+public class With_A_New_Naam_Fixture : AdminApiFixture2
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;
     private readonly Fixture _fixture;
     public const string NieuweVerenigingsNaam = "De nieuwe vereniging";
 
-    public With_A_Naam_Fixture() : base(
-        nameof(With_A_Naam_Fixture))
+    public With_A_New_Naam_Fixture() : base(
+        nameof(With_A_New_Naam_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         _vCode = _fixture.Create<VCode>();
@@ -38,16 +38,16 @@ public class With_A_Naam_Fixture : AdminApiFixture2
 
     protected override async Task When()
     {
-        var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
+        var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}"", ""Initiator"": ""OVO000001""}}";
         Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody);
     }
 }
 
-public class With_A_Naam : IClassFixture<With_A_Naam_Fixture>
+public class With_A_New_Naam : IClassFixture<With_A_New_Naam_Fixture>
 {
-    private readonly With_A_Naam_Fixture _apiFixture;
+    private readonly With_A_New_Naam_Fixture _apiFixture;
 
-    public With_A_Naam(With_A_Naam_Fixture apiFixture)
+    public With_A_New_Naam(With_A_New_Naam_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -85,6 +85,6 @@ public class With_A_Naam : IClassFixture<With_A_Naam_Fixture>
             .ToList();
 
         savedEvents.Should().HaveCount(1);
-        savedEvents[0].Naam.Should().Be(With_A_Naam_Fixture.NieuweVerenigingsNaam);
+        savedEvents[0].Naam.Should().Be(With_A_New_Naam_Fixture.NieuweVerenigingsNaam);
     }
 }
