@@ -59,7 +59,7 @@ public class With_A_New_Naam : IClassFixture<With_A_New_Naam_Fixture>
     }
 
     [Fact]
-    public async Task Then_it_returns_a_location_header()
+    public void Then_it_returns_a_location_header()
     {
         _apiFixture.Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
         _apiFixture.Response.Headers.Location!.OriginalString.Should()
@@ -67,7 +67,7 @@ public class With_A_New_Naam : IClassFixture<With_A_New_Naam_Fixture>
     }
 
     [Fact]
-    public async Task Then_it_returns_a_sequence_header()
+    public void Then_it_returns_a_sequence_header()
     {
         _apiFixture.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
         var sequenceValues = _apiFixture.Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();

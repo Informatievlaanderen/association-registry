@@ -12,13 +12,13 @@ using Xunit;
 
 public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture2
 {
-    public readonly Fixture Fixture = new Fixture();
+    private readonly Fixture _fixture = new();
     public Given_A_Valid_Request_With_Minimal_Fields_Fixture() : base(
         nameof(Given_A_Valid_Request_With_Minimal_Fields_Fixture))
     {
         Request = new RegistreerVerenigingRequest
         {
-            Naam = Fixture.Create<string>(),
+            Naam = _fixture.Create<string>(),
             Initiator = "OVO000001",
         };
     }
@@ -81,10 +81,4 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(0);
     }
-
-    private string GetJsonBody(RegistreerVerenigingRequest request)
-        => GetType()
-            .GetAssociatedResourceJson($"files.request.with_minimal_fields")
-            .Replace("{{vereniging.naam}}", request.Naam)
-            .Replace("{{vereniging.initiator}}", request.Initiator);
 }

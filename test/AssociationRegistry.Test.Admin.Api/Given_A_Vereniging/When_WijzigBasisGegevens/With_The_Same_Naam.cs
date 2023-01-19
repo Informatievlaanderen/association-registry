@@ -13,8 +13,8 @@ using Xunit;
 public class With_The_Same_Naam_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
-    public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
-    public const string VCode = "V0001001";
+    private VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd = null!;
+    private const string VCode = "V0001001";
 
     public With_The_Same_Naam_Fixture() : base(
         nameof(With_The_Same_Naam_Fixture))
@@ -24,7 +24,7 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture2
 
     protected override async Task Given()
     {
-        VerenigingWerdGeregistreerd = new VerenigingWerdGeregistreerd(
+        _verenigingWerdGeregistreerd = new VerenigingWerdGeregistreerd(
             VCode,
             _fixture.Create<string>(),
             _fixture.Create<string>(),
@@ -36,7 +36,7 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture2
             DateOnly.FromDateTime(DateTime.Today));
         await AddEvent(
             VCode,
-            VerenigingWerdGeregistreerd,
+            _verenigingWerdGeregistreerd,
             new CommandMetadata(
                 _fixture.Create<string>(),
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
@@ -44,11 +44,11 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture2
 
     protected override async Task When()
     {
-        var jsonBody = $@"{{""naam"":""{VerenigingWerdGeregistreerd.Naam}"", ""Initiator"": ""OVO000001""}}";
-        Response = await AdminApiClient.PatchVereniging(With_The_Same_Naam_Fixture.VCode, jsonBody);
+        var jsonBody = $@"{{""naam"":""{_verenigingWerdGeregistreerd.Naam}"", ""Initiator"": ""OVO000001""}}";
+        Response = await AdminApiClient.PatchVereniging(VCode, jsonBody);
     }
 
-    public HttpResponseMessage Response { get; set; }
+    public HttpResponseMessage Response { get; private set; } = null!;
 }
 
 public class With_The_Same_Naam : IClassFixture<With_The_Same_Naam_Fixture>
@@ -61,13 +61,13 @@ public class With_The_Same_Naam : IClassFixture<With_The_Same_Naam_Fixture>
     }
 
     [Fact]
-    public async Task Then_it_returns_an_accepted_response()
+    public void Then_it_returns_an_accepted_response()
     {
         _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
-    public async Task Then_it_returns_no_sequence_header()
+    public void Then_it_returns_no_sequence_header()
     {
         _apiFixture.Response.Headers.Should().NotContainKey(WellknownHeaderNames.Sequence);
     }

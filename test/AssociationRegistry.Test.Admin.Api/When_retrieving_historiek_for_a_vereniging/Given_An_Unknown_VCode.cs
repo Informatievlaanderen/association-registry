@@ -17,9 +17,8 @@ public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture2
 
     public HttpResponseMessage Response { get; set; } = null!;
 
-    protected override async Task Given()
-    {
-    }
+    protected override Task Given()
+        => Task.CompletedTask;
 
     protected override async Task When()
     {

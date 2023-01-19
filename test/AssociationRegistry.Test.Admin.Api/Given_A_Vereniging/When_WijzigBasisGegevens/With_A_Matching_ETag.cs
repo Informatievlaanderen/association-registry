@@ -37,7 +37,7 @@ public class With_A_Matching_ETag_Fixture : AdminApiFixture2
         );
     }
 
-    public SaveChangesResult SaveResult { get; set; }
+    private SaveChangesResult SaveResult { get; set; } = null!;
 
     protected override async Task When()
     {

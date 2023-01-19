@@ -19,7 +19,8 @@ public class With_A_NonMatching_ETag_Fixture : AdminApiFixture2
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;
     private readonly Fixture _fixture;
-    public const string NieuweVerenigingsNaam = "De nieuwe vereniging";
+    private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
+    private SaveChangesResult SaveResult { get; set; } = null!;
 
     public With_A_NonMatching_ETag_Fixture() : base(
         nameof(With_A_NonMatching_ETag_Fixture))
@@ -36,8 +37,6 @@ public class With_A_NonMatching_ETag_Fixture : AdminApiFixture2
             _fixture.Create<CommandMetadata>() with { ExpectedVersion = null }
         );
     }
-
-    public SaveChangesResult SaveResult { get; set; }
 
     protected override async Task When()
     {

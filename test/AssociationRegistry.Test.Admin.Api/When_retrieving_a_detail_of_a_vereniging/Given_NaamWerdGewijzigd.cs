@@ -30,7 +30,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
         _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
     }
 
-    public SaveChangesResult SaveResult { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; } = null!;
 
     public override async Task InitializeAsync()
     {
@@ -83,42 +83,42 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
-{{
-    ""vereniging"": {{
-            ""vCode"": ""{_fixture.VCode}"",
-            ""naam"": ""{_fixture.NaamWerdGewijzigd.Naam}"",
-            ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
-            ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
-            ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""status"": ""Actief"",
-            ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
-                ""contactnaam"": ""{x.Contactnaam}"",
-                ""email"": ""{x.Email}"",
-                ""telefoon"": ""{x.Telefoon}"",
-                ""website"": ""{x.Website}"",
-                ""socialMedia"": ""{x.SocialMedia}""
-            }}"))}
-            ],
-            ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
-                ""locatietype"": ""{x.Locatietype}"",
-                { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
-                ""adres"": ""{x.ToAdresString()}"",
-                ""naam"": ""{x.Naam}"",
-                ""straatnaam"": ""{x.Straatnaam}"",
-                ""huisnummer"": ""{x.Huisnummer}"",
-                ""busnummer"": ""{x.Busnummer}"",
-                ""postcode"": ""{x.Postcode}"",
-                ""gemeente"": ""{x.Gemeente}"",
-                ""land"": ""{x.Land}""
-            }}"))}
-            ]
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
-        }}
-        }}
-";
+        {{
+            ""vereniging"": {{
+                    ""vCode"": ""{_fixture.VCode}"",
+                    ""naam"": ""{_fixture.NaamWerdGewijzigd.Naam}"",
+                    ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
+                    ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
+                    ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
+                    ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""status"": ""Actief"",
+                    ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
+                        ""contactnaam"": ""{x.Contactnaam}"",
+                        ""email"": ""{x.Email}"",
+                        ""telefoon"": ""{x.Telefoon}"",
+                        ""website"": ""{x.Website}"",
+                        ""socialMedia"": ""{x.SocialMedia}""
+                    }}"))}
+                    ],
+                    ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
+                        ""locatietype"": ""{x.Locatietype}"",
+                        { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
+                        ""adres"": ""{x.ToAdresString()}"",
+                        ""naam"": ""{x.Naam}"",
+                        ""straatnaam"": ""{x.Straatnaam}"",
+                        ""huisnummer"": ""{x.Huisnummer}"",
+                        ""busnummer"": ""{x.Busnummer}"",
+                        ""postcode"": ""{x.Postcode}"",
+                        ""gemeente"": ""{x.Gemeente}"",
+                        ""land"": ""{x.Land}""
+                    }}"))}
+                    ]
+                }},
+                ""metadata"": {{
+                    ""datumLaatsteAanpassing"": """"
+                }}
+                }}
+        ";
 
         content.Should().BeEquivalentJson(expected);
     }

@@ -7,22 +7,21 @@ using Xunit;
 
 public class With_An_Initiator_Empty_Fixture : AdminApiFixture2
 {
-    public const string VCode = "V0001001";
+    private const string VCode = "V0001001";
 
     public With_An_Initiator_Empty_Fixture() : base(
         nameof(With_An_Initiator_Empty_Fixture))
     {}
 
-    protected override async Task Given()
-    {
-    }
+    protected override Task Given()
+        => Task.CompletedTask;
 
     protected override async Task When()
     {
-        Response = await AdminApiClient.PatchVereniging(With_An_Initiator_Empty_Fixture.VCode, @"{ ""initiator"": """"}");
+        Response = await AdminApiClient.PatchVereniging(VCode, @"{ ""initiator"": """"}");
     }
 
-    public HttpResponseMessage Response { get; set; }
+    public HttpResponseMessage Response { get; private set; } = null!;
 }
 
 public class With_An_Initiator_Empty : IClassFixture<With_An_Initiator_Empty_Fixture>
@@ -35,7 +34,7 @@ public class With_An_Initiator_Empty : IClassFixture<With_An_Initiator_Empty_Fix
     }
 
     [Fact]
-    public async Task Then_it_returns_a_bad_request_response()
+    public void Then_it_returns_a_bad_request_response()
     {
         _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }

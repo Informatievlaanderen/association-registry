@@ -14,13 +14,11 @@ public class Given_An_Event_Fixture : AdminApiFixture2
     {
     }
 
-    protected override async Task Given()
-    {
-    }
+    protected override Task Given()
+        => Task.CompletedTask;
 
-    protected override async Task When()
-    {
-    }
+    protected override Task When()
+        => Task.CompletedTask;
 }
 
 public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
