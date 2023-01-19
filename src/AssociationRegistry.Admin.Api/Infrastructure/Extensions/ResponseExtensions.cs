@@ -5,6 +5,11 @@ using Microsoft.AspNetCore.Http;
 
 public static class ResponseExtensions
 {
-    public static void AddSequenceHeader(this HttpResponse source, long sequence)
-        => source.Headers[WellknownHeaderNames.Sequence] = sequence.ToString();
+    public static void AddSequenceHeader(this HttpResponse source, long? sequence)
+    {
+        if (sequence is null)
+            return;
+
+        source.Headers[WellknownHeaderNames.Sequence] = sequence.ToString();
+    }
 }
