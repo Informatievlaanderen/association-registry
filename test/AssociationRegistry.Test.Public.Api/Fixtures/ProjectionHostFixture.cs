@@ -91,7 +91,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);
 
-        var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
@@ -127,7 +127,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
     private void CreateDatabase()
     {
-        Marten.DocumentStore.For(
+        using var documentStore = Marten.DocumentStore.For(
             opts =>
             {
                 var connectionString = GetConnectionString(_configurationRoot, _configurationRoot["PostgreSQLOptions:database"]);

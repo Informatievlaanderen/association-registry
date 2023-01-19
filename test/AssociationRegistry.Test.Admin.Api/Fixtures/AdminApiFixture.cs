@@ -7,6 +7,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Framework.Helpers;
+using JasperFx.Core;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +26,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier = "a_";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
-    private readonly IProjectionDaemon _daemon;
 
     public IDocumentStore DocumentStore
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
@@ -71,14 +71,11 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
-
-        _daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
-        _daemon.StartAllShards().GetAwaiter().GetResult();
     }
 
     private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
     {
-        Marten.DocumentStore.For(
+        using var documentStore = Marten.DocumentStore.For(
             options =>
             {
                 options.Connection(postgreSqlOptionsSection.GetConnectionString());
@@ -111,13 +108,17 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task<SaveChangesResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
+
+        using var daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
+        daemon.StartAllShards().GetAwaiter().GetResult();
+
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         var eventStore = new EventStore(DocumentStore);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
-        await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
         return result;
     }
@@ -173,7 +174,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         GC.SuppressFinalize(this);
         AdminApiClient.Dispose();
         _webApplicationFactory.Dispose();
-
         DropDatabase();
     }
 

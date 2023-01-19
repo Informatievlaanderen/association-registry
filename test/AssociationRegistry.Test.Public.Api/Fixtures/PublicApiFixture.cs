@@ -7,6 +7,7 @@ using global::AssociationRegistry.Framework;
 using global::AssociationRegistry.Public.Api;
 using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
+using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon;
@@ -32,7 +33,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
-    private readonly IProjectionDaemon _daemon;
 
     private IElasticClient ElasticClient
         => (IElasticClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticClient));
@@ -74,9 +74,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        _daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
-        _daemon.StartAllShards().GetAwaiter().GetResult();
-
         ConfigureBrolFeeder(_projectionHostServer.Services);
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
@@ -109,13 +106,16 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
     {
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        daemon.StartAllShards().GetAwaiter().GetResult();
+
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         if (ElasticClient is not { })
             throw new NullException("Elastic client cannot be null when adding an event");
 
-        if (_daemon is not { })
+        if (daemon is not { })
             throw new NullException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
@@ -123,8 +123,11 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);
 
-        await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
         await ElasticClient.Indices.RefreshAsync(Indices.All);
+
+        // We don't need the daemon here, so dispose it to prevent too many clients staying open.
+        daemon.Dispose();
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
@@ -139,7 +142,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private static void CreateDatabase(IConfiguration configuration)
     {
-        Marten.DocumentStore.For(
+        using var documentStore = Marten.DocumentStore.For(
             opts =>
             {
                 var connectionString = GetConnectionString(configuration, configuration["PostgreSQLOptions:database"]);
@@ -193,7 +196,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         ElasticClient.Indices.Refresh(Indices.All);
 
         _publicApiServer.Dispose();
-        _daemon.Dispose();
         _projectionHostServer.Dispose();
     }
 
