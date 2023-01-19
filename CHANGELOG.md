@@ -1,3 +1,15 @@
+# [1.104.0](https://github.com/informatievlaanderen/association-registry/compare/v1.103.0...v1.104.0) (2023-01-19)
+
+
+### Bug Fixes
+
+* or-1365 add Id property mapping to VCode in elastic search ([2b49929](https://github.com/informatievlaanderen/association-registry/commit/2b49929b1eee1d555cd8997d2c2c6778ceefe08d))
+
+
+### Features
+
+* or-1365 add wijzignaam to search ([4a8b905](https://github.com/informatievlaanderen/association-registry/commit/4a8b90539c05916390728be5d06a89fce4049549))
+
 # [1.103.0](https://github.com/informatievlaanderen/association-registry/compare/v1.102.0...v1.103.0) (2023-01-18)
 
 
