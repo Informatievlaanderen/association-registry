@@ -31,6 +31,9 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> GetDocs()
+        => await _httpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
+
     private void SetIfMatchHeader(long? version)
     {
         if (version is null) _httpClient.DefaultRequestHeaders.Remove(HeaderNames.IfMatch);

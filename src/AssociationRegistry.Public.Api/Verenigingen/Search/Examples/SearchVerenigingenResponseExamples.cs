@@ -36,7 +36,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     ),
                     ImmutableArray.Create(
                         new Activiteit(123, "Badminton")),
-                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/V0001001"))),
+                    new VerenigingLinks(new ($"{_appSettings.BaseUrl}/verenigingen/V0001001"))),
                 new Vereniging(
                     "V0036651",
                     "FWA De Bron",
@@ -53,13 +53,13 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             "Gent")),
                     ImmutableArray.Create(
                         new Activiteit(456, "Tennis")),
-                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}verenigingen/V0036651"))
+                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"))
                 )),
             Facets = new Facets
             {
                 HoofdActiviteiten = ImmutableArray.Create(
-                    new HoofdActiviteitFacetItem("CULT", "Cultuur", 1, $"{_appSettings.BaseUrl}verenigingen/search/q=(hoofdactiviteiten.code:CULT)"),
-                    new HoofdActiviteitFacetItem("SPRT", "Sport", 1, $"{_appSettings.BaseUrl}verenigingen/search/q=(hoofdactiviteiten.code:SPRT)")
+                    new HoofdActiviteitFacetItem("CULT", "Cultuur", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:CULT)"),
+                    new HoofdActiviteitFacetItem("SPRT", "Sport", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:SPRT)")
                 ),
             },
             Metadata = new Metadata(new Pagination(2, 0, 50)),
