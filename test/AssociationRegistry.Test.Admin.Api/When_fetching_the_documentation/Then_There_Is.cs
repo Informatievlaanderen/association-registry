@@ -6,9 +6,9 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
-public class Then_Fixture : AdminApiFixture2
+public class Then_The_Docs_Fixture : AdminApiFixture
 {
-    public Then_Fixture() : base(nameof(Then_Fixture))
+    public Then_The_Docs_Fixture() : base(nameof(Then_The_Docs_Fixture))
     {
     }
 
@@ -26,24 +26,24 @@ public class Then_Fixture : AdminApiFixture2
     }
 }
 
-public class Then : IClassFixture<Then_Fixture>
+public class Then_The_Docs : IClassFixture<Then_The_Docs_Fixture>
 {
-    private readonly Then_Fixture _fixture;
+    private readonly Then_The_Docs_Fixture _theDocsFixture;
 
-    public Then(Then_Fixture fixture)
-        => _fixture = fixture;
-
-    [Fact]
-    public void The_DocsJson_Returns_200OK()
-        => _fixture.Response.Should().HaveStatusCode(HttpStatusCode.OK);
+    public Then_The_Docs(Then_The_Docs_Fixture theDocsFixture)
+        => _theDocsFixture = theDocsFixture;
 
     [Fact]
-    public async Task There_Are_Paths()
-        => _fixture.Docs.Paths.Count.Should().BePositive();
+    public void Json_Returns_200OK()
+        => _theDocsFixture.Response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
-    public async Task Each_Path_Has_A_Summary()
-        => _fixture.Docs.Paths
+    public async Task Have_Paths()
+        => _theDocsFixture.Docs.Paths.Count.Should().BePositive();
+
+    [Fact]
+    public async Task Have_A_Summary_ForEach_Path()
+        => _theDocsFixture.Docs.Paths
             .ToList()
             .ForEach(path =>
                 path.Value.ToList().ForEach(method => method.Value.Summary.Should().NotBeNullOrWhiteSpace(because: $"'[{method.Key}] {path.Key}' should have a summary.")));
