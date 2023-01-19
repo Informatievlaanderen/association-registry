@@ -4,6 +4,7 @@ using System;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Schema;
 using Schema.Search;
 
 public static class ElasticSearchExtensions
@@ -26,9 +27,7 @@ public static class ElasticSearchExtensions
             .BasicAuthentication(
                 elasticSearchOptions.Username,
                 elasticSearchOptions.Password)
-            .DefaultMappingFor(
-                typeof(VerenigingDocument),
-                descriptor => descriptor.IndexName(elasticSearchOptions.Indices!.Verenigingen));
+            .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         var elasticClient = new ElasticClient(settings);
         return elasticClient;
