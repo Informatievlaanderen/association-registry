@@ -27,14 +27,15 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
 
         _classFixture.ElasticRepository!
             .Index(
-                new VerenigingDocument(
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    new[] { fixture.Create<VerenigingDocument.Locatie>() },
-                    new[] { fixture.Create<VerenigingDocument.Hoofdactiviteit>() },
-                    fixture.Create<string>(),
-                    new[] { fixture.Create<string>() }
-                ));
+                new VerenigingDocument()
+                {
+                    VCode = fixture.Create<string>(),
+                    Naam = fixture.Create<string>(),
+                    KorteNaam = fixture.Create<string>(),
+                    Locaties = new[] { fixture.Create<VerenigingDocument.Locatie>() },
+                    Hoofdactiviteiten = new[] { fixture.Create<VerenigingDocument.Hoofdactiviteit>() },
+                    Doelgroep = fixture.Create<string>(),
+                    Activiteiten = new[] { fixture.Create<string>() }
+                });
     }
 }

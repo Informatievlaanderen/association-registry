@@ -24,6 +24,7 @@
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd\With_Minimal_Fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd\With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
+    <EmbeddedResource Include="When_searching_verenigingen_by_name\Given_one_vereniging_naam_werd_gewijzigd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="When_searching_verenigingen_by_name\Given_one_vereniging_werd_geregistreerd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <None Remove="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd_Then_we_get_a_detail_vereniging_response.json" />
   </ItemGroup>

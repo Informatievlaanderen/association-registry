@@ -1,14 +1,8 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-public record VerenigingDocument(
-    string VCode,
-    string Naam,
-    string? KorteNaam,
-    VerenigingDocument.Locatie[] Locaties,
-    VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten,
-    string Doelgroep,
-    string[] Activiteiten
-)
+using Marten.Schema;
+
+public class VerenigingDocument
 {
     public record Locatie(
         string Locatietype,
@@ -21,4 +15,13 @@ public record VerenigingDocument(
     public record Hoofdactiviteit(
         string Code,
         string Naam);
+
+    public string VCode { get; set; } = null!;
+    public string Naam { get; set; } = null!;
+    public string? KorteNaam { get; set; }
+    public Locatie[] Locaties { get; set; } = null!;
+    public Hoofdactiviteit[] Hoofdactiviteiten { get; set; } = null!;
+    public string Doelgroep { get; set; } = null!;
+    public string[] Activiteiten { get; set; } = null!;
+
 }

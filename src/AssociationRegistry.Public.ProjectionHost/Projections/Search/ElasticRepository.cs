@@ -35,4 +35,25 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
         }
     }
+
+    public void Update<TDocument>(string id, TDocument update) where TDocument : class
+    {
+        var response = _elasticClient.Update<TDocument>(id, u => u.Doc(update));
+
+        if (!response.IsValid)
+        {
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+        }
+    }
+    public async Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class
+    {
+        var response = await _elasticClient.UpdateAsync<TDocument>(id, u => u.Doc(update));
+
+        if (!response.IsValid)
+        {
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+        }
+    }
 }
