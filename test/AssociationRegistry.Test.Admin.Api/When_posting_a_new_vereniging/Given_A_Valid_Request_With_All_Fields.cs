@@ -15,21 +15,14 @@ using Newtonsoft.Json;
 using Xunit;
 using AppSettings = global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings.AppSettings;
 
-public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
+public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture2
 {
+    public RegistreerVerenigingRequest Request { get; }
+    public HttpResponseMessage Response { get; private set; } = null!;
+
     public Given_A_Valid_Request_With_All_Fields_Fixture() : base(
         nameof(Given_A_Valid_Request_With_All_Fields_Fixture))
     {
-    }
-}
-
-public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid_Request_With_All_Fields_Fixture>
-{
-    private readonly Given_A_Valid_Request_With_All_Fields_Fixture _apiFixture;
-
-    public Given_A_Valid_Request_With_All_Fields(Given_A_Valid_Request_With_All_Fields_Fixture apiFixture)
-    {
-        _apiFixture = apiFixture;
         var fixture = new Fixture();
         Request = new RegistreerVerenigingRequest
         {
@@ -68,56 +61,13 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
         };
     }
 
-    private RegistreerVerenigingRequest Request { get; }
+    protected override Task Given()
+        => Task.CompletedTask;
 
-    [Fact]
-    public async Task Then_it_returns_an_accepted_response()
+    protected override async Task When()
     {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        Response = await AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
     }
-
-    [Fact]
-    public async Task Then_it_saves_the_events()
-    {
-        _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
-
-        var savedEvent = await _apiFixture.DocumentStore
-            .LightweightSession().Events
-            .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
-            .SingleAsync(e => e.Naam == Request.Naam);
-        savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
-        savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
-        savedEvent.Startdatum.Should().Be(Request.StartDatum);
-        savedEvent.KboNummer.Should().Be(Request.KboNummer);
-        savedEvent.ContactInfoLijst.Should().HaveCount(1);
-        savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
-        savedEvent.Locaties.Should().HaveCount(1);
-        savedEvent.Locaties![0].Should().BeEquivalentTo(Request.Locaties[0]);
-    }
-
-    [Fact]
-    public async Task Then_it_returns_a_location_header()
-    {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
-
-        response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
-        response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_apiFixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
-    }
-
-    [Fact]
-    public async Task Then_it_returns_a_sequence_header()
-    {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(GetJsonBody(Request));
-
-        response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
-        var sequenceValues = response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
-        sequenceValues.Should().HaveCount(1);
-        var sequence = Convert.ToInt64(sequenceValues.Single());
-        sequence.Should().BeGreaterThan(0);
-    }
-
 
     private string GetJsonBody(RegistreerVerenigingRequest request)
         => GetType()
@@ -130,4 +80,55 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
             .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties));
+}
+
+public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid_Request_With_All_Fields_Fixture>
+{
+    private readonly Given_A_Valid_Request_With_All_Fields_Fixture _apiFixture;
+
+    public Given_A_Valid_Request_With_All_Fields(Given_A_Valid_Request_With_All_Fields_Fixture apiFixture)
+    {
+        _apiFixture = apiFixture;
+    }
+
+    [Fact]
+    public void Then_it_returns_an_accepted_response()
+    {
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+    }
+
+    [Fact]
+    public async Task Then_it_saves_the_events()
+    {
+        var savedEvent = await _apiFixture.DocumentStore
+            .LightweightSession().Events
+            .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+            .SingleAsync(e => e.Naam == _apiFixture.Request.Naam);
+        savedEvent.KorteNaam.Should().Be(_apiFixture.Request.KorteNaam);
+        savedEvent.KorteBeschrijving.Should().Be(_apiFixture.Request.KorteBeschrijving);
+        savedEvent.Startdatum.Should().Be(_apiFixture.Request.StartDatum);
+        savedEvent.KboNummer.Should().Be(_apiFixture.Request.KboNummer);
+        savedEvent.ContactInfoLijst.Should().HaveCount(1);
+        savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(_apiFixture.Request.ContactInfoLijst[0]);
+        savedEvent.Locaties.Should().HaveCount(1);
+        savedEvent.Locaties![0].Should().BeEquivalentTo(_apiFixture.Request.Locaties[0]);
+    }
+
+    [Fact]
+    public void Then_it_returns_a_location_header()
+    {
+        _apiFixture.Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _apiFixture.Response.Headers.Location!.OriginalString.Should()
+            .StartWith($"{_apiFixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+    }
+
+    [Fact]
+    public void Then_it_returns_a_sequence_header()
+    {
+        _apiFixture.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        var sequenceValues = _apiFixture.Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
+        sequenceValues.Should().HaveCount(1);
+        var sequence = Convert.ToInt64(sequenceValues.Single());
+        sequence.Should().BeGreaterThan(0);
+    }
 }

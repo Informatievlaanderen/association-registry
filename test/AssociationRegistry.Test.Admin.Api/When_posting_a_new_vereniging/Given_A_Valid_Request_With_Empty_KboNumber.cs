@@ -13,16 +13,15 @@ public class Given_A_Valid_Request_With_Empty_KboNumber_Fixture : JsonRequestAdm
     {
     }
 
-    protected override async Task Given()
-    {
-    }
+    protected override Task Given()
+        => Task.CompletedTask;
 
     protected override async Task When()
     {
         Response = await AdminApiClient.RegistreerVereniging(JsonContent);
     }
 
-    public HttpResponseMessage Response { get; private set; }
+    public HttpResponseMessage Response { get; private set; } = null!;
 }
 
 public class Given_A_Valid_Request_With_Empty_KboNumber : IClassFixture<Given_A_Valid_Request_With_Empty_KboNumber_Fixture>
@@ -35,7 +34,7 @@ public class Given_A_Valid_Request_With_Empty_KboNumber : IClassFixture<Given_A_
     }
 
     [Fact]
-    public async Task Then_it_returns_an_ok_response()
+    public void Then_it_returns_an_ok_response()
     {
         _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }

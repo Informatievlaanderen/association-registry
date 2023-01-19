@@ -48,7 +48,7 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
 
         WaitFor.PostGreSQLToBecomeAvailable(
                 new NullLogger<AdminApiFixture2>(),
-                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database))
+                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
             .GetAwaiter().GetResult();
 
         _webApplicationFactory = new WebApplicationFactory<Program>()

@@ -12,7 +12,7 @@ using Xunit;
 public class With_A_Naam_Null_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
-    public const string VCode = "V0001001";
+    private const string VCode = "V0001001";
     private const string JsonBody = @"{ ""Initiator"": ""OVO000001"", ""Naam"": null}";
 
     public With_A_Naam_Null_Fixture() : base(
@@ -42,10 +42,10 @@ public class With_A_Naam_Null_Fixture : AdminApiFixture2
 
     protected override async Task When()
     {
-        Response = await AdminApiClient.PatchVereniging(With_A_Naam_Null_Fixture.VCode, JsonBody);
+        Response = await AdminApiClient.PatchVereniging(VCode, JsonBody);
     }
 
-    public HttpResponseMessage Response { get; set; }
+    public HttpResponseMessage Response { get; private set; } = null!;
 }
 
 public class With_A_Naam_Null : IClassFixture<With_A_Naam_Null_Fixture>
@@ -58,7 +58,7 @@ public class With_A_Naam_Null : IClassFixture<With_A_Naam_Null_Fixture>
     }
 
     [Fact]
-    public async Task Then_it_returns_a_bad_request_response()
+    public void Then_it_returns_a_bad_request_response()
     {
         _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }

@@ -35,7 +35,7 @@ public class With_Minimal_Fields_Fixture : AdminApiFixture
         };
     }
 
-    public SaveChangesResult SaveResult { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; } = null!;
 
     public override async Task InitializeAsync()
     {
