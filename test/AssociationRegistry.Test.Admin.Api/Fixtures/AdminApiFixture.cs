@@ -6,23 +6,26 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
+using Framework.Helpers;
 using Marten;
 using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using Npgsql;
 using Xunit;
+using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
 
-public class AdminApiFixture : IDisposable, IAsyncLifetime
+public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
+    private const string RootDatabase = @"postgres";
+    private readonly string _identifier = "a_";
+
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
-    private readonly PostgreSqlTestcontainer _pgContainer;
-    private IProjectionDaemon _daemon;
+    private readonly IProjectionDaemon _daemon;
 
     public IDocumentStore DocumentStore
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
@@ -33,44 +36,42 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
 
-    protected AdminApiFixture(string dbName)
+    protected AdminApiFixture(string identifier)
     {
-        _pgContainer = new TestcontainersBuilder<PostgreSqlTestcontainer>()
-            .WithDatabase(
-                new PostgreSqlTestcontainerConfiguration()
-                {
-                    Database = "a_" + dbName,
-                    Username = "username",
-                    Password = "password",
-                })
-            .WithCleanUp(true)
-            .Build();
-        _pgContainer.StartAsync().GetAwaiter().GetResult();
+        _identifier += identifier.ToLowerInvariant();
+        WaitFor.PostGreSQLToBecomeAvailable(
+                new NullLogger<AdminApiFixture>(),
+                GetConnectionString(GetConfiguration(), RootDatabase))
+            .GetAwaiter().GetResult();
+
+        EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
+
+        WaitFor.PostGreSQLToBecomeAvailable(
+                new NullLogger<AdminApiFixture>(),
+                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+            .GetAwaiter().GetResult();
 
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _pgContainer.Database);
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Host)}", _pgContainer.Hostname + ":" + _pgContainer.Port);
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Password)}", _pgContainer.Password);
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Username)}", _pgContainer.Username);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(
-                                    new[]
-                                    {
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _pgContainer.Database),
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Host)}", _pgContainer.Hostname + ":" + _pgContainer.Port),
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Password)}", _pgContainer.Password),
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Username)}", _pgContainer.Username),
-                                    })
+                                .AddInMemoryCollection(new []
+                                {
+                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                })
                     );
                 });
+        var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
+        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
+            .GetAwaiter().GetResult();
+
         _daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
         _daemon.StartAllShards().GetAwaiter().GetResult();
     }
@@ -110,7 +111,10 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task<SaveChangesResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
-        var eventStore = _webApplicationFactory.Services.GetRequiredService<IEventStore>();
+        if (DocumentStore is not { })
+            throw new NullException("DocumentStore cannot be null when adding an event");
+
+        var eventStore = new EventStore(DocumentStore);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
         await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
@@ -118,17 +122,73 @@ public class AdminApiFixture : IDisposable, IAsyncLifetime
         return result;
     }
 
+
+    private IConfigurationRoot GetConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(GetRootDirectory())
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+        var tempConfiguration = builder.Build();
+        tempConfiguration["PostgreSQLOptions:database"] = _identifier;
+        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
+        return tempConfiguration;
+    }
+
+    private static string GetRootDirectory()
+    {
+        var maybeRootDirectory = Directory
+            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
+        return rootDirectory;
+    }
+
+    private void DropDatabase()
+    {
+        using var connection = new NpgsqlConnection(GetConnectionString(GetConfiguration(), RootDatabase));
+        using var cmd = connection.CreateCommand();
+        try
+        {
+            connection.Open();
+            // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
+            cmd.CommandText += $"DROP DATABASE IF EXISTS {GetConfiguration()["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.ExecuteNonQuery();
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
+        }
+    }
+
+    private static string GetConnectionString(IConfiguration configurationRoot, string database)
+        => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
+           $"database={database};" +
+           $"password={configurationRoot["PostgreSQLOptions:password"]};" +
+           $"username={configurationRoot["PostgreSQLOptions:username"]}";
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        _pgContainer.StopAsync().GetAwaiter().GetResult();
         AdminApiClient.Dispose();
         _webApplicationFactory.Dispose();
+
+        DropDatabase();
     }
 
-    public virtual Task InitializeAsync()
-        => Task.CompletedTask;
+    public async Task InitializeAsync()
+    {
+        await Given();
+        await When();
+    }
 
     public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    {
+        Dispose();
+        return Task.CompletedTask;
+    }
+
+    protected abstract Task Given();
+    protected abstract Task When();
 }

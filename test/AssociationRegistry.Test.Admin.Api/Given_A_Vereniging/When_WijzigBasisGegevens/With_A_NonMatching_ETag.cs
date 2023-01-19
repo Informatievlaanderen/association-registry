@@ -2,7 +2,6 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
@@ -10,11 +9,10 @@ using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
-using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
-public class With_A_NonMatching_ETag_Fixture : AdminApiFixture2
+public class With_A_NonMatching_ETag_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;

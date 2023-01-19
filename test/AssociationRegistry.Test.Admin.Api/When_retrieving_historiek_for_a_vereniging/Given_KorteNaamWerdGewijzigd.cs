@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_retrieving_historiek_for_a_vereniging;
 
-using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -12,7 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture2
+public class When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
@@ -20,7 +18,7 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture2
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     public CommandMetadata? Metadata;
 
-    public Given_KorteNaamWerdGewijzigd_Fixture() : base(nameof(Given_KorteNaamWerdGewijzigd_Fixture))
+    public When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture() : base(nameof(When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         VCode = _fixture.Create<VCode>();
@@ -49,11 +47,11 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture2
     }
 }
 
-public class Given_KorteNaamWerdGewijzigd : IClassFixture<Given_KorteNaamWerdGewijzigd_Fixture>
+public class Given_KorteNaamWerdGewijzigd : IClassFixture<When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture>
 {
-    private readonly Given_KorteNaamWerdGewijzigd_Fixture _fixture;
+    private readonly When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture _fixture;
 
-    public Given_KorteNaamWerdGewijzigd(Given_KorteNaamWerdGewijzigd_Fixture fixture)
+    public Given_KorteNaamWerdGewijzigd(When_Historiek_Given_KorteNaamWerdGewijzigd_Fixture fixture)
     {
         _fixture = fixture;
     }

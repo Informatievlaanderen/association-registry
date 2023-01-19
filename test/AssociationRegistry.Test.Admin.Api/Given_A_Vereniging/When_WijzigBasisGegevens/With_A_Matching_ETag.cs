@@ -14,7 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
-public class With_A_Matching_ETag_Fixture : AdminApiFixture2
+public class With_A_Matching_ETag_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;

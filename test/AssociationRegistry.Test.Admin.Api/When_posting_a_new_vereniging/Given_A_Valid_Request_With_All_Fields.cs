@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using Xunit;
 using AppSettings = global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings.AppSettings;
 
-public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture2
+public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
 {
     public RegistreerVerenigingRequest Request { get; }
     public HttpResponseMessage Response { get; private set; } = null!;

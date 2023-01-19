@@ -36,8 +36,9 @@ public class With_Minimal_Fields_Fixture : AdminApiFixture
     }
 
     public SaveChangesResult SaveResult { get; private set; } = null!;
+    public HttpResponseMessage Response { get; set; } = null!;
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         var metadata = _fixture.Create<CommandMetadata>();
         SaveResult = await AddEvent(
@@ -45,24 +46,29 @@ public class With_Minimal_Fields_Fixture : AdminApiFixture
             VerenigingWerdGeregistreerd,
             metadata);
     }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.GetDetail(VCode);
+    }
 }
 
 public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 {
     private readonly string _vCode;
-    private readonly With_Minimal_Fields_Fixture _fixture;
+    private readonly With_Minimal_Fields_Fixture _admingApiFixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public With_Minimal_Fields(With_Minimal_Fields_Fixture fixture)
+    public With_Minimal_Fields(With_Minimal_Fields_Fixture admingApiFixture)
     {
-        _fixture = fixture;
-        _vCode = fixture.VCode;
-        _adminApiClient = fixture.AdminApiClient;
+        _admingApiFixture = admingApiFixture;
+        _vCode = admingApiFixture.VCode;
+        _adminApiClient = admingApiFixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _admingApiFixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -72,23 +78,21 @@ public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _admingApiFixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _adminApiClient.GetDetail(_vCode);
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _admingApiFixture.Response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
 {{
     ""vereniging"": {{
-            ""vCode"": ""{_fixture.VCode}"",
-            ""naam"": ""{_fixture.VerenigingWerdGeregistreerd.Naam}"",
+            ""vCode"": ""{_admingApiFixture.VCode}"",
+            ""naam"": ""{_admingApiFixture.VerenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": null,
             ""korteBeschrijving"": null,
             ""kboNummer"": null,

@@ -12,7 +12,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class Given_NaamWerdGewijzigd_Fixture : AdminApiFixture2
+public class Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     public readonly string VCode;
@@ -29,7 +29,7 @@ public class Given_NaamWerdGewijzigd_Fixture : AdminApiFixture2
     }
 
     public SaveChangesResult SaveResult { get; private set; } = null!;
-    public HttpResponseMessage Response { get; set; } = null!;
+    public HttpResponseMessage Response { get; private set; } = null!;
 
     protected override async Task Given()
     {

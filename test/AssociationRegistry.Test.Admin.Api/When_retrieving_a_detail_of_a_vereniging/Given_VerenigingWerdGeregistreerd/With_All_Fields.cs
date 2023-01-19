@@ -28,14 +28,20 @@ public class With_All_Fields_Fixture : AdminApiFixture
     }
 
     public SaveChangesResult SaveResult { get; private set; } = null!;
+    public HttpResponseMessage Response { get; set; } = null!;
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         var metadata = _fixture.Create<CommandMetadata>();
         SaveResult = await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
             metadata);
+    }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.GetDetail(VCode);
     }
 }
 
@@ -71,48 +77,46 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _adminApiClient.GetDetail(_vCode);
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _fixture.Response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
-{{
-    ""vereniging"": {{
-            ""vCode"": ""{_fixture.VCode}"",
-            ""naam"": ""{_fixture.VerenigingWerdGeregistreerd.Naam}"",
-            ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
-            ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
-            ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""status"": ""Actief"",
-            ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
-                ""contactnaam"": ""{x.Contactnaam}"",
-                ""email"": ""{x.Email}"",
-                ""telefoon"": ""{x.Telefoon}"",
-                ""website"": ""{x.Website}"",
-                ""socialMedia"": ""{x.SocialMedia}""
-            }}"))}
-            ],
-            ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
-                ""locatietype"": ""{x.Locatietype}"",
-                {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
-                ""adres"": ""{x.ToAdresString()}"",
-                ""naam"": ""{x.Naam}"",
-                ""straatnaam"": ""{x.Straatnaam}"",
-                ""huisnummer"": ""{x.Huisnummer}"",
-                ""busnummer"": ""{x.Busnummer}"",
-                ""postcode"": ""{x.Postcode}"",
-                ""gemeente"": ""{x.Gemeente}"",
-                ""land"": ""{x.Land}""
-            }}"))}
-            ]
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
-        }}
-        }}
-";
+        {{
+            ""vereniging"": {{
+                    ""vCode"": ""{_fixture.VCode}"",
+                    ""naam"": ""{_fixture.VerenigingWerdGeregistreerd.Naam}"",
+                    ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
+                    ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
+                    ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
+                    ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""status"": ""Actief"",
+                    ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
+                        ""contactnaam"": ""{x.Contactnaam}"",
+                        ""email"": ""{x.Email}"",
+                        ""telefoon"": ""{x.Telefoon}"",
+                        ""website"": ""{x.Website}"",
+                        ""socialMedia"": ""{x.SocialMedia}""
+                    }}"))}
+                    ],
+                    ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
+                        ""locatietype"": ""{x.Locatietype}"",
+                        {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
+                        ""adres"": ""{x.ToAdresString()}"",
+                        ""naam"": ""{x.Naam}"",
+                        ""straatnaam"": ""{x.Straatnaam}"",
+                        ""huisnummer"": ""{x.Huisnummer}"",
+                        ""busnummer"": ""{x.Busnummer}"",
+                        ""postcode"": ""{x.Postcode}"",
+                        ""gemeente"": ""{x.Gemeente}"",
+                        ""land"": ""{x.Land}""
+                    }}"))}
+                    ]
+                }},
+                ""metadata"": {{
+                    ""datumLaatsteAanpassing"": """"
+                }}
+                }}
+        ";
 
         content.Should().BeEquivalentJson(expected);
     }

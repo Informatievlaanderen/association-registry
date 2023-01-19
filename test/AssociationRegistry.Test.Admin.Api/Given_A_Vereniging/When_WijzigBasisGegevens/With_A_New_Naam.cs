@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
-public class With_A_New_Naam_Fixture : AdminApiFixture2
+public class With_A_New_Naam_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;

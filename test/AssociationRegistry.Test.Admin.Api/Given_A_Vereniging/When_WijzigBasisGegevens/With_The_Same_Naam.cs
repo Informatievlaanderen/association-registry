@@ -10,7 +10,7 @@ using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class With_The_Same_Naam_Fixture : AdminApiFixture2
+public class With_The_Same_Naam_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     private VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd = null!;

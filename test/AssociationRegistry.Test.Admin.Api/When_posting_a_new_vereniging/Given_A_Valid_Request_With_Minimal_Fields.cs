@@ -10,7 +10,7 @@ using global::AssociationRegistry.Admin.Api.Infrastructure;
 using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Xunit;
 
-public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture2
+public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture = new();
     public Given_A_Valid_Request_With_Minimal_Fields_Fixture() : base(
