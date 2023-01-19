@@ -4,13 +4,14 @@ using System.Net;
 using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
+using Azure;
 using Fixtures;
 using Framework;
 using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class When_Retrieving_Historiek_Fixture : AdminApiFixture
+public class When_Retrieving_Historiek_Fixture : AdminApiFixture2
 {
     public SaveChangesResult SaveResult { get; private set; } = null!;
     public const string VCode = "V0001001";
@@ -19,7 +20,9 @@ public class When_Retrieving_Historiek_Fixture : AdminApiFixture
     {
     }
 
-    public override async Task InitializeAsync()
+    public HttpResponseMessage Response { get; set; } = null!;
+
+    protected override async Task Given()
     {
         SaveResult = await AddEvent(
             VCode,
@@ -36,6 +39,11 @@ public class When_Retrieving_Historiek_Fixture : AdminApiFixture
             new CommandMetadata(
                 Initiator: "Een initiator",
                 Tijdstip: new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant()));
+    }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.GetHistoriek(VCode);
     }
 }
 
@@ -72,9 +80,7 @@ public class When_Retrieving_Historiek : IClassFixture<When_Retrieving_Historiek
     [Fact]
     public async Task Then_we_get_a_historiek_response()
     {
-        var responseMessage = await _adminApiClient.GetHistoriek(VCode);
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _fixture.Response.Content.ReadAsStringAsync();
 
         var goldenMaster = GetType().GetAssociatedResourceJson(_goldenMasterFile);
 
