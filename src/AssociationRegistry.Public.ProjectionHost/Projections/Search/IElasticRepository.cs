@@ -9,4 +9,7 @@ public interface IElasticRepository
 
     Task IndexAsync<TDocument>(TDocument document)
         where TDocument : class;
+
+    void Update<TDocument>(string id, TDocument update) where TDocument : class;
+    Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class;
 }

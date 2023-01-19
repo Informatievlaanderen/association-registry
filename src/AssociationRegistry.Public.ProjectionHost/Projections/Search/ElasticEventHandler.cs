@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Events;
 using Infrastructure.Extensions;
 using Schema.Search;
-using Vereniging;
 
 public class ElasticEventHandler
 {
@@ -20,15 +19,25 @@ public class ElasticEventHandler
 
     public async Task Handle(EventEnvelope<VerenigingWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
-            new VerenigingDocument(
-                message.Data.VCode,
-                message.Data.Naam,
-                message.Data.KorteNaam,
-                message.Data.Locaties?.Select(ToDocument).ToArray() ?? Array.Empty<VerenigingDocument.Locatie>(),
-                _brolFeeder.Hoofdactiviteiten,
-                _brolFeeder.Doelgroep,
-                _brolFeeder.Activiteiten.ToArray()
-            )
+            new VerenigingDocument
+            {
+                VCode = message.Data.VCode,
+                Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
+                Locaties = message.Data.Locaties?.Select(ToDocument).ToArray() ?? Array.Empty<VerenigingDocument.Locatie>(),
+                Hoofdactiviteiten = _brolFeeder.Hoofdactiviteiten,
+                Doelgroep = _brolFeeder.Doelgroep,
+                Activiteiten = _brolFeeder.Activiteiten.ToArray(),
+            }
+        );
+
+    public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.Data.VCode,
+            new VerenigingDocument
+            {
+                Naam = message.Data.Naam,
+            }
         );
 
     private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)

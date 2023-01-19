@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_name;
 
-using System.Text.RegularExpressions;
 using Events;
 using Framework;
 using Fixtures;
@@ -9,12 +8,12 @@ using Xunit;
 
 public class Given_one_vereniging_naam_werd_gewijzigd_fixture : PublicApiFixture
 {
-    public const string VCode = "V0001001";
-    public const string Naam = "Feestcommittee Oudenaarde";
+    private const string VCode = "V0001001";
+    public const string Naam = "Een nieuwe naam";
     private const string KorteNaam = "FOud";
 
-    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
-    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
+    private static readonly VerenigingWerdGeregistreerd.Locatie Gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
+    private static readonly VerenigingWerdGeregistreerd.Locatie Feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
 
     public Given_one_vereniging_naam_werd_gewijzigd_fixture() : base(nameof(Given_one_vereniging_naam_werd_gewijzigd_fixture))
     {
@@ -26,15 +25,18 @@ public class Given_one_vereniging_naam_werd_gewijzigd_fixture : PublicApiFixture
             VCode,
             VerenigingWerdGeregistreerd(
                 VCode,
-                Naam,
+                "Feestcommittee Oudenaarde",
                 KorteNaam));
+        await AddEvent(
+            VCode,
+            new NaamWerdGewijzigd(VCode, Naam));
     }
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
         => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
         {
-            gemeentehuis,
-            feestzaal,
+            Gemeentehuis,
+            Feestzaal,
         },DateOnly.MinValue);
 }
 
@@ -43,13 +45,11 @@ public class Given_one_vereniging_naam_werd_gewijzigd : IClassFixture<Given_one_
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
-
     public Given_one_vereniging_naam_werd_gewijzigd(Given_one_vereniging_naam_werd_gewijzigd_fixture classFixture)
     {
         _publicApiClient = classFixture.PublicApiClient;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+            $"{nameof(Given_one_vereniging_naam_werd_gewijzigd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]
@@ -64,73 +64,5 @@ public class Given_one_vereniging_naam_werd_gewijzigd : IClassFixture<Given_one_
         var goldenMaster = _goldenMasterWithOneVereniging
             .Replace("{{originalQuery}}", Given_one_vereniging_naam_werd_gewijzigd_fixture.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
-    {
-        var response = await _publicApiClient.Search("dena");
-        var content = await response.Content.ReadAsStringAsync();
-
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
-    {
-        var response = await _publicApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*dena*");
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
-    {
-        var response = await _publicApiClient.Search("oudenaarde");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oudenaarde");
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
-    {
-        var response = await _publicApiClient.Search(Given_one_vereniging_naam_werd_gewijzigd_fixture.VCode);
-        var content = await response.Content.ReadAsStringAsync();
-
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", Given_one_vereniging_naam_werd_gewijzigd_fixture.VCode);
-        content.Should().BeEquivalentJson(goldenMaster);
-    }
-
-    [Fact]
-    public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
-    {
-        var response = await _publicApiClient.Search("001");
-        var content = await response.Content.ReadAsStringAsync();
-
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-
-    [Fact]
-    public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
-    {
-        var response = await _publicApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteiten"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
-        var regexResult = regex.Match(content);
-        var urlFromFacets = regexResult.Groups[2].Value;
-
-        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
-        var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
-
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
-        contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
