@@ -48,6 +48,8 @@ public class DetailVerenigingenController : ApiController
         if (maybeVereniging is not { } vereniging)
             return NotFound();
 
+        Response.AddETagHeader(vereniging.Metadata.Version);
+
         return Ok(
             new DetailVerenigingResponse(
                 new DetailVerenigingResponse.VerenigingDetail(

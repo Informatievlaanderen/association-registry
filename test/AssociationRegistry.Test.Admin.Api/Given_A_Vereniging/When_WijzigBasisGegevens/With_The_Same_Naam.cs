@@ -2,9 +2,9 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using NodaTime.Extensions;

@@ -13,7 +13,7 @@ using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 
-public class Vereniging
+public class Vereniging:IHasVersion
 {
     public record State
     {
@@ -27,6 +27,8 @@ public class Vereniging
             VCode = VCode.Create(vCode);
         }
     }
+
+    public long Version { get; set; }
 
     private State _state;
 

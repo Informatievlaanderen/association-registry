@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging;
 
-using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
@@ -26,10 +25,9 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
-        _metadata = fixture.Create<CommandMetadata>();
+        _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
     }
 
-    public long Sequence { get; private set; }
 
     public override async Task InitializeAsync()
     {
@@ -37,7 +35,7 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
             VCode,
             VerenigingWerdGeregistreerd,
             _metadata);
-        Sequence = await AddEvent(
+        await AddEvent(
             VCode,
             KorteNaamWerdGewijzigd,
             _metadata);
@@ -85,7 +83,7 @@ public class Given_KorteNaamWerdGewijzigd : IClassFixture<Given_KorteNaamWerdGew
                     ],
                     ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
-                        { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
+                        {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
                         ""adres"": ""{x.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
                         ""straatnaam"": ""{x.Straatnaam}"",

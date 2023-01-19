@@ -109,17 +109,17 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<long> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
+    protected async Task<SaveChangesResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         var eventStore = new EventStore(DocumentStore);
-        var sequence = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
+        var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
         await _daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
-        return sequence;
+        return result;
     }
 
 

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_veren
 
 using System.Net;
 using System.Text.RegularExpressions;
+using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -34,12 +35,12 @@ public class With_Minimal_Fields_Fixture : AdminApiFixture
         };
     }
 
-    public long Sequence { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; }
 
     public override async Task InitializeAsync()
     {
         var metadata = _fixture.Create<CommandMetadata>();
-        Sequence = await AddEvent(
+        SaveResult = await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
             metadata);
@@ -61,7 +62,7 @@ public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -71,7 +72,7 @@ public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

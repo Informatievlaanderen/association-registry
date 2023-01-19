@@ -6,7 +6,7 @@ using IEvent = Framework.IEvent;
 
 public interface IEventStore
 {
-    Task<long> Save(string aggregateId, CommandMetadata commandMetadata, params IEvent[] events);
+    Task<SaveChangesResult> Save(string aggregateId, CommandMetadata commandMetadata, params IEvent[] events);
 
-    Task<T> Load<T>(string id) where T : class;
+    Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion;
 }
