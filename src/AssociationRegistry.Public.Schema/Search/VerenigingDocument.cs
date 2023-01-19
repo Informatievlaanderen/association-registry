@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-using Marten.Schema;
-
 public class VerenigingDocument
 {
     public record Locatie(

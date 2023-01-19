@@ -14,14 +14,14 @@ using global::AssociationRegistry.Framework;
 using VCodes;
 using Xunit;
 
-public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
+public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
 {
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     private readonly CommandMetadata _metadata;
 
-    public Given_A_Vereniging_With_A_Changed_Naam_Fixture() : base(nameof(Given_A_Vereniging_With_A_Changed_Naam_Fixture))
+    public When_Detaile_Given_NaamWerdGewijzigd_Fixture() : base(nameof(When_Detaile_Given_NaamWerdGewijzigd_Fixture))
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = fixture.Create<VCode>();
@@ -31,8 +31,9 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
     }
 
     public SaveChangesResult SaveResult { get; private set; } = null!;
+    public HttpResponseMessage Response { get; set; } = null!;
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         await AddEvent(
             VCode,
@@ -43,24 +44,29 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
             NaamWerdGewijzigd,
             _metadata);
     }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.GetDetail(VCode);
+    }
 }
 
-public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vereniging_With_A_Changed_Naam_Fixture>
+public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerdGewijzigd_Fixture>
 {
     private readonly string _vCode;
-    private readonly Given_A_Vereniging_With_A_Changed_Naam_Fixture _fixture;
+    private readonly When_Detaile_Given_NaamWerdGewijzigd_Fixture _werdGewijzigdFixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_A_Vereniging_With_A_Changed_Naam(Given_A_Vereniging_With_A_Changed_Naam_Fixture fixture)
+    public Given_NaamWerdGewijzigd(When_Detaile_Given_NaamWerdGewijzigd_Fixture werdGewijzigdFixture)
     {
-        _fixture = fixture;
-        _vCode = fixture.VCode;
-        _adminApiClient = fixture.AdminApiClient;
+        _werdGewijzigdFixture = werdGewijzigdFixture;
+        _vCode = werdGewijzigdFixture.VCode;
+        _adminApiClient = werdGewijzigdFixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -70,29 +76,27 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _adminApiClient.GetDetail(_vCode);
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await _werdGewijzigdFixture.Response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
         {{
             ""vereniging"": {{
-                    ""vCode"": ""{_fixture.VCode}"",
-                    ""naam"": ""{_fixture.NaamWerdGewijzigd.Naam}"",
-                    ""korteNaam"": ""{_fixture.VerenigingWerdGeregistreerd.KorteNaam}"",
-                    ""korteBeschrijving"": ""{_fixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
-                    ""kboNummer"": ""{_fixture.VerenigingWerdGeregistreerd.KboNummer}"",
-                    ""startdatum"": ""{_fixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""vCode"": ""{_werdGewijzigdFixture.VCode}"",
+                    ""naam"": ""{_werdGewijzigdFixture.NaamWerdGewijzigd.Naam}"",
+                    ""korteNaam"": ""{_werdGewijzigdFixture.VerenigingWerdGeregistreerd.KorteNaam}"",
+                    ""korteBeschrijving"": ""{_werdGewijzigdFixture.VerenigingWerdGeregistreerd.KorteBeschrijving}"",
+                    ""kboNummer"": ""{_werdGewijzigdFixture.VerenigingWerdGeregistreerd.KboNummer}"",
+                    ""startdatum"": ""{_werdGewijzigdFixture.VerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', _fixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
+                    ""contactInfoLijst"": [{string.Join(',', _werdGewijzigdFixture.VerenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
                         ""contactnaam"": ""{x.Contactnaam}"",
                         ""email"": ""{x.Email}"",
                         ""telefoon"": ""{x.Telefoon}"",
@@ -100,7 +104,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
                         ""socialMedia"": ""{x.SocialMedia}""
                     }}"))}
                     ],
-                    ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
+                    ""locaties"":[{string.Join(',', _werdGewijzigdFixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
                         ""adres"": ""{x.ToAdresString()}"",

@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using Framework;
 
-public abstract class JsonRequestAdminApiFixture : AdminApiFixture2
+public abstract class JsonRequestAdminApiFixture : AdminApiFixture
 {
     public string JsonContent { get; }
 

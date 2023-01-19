@@ -5,7 +5,6 @@ using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Schema;
-using Schema.Search;
 
 public static class ElasticSearchExtensions
 {

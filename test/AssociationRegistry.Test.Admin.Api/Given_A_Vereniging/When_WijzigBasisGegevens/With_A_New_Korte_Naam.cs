@@ -1,19 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
-using Microsoft.Extensions.DependencyInjection;
 using VCodes;
 using Xunit;
 
-public class With_A_New_Korte_Naam_Fixture : AdminApiFixture2
+public class With_A_New_Korte_Naam_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;

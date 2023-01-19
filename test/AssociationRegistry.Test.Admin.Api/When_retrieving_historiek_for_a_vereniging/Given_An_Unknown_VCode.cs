@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_retrieving_historiek_for_a_vereniging;
 
 using System.Net;
-using Azure;
 using Fixtures;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Xunit;
 
-public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture2
+public class Given_An_Unknown_Vereniging_Fixture : AdminApiFixture
 {
     public const string VCode = "v9999999";
 

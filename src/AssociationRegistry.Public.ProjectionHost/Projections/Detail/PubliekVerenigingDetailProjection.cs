@@ -7,7 +7,6 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema.Detail;
-using Vereniging;
 
 public class PubliekVerenigingDetailProjection : SingleStreamAggregation<PubliekVerenigingDetailDocument>
 {

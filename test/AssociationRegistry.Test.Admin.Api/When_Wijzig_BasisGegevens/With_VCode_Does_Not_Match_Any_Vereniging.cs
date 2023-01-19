@@ -8,7 +8,7 @@ using Framework;
 using VCodes;
 using Xunit;
 
-public class With_A_NonExisting_VCode_Fixture : AdminApiFixture2
+public class With_A_NonExisting_VCode_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;

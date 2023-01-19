@@ -4,14 +4,13 @@ using System.Net;
 using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
-using Azure;
 using Fixtures;
 using Framework;
 using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class When_Retrieving_Historiek_Fixture : AdminApiFixture2
+public class When_Retrieving_Historiek_Fixture : AdminApiFixture
 {
     public SaveChangesResult SaveResult { get; private set; } = null!;
     public const string VCode = "V0001001";

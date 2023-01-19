@@ -8,7 +8,7 @@ using Marten;
 using NodaTime.Extensions;
 using Xunit;
 
-public class Given_An_Event_Fixture : AdminApiFixture2
+public class Given_An_Event_Fixture : AdminApiFixture
 {
     public Given_An_Event_Fixture() : base(nameof(Given_An_Event_Fixture))
     {
@@ -23,7 +23,7 @@ public class Given_An_Event_Fixture : AdminApiFixture2
 
 public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
 {
-    private readonly AdminApiFixture2 _fixture;
+    private readonly AdminApiFixture _fixture;
 
     public Given_An_Event(Given_An_Event_Fixture fixture)
     {

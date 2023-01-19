@@ -9,7 +9,7 @@ using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class With_An_Empty_Body_Fixture : AdminApiFixture2
+public class With_An_Empty_Body_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
     private const string VCode = "V0001001";

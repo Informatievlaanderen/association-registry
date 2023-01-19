@@ -5,7 +5,7 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 
-public class With_An_Empty_Request_Fixture : AdminApiFixture2
+public class With_An_Empty_Request_Fixture : AdminApiFixture
 {
     private const string VCode = "V0001001";
 
