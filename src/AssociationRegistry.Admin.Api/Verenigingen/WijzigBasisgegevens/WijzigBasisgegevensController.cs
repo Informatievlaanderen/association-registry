@@ -78,7 +78,7 @@ public class WijzigBasisgegevensController : ApiController
         }
     }
 
-    public long? ParseIfMatch(string? ifMatch)
+    private long? ParseIfMatch(string? ifMatch)
     {
         if (ifMatch is null) return null;
         return long.Parse(ifMatch[3..][..(ifMatch.Length - 4)]);
