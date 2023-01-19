@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -26,12 +27,12 @@ public class With_All_Fields_Fixture : AdminApiFixture
         VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
     }
 
-    public long Sequence { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; } = null!;
 
     public override async Task InitializeAsync()
     {
         var metadata = _fixture.Create<CommandMetadata>();
-        Sequence = await AddEvent(
+        SaveResult = await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
             metadata);
@@ -53,7 +54,7 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -63,7 +64,7 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
@@ -95,7 +96,7 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
             ],
             ""locaties"":[{string.Join(',', _fixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
                 ""locatietype"": ""{x.Locatietype}"",
-                { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
+                {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
                 ""adres"": ""{x.ToAdresString()}"",
                 ""naam"": ""{x.Naam}"",
                 ""straatnaam"": ""{x.Straatnaam}"",

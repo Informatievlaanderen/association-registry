@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.EventStore;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -26,10 +27,10 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
-        _metadata = fixture.Create<CommandMetadata>();
+        _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
     }
 
-    public long Sequence { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; }
 
     public override async Task InitializeAsync()
     {
@@ -37,7 +38,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam_Fixture : AdminApiFixture
             VCode,
             VerenigingWerdGeregistreerd,
             _metadata);
-        Sequence = await AddEvent(
+        SaveResult = await AddEvent(
             VCode,
             NaamWerdGewijzigd,
             _metadata);
@@ -59,7 +60,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -69,7 +70,7 @@ public class Given_A_Vereniging_With_A_Changed_Naam : IClassFixture<Given_A_Vere
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

@@ -4,13 +4,11 @@ using System;
 using System.Linq;
 using Events;
 using Infrastructure.Extensions;
-using Framework;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using NodaTime.Text;
 
-public record Metadata(long Sequence);
+public record Metadata(long Sequence, long Version);
 
 public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVerenigingDetailDocument>
 {
@@ -36,19 +34,19 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                                    }).ToArray()
                                ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
-            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
+            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
-        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
+        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
     }
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
-        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence };
+        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
     }
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)

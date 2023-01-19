@@ -2,6 +2,7 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
+using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -27,16 +28,15 @@ public class Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
         _korteNaamWerdGewijzigd = _fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
     }
 
-    public long Sequence { get; private set; }
 
     public override async Task InitializeAsync()
     {
-        Metadata = _fixture.Create<CommandMetadata>();
+        Metadata = _fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
         await AddEvent(
             VCode,
             _verenigingWerdGeregistreerd,
             Metadata);
-        Sequence = await AddEvent(
+        await AddEvent(
             VCode,
             _korteNaamWerdGewijzigd,
             Metadata);

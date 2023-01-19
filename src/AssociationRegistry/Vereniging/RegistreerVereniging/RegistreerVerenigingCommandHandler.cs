@@ -31,8 +31,8 @@ public class RegistreerVerenigingCommandHandler
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
         var vCode = await _vCodeService.GetNext();
         var vereniging = Vereniging.Registreer(vCode, naam, command.KorteNaam, command.KorteBeschrijving, startdatum, kboNummer, contactInfoLijst, locatieLijst, _clock.Today);
-        var sequence = await _verenigingsRepository.Save(vereniging, message.Metadata);
-        return new CommandResult(vCode, sequence);
+        var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
+        return new CommandResult(vCode, result.Sequence, result.Version);
     }
     private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
         => Locatie.CreateInstance(

@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Framework;
 using JasperFx.Core.Reflection;
 using Marten;
+using Marten.Exceptions;
 using IEvent = Framework.IEvent;
 
 public class EventStore : IEventStore
@@ -17,25 +18,37 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task<long> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
+    public async Task<SaveChangesResult> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
 
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, metadata.Tijdstip);
+        try
+        {
+            var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + 1, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
 
-        var streamAction = session.Events.Append(aggregateId, events.As<object[]>());
-
-        await session.SaveChangesAsync();
-
-        return streamAction.Events.Max(@event => @event.Sequence);
+            await session.SaveChangesAsync();
+            return new SaveChangesResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
+        }
+        catch (EventStreamUnexpectedMaxEventIdException ex)
+        {
+            throw new UnexpectedAggregateVersionException();
+        }
     }
 
-    public async Task<T> Load<T>(string id) where T : class
+    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
     {
         await using var session = _documentStore.OpenSession();
 
-        return await session.Events.AggregateStreamAsync<T>(id) ??
-               throw new AggregateNotFoundException(id, typeof(T));
+        var aggregate = await session.Events.AggregateStreamAsync<T>(id) ??
+                        throw new AggregateNotFoundException(id, typeof(T));
+
+        if (expectedVersion is not null && aggregate.Version != expectedVersion)
+            throw new UnexpectedAggregateVersionException();
+
+        return aggregate;
     }
 }
+
+public record SaveChangesResult(long? Sequence, long? Version);

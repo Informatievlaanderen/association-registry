@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Infrastructure;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using EventStore;
 using FluentValidation;
 using Framework;
 using Infrastructure.ConfigurationBindings;
@@ -11,7 +12,6 @@ using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
-using Registreer;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Vereniging.WijzigBasisgegevens;
@@ -52,17 +52,34 @@ public class WijzigBasisgegevensController : ApiController
     public async Task<IActionResult> Patch(
         [FromServices] WijzigBasisgegevensRequestValidator validator,
         [FromBody] WijzigBasisgegevensRequest? request,
-        [FromRoute] string vCode)
+        [FromRoute] string vCode,
+        [FromHeader(Name = "If-Match")] string? ifMatch)
     {
-        if (request is null) return BadRequest();
-        await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
+        try
+        {
+            if (request is null) return BadRequest();
+            await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
-        var command = request.ToWijzigBasisgegevensCommand(vCode);
+            var command = request.ToWijzigBasisgegevensCommand(vCode);
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
-        var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
-        var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
+            var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), ParseIfMatch(ifMatch));
+            var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
+            var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-        return this.AcceptedCommand(_appSettings, wijzigResult);
+            Response.AddSequenceHeader(wijzigResult.Sequence);
+            Response.AddETagHeader(wijzigResult.Version);
+
+            return this.AcceptedCommand(_appSettings, wijzigResult);
+        }
+        catch (UnexpectedAggregateVersionException)
+        {
+            return StatusCode(StatusCodes.Status412PreconditionFailed);
+        }
+    }
+
+    public long? ParseIfMatch(string? ifMatch)
+    {
+        if (ifMatch is null) return null;
+        return long.Parse(ifMatch[3..][..(ifMatch.Length - 4)]);
     }
 }

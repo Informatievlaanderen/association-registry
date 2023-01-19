@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
+using Microsoft.Net.Http.Headers;
 
 public class AdminApiClient : IDisposable
 {
@@ -24,8 +25,17 @@ public class AdminApiClient : IDisposable
     private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
         => expectedSequence == null ? await _httpClient.GetAsync(requestUri) : await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
 
-    public async Task<HttpResponseMessage> PatchVereniging(string vCode, string content)
-        => await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
+    public async Task<HttpResponseMessage> PatchVereniging(string vCode, string content, long? version = null)
+    {
+        SetIfMatchHeader(version);
+        return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
+    }
+
+    private void SetIfMatchHeader(long? version)
+    {
+        if (version is null) _httpClient.DefaultRequestHeaders.Remove(HeaderNames.IfMatch);
+        else _httpClient.DefaultRequestHeaders.Add(HeaderNames.IfMatch, $"W/\"{version}\"");
+    }
 
     public void Dispose()
     {

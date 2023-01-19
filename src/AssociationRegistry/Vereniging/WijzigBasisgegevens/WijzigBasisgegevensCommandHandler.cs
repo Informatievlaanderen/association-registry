@@ -8,7 +8,7 @@ public class WijzigBasisgegevensCommandHandler
 {
     public async Task<CommandResult> Handle(CommandEnvelope<WijzigBasisgegevensCommand> message, IVerenigingsRepository repository)
     {
-        var vereniging = await repository.Load(VCode.Create(message.Command.VCode));
+        var vereniging = await repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
         if (message.Command.Naam is { } naam)
             vereniging.WijzigNaam(new VerenigingsNaam(naam));
@@ -16,7 +16,7 @@ public class WijzigBasisgegevensCommandHandler
         if (message.Command.KorteNaam is { } korteNaam)
             vereniging.WijzigKorteNaam(korteNaam);
 
-        var sequence = await repository.Save(vereniging, message.Metadata);
-        return new CommandResult(VCode.Create(message.Command.VCode), sequence);
+        var result = await repository.Save(vereniging, message.Metadata);
+        return new CommandResult(VCode.Create(message.Command.VCode), result.Sequence, result.Version);
     }
 }

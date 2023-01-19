@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging;
 
 using System.Net;
+using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -11,7 +12,7 @@ using Xunit;
 
 public class When_Retrieving_Historiek_Fixture : AdminApiFixture
 {
-    public long Sequence { get; private set; }
+    public SaveChangesResult SaveResult { get; private set; } = null!;
     public const string VCode = "V0001001";
 
     public When_Retrieving_Historiek_Fixture() : base(nameof(When_Retrieving_Historiek_Fixture))
@@ -20,7 +21,7 @@ public class When_Retrieving_Historiek_Fixture : AdminApiFixture
 
     public override async Task InitializeAsync()
     {
-        Sequence = await AddEvent(
+        SaveResult = await AddEvent(
             VCode,
             new VerenigingWerdGeregistreerd(
                 VCode: VCode,
@@ -54,7 +55,7 @@ public class When_Retrieving_Historiek : IClassFixture<When_Retrieving_Historiek
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, _fixture.Sequence))
+        => (await _adminApiClient.GetHistoriek(VCode, _fixture.SaveResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -64,7 +65,7 @@ public class When_Retrieving_Historiek : IClassFixture<When_Retrieving_Historiek
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, _fixture.Sequence + 1))
+        => (await _adminApiClient.GetHistoriek(VCode, _fixture.SaveResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

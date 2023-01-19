@@ -22,7 +22,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                     verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
                 ),
             },
-            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence),
+            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -34,7 +34,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
             )
         );
-        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence };
+        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
     }
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -46,10 +46,11 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
             )
         );
-        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence };
+        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
     }
 }
 
+// TODO bekijken of Metadata weg kan?
 public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode
 {
     [Identity] public string VCode { get; set; } = null!;

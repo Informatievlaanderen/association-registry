@@ -15,16 +15,15 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<long?> Save(Vereniging vereniging, CommandMetadata metadata)
+    public async Task<SaveChangesResult> Save(Vereniging vereniging, CommandMetadata metadata)
     {
         var events = vereniging.UncommittedEvents.ToArray();
         if (!events.Any())
-            return null;
+            return new SaveChangesResult(null, null);
 
         return await _eventStore.Save(vereniging.VCode, metadata, events);
     }
 
-    public async Task<Vereniging> Load(VCode vCode)
-        => await _eventStore.Load<Vereniging>(vCode);
-
+    public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)
+        => await _eventStore.Load<Vereniging>(vCode, expectedVersion);
 }
