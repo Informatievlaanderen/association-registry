@@ -10,7 +10,7 @@ using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class With_The_Same_Naam_Fixture : AdminApiFixture
+public class With_The_Same_Naam_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
     public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
@@ -22,7 +22,7 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture
         _fixture = new Fixture();
     }
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         VerenigingWerdGeregistreerd = new VerenigingWerdGeregistreerd(
             VCode,
@@ -41,6 +41,14 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture
                 _fixture.Create<string>(),
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
     }
+
+    protected override async Task When()
+    {
+        var jsonBody = $@"{{""naam"":""{VerenigingWerdGeregistreerd.Naam}"", ""Initiator"": ""OVO000001""}}";
+        Response = await AdminApiClient.PatchVereniging(With_The_Same_Naam_Fixture.VCode, jsonBody);
+    }
+
+    public HttpResponseMessage Response { get; set; }
 }
 
 public class With_The_Same_Naam : IClassFixture<With_The_Same_Naam_Fixture>
@@ -55,16 +63,12 @@ public class With_The_Same_Naam : IClassFixture<With_The_Same_Naam_Fixture>
     [Fact]
     public async Task Then_it_returns_an_accepted_response()
     {
-        var jsonBody = $@"{{""naam"":""{_apiFixture.VerenigingWerdGeregistreerd.Naam}"", ""Initiator"": ""OVO000001""}}";
-        var response = await _apiFixture.AdminApiClient.PatchVereniging(With_The_Same_Naam_Fixture.VCode, jsonBody);
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
     public async Task Then_it_returns_no_sequence_header()
     {
-        var jsonBody = $@"{{""naam"":""{_apiFixture.VerenigingWerdGeregistreerd.Naam}"", ""Initiator"": ""OVO000001""}}";
-        var response = await _apiFixture.AdminApiClient.PatchVereniging(With_The_Same_Naam_Fixture.VCode, jsonBody);
-        response.Headers.Should().NotContainKey(WellknownHeaderNames.Sequence);
+        _apiFixture.Response.Headers.Should().NotContainKey(WellknownHeaderNames.Sequence);
     }
 }
