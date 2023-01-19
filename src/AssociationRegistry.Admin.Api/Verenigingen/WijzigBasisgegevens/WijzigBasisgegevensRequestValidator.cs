@@ -3,11 +3,14 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using FluentValidation;
+using Infrastructure.Validation;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
     public WijzigBasisgegevensRequestValidator()
     {
+        this.RequireNotNullOrEmpty(request => request.Initiator);
+
         RuleFor(request => request)
             .Must(HaveAtLeastOneValue)
             .OverridePropertyName("request")
