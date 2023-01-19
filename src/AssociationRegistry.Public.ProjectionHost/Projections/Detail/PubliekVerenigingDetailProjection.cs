@@ -40,6 +40,11 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.Naam = naamWerdGewijzigd.Data.Naam;
     }
 
+    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
+    }
+
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
