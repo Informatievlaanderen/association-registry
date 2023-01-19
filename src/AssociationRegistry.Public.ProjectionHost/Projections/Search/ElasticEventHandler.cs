@@ -40,6 +40,15 @@ public class ElasticEventHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.Data.VCode,
+            new VerenigingDocument
+            {
+                KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
     private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
         => new(loc.Locatietype, loc.Naam, loc.ToAdresString(), loc.Hoofdlocatie, loc.Postcode, loc.Gemeente);
 }
