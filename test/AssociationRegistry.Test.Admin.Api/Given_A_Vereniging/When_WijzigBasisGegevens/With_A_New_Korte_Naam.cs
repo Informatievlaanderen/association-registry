@@ -38,7 +38,7 @@ public class With_A_New_Korte_Naam_Fixture : AdminApiFixture2
 
     protected override async Task When()
     {
-        var jsonBody = $@"{{""korteNaam"":""{NieuweKorteNaam}""}}";
+        var jsonBody = $@"{{""korteNaam"":""{NieuweKorteNaam}"", ""Initiator"": ""OVO000001""}}";
         Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody);
     }
 }

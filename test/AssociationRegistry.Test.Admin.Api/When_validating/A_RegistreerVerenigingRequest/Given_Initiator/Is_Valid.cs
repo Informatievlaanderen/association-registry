@@ -6,13 +6,13 @@ using FluentValidation.TestHelper;
 using Xunit;
 
 public class Is_Valid : ValidatorTest
+{
+    [Fact]
+    public void Then_it_has_no_validation_errors()
     {
-        [Fact]
-        public void Then_it_has_no_validation_errors()
-        {
-            var validator = new RegistreerVerenigingRequestValidator();
-            var result = validator.TestValidate(new RegistreerVerenigingRequest { Initiator = "abcd" });
+        var validator = new RegistreerVerenigingRequestValidator();
+        var result = validator.TestValidate(new RegistreerVerenigingRequest { Initiator = "abcd" });
 
-            result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Initiator);
-        }
+        result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Initiator);
     }
+}

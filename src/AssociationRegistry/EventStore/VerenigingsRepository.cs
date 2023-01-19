@@ -16,7 +16,10 @@ public class VerenigingsRepository : IVerenigingsRepository
     }
 
     public async Task<long> Save(Vereniging vereniging, CommandMetadata metadata)
-        => await _eventStore.Save(vereniging.VCode, metadata, vereniging.UncommittedEvents.ToArray());
+    {
+
+        return await _eventStore.Save(vereniging.VCode, metadata, vereniging.UncommittedEvents.ToArray());
+    }
 
     public async Task<Vereniging> Load(VCode vCode)
         => await _eventStore.Load<Vereniging>(vCode);
