@@ -5,19 +5,27 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 
-public class With_An_Initiator_Null_Fixture : AdminApiFixture
+public class With_An_Initiator_Null_Fixture : AdminApiFixture2
 {
     public const string VCode = "V0001001";
 
     public With_An_Initiator_Null_Fixture() : base(
         nameof(With_An_Initiator_Null_Fixture))
     {}
+
+    protected override async Task Given()
+    {
+    }
+
+    protected override async Task When()
+        => Response = await AdminApiClient.PatchVereniging(With_An_Initiator_Null_Fixture.VCode, @"{ ""initiator"": null}");
+
+    public HttpResponseMessage Response { get; set; }
 }
 
 public class With_An_Initiator_Null : IClassFixture<With_An_Initiator_Null_Fixture>
 {
     private readonly With_An_Initiator_Null_Fixture _apiFixture;
-    private const string JsonBody = @"{ ""initiator"": null}";
 
     public With_An_Initiator_Null(With_An_Initiator_Null_Fixture apiFixture)
     {
@@ -27,7 +35,6 @@ public class With_An_Initiator_Null : IClassFixture<With_An_Initiator_Null_Fixtu
     [Fact]
     public async Task Then_it_returns_a_bad_request_response()
     {
-        var response = await _apiFixture.AdminApiClient.PatchVereniging(With_An_Initiator_Null_Fixture.VCode, JsonBody);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

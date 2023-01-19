@@ -15,6 +15,17 @@ public class Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture : JsonR
         "files.request.with_an_invalid_startdatum")
     {
     }
+
+    protected override async Task Given()
+    {
+    }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.RegistreerVereniging(JsonContent);
+    }
+
+    public HttpResponseMessage Response { get; private set; }
 }
 
 public class Given_An_Invalid_Request_With_An_Invalid_Startdatum: IClassFixture<Given_An_Invalid_Request_With_An_Invalid_Startdatum_Fixture>
@@ -29,8 +40,7 @@ public class Given_An_Invalid_Request_With_An_Invalid_Startdatum: IClassFixture<
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.JsonContent);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]

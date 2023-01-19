@@ -9,7 +9,7 @@ using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class With_An_Empty_Body_Fixture : AdminApiFixture
+public class With_An_Empty_Body_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
     public const string VCode = "V0001001";
@@ -20,7 +20,8 @@ public class With_An_Empty_Body_Fixture : AdminApiFixture
         _fixture = new Fixture();
     }
 
-    public override async Task InitializeAsync()
+
+    protected override async Task Given()
     {
         await AddEvent(
             VCode,
@@ -38,12 +39,18 @@ public class With_An_Empty_Body_Fixture : AdminApiFixture
                 _fixture.Create<string>(),
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
     }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.PatchVereniging(VCode, "");
+    }
+
+    public HttpResponseMessage Response { get; set; }
 }
 
 public class With_An_Empty_Body : IClassFixture<With_An_Empty_Body_Fixture>
 {
     private readonly With_An_Empty_Body_Fixture _apiFixture;
-    private const string JsonBody = "";
 
     public With_An_Empty_Body(With_An_Empty_Body_Fixture apiFixture)
     {
@@ -53,7 +60,6 @@ public class With_An_Empty_Body : IClassFixture<With_An_Empty_Body_Fixture>
     [Fact]
     public async Task Then_it_returns_a_bad_request_response()
     {
-        var response = await _apiFixture.AdminApiClient.PatchVereniging(With_An_Empty_Body_Fixture.VCode, JsonBody);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

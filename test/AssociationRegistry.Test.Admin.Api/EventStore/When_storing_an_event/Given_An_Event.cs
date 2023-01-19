@@ -8,16 +8,24 @@ using Marten;
 using NodaTime.Extensions;
 using Xunit;
 
-public class Given_An_Event_Fixture : AdminApiFixture
+public class Given_An_Event_Fixture : AdminApiFixture2
 {
     public Given_An_Event_Fixture() : base(nameof(Given_An_Event_Fixture))
+    {
+    }
+
+    protected override async Task Given()
+    {
+    }
+
+    protected override async Task When()
     {
     }
 }
 
 public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
 {
-    private readonly AdminApiFixture _fixture;
+    private readonly AdminApiFixture2 _fixture;
 
     public Given_An_Event(Given_An_Event_Fixture fixture)
     {

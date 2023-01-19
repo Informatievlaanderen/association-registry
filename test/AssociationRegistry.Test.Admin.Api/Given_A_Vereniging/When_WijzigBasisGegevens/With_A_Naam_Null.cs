@@ -9,10 +9,11 @@ using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
-public class With_A_Naam_Null_Fixture : AdminApiFixture
+public class With_A_Naam_Null_Fixture : AdminApiFixture2
 {
     private readonly Fixture _fixture;
     public const string VCode = "V0001001";
+    private const string JsonBody = @"{ ""Initiator"": ""OVO000001"", ""Naam"": null}";
 
     public With_A_Naam_Null_Fixture() : base(
         nameof(With_A_Naam_Null_Fixture))
@@ -20,7 +21,7 @@ public class With_A_Naam_Null_Fixture : AdminApiFixture
         _fixture = new Fixture();
     }
 
-    public override async Task InitializeAsync()
+    protected override async Task Given()
     {
         await AddEvent(
             VCode,
@@ -38,12 +39,18 @@ public class With_A_Naam_Null_Fixture : AdminApiFixture
                 _fixture.Create<string>(),
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));
     }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.PatchVereniging(With_A_Naam_Null_Fixture.VCode, JsonBody);
+    }
+
+    public HttpResponseMessage Response { get; set; }
 }
 
 public class With_A_Naam_Null : IClassFixture<With_A_Naam_Null_Fixture>
 {
     private readonly With_A_Naam_Null_Fixture _apiFixture;
-    private const string JsonBody = @"{ ""Initiator"": ""OVO000001"", ""Naam"": null}";
 
     public With_A_Naam_Null(With_A_Naam_Null_Fixture apiFixture)
     {
@@ -53,7 +60,6 @@ public class With_A_Naam_Null : IClassFixture<With_A_Naam_Null_Fixture>
     [Fact]
     public async Task Then_it_returns_a_bad_request_response()
     {
-        var response = await _apiFixture.AdminApiClient.PatchVereniging(With_A_Naam_Null_Fixture.VCode, JsonBody);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

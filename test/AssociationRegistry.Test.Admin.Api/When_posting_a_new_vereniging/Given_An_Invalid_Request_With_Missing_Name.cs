@@ -15,6 +15,17 @@ public class Given_An_Invalid_Request_With_Missing_Name_Fixture : JsonRequestAdm
         "files.request.with_missing_name")
     {
     }
+
+    protected override async Task Given()
+    {
+    }
+
+    protected override async Task When()
+    {
+        Response = await AdminApiClient.RegistreerVereniging(JsonContent);
+    }
+
+    public HttpResponseMessage Response { get; private set; }
 }
 
 public class Given_An_Invalid_Request_With_Missing_Name : IClassFixture<Given_An_Invalid_Request_With_Missing_Name_Fixture>
@@ -29,16 +40,13 @@ public class Given_An_Invalid_Request_With_Missing_Name : IClassFixture<Given_An
     [Fact]
     public async Task Then_it_returns_a_badrequest_response()
     {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.JsonContent);
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
     [Fact]
     public async Task Then_it_returns_a_validationproblemdetails_response()
     {
-        var response = await _apiFixture.AdminApiClient.RegistreerVereniging(_apiFixture.JsonContent);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await _apiFixture.Response.Content.ReadAsStringAsync();
 
         var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
         var expectedResponseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(GetJsonResponseBody());
