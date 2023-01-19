@@ -6,6 +6,6 @@ using VCodes;
 
 public interface IVerenigingsRepository
 {
-    Task<long> Save(Vereniging vereniging, CommandMetadata metadata);
+    Task<long?> Save(Vereniging vereniging, CommandMetadata metadata);
     Task<Vereniging> Load(VCode vCode);
 }

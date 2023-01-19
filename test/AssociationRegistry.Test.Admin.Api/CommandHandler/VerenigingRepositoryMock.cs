@@ -19,7 +19,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         _verenigingToLoad = verenigingToLoad;
     }
 
-    public async Task<long> Save(Vereniging vereniging, CommandMetadata metadata)
+    public async Task<long?> Save(Vereniging vereniging, CommandMetadata metadata)
     {
         InvocationsSave.Add(new InvocationSave(vereniging));
         return await Task.FromResult(-1L);

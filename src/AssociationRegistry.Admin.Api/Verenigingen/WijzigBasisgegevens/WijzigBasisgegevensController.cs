@@ -37,6 +37,7 @@ public class WijzigBasisgegevensController : ApiController
     /// </summary>
     /// <remarks>
     /// Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
+    /// Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     [HttpPatch]
