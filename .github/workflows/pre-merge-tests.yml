@@ -1,4 +1,4 @@
-name: Pre-merge
+name: Pre-merge (Coffee break)
 
 on:
   pull_request:
