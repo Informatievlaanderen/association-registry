@@ -17,6 +17,7 @@ public class Hoofdactiviteit
         new Hoofdactiviteit("JGDW", "Jeugdwerk"),
         new Hoofdactiviteit("KLDU", "Klimaat & Duurzaamheid"),
         new Hoofdactiviteit("KECU", "Kunsten, Erfgoed & Cultuur"),
+        new Hoofdactiviteit("LAVI", "Landbouw & Visserij"),
         new Hoofdactiviteit("LEBE", "Levenbeschouwelijk"),
         new Hoofdactiviteit("MADP", "Maatschappelijke dienstverlening & Politiek"),
         new Hoofdactiviteit("MEDG", "Mediawijsheid & Digitale geletterdheid"),
@@ -27,6 +28,7 @@ public class Hoofdactiviteit
         new Hoofdactiviteit("SPRT", "Sport"),
         new Hoofdactiviteit("ONWE", "Technologie & Wetenschap"),
         new Hoofdactiviteit("TOER", "Toerisme"),
+        new Hoofdactiviteit("WESE", "Werk & Sociale economie"),
 
     };
 
