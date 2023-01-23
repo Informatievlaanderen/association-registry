@@ -16,7 +16,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
     {
         var executingAssembly = Assembly.GetEntryAssembly()!;
-        var serviceName = executingAssembly.FullName!;
+        var serviceName = executingAssembly.GetName().Name!;
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
         var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
 
