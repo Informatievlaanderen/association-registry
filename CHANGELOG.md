@@ -1,3 +1,19 @@
+# [1.106.0](https://github.com/informatievlaanderen/association-registry/compare/v1.105.0...v1.106.0) (2023-01-23)
+
+
+### Bug Fixes
+
+* or-1565 dispose document store and sessions ([c6806c7](https://github.com/informatievlaanderen/association-registry/commit/c6806c70cb7ffadadc8c4e5162b18a52c4eaa8ee))
+* or-1565 use assembly name without version for opentelemetry ([5dddd13](https://github.com/informatievlaanderen/association-registry/commit/5dddd1324f4a520e1c32efa66ba656974a638163))
+
+
+### Features
+
+* or-1565 add docs about if-match header ([eec2922](https://github.com/informatievlaanderen/association-registry/commit/eec29224d9e1173dbc93dd1936be53e8bd9bae70))
+* or-1565 add tests to verify documentation ([b956254](https://github.com/informatievlaanderen/association-registry/commit/b9562543b0312e53b7cd9f179e733369743783eb))
+* or-1565 allow concurrency checks ([022de6f](https://github.com/informatievlaanderen/association-registry/commit/022de6f1fba081378a5dc64d98b0a4c7ebe4aa3f))
+* or-1565 move tests to adminApiFixture2 ([e6672c2](https://github.com/informatievlaanderen/association-registry/commit/e6672c2d2d5d70ac6388ad8a1b0364f5c1191a03))
+
 # [1.105.0](https://github.com/informatievlaanderen/association-registry/compare/v1.104.0...v1.105.0) (2023-01-23)
 
 
