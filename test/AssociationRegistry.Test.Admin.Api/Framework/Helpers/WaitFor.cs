@@ -56,7 +56,7 @@ public static class WaitFor
             }
             catch (Exception exception)
             {
-                if (tryCount >= 5)
+                if (tryCount >= 20)
                     throw new TimeoutException($"Service {serviceName} throws exception {exception.Message} after 5 tries", exception);
 
                 tryCount++;
