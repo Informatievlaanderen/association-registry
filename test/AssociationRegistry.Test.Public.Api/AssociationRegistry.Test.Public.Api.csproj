@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="When_handling_an_event\Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
+    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_KorteBeschrijvingWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_korteBeschrijving.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_KorteNaamWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_korteNaam.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_NaamWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_name.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd\With_Minimal_Fields_Then_we_get_a_detail_vereniging_response.json" />
