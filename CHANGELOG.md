@@ -1,3 +1,19 @@
+# [1.105.0](https://github.com/informatievlaanderen/association-registry/compare/v1.104.0...v1.105.0) (2023-01-23)
+
+
+### Bug Fixes
+
+* or-1563 add validation on initiator ([0fff161](https://github.com/informatievlaanderen/association-registry/commit/0fff16149afdb63d5b42f5fc89dfdb83b5b8b859))
+* or-1563 check that initiator is required ([4ae0ef0](https://github.com/informatievlaanderen/association-registry/commit/4ae0ef0b66a0cceae3078f748ff2da38756857c0))
+* or-1563 don't crash on no events ([7be8906](https://github.com/informatievlaanderen/association-registry/commit/7be8906496b588d9ab3351b8059892d1e1c148fd))
+
+
+### Features
+
+* or-1363 add KorteNaamWerdGewijzigd including beheer projections ([25cfecc](https://github.com/informatievlaanderen/association-registry/commit/25cfecc61388c2db03c2d9b10d77ffff30720d6c))
+* or-1563 add validation for patch kortenaam ([9bc409c](https://github.com/informatievlaanderen/association-registry/commit/9bc409cb94f8e09d30f205d30e395262123151e8))
+* or-1563 handle korteNaamWerdGewijzigd in public projections ([41ea6e6](https://github.com/informatievlaanderen/association-registry/commit/41ea6e634198b8217672968ad7923806816abb3f))
+
 # [1.104.0](https://github.com/informatievlaanderen/association-registry/compare/v1.103.0...v1.104.0) (2023-01-19)
 
 
