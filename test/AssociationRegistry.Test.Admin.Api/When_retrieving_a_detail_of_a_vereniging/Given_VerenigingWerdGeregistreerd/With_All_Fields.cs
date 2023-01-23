@@ -27,13 +27,13 @@ public class With_All_Fields_Fixture : AdminApiFixture
         VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
     }
 
-    public SaveChangesResult SaveResult { get; private set; } = null!;
+    public StreamActionResult SaveVersionResult { get; private set; } = null!;
     public HttpResponseMessage Response { get; set; } = null!;
 
     protected override async Task Given()
     {
         var metadata = _fixture.Create<CommandMetadata>();
-        SaveResult = await AddEvent(
+        SaveVersionResult = await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
             metadata);
@@ -60,7 +60,7 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveVersionResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -70,7 +70,7 @@ public class With_All_Fields : IClassFixture<With_All_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveResult.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.SaveVersionResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

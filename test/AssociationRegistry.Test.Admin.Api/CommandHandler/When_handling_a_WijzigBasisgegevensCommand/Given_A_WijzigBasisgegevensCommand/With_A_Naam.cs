@@ -19,7 +19,7 @@ public class With_A_Naam
     public With_A_Naam()
     {
         var commandHandler = new WijzigBasisgegevensCommandHandler();
-        var command = new WijzigBasisgegevensCommand(VCodeValue, Naam:NieuweNaam);
+        var command = new WijzigBasisgegevensCommand(VCodeValue, Naam: NieuweNaam);
         var fixture = new Fixture();
 
         var commandMetadata = fixture.Create<CommandMetadata>();

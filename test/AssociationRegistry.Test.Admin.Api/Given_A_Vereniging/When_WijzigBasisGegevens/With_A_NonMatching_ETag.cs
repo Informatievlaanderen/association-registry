@@ -18,7 +18,7 @@ public class With_A_NonMatching_ETag_Fixture : AdminApiFixture
     private readonly string _vCode;
     private readonly Fixture _fixture;
     private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
-    private SaveChangesResult SaveResult { get; set; } = null!;
+    private StreamActionResult SaveVersionResult { get; set; } = null!;
 
     public With_A_NonMatching_ETag_Fixture() : base(
         nameof(With_A_NonMatching_ETag_Fixture))
@@ -29,7 +29,7 @@ public class With_A_NonMatching_ETag_Fixture : AdminApiFixture
 
     protected override async Task Given()
     {
-        SaveResult = await AddEvent(
+        SaveVersionResult = await AddEvent(
             _vCode,
             _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = _vCode },
             _fixture.Create<CommandMetadata>() with { ExpectedVersion = null }
@@ -39,7 +39,7 @@ public class With_A_NonMatching_ETag_Fixture : AdminApiFixture
     protected override async Task When()
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}"", ""Initiator"": ""OVO000001""}}";
-        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody, SaveResult.Version -1);
+        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody, SaveVersionResult.Version -1);
     }
 }
 

@@ -9,10 +9,10 @@ public class EventStoreMock : IEventStore
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task<SaveChangesResult> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
+    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         Invocations.Add(new Invocation(aggregateId, events));
-        return await Task.FromResult(new SaveChangesResult(-1, -1));
+        return await Task.FromResult(new StreamActionResult(-1, -1));
     }
 
     public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
