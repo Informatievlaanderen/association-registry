@@ -1,3 +1,10 @@
+# [1.108.0](https://github.com/informatievlaanderen/association-registry/compare/v1.107.0...v1.108.0) (2023-01-23)
+
+
+### Features
+
+* or-1558 add 2 new hoofdactiviteiten to the brolfeeder ([1ff6436](https://github.com/informatievlaanderen/association-registry/commit/1ff6436802ca93b17640100721b3ee3ade4cc214))
+
 # [1.107.0](https://github.com/informatievlaanderen/association-registry/compare/v1.106.0...v1.107.0) (2023-01-23)
 
 
