@@ -1,3 +1,16 @@
+# [1.107.0](https://github.com/informatievlaanderen/association-registry/compare/v1.106.0...v1.107.0) (2023-01-23)
+
+
+### Bug Fixes
+
+* or-1564 use using for sessions ([64c9649](https://github.com/informatievlaanderen/association-registry/commit/64c9649c245b6d891b3525e58467a3f759405b69))
+
+
+### Features
+
+* or-1564 add projections ([7ba401e](https://github.com/informatievlaanderen/association-registry/commit/7ba401ecccd0c430f1a3d74a8c4cbed58f3df03c))
+* or-1564 implement wijzig korte beschrijving without projections ([ae22394](https://github.com/informatievlaanderen/association-registry/commit/ae22394ccdc3d1c4fa3ba23af41e9da0a9f37729))
+
 # [1.106.0](https://github.com/informatievlaanderen/association-registry/compare/v1.105.0...v1.106.0) (2023-01-23)
 
 
