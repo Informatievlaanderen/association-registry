@@ -108,8 +108,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected async Task<SaveChangesResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
-
-        using var daemon = DocumentStore.BuildProjectionDaemonAsync().GetAwaiter().GetResult();
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         daemon.StartAllShards().GetAwaiter().GetResult();
 
         if (DocumentStore is not { })
