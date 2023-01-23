@@ -67,6 +67,8 @@ public class WijzigBasisgegevensController : ApiController
             var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
             var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
+            if (!wijzigResult.HasChanges()) return Ok();
+
             Response.AddSequenceHeader(wijzigResult.Sequence);
             Response.AddETagHeader(wijzigResult.Version);
 

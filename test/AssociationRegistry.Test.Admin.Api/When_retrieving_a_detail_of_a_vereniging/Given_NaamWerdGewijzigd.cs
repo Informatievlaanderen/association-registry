@@ -30,7 +30,7 @@ public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
         _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
     }
 
-    public SaveChangesResult SaveResult { get; private set; } = null!;
+    public StreamActionResult SaveVersionResult { get; private set; } = null!;
     public HttpResponseMessage Response { get; set; } = null!;
 
     protected override async Task Given()
@@ -39,7 +39,7 @@ public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
             VCode,
             VerenigingWerdGeregistreerd,
             _metadata);
-        SaveResult = await AddEvent(
+        SaveVersionResult = await AddEvent(
             VCode,
             NaamWerdGewijzigd,
             _metadata);
@@ -66,7 +66,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerd
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveResult.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveVersionResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -76,7 +76,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerd
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveResult.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _werdGewijzigdFixture.SaveVersionResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

@@ -30,19 +30,19 @@ public class With_A_Matching_ETag_Fixture : AdminApiFixture
 
     protected override async Task Given()
     {
-        SaveResult = await AddEvent(
+        SaveVersionResult = await AddEvent(
             _vCode,
             _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = _vCode },
             _fixture.Create<CommandMetadata>() with { ExpectedVersion = null }
         );
     }
 
-    private SaveChangesResult SaveResult { get; set; } = null!;
+    private StreamActionResult SaveVersionResult { get; set; } = null!;
 
     protected override async Task When()
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}"", ""Initiator"": ""OVO000001""}}";
-        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody, SaveResult.Version);
+        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody, SaveVersionResult.Version);
     }
 }
 

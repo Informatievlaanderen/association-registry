@@ -16,7 +16,10 @@ public class WijzigBasisgegevensCommandHandler
         if (message.Command.KorteNaam is { } korteNaam)
             vereniging.WijzigKorteNaam(korteNaam);
 
+        if (message.Command.KorteBeschrijving is { } korteBeschrijving)
+            vereniging.WijzigKorteBeschrijving(korteBeschrijving);
+
         var result = await repository.Save(vereniging, message.Metadata);
-        return new CommandResult(VCode.Create(message.Command.VCode), result.Sequence, result.Version);
+        return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 }

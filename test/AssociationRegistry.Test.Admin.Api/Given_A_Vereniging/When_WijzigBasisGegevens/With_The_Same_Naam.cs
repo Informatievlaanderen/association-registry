@@ -61,9 +61,9 @@ public class With_The_Same_Naam : IClassFixture<With_The_Same_Naam_Fixture>
     }
 
     [Fact]
-    public void Then_it_returns_an_accepted_response()
+    public void Then_it_returns_an_ok_response()
     {
-        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        _apiFixture.Response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]

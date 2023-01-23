@@ -56,5 +56,5 @@ public class Docs
         public string? Summary { get; set; }
     }
 
-    public Dictionary<string, Dictionary<string, DocsPath>> Paths { get; set; }
+    public Dictionary<string, Dictionary<string, DocsPath>>? Paths { get; set; }
 }

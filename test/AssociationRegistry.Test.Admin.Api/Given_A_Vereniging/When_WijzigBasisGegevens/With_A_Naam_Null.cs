@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using NodaTime.Extensions;

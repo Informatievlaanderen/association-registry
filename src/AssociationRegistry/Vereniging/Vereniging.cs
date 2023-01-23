@@ -22,6 +22,8 @@ public class Vereniging:IHasVersion
 
         public string? KorteNaam { get; set; }
 
+        public string? KorteBeschrijving { get; set; }
+
         public State(string vCode)
         {
             VCode = VCode.Create(vCode);
@@ -115,11 +117,21 @@ public class Vereniging:IHasVersion
         UncommittedEvents = UncommittedEvents.Append(@event);
     }
 
+    public void WijzigKorteBeschrijving(string korteBeschrijving)
+    {
+        if (korteBeschrijving.Equals(_state.KorteBeschrijving)) return;
+
+        var @event = new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving);
+        Apply(@event);
+        UncommittedEvents = UncommittedEvents.Append(@event);
+    }
+
     public void Apply(VerenigingWerdGeregistreerd @event)
         => _state = new State(@event.VCode)
         {
             Naam = new VerenigingsNaam(@event.Naam),
             KorteNaam = @event.KorteNaam,
+            KorteBeschrijving = @event.KorteBeschrijving,
         };
 
     public void Apply(NaamWerdGewijzigd @event)
@@ -127,5 +139,8 @@ public class Vereniging:IHasVersion
 
     public void Apply(KorteNaamWerdGewijzigd @event)
         => _state = _state with { KorteNaam = @event.KorteNaam };
+
+    public void Apply(KorteBeschrijvingWerdGewijzigd @event)
+        => _state = _state with { KorteBeschrijving = @event.KorteBeschrijving };
 
 }

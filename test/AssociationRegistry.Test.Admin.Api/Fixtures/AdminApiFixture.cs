@@ -9,7 +9,6 @@ using AssociationRegistry.Framework;
 using Framework.Helpers;
 using JasperFx.Core;
 using Marten;
-using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -106,7 +105,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<SaveChangesResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
+    protected async Task<StreamActionResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         daemon.StartAllShards().GetAwaiter().GetResult();
@@ -171,8 +170,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        AdminApiClient.Dispose();
-        _webApplicationFactory.Dispose();
+        AdminApiClient.SafeDispose();
+        _webApplicationFactory.SafeDispose();
         DropDatabase();
     }
 
@@ -183,10 +182,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     }
 
     public virtual Task DisposeAsync()
-    {
-        Dispose();
-        return Task.CompletedTask;
-    }
+        => Task.CompletedTask;
 
     protected abstract Task Given();
     protected abstract Task When();
