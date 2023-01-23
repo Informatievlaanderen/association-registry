@@ -82,8 +82,9 @@ public class With_A_Matching_ETag : IClassFixture<With_A_Matching_ETag_Fixture>
     [Fact]
     public void Then_it_saves_the_events()
     {
-        var savedEvents = _apiFixture.DocumentStore
-            .LightweightSession().Events
+        using var session = _apiFixture.DocumentStore
+            .LightweightSession();
+        var savedEvents = session.Events
             .QueryRawEventDataOnly<NaamWerdGewijzigd>()
             .ToList();
 

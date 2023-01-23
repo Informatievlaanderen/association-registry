@@ -73,8 +73,9 @@ public class With_A_NonMatching_ETag : IClassFixture<With_A_NonMatching_ETag_Fix
     [Fact]
     public void Then_it_doesnt_save_the_events()
     {
-        var savedEvents = _apiFixture.DocumentStore
-            .LightweightSession().Events
+        using var session = _apiFixture.DocumentStore
+            .LightweightSession();
+        var savedEvents = session.Events
             .QueryRawEventDataOnly<NaamWerdGewijzigd>()
             .ToList();
 

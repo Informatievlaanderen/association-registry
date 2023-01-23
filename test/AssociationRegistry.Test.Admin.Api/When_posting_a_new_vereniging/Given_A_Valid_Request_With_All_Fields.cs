@@ -100,8 +100,9 @@ public class Given_A_Valid_Request_With_All_Fields : IClassFixture<Given_A_Valid
     [Fact]
     public async Task Then_it_saves_the_events()
     {
-        var savedEvent = await _apiFixture.DocumentStore
-            .LightweightSession().Events
+        await using var session = _apiFixture.DocumentStore
+            .LightweightSession();
+        var savedEvent = await session.Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .SingleAsync(e => e.Naam == _apiFixture.Request.Naam);
         savedEvent.KorteNaam.Should().Be(_apiFixture.Request.KorteNaam);

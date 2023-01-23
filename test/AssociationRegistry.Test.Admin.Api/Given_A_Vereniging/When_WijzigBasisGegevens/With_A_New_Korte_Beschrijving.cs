@@ -58,9 +58,9 @@ public class With_A_New_Korte_Beschrijving : IClassFixture<With_A_New_Korte_Besc
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var lightweightSession = _apiFixture.DocumentStore
+        using var session = _apiFixture.DocumentStore
             .LightweightSession();
-        var savedEvents = lightweightSession.Events
+        var savedEvents = session.Events
             .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
             .ToList();
 
