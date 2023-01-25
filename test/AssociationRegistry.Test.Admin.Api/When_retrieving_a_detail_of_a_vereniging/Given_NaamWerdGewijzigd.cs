@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging;
 
 using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
@@ -19,7 +18,8 @@ public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
-    private readonly CommandMetadata _metadata;
+    public readonly CommandMetadata Metadata1;
+    public readonly CommandMetadata Metadata2;
 
     public When_Detaile_Given_NaamWerdGewijzigd_Fixture() : base(nameof(When_Detaile_Given_NaamWerdGewijzigd_Fixture))
     {
@@ -27,7 +27,8 @@ public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
-        _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
+        Metadata1 = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+        Metadata2 = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public StreamActionResult SaveVersionResult { get; private set; } = null!;
@@ -38,11 +39,11 @@ public class When_Detaile_Given_NaamWerdGewijzigd_Fixture : AdminApiFixture
         await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
-            _metadata);
+            Metadata1);
         SaveVersionResult = await AddEvent(
             VCode,
             NaamWerdGewijzigd,
-            _metadata);
+            Metadata2);
     }
 
     protected override async Task When()
@@ -84,7 +85,6 @@ public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerd
     public async Task Then_we_get_a_detail_vereniging_response()
     {
         var content = await _werdGewijzigdFixture.Response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
         {{
@@ -106,7 +106,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerd
                     ],
                     ""locaties"":[{string.Join(',', _werdGewijzigdFixture.VerenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
-                        { (x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty) }
+                        {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
                         ""adres"": ""{x.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
                         ""straatnaam"": ""{x.Straatnaam}"",
@@ -119,7 +119,7 @@ public class Given_NaamWerdGewijzigd : IClassFixture<When_Detaile_Given_NaamWerd
                     ]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": """"
+                    ""datumLaatsteAanpassing"": ""{_werdGewijzigdFixture.Metadata2.Tijdstip.ToBelgianDate()}""
                 }}
                 }}
         ";

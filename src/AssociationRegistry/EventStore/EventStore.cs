@@ -1,5 +1,6 @@
 namespace AssociationRegistry.EventStore;
 
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.AggregateSource;

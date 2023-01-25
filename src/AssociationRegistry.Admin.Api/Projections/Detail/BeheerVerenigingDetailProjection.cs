@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -23,7 +22,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToString(WellknownFormats.DateOnly, null),
+            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
                                    c => new BeheerVerenigingDetailDocument.ContactInfo()
@@ -42,18 +41,21 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
+        document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
     }
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
+        document.DatumLaatsteAanpassing = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
     }
 
     public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
+        document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
     }
 
@@ -83,7 +85,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
     public DateOnly? Startdatum { get; set; }
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
-    public string DatumLaatsteAanpassing { get; set; }
+    public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Metadata Metadata { get; set; } = null!;
