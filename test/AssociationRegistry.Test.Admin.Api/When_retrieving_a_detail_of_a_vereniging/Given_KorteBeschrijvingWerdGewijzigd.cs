@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_vereniging;
 
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AutoFixture;
@@ -17,7 +16,8 @@ public class When_Detail_Given_KorteBeschrijvingWerdGewijzigd_Fixture : AdminApi
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
-    private readonly CommandMetadata _metadata;
+    public readonly CommandMetadata VerenigingWerdGeregistreerdMetaData;
+    public readonly CommandMetadata KorteBescrijvingWerdGewijzigdMetaData;
 
     public When_Detail_Given_KorteBeschrijvingWerdGewijzigd_Fixture() : base(nameof(When_Detail_Given_KorteBeschrijvingWerdGewijzigd_Fixture))
     {
@@ -25,7 +25,8 @@ public class When_Detail_Given_KorteBeschrijvingWerdGewijzigd_Fixture : AdminApi
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
-        _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
+        VerenigingWerdGeregistreerdMetaData = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+        KorteBescrijvingWerdGewijzigdMetaData = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public HttpResponseMessage Response { get; private set; } = null!;
@@ -35,11 +36,11 @@ public class When_Detail_Given_KorteBeschrijvingWerdGewijzigd_Fixture : AdminApi
         await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
-            _metadata);
+            VerenigingWerdGeregistreerdMetaData);
         await AddEvent(
             VCode,
             KorteBeschrijvingWerdGewijzigd,
-            _metadata);
+            KorteBescrijvingWerdGewijzigdMetaData);
     }
 
     protected override async Task When()
@@ -61,7 +62,6 @@ public class Given_KorteBeschrijvingWerdGewijzigd : IClassFixture<When_Detail_Gi
     public async Task Then_we_get_a_detail_vereniging_response()
     {
         var content = await _adminApiFixture.Response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
         {{
@@ -96,7 +96,7 @@ public class Given_KorteBeschrijvingWerdGewijzigd : IClassFixture<When_Detail_Gi
                     ]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": """"
+                    ""datumLaatsteAanpassing"": ""{_adminApiFixture.KorteBescrijvingWerdGewijzigdMetaData.Tijdstip.ToBelgianDate()}""
                 }}
                 }}
         ";

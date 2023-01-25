@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
+using NodaTime;
 
 public static class AutoFixtureCustomizations
 {
@@ -10,6 +11,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.CustomizeDateOnly();
         fixture.CustomizeVCode();
+        fixture.CustomizeInstant();
         return fixture;
     }
 
@@ -28,5 +30,12 @@ public static class AutoFixtureCustomizations
     public static IPostprocessComposer<T> FromFactory<T>(this IFactoryComposer<T> composer, Func<Random, T> factory)
     {
         return composer.FromFactory<int>(value => factory(new Random(value)));
+    }
+
+    public static void CustomizeInstant(this IFixture fixture)
+    {
+        fixture.Customize<Instant>(
+            composer => composer.FromFactory(
+                generator => new Instant() + Duration.FromSeconds(generator.Next())));
     }
 }

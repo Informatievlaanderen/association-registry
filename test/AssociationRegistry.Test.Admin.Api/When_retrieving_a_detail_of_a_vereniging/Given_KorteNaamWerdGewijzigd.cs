@@ -17,16 +17,16 @@ public class When_Detail_Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
     public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
-    private readonly CommandMetadata _metadata;
-
+    public readonly CommandMetadata Metadata1;
+    public readonly CommandMetadata Metadata2;
     public When_Detail_Given_KorteNaamWerdGewijzigd_Fixture() : base(nameof(When_Detail_Given_KorteNaamWerdGewijzigd_Fixture))
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
-        _metadata = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
-    }
+        Metadata1 = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};
+        Metadata2 = fixture.Create<CommandMetadata>() with {ExpectedVersion = null};    }
 
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -35,11 +35,11 @@ public class When_Detail_Given_KorteNaamWerdGewijzigd_Fixture : AdminApiFixture
         await AddEvent(
             VCode,
             VerenigingWerdGeregistreerd,
-            _metadata);
+            Metadata1);
         await AddEvent(
             VCode,
             KorteNaamWerdGewijzigd,
-            _metadata);
+            Metadata2);
     }
 
     protected override async Task When()
@@ -61,7 +61,6 @@ public class Given_KorteNaamWerdGewijzigd : IClassFixture<When_Detail_Given_Kort
     public async Task Then_we_get_a_detail_vereniging_response()
     {
         var content = await _adminApiFixture.Response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
         {{
@@ -96,7 +95,7 @@ public class Given_KorteNaamWerdGewijzigd : IClassFixture<When_Detail_Given_Kort
                     ]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": """"
+                    ""datumLaatsteAanpassing"": ""{_adminApiFixture.Metadata2.Tijdstip.ToBelgianDate()}""
                 }}
                 }}
         ";

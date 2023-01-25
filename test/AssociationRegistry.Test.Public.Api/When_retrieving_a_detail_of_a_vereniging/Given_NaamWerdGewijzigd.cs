@@ -1,11 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
 
 using System.Text.RegularExpressions;
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Public.Api.Constants;
+using NodaTime;
 using Xunit;
 
 public class Given_NaamWerdGewijzigd_Fixture : PublicApiFixture
@@ -32,7 +34,8 @@ public class Given_NaamWerdGewijzigd_Fixture : PublicApiFixture
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>()));
         await AddEvent(
             VCode,
-            new NaamWerdGewijzigd(VCode, Naam));
+            new NaamWerdGewijzigd(VCode, Naam),
+            new CommandMetadata(VCode, Instant.FromUtc(2023, 1, 25, 11, 24)));
     }
 }
 
@@ -66,7 +69,6 @@ public class Given_NaamWerdGewijzigd : IClassFixture<Given_NaamWerdGewijzigd_Fix
         var responseMessage = await _publicApiClient.GetDetail(VCode);
 
         var content = await responseMessage.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
             $"{nameof(Given_NaamWerdGewijzigd)}_{nameof(Then_we_get_a_detail_vereniging_response_with_the_new_name)}");
