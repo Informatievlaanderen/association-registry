@@ -1,24 +1,25 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens_To_Rework;
+﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.VCodes;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
-using VCodes;
 using Xunit;
 
-public class With_A_New_Korte_Beschrijving_Fixture : AdminApiFixture
+//TODO rework into controller test
+public class With_A_New_Korte_Naam_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;
     private readonly Fixture _fixture;
-    public const string NieuweKorteBeschrijving = "De nieuwe korte beschrijving";
+    public const string NieuweKorteNaam = "De nieuwe korte naam";
 
-    public With_A_New_Korte_Beschrijving_Fixture() : base(
-        nameof(With_A_New_Korte_Beschrijving_Fixture))
+    public With_A_New_Korte_Naam_Fixture() : base(
+        nameof(With_A_New_Korte_Naam_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         _vCode = _fixture.Create<VCode>();
@@ -35,16 +36,16 @@ public class With_A_New_Korte_Beschrijving_Fixture : AdminApiFixture
 
     protected override async Task When()
     {
-        var jsonBody = $@"{{""korteBeschrijving"":""{NieuweKorteBeschrijving}"", ""Initiator"": ""OVO000001""}}";
+        var jsonBody = $@"{{""korteNaam"":""{NieuweKorteNaam}"", ""Initiator"": ""OVO000001""}}";
         Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody);
     }
 }
 
-public class With_A_New_Korte_Beschrijving : IClassFixture<With_A_New_Korte_Beschrijving_Fixture>
+public class With_A_New_Korte_Naam : IClassFixture<With_A_New_Korte_Naam_Fixture>
 {
-    private readonly With_A_New_Korte_Beschrijving_Fixture _apiFixture;
+    private readonly With_A_New_Korte_Naam_Fixture _apiFixture;
 
-    public With_A_New_Korte_Beschrijving(With_A_New_Korte_Beschrijving_Fixture apiFixture)
+    public With_A_New_Korte_Naam(With_A_New_Korte_Naam_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -60,11 +61,12 @@ public class With_A_New_Korte_Beschrijving : IClassFixture<With_A_New_Korte_Besc
     {
         using var session = _apiFixture.DocumentStore
             .LightweightSession();
+
         var savedEvents = session.Events
-            .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
+            .QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
             .ToList();
 
         savedEvents.Should().HaveCount(1);
-        savedEvents[0].KorteBeschrijving.Should().Be(With_A_New_Korte_Beschrijving_Fixture.NieuweKorteBeschrijving);
+        savedEvents[0].KorteNaam.Should().Be(With_A_New_Korte_Naam_Fixture.NieuweKorteNaam);
     }
 }

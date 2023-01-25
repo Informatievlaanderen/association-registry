@@ -1,15 +1,15 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens_To_Rework;
+﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
-using Events;
 using AssociationRegistry.Framework;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.VCodes;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
-using VCodes;
 using Xunit;
 
 //TODO rework into controller test
