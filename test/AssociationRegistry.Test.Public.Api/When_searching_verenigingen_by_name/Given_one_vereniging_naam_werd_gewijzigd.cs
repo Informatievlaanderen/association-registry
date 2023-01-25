@@ -33,11 +33,14 @@ public class Given_one_vereniging_naam_werd_gewijzigd_fixture : PublicApiFixture
     }
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode, naam, korteNaam, null, null, null, Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(), new[]
-        {
-            Gemeentehuis,
-            Feestzaal,
-        },DateOnly.MinValue);
+        => new(vCode,
+            naam,
+            korteNaam,
+            null,
+            null,
+            null,
+            Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            new[] { Gemeentehuis, Feestzaal });
 }
 
 public class Given_one_vereniging_naam_werd_gewijzigd : IClassFixture<Given_one_vereniging_naam_werd_gewijzigd_fixture>

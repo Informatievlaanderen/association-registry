@@ -29,8 +29,7 @@ public class With_Minimal_Fields_Fixture : PublicApiFixture
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(DateTime.Today)));
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()));
     }
 }
 

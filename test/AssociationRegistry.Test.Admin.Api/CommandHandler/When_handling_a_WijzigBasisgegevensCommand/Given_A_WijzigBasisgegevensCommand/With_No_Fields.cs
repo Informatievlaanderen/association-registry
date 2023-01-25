@@ -24,11 +24,10 @@ public class With_No_Fields
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var naam = "GRUB";
-        var datumLaatsteAanpassing = new DateOnly(2023, 1, 1);
         var vereniging = new Vereniging();
         vereniging.Apply(
             new VerenigingWerdGeregistreerd(
-                VCodeValue, naam, null, null, null, null, null, null, datumLaatsteAanpassing));
+                VCodeValue, naam, null, null, null, null, null, null));
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(
             vereniging);

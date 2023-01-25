@@ -29,7 +29,7 @@ public class With_A_Naam
         var vereniging = new Vereniging();
         vereniging.Apply(
             new VerenigingWerdGeregistreerd(
-                VCodeValue, naam, null, null, null, null, null, null, datumLaatsteAanpassing));
+                VCodeValue, naam, null, null, null, null, null, null));
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(
             vereniging);

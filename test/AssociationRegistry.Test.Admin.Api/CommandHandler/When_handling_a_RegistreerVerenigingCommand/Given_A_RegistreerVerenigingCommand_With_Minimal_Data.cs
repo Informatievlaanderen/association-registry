@@ -40,7 +40,6 @@ public class Given_A_RegistreerVerenigingCommand_With_Minimal_Data
         theEvent.KorteBeschrijving.Should().BeNull();
         theEvent.Startdatum.Should().BeNull();
         theEvent.KboNummer.Should().BeNull();
-        theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
     }
 
     private static RegistreerVerenigingCommand RegistreerVerenigingCommand(string naam)

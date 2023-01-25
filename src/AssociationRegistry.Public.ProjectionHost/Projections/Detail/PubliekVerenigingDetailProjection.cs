@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using System;
+using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
+using NodaTime;
 using Schema.Detail;
 
 public class PubliekVerenigingDetailProjection : SingleStreamAggregation<PubliekVerenigingDetailDocument>
@@ -19,7 +21,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing ?? DateOnly.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)),
+            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToString(WellknownFormats.DateOnly, null),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
                             c => new PubliekVerenigingDetailDocument.ContactInfo()

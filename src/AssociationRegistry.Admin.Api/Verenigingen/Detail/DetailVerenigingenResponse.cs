@@ -63,6 +63,6 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "Land")] string Land
         );
     }
-    public record MetadataDetail(DateOnly DatumLaatsteAanpassing);
+    public record MetadataDetail(string DatumLaatsteAanpassing);
 
 }
