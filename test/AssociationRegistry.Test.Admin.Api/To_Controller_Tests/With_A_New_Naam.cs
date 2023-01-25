@@ -1,29 +1,28 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens_To_Rework;
+﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.EventStore;
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.VCodes;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Microsoft.Extensions.DependencyInjection;
-using VCodes;
 using Xunit;
 
 //TODO rework into controller test
-public class With_A_Matching_ETag_Fixture : AdminApiFixture
+public class With_A_New_Naam_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
     private readonly string _vCode;
     private readonly Fixture _fixture;
     public const string NieuweVerenigingsNaam = "De nieuwe vereniging";
 
-    public With_A_Matching_ETag_Fixture() : base(
-        nameof(With_A_Matching_ETag_Fixture))
+    public With_A_New_Naam_Fixture() : base(
+        nameof(With_A_New_Naam_Fixture))
     {
         _fixture = new Fixture().CustomizeAll();
         _vCode = _fixture.Create<VCode>();
@@ -31,27 +30,25 @@ public class With_A_Matching_ETag_Fixture : AdminApiFixture
 
     protected override async Task Given()
     {
-        SaveVersionResult = await AddEvent(
+        await AddEvent(
             _vCode,
             _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = _vCode },
-            _fixture.Create<CommandMetadata>() with { ExpectedVersion = null }
+            _fixture.Create<CommandMetadata>()
         );
     }
-
-    private StreamActionResult SaveVersionResult { get; set; } = null!;
 
     protected override async Task When()
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}"", ""Initiator"": ""OVO000001""}}";
-        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody, SaveVersionResult.Version);
+        Response = await AdminApiClient.PatchVereniging(_vCode, jsonBody);
     }
 }
 
-public class With_A_Matching_ETag : IClassFixture<With_A_Matching_ETag_Fixture>
+public class With_A_New_Naam : IClassFixture<With_A_New_Naam_Fixture>
 {
-    private readonly With_A_Matching_ETag_Fixture _apiFixture;
+    private readonly With_A_New_Naam_Fixture _apiFixture;
 
-    public With_A_Matching_ETag(With_A_Matching_ETag_Fixture apiFixture)
+    public With_A_New_Naam(With_A_New_Naam_Fixture apiFixture)
     {
         _apiFixture = apiFixture;
     }
@@ -90,6 +87,12 @@ public class With_A_Matching_ETag : IClassFixture<With_A_Matching_ETag_Fixture>
             .ToList();
 
         savedEvents.Should().HaveCount(1);
-        savedEvents[0].Naam.Should().Be(With_A_Matching_ETag_Fixture.NieuweVerenigingsNaam);
+        savedEvents[0].Naam.Should().Be(With_A_New_Naam_Fixture.NieuweVerenigingsNaam);
+    }
+
+    [Fact]
+    public void Then_we_get_an_etag_header()
+    {
+        _apiFixture.Response.Headers.ShouldHaveValidEtagHeader();
     }
 }

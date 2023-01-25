@@ -1,13 +1,14 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_BasisGegevens;
+namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.VCodes;
 using AutoFixture;
-using Fixtures;
 using FluentAssertions;
-using Framework;
-using VCodes;
 using Xunit;
 
+//TODO rework into repository / eventstore test
 public class With_A_NonExisting_VCode_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
