@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_retrieving_a_detail_of_a_veren
 
 using System.Net;
 using System.Text.RegularExpressions;
+using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.EventStore;
 using Events;
 using AssociationRegistry.Framework;
@@ -10,6 +11,7 @@ using Framework;
 using VCodes;
 using AutoFixture;
 using FluentAssertions;
+using Microsoft.Net.Http.Headers;
 using Xunit;
 
 public class With_Minimal_Fields_Fixture : AdminApiFixture
@@ -56,19 +58,19 @@ public class With_Minimal_Fields_Fixture : AdminApiFixture
 public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 {
     private readonly string _vCode;
-    private readonly With_Minimal_Fields_Fixture _admingApiFixture;
+    private readonly With_Minimal_Fields_Fixture _adminApiFixture;
     private readonly AdminApiClient _adminApiClient;
 
-    public With_Minimal_Fields(With_Minimal_Fields_Fixture admingApiFixture)
+    public With_Minimal_Fields(With_Minimal_Fields_Fixture adminApiFixture)
     {
-        _admingApiFixture = admingApiFixture;
-        _vCode = admingApiFixture.VCode;
-        _adminApiClient = admingApiFixture.AdminApiClient;
+        _adminApiFixture = adminApiFixture;
+        _vCode = adminApiFixture.VCode;
+        _adminApiClient = adminApiFixture.AdminApiClient;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _admingApiFixture.SaveVersionResult.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _adminApiFixture.SaveVersionResult.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -78,21 +80,21 @@ public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _admingApiFixture.SaveVersionResult.Sequence + 1))
+        => (await _adminApiClient.GetDetail(_vCode, _adminApiFixture.SaveVersionResult.Sequence + 1))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var content = await _admingApiFixture.Response.Content.ReadAsStringAsync();
+        var content = await _adminApiFixture.Response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
 {{
     ""vereniging"": {{
-            ""vCode"": ""{_admingApiFixture.VCode}"",
-            ""naam"": ""{_admingApiFixture.VerenigingWerdGeregistreerd.Naam}"",
+            ""vCode"": ""{_adminApiFixture.VCode}"",
+            ""naam"": ""{_adminApiFixture.VerenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": null,
             ""korteBeschrijving"": null,
             ""kboNummer"": null,
@@ -108,5 +110,15 @@ public class With_Minimal_Fields : IClassFixture<With_Minimal_Fields_Fixture>
 ";
 
         content.Should().BeEquivalentJson(expected);
+    }
+
+    [Fact]
+    public void Then_it_returns_an_etag_header()
+    {
+        _adminApiFixture.Response.Headers.ETag.Should().NotBeNull();
+        var etagValues = _adminApiFixture.Response.Headers.GetValues(HeaderNames.ETag).ToList();
+        etagValues.Should().HaveCount(1);
+        var etag = etagValues[0];
+        etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
 }

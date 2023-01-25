@@ -63,7 +63,7 @@ public class WijzigBasisgegevensController : ApiController
 
             var command = request.ToWijzigBasisgegevensCommand(vCode);
 
-            var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), ParseIfMatch(ifMatch));
+            var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
             var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
             var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
@@ -78,11 +78,5 @@ public class WijzigBasisgegevensController : ApiController
         {
             return StatusCode(StatusCodes.Status412PreconditionFailed);
         }
-    }
-
-    private long? ParseIfMatch(string? ifMatch)
-    {
-        if (ifMatch is null) return null;
-        return long.Parse(ifMatch[3..][..(ifMatch.Length - 4)]);
     }
 }

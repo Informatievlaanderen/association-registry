@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Be.Vlaanderen.Basisregisters.Api.ETag;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
 public static class ResponseExtensions
@@ -20,6 +21,7 @@ public static class ResponseExtensions
         if (version is null)
             return;
 
-        source.Headers[HeaderNames.ETag] = new ETag(ETagType.Weak, version.ToString()!).ToString();
+        var responseHeaders = source.GetTypedHeaders();
+        responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), true);
     }
 }
