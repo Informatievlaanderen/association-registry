@@ -1,14 +1,15 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens_To_Rework;
+﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
+//TODO rework into controller test
 public class With_A_Naam_Null_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture;
