@@ -1,3 +1,16 @@
+# [1.109.0](https://github.com/informatievlaanderen/association-registry/compare/v1.108.0...v1.109.0) (2023-01-25)
+
+
+### Bug Fixes
+
+* or-1564 remove datumLaatsteAanpassing from VerenigingWerdGeregistreerd event and replace in projections by metadata.Tijdstip ([4a5b874](https://github.com/informatievlaanderen/association-registry/commit/4a5b874b482eb65d8a4008aa255853c950c75bc6))
+* or-1565: handle etags more robustly ([f1c8a4e](https://github.com/informatievlaanderen/association-registry/commit/f1c8a4eb1dbb1ecf2e74a912154a5405f6208129))
+
+
+### Features
+
+* or-1564 fix projections laatste aanpassing ([9838e10](https://github.com/informatievlaanderen/association-registry/commit/9838e108e242e104759b3bc52fbdba6ebfa3b143))
+
 # [1.108.0](https://github.com/informatievlaanderen/association-registry/compare/v1.107.0...v1.108.0) (2023-01-23)
 
 
