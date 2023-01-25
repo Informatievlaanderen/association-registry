@@ -52,7 +52,7 @@ public record VerenigingDetail(
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties);
 
-public record Metadata(DateOnly DatumLaatsteAanpassing);
+public record Metadata(string DatumLaatsteAanpassing);
 
 [DataContract]
 public record ContactInfo(

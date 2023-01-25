@@ -61,7 +61,6 @@ public class Given_A_RegistreerVerenigingCommand_With_All_Data
         theEvent.KorteBeschrijving.Should().Be("korte beschrijving");
         theEvent.Startdatum.Should().Be(DateOnly.FromDateTime(startdatumInThePast));
         theEvent.KboNummer.Should().Be("0123456749");
-        theEvent.DatumLaatsteAanpassing.Should().Be(clock.Today);
         theEvent.ContactInfoLijst.Should().HaveCount(1);
         theEvent.ContactInfoLijst![0].Should().BeEquivalentTo(registreerVerenigingCommand.Command.ContactInfoLijst!.First());
         theEvent.Locaties.Should().HaveCount(1);

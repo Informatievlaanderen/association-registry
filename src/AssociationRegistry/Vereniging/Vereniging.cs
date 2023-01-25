@@ -53,8 +53,7 @@ public class Vereniging:IHasVersion
         Startdatum? startdatum,
         KboNummer? kboNummer,
         ContactLijst contactLijst,
-        LocatieLijst locatieLijst,
-        DateOnly datumLaatsteAanpassing)
+        LocatieLijst locatieLijst)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -64,18 +63,17 @@ public class Vereniging:IHasVersion
             startdatum?.Value,
             kboNummer?.ToString(),
             VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(contactLijst),
-            ToLocatieLijst(locatieLijst),
-            datumLaatsteAanpassing);
+            ToLocatieLijst(locatieLijst));
 
         Apply(verenigingWerdGeregistreerdEvent);
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, DateOnly datumLaatsteAanpassing)
-        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, datumLaatsteAanpassing);
+        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
-        => new(vCode: vCode, naam: naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, datumLaatsteAanpassing);
+        => new(vCode: vCode, naam: naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty);
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();

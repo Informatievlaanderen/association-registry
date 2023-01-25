@@ -33,8 +33,7 @@ public class When_Retrieving_Historiek_Fixture : AdminApiFixture
                 Startdatum: DateOnly.FromDateTime(new DateTime(2022, 11, 9)),
                 KboNummer: "0123456789",
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DatumLaatsteAanpassing: DateOnly.FromDateTime(DateTime.Today)),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()),
             new CommandMetadata(
                 Initiator: "Een initiator",
                 Tijdstip: new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant()));

@@ -32,8 +32,7 @@ public class With_The_Same_Naam_Fixture : AdminApiFixture
             DateOnly.FromDateTime(_fixture.Create<DateTime>()),
             _fixture.Create<string>(),
             Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-            Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            DateOnly.FromDateTime(DateTime.Today));
+            Array.Empty<VerenigingWerdGeregistreerd.Locatie>());
         await AddEvent(
             VCode,
             _verenigingWerdGeregistreerd,

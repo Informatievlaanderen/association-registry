@@ -33,8 +33,7 @@ public class With_A_Naam_Null_Fixture : AdminApiFixture
                 DateOnly.FromDateTime(_fixture.Create<DateTime>()),
                 _fixture.Create<string>(),
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(DateTime.Today)),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()),
             new CommandMetadata(
                 _fixture.Create<string>(),
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));

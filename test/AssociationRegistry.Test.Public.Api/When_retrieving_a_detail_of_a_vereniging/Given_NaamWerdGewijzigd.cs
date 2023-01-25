@@ -29,8 +29,7 @@ public class Given_NaamWerdGewijzigd_Fixture : PublicApiFixture
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(DateTime.Today)));
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()));
         await AddEvent(
             VCode,
             new NaamWerdGewijzigd(VCode, Naam));

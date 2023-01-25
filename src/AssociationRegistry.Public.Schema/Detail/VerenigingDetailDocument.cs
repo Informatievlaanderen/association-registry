@@ -13,7 +13,7 @@ public class PubliekVerenigingDetailDocument
     public DateOnly? Startdatum { get; set; }
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
-    public DateOnly DatumLaatsteAanpassing { get; set; }
+    public string DatumLaatsteAanpassing { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
 

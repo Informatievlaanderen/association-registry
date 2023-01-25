@@ -20,7 +20,7 @@ public class With_An_Unmodified_Korte_Beschrijving
         var vereniging = new Vereniging();
         vereniging.Apply(
             new VerenigingWerdGeregistreerd(
-                VCodeValue, Naam, null, KorteBeschrijving, null, null, null, null, new DateOnly(2023, 1, 1)));
+                VCodeValue, Naam, null, KorteBeschrijving, null, null, null, null));
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(vereniging);
 

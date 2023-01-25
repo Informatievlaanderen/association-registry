@@ -57,8 +57,7 @@ public class With_All_Fields_Fixture : PublicApiFixture
                 Startdatum,
                 KboNummer,
                 new[] { ContactInfo },
-                new[] { Locatie },
-                DateOnly.FromDateTime(DateTime.Today)),
+                new[] { Locatie }),
             new CommandMetadata(
                 Initiator,
                 new DateTime(2022, 1, 1).ToUniversalTime().ToInstant()));

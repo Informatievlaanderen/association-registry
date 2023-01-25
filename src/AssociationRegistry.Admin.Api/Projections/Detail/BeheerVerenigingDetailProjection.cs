@@ -2,7 +2,9 @@
 
 using System;
 using System.Linq;
+using Constants;
 using Events;
+using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -21,7 +23,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.Data.DatumLaatsteAanpassing!.Value /*?? DateOnly.FromDateTime(InstantPattern.General.Parse(verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)).Value))*/,
+            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToString(WellknownFormats.DateOnly, null),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
                                    c => new BeheerVerenigingDetailDocument.ContactInfo()
@@ -81,7 +83,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
     public DateOnly? Startdatum { get; set; }
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
-    public DateOnly DatumLaatsteAanpassing { get; set; }
+    public string DatumLaatsteAanpassing { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Metadata Metadata { get; set; } = null!;
