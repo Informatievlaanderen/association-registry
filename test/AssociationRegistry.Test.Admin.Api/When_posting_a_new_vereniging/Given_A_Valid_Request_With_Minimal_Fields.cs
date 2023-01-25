@@ -8,6 +8,7 @@ using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using global::AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using Microsoft.Net.Http.Headers;
 using Xunit;
 
 public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture
@@ -72,7 +73,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
     }
 
     [Fact]
-    public void Then_it_returns_an_etag_header()
+    public void Then_it_returns_a_sequence_header()
     {
 
         _apiFixture.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
@@ -80,5 +81,11 @@ public class Given_A_Valid_Request_With_Minimal_Fields : IClassFixture<Given_A_V
         sequenceValues.Should().HaveCount(1);
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void Then_we_get_an_etag_header()
+    {
+        _apiFixture.Response.Headers.ShouldHaveValidEtagHeader();
     }
 }

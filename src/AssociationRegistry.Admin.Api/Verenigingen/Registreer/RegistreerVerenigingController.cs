@@ -62,6 +62,9 @@ public class RegistreerVerenigingController : ApiController
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
+        Response.AddSequenceHeader(registratieResult.Sequence);
+        Response.AddETagHeader(registratieResult.Version);
+
         return this.AcceptedCommand(_appSettings, registratieResult);
     }
 }

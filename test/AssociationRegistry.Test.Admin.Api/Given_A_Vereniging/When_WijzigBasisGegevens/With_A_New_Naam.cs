@@ -10,6 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using VCodes;
 using Xunit;
 
@@ -87,5 +88,11 @@ public class With_A_New_Naam : IClassFixture<With_A_New_Naam_Fixture>
 
         savedEvents.Should().HaveCount(1);
         savedEvents[0].Naam.Should().Be(With_A_New_Naam_Fixture.NieuweVerenigingsNaam);
+    }
+
+    [Fact]
+    public void Then_we_get_an_etag_header()
+    {
+        _apiFixture.Response.Headers.ShouldHaveValidEtagHeader();
     }
 }
