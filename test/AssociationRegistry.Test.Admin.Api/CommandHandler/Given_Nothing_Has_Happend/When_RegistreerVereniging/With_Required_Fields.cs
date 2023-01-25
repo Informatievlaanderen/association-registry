@@ -54,7 +54,6 @@ public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandle
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty< VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(_today)));
+                Array.Empty< VerenigingWerdGeregistreerd.Locatie>()));
     }
 }

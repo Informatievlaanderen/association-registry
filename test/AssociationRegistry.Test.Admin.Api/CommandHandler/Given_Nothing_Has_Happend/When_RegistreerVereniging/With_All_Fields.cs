@@ -84,7 +84,6 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                         Locatie.Land,
                         Locatie.Hoofdlocatie,
                         Locatie.Locatietype),
-                },
-                DateOnly.FromDateTime(_today)));
+                }));
     }
 }
