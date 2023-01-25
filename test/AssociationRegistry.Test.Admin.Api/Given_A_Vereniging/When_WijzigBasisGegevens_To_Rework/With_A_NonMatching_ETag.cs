@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens;
+﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging.When_WijzigBasisGegevens_To_Rework;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -12,6 +12,7 @@ using Framework;
 using VCodes;
 using Xunit;
 
+//TODO rework into controller test
 public class With_A_NonMatching_ETag_Fixture : AdminApiFixture
 {
     public HttpResponseMessage Response = null!;
