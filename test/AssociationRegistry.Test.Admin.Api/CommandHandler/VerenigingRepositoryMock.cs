@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler;
 
 using AssociationRegistry.EventStore;
+using FluentAssertions;
 using global::AssociationRegistry.Framework;
 using VCodes;
 using Vereniging;
@@ -9,12 +10,12 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private readonly Vereniging? _verenigingToLoad;
 
-    public record InvocationSave(Vereniging Vereniging);
+    private record InvocationSave(Vereniging Vereniging);
 
-    public record InvocationLoad(VCode VCode);
+    private record InvocationLoad(VCode VCode);
 
-    public readonly List<InvocationSave> InvocationsSave = new();
-    public readonly List<InvocationLoad> InvocationsLoad = new();
+    private readonly List<InvocationSave> _invocationsSave = new();
+    private readonly List<InvocationLoad> _invocationsLoad = new();
 
     public VerenigingRepositoryMock(Vereniging? verenigingToLoad = null)
     {
@@ -23,13 +24,32 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata)
     {
-        InvocationsSave.Add(new InvocationSave(vereniging));
+        _invocationsSave.Add(new InvocationSave(vereniging));
         return await Task.FromResult(new StreamActionResult(-1L, -1L));
     }
 
     public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)
     {
-        InvocationsLoad.Add(new InvocationLoad(vCode));
+        _invocationsLoad.Add(new InvocationLoad(vCode));
         return (await Task.FromResult(_verenigingToLoad))!;
+    }
+
+    public void ShouldHaveLoaded(params string[] vCodes)
+    {
+        _invocationsLoad.Should().BeEquivalentTo(
+            vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode))),
+            options => options.WithStrictOrdering());
+    }
+
+    public void ShouldHaveSaved(params IEvent[] events)
+    {
+        _invocationsSave.Should().HaveCount(1);
+        _invocationsSave[0].Vereniging.UncommittedEvents.Should()
+            .BeEquivalentTo(events, options => options.RespectingRuntimeTypes().WithStrictOrdering());
+    }
+
+    public void ShouldNotHaveAnySaves()
+    {
+        _invocationsSave[0].Vereniging.UncommittedEvents.Should().BeEmpty();
     }
 }
