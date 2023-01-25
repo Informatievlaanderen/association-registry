@@ -25,8 +25,7 @@ public class VerenigingWerdGeregistreedScenario : IScenario
                 Startdatum,
                 KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                DateOnly.FromDateTime(DateTime.Today)),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()),
         };
     }
 }
