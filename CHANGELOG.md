@@ -1,3 +1,11 @@
+## [1.109.1](https://github.com/informatievlaanderen/association-registry/compare/v1.109.0...v1.109.1) (2023-01-26)
+
+
+### Bug Fixes
+
+* or-1564 add namespace references ([b2c769b](https://github.com/informatievlaanderen/association-registry/commit/b2c769b22fc8fb1a56f35fa3991ddb9d87d70d36))
+* or-1564 write tijdstip in correct format ([0b6010d](https://github.com/informatievlaanderen/association-registry/commit/0b6010d33b27b1d99e6fdd41d2c72ec57bbb0723))
+
 # [1.109.0](https://github.com/informatievlaanderen/association-registry/compare/v1.108.0...v1.109.0) (2023-01-25)
 
 

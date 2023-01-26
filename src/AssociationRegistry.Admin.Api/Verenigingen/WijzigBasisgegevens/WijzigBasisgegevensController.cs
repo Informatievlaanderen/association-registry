@@ -51,7 +51,7 @@ public class WijzigBasisgegevensController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Patch(
-        [FromServices] WijzigBasisgegevensRequestValidator validator,
+        [FromServices] IValidator<WijzigBasisgegevensRequest> validator,
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode,
         [FromHeader(Name = "If-Match")] string? ifMatch)
