@@ -20,19 +20,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Given_A_Vereniging\When_Retrieving_Historiek_Then_we_get_a_historiek_response.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_missing_name.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
-    <EmbeddedResource Include="When_posting_a_new_vereniging\files\response.missing_name_error.json" />
-    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_A_Vereniging_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
@@ -40,6 +27,27 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Given_A_Vereniging_Does_Not_Exist" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_missing_name.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
+    <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.missing_name_error.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_missing_name.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.missing_name_error.json" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

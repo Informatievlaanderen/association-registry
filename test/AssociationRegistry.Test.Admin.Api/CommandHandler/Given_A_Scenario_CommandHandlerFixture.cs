@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler;
 
-using AssociationRegistry.Test.Admin.Api.Scenarios;
-using AssociationRegistry.Vereniging;
+using Vereniging;
+using Scenarios;
 
 public class Given_A_Scenario_CommandHandlerFixture<TScenario> where TScenario: class, IScenario, new()
 {

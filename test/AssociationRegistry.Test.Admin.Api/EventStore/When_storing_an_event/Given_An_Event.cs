@@ -6,7 +6,6 @@ using FluentAssertions;
 using global::AssociationRegistry.Framework;
 using Marten;
 using NodaTime;
-using NodaTime.Extensions;
 using NodaTime.Text;
 using Xunit;
 
