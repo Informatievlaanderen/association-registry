@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze-code:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
 
@@ -101,7 +101,7 @@ jobs:
   build:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         projects:
