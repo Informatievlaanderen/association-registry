@@ -3,13 +3,16 @@
 using AssociationRegistry.Framework;
 using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
+using FluentAssertions;
 using Scenarios;
+using Vereniging;
 using Xunit;
 
 public class With_The_Same_Naam : IClassFixture<Given_A_Scenario_CommandHandlerFixture<VerenigingWerdGeregistreedScenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingWerdGeregistreedScenario _scenario;
+    private CommandResult _result;
 
     public With_The_Same_Naam(Given_A_Scenario_CommandHandlerFixture<VerenigingWerdGeregistreedScenario> classFixture)
     {
@@ -21,7 +24,7 @@ public class With_The_Same_Naam : IClassFixture<Given_A_Scenario_CommandHandlerF
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
-        commandHandler.Handle(
+        _result = commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
             _verenigingRepositoryMock).GetAwaiter().GetResult();
     }
@@ -36,5 +39,11 @@ public class With_The_Same_Naam : IClassFixture<Given_A_Scenario_CommandHandlerF
     public void Then_No_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+    }
+
+    [Fact]
+    public void Then_The_Result_Should_Have_No_Changes()
+    {
+        _result.HasChanges().Should().BeFalse();
     }
 }
