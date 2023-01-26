@@ -5,20 +5,20 @@ using AssociationRegistry.Vereniging;
 
 public class Given_A_Scenario_CommandHandlerFixture<TScenario> where TScenario: class, IScenario, new()
 {
-    private readonly Vereniging _vereniging;
-    public TScenario Scenario { get; }
+    public readonly Vereniging Vereniging;
+    public readonly TScenario Scenario;
 
     public VerenigingRepositoryMock VerenigingRepositoryMock
-        => new(_vereniging);
+        => new(Vereniging);
 
     public Given_A_Scenario_CommandHandlerFixture()
     {
-        _vereniging = new Vereniging();
+        Vereniging = new Vereniging();
         Scenario = new TScenario();
 
         foreach (var evnt in Scenario.Events())
         {
-            _vereniging.Apply((dynamic)evnt);
+            Vereniging.Apply((dynamic)evnt);
         }
     }
 }
