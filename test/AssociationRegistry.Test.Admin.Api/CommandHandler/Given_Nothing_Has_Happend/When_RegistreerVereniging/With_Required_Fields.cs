@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_A_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_Nothing_Has_Happend.When_RegistreerVereniging;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Events;
-using Scenarios;
+using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
+using AutoFixture;
+using Scenarios;
 using Xunit;
 
 public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixture<EmptyScenario>>

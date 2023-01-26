@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using System.Net.Http.Headers;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
 public static class HeaderExtensions

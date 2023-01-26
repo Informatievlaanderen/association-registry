@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_A_VerenigingWerdGeregistreerd.When_WijzigBasisgegevens;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
 using Vereniging.WijzigBasisgegevens;
 using AutoFixture;

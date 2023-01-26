@@ -1,0 +1,6 @@
+﻿{
+  "initiator": "V0001001",
+  "naam": "De naam van de vereniging",
+  "startdatum": "{{vereniging.startdatum}}",
+  "initiator": "OVO000001"
+}

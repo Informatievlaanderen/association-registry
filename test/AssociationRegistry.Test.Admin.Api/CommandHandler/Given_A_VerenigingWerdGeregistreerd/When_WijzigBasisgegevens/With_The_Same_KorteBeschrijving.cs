@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
 using Scenarios;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;

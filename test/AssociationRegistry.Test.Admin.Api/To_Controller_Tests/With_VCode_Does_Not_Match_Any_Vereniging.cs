@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.VCodes;
+using Fixtures;
+using Framework;
+using VCodes;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_A_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_Nothing_Has_Happend.When_RegistreerVereniging;
 
 using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Events;
-using Scenarios;
+using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
+using AutoFixture;
+using Scenarios;
 using Xunit;
 
 public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixture<EmptyScenario>>
@@ -20,8 +20,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
-    private readonly DateTime _today;
-    private InMemorySequentialVCodeService _vCodeService;
+    private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_All_Fields(Given_A_Scenario_CommandHandlerFixture<EmptyScenario> classFixture)
     {
@@ -30,10 +29,10 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
         var fixture = new Fixture();
 
-        _today = fixture.Create<DateTime>();
-        _fromDateTime = DateOnly.FromDateTime(_today.AddDays(-3));
+        var today = fixture.Create<DateTime>();
+        _fromDateTime = DateOnly.FromDateTime(today.AddDays(-3));
 
-        var clock = new ClockStub(_today);
+        var clock = new ClockStub(today);
 
         var command = new RegistreerVerenigingCommand(
             Naam,
