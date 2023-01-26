@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_A_VerenigingWerdGeregistreerd;
+﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler;
 
-using Scenarios;
-using Vereniging;
+using AssociationRegistry.Test.Admin.Api.Scenarios;
+using AssociationRegistry.Vereniging;
 
 public class Given_A_Scenario_CommandHandlerFixture<TScenario> where TScenario: class, IScenario, new()
 {
