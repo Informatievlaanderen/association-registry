@@ -30,6 +30,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Destructurama;
 using FluentValidation;
+using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -199,7 +200,7 @@ public class Program
         var exceptionHandler = new ExceptionHandler(
             logger,
             Array.Empty<ApiProblemDetailsExceptionMapping>(),
-            Array.Empty<IExceptionHandler>(),
+            new[] { new BadHttpRequestExceptionHandler(problemDetailsHelper) },
             problemDetailsHelper);
         app.UseExceptionHandler404Allowed(
             b =>
@@ -603,5 +604,4 @@ public class Program
             eventArgs.Cancel = true;
         };
     }
-
 }
