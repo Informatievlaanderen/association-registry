@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.When_searching_verenigingen_by_name;
 
-using AutoFixture;
 using Events;
 using Framework;
 using Fixtures;

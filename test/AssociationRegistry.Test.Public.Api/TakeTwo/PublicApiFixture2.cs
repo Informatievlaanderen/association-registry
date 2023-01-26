@@ -1,8 +1,9 @@
-﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
+namespace AssociationRegistry.Test.Public.Api.TakeTwo;
 
 using System.Reflection;
 using Framework.Helpers;
 using EventStore;
+using Fixtures;
 using global::AssociationRegistry.Framework;
 using global::AssociationRegistry.Public.Api;
 using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
+using NodaTime;
 using NodaTime.Extensions;
 using Npgsql;
 using Xunit;
@@ -24,10 +26,10 @@ using IEvent = global::AssociationRegistry.Framework.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
-public class PublicApiFixture : IDisposable, IAsyncLifetime
+public class PublicApiFixture2 : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "p_";
+    private readonly string _identifier = "publicapifixture";
 
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
@@ -44,10 +46,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
-    protected PublicApiFixture(string identifier)
+    public PublicApiFixture2()
     {
-        _identifier += identifier.ToLowerInvariant();
-
         WaitFor.PostGreSQLToBecomeAvailable(
                 new NullLogger<PublicApiFixture>(),
                 GetConnectionString(GetConfiguration(), RootDatabase))
@@ -76,7 +76,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
     }
-
 
     private IConfigurationRoot GetConfiguration()
     {
@@ -126,6 +125,34 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         // We don't need the daemon here, so dispose it to prevent too many clients staying open.
         daemon.Dispose();
+    }
+
+    protected async Task AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
+    {
+        if (!eventsToAdd.Any())
+            return;
+
+        if (DocumentStore is not { })
+            throw new NullReferenceException("DocumentStore cannot be null when adding an event");
+
+        if (ElasticClient is not { })
+            throw new NullReferenceException("Elastic client cannot be null when adding an event");
+
+        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
+
+        var eventStore = new EventStore(DocumentStore);
+        foreach (var @event in eventsToAdd)
+            await eventStore.Save(vCode, metadata, @event);
+
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+
+        if (daemon is not { })
+            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+        await daemon.StartAllShards();
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
@@ -203,3 +230,4 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public virtual Task DisposeAsync()
         => Task.CompletedTask;
 }
+
