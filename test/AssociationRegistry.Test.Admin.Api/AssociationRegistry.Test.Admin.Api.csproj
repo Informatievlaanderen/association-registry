@@ -41,9 +41,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Given_A_Vereniging\When_WijzigBasisGegevens_To_Rework" />
-    <Folder Include="When_Wijzig_BasisGegevens" />
-  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
