@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.When_retrieving_a_detail_of_a_vereniging;
 
-using System.Text.RegularExpressions;
 using AssociationRegistry.Framework;
 using Events;
 using Fixtures;

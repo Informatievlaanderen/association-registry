@@ -19,12 +19,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TakeTwo\Given_VerenigingWerdGeregistreerd\When_Retrieving_Detail_With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="TakeTwo\Given_VerenigingWerdGeregistreerd\When_Retrieving_Detail_With_Minimal_Fields_Then_we_get_a_detail_vereniging_response.json" />
+    <EmbeddedResource Include="TakeTwo\Given_BasisGegevenWerdGewijzigd\When_Retrieving_Detail_Then_we_get_a_detail_vereniging_response_with_the_new_korteBeschrijving.json" />
     <EmbeddedResource Include="When_handling_an_event\Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_KorteBeschrijvingWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_korteBeschrijving.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_KorteNaamWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_korteNaam.json" />
     <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_NaamWerdGewijzigd_Then_we_get_a_detail_vereniging_response_with_the_new_name.json" />
-    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd\With_Minimal_Fields_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd\With_All_Fields_Then_we_get_a_detail_vereniging_response.json" />
     <EmbeddedResource Include="When_retrieving_verenigingen_without_explicit_limit\Given_an_api_Then_we_get_a_list_verenigingen_response.json" />
     <EmbeddedResource Include="When_searching_verenigingen_by_name\Given_one_vereniging_korte_naam_werd_gewijzigd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="When_searching_verenigingen_by_name\Given_one_vereniging_naam_werd_gewijzigd_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
