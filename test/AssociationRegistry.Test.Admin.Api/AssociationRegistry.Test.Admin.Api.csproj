@@ -40,14 +40,8 @@
     <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
     <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
     <EmbeddedResource Include="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.missing_name_error.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_an_invalid_startdatum.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_empty_kbonummer.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_missing_name.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_startdatum_in_future.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.invalid_startdatum_validation_error.json" />
-    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\response.missing_name_error.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_registreer_a_new_vereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="TakeTwo\Given_A_Vereniging_Does_Not_Exist\When_registreer_a_new_vereniging\files\request.with_minimal_fields.json" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
