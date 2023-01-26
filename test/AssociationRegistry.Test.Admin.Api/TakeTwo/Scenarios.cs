@@ -24,7 +24,7 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
     public VerenigingWerdGeregistreerdScenario()
     {
         _fixture = new Fixture().CustomizeAll();
-        VCode = _fixture.Create<VCode>();
+        VCode = "V0001001";
         VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         Metadata = _fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -49,7 +49,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
     public VerenigingWerdGeregistreerdWithMinimalFieldsScenario()
     {
         _fixture = new Fixture().CustomizeAll();
-        VCode = _fixture.Create<VCode>();
+        VCode = "V0001002";
         VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -86,7 +86,7 @@ public class AlleBasisGegevensWerdenGewijzigdScenario : IScenario
     public AlleBasisGegevensWerdenGewijzigdScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = fixture.Create<VCode>();
+        VCode = "V0001003";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };

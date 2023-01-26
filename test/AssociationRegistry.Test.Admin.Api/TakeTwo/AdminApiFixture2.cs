@@ -108,15 +108,14 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
 
     protected async Task<StreamActionResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
     {
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        daemon.StartAllShards().GetAwaiter().GetResult();
-
         if (DocumentStore is not { })
             throw new NullException("DocumentStore cannot be null when adding an event");
 
         var eventStore = new EventStore(DocumentStore);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        daemon.StartAllShards().GetAwaiter().GetResult();
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
         return result;
@@ -179,7 +178,7 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {GetConfiguration()["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
