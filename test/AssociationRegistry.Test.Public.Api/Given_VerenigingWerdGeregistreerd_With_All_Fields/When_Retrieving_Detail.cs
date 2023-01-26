@@ -1,23 +1,26 @@
-namespace AssociationRegistry.Test.Public.Api.TakeTwo.Given_VerenigingWerdGeregistreerd;
+namespace AssociationRegistry.Test.Public.Api.Given_VerenigingWerdGeregistreerd_With_All_Fields;
 
 using System.Text.RegularExpressions;
 using AssociationRegistry.Public.Api.Constants;
-using Fixtures;
-using Framework;
-using TakeTwo;
+using AssociationRegistry.Test.Public.Api.Fixtures;
+using AssociationRegistry.Test.Public.Api.Framework;
+using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-public class When_Retrieving_Detail_With_Minimal_Fields
+[Category("PublicApi")]
+[IntegrationTest]
+public class When_Retrieving_Detail
 {
     private readonly PublicApiClient _publicApiClient;
     private readonly string _vCode;
 
-    public When_Retrieving_Detail_With_Minimal_Fields(GivenEventsFixture fixture)
+    public When_Retrieving_Detail(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsScenario.VCode;
+        _vCode = fixture.VerenigingWerdGeregistreerdScenario.VCode;
     }
 
     [Fact]
@@ -37,14 +40,15 @@ public class When_Retrieving_Detail_With_Minimal_Fields
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _publicApiClient.GetDetail(_vCode);
+        var response = await _publicApiClient.GetDetail(_vCode);
 
-        var content = await responseMessage.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"{nameof(When_Retrieving_Detail_With_Minimal_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+            $"{nameof(When_Retrieving_Detail)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }
+

@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Public.Api.TakeTwo;
+namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Events;
+using AssociationRegistry.VCodes;
 using NodaTime;
 using NodaTime.Extensions;
-using VCodes;
 
 public interface IScenario
 {
@@ -16,11 +16,10 @@ public interface IScenario
 public class VerenigingWerdGeregistreerdScenario : IScenario
 {
     public VCode VCode => VCode.Create("V0001001");
-    private readonly string _naam = "Feestcommittee Oudenaarde";
-    private readonly string? _korteBeschrijving = "Het feestcommittee van Oudenaarde";
-    private readonly string? _korteNaam = "FOud";
-    private readonly string? _kboNummer = "0123456789";
-
+    public readonly string Naam = "Feestcommittee Oudenaarde";
+    public readonly string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
+    public readonly string? KorteNaam = "FOud";
+    public readonly string? KboNummer = "0123456789";
 
     private readonly VerenigingWerdGeregistreerd.ContactInfo _contactInfo = new(
         "Algemeen",
@@ -49,11 +48,11 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         {
             new VerenigingWerdGeregistreerd(
                 VCode,
-                _naam,
-                _korteNaam,
-                _korteBeschrijving,
+                Naam,
+                KorteNaam,
+                KorteBeschrijving,
                 _startdatum,
-                _kboNummer,
+                KboNummer,
                 new[] { _contactInfo },
                 new[] { _locatie }),
         };
@@ -68,7 +67,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
     public VCode VCode
         => VCode.Create("V0001002");
 
-    private readonly string Naam = "Feestcommittee Oudenaarde";
+    private readonly string Naam = "Feesten Hulste";
 
     public IEvent[] GetEvents()
     {
@@ -93,9 +92,9 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
 {
     public VCode VCode => VCode.Create("V0001003");
-    private const string KorteBeschrijving = "het feestcomite van Oudenaarde";
-    private const string KorteNaam = "FO";
-    private const string Naam = "Foudenaarde";
+    public readonly string KorteBeschrijving = "Harelbeke";
+    public readonly string KorteNaam = "OW";
+    public readonly string Naam = "Oarelbeke Weireldstad";
 
     public IEvent[] GetEvents()
     {
@@ -119,3 +118,38 @@ public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
     public CommandMetadata GetCommandMetadata()
         => new("OVO000001", new DateTimeOffset(2023, 01, 25, 0, 0, 0, TimeSpan.Zero).ToInstant());
 }
+
+public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
+{
+    public VCode VCode => VCode.Create("V0001004");
+    public readonly string Naam = "Oostende voor anker";
+    private readonly string KorteNaam = "OVA";
+
+    public IEvent[] GetEvents()
+    {
+        return new IEvent[]
+        {
+            new EenEvent(),
+            VerenigingWerdGeregistreerd(
+                VCode,
+                Naam,
+                KorteNaam),
+        };
+    }
+
+    public CommandMetadata GetCommandMetadata()
+        => new("OVO000001", new Instant());
+
+    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
+        => new(vCode,
+            naam,
+            korteNaam,
+            null,
+            null,
+            null,
+            Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            Array.Empty<VerenigingWerdGeregistreerd.Locatie>());
+}
+
+public record EenEvent : IEvent;
+

@@ -2,46 +2,43 @@ namespace AssociationRegistry.Test.Public.Api.When_fetching_the_documentation;
 
 using System.Net;
 using Fixtures;
+using Fixtures.GivenEvents;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
+using Xunit.Categories;
 
-public class Then_The_Docs_Fixture : PublicApiFixture
+[Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
+
+public class Then_The_Docs
 {
-    public Then_The_Docs_Fixture() : base(nameof(Then_The_Docs_Fixture))
+    private readonly GivenEventsFixture _fixture;
+
+    public Then_The_Docs(GivenEventsFixture fixture)
     {
-        Response = PublicApiClient.GetDocs().GetAwaiter().GetResult();
+        _fixture = fixture;
+        Response = fixture.PublicApiClient.GetDocs().GetAwaiter().GetResult();
         Docs = JsonConvert.DeserializeObject<Docs>(Response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
 
-    }
-
-    public override async Task InitializeAsync()
-    {
     }
 
     public HttpResponseMessage Response { get; set; } = null!;
 
     public Docs? Docs { get; set; }
-}
-
-public class Then_The_Docs : IClassFixture<Then_The_Docs_Fixture>
-{
-    private readonly Then_The_Docs_Fixture _theDocsFixture;
-
-    public Then_The_Docs(Then_The_Docs_Fixture theDocsFixture)
-        => _theDocsFixture = theDocsFixture;
 
     [Fact]
     public void Json_Returns_200OK()
-        => _theDocsFixture.Response.Should().HaveStatusCode(HttpStatusCode.OK);
+        => Response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
     public async Task Have_Paths()
-        => _theDocsFixture.Docs.Paths.Count.Should().BePositive();
+        => Docs.Paths.Count.Should().BePositive();
 
     [Fact]
     public async Task Have_A_Summary_ForEach_Path()
-        => _theDocsFixture.Docs.Paths
+        => Docs.Paths
             .ToList()
             .ForEach(path =>
                 path.Value.ToList().ForEach(method => method.Value.Summary.Should().NotBeNullOrWhiteSpace(because: $"'[{method.Key}] {path.Key}' should have a summary.")));
