@@ -24,7 +24,7 @@ public class EventStore : IEventStore
         await using var session = _documentStore.OpenSession();
 
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
-        session.SetHeader(MetadataHeaderNames.Tijdstip, metadata.Tijdstip);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
         try
         {
             var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + 1, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
