@@ -25,7 +25,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata)
     {
         _invocationsSave.Add(new InvocationSave(vereniging));
-        return await Task.FromResult(new StreamActionResult(-1L, -1L));
+        return await Task.FromResult(StreamActionResult.Empty);
     }
 
     public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)

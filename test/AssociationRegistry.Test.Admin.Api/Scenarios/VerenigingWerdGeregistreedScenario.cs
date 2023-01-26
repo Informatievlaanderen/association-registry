@@ -2,10 +2,12 @@
 
 using Events;
 using AssociationRegistry.Framework;
+using VCodes;
 
 public class VerenigingWerdGeregistreedScenario : IScenario
 {
-    public readonly string VCode = "V0001002";
+    public readonly VCode VCode = VCode.Create("V0001002");
+
     public readonly string Naam = "Hulste Huldigt";
     public readonly string? KorteBeschrijving = null;
     public readonly string? KorteNaam = "FOud";
