@@ -205,6 +205,11 @@ jobs:
       shell: bash
       run: ./build.sh Build
 
+    - name: Wait for db container
+      shell: bash
+      run: |
+        timeout 90s bash -c "until docker exec pg_container pg_isready ; do sleep 5 ; done"
+
     - name: Run all tests
       run: dotnet test ${{matrix.projects}}
 
