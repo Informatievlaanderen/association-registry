@@ -1,3 +1,10 @@
+## [1.109.2](https://github.com/informatievlaanderen/association-registry/compare/v1.109.1...v1.109.2) (2023-01-26)
+
+
+### Bug Fixes
+
+* or-1565: handle badhttprequestexception as bad request ([10f12a2](https://github.com/informatievlaanderen/association-registry/commit/10f12a255ca6b2c90df71c733c7bf9627cc938de))
+
 ## [1.109.1](https://github.com/informatievlaanderen/association-registry/compare/v1.109.0...v1.109.1) (2023-01-26)
 
 
