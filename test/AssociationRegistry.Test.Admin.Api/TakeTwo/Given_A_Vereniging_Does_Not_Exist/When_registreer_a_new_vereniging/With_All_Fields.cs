@@ -1,21 +1,21 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_A_Vereniging_Does_Not_Exist.When_posting_a_new_vereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_A_Vereniging_Does_Not_Exist.When_registreer_a_new_vereniging;
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Events;
-using Framework;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
 [Collection(nameof(AdminApiCollection))]
-public class Given_A_Valid_Request_With_All_Fields
+public class With_All_Fields
 {
     private readonly GivenEventsFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
 
-    public Given_A_Valid_Request_With_All_Fields(GivenEventsFixture fixture)
+    public With_All_Fields(GivenEventsFixture fixture)
     {
         _fixture = fixture;
         var autoFixture = new Fixture();
