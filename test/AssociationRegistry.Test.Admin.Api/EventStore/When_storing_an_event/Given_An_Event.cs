@@ -5,7 +5,9 @@ using Fixtures;
 using FluentAssertions;
 using global::AssociationRegistry.Framework;
 using Marten;
+using NodaTime;
 using NodaTime.Extensions;
+using NodaTime.Text;
 using Xunit;
 
 public class Given_An_Event_Fixture : AdminApiFixture
@@ -39,11 +41,14 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
         var eventStore = new EventStore(_fixture.DocumentStore);
 
         // act
+        var tijdstip = new Instant();
+        var tijdstipString = InstantPattern.General.Format(tijdstip);
+
         await eventStore.Save(
             streamId,
             new CommandMetadata(
                 "SomeInitiator",
-                new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant()),
+                tijdstip),
             someEvent);
 
         // assert
@@ -55,8 +60,7 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
         single.StreamKey.Should().Be(streamId);
         single.EventType.Should().Be<SomeEvent>();
         single.GetHeaderString(MetadataHeaderNames.Initiator).Should().Be("SomeInitiator");
-        single.GetHeaderInstant(MetadataHeaderNames.Tijdstip).Should().Be(
-            new DateTimeOffset(2022, 1, 1, 0, 0, 0, TimeSpan.Zero).ToInstant());
+        single.GetHeaderString(MetadataHeaderNames.Tijdstip).Should().Be(tijdstipString);
     }
 
     private static async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId, IDocumentStore documentStore)
