@@ -1,21 +1,19 @@
-namespace AssociationRegistry.Test.Public.Api.TakeTwo;
+namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
-using Xunit.Categories;
-
-[Category("PublicApi")]
-[IntegrationTest]
-public class GivenEventsFixture : PublicApiFixture2
+public class GivenEventsFixture : PublicApiFixture
 {
     public readonly VerenigingWerdGeregistreerdScenario VerenigingWerdGeregistreerdScenario = new();
     public readonly VerenigingWerdGeregistreerdWithMinimalFieldsScenario VerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
     public readonly KorteBeschrijvingWerdGewijzigdScenario KorteBeschrijvingWerdGewijzigdScenario = new();
+    public readonly UnHandledEventAndVerenigingWerdGeregistreerdScenario UnHandledEventAndVerenigingWerdGeregistreerdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
         {
             VerenigingWerdGeregistreerdScenario,
             VerenigingWerdGeregistreerdWithMinimalFieldsScenario,
-            KorteBeschrijvingWerdGewijzigdScenario
+            KorteBeschrijvingWerdGewijzigdScenario,
+            UnHandledEventAndVerenigingWerdGeregistreerdScenario,
         };
 
     public override async Task InitializeAsync()

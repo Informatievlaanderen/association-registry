@@ -1,9 +1,9 @@
 {
   "verenigingen": [
     {
-      "vCode": "V0001001",
-      "naam": "Feestcommittee Oudenaarde",
-      "korteNaam": "FOud",
+      "vCode": "V0001003",
+      "naam": "Oarelbeke Weireldstad",
+      "korteNaam": "OW",
       "hoofdactiviteiten": [
         {
           "code": "BWWC",
@@ -11,23 +11,7 @@
         }
       ],
       "doelgroep": "+18",
-      "locaties": [
-        {
-          "locatietype": "Correspondentie",
-          "naam": "Gemeentehuis",
-          "adres": "dorpstraat 1 bus 1b, 9636 Oudenaarde, Belgie",
-          "postcode": "9636",
-          "gemeente": "Oudenaarde"
-        },
-        {
-          "locatietype": "Activiteiten",
-          "hoofdlocatie": true,
-          "naam": "Feestzaal",
-          "adres": "kerkstraat 42, 9636 Oudenaarde, Belgie",
-          "postcode": "9636",
-          "gemeente": "Oudenaarde"
-        }
-      ],
+      "locaties": [],
       "activiteiten": [
         {
           "id": -1,
@@ -43,7 +27,7 @@
         }
       ],
       "links": {
-        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001001"
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001003"
       }
     }
   ],

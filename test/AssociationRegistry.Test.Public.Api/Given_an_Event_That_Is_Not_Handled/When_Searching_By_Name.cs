@@ -1,82 +1,51 @@
-namespace AssociationRegistry.Test.Public.Api.When_handling_an_event;
+namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled;
 
 using System.Text.RegularExpressions;
-using AssociationRegistry.Framework;
-using Events;
-using Fixtures;
-using Framework;
+using AssociationRegistry.Test.Public.Api.Fixtures;
+using AssociationRegistry.Test.Public.Api.Framework;
+using AssociationRegistry.VCodes;
+using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;
 
-public class Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture : PublicApiFixture
-{
-    public const string VCode = "V0001001";
-    public const string Naam = "Feestcommittee Oudenaarde";
-    private const string KorteNaam = "FOud";
-
-    private static readonly VerenigingWerdGeregistreerd.Locatie gemeentehuis = new("Gemeentehuis", "dorpstraat", "1", "1b", "9636", "Oudenaarde", "Belgie", false, "Correspondentie");
-    private static readonly VerenigingWerdGeregistreerd.Locatie feestzaal = new("Feestzaal", "kerkstraat", "42", null, "9636", "Oudenaarde", "Belgie", true, "Activiteiten");
-
-    public Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture() : base(nameof(Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture))
-    {
-    }
-
-    public override async Task InitializeAsync()
-    {
-        await AddEvent(VCode, new EenEvent());
-        await AddEvent(
-            VCode,
-            VerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                KorteNaam));
-    }
-
-    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode,
-            naam,
-            korteNaam,
-            null,
-            null,
-            null,
-            Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-            new[] { gemeentehuis, feestzaal });
-}
-
-public record EenEvent : IEvent;
-
-public class Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd : IClassFixture<Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture>
+[Collection(nameof(PublicApiCollection))]
+public class When_Searching_By_Name
 {
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
+    private readonly UnHandledEventAndVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly VCode _vCode;
 
     private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
-    public Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd(Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture classFixture)
+    public When_Searching_By_Name(GivenEventsFixture fixture)
     {
-        _publicApiClient = classFixture.PublicApiClient;
+        _publicApiClient = fixture.PublicApiClient;
+        _scenario = fixture.UnHandledEventAndVerenigingWerdGeregistreerdScenario;
+        _vCode = _scenario.VCode;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"{nameof(Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
+            $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
+
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture.Naam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(_scenario.Naam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture.Naam);
+        var response = await _publicApiClient.Search(_scenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture.Naam);
+            .Replace("{{originalQuery}}", _scenario.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var response = await _publicApiClient.Search("dena");
+        var response = await _publicApiClient.Search("stende");
         var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
@@ -85,33 +54,33 @@ public class Given_an_unhandled_event_and_one_vereniging_werd_geregistreerd : IC
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
-        var response = await _publicApiClient.Search("*dena*");
+        var response = await _publicApiClient.Search("*stende*");
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*dena*");
+            .Replace("{{originalQuery}}", "*stende*");
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
-        var response = await _publicApiClient.Search("oudenaarde");
+        var response = await _publicApiClient.Search("oostende");
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oudenaarde");
+            .Replace("{{originalQuery}}", "oostende");
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var response = await _publicApiClient.Search(Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture.VCode);
+        var response = await _publicApiClient.Search(_vCode);
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", Unhandled_event_and_one_vereniging_werd_geregistreerd_fixture.VCode);
+            .Replace("{{originalQuery}}", _vCode);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 

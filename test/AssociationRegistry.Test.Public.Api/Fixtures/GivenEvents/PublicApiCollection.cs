@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Public.Api.TakeTwo;
+namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Xunit;
 
