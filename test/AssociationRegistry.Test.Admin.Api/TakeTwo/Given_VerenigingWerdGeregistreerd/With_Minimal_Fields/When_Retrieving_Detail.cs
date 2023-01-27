@@ -8,8 +8,11 @@ using Framework;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class When_Retrieving_Detail
 {
     private readonly string _vCode;

@@ -1,13 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_A_Vereniging_Does_Not_Exist.When_registreer_a_new_vereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Events;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_A_Valid_Request_With_Minimal_Fields
 {
     private readonly GivenEventsFixture _fixture;

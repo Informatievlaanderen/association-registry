@@ -8,8 +8,11 @@ using Fixtures;
 using Framework;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class When_Retrieving_Historiek
 {
     private readonly string _vCode;

@@ -2,14 +2,17 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Events;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class With_All_Fields
 {
     private readonly GivenEventsFixture _fixture;
