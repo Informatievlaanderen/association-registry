@@ -11,8 +11,11 @@ using Framework;
 using TakeTwo;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class When_Retrieving_Detail
 {
     private readonly string _vCode;

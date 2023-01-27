@@ -4,8 +4,11 @@ using System.Net;
 using Events;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class When_WijzigBasisGegevens
 {
     private readonly GivenEventsFixture _fixture;
