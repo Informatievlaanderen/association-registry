@@ -17,6 +17,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
+using Polly;
+using Polly.Retry;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -106,21 +108,6 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<StreamActionResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
-    {
-        if (DocumentStore is not { })
-            throw new NullException("DocumentStore cannot be null when adding an event");
-
-        var eventStore = new EventStore(DocumentStore);
-        var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
-
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        daemon.StartAllShards().GetAwaiter().GetResult();
-        await daemon.WaitForNonStaleData(TimeSpan.FromMinutes(3));
-
-        return result;
-    }
-
     protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
         if (!eventsToAdd.Any())
@@ -128,6 +115,12 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
 
         if (DocumentStore is not { })
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
+
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        await daemon.StartAllShards();
+
+        if (daemon is not { })
+            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
@@ -138,12 +131,15 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
             result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, @event);
         }
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        if (daemon is not { })
-            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+        var retry = Policy
+            .Handle<HttpRequestException>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
 
-        await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await retry.ExecuteAndCaptureAsync(
+            async () =>
+            {
+                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+            });
 
         return result;
     }

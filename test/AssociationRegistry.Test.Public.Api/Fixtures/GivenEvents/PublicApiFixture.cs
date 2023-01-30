@@ -20,6 +20,7 @@ using Nest;
 using NodaTime;
 using NodaTime.Extensions;
 using Npgsql;
+using Polly;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -120,7 +121,16 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore);
         await eventStore.Save(vCode, metadata, eventToAdd);
 
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        var retry = Polly.Policy
+            .Handle<HttpRequestException>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+
+        await retry.ExecuteAndCaptureAsync(
+            async () =>
+            {
+                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+            });
+
         await ElasticClient.Indices.RefreshAsync(Indices.All);
 
         // We don't need the daemon here, so dispose it to prevent too many clients staying open.
