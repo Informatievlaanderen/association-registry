@@ -28,7 +28,9 @@ public record DetailVerenigingResponse(
         [property: DataMember(Name = "ContactInfoLijst")]
         VerenigingDetail.ContactInfo[] ContactInfoLijst,
         [property: DataMember(Name = "Locaties")]
-        ImmutableArray<VerenigingDetail.Locatie> Locaties)
+        ImmutableArray<VerenigingDetail.Locatie> Locaties,
+        [property: DataMember(Name = "Vertegenwoordigers")]
+        ImmutableArray<VerenigingDetail.Vertegenwoordiger> Vertegenwoordigers)
     {
         [DataContract]
         public record ContactInfo(
@@ -44,8 +46,24 @@ public record DetailVerenigingResponse(
         );
 
         [DataContract]
+        public record Vertegenwoordiger(
+            [property: DataMember(Name = "Rijksregisternummer")]
+            string Rijksregisternummer,
+            [property: DataMember(Name = "Voornaam")]
+            string Voornaam,
+            [property: DataMember(Name = "Achternaam")]
+            string Achternaam,
+            [property: DataMember(Name = "Roepnaam")]
+            string? Roepnaam,
+            [property: DataMember(Name = "Rol")] string? Rol,
+            [property: DataMember(Name = "PrimairContactpersoon")]
+            bool PrimairContactpersoon
+        );
+
+        [DataContract]
         public record Locatie(
-            [property: DataMember(Name = "Locatietype")] string Locatietype,
+            [property: DataMember(Name = "Locatietype")]
+            string Locatietype,
             [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
             bool Hoofdlocatie,
             [property: DataMember(Name = "Adres")] string Adres,
@@ -63,6 +81,6 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "Land")] string Land
         );
     }
-    public record MetadataDetail(string DatumLaatsteAanpassing);
 
+    public record MetadataDetail(string DatumLaatsteAanpassing);
 }

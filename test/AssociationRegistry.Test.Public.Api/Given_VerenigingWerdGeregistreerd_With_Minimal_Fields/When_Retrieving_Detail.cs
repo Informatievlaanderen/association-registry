@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Public.Api.Given_VerenigingWerdGeregistreerd_
 
 using System.Text.RegularExpressions;
 using AssociationRegistry.Public.Api.Constants;
-using AssociationRegistry.Test.Public.Api.Fixtures;
-using AssociationRegistry.Test.Public.Api.Framework;
+using Fixtures;
+using Framework;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;

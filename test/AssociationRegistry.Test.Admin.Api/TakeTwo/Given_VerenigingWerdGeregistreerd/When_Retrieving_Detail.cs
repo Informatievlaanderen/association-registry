@@ -84,7 +84,15 @@ public class When_Retrieving_Detail
                         ""gemeente"": ""{x.Gemeente}"",
                         ""land"": ""{x.Land}""
                     }}"))}
-                    ]
+                    ],
+                    ""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers!.Select(x => $@"{{
+                            ""rijksregisternummer"": ""{x.Rijksregisternummer}"",
+                            ""voornaam"": ""{x.Voornaam}"",
+                            ""achternaam"": ""{x.Achternaam}"",
+                            ""rol"": ""{x.Rol}"",
+                            ""roepnaam"": ""{x.Roepnaam}"",
+                            ""primairContactpersoon"": {(x.PrimairContactpersoon? "true" : "false")},
+                        }}"))}],
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": """"

@@ -34,8 +34,12 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleFor(request => request.Locaties)
             .Must(NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
+
         RuleForEach(request => request.Locaties)
             .SetValidator(new LocatieValidator());
+
+        RuleForEach(request => request.Vertegenwoordigers)
+            .SetValidator(new VertegenwoordigerValidator());
     }
 
     private static bool NotHaveMultipleHoofdlocaties(RegistreerVerenigingRequest.Locatie[] locaties)
@@ -49,6 +53,12 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 
     private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
         => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
+
+    private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
+        => !string.IsNullOrEmpty(contactInfo.Email) ||
+           !string.IsNullOrEmpty(contactInfo.Telefoon) ||
+           !string.IsNullOrEmpty(contactInfo.Website) ||
+           !string.IsNullOrEmpty(contactInfo.SocialMedia);
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {
@@ -72,9 +82,12 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             => Locatietypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
-        => !string.IsNullOrEmpty(contactInfo.Email) ||
-           !string.IsNullOrEmpty(contactInfo.Telefoon) ||
-           !string.IsNullOrEmpty(contactInfo.Website) ||
-           !string.IsNullOrEmpty(contactInfo.SocialMedia);
+    private class VertegenwoordigerValidator: AbstractValidator<RegistreerVerenigingRequest.Vertegenwoordiger>
+    {
+        public VertegenwoordigerValidator()
+        {
+            this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Rijksregisternummer);
+        }
+    }
+
 }

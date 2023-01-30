@@ -56,6 +56,23 @@ public class With_All_Fields
                     Locatietype = Locatietypes.Correspondentie,
                 },
             },
+            Vertegenwoordigers = new[]
+            {
+                new RegistreerVerenigingRequest.Vertegenwoordiger
+                {
+                    Rijksregisternummer = "96123119307",
+                    Rol = "Voorzitter, Hoofdcoach",
+                    Roepnaam = "QTPY",
+                    PrimairContactpersoon = true,
+                },
+                new RegistreerVerenigingRequest.Vertegenwoordiger
+                {
+                    Rijksregisternummer = "78100440321",
+                    Rol = "Master",
+                    Roepnaam = "BDSM",
+                    PrimairContactpersoon = false,
+                },
+            },
         };
         _fixture.AdminApiClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
     }
@@ -70,7 +87,8 @@ public class With_All_Fields
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
-            .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties));
+            .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
+            .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers));
 
     [Fact]
     public void Then_it_saves_the_events()
@@ -89,5 +107,6 @@ public class With_All_Fields
         savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(_request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(_request.Locaties[0]);
+// TODO        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(_request.Vertegenwoordigers);
     }
 }

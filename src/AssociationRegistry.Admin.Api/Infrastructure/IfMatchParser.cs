@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 

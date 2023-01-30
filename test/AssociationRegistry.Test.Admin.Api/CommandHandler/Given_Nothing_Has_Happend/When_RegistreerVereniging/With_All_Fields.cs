@@ -5,7 +5,10 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using Magda;
+using Moq;
 using Scenarios;
+using Vertegenwoordigers;
 using Xunit;
 
 public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixture<EmptyScenario>>
@@ -17,15 +20,18 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
     private static readonly RegistreerVerenigingCommand.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "www.test-website.be", "@test");
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
+    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new("78100440321", true, "Conan", "Barbarian, Destroyer");
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
     private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly Vertegenwoordiger _magdaVertegenwoordiger;
 
     public With_All_Fields(Given_A_Scenario_CommandHandlerFixture<EmptyScenario> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _vCodeService = new InMemorySequentialVCodeService();
+        Mock<IMagdaFacade> magdaFacade = new();
 
         var fixture = new Fixture();
 
@@ -34,6 +40,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
         var clock = new ClockStub(today);
 
+        var vertegenwoordigers = new[] { Vertegenwoordiger };
         var command = new RegistreerVerenigingCommand(
             Naam,
             KorteNaam,
@@ -41,9 +48,27 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
             _fromDateTime,
             KboNummber,
             new[] { ContactInfo, },
-            new[] { Locatie, });
+            new[] { Locatie, },
+            vertegenwoordigers);
+
+        _magdaVertegenwoordiger = Vertegenwoordigers.Vertegenwoordiger.Create(
+            Vertegenwoordiger.Rijksregisternummer,
+            Vertegenwoordiger.PrimairContactpersoon,
+            Vertegenwoordiger.Roepnaam,
+            Vertegenwoordiger.Rol,
+            "Thor",
+            "Odinson");
+        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(
+            new[]
+            {
+                _magdaVertegenwoordiger,
+            });
+        magdaFacade
+            .Setup(facade => facade.GetVertegenwoordigers(vertegenwoordigers, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(vertegenwoordigersLijst);
+
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
@@ -83,6 +108,16 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                         Locatie.Land,
                         Locatie.Hoofdlocatie,
                         Locatie.Locatietype),
+                },
+                new[]
+                {
+                    new VerenigingWerdGeregistreerd.Vertegenwoordiger(
+                        _magdaVertegenwoordiger.Rijksregisternummer,
+                        _magdaVertegenwoordiger.PrimairContactpersoon,
+                        _magdaVertegenwoordiger.Roepnaam,
+                        _magdaVertegenwoordiger.Rol,
+                        _magdaVertegenwoordiger.Voornaam,
+                        _magdaVertegenwoordiger.Achternaam),
                 }));
     }
 }

@@ -35,7 +35,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
                     Locaties = new[] { fixture.Create<VerenigingDocument.Locatie>() },
                     Hoofdactiviteiten = new[] { fixture.Create<VerenigingDocument.Hoofdactiviteit>() },
                     Doelgroep = fixture.Create<string>(),
-                    Activiteiten = new[] { fixture.Create<string>() }
+                    Activiteiten = new[] { fixture.Create<string>() },
                 });
     }
 }

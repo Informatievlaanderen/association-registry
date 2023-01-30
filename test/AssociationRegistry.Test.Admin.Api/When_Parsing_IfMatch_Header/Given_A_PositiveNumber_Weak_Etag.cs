@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Parsing_IfMatch_Header;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Xunit;
 
 public class Given_A_PositiveNumber_Weak_Etag

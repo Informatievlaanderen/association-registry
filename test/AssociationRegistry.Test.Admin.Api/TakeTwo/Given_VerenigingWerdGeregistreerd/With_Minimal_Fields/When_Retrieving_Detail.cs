@@ -63,7 +63,8 @@ public class When_Retrieving_Detail
             ""startdatum"": null,
             ""status"": ""Actief"",
             ""contactInfoLijst"": [],
-            ""locaties"":[]
+            ""locaties"":[],
+""vertegenwoordigers"":[],
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"

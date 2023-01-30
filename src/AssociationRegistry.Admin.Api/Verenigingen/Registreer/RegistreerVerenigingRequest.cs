@@ -45,6 +45,16 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
 
+    public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
+
+    public class Vertegenwoordiger
+    {
+        public string? Rijksregisternummer { get; set; } = null!;
+        public string? Rol { get; set; }
+        public string? Roepnaam { get; set; }
+        public bool PrimairContactpersoon { get; set; } = false;
+    }
+
     [DataContract]
     public class ContactInfo
     {
@@ -150,7 +160,11 @@ public class RegistreerVerenigingRequest
             StartDatum,
             KboNummer,
             ContactInfoLijst.Select(ToContactInfo),
-            Locaties.Select(ToLocatie).ToArray());
+            Locaties.Select(ToLocatie),
+            Vertegenwoordigers.Select(ToVertegenwoordiger));
+
+    private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
+        => new(vert.Rijksregisternummer!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol);
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(ContactInfo c)
         => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);

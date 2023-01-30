@@ -9,7 +9,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
     public RegistreerVerenigingRequest GetExamples()
         => new() { Naam = "Naam van de vereniging", Initiator = "OVO000001", KorteNaam = "Korte naam", KorteBeschrijving = "Beschrijving", Locaties = new []
         {
-            new RegistreerVerenigingRequest.Locatie()
+            new RegistreerVerenigingRequest.Locatie
             {
                 Naam = "Naam locatie",
                 Busnummer = "12",
@@ -25,7 +25,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
             ContactInfoLijst = new []
             {
-                new RegistreerVerenigingRequest.ContactInfo()
+                new RegistreerVerenigingRequest.ContactInfo
                 {
                     Contactnaam = "Algemeen",
                     Email = "algemeen@example.com",
@@ -33,6 +33,16 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Website = "https://example.com",
                     SocialMedia = "@example",
                 },
+            },
+            Vertegenwoordigers = new []
+            {
+              new RegistreerVerenigingRequest.Vertegenwoordiger
+              {
+                  Rijksregisternummer = "yymmddxxxcc",
+                  PrimairContactpersoon = true,
+                  Roepnaam = "Conan",
+                  Rol = "Barbarian",
+              },
             },
         };
 }
