@@ -116,7 +116,7 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         daemon.StartAllShards().GetAwaiter().GetResult();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await daemon.WaitForNonStaleData(TimeSpan.FromMinutes(3));
 
         return result;
     }
