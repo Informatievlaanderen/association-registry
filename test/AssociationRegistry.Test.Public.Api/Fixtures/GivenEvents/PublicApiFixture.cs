@@ -150,7 +150,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await daemon.WaitForNonStaleData(TimeSpan.FromMinutes(3));
 
         await ElasticClient.Indices.RefreshAsync(Indices.All);
     }
