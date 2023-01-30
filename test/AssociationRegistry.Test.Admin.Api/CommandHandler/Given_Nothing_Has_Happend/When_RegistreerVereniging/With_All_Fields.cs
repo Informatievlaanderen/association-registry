@@ -52,7 +52,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
             vertegenwoordigers);
 
         _magdaVertegenwoordiger = Vertegenwoordigers.Vertegenwoordiger.Create(
-            Vertegenwoordiger.Rijksregisternummer,
+            Vertegenwoordiger.Insz,
             Vertegenwoordiger.PrimairContactpersoon,
             Vertegenwoordiger.Roepnaam,
             Vertegenwoordiger.Rol,
@@ -112,7 +112,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Vertegenwoordiger(
-                        _magdaVertegenwoordiger.Rijksregisternummer,
+                        _magdaVertegenwoordiger.Insz,
                         _magdaVertegenwoordiger.PrimairContactpersoon,
                         _magdaVertegenwoordiger.Roepnaam,
                         _magdaVertegenwoordiger.Rol,

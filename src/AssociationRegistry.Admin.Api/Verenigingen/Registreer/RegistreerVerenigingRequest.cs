@@ -49,7 +49,7 @@ public class RegistreerVerenigingRequest
 
     public class Vertegenwoordiger
     {
-        public string? Rijksregisternummer { get; set; } = null!;
+        public string? Insz { get; set; } = null!;
         public string? Rol { get; set; }
         public string? Roepnaam { get; set; }
         public bool PrimairContactpersoon { get; set; } = false;
@@ -164,7 +164,7 @@ public class RegistreerVerenigingRequest
             Vertegenwoordigers.Select(ToVertegenwoordiger));
 
     private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Rijksregisternummer!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol);
+        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol);
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(ContactInfo c)
         => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);

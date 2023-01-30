@@ -4,10 +4,10 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class With_An_Empty_Rijksregisternummer
+public class Without_Insz
 {
     [Fact]
-    public void Then_it_has_validation_error__rijksregisterNummer_mag_niet_leeg_zijn()
+    public void Then_it_has_validation_error__Insz_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
@@ -18,13 +18,13 @@ public class With_An_Empty_Rijksregisternummer
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()
                 {
-                    Rijksregisternummer = string.Empty,
+                    Insz = null,
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Rijksregisternummer)}")
-            .WithErrorMessage("'Rijksregisternummer' mag niet leeg zijn.");
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
+            .WithErrorMessage("'Insz' is verplicht.");
     }
 }

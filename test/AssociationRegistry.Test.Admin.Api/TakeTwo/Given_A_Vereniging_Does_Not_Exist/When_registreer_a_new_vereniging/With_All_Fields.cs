@@ -60,14 +60,14 @@ public class With_All_Fields
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Rijksregisternummer = "96123119307",
+                    Insz = "96123119307",
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Rijksregisternummer = "78100440321",
+                    Insz = "78100440321",
                     Rol = "Master",
                     Roepnaam = "BDSM",
                     PrimairContactpersoon = false,

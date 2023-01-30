@@ -31,7 +31,7 @@ public record RegistreerVerenigingCommand(
         string Locatietype);
 
     public record Vertegenwoordiger(
-        string Rijksregisternummer,
+        string Insz,
         bool PrimairContactpersoon,
         string? Roepnaam,
         string? Rol);

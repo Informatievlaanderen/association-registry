@@ -74,7 +74,7 @@ public class DetailVerenigingenController : ApiController
     }
 
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
-        => new(ver.Rijksregisternummer, ver.Voornaam, ver.Achternaam, ver.Roepnaam, ver.Rol, ver.PrimairContactpersoon);
+        => new(ver.Insz, ver.Voornaam, ver.Achternaam, ver.Roepnaam, ver.Rol, ver.PrimairContactpersoon);
 
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
