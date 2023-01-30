@@ -64,7 +64,7 @@ public class RegistreerVerenigingCommandHandler
     //TODO move to MagdaFacade
     private static Vertegenwoordiger ToVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vert)
         => Vertegenwoordiger.Create(
-            vert.Rijksregisternummer,
+            vert.Insz,
             vert.PrimairContactpersoon,
             vert.Roepnaam,
             vert.Rol,

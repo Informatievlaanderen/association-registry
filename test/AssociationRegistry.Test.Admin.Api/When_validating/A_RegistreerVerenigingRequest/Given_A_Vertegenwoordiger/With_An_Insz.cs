@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class With_A_Rijksregisternummer
+public class With_An_Insz
 {
     [Fact]
     public void Then_it_has_no_validation_errors()
@@ -18,7 +18,7 @@ public class With_A_Rijksregisternummer
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()
                 {
-                    Rijksregisternummer = "78100440321",
+                    Insz = "78100440321",
                 },
             },
         };

@@ -86,7 +86,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     {
         public VertegenwoordigerValidator()
         {
-            this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Rijksregisternummer);
+            this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Insz);
         }
     }
 

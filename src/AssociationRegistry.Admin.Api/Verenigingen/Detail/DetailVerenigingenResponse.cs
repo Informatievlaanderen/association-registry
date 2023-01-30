@@ -47,8 +47,8 @@ public record DetailVerenigingResponse(
 
         [DataContract]
         public record Vertegenwoordiger(
-            [property: DataMember(Name = "Rijksregisternummer")]
-            string Rijksregisternummer,
+            [property: DataMember(Name = "Insz")]
+            string Insz,
             [property: DataMember(Name = "Voornaam")]
             string Voornaam,
             [property: DataMember(Name = "Achternaam")]

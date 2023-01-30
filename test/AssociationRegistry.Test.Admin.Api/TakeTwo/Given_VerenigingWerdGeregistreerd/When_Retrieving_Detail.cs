@@ -86,7 +86,7 @@ public class When_Retrieving_Detail
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers!.Select(x => $@"{{
-                            ""rijksregisternummer"": ""{x.Rijksregisternummer}"",
+                            ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",
                             ""rol"": ""{x.Rol}"",

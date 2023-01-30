@@ -40,7 +40,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 {
                     PrimairContactpersoon = v.PrimairContactpersoon,
                     Roepnaam = v.Roepnaam,
-                    Rijksregisternummer = v.Rijksregisternummer,
+                    Insz = v.Insz,
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
@@ -137,7 +137,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
 
     public class Vertegenwoordiger
     {
-        public string Rijksregisternummer { get; set; } = null!;
+        public string Insz { get; set; } = null!;
         public string Voornaam { get; set; } = null!;
         public string Achternaam { get; set; } = null!;
         public string? Roepnaam { get; set; }

@@ -10,7 +10,7 @@ public interface IMagdaFacade
 
 public class MagdaPersoon
 {
-    public string Rijksregisternummer { get; set; } = null!;
+    public string Insz { get; set; } = null!;
     public string Voornaam { get; set; } = null!;
     public string Achternaam { get; set; } = null!;
     public bool IsOverleden { get; set; } = false;

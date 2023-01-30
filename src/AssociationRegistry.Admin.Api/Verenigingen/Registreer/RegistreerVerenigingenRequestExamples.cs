@@ -38,7 +38,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             {
               new RegistreerVerenigingRequest.Vertegenwoordiger
               {
-                  Rijksregisternummer = "yymmddxxxcc",
+                  Insz = "yymmddxxxcc",
                   PrimairContactpersoon = true,
                   Roepnaam = "Conan",
                   Rol = "Barbarian",
