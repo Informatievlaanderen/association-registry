@@ -4,6 +4,8 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using Magda;
+using Moq;
 using Scenarios;
 using Xunit;
 
@@ -12,7 +14,6 @@ public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandle
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly DateTime _today;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_Required_Fields(Given_A_Scenario_CommandHandlerFixture<EmptyScenario> classFixture)
@@ -21,9 +22,9 @@ public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandle
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture();
-        _today = fixture.Create<DateTime>();
+        var today = fixture.Create<DateTime>();
 
-        var clock = new ClockStub(_today);
+        var clock = new ClockStub(today);
 
         var command = new RegistreerVerenigingCommand(
             Naam,
@@ -32,9 +33,10 @@ public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandle
             null,
             null,
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
-            Array.Empty<RegistreerVerenigingCommand.Locatie>());
+            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
+            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>());
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
@@ -54,6 +56,7 @@ public class With_Required_Fields : IClassFixture<Given_A_Scenario_CommandHandle
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty< VerenigingWerdGeregistreerd.Locatie>()));
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()));
     }
 }

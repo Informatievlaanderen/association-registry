@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Be.Vlaanderen.Basisregisters.Api.ETag;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;

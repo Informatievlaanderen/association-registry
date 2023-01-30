@@ -33,6 +33,7 @@ using FluentValidation;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
+using Magda;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -112,7 +113,7 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
-           .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
+            .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
 
@@ -282,6 +283,7 @@ public class Program
                 })
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
+            .AddTransient<IMagdaFacade, StaticMagdaFacade>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()
@@ -585,6 +587,7 @@ public class Program
                 (Exception)eventArgs.ExceptionObject,
                 "Encountered a fatal exception, exiting program");
     }
+
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
         app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));

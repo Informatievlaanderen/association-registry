@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
-using AssociationRegistry.ContactInfo;
-using AssociationRegistry.Framework;
+using ContactInfo;
+using Framework;
 
 /// <summary>
 ///
@@ -23,7 +23,8 @@ public record VerenigingWerdGeregistreerd(
     DateOnly? Startdatum,
     string? KboNummer,
     VerenigingWerdGeregistreerd.ContactInfo[]? ContactInfoLijst,
-    VerenigingWerdGeregistreerd.Locatie[]? Locaties) : IEvent
+    VerenigingWerdGeregistreerd.Locatie[]? Locaties,
+    VerenigingWerdGeregistreerd.Vertegenwoordiger[]? Vertegenwoordigers) : IEvent
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -46,4 +47,12 @@ public record VerenigingWerdGeregistreerd(
         string Land,
         bool Hoofdlocatie,
         string Locatietype);
+
+    public record Vertegenwoordiger(
+        string Rijksregisternummer,
+        bool PrimairContactpersoon,
+        string? Roepnaam,
+        string? Rol,
+        string Voornaam,
+        string Achternaam);
 }

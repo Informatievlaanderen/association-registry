@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.VCodes;
+using VCodes;
 using NodaTime;
 using NodaTime.Extensions;
 
@@ -15,7 +15,9 @@ public interface IScenario
 
 public class VerenigingWerdGeregistreerdScenario : IScenario
 {
-    public VCode VCode => VCode.Create("V0001001");
+    public VCode VCode
+        => VCode.Create("V0001001");
+
     public readonly string Naam = "Feestcommittee Oudenaarde";
     public readonly string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
     public readonly string? KorteNaam = "FOud";
@@ -40,6 +42,13 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         "Correspondentie");
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
+    private readonly VerenigingWerdGeregistreerd.Vertegenwoordiger _vertegenwoordiger = new(
+        "01234567890",
+        true,
+        "father",
+        "Leader",
+        "Odin",
+        "Allfather");
 
 
     public IEvent[] GetEvents()
@@ -54,7 +63,8 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
                 _startdatum,
                 KboNummer,
                 new[] { _contactInfo },
-                new[] { _locatie }),
+                new[] { _locatie },
+                new[] { _vertegenwoordiger }),
         };
     }
 
@@ -81,7 +91,8 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()),
         };
     }
 
@@ -91,7 +102,9 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 
 public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
 {
-    public VCode VCode => VCode.Create("V0001003");
+    public VCode VCode
+        => VCode.Create("V0001003");
+
     public readonly string KorteBeschrijving = "Harelbeke";
     public readonly string KorteNaam = "OW";
     public readonly string Naam = "Oarelbeke Weireldstad";
@@ -108,7 +121,8 @@ public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
                 null,
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>()),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()),
             new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving),
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
@@ -121,7 +135,9 @@ public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
 
 public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
 {
-    public VCode VCode => VCode.Create("V0001004");
+    public VCode VCode
+        => VCode.Create("V0001004");
+
     public readonly string Naam = "Oostende voor anker";
     private readonly string KorteNaam = "OVA";
 
@@ -141,15 +157,16 @@ public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
         => new("OVO000001", new Instant());
 
     private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
-        => new(vCode,
+        => new(
+            vCode,
             naam,
             korteNaam,
             null,
             null,
             null,
             Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-            Array.Empty<VerenigingWerdGeregistreerd.Locatie>());
+            Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>());
 }
 
 public record EenEvent : IEvent;
-

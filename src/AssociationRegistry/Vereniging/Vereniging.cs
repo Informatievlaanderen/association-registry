@@ -12,13 +12,14 @@ using Marten.Schema;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
+using Vertegenwoordigers;
 
-public class Vereniging:IHasVersion
+public class Vereniging : IHasVersion
 {
     public record State
     {
         public VCode VCode { get; set; }
-        public VerenigingsNaam Naam { get; set; }
+        public VerenigingsNaam Naam { get; set; } = null!;
 
         public string? KorteNaam { get; set; }
 
@@ -32,7 +33,7 @@ public class Vereniging:IHasVersion
 
     public long Version { get; set; }
 
-    private State _state;
+    private State _state = null!;
 
     [Identity]
     public string VCode
@@ -53,7 +54,8 @@ public class Vereniging:IHasVersion
         Startdatum? startdatum,
         KboNummer? kboNummer,
         ContactLijst contactLijst,
-        LocatieLijst locatieLijst)
+        LocatieLijst locatieLijst,
+        VertegenwoordigersLijst vertegenwoordigersLijst)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -63,17 +65,24 @@ public class Vereniging:IHasVersion
             startdatum?.Value,
             kboNummer?.ToString(),
             VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(contactLijst),
-            ToLocatieLijst(locatieLijst));
+            ToLocatieLijst(locatieLijst),
+            ToVertegenwoordigersLijst(vertegenwoordigersLijst));
 
         Apply(verenigingWerdGeregistreerdEvent);
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, DateOnly datumLaatsteAanpassing)
-        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst);
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, DateOnly datumLaatsteAanpassing)
+        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, vertegenwoordigersLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
-        => new(vCode: vCode, naam: naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty);
+        => new(vCode: vCode, naam: naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty);
+
+    private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(VertegenwoordigersLijst vertegenwoordigersLijst)
+        => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();
+
+    private static VerenigingWerdGeregistreerd.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
+        => new(vert.Rijksregisternummer, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam);
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();
@@ -140,5 +149,4 @@ public class Vereniging:IHasVersion
 
     public void Apply(KorteBeschrijvingWerdGewijzigd @event)
         => _state = _state with { KorteBeschrijving = @event.KorteBeschrijving };
-
 }

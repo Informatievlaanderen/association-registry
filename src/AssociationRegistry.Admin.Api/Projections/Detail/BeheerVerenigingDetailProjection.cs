@@ -34,9 +34,22 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                                        SocialMedia = c.SocialMedia,
                                    }).ToArray()
                                ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
-            Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
+            Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
+            Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers?.Select(
+                v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                {
+                    PrimairContactpersoon = v.PrimairContactpersoon,
+                    Roepnaam = v.Roepnaam,
+                    Rijksregisternummer = v.Rijksregisternummer,
+                    Rol = v.Rol,
+                    Achternaam = v.Achternaam,
+                    Voornaam = v.Voornaam,
+                }).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
+
+    private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(VerenigingWerdGeregistreerd.Locatie[]? locaties)
+        => locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>();
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
@@ -86,8 +99,9 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
-    public Locatie[] Locaties { get; set; } = null!;
+    public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+    public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public Metadata Metadata { get; set; } = null!;
 
     public class ContactInfo
@@ -119,5 +133,15 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Gemeente { get; set; } = null!;
 
         public string Land { get; set; } = null!;
+    }
+
+    public class Vertegenwoordiger
+    {
+        public string Rijksregisternummer { get; set; } = null!;
+        public string Voornaam { get; set; } = null!;
+        public string Achternaam { get; set; } = null!;
+        public string? Roepnaam { get; set; }
+        public string? Rol { get; set; }
+        public bool PrimairContactpersoon { get; set; }
     }
 }

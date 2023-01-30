@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Constants;
 
-using System;
 using System.Globalization;
 
 public static class WellknownFormats

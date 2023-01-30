@@ -7,5 +7,6 @@
   "kboNummer": "{{vereniging.kboNummer}}",
   "initiator": "{{vereniging.initiator}}",
   "contactInfoLijst": {{vereniging.contactInfoLijst}},
-  "locaties": {{vereniging.locaties}}
+  "locaties": {{vereniging.locaties}},
+  "vertegenwoordigers" : {{vereniging.vertegenwoordigers}}
 }

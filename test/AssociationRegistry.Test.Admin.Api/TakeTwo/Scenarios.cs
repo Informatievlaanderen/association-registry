@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework;
-using VCodes;
 
 public interface IScenario
 {
@@ -17,16 +16,15 @@ public interface IScenario
 
 public class VerenigingWerdGeregistreerdScenario : IScenario
 {
-    private readonly Fixture _fixture;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public VerenigingWerdGeregistreerdScenario()
     {
-        _fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAll();
         VCode = "V0001001";
-        VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        Metadata = _fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }
@@ -42,15 +40,14 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
 
 public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
-    private readonly Fixture _fixture;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public VerenigingWerdGeregistreerdWithMinimalFieldsScenario()
     {
-        _fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAll();
         VCode = "V0001002";
-        VerenigingWerdGeregistreerd = _fixture.Create<VerenigingWerdGeregistreerd>() with
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
@@ -59,9 +56,9 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
             Startdatum = null,
             KorteBeschrijving = null,
             ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-
+            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
-        Metadata = _fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }

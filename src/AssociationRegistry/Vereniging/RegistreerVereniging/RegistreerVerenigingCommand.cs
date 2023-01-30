@@ -9,7 +9,8 @@ public record RegistreerVerenigingCommand(
     DateOnly? Startdatum,
     string? KboNummber,
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
-    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties)
+    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,
+    IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers)
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -28,4 +29,10 @@ public record RegistreerVerenigingCommand(
         string Land,
         bool Hoofdlocatie,
         string Locatietype);
+
+    public record Vertegenwoordiger(
+        string Rijksregisternummer,
+        bool PrimairContactpersoon,
+        string? Roepnaam,
+        string? Rol);
 }

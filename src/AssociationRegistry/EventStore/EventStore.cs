@@ -32,7 +32,7 @@ public class EventStore : IEventStore
             await session.SaveChangesAsync();
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
         }
-        catch (EventStreamUnexpectedMaxEventIdException ex)
+        catch (EventStreamUnexpectedMaxEventIdException)
         {
             throw new UnexpectedAggregateVersionException();
         }

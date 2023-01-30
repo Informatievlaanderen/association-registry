@@ -38,12 +38,12 @@ public class Then_The_Docs : IClassFixture<Then_The_Docs_Fixture>
         => _theDocsFixture.Response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
-    public async Task Have_Paths()
-        => _theDocsFixture.Docs.Paths.Count.Should().BePositive();
+    public void Have_Paths()
+        => _theDocsFixture.Docs!.Paths!.Count.Should().BePositive();
 
     [Fact]
-    public async Task Have_A_Summary_ForEach_Path()
-        => _theDocsFixture.Docs.Paths
+    public void Have_A_Summary_ForEach_Path()
+        => _theDocsFixture.Docs!.Paths!
             .ToList()
             .ForEach(path =>
                 path.Value.ToList().ForEach(method => method.Value.Summary.Should().NotBeNullOrWhiteSpace(because: $"'[{method.Key}] {path.Key}' should have a summary.")));

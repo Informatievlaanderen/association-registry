@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using System.Reflection;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
-using AssociationRegistry.Test.Public.Api.Fixtures;
-using AssociationRegistry.Test.Public.Api.Framework.Helpers;
+using Fixtures;
+using Framework.Helpers;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;

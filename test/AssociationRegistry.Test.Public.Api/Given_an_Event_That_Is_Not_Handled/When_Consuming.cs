@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled
 
 using AssociationRegistry.Public.ProjectionHost;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
-using AssociationRegistry.Test.Public.Api.Fixtures;
+using Fixtures;
 using FluentAssertions;
 using Marten;
 using Microsoft.AspNetCore.Mvc.Testing;
