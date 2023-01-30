@@ -1,3 +1,18 @@
+# [1.110.0](https://github.com/informatievlaanderen/association-registry/compare/v1.109.2...v1.110.0) (2023-01-30)
+
+
+### Bug Fixes
+
+* or-1569 solve rebase issues ([ed66362](https://github.com/informatievlaanderen/association-registry/commit/ed6636220df4b6e6ccd81fce355fa2016e1244b5))
+
+
+### Features
+
+* or-1569 add controller unit test ([6c37c53](https://github.com/informatievlaanderen/association-registry/commit/6c37c537aa9d46c6b53368cc69bd56127516a7f2))
+* or-1569 migrate command handler tests to new format ([115a1f5](https://github.com/informatievlaanderen/association-registry/commit/115a1f50844223a7876ef8ca2497b2794c740907))
+* or-1569 migrate command handler tests to new format ([3a40d80](https://github.com/informatievlaanderen/association-registry/commit/3a40d806310f34ca867940e0720b147ca04f23cc))
+* or-1569 use moq for repository ([2ade98d](https://github.com/informatievlaanderen/association-registry/commit/2ade98d792ec22b0fa6ba67942cff74ae738ae40))
+
 ## [1.109.2](https://github.com/informatievlaanderen/association-registry/compare/v1.109.1...v1.109.2) (2023-01-26)
 
 
