@@ -116,6 +116,11 @@ jobs:
         shell: bash
         run: dotnet build --no-restore --runtime 'linux-x64' --self-contained test/${{ inputs.test-project }}
 
+      - name: Wait for db container
+        shell: bash
+        run: |
+          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
+
       - name: Run all tests
         run: dotnet test test/${{ inputs.test-project }}
 
