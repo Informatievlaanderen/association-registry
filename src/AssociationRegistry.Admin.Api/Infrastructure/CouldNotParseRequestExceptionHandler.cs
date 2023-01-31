@@ -13,7 +13,7 @@ public class CouldNotParseRequestExceptionHandler : DefaultExceptionHandler<Coul
         => _problemDetailsHelper = problemDetailsHelper;
 
     protected override ProblemDetails GetApiProblemFor(CouldNotParseRequestException exception) =>
-        new ValidationProblemDetails
+        new()
         {
             HttpStatus = StatusCodes.Status400BadRequest,
             Title = ProblemDetails.DefaultTitle,

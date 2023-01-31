@@ -47,8 +47,8 @@ public class Given_An_Unparsable_Request : IClassFixture<Given_An_Unparsable_Req
     {
         var responseContent = await _apiFixture.Response.Content.ReadAsStringAsync();
 
-        var responseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(responseContent);
-        var expectedResponseContentObject = JsonConvert.DeserializeObject<ValidationProblemDetails>(GetJsonResponseBody());
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
+        var expectedResponseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(GetJsonResponseBody());
 
         responseContentObject.Should().BeEquivalentTo(
             expectedResponseContentObject,
@@ -59,5 +59,5 @@ public class Given_An_Unparsable_Request : IClassFixture<Given_An_Unparsable_Req
 
     private string GetJsonResponseBody()
         => GetType()
-            .GetAssociatedResourceJson($"files.response.missing_name_error");
+            .GetAssociatedResourceJson($"files.response.unparsable");
 }
