@@ -1,3 +1,11 @@
+# [1.111.0](https://github.com/informatievlaanderen/association-registry/compare/v1.110.0...v1.111.0) (2023-01-31)
+
+
+### Features
+
+* or-1369 add vertegenwoordiger with static naam ([c55b643](https://github.com/informatievlaanderen/association-registry/commit/c55b6430f611dd2eebe41be8b4861cff827d60a7))
+* or-1369 rename rijksregisternummer to insz ([fefcdef](https://github.com/informatievlaanderen/association-registry/commit/fefcdefac56f7b7156705d1f75ca579e53faaea0))
+
 # [1.110.0](https://github.com/informatievlaanderen/association-registry/compare/v1.109.2...v1.110.0) (2023-01-30)
 
 
