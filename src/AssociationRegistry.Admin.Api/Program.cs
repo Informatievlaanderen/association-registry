@@ -201,7 +201,11 @@ public class Program
         var exceptionHandler = new ExceptionHandler(
             logger,
             Array.Empty<ApiProblemDetailsExceptionMapping>(),
-            new[] { new BadHttpRequestExceptionHandler(problemDetailsHelper) },
+            new IExceptionHandler[]
+            {
+                new BadHttpRequestExceptionHandler(problemDetailsHelper),
+                new CouldNotParseRequestExceptionHandler(problemDetailsHelper),
+            },
             problemDetailsHelper);
         app.UseExceptionHandler404Allowed(
             b =>
