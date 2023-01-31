@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
+using System;
 using System.Threading.Tasks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -50,10 +51,11 @@ public class RegistreerVerenigingController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<AcceptedResult> Post(
+    public async Task<IActionResult> Post(
         [FromServices] IValidator<RegistreerVerenigingRequest> validator,
-        [FromBody] RegistreerVerenigingRequest request)
+        [FromBody] RegistreerVerenigingRequest? request)
     {
+        if (request is null) throw new CouldNotParseRequestException();
         await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
 
         var command = request.ToRegistreerVerenigingCommand();
@@ -67,4 +69,10 @@ public class RegistreerVerenigingController : ApiController
 
         return this.AcceptedCommand(_appSettings, registratieResult);
     }
+}
+
+public class CouldNotParseRequestException : Exception
+{
+    public CouldNotParseRequestException() : base("Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw.")
+    {}
 }
