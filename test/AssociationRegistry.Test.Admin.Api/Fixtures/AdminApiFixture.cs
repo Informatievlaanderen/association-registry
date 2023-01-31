@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Npgsql;
+using Polly;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -116,7 +117,15 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
 
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        var retry = Policy
+            .Handle<Exception>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+
+        await retry.ExecuteAsync(
+            async () =>
+            {
+                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+            });
 
         return result;
     }
