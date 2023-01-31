@@ -1,13 +1,17 @@
 namespace AssociationRegistry.Test.Admin.Api.TakeTwo;
 
+using System.Net.Http.Headers;
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
-using Framework.Helpers;
 using Fixtures;
+using Framework.Helpers;
+using IdentityModel;
+using IdentityModel.AspNetCore.OAuth2Introspection;
+using IdentityModel.Client;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
@@ -27,15 +31,6 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
     private readonly string _identifier = "adminApiFixture";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
-
-    public IDocumentStore DocumentStore
-        => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
-
-    public AdminApiClient AdminApiClient
-        => new(_webApplicationFactory.CreateClient());
-
-    public IServiceProvider ServiceProvider
-        => _webApplicationFactory.Services;
 
     public AdminApiFixture2()
     {
@@ -62,15 +57,46 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(new []
-                                {
-                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
-                                })
+                                .AddInMemoryCollection(
+                                    new[]
+                                    {
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                    })
                     );
                 });
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture2>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+        Clients = new Clients(
+            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
+                .Get<OAuth2IntrospectionOptions>(),
+            _webApplicationFactory.CreateClient);
+    }
+
+    public IDocumentStore DocumentStore
+        => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
+
+    public IServiceProvider ServiceProvider
+        => _webApplicationFactory.Services;
+
+    public Clients Clients { get; }
+
+    public AdminApiClient DefaultClient
+        => Clients.Authenticated;
+
+    public async Task InitializeAsync()
+        => await Given();
+
+    public virtual Task DisposeAsync()
+        => Task.CompletedTask;
+
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        Clients.SafeDispose();
+        _webApplicationFactory.SafeDispose();
+        DropDatabase();
     }
 
     private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
@@ -87,13 +113,13 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
                             .CheckAgainstPgDatabase()
                             .WithOwner(postgreSqlOptionsSection.Username!);
                     });
-                options.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
+                options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
             });
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
         => $"host={postgreSqlOptionsSection.Host}:5432;" +
-           $"database=postgres;" +
+           "database=postgres;" +
            $"password={postgreSqlOptionsSection.Password};" +
            $"username={postgreSqlOptionsSection.Username}";
 
@@ -124,24 +150,17 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
 
         var eventStore = new EventStore(DocumentStore);
         var result = StreamActionResult.Empty;
-        foreach (var @event in eventsToAdd)
-        {
-            result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, @event);
-        }
+        foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, @event);
 
         var retry = Policy
             .Handle<Exception>()
-            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+            .WaitAndRetryAsync(retryCount: 3, i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
-            async () =>
-            {
-                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-            });
+            async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
 
         return result;
     }
-
 
     private IConfigurationRoot GetConfiguration()
     {
@@ -188,21 +207,64 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
+    protected abstract Task Given();
+}
+
+public class Clients : IDisposable
+{
+    private readonly Func<HttpClient> _createClientFunc;
+    private readonly OAuth2IntrospectionOptions _oAuth2IntrospectionOptions;
+
+    public Clients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
+    {
+        _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
+        _createClientFunc = createClientFunc;
+
+        Authenticated = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
+
+        Unauthenticated = new AdminApiClient(_createClientFunc());
+
+        Unauthorized = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
+    }
+
+    public AdminApiClient Authenticated { get; }
+
+    public AdminApiClient Unauthenticated { get; }
+
+    public AdminApiClient Unauthorized { get; }
+
     public void Dispose()
     {
-        GC.SuppressFinalize(this);
-        AdminApiClient.SafeDispose();
-        _webApplicationFactory.SafeDispose();
-        DropDatabase();
+        Authenticated.SafeDispose();
+        Unauthenticated.SafeDispose();
+        Unauthorized.SafeDispose();
     }
 
-    public async Task InitializeAsync()
+    private async Task<HttpClient> CreateMachine2MachineClientFor(
+        string clientId,
+        string scope,
+        string clientSecret)
     {
-        await Given();
+        var tokenClient = new TokenClient(
+            () => new HttpClient(),
+            new TokenClientOptions
+            {
+                Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Parameters = new Parameters(
+                    new[]
+                    {
+                        new KeyValuePair<string, string>("scope", scope),
+                    }),
+            });
+
+        var acmResponse = await tokenClient.RequestTokenAsync(OidcConstants.GrantTypes.ClientCredentials);
+
+        var token = acmResponse.AccessToken;
+        var httpClientFor = _createClientFunc();
+        httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        return httpClientFor;
     }
-
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
-
-    protected abstract Task Given();
 }

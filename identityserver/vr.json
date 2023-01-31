@@ -1,47 +1,60 @@
 {
   "identityResources": [
     {
-    	"name": "identityresources.openid"
-    },
-    {
-    	"name": "identityresources.profile"
-    },
-    {
-      "name": "vo",
-      "displayName": "Vlaamse Overheid",
+      "name": "dv",
+      "displayName": "Digitaal Vlaanderen",
       "userClaims": [
+        "dv_verenigingsregister_beheer",
         "vo_info"
       ]
     }
   ],
   "apiScopes": [
+    "dv_verenigingsregister_beheer",
     "vo_info"
   ],
   "apiResources": [
     {
-      "name": "association-registry-local-dev",
+      "name": "association-registry-local-dev-admin",
       "apiSecrets": [
         "a_very=Secr3t*Key"
       ],
       "scopes": [
-        "vo_info"
+        "vo_info",
+        "dv_verenigingsregister_beheer"
       ]
     }
   ],
   "clients": [
     {
-      "clientId": "association-registry-local-dev",
+      "clientId": "association-registry-local-dev-admin",
       "clientSecrets": [
         "a_very=Secr3t*Key"
       ],
-      "allowedGrantTypes": "code",
+      "allowedGrantTypes": "clientCredentials",
       "allowedScopes":[
         "standardscopes.openid",
         "standardscopes.profile",
-        "vo_info"
+        "vo_info",
+        "dv_verenigingsregister_beheer"
       ],
       "alwaysSendClientClaims": true,
       "alwaysIncludeUserClaimsInIdToken": true
+    },
+    {
+      "clientId": "vloketClient",
+      "clientSecrets": [
+        "secret"
+      ],
+      "allowedGrantTypes": "clientCredentials",
+      "allowedScopes":[
+        "vo_info",
+        "dv_verenigingsregister_beheer"
+      ],
+      "accessTokenLifetime": -1,
+      "identityTokenLifetime": -1,
+      "clientClaimsPrefix": ""
     }
   ]
 }
+

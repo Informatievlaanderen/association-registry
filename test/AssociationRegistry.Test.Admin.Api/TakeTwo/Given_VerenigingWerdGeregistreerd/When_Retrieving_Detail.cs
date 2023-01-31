@@ -25,11 +25,11 @@ public class When_Retrieving_Detail
 
     public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
-        _adminApiClient = fixture.AdminApiClient;
+        _adminApiClient = fixture.DefaultClient;
         _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
         _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Result;
-        _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]

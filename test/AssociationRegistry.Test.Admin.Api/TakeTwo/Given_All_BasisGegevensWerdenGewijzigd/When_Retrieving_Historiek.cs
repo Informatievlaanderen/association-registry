@@ -24,10 +24,10 @@ public class When_Retrieving_Historiek
     public When_Retrieving_Historiek(EventsInDbScenariosFixture fixture)
     {
         _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
-        _adminApiClient = fixture.AdminApiClient;
+        _adminApiClient = fixture.DefaultClient;
         _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
         _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
-        _response = fixture.AdminApiClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]

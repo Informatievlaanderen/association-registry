@@ -27,7 +27,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
             ""korteNaam"":""{NieuweKorteNaam}"",
             ""korteBeschrijving"":""{NieuweKorteBeschrijving}"",
              ""Initiator"": ""OVO000001""}}";
-        _response = fixture.AdminApiClient.PatchVereniging(_vCode, jsonBody).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.PatchVereniging(_vCode, jsonBody).GetAwaiter().GetResult();
     }
 
     [Fact]

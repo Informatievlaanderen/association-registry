@@ -26,8 +26,8 @@ public class When_Retrieving_Detail
         _fixture = fixture;
         _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VCode;
         _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
-        _adminApiClient = fixture.AdminApiClient;
-        _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
+        _adminApiClient = fixture.DefaultClient;
+        _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]
