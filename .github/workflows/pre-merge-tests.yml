@@ -124,7 +124,7 @@ jobs:
 
     - name: Run ACM container
       shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api'
+      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
       run: |
         docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
