@@ -1,3 +1,15 @@
+# [1.112.0](https://github.com/informatievlaanderen/association-registry/compare/v1.111.1...v1.112.0) (2023-01-31)
+
+
+### Bug Fixes
+
+* or-1369 add handling for unparsable request when registreer ([f332cdb](https://github.com/informatievlaanderen/association-registry/commit/f332cdb18ff63eae6e27be6dccddd44b26b29bb4))
+
+
+### Features
+
+* or-1369 return badrequest when unparsable request ([2c47ee4](https://github.com/informatievlaanderen/association-registry/commit/2c47ee492ddbe881cd266149e1e87b97446a8ab8))
+
 ## [1.111.1](https://github.com/informatievlaanderen/association-registry/compare/v1.111.0...v1.111.1) (2023-01-31)
 
 
