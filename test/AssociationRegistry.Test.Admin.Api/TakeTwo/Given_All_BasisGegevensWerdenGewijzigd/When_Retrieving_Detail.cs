@@ -31,14 +31,14 @@ public class When_Retrieving_Detail
     public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
         _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
-        _adminApiClient = fixture.AdminApiClient;
+        _adminApiClient = fixture.DefaultClient;
         _verenigingWerdGeregistreerd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VerenigingWerdGeregistreerd;
         _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
         _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
         _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
         _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
-        _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]

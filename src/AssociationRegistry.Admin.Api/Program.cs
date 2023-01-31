@@ -28,12 +28,16 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
+using crypto;
 using Destructurama;
 using FluentValidation;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Magda;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -62,9 +66,12 @@ using Serilog.Debugging;
 using Swashbuckle.AspNetCore.Filters;
 using VCodeGeneration;
 using Wolverine;
+using Security = Constants.Security;
 
 public class Program
 {
+    private const string AdminGlobalPolicyName = "Admin Global";
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(
@@ -113,7 +120,9 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
-            .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
+            .UseAuthentication()
+            .UseAuthorization()
+            .UseEndpoints(routeBuilder => routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName));
 
         ConfigureLifetimeHooks(app);
 
@@ -353,7 +362,10 @@ public class Program
                             .AllowCredentials());
                 })
             .AddControllersAsServices()
-            .AddAuthorization()
+            .AddAuthorization(options =>
+                options.AddPolicy(AdminGlobalPolicyName, new AuthorizationPolicyBuilder()
+                    .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                    .Build()))
             .AddNewtonsoftJson(
                 opt =>
                 {
@@ -365,6 +377,25 @@ public class Program
             .AddXmlDataContractSerializerFormatters()
             .AddFormatterMappings()
             .AddApiExplorer();
+
+        builder.Services.AddAuthentication(
+                options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+            .AddOAuth2Introspection(
+                JwtBearerDefaults.AuthenticationScheme,
+                options =>
+                {
+                    var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>();
+                    options.ClientId = configOptions.ClientId;
+                    options.ClientSecret = configOptions.ClientSecret;
+                    options.Authority = configOptions.Authority;
+                    options.IntrospectionEndpoint = configOptions.IntrospectionEndpoint;
+                }
+            );
 
         builder.Services
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())

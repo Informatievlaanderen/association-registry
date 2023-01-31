@@ -4,6 +4,9 @@ Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
 
+IdentityModel.AspNetCore.OAuth2Introspection
+Microsoft.AspNetCore.Authentication.JwtBearer
+
 AspNetCore.HealthChecks.SqlServer
 
 SourceLink.Embed.AllSourceFiles

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
+using System.Net.Http.Headers;
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
@@ -7,6 +8,9 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
 using Framework.Helpers;
+using IdentityModel;
+using IdentityModel.AspNetCore.OAuth2Introspection;
+using IdentityModel.Client;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +35,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
 
     public AdminApiClient AdminApiClient
-        => new(_webApplicationFactory.CreateClient());
+        => new(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
 
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
@@ -175,6 +179,37 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
            $"database={database};" +
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
+
+    private async Task<HttpClient> CreateMachine2MachineClientFor(
+        string clientId,
+        string scope,
+        string clientSecret)
+    {
+        var editApiConfiguration = GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
+            .Get<OAuth2IntrospectionOptions>();
+
+        var tokenClient = new TokenClient(
+            () => new HttpClient(),
+            new TokenClientOptions
+            {
+                Address = $"{editApiConfiguration.Authority}/connect/token",
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Parameters = new Parameters(
+                    new[]
+                    {
+                        new KeyValuePair<string, string>("scope", scope),
+                    }),
+            });
+
+        var acmResponse = await tokenClient.RequestTokenAsync(OidcConstants.GrantTypes.ClientCredentials);
+
+        var token = acmResponse.AccessToken;
+        var httpClientFor = _webApplicationFactory.CreateClient();
+        httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        return httpClientFor;
+    }
 
     public void Dispose()
     {

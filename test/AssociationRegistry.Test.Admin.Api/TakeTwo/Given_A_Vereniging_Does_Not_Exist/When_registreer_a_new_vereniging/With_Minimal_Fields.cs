@@ -24,7 +24,7 @@ public class With_Minimal_Fields
             Naam = new Fixture().Create<string>(),
             Initiator = "OVO000001",
         };
-        _fixture.AdminApiClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
+        _fixture.DefaultClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
     }
 
     private string GetJsonBody(RegistreerVerenigingRequest request)
