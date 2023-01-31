@@ -1,3 +1,10 @@
+## [1.111.1](https://github.com/informatievlaanderen/association-registry/compare/v1.111.0...v1.111.1) (2023-01-31)
+
+
+### Bug Fixes
+
+* or-1369 add datamember to Vertegenwoordigers in request ([a25567f](https://github.com/informatievlaanderen/association-registry/commit/a25567f94b017d40218d34873c71716c0a2ab847))
+
 # [1.111.0](https://github.com/informatievlaanderen/association-registry/compare/v1.110.0...v1.111.0) (2023-01-31)
 
 
