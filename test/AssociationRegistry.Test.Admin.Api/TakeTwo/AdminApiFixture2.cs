@@ -132,10 +132,10 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
         }
 
         var retry = Policy
-            .Handle<HttpRequestException>()
+            .Handle<Exception>()
             .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
 
-        await retry.ExecuteAndCaptureAsync(
+        await retry.ExecuteAsync(
             async () =>
             {
                 await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));

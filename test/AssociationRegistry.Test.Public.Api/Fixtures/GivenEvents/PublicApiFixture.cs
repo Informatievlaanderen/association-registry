@@ -102,41 +102,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
         => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
-    protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
-    {
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        daemon.StartAllShards().GetAwaiter().GetResult();
-
-        if (DocumentStore is not { })
-            throw new NullException("DocumentStore cannot be null when adding an event");
-
-        if (ElasticClient is not { })
-            throw new NullException("Elastic client cannot be null when adding an event");
-
-        if (daemon is not { })
-            throw new NullException("Projection daemon cannot be null when adding an event");
-
-        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
-
-        var eventStore = new EventStore(DocumentStore);
-        await eventStore.Save(vCode, metadata, eventToAdd);
-
-        var retry = Polly.Policy
-            .Handle<HttpRequestException>()
-            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
-
-        await retry.ExecuteAndCaptureAsync(
-            async () =>
-            {
-                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-            });
-
-        await ElasticClient.Indices.RefreshAsync(Indices.All);
-
-        // We don't need the daemon here, so dispose it to prevent too many clients staying open.
-        daemon.Dispose();
-    }
-
     protected async Task AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
         if (!eventsToAdd.Any())
@@ -148,19 +113,26 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (ElasticClient is not { })
             throw new NullReferenceException("Elastic client cannot be null when adding an event");
 
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        if (daemon is not { })
+            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+        await daemon.StartAllShards();
+
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
         var eventStore = new EventStore(DocumentStore);
         foreach (var @event in eventsToAdd)
             await eventStore.Save(vCode, metadata, @event);
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-
-        if (daemon is not { })
-            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
-
-        await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromMinutes(3));
+        var retry = Polly.Policy
+            .Handle<Exception>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+        await retry.ExecuteAsync(
+            async () =>
+            {
+                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+            });
 
         await ElasticClient.Indices.RefreshAsync(Indices.All);
     }
