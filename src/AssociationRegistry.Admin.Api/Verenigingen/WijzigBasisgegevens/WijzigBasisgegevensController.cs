@@ -58,8 +58,7 @@ public class WijzigBasisgegevensController : ApiController
     {
         try
         {
-            if (request is null) return BadRequest();
-            await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
+            await validator.NullValidateAndThrowAsync(request);
 
             var command = request.ToWijzigBasisgegevensCommand(vCode);
 

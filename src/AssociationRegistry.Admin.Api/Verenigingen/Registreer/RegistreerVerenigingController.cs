@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using System;
 using System.Threading.Tasks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -55,8 +54,7 @@ public class RegistreerVerenigingController : ApiController
         [FromServices] IValidator<RegistreerVerenigingRequest> validator,
         [FromBody] RegistreerVerenigingRequest? request)
     {
-        if (request is null) throw new CouldNotParseRequestException();
-        await DefaultValidatorExtensions.ValidateAndThrowAsync(validator, request);
+        await validator.NullValidateAndThrowAsync(request);
 
         var command = request.ToRegistreerVerenigingCommand();
 
@@ -69,10 +67,4 @@ public class RegistreerVerenigingController : ApiController
 
         return this.AcceptedCommand(_appSettings, registratieResult);
     }
-}
-
-public class CouldNotParseRequestException : Exception
-{
-    public CouldNotParseRequestException() : base("Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw.")
-    {}
 }

@@ -61,6 +61,7 @@ using Serilog;
 using Serilog.Debugging;
 using Swashbuckle.AspNetCore.Filters;
 using VCodeGeneration;
+using Verenigingen.Registreer;
 using Wolverine;
 
 public class Program
