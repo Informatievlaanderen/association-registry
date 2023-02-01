@@ -1,3 +1,10 @@
+# [1.114.0](https://github.com/informatievlaanderen/association-registry/compare/v1.113.0...v1.114.0) (2023-02-01)
+
+
+### Features
+
+* or-1397 add contactgegevens to vertegenwoordiger ([6b258e7](https://github.com/informatievlaanderen/association-registry/commit/6b258e7077d883fe163de09c8f3ced3db90f09c9))
+
 # [1.113.0](https://github.com/informatievlaanderen/association-registry/compare/v1.112.0...v1.113.0) (2023-02-01)
 
 
