@@ -2,9 +2,10 @@
 
 using System;
 using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class EmptyVerenigingsNaam : Exception
+public class EmptyVerenigingsNaam : DomainException
 {
     public EmptyVerenigingsNaam() : base("De naam van de vereniging is verplicht.")
     {
