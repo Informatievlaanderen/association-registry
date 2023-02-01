@@ -10,7 +10,7 @@ using Xunit;
 public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
 {
     [Fact]
-    public void Then_It_Returns_A_Filled_VertegenwoordigersLijst()
+    public void Then_It_Throws_A_DuplicateInszProvided()
     {
         var fixture = new Fixture();
         var vertegenwoordiger1 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1), false, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
