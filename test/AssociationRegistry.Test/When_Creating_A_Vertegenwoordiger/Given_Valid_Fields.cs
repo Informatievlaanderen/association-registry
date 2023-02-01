@@ -9,7 +9,7 @@ using Xunit;
 public class Given_Valid_Fields
 {
     [Theory]
-    [InlineData("00000000000", "joske", "teamlead", true)]
+    [InlineData("01131500149", "joske", "teamlead", true)]
     public void Then_It_Returns_A_Vertegenwoordiger(string inszString, string roepnaam, string rol, bool primairContactpersoon)
     {
         var service = new VertegenwoordigersService();

@@ -17,6 +17,10 @@ public class With_All_Fields
 {
     private readonly GivenEventsFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
+    private readonly string _insz1 = "03.20.98-203.96";
+    private readonly string _insz1_numbers = "03209820396";
+    private readonly string _insz2 = "01.13.15-001.49";
+    private readonly string _insz2_numbers = "01131500149";
 
     public With_All_Fields(GivenEventsFixture fixture)
     {
@@ -60,14 +64,14 @@ public class With_All_Fields
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = "96123119307",
+                    Insz = _insz1,
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = "01131500149",
+                    Insz = _insz2,
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
@@ -93,6 +97,23 @@ public class With_All_Fields
     [Fact]
     public void Then_it_saves_the_events()
     {
+        var vertegenwoordigers = new[]
+            {
+                new RegistreerVerenigingRequest.Vertegenwoordiger
+                {
+                    Insz = _insz1_numbers,
+                    Rol = "Voorzitter, Hoofdcoach",
+                    Roepnaam = "QTPY",
+                    PrimairContactpersoon = true,
+                },
+                new RegistreerVerenigingRequest.Vertegenwoordiger
+                {
+                    Insz = _insz2_numbers,
+                    Rol = "Master",
+                    Roepnaam = "Lara",
+                    PrimairContactpersoon = false,
+                },
+            };
         using var session = _fixture.DocumentStore
             .LightweightSession();
         var savedEvent = session.Events
@@ -107,6 +128,6 @@ public class With_All_Fields
         savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(_request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(_request.Locaties[0]);
-// TODO        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(_request.Vertegenwoordigers);
+        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(vertegenwoordigers);
     }
 }

@@ -45,8 +45,11 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
 
+    /// <summary>Alle locaties waar deze vereniging actief is.</summary>
+    [DataMember]
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
 
+    [DataContract]
     public class Vertegenwoordiger
     {
         public string? Insz { get; set; } = null!;
