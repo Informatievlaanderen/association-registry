@@ -1,3 +1,18 @@
+# [1.113.0](https://github.com/informatievlaanderen/association-registry/compare/v1.112.0...v1.113.0) (2023-02-01)
+
+
+### Bug Fixes
+
+* or-1575 add datamember to vertegenwoordiger properties ([11aba1d](https://github.com/informatievlaanderen/association-registry/commit/11aba1d93cba31de88289b80103df402d1dc7986))
+* or-1575 make domain exceptions inherit from DomainException ([90472da](https://github.com/informatievlaanderen/association-registry/commit/90472dacf2bc86fc4c2b9d8e03cd4b1e2533ce7c))
+
+
+### Features
+
+* or-1575 ensure unique insz within vereniging ([ef5a46d](https://github.com/informatievlaanderen/association-registry/commit/ef5a46d92f565259701742af35f235205c8f6692))
+* or-1575 validate insz ([7077aa1](https://github.com/informatievlaanderen/association-registry/commit/7077aa1257e0dd2a12155e1b631c0cecfa832112))
+* or-1575 validate vertegenwoordigers for single primaryContact ([e78a5ae](https://github.com/informatievlaanderen/association-registry/commit/e78a5aed8fc8ce11b24f3dfb831847f12b8f6070))
+
 # [1.112.0](https://github.com/informatievlaanderen/association-registry/compare/v1.111.1...v1.112.0) (2023-01-31)
 
 
