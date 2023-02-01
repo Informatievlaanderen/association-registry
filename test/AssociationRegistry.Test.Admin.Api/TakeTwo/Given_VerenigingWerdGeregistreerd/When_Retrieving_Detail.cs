@@ -91,7 +91,15 @@ public class When_Retrieving_Detail
                             ""achternaam"": ""{x.Achternaam}"",
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
-                            ""primairContactpersoon"": {(x.PrimairContactpersoon? "true" : "false")},
+                            ""primairContactpersoon"": {(x.PrimairContactpersoon ? "true" : "false")},
+                            ""contactInfoLijst"": [{string.Join(',', x.ContactInfoLijst.Select(y => $@"{{
+                                ""contactnaam"": ""{y.Contactnaam}"",
+                                ""email"": ""{y.Email}"",
+                                ""telefoon"": ""{y.Telefoon}"",
+                                ""website"": ""{y.Website}"",
+                                ""socialMedia"": ""{y.SocialMedia}""
+                            }}"))}
+                            ],
                         }}"))}],
                 }},
                 ""metadata"": {{

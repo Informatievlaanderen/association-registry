@@ -34,5 +34,6 @@ public record RegistreerVerenigingCommand(
         string Insz,
         bool PrimairContactpersoon,
         string? Roepnaam,
-        string? Rol);
+        string? Rol,
+        IEnumerable<ContactInfo>? ContactInfoLijst);
 }

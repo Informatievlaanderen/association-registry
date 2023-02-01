@@ -21,10 +21,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .WithMessage("KboNummer moet 10 cijfers bevatten.")
             .When(request => !string.IsNullOrEmpty(request.KboNummer));
 
-        RuleForEach(request => request.ContactInfoLijst)
-            .Must(HaveAtLeastOneValue)
-            .WithMessage("Een contact moet minstens één waarde bevatten.");
-
         RuleFor(request => request.Locaties)
             .Must(NotHaveDuplicates)
             .WithMessage("Identieke locaties zijn niet toegelaten.");
@@ -34,6 +30,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleFor(request => request.Locaties)
             .Must(NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
+
+        RuleForEach(request => request.ContactInfoLijst)
+            .SetValidator(new ContactInfoValidator());
 
         RuleForEach(request => request.Locaties)
             .SetValidator(new LocatieValidator());
@@ -54,11 +53,22 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
         => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
 
-    private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
-        => !string.IsNullOrEmpty(contactInfo.Email) ||
-           !string.IsNullOrEmpty(contactInfo.Telefoon) ||
-           !string.IsNullOrEmpty(contactInfo.Website) ||
-           !string.IsNullOrEmpty(contactInfo.SocialMedia);
+
+    private class ContactInfoValidator : AbstractValidator<RegistreerVerenigingRequest.ContactInfo>
+    {
+        public ContactInfoValidator()
+        {
+            RuleFor(request => request)
+                .Must(HaveAtLeastOneValue)
+                .WithMessage("Een contact moet minstens één waarde bevatten.");
+        }
+
+        private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
+            => !string.IsNullOrEmpty(contactInfo.Email) ||
+               !string.IsNullOrEmpty(contactInfo.Telefoon) ||
+               !string.IsNullOrEmpty(contactInfo.Website) ||
+               !string.IsNullOrEmpty(contactInfo.SocialMedia);
+    }
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {
@@ -91,6 +101,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
                 .Must(Have11Numbers)
                 .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
+
+            RuleForEach(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst)
+                .SetValidator(new ContactInfoValidator());
         }
 
         private bool Have11Numbers(string? insz)

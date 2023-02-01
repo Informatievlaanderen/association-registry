@@ -3,7 +3,6 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using Xunit;
 
 public class When_Patching_A_Null_Request

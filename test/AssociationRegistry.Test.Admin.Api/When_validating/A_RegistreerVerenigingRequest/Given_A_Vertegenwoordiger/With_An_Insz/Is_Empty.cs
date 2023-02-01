@@ -1,16 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_RegistreerVerenigingRequest.Given_A_Vertegenwoordiger;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_RegistreerVerenigingRequest.Given_A_Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 
-public class With_An_Insz
+public class Is_Empty
 {
-    [Theory]
-    [InlineData(InszTestSet.Insz1)]
-    [InlineData(InszTestSet.Insz2_WithCharacters)]
-    public void Then_it_has_no_validation_errors(string insz)
+    [Fact]
+    public void Then_it_has_validation_error__Insz_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
@@ -21,12 +18,13 @@ public class With_An_Insz
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()
                 {
-                    Insz = insz,
+                    Insz = string.Empty,
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
+            .WithErrorMessage("'Insz' mag niet leeg zijn.");
     }
 }

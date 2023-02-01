@@ -54,5 +54,6 @@ public record VerenigingWerdGeregistreerd(
         string? Roepnaam,
         string? Rol,
         string Voornaam,
-        string Achternaam);
+        string Achternaam,
+        ContactInfo[] ContactInfoLijst);
 }

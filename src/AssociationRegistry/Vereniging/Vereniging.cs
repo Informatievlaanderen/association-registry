@@ -82,7 +82,7 @@ public class Vereniging : IHasVersion
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam);
+        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(vert.ContactInfoLijst));
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();

@@ -5,6 +5,7 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using ContactInfo;
 using Framework;
 using INSZ;
 using Magda;
@@ -22,7 +23,8 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
     private static readonly RegistreerVerenigingCommand.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "www.test-website.be", "@test");
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer");
+    private static readonly RegistreerVerenigingCommand.ContactInfo VertegenwoordigerContactInfo = new("History", "conan@barbarian.history.com", "0918372645", "www.conan-the-destroyer.history.com", "#ConanTheBarbarian");
+    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactInfo });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
@@ -49,8 +51,8 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
             KorteBeschrijving,
             _fromDateTime,
             KboNummber,
-            new[] { ContactInfo, },
-            new[] { Locatie, },
+            new[] { ContactInfo },
+            new[] { Locatie },
             vertegenwoordigers);
 
         _magdaVertegenwoordiger = Vertegenwoordigers.Vertegenwoordiger.Create(
@@ -59,7 +61,12 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
             Vertegenwoordiger.Roepnaam,
             Vertegenwoordiger.Rol,
             "Thor",
-            "Odinson");
+            "Odinson",
+            ContactLijst.Create(
+                new[]
+                {
+                    VertegenwoordigerContactInfo,
+                }));
         var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(
             new[]
             {
@@ -119,7 +126,16 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                         _magdaVertegenwoordiger.Roepnaam,
                         _magdaVertegenwoordiger.Rol,
                         _magdaVertegenwoordiger.Voornaam,
-                        _magdaVertegenwoordiger.Achternaam),
+                        _magdaVertegenwoordiger.Achternaam,
+                        new[]
+                        {
+                            new VerenigingWerdGeregistreerd.ContactInfo(
+                                VertegenwoordigerContactInfo.Contactnaam,
+                                VertegenwoordigerContactInfo.Email,
+                                VertegenwoordigerContactInfo.Telefoon,
+                                VertegenwoordigerContactInfo.Website,
+                                VertegenwoordigerContactInfo.SocialMedia),
+                        }),
                 }));
     }
 }
