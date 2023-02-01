@@ -82,12 +82,21 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             => Locatietypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
     }
 
-    private class VertegenwoordigerValidator: AbstractValidator<RegistreerVerenigingRequest.Vertegenwoordiger>
+    private class VertegenwoordigerValidator : AbstractValidator<RegistreerVerenigingRequest.Vertegenwoordiger>
     {
         public VertegenwoordigerValidator()
         {
             this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Insz);
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Insz)
+                .Must(Have11Numbers)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz))
+                .WithMessage("Insz moet 11 cijfers bevatten");
+        }
+
+        private bool Have11Numbers(string? insz)
+        {
+            insz = insz!.Replace(".", string.Empty).Replace("-", string.Empty);
+            return insz.Length == 11 && long.TryParse(insz, out _);
         }
     }
-
 }

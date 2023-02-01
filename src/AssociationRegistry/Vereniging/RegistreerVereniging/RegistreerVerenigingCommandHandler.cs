@@ -56,16 +56,6 @@ public class RegistreerVerenigingCommandHandler
         return CommandResult.Create(vCode, result);
     }
 
-    //TODO move to MagdaFacade
-    private static Vertegenwoordiger ToVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vert)
-        => Vertegenwoordiger.Create(
-            vert.Insz,
-            vert.PrimairContactpersoon,
-            vert.Roepnaam,
-            vert.Rol,
-            string.Empty,
-            string.Empty);
-
     private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
         => Locatie.CreateInstance(
             loc.Naam,

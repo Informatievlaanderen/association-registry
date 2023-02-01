@@ -1,15 +1,17 @@
 namespace AssociationRegistry.Vertegenwoordigers;
 
+using INSZ;
+
 public class Vertegenwoordiger
 {
-    public string Insz { get; }
+    public Insz Insz { get; }
     public bool PrimairContactpersoon { get; }
     public string? Roepnaam { get; }
     public string? Rol { get; }
     public string Voornaam { get; }
     public string Achternaam { get; }
 
-    public static Vertegenwoordiger Create(string insz,
+    public static Vertegenwoordiger Create(Insz insz,
         bool primairContactpersoon,
         string? roepnaam,
         string? rol,
@@ -18,7 +20,7 @@ public class Vertegenwoordiger
         => new(insz, primairContactpersoon, roepnaam, rol, voornaam, achternaam);
 
 
-    private Vertegenwoordiger(string insz,
+    private Vertegenwoordiger(Insz insz,
         bool primairContactpersoon,
         string? roepnaam,
         string? rol,

@@ -4,19 +4,20 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class With_An_Insz
+public class With_An_Invalid_Insz
 {
     [Theory]
-    [InlineData("01131500149")]
-    [InlineData("03.20.98-203.96")]
-    public void Then_it_has_no_validation_errors(string insz)
+    [InlineData("0123456789012")]
+    [InlineData("0123456")]
+    [InlineData("ABC.DEF")]
+    public void Then_it_has_validation_error__insz_moet_11_cijfers_bevatten(string insz)
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            Vertegenwoordigers = new []
+            Vertegenwoordigers = new[]
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()
                 {
@@ -26,6 +27,7 @@ public class With_An_Insz
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldHaveValidationErrorFor($"{nameof(request.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
+            .WithErrorMessage("Insz moet 11 cijfers bevatten");
     }
 }
