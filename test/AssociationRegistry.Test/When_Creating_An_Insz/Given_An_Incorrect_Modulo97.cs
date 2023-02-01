@@ -5,7 +5,7 @@ using INSZ;
 using INSZ.Exceptions;
 using Xunit;
 
-public class Given_A_String_With_Incorrect_Modulo97
+public class Given_An_Incorrect_Modulo97
 {
     [Theory]
     [InlineData("01234567890")]

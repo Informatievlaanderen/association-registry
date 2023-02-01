@@ -7,8 +7,8 @@ using Xunit;
 public class With_An_Insz
 {
     [Theory]
-    [InlineData("78100440321")]
-    [InlineData("96.12.31-193.07")]
+    [InlineData("01131500149")]
+    [InlineData("03.20.98-203.96")]
     public void Then_it_has_no_validation_errors(string insz)
     {
         var validator = new RegistreerVerenigingRequestValidator();

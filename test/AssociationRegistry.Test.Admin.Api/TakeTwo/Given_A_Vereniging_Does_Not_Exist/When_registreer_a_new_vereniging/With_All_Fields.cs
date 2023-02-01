@@ -67,9 +67,9 @@ public class With_All_Fields
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = "78100440321",
+                    Insz = "01131500149",
                     Rol = "Master",
-                    Roepnaam = "BDSM",
+                    Roepnaam = "Lara",
                     PrimairContactpersoon = false,
                 },
             },

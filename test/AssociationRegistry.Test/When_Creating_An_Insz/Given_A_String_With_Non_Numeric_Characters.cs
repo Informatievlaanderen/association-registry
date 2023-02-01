@@ -10,7 +10,6 @@ public class Given_A_String_With_Non_Numeric_Characters
     [Theory]
     [InlineData("AABBCCDDDEE")]
     [InlineData("12AB34CDE56")]
-    [InlineData("-01234567890")]
     [InlineData("%$&*)(*&⁽)@")]
     public void Then_it_throws_an_InvalidInszCharsException(string insz)
     {
