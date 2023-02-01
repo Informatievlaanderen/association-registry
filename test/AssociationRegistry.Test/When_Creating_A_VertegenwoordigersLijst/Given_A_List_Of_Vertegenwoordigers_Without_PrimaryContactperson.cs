@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
+﻿namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
 using FluentAssertions;
@@ -7,13 +7,13 @@ using INSZ;
 using Vertegenwoordigers;
 using Xunit;
 
-public class Given_A_List_Of_Vertegenwoordigers
+public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
 {
     [Fact]
     public void Then_It_Returns_A_Filled_VertegenwoordigersLijst()
     {
         var fixture = new Fixture();
-        var vertegenwoordiger1 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1), true, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+        var vertegenwoordiger1 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1), false, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
         var vertegenwoordiger2 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz2), false, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
         var listOfVertegenwoordigers = new List<Vertegenwoordiger>()
         {
