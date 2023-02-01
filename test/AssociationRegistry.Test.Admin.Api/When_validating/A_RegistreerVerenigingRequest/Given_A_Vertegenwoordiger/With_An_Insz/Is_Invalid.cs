@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_RegistreerVerenigingRequest.Given_A_Vertegenwoordiger;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_validating.A_RegistreerVerenigingRequest.Given_A_Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class With_An_Invalid_Insz
+public class Is_Invalid
 {
     [Theory]
     [InlineData("0123456789012")]

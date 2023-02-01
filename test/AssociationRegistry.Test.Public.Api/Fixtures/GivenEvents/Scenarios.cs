@@ -42,13 +42,23 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         "Correspondentie");
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
+
     private readonly VerenigingWerdGeregistreerd.Vertegenwoordiger _vertegenwoordiger = new(
         "01234567890",
         true,
         "father",
         "Leader",
         "Odin",
-        "Allfather");
+        "Allfather",
+        new[]
+        {
+            new VerenigingWerdGeregistreerd.ContactInfo(
+                "Asgard",
+                "asgard@world.tree",
+                "0000000001",
+                "www.asgard.tree",
+                "#Asgard"),
+        });
 
 
     public IEvent[] GetEvents()

@@ -5,7 +5,7 @@ using Vertegenwoordigers;
 
 public interface IMagdaFacade
 {
-    Task<VertegenwoordigersLijst> GetVertegenwoordigers(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger> vertegenwoordigers, CancellationToken token = default);
+    Task<IEnumerable<Vertegenwoordiger>?> GetVertegenwoordigers(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers, CancellationToken token = default);
 }
 
 public class MagdaPersoon

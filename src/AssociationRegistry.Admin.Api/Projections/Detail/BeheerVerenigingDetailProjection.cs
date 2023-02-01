@@ -44,6 +44,15 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
+                    ContactInfoLijst = v.ContactInfoLijst.Select(
+                        c => new BeheerVerenigingDetailDocument.ContactInfo
+                        {
+                            Contactnaam = c.Contactnaam,
+                            Email = c.Email,
+                            Telefoon = c.Telefoon,
+                            Website = c.Website,
+                            SocialMedia = c.SocialMedia,
+                        }).ToArray(),
                 }).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
@@ -143,5 +152,6 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Roepnaam { get; set; }
         public string? Rol { get; set; }
         public bool PrimairContactpersoon { get; set; }
+        public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     }
 }

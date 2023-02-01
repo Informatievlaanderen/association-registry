@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
+using ContactInfo;
 using Framework;
 using INSZ;
 using Vertegenwoordigers;
@@ -13,8 +14,22 @@ public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
     public void Then_It_Throws_A_DuplicateInszProvided()
     {
         var fixture = new Fixture();
-        var vertegenwoordiger1 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1), false, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
-        var vertegenwoordiger2 = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1), false, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+        var vertegenwoordiger1 = Vertegenwoordiger.Create(
+            Insz.Create(InszTestSet.Insz1),
+            false,
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            ContactLijst.Empty);
+        var vertegenwoordiger2 = Vertegenwoordiger.Create(
+            Insz.Create(InszTestSet.Insz1),
+            false,
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            ContactLijst.Empty);
         var listOfVertegenwoordigers = new List<Vertegenwoordiger>()
         {
             vertegenwoordiger1,

@@ -64,6 +64,17 @@ public class With_All_Fields
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
+                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    {
+                        new()
+                        {
+                            Contactnaam = "Algemeen",
+                            Email = "qtpy@outlook.com",
+                            Telefoon = "0123456789",
+                            Website = "www.qt.py",
+                            SocialMedia = "#QTPy",
+                        },
+                    },
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
@@ -71,6 +82,16 @@ public class With_All_Fields
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
+                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    {
+                        new()
+                        {
+                            Email = "master@outlook.com",
+                            Telefoon = "9876543210",
+                            Website = "www.master.lara",
+                            SocialMedia = "#ScrumMaster",
+                        },
+                    },
                 },
             },
         };
@@ -101,6 +122,17 @@ public class With_All_Fields
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
+                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    {
+                        new()
+                        {
+                            Contactnaam = "Algemeen",
+                            Email = "qtpy@outlook.com",
+                            Telefoon = "0123456789",
+                            Website = "www.qt.py",
+                            SocialMedia = "#QTPy",
+                        },
+                    },
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
@@ -108,6 +140,16 @@ public class With_All_Fields
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
+                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    {
+                        new()
+                        {
+                            Email = "master@outlook.com",
+                            Telefoon = "9876543210",
+                            Website = "www.master.lara",
+                            SocialMedia = "#ScrumMaster",
+                        },
+                    },
                 },
             };
         using var session = _fixture.DocumentStore

@@ -60,22 +60,40 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Startdatum,
                     vereniging.KboNummer,
                     vereniging.Status,
-                    vereniging.ContactInfoLijst.Select(
-                            info => new DetailVerenigingResponse.VerenigingDetail.ContactInfo(
-                                info.Contactnaam,
-                                info.Email,
-                                info.Telefoon,
-                                info.Website,
-                                info.SocialMedia))
-                        .ToArray(),
+                    vereniging.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
                     vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray()),
                 new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
     }
 
+    private static DetailVerenigingResponse.VerenigingDetail.ContactInfo ToContactInfo(BeheerVerenigingDetailDocument.ContactInfo info)
+        => new(
+            info.Contactnaam,
+            info.Email,
+            info.Telefoon,
+            info.Website,
+            info.SocialMedia);
+
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
-        => new(ver.Insz, ver.Voornaam, ver.Achternaam, ver.Roepnaam, ver.Rol, ver.PrimairContactpersoon);
+        => new(
+            ver.Insz,
+            ver.Voornaam,
+            ver.Achternaam,
+            ver.Roepnaam,
+            ver.Rol,
+            ver.PrimairContactpersoon,
+            ver.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray());
 
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
-        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
+        => new(
+            loc.Locatietype,
+            loc.Hoofdlocatie,
+            loc.Adres,
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land);
 }

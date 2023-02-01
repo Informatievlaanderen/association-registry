@@ -34,9 +34,7 @@ public class RegistreerVerenigingCommandHandler
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
 
-        var vertegenwoordigersLijst = command.Vertegenwoordigers?.Any() ?? false
-            ? await _magdaFacade.GetVertegenwoordigers(command.Vertegenwoordigers, cancellationToken)
-            : VertegenwoordigersLijst.Empty;
+        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(await _magdaFacade.GetVertegenwoordigers(command.Vertegenwoordigers, cancellationToken));
 
         var vCode = await _vCodeService.GetNext();
 

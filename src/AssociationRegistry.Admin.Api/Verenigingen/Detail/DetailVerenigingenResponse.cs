@@ -26,7 +26,7 @@ public record DetailVerenigingResponse(
         [property: DataMember(Name = "Status")]
         string Status,
         [property: DataMember(Name = "ContactInfoLijst")]
-        VerenigingDetail.ContactInfo[] ContactInfoLijst,
+        ImmutableArray<VerenigingDetail.ContactInfo> ContactInfoLijst,
         [property: DataMember(Name = "Locaties")]
         ImmutableArray<VerenigingDetail.Locatie> Locaties,
         [property: DataMember(Name = "Vertegenwoordigers")]
@@ -47,8 +47,7 @@ public record DetailVerenigingResponse(
 
         [DataContract]
         public record Vertegenwoordiger(
-            [property: DataMember(Name = "Insz")]
-            string Insz,
+            [property: DataMember(Name = "Insz")] string Insz,
             [property: DataMember(Name = "Voornaam")]
             string Voornaam,
             [property: DataMember(Name = "Achternaam")]
@@ -57,7 +56,9 @@ public record DetailVerenigingResponse(
             string? Roepnaam,
             [property: DataMember(Name = "Rol")] string? Rol,
             [property: DataMember(Name = "PrimairContactpersoon")]
-            bool PrimairContactpersoon
+            bool PrimairContactpersoon,
+            [property: DataMember(Name = "ContactInfoLijst")]
+            ImmutableArray<ContactInfo> ContactInfoLijst
         );
 
         [DataContract]

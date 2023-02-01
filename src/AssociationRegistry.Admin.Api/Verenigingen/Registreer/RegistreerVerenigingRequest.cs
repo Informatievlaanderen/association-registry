@@ -54,17 +54,11 @@ public class RegistreerVerenigingRequest
     [DataContract]
     public class Vertegenwoordiger
     {
-        [DataMember]
-        public string? Insz { get; set; } = null!;
-        [DataMember]
-
-        public string? Rol { get; set; }
-        [DataMember]
-
-        public string? Roepnaam { get; set; }
-        [DataMember]
-
-        public bool PrimairContactpersoon { get; set; } = false;
+        [DataMember] public string? Insz { get; set; } = null!;
+        [DataMember] public string? Rol { get; set; }
+        [DataMember] public string? Roepnaam { get; set; }
+        [DataMember] public bool PrimairContactpersoon { get; set; } = false;
+        [DataMember] public ContactInfo[]? ContactInfoLijst { get; set; }
     }
 
     [DataContract]
@@ -176,7 +170,7 @@ public class RegistreerVerenigingRequest
             Vertegenwoordigers.Select(ToVertegenwoordiger));
 
     private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol);
+        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ToContactInfo));
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(ContactInfo c)
         => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);

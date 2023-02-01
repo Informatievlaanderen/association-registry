@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Microsoft.AspNetCore.Http;
-using Verenigingen.Registreer;
 
 public class CouldNotParseRequestExceptionHandler : DefaultExceptionHandler<CouldNotParseRequestException>
 {
