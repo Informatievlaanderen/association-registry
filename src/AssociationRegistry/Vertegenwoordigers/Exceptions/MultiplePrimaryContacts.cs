@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Vertegenwoordigers.Exceptions;
 
 using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 
-public class MultiplePrimaryContacts : Exception
+public class MultiplePrimaryContacts : DomainException
 {
     public MultiplePrimaryContacts() : base("Er mag maar één vertegenwoordiger aangeduid zijn als primair contactpersoon.")
     {

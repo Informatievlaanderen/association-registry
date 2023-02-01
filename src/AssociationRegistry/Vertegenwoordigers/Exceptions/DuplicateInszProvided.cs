@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Vertegenwoordigers.Exceptions;
 
 using System.Runtime.Serialization;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class DuplicateInszProvided : Exception
+public class DuplicateInszProvided : DomainException
 {
     public DuplicateInszProvided() : base("INSZ moet uniek zijn binnen de vereniging.")
     {
