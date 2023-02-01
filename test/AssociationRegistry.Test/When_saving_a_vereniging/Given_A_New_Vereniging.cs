@@ -1,22 +1,22 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingsRepository.When_saving_a_vereniging;
+namespace AssociationRegistry.Test.When_saving_a_vereniging;
 
-using AssociationRegistry.EventStore;
-using AutoFixture;
 using ContactInfo;
 using Events;
-using FluentAssertions;
-using global::AssociationRegistry.Framework;
+using EventStore;
+using AssociationRegistry.Framework;
 using Locaties;
 using VCodes;
 using Vereniging;
 using VerenigingsNamen;
 using Vertegenwoordigers;
+using AutoFixture;
+using FluentAssertions;
 using Xunit;
 
 public class Given_A_New_Vereniging
 {
     [Fact]
-    public async Task Then_the_verenigingcreatedevent_is_stored_in_the_EventStore()
+    public async Task Then_the_VerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
     {
         var eventStore = new EventStoreMock();
 
@@ -27,8 +27,10 @@ public class Given_A_New_Vereniging
         var vereniging = Vereniging.Registreer(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
+
         eventStore.Invocations.Should().HaveCount(1);
         var invocation = eventStore.Invocations.Single();
+
         invocation.AggregateId.Should().Be(vCode);
 
         var theEvent = (VerenigingWerdGeregistreerd)invocation.Events.Single();
