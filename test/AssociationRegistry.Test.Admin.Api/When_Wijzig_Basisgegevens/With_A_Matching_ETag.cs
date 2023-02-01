@@ -1,14 +1,14 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Basisgegevens;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using Fixtures;
-using Framework;
-using VCodes;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.VCodes;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
