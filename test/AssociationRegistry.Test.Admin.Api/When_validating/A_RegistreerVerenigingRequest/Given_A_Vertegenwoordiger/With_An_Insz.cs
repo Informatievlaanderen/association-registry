@@ -2,13 +2,14 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class With_An_Insz
 {
     [Theory]
-    [InlineData("01131500149")]
-    [InlineData("03.20.98-203.96")]
+    [InlineData(InszTestSet.Insz1)]
+    [InlineData(InszTestSet.Insz2_WithCharacters)]
     public void Then_it_has_no_validation_errors(string insz)
     {
         var validator = new RegistreerVerenigingRequestValidator();
