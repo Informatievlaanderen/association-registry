@@ -6,9 +6,9 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 
-public class Then_The_Docs_Fixture : AdminApiFixture
+public class Given_Docs_Exist_Fixture : AdminApiFixture
 {
-    public Then_The_Docs_Fixture() : base(nameof(Then_The_Docs_Fixture))
+    public Given_Docs_Exist_Fixture() : base(nameof(Given_Docs_Exist_Fixture))
     {
     }
 
@@ -26,23 +26,23 @@ public class Then_The_Docs_Fixture : AdminApiFixture
     }
 }
 
-public class Then_The_Docs : IClassFixture<Then_The_Docs_Fixture>
+public class Given_Docs_Exist : IClassFixture<Given_Docs_Exist_Fixture>
 {
-    private readonly Then_The_Docs_Fixture _theDocsFixture;
+    private readonly Given_Docs_Exist_Fixture _theDocsFixture;
 
-    public Then_The_Docs(Then_The_Docs_Fixture theDocsFixture)
+    public Given_Docs_Exist(Given_Docs_Exist_Fixture theDocsFixture)
         => _theDocsFixture = theDocsFixture;
 
     [Fact]
-    public void Json_Returns_200OK()
+    public void Then_it_returns_an_ok_response()
         => _theDocsFixture.Response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
-    public void Have_Paths()
+    public void Then_it_has_paths()
         => _theDocsFixture.Docs!.Paths!.Count.Should().BePositive();
 
     [Fact]
-    public void Have_A_Summary_ForEach_Path()
+    public void Then_it_as_a_summary_for_each_path()
         => _theDocsFixture.Docs!.Paths!
             .ToList()
             .ForEach(path =>

@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Test.Admin.Api.EventStore.When_storing_an_event;
+namespace AssociationRegistry.Test.Admin.Api.When_storing_an_event;
 
 using AssociationRegistry.EventStore;
-using Fixtures;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
-using global::AssociationRegistry.Framework;
 using Marten;
 using NodaTime;
 using NodaTime.Text;

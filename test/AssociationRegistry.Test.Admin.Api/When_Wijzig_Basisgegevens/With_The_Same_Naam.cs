@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.To_Controller_Tests;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Basisgegevens;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using NodaTime.Extensions;
