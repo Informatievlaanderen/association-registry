@@ -38,6 +38,7 @@ public class Given_A_Valid_Request_With_Minimal_Fields
     {
         using var session = _fixture.DocumentStore
             .LightweightSession();
+
         session.Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .Where(e => e.Naam == _request.Naam)
             .Should().HaveCount(1);
