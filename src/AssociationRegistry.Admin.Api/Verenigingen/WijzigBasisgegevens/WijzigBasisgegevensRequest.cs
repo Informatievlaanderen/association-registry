@@ -30,12 +30,6 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? KorteBeschrijving { get; set; }
 
-    /// <summary>
-    /// Nieuwe korte beschrijving van de vereniging
-    /// </summary>
-    [DataMember]
-    public string? X { get; set; }
-
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(vCode, Naam: Naam, KorteNaam: KorteNaam, KorteBeschrijving: KorteBeschrijving);
 }
