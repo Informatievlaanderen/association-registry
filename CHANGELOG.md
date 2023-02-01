@@ -1,3 +1,10 @@
+## [1.114.1](https://github.com/informatievlaanderen/association-registry/compare/v1.114.0...v1.114.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* or-1575 add validation rule for invalid characters in Insz ([d0bb9d4](https://github.com/informatievlaanderen/association-registry/commit/d0bb9d43557197fb3c6424b9f0e56d4c7ad26afa))
+
 # [1.114.0](https://github.com/informatievlaanderen/association-registry/compare/v1.113.0...v1.114.0) (2023-02-01)
 
 
