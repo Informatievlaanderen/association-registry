@@ -40,14 +40,14 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
     public AdminApiFixture2()
     {
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AdminApiFixture>(),
+                new NullLogger<AdminApiFixture2>(),
                 GetConnectionString(GetConfiguration(), RootDatabase))
             .GetAwaiter().GetResult();
 
         EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
 
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AdminApiFixture>(),
+                new NullLogger<AdminApiFixture2>(),
                 GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
             .GetAwaiter().GetResult();
 
@@ -69,7 +69,7 @@ public abstract class AdminApiFixture2 : IDisposable, IAsyncLifetime
                     );
                 });
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
-        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
+        WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture2>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
     }
 

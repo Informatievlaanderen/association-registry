@@ -1,32 +1,23 @@
-namespace AssociationRegistry.Test.Admin.Api.When_storing_an_event;
+namespace AssociationRegistry.Test.Admin.Api.TakeTwo.When_storing_an_event;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using TakeTwo;
 using FluentAssertions;
 using Marten;
 using NodaTime;
 using NodaTime.Text;
 using Xunit;
+using Xunit.Categories;
 
-public class Given_An_Event_Fixture : AdminApiFixture
+[Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
+public class Given_An_Event
 {
-    public Given_An_Event_Fixture() : base(nameof(Given_An_Event_Fixture))
-    {
-    }
+    private readonly GivenEventsFixture _fixture;
 
-    protected override Task Given()
-        => Task.CompletedTask;
-
-    protected override Task When()
-        => Task.CompletedTask;
-}
-
-public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
-{
-    private readonly AdminApiFixture _fixture;
-
-    public Given_An_Event(Given_An_Event_Fixture fixture)
+    public Given_An_Event(GivenEventsFixture fixture)
     {
         _fixture = fixture;
     }
@@ -71,9 +62,4 @@ public class Given_An_Event : IClassFixture<Given_An_Event_Fixture>, IDisposable
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     private record SomeEvent(string Name) : IEvent;
-
-    public void Dispose()
-    {
-        _fixture.DocumentStore.Advanced.Clean.DeleteAllEventData();
-    }
 }
