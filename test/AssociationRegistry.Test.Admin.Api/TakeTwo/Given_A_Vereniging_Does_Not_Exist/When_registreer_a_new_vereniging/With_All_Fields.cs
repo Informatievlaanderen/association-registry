@@ -116,6 +116,7 @@ public class With_All_Fields
             };
         using var session = _fixture.DocumentStore
             .LightweightSession();
+
         var savedEvent = session.Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
             .Single(e => e.Naam == _request.Naam);

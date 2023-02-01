@@ -54,9 +54,16 @@ public class RegistreerVerenigingRequest
     [DataContract]
     public class Vertegenwoordiger
     {
+        [DataMember]
         public string? Insz { get; set; } = null!;
+        [DataMember]
+
         public string? Rol { get; set; }
+        [DataMember]
+
         public string? Roepnaam { get; set; }
+        [DataMember]
+
         public bool PrimairContactpersoon { get; set; } = false;
     }
 
