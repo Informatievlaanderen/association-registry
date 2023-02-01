@@ -97,19 +97,32 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         public VertegenwoordigerValidator()
         {
             this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Insz);
+
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Insz)
+                .Must(ContainOnlyNumbersDotsAndDashes)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz))
+                .WithMessage("Insz heeft incorrect formaat (00.00.00-000.00 of 00000000000)");
+
             RuleFor(vertegenwoordiger => vertegenwoordiger.Insz)
                 .Must(Have11Numbers)
-                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz))
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
+                                           ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
 
             RuleForEach(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst)
                 .SetValidator(new ContactInfoValidator());
         }
 
+        private bool ContainOnlyNumbersDotsAndDashes(string? insz)
+        {
+            insz = insz!.Replace(".", string.Empty).Replace("-", string.Empty);
+            return long.TryParse(insz, out _);
+        }
+
         private bool Have11Numbers(string? insz)
         {
             insz = insz!.Replace(".", string.Empty).Replace("-", string.Empty);
-            return insz.Length == 11 && long.TryParse(insz, out _);
+            return insz.Length == 11;
         }
     }
 }

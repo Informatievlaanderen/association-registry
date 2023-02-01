@@ -4,13 +4,12 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class Is_Invalid
+public class Has_Invalid_Characters
 {
     [Theory]
-    [InlineData("0123456789012")]
-    [InlineData("0123456")]
     [InlineData("ABC.DEF")]
-    public void Then_it_has_validation_error__insz_moet_11_cijfers_bevatten(string insz)
+    [InlineData("25/03/71 123 57")]
+    public void Then_it_has_validation_error__insz_heeft_incorect_formaat(string insz)
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
@@ -28,6 +27,6 @@ public class Is_Invalid
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(request.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
-            .WithErrorMessage("Insz moet 11 cijfers bevatten");
+            .WithErrorMessage("Insz heeft incorrect formaat (00.00.00-000.00 of 00000000000)");
     }
 }
