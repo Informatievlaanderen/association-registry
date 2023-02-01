@@ -5,10 +5,10 @@ using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class Is_Too_short : ValidatorTest
+public class Is_Too_Short : ValidatorTest
 {
     [Fact]
-    public void Then_it_has_validation_error__naam_is_verplicht()
+    public void Then_it_has_validation_error__Kbo_moet_10_cijfers_bevatten()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var result = validator.TestValidate(new RegistreerVerenigingRequest { Naam = "abcd", KboNummer = "1234"});

@@ -51,6 +51,7 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
 
+    [DataContract]
     public class Vertegenwoordiger
     {
         public string? Insz { get; set; } = null!;
