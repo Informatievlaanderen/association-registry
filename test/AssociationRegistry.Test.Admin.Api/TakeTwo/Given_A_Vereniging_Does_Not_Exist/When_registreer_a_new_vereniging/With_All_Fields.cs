@@ -17,10 +17,6 @@ public class With_All_Fields
 {
     private readonly GivenEventsFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
-    private readonly string _insz1 = "03.20.98-203.96";
-    private readonly string _insz1_numbers = "03209820396";
-    private readonly string _insz2 = "01.13.15-001.49";
-    private readonly string _insz2_numbers = "01131500149";
 
     public With_All_Fields(GivenEventsFixture fixture)
     {
@@ -64,14 +60,14 @@ public class With_All_Fields
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = _insz1,
+                    Insz = InszTestSet.Insz1_WithCharacters,
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = _insz2,
+                    Insz = InszTestSet.Insz2_WithCharacters,
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
@@ -101,14 +97,14 @@ public class With_All_Fields
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = _insz1_numbers,
+                    Insz = InszTestSet.Insz1,
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = _insz2_numbers,
+                    Insz = InszTestSet.Insz2,
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,

@@ -7,7 +7,7 @@ using Xunit;
 public class Given_Null
 {
     [Fact]
-    public void Then_It_Returns_A_VertegenwoordigersLijst()
+    public void Then_It_Returns_An_Empty_VertegenwoordigersLijst()
     {
         VertegenwoordigersLijst.Create(null).Should().BeEquivalentTo(VertegenwoordigersLijst.Empty);
     }

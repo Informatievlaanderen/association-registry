@@ -5,6 +5,7 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using Framework;
 using INSZ;
 using Magda;
 using Moq;
@@ -21,7 +22,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
 
     private static readonly RegistreerVerenigingCommand.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "www.test-website.be", "@test");
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new("01.13.15-001.49", true, "Conan", "Barbarian, Destroyer");
+    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer");
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
@@ -113,7 +114,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Vertegenwoordiger(
-                        "01131500149",
+                        InszTestSet.Insz1,
                         _magdaVertegenwoordiger.PrimairContactpersoon,
                         _magdaVertegenwoordiger.Roepnaam,
                         _magdaVertegenwoordiger.Rol,

@@ -2,6 +2,7 @@
 
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework;
 using INSZ;
 using Vertegenwoordigers;
 using Xunit;
@@ -9,7 +10,7 @@ using Xunit;
 public class Given_Valid_Fields
 {
     [Theory]
-    [InlineData("01131500149", "joske", "teamlead", true)]
+    [InlineData(InszTestSet.Insz1, "joske", "teamlead", true)]
     public void Then_It_Returns_A_Vertegenwoordiger(string inszString, string roepnaam, string rol, bool primairContactpersoon)
     {
         var service = new VertegenwoordigersService();
