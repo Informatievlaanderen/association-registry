@@ -17,6 +17,7 @@ public class With_All_Fields
 {
     private readonly GivenEventsFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
+    private readonly RegistreerVerenigingRequest.Vertegenwoordiger[] _vertegenwoordigers;
 
     public With_All_Fields(GivenEventsFixture fixture)
     {
@@ -95,6 +96,46 @@ public class With_All_Fields
                 },
             },
         };
+
+        _vertegenwoordigers = new[]
+        {
+            new RegistreerVerenigingRequest.Vertegenwoordiger
+            {
+                Insz = InszTestSet.Insz1,
+                Rol = "Voorzitter, Hoofdcoach",
+                Roepnaam = "QTPY",
+                PrimairContactpersoon = true,
+                ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                {
+                    new()
+                    {
+                        Contactnaam = "Algemeen",
+                        Email = "qtpy@outlook.com",
+                        Telefoon = "0123456789",
+                        Website = "www.qt.py",
+                        SocialMedia = "#QTPy",
+                    },
+                },
+            },
+            new RegistreerVerenigingRequest.Vertegenwoordiger
+            {
+                Insz = InszTestSet.Insz2,
+                Rol = "Master",
+                Roepnaam = "Lara",
+                PrimairContactpersoon = false,
+                ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                {
+                    new()
+                    {
+                        Email = "master@outlook.com",
+                        Telefoon = "9876543210",
+                        Website = "www.master.lara",
+                        SocialMedia = "#ScrumMaster",
+                    },
+                },
+            },
+        };
+
         _fixture.AdminApiClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
     }
 
@@ -114,44 +155,6 @@ public class With_All_Fields
     [Fact]
     public void Then_it_saves_the_events()
     {
-        var vertegenwoordigers = new[]
-            {
-                new RegistreerVerenigingRequest.Vertegenwoordiger
-                {
-                    Insz = InszTestSet.Insz1,
-                    Rol = "Voorzitter, Hoofdcoach",
-                    Roepnaam = "QTPY",
-                    PrimairContactpersoon = true,
-                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
-                    {
-                        new()
-                        {
-                            Contactnaam = "Algemeen",
-                            Email = "qtpy@outlook.com",
-                            Telefoon = "0123456789",
-                            Website = "www.qt.py",
-                            SocialMedia = "#QTPy",
-                        },
-                    },
-                },
-                new RegistreerVerenigingRequest.Vertegenwoordiger
-                {
-                    Insz = InszTestSet.Insz2,
-                    Rol = "Master",
-                    Roepnaam = "Lara",
-                    PrimairContactpersoon = false,
-                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
-                    {
-                        new()
-                        {
-                            Email = "master@outlook.com",
-                            Telefoon = "9876543210",
-                            Website = "www.master.lara",
-                            SocialMedia = "#ScrumMaster",
-                        },
-                    },
-                },
-            };
         using var session = _fixture.DocumentStore
             .LightweightSession();
 
@@ -167,6 +170,6 @@ public class With_All_Fields
         savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(_request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(_request.Locaties[0]);
-        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(vertegenwoordigers);
+        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(_vertegenwoordigers);
     }
 }
