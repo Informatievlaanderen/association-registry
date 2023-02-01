@@ -26,9 +26,9 @@ public class When_Retrieving_Detail
     public When_Retrieving_Detail(GivenEventsFixture fixture)
     {
         _adminApiClient = fixture.AdminApiClient;
-        _vCode = fixture.VerenigingWerdGeregistreerdScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdScenario.VerenigingWerdGeregistreerd;
-        _result = fixture.VerenigingWerdGeregistreerdScenario.Result;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VCode;
+        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VerenigingWerdGeregistreerd;
+        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.Result;
         _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

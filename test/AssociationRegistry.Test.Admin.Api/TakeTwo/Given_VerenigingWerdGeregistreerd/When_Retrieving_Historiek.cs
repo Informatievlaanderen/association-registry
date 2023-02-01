@@ -23,10 +23,10 @@ public class When_Retrieving_Historiek
 
     public When_Retrieving_Historiek(GivenEventsFixture fixture)
     {
-        _vCode = fixture.VerenigingWerdGeregistreerdScenario.VCode;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VCode;
         _adminApiClient = fixture.AdminApiClient;
-        _metadata = fixture.VerenigingWerdGeregistreerdScenario.Metadata;
-        _result = fixture.VerenigingWerdGeregistreerdScenario.Result;
+        _metadata = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.Metadata;
+        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.Result;
         _response = fixture.AdminApiClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
     }
 
