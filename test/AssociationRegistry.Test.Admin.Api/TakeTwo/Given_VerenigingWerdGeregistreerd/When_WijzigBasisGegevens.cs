@@ -21,7 +21,7 @@ public class When_WijzigBasisGegevens
     public When_WijzigBasisGegevens(GivenEventsFixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VerenigingWerdGeregistreerdScenario.VCode;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VCode;
         const string jsonBody = $@"{{
             ""naam"":""{NieuweVerenigingsNaam}"",
             ""korteNaam"":""{NieuweKorteNaam}"",

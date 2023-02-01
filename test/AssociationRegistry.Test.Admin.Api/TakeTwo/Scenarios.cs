@@ -14,12 +14,12 @@ public interface IScenario
     CommandMetadata GetCommandMetadata();
 }
 
-public class VerenigingWerdGeregistreerdScenario : IScenario
+public class VerenigingWerdGeregistreerd_WithAllFields_Scenario : IScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerdScenario()
+    public VerenigingWerdGeregistreerd_WithAllFields_Scenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001001";
@@ -38,12 +38,12 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         => Metadata;
 }
 
-public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
+public class VerenigingWerdGeregistreerd_WithMinimalFields_Scenario : IScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerdWithMinimalFieldsScenario()
+    public VerenigingWerdGeregistreerd_WithMinimalFields_Scenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001002";
@@ -72,7 +72,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
         => Metadata;
 }
 
-public class AlleBasisGegevensWerdenGewijzigdScenario : IScenario
+public class AlleBasisGegevensWerdenGewijzigd_Scenario : IScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
@@ -80,7 +80,7 @@ public class AlleBasisGegevensWerdenGewijzigdScenario : IScenario
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
-    public AlleBasisGegevensWerdenGewijzigdScenario()
+    public AlleBasisGegevensWerdenGewijzigd_Scenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001003";
