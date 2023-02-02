@@ -1,23 +1,16 @@
 ﻿namespace AssociationRegistry.Magda;
 
-using ContactInfo;
 using INSZ;
-using Vereniging.RegistreerVereniging;
-using Vertegenwoordigers;
 
 public class StaticMagdaFacade : IMagdaFacade
 {
-    public Task<IEnumerable<Vertegenwoordiger>?> GetVertegenwoordigers(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers, CancellationToken token = default)
+    public Task<MagdaPersoon> GetByInsz(Insz insz, CancellationToken cancellationToken = default)
         => Task.FromResult(
-            vertegenwoordigers?.Select(
-                v => Vertegenwoordiger.Create(
-                    Insz.Create(v.Insz),
-                    v.PrimairContactpersoon,
-                    v.Roepnaam,
-                    v.Rol,
-                    "Jhon",
-                    "Doo",
-                    ContactLijst.Create(v.ContactInfoLijst))
-            )
-        );
+            new MagdaPersoon
+            {
+                Insz = insz,
+                Voornaam = "Jhon",
+                Achternaam = "Doo",
+                IsOverleden = true,
+            });
 }

@@ -2,6 +2,7 @@
 
 using ContactInfo;
 using Framework;
+using INSZ;
 using KboNummers;
 using Locaties;
 using Magda;
@@ -34,7 +35,10 @@ public class RegistreerVerenigingCommandHandler
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
 
-        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(await _magdaFacade.GetVertegenwoordigers(command.Vertegenwoordigers, cancellationToken));
+        var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
+
+        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(
+            await ToVertegenwoordigers(vertegenwoordigerService, command.Vertegenwoordigers));
 
         var vCode = await _vCodeService.GetNext();
 
@@ -52,6 +56,27 @@ public class RegistreerVerenigingCommandHandler
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return CommandResult.Create(vCode, result);
+    }
+
+    private static async Task<IEnumerable<Vertegenwoordiger>?> ToVertegenwoordigers(VertegenwoordigerService vertegenwoordigerService, IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers)
+    {
+        if (vertegenwoordigers is null) return null;
+
+        var result = new List<Vertegenwoordiger>();
+
+        foreach (var v in vertegenwoordigers)
+        {
+            result.Add(
+                await vertegenwoordigerService.CreateVertegenwoordiger(
+                    Insz.Create(v.Insz),
+                    v.PrimairContactpersoon,
+                    v.Roepnaam,
+                    v.Rol,
+                    ContactLijst.Create(v.ContactInfoLijst))
+            );
+        }
+
+        return result;
     }
 
     private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
