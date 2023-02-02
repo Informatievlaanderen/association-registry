@@ -2,14 +2,15 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using AutoFixture;
 using FluentAssertions;
 using NodaTime.Extensions;
 using Xunit;
 
+//TODO Move to TakeTwo as soon as we have a solution for one call with multiple tests in test class
 //TODO rework into controller test
 public class With_The_Same_Naam_Fixture : AdminApiFixture
 {

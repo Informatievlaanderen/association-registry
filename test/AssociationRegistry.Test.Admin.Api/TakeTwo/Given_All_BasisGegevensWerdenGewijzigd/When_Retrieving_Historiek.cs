@@ -2,7 +2,7 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
 using Framework;
@@ -21,12 +21,12 @@ public class When_Retrieving_Historiek
     private readonly HttpResponseMessage _response;
     private readonly CommandMetadata _metadata;
 
-    public When_Retrieving_Historiek(GivenEventsFixture fixture)
+    public When_Retrieving_Historiek(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdScenario.VCode;
+        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
         _adminApiClient = fixture.AdminApiClient;
-        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdScenario.Metadata;
-        _result = fixture.AlleBasisGegevensWerdenGewijzigdScenario.Result;
+        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
+        _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
         _response = fixture.AdminApiClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
     }
 

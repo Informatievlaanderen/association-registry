@@ -5,6 +5,7 @@ using Fixtures;
 using FluentAssertions;
 using Xunit;
 
+//TODO Move to TakeTwo as soon as we have a solution for one call with multiple tests in test class
 public class Given_A_Valid_Request_With_Empty_KboNumber_Fixture : JsonRequestAdminApiFixture
 {
     public Given_A_Valid_Request_With_Empty_KboNumber_Fixture() : base(

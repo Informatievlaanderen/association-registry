@@ -3,17 +3,18 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.VCodes;
+using Fixtures;
+using Framework;
+using VCodes;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
+//TODO Move to TakeTwo as soon as we have a solution for one call with multiple tests in test class
 //TODO rework into controller test
 public class With_A_Matching_ETag_Fixture : AdminApiFixture
 {

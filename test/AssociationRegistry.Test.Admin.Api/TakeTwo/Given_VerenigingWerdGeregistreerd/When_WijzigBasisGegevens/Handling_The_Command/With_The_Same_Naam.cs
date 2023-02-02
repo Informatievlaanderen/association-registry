@@ -1,24 +1,25 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler.Given_A_VerenigingWerdGeregistreerd.When_WijzigBasisgegevens;
+﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens.Handling_The_Command;
 
 using EventStore;
 using AssociationRegistry.Framework;
+using VCodes;
+using Vereniging;
 using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
-using Scenarios;
-using VCodes;
-using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
-public class With_The_Same_Naam : IClassFixture<Given_A_Scenario_CommandHandlerFixture<VerenigingWerdGeregistreedScenario>>
+[UnitTest]
+public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario>>
 {
     private readonly Mock<IVerenigingsRepository> _verenigingRepositoryMock;
     private readonly CommandResult _result;
     private readonly CommandMetadata _commandMetadata;
-    private readonly Given_A_Scenario_CommandHandlerFixture<VerenigingWerdGeregistreedScenario> _classfixure;
+    private readonly CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> _classfixure;
 
-    public With_The_Same_Naam(Given_A_Scenario_CommandHandlerFixture<VerenigingWerdGeregistreedScenario> classFixture)
+    public With_The_Same_Naam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
         _classfixure = classFixture;

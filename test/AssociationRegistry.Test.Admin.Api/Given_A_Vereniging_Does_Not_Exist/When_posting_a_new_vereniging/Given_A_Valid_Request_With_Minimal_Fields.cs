@@ -10,6 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
+//TODO Move to TakeTwo as soon as we have a solution for one call with multiple tests in test class
 public class Given_A_Valid_Request_With_Minimal_Fields_Fixture : AdminApiFixture
 {
     private readonly Fixture _fixture = new();

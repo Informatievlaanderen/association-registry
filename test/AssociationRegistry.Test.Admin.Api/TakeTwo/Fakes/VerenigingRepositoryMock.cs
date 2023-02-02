@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.CommandHandler;
+﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Fakes;
 
-using EventStore;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.VCodes;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
-using global::AssociationRegistry.Framework;
-using VCodes;
-using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {

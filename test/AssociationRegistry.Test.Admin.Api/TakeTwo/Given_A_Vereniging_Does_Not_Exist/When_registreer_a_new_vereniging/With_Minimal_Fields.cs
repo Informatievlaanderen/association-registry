@@ -11,12 +11,12 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_A_Valid_Request_With_Minimal_Fields
+public class With_Minimal_Fields
 {
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
 
-    public Given_A_Valid_Request_With_Minimal_Fields(GivenEventsFixture fixture)
+    public With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         _request = new RegistreerVerenigingRequest
