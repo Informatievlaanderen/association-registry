@@ -5,13 +5,11 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using ContactInfo;
 using Framework;
 using INSZ;
 using Magda;
 using Moq;
 using Scenarios;
-using Vertegenwoordigers;
 using Xunit;
 
 public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixture<EmptyScenario>>
@@ -29,7 +27,7 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
     private readonly InMemorySequentialVCodeService _vCodeService;
-    private readonly Vertegenwoordiger _magdaVertegenwoordiger;
+    private readonly MagdaPersoon _magdaPersoon;
 
     public With_All_Fields(Given_A_Scenario_CommandHandlerFixture<EmptyScenario> classFixture)
     {
@@ -55,26 +53,16 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
             new[] { Locatie },
             vertegenwoordigers);
 
-        _magdaVertegenwoordiger = Vertegenwoordigers.Vertegenwoordiger.Create(
-            Insz.Create(Vertegenwoordiger.Insz),
-            Vertegenwoordiger.PrimairContactpersoon,
-            Vertegenwoordiger.Roepnaam,
-            Vertegenwoordiger.Rol,
-            "Thor",
-            "Odinson",
-            ContactLijst.Create(
-                new[]
-                {
-                    VertegenwoordigerContactInfo,
-                }));
-        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(
-            new[]
-            {
-                _magdaVertegenwoordiger,
-            });
+        _magdaPersoon = new MagdaPersoon
+        {
+            Insz = Insz.Create(Vertegenwoordiger.Insz),
+            Voornaam = "Thor",
+            Achternaam = "Odinson",
+            IsOverleden = false,
+        };
         magdaFacade
-            .Setup(facade => facade.GetVertegenwoordigers(vertegenwoordigers, It.IsAny<CancellationToken>()))
-            .ReturnsAsync(vertegenwoordigersLijst);
+            .Setup(facade => facade.GetByInsz(It.Is<Insz>(insz => string.Equals(insz.ToString(), InszTestSet.Insz1)), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_magdaPersoon);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, clock);
@@ -122,11 +110,11 @@ public class With_All_Fields : IClassFixture<Given_A_Scenario_CommandHandlerFixt
                 {
                     new VerenigingWerdGeregistreerd.Vertegenwoordiger(
                         InszTestSet.Insz1,
-                        _magdaVertegenwoordiger.PrimairContactpersoon,
-                        _magdaVertegenwoordiger.Roepnaam,
-                        _magdaVertegenwoordiger.Rol,
-                        _magdaVertegenwoordiger.Voornaam,
-                        _magdaVertegenwoordiger.Achternaam,
+                        Vertegenwoordiger.PrimairContactpersoon,
+                        Vertegenwoordiger.Roepnaam,
+                        Vertegenwoordiger.Rol,
+                        _magdaPersoon.Voornaam,
+                        _magdaPersoon.Achternaam,
                         new[]
                         {
                             new VerenigingWerdGeregistreerd.ContactInfo(
