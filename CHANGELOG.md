@@ -1,3 +1,10 @@
+# [1.115.0](https://github.com/informatievlaanderen/association-registry/compare/v1.114.1...v1.115.0) (2023-02-02)
+
+
+### Features
+
+* or-1576 add vertegenwoordiger domain service ([c7977e5](https://github.com/informatievlaanderen/association-registry/commit/c7977e50eff5c3cf32a4c05aee93f6c5acd445e1))
+
 ## [1.114.1](https://github.com/informatievlaanderen/association-registry/compare/v1.114.0...v1.114.1) (2023-02-01)
 
 
