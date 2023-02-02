@@ -5,6 +5,7 @@ using Exceptions;
 using INSZ;
 using Magda;
 using Magda.Exceptions;
+using Vereniging;
 using Vereniging.RegistreerVereniging;
 
 public class VertegenwoordigerService
@@ -16,18 +17,31 @@ public class VertegenwoordigerService
         _magdaFacade = magdaFacade;
     }
 
-    public async Task<Vertegenwoordiger> CreateVertegenwoordiger(
-        Insz insz,
-        bool primairContactpersoon,
-        string? roepnaam,
-        string? rol,
-        ContactLijst contactLijst)
+    public async Task<VertegenwoordigersLijst> GetVertegenwoordigersLijst(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers)
     {
-        var magdaPersoon = await TryGetByInsz(insz);
-        return Vertegenwoordiger.Create(insz, primairContactpersoon, roepnaam, rol, magdaPersoon.Voornaam, magdaPersoon.Achternaam, contactLijst);
+        if (vertegenwoordigers is null) return VertegenwoordigersLijst.Empty;
+
+        var expandedVertegenwoordigers = new List<Vertegenwoordiger>();
+
+        foreach (var vert in vertegenwoordigers)
+        {
+            expandedVertegenwoordigers.Add(await GetVertegenwoordiger(vert));
+        }
+
+        return VertegenwoordigersLijst.Create(expandedVertegenwoordigers);
     }
 
-    private async Task<MagdaPersoon> TryGetByInsz(Insz insz)
+    private async Task<Vertegenwoordiger> GetVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vertegenwoordiger)
+    {
+        var insz = Insz.Create(vertegenwoordiger.Insz);
+        var contactLijst = ContactLijst.Create(vertegenwoordiger.ContactInfoLijst);
+
+        var magdaPersoon = await TryGetMagdaPersoon(insz);
+
+        return Vertegenwoordiger.Create(insz, vertegenwoordiger.PrimairContactpersoon, vertegenwoordiger.Roepnaam, vertegenwoordiger.Rol, magdaPersoon.Voornaam, magdaPersoon.Achternaam, contactLijst);
+    }
+
+    private async Task<MagdaPersoon> TryGetMagdaPersoon(Insz insz)
     {
         try
         {
