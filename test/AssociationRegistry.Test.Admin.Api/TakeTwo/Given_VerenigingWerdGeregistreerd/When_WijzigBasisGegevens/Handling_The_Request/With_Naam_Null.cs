@@ -1,17 +1,20 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Controllers.Given_A_WijzigBasisgegevensController;
+﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens.Handling_The_Request;
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using Fakes;
 using FluentValidation;
 using Xunit;
+using Xunit.Categories;
 
-public class When_Patching_A_Request_With_Naam_Null
+[UnitTest]
+public class With_Naam_Null
 {
     private readonly WijzigBasisgegevensController _controller;
     private readonly WijzigBasisgegevensRequest _requestWithNaamNull = new() {Initiator = "OVO000001", Naam = null};
     private const string VCode = "V0001001";
 
-    public When_Patching_A_Request_With_Naam_Null()
+    public With_Naam_Null()
     {
         var messageBusMock = new MessageBusMock();
         _controller = new WijzigBasisgegevensController(messageBusMock, new AppSettings());

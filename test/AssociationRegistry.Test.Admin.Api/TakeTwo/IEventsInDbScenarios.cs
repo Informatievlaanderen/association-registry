@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.TakeTwo;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework;
 
-public interface IScenario
+public interface IEventsInDbScenario
 {
     string VCode { get; set; }
     StreamActionResult Result { get; set; }
@@ -14,12 +14,12 @@ public interface IScenario
     CommandMetadata GetCommandMetadata();
 }
 
-public class VerenigingWerdGeregistreerd_WithAllFields_Scenario : IScenario
+public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerd_WithAllFields_Scenario()
+    public VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001001";
@@ -38,12 +38,12 @@ public class VerenigingWerdGeregistreerd_WithAllFields_Scenario : IScenario
         => Metadata;
 }
 
-public class VerenigingWerdGeregistreerd_WithMinimalFields_Scenario : IScenario
+public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerd_WithMinimalFields_Scenario()
+    public VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001002";
@@ -72,7 +72,7 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_Scenario : IScenario
         => Metadata;
 }
 
-public class AlleBasisGegevensWerdenGewijzigd_Scenario : IScenario
+public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
@@ -80,7 +80,7 @@ public class AlleBasisGegevensWerdenGewijzigd_Scenario : IScenario
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
-    public AlleBasisGegevensWerdenGewijzigd_Scenario()
+    public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001003";

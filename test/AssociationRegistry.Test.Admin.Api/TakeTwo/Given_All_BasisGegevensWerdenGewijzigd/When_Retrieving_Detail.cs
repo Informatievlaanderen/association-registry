@@ -4,7 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
 using Framework;
@@ -28,16 +28,16 @@ public class When_Retrieving_Detail
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
 
-    public When_Retrieving_Detail(GivenEventsFixture fixture)
+    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdScenario.VCode;
+        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
         _adminApiClient = fixture.AdminApiClient;
-        _verenigingWerdGeregistreerd = fixture.AlleBasisGegevensWerdenGewijzigdScenario.VerenigingWerdGeregistreerd;
-        _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdScenario.NaamWerdGewijzigd;
-        _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdScenario.KorteNaamWerdGewijzigd;
-        _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdScenario.KorteBeschrijvingWerdGewijzigd;
-        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdScenario.Metadata;
-        _result = fixture.AlleBasisGegevensWerdenGewijzigdScenario.Result;
+        _verenigingWerdGeregistreerd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VerenigingWerdGeregistreerd;
+        _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
+        _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
+        _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
+        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
+        _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
         _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

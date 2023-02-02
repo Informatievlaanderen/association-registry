@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.TakeTwo.When_storing_an_event;
+namespace AssociationRegistry.Test.Admin.Api.TakeTwo.When_Storing_An_Event;
 
 using EventStore;
 using AssociationRegistry.Framework;
@@ -15,9 +15,9 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_An_Event
 {
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
 
-    public Given_An_Event(GivenEventsFixture fixture)
+    public Given_An_Event(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }

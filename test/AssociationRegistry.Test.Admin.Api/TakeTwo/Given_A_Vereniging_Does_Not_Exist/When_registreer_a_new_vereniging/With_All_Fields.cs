@@ -15,11 +15,11 @@ using Xunit.Categories;
 [IntegrationTest]
 public class With_All_Fields
 {
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
     private readonly RegistreerVerenigingRequest _request;
     private readonly RegistreerVerenigingRequest.Vertegenwoordiger[] _vertegenwoordigers;
 
-    public With_All_Fields(GivenEventsFixture fixture)
+    public With_All_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         var autoFixture = new Fixture();

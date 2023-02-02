@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Xunit;
 using AppSettings = global::AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings.AppSettings;
 
+//TODO Move to TakeTwo as soon as we have a solution for one call with multiple tests in test class
 public class Given_A_Valid_Request_With_All_Fields_Fixture : AdminApiFixture
 {
     public RegistreerVerenigingRequest Request { get; }

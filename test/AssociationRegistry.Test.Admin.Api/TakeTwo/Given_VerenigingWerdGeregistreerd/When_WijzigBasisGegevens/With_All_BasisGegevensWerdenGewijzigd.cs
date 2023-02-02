@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd;
+﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens;
 
 using System.Net;
-using Events;
+using AssociationRegistry.Events;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -9,19 +9,19 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_WijzigBasisGegevens
+public class With_All_BasisGegevensWerdenGewijzigd
 {
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
     private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
     private const string NieuweKorteNaam = "De nieuwe korte naam";
     private const string NieuweKorteBeschrijving = "De nieuwe korte beschrijving";
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
 
-    public When_WijzigBasisGegevens(GivenEventsFixture fixture)
+    public With_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VCode;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         const string jsonBody = $@"{{
             ""naam"":""{NieuweVerenigingsNaam}"",
             ""korteNaam"":""{NieuweKorteNaam}"",

@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.EventStore;
+using EventStore;
 using Events;
 using Fixtures;
 using Framework;
@@ -23,12 +23,12 @@ public class When_Retrieving_Detail
     private readonly HttpResponseMessage _response;
     private readonly StreamActionResult _result;
 
-    public When_Retrieving_Detail(GivenEventsFixture fixture)
+    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
         _adminApiClient = fixture.AdminApiClient;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.VerenigingWerdGeregistreerd;
-        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsScenario.Result;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
+        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
+        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Result;
         _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

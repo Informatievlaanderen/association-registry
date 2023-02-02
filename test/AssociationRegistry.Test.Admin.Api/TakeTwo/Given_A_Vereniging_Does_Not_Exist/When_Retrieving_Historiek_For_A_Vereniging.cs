@@ -13,7 +13,7 @@ public class When_Retrieving_Historiek_For_A_Vereniging
     private const string VCode = "V9999999";
     private readonly HttpResponseMessage _response;
 
-    public When_Retrieving_Historiek_For_A_Vereniging(GivenEventsFixture fixture)
+    public When_Retrieving_Historiek_For_A_Vereniging(EventsInDbScenariosFixture fixture)
     {
         _response = fixture.AdminApiClient.GetHistoriek(VCode).GetAwaiter().GetResult();
     }

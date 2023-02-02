@@ -1,10 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_A_Vereniging_Does_Not_Exist;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.VCodes;
-using AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -18,7 +14,7 @@ public class When_WijzigBasisGegevens
     private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
     private readonly HttpResponseMessage _response;
 
-    public When_WijzigBasisGegevens(GivenEventsFixture fixture)
+    public When_WijzigBasisGegevens(EventsInDbScenariosFixture fixture)
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
         _response = fixture.AdminApiClient.PatchVereniging(VCodes.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();

@@ -17,22 +17,22 @@ public class When_Retrieving_Detail
 {
     private readonly string _vCode;
     private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
     private readonly AdminApiClient _adminApiClient;
     private readonly HttpResponseMessage _response;
 
-    public When_Retrieving_Detail(GivenEventsFixture fixture)
+    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsScenario.VerenigingWerdGeregistreerd;
+        _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VCode;
+        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
         _adminApiClient = fixture.AdminApiClient;
         _response = fixture.AdminApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.VerenigingWerdGeregistreerdWithMinimalFieldsScenario.Result.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.Result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
