@@ -17,7 +17,7 @@ public class When_WijzigBasisGegevens
     public When_WijzigBasisGegevens(EventsInDbScenariosFixture fixture)
     {
         var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
-        _response = fixture.AdminApiClient.PatchVereniging(VCodes.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.PatchVereniging(VCodes.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();
     }
 
     [Fact]

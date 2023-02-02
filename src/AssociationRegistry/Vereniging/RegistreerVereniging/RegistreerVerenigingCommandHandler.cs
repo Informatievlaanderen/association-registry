@@ -2,7 +2,6 @@
 
 using ContactInfo;
 using Framework;
-using INSZ;
 using KboNummers;
 using Locaties;
 using Magda;

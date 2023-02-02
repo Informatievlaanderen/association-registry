@@ -136,7 +136,7 @@ public class With_All_Fields
             },
         };
 
-        _fixture.AdminApiClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
+        _fixture.DefaultClient.RegistreerVereniging(GetJsonBody(_request)).GetAwaiter().GetResult();
     }
 
     private string GetJsonBody(RegistreerVerenigingRequest request)
