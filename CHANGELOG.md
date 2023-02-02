@@ -1,3 +1,11 @@
+# [1.116.0](https://github.com/informatievlaanderen/association-registry/compare/v1.115.0...v1.116.0) (2023-02-02)
+
+
+### Features
+
+* or-1364 reabse to main ([8f619bf](https://github.com/informatievlaanderen/association-registry/commit/8f619bf2b95dc013401cafe4192220bf29a395de))
+* or-1364 require authorization for admin api ([fa99fdc](https://github.com/informatievlaanderen/association-registry/commit/fa99fdca0a6d75e6c616825faab9ece146ca1495))
+
 # [1.115.0](https://github.com/informatievlaanderen/association-registry/compare/v1.114.1...v1.115.0) (2023-02-02)
 
 
