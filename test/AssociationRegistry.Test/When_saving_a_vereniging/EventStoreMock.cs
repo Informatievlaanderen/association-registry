@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_saving_a_vereniging;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 
 public class EventStoreMock : IEventStore

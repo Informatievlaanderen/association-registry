@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Events;
+using Events;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

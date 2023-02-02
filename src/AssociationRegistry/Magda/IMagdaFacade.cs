@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Magda;
 
 using INSZ;
-using Vereniging.RegistreerVereniging;
-using Vertegenwoordigers;
 
 public interface IMagdaFacade
 {

@@ -15,7 +15,7 @@ public class When_Retrieving_Historiek_For_A_Vereniging
 
     public When_Retrieving_Historiek_For_A_Vereniging(EventsInDbScenariosFixture fixture)
     {
-        _response = fixture.AdminApiClient.GetHistoriek(VCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetHistoriek(VCode).GetAwaiter().GetResult();
     }
 
     [Fact]

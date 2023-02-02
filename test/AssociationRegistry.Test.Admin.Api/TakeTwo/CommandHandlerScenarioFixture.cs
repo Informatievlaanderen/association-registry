@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo;
 
 using Vereniging;
-using CommandHandler;
 using VerenigingRepositoryMock = Fakes.VerenigingRepositoryMock;
 
 public class CommandHandlerScenarioFixture<TScenario> where TScenario: class, ICommandhandlerScenario, new()

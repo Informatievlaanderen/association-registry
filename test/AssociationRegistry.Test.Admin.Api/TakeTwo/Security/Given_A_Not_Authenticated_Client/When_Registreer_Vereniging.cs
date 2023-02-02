@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Security.Given_A_Secured_Api;
+namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Security.Given_A_Not_Authenticated_Client;
 
 using System.Net;
 using FluentAssertions;
@@ -7,9 +7,9 @@ using Xunit;
 [Collection(nameof(AdminApiCollection))]
 public class When_Registreer_Vereniging
 {
-    private readonly GivenEventsFixture _fixture;
+    private readonly EventsInDbScenariosFixture _fixture;
 
-    public When_Registreer_Vereniging(GivenEventsFixture fixture)
+    public When_Registreer_Vereniging(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }
