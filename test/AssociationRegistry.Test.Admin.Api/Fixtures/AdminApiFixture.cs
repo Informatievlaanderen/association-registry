@@ -37,6 +37,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public AdminApiClient AdminApiClient
         => new(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
 
+    public AdminApiClient UnauthenticatedClient
+        => new(_webApplicationFactory.CreateClient());
+
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
 
