@@ -13,6 +13,9 @@ public class AdminApiClient : IDisposable
         _httpClient = httpClient;
     }
 
+    public async Task<HttpResponseMessage> GetRoot()
+        => await _httpClient.GetAsync("");
+
     public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null)
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
 
@@ -31,7 +34,7 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
-    public async Task<HttpResponseMessage> GetDocs()
+    public async Task<HttpResponseMessage> GetDocsJson()
         => await _httpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
 
     private void SetIfMatchHeader(long? version)
