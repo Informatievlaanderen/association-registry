@@ -1,3 +1,10 @@
+## [1.116.1](https://github.com/informatievlaanderen/association-registry/compare/v1.116.0...v1.116.1) (2023-02-03)
+
+
+### Bug Fixes
+
+* or-1580 allow anonymous on root path ([3451d64](https://github.com/informatievlaanderen/association-registry/commit/3451d648bae3619e0419a6a6de32b62a9a492c7b))
+
 # [1.116.0](https://github.com/informatievlaanderen/association-registry/compare/v1.115.0...v1.116.0) (2023-02-02)
 
 
