@@ -27,7 +27,7 @@ public class EventStore : IEventStore
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
         try
         {
-            var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + 1, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
+            var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
 
             await session.SaveChangesAsync();
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
