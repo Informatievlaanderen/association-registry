@@ -1,3 +1,10 @@
+## [1.116.2](https://github.com/informatievlaanderen/association-registry/compare/v1.116.1...v1.116.2) (2023-02-07)
+
+
+### Bug Fixes
+
+* or-1591 expect version to be current + nr of events ([26ee4be](https://github.com/informatievlaanderen/association-registry/commit/26ee4be44534693ca368592b45c71ebb68e789a6))
+
 ## [1.116.1](https://github.com/informatievlaanderen/association-registry/compare/v1.116.0...v1.116.1) (2023-02-03)
 
 
