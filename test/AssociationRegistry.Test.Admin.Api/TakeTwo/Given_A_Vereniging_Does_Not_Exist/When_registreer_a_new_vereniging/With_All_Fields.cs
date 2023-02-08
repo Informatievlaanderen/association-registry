@@ -113,7 +113,8 @@ public sealed class When_RegistreerVereniging_WithAllFields {
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
-            .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties));
+            .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
+            .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers));
 }
 
 [Collection(nameof(AdminApiCollection))]
