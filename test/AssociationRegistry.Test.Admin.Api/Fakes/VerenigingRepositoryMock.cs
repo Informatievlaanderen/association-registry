@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.VCodes;
-using AssociationRegistry.Vereniging;
+using VCodes;
+using Vereniging;
 using FluentAssertions;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository

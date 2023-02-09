@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
 using System.Threading.Tasks;
-using AssociationRegistry.VCodes;
+using VCodes;
 
 public class InMemorySequentialVCodeService : IVCodeService
 {

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Storing_An_Event;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
 using FluentAssertions;

@@ -3,7 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Events;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Xunit;

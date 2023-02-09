@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.W
 
 using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Events;
+using Fixtures;
+using Framework;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using Xunit;
