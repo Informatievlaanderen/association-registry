@@ -18,16 +18,16 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using NodaTime;
 using Npgsql;
 using Polly;
 using Xunit;
-using Xunit.Sdk;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "a_";
+    private readonly string _identifier = "adminApiFixture";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
 
@@ -35,17 +35,16 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
 
     public AdminApiClient AdminApiClient
-        => new(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
+        => Clients.Authenticated;
 
     public AdminApiClient UnauthenticatedClient
-        => new(_webApplicationFactory.CreateClient());
+        => Clients.Unauthenticated;
 
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
 
-    protected AdminApiFixture(string identifier)
+    protected AdminApiFixture()
     {
-        _identifier += identifier.ToLowerInvariant();
         WaitFor.PostGreSQLToBecomeAvailable(
                 new NullLogger<AdminApiFixture>(),
                 GetConnectionString(GetConfiguration(), RootDatabase))
@@ -69,15 +68,40 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
                                 .AddJsonFile("appsettings.json", optional: true)
                                 .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(new []
-                                {
-                                    new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
-                                })
+                                .AddInMemoryCollection(
+                                    new[]
+                                    {
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                    })
                     );
                 });
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+        Clients = new Clients(
+            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
+                .Get<OAuth2IntrospectionOptions>(),
+            _webApplicationFactory.CreateClient);
+    }
+
+    public Clients Clients { get; }
+
+    public AdminApiClient DefaultClient
+        => Clients.Authenticated;
+
+    public async Task InitializeAsync()
+        => await Given();
+
+    public virtual Task DisposeAsync()
+        => Task.CompletedTask;
+
+
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+        Clients.SafeDispose();
+        _webApplicationFactory.SafeDispose();
+        DropDatabase();
     }
 
     private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
@@ -94,13 +118,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                             .CheckAgainstPgDatabase()
                             .WithOwner(postgreSqlOptionsSection.Username!);
                     });
-                options.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
+                options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
             });
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
         => $"host={postgreSqlOptionsSection.Host}:5432;" +
-           $"database=postgres;" +
+           "database=postgres;" +
            $"password={postgreSqlOptionsSection.Password};" +
            $"username={postgreSqlOptionsSection.Username}";
 
@@ -113,30 +137,35 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         return rootDirectory;
     }
 
-    protected async Task<StreamActionResult> AddEvent(string vCode, IEvent eventToAdd, CommandMetadata metadata)
+    protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        daemon.StartAllShards().GetAwaiter().GetResult();
+        if (!eventsToAdd.Any())
+            return StreamActionResult.Empty;
 
         if (DocumentStore is not { })
-            throw new NullException("DocumentStore cannot be null when adding an event");
+            throw new NullReferenceException("DocumentStore cannot be null when adding an event");
+
+        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        await daemon.StartAllShards();
+
+        if (daemon is not { })
+            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
         var eventStore = new EventStore(DocumentStore);
-        var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, eventToAdd);
+        var result = StreamActionResult.Empty;
+        foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, @event);
 
         var retry = Policy
             .Handle<Exception>()
-            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+            .WaitAndRetryAsync(retryCount: 3, i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
-            async () =>
-            {
-                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-            });
+            async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
 
         return result;
     }
-
 
     private IConfigurationRoot GetConfiguration()
     {
@@ -167,7 +196,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {GetConfiguration()["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
@@ -183,19 +212,49 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
+    protected abstract Task Given();
+}
+
+public class Clients : IDisposable
+{
+    private readonly Func<HttpClient> _createClientFunc;
+    private readonly OAuth2IntrospectionOptions _oAuth2IntrospectionOptions;
+
+    public Clients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
+    {
+        _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
+        _createClientFunc = createClientFunc;
+
+        Authenticated = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
+
+        Unauthenticated = new AdminApiClient(_createClientFunc());
+
+        Unauthorized = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
+    }
+
+    public AdminApiClient Authenticated { get; }
+
+    public AdminApiClient Unauthenticated { get; }
+
+    public AdminApiClient Unauthorized { get; }
+
+    public void Dispose()
+    {
+        Authenticated.SafeDispose();
+        Unauthenticated.SafeDispose();
+        Unauthorized.SafeDispose();
+    }
+
     private async Task<HttpClient> CreateMachine2MachineClientFor(
         string clientId,
         string scope,
         string clientSecret)
     {
-        var editApiConfiguration = GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
-            .Get<OAuth2IntrospectionOptions>();
-
         var tokenClient = new TokenClient(
             () => new HttpClient(),
             new TokenClientOptions
             {
-                Address = $"{editApiConfiguration.Authority}/connect/token",
+                Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
                 ClientId = clientId,
                 ClientSecret = clientSecret,
                 Parameters = new Parameters(
@@ -208,29 +267,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         var acmResponse = await tokenClient.RequestTokenAsync(OidcConstants.GrantTypes.ClientCredentials);
 
         var token = acmResponse.AccessToken;
-        var httpClientFor = _webApplicationFactory.CreateClient();
+        var httpClientFor = _createClientFunc();
         httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         return httpClientFor;
     }
-
-    public void Dispose()
-    {
-        GC.SuppressFinalize(this);
-        AdminApiClient.SafeDispose();
-        _webApplicationFactory.SafeDispose();
-        DropDatabase();
-    }
-
-    public async Task InitializeAsync()
-    {
-        await Given();
-        await When();
-    }
-
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
-
-    protected abstract Task Given();
-    protected abstract Task When();
 }
