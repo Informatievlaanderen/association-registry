@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using Scenarios;
 using VerenigingRepositoryMock = Fakes.VerenigingRepositoryMock;
 

@@ -2,10 +2,10 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Fixtures;
+using Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

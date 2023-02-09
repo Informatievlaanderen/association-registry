@@ -3,11 +3,11 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Fixtures;
+using Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

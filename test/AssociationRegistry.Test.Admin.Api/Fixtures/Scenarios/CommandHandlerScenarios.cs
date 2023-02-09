@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.VCodes;
+using VCodes;
 
 public interface ICommandhandlerScenario
 {

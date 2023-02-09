@@ -48,7 +48,7 @@ public class Given_Docs_Exist
         => Response.Should().HaveStatusCode(HttpStatusCode.OK);
 
     [Fact]
-    public void Then_it_has_paths()
+    public void Has_paths()
         => Docs!.Paths!.Count.Should().BePositive();
 
     [Fact]

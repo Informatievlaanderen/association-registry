@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 
 public interface IEventsInDbScenario
