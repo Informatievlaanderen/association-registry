@@ -9,20 +9,18 @@ using Xunit;
 using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_With_Missing_Naam {
-    private HttpResponseMessage? _response;
-
     private string GetJsonRequestBody()
         => GetType().GetAssociatedResourceJson("files.request.with_missing_naam");
-    private When_RegistreerVereniging_With_Missing_Naam()
+    private When_RegistreerVereniging_With_Missing_Naam(AdminApiFixture2 fixture)
     {
+        Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonRequestBody()).GetAwaiter().GetResult();
     }
 
     private static When_RegistreerVereniging_With_Missing_Naam? called;
-    public static When_RegistreerVereniging_With_Missing_Naam Called
-        => called ??= new When_RegistreerVereniging_With_Missing_Naam();
+    public static When_RegistreerVereniging_With_Missing_Naam Called(AdminApiFixture2 fixture)
+        => called ??= new When_RegistreerVereniging_With_Missing_Naam(fixture);
 
-    public HttpResponseMessage Response(AdminApiFixture2 fixture)
-        => _response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonRequestBody()).GetAwaiter().GetResult();
+    public HttpResponseMessage Response { get; }
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -36,7 +34,7 @@ public class With_Missing_Name
             .GetAssociatedResourceJson($"files.response.missing_name_error");
 
     private HttpResponseMessage Response
-        => When_RegistreerVereniging_With_Missing_Naam.Called.Response(_fixture);
+        => When_RegistreerVereniging_With_Missing_Naam.Called(_fixture).Response;
 
     public With_Missing_Name(EventsInDbScenariosFixture fixture)
     {

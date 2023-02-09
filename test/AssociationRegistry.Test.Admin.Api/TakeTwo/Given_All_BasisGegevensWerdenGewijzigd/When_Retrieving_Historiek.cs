@@ -42,7 +42,7 @@ public class When_Retrieving_Historiek
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(_vCode, _result.Sequence + 1))
+        => (await _adminApiClient.GetHistoriek(_vCode, _result.Sequence + 10))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

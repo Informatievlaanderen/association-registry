@@ -1,10 +1,53 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using Events;
 using FluentAssertions;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Categories;
+
+public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
+{
+    public readonly string VCode;
+    public readonly WijzigBasisgegevensRequest Request;
+
+    private When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd(EventsInDbScenariosFixture fixture)
+    {
+        const string nieuweVerenigingsNaam = "De nieuwe vereniging";
+        const string nieuweKorteNaam = "De nieuwe korte naam";
+        const string nieuweKorteBeschrijving = "De nieuwe korte beschrijving";
+        const string initiator = "OVO000001";
+
+        Request = new WijzigBasisgegevensRequest()
+        {
+            Naam = nieuweVerenigingsNaam,
+            KorteNaam = nieuweKorteNaam,
+            KorteBeschrijving = nieuweKorteBeschrijving,
+            Initiator = initiator,
+        };
+        VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
+
+        const string jsonBody = $@"{{
+            ""naam"":""{nieuweVerenigingsNaam}"",
+            ""korteNaam"":""{nieuweKorteNaam}"",
+            ""korteBeschrijving"":""{nieuweKorteBeschrijving}"",
+             ""Initiator"": ""OVO000001""}}";
+
+        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody).GetAwaiter().GetResult();
+    }
+
+    private static When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd? called;
+
+
+    public static When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd Called(EventsInDbScenariosFixture fixture)
+        => called ??= new When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd(fixture);
+
+    public HttpResponseMessage Response { get; }
+}
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
@@ -12,44 +55,61 @@ using Xunit.Categories;
 public class With_All_BasisGegevensWerdenGewijzigd
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
-    private const string NieuweKorteNaam = "De nieuwe korte naam";
-    private const string NieuweKorteBeschrijving = "De nieuwe korte beschrijving";
-    private readonly HttpResponseMessage _response;
-    private readonly string _vCode;
 
+    private WijzigBasisgegevensRequest Request
+        => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).Request;
+    private HttpResponseMessage Response
+        => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).Response;
+
+    private string VCode
+        => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).VCode;
     public With_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
-        const string jsonBody = $@"{{
-            ""naam"":""{NieuweVerenigingsNaam}"",
-            ""korteNaam"":""{NieuweKorteNaam}"",
-            ""korteBeschrijving"":""{NieuweKorteBeschrijving}"",
-             ""Initiator"": ""OVO000001""}}";
-        _response = fixture.DefaultClient.PatchVereniging(_vCode, jsonBody).GetAwaiter().GetResult();
     }
 
     [Fact]
     public void Then_it_saves_the_events()
     {
-        _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
         using var session = _fixture.DocumentStore
             .LightweightSession();
         var naamWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .Single(@event => @event.VCode == VCode);
         var korteNaamWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .Single(@event => @event.VCode == VCode);
         var korteBeschrijvingWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+            .Single(@event => @event.VCode == VCode);
 
 
-        naamWerdGewijzigd.Naam.Should().Be(NieuweVerenigingsNaam);
-        korteNaamWerdGewijzigd.KorteNaam.Should().Be(NieuweKorteNaam);
-        korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(NieuweKorteBeschrijving);
+        naamWerdGewijzigd.Naam.Should().Be(Request.Naam);
+        korteNaamWerdGewijzigd.KorteNaam.Should().Be(Request.KorteNaam);
+        korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
+    }
+
+    [Fact]
+    public void Then_it_returns_an_accepted_response()
+    {
+        Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+    }
+
+    [Fact]
+    public void Then_it_returns_a_location_header()
+    {
+        Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        Response.Headers.Location!.OriginalString.Should()
+            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+    }
+
+    [Fact]
+    public void Then_it_returns_a_sequence_header()
+    {
+        Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        var sequenceValues = Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
+        sequenceValues.Should().HaveCount(1);
+        var sequence = Convert.ToInt64(sequenceValues.Single());
+        sequence.Should().BeGreaterThan(0);
     }
 }
