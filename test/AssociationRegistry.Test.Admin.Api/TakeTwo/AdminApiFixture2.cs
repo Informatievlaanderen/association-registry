@@ -8,7 +8,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
-using Framework;
 using Framework.Helpers;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;

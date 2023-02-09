@@ -16,9 +16,8 @@ using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_WithAllFields {
     public readonly RegistreerVerenigingRequest Request;
-    private HttpResponseMessage? _response;
 
-    private When_RegistreerVereniging_WithAllFields()
+    private When_RegistreerVereniging_WithAllFields(AdminApiFixture2 fixture)
     {
         var autoFixture = new Fixture();
         Request = new RegistreerVerenigingRequest
@@ -94,14 +93,15 @@ public sealed class When_RegistreerVereniging_WithAllFields {
                 },
             },
         };
+
+        Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
     }
 
     private static When_RegistreerVereniging_WithAllFields? called;
-    public static When_RegistreerVereniging_WithAllFields Called
-        => called ??= new When_RegistreerVereniging_WithAllFields();
+    public static When_RegistreerVereniging_WithAllFields Called(AdminApiFixture2 fixture)
+        => called ??= new When_RegistreerVereniging_WithAllFields(fixture);
 
-    public HttpResponseMessage Response(AdminApiFixture2 fixture)
-        => _response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
+    public HttpResponseMessage Response { get; }
 
     private string GetJsonBody(RegistreerVerenigingRequest request)
         => GetType()
@@ -126,9 +126,9 @@ public class With_All_Fields
     private readonly RegistreerVerenigingRequest.Vertegenwoordiger[] _vertegenwoordigers;
 
     private RegistreerVerenigingRequest Request
-        => When_RegistreerVereniging_WithAllFields.Called.Request;
+        => When_RegistreerVereniging_WithAllFields.Called(_fixture).Request;
     private HttpResponseMessage Response
-        => When_RegistreerVereniging_WithAllFields.Called.Response(_fixture);
+        => When_RegistreerVereniging_WithAllFields.Called(_fixture).Response;
 
     public With_All_Fields(EventsInDbScenariosFixture fixture)
     {
@@ -196,7 +196,7 @@ public class With_All_Fields
     }
 
     [Fact]
-    public void Then_it_returns_an_accepted_response_with_correct_headers()
+    public void Then_it_returns_an_accepted_response()
     {
         Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }

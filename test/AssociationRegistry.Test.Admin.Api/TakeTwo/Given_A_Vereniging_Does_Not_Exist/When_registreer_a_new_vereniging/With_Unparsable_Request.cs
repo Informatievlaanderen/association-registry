@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.TakeTwo.Given_A_Vereniging_Does_Not_Exist.When_registreer_a_new_vereniging;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -10,20 +9,18 @@ using Xunit;
 using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_With_Unparsable_Request {
-    private HttpResponseMessage? _response;
-
     private string GetJsonRequestBody()
         => GetType().GetAssociatedResourceJson("files.request.with_unparsable_request");
-    private When_RegistreerVereniging_With_Unparsable_Request()
+    private When_RegistreerVereniging_With_Unparsable_Request(AdminApiFixture2 fixture)
     {
+        Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonRequestBody()).GetAwaiter().GetResult();
     }
 
     private static When_RegistreerVereniging_With_Unparsable_Request? called;
-    public static When_RegistreerVereniging_With_Unparsable_Request Called
-        => called ??= new When_RegistreerVereniging_With_Unparsable_Request();
+    public static When_RegistreerVereniging_With_Unparsable_Request Called(AdminApiFixture2 fixture)
+        => called ??= new When_RegistreerVereniging_With_Unparsable_Request(fixture);
 
-    public HttpResponseMessage Response(AdminApiFixture2 fixture)
-        => _response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonRequestBody()).GetAwaiter().GetResult();
+    public HttpResponseMessage Response { get; }
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -38,7 +35,7 @@ public class With_Unparsable_Request
             .GetAssociatedResourceJson($"files.response.unparsable");
 
     private HttpResponseMessage Response
-        => When_RegistreerVereniging_With_Unparsable_Request.Called.Response(_fixture);
+        => When_RegistreerVereniging_With_Unparsable_Request.Called(_fixture).Response;
 
     public With_Unparsable_Request(EventsInDbScenariosFixture fixture)
     {

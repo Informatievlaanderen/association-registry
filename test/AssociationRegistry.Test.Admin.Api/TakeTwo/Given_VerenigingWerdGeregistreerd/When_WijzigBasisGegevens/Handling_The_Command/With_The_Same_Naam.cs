@@ -40,8 +40,6 @@ public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<Ve
         _result = commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, _commandMetadata),
             _verenigingRepositoryMock.Object).GetAwaiter().GetResult();
-
-
     }
 
     [Fact]
@@ -54,7 +52,6 @@ public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<Ve
     public void Then_No_Event_Is_Saved()
     {
         _verenigingRepositoryMock.Verify(r => r.Save(It.Is<Vereniging>(v=>!v.UncommittedEvents.Any()), _commandMetadata), Times.Once);
-        //_classfixure.Vereniging.UncommittedEvents.Should().BeEmpty();
     }
 
     [Fact]
