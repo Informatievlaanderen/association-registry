@@ -24,7 +24,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<VCode>(
             customization => customization.FromFactory(
-                generator => VCode.Create(generator.Next(1000, 100000))));
+                generator => VCode.Create(generator.Next(10000, 100000))));
     }
 
     public static IPostprocessComposer<T> FromFactory<T>(this IFactoryComposer<T> composer, Func<Random, T> factory)

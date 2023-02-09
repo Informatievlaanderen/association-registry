@@ -27,7 +27,7 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
         var jsonBody = $@"{{""naam"":""{Request.Naam}"", ""Initiator"": ""{Request.Initiator}""}}";
 
         var saveVersionResult = fixture.VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario.Result;
-        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version -1).GetAwaiter().GetResult();
+        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version-1).GetAwaiter().GetResult();
     }
 
     private static When_WijzigBasisgegevens_With_A_NonMatching_ETag? called;

@@ -17,7 +17,7 @@ public class Empty_Commandhandler_Scenario : ICommandhandlerScenario
 
 public class VerenigingWerdGeregistreed_Commandhandler_Scenario : ICommandhandlerScenario
 {
-    public readonly VCode VCode = VCode.Create("V0001002");
+    public readonly VCode VCode = VCode.Create("V0009002");
 
     public readonly string Naam = "Hulste Huldigt";
     public readonly string? KorteBeschrijving = null;

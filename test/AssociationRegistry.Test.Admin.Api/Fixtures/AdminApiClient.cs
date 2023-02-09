@@ -39,8 +39,8 @@ public class AdminApiClient : IDisposable
 
     private void SetIfMatchHeader(long? version)
     {
-        if (version is null) _httpClient.DefaultRequestHeaders.Remove(HeaderNames.IfMatch);
-        else _httpClient.DefaultRequestHeaders.Add(HeaderNames.IfMatch, $"W/\"{version}\"");
+        _httpClient.DefaultRequestHeaders.Remove(HeaderNames.IfMatch);
+        if (version is not null)  _httpClient.DefaultRequestHeaders.Add(HeaderNames.IfMatch, $"W/\"{version}\"");
     }
 
     public void Dispose()
