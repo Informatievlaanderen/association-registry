@@ -1,0 +1,86 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens;
+
+using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Events;
+using Fixtures;
+using FluentAssertions;
+using Xunit;
+using Xunit.Categories;
+
+public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
+{
+    public readonly string VCode;
+    public readonly WijzigBasisgegevensRequest Request;
+    public readonly HttpResponseMessage Response;
+
+    private When_WijzigBasisgegevens_With_A_NonMatching_ETag(EventsInDbScenariosFixture fixture)
+    {
+        Request = new WijzigBasisgegevensRequest()
+        {
+            Naam = "De nieuwe vereniging",
+            Initiator = "OVO000001",
+        };
+        VCode = fixture.VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario.VCode;
+
+        var jsonBody = $@"{{""naam"":""{Request.Naam}"", ""Initiator"": ""{Request.Initiator}""}}";
+
+        var saveVersionResult = fixture.VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario.Result;
+        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version -1).GetAwaiter().GetResult();
+    }
+
+    private static When_WijzigBasisgegevens_With_A_NonMatching_ETag? called;
+
+    public static When_WijzigBasisgegevens_With_A_NonMatching_ETag Called(EventsInDbScenariosFixture fixture)
+        => called ??= new When_WijzigBasisgegevens_With_A_NonMatching_ETag(fixture);
+}
+
+[Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
+public class With_A_NonMatching_ETag
+{
+    private readonly EventsInDbScenariosFixture _fixture;
+
+    private HttpResponseMessage Response
+        => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).Response;
+
+    private string VCode
+        => When_WijzigBasisgegevens_With_A_NonMatching_ETag.Called(_fixture).VCode;
+
+    public With_A_NonMatching_ETag(EventsInDbScenariosFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
+    [Fact]
+    public void Then_it_returns_a_preconditionfailed_response()
+    {
+        Response.StatusCode.Should().Be(HttpStatusCode.PreconditionFailed);
+    }
+
+    [Fact]
+    public void Then_it_returns_no_location_header()
+    {
+        Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+    }
+
+    [Fact]
+    public void Then_it_returns_no_sequence_header()
+    {
+        Response.Headers.Should().NotContainKey(WellknownHeaderNames.Sequence);
+    }
+
+    [Fact]
+    public void Then_it_saves_no_events()
+    {
+        using var session = _fixture.DocumentStore
+            .LightweightSession();
+        var savedEvents = session.Events
+            .QueryRawEventDataOnly<NaamWerdGewijzigd>()
+            .SingleOrDefault(@event => @event.VCode == VCode);
+
+        savedEvents.Should().BeNull();
+    }
+}

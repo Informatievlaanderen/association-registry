@@ -1,0 +1,29 @@
+namespace AssociationRegistry.Test.Admin.Api.Given_A_Vereniging_Does_Not_Exist;
+
+using System.Net;
+using Fixtures;
+using FluentAssertions;
+using Xunit;
+using Xunit.Categories;
+
+[Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
+public class When_WijzigBasisGegevens
+{
+    private const string VCode = "V9999999";
+    private const string NieuweVerenigingsNaam = "De nieuwe vereniging";
+    private readonly HttpResponseMessage _response;
+
+    public When_WijzigBasisGegevens(EventsInDbScenariosFixture fixture)
+    {
+        var jsonBody = $@"{{""naam"":""{NieuweVerenigingsNaam}""}}";
+        _response = fixture.DefaultClient.PatchVereniging(VCodes.VCode.Create(VCode), jsonBody).GetAwaiter().GetResult();
+    }
+
+    [Fact]
+    public void Then_it_returns_a_bad_request_response()
+    {
+        _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
+}
