@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
+namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
-public record GetVerenigingenPerRijksregisternummerResponse(
+public record VerenigingenPerInszResponse(
     [property: DataMember] string Rijksregisternummer,
     [property: DataMember] ImmutableArray<Vereniging> Verenigingen);

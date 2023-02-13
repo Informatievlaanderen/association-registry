@@ -28,6 +28,7 @@ using Constants;
 using Destructurama;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -103,6 +104,7 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
+            .UseAuthentication()
             .UseAuthorization()
             .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
@@ -263,9 +265,16 @@ public class Program
     {
         var s3Options = new S3BlobClientOptions();
         builder.Configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-
+        var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
 
         builder.Services
+            .AddSingleton(postgreSqlOptionsSection)
+            .AddSingleton(
+                new AppSettings
+                {
+                    BaseUrl = builder.Configuration.GetBaseUrl(),
+                })
+            .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddS3(builder.Configuration)
             .AddBlobClients(s3Options)
             .AddDataCache()
@@ -371,22 +380,7 @@ public class Program
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
             .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks();
-
-        var connectionStrings = builder.Configuration
-            .GetSection("ConnectionStrings")
-            .GetChildren();
-
-        foreach (var connectionString in connectionStrings)
-            healthChecksBuilder.AddSqlServer(
-                connectionString.Value,
-                name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
-                tags: new[] { StartupConstants.DatabaseTag, "sql", "sqlserver" });
-
-        // health.AddDbContextCheck<LegacyContext>(
-        //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
-        //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
-
+        builder.Services.AddHealthChecks();
 
         builder.Services
             .AddLocalization(cfg => cfg.ResourcesPath = "Resources")

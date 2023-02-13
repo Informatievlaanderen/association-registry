@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
+namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using System.Runtime.Serialization;
 

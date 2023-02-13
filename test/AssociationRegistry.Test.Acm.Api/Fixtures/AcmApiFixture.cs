@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using System.Net.Http.Headers;
 using System.Reflection;
-using Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.Acm.Api.Constants;
 using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;

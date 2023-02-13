@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.Framework;
 
-using AssociationRegistry.VCodes;
+using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using NodaTime;

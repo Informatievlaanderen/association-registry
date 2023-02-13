@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Framework;

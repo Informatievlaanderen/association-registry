@@ -1,9 +1,8 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using Acm.Api.Constants;
-using Acm.Api.Infrastructure.ConfigurationBindings;
-using Acm.Api.Infrastructure.Json;
-using VCodes;
+using AssociationRegistry.Acm.Api.Constants;
+using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Acm.Api.Infrastructure.Json;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;

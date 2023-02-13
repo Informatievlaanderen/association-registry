@@ -3,7 +3,7 @@ namespace AssociationRegistry.Acm.Api.Caches;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using Api.VerenigingenPerRijksregisternummer;
+using VerenigingenPerInsz;
 
 public class VerenigingenPerRijksregisternummer
 {

@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer;
+namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using System.Threading;
-using Caches;
 using System.Threading.Tasks;
+using AssociationRegistry.Acm.Api.Caches;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
@@ -16,7 +16,7 @@ using Swashbuckle.AspNetCore.Filters;
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
-public class VerenigingenPerRijksregisternummerController : ApiController
+public class VerenigingenPerInszController : ApiController
 {
     /// <summary>
     /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
@@ -27,16 +27,16 @@ public class VerenigingenPerRijksregisternummerController : ApiController
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ProducesResponseType(typeof(GetVerenigingenPerRijksregisternummerResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(VerenigingenPerInszResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetVerenigingenResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
         [FromServices] IVerenigingenRepository verenigingenRepository,
         [FromQuery] string insz)
     {
         var verenigingen = verenigingenRepository.Verenigingen[insz];
-        return await Task.FromResult<IActionResult>(Ok(new GetVerenigingenPerRijksregisternummerResponse(insz, verenigingen)));
+        return await Task.FromResult<IActionResult>(Ok(new VerenigingenPerInszResponse(insz, verenigingen)));
     }
 
     [HttpPut]

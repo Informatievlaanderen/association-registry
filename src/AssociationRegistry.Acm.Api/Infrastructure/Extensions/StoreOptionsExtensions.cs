@@ -1,7 +1,6 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure;
+namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
 using Marten;
-using Marten.Events.Projections;
 
 public static class StoreOptionsExtensions
 {

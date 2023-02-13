@@ -1,11 +1,11 @@
+namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz.Examples;
+
 using System.Collections.Immutable;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace AssociationRegistry.Acm.Api.VerenigingenPerRijksregisternummer.Examples;
-
-public class GetVerenigingenResponseExamples : IExamplesProvider<GetVerenigingenPerRijksregisternummerResponse>
+public class VerenigingenResponseExamples : IExamplesProvider<VerenigingenPerInszResponse>
 {
-    public GetVerenigingenPerRijksregisternummerResponse GetExamples() =>
+    public VerenigingenPerInszResponse GetExamples() =>
         new(
             "12345678901",
             ImmutableArray.Create(
