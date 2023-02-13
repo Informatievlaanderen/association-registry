@@ -8,6 +8,16 @@ public class VerenigingenPerInszDocument
     public Vereniging[] Verenigingen { get; set; } = Array.Empty<Vereniging>();
 }
 
-public record Vereniging(
-    string VCode,
-    string Naam);
+public class Vereniging
+{
+    public Vereniging(
+        string VCode,
+        string Naam)
+    {
+        this.VCode = VCode;
+        this.Naam = Naam;
+    }
+
+    public string VCode { get; set; }
+    public string Naam { get; set; }
+}

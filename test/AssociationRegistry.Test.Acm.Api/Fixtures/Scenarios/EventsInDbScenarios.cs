@@ -131,6 +131,9 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
 
+    public string Insz
+        => VerenigingWerdGeregistreerd.Vertegenwoordigers![0].Insz;
+
     public IEvent[] GetEvents()
         => new IEvent[] { VerenigingWerdGeregistreerd, NaamWerdGewijzigd, KorteNaamWerdGewijzigd, KorteBeschrijvingWerdGewijzigd };
 
