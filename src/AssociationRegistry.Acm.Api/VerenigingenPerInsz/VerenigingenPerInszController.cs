@@ -1,15 +1,20 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
+using System;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AssociationRegistry.Acm.Api.Caches;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
+using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Schema.VerenigingenPerInsz;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
@@ -27,16 +32,23 @@ public class VerenigingenPerInszController : ApiController
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ProducesResponseType(typeof(VerenigingenPerInszResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(VerenigingenPerInszDocument), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
-        [FromServices] IVerenigingenRepository verenigingenRepository,
+        [FromServices] IDocumentStore documentStore,
         [FromQuery] string insz)
     {
-        var verenigingen = verenigingenRepository.Verenigingen[insz];
-        return await Task.FromResult<IActionResult>(Ok(new VerenigingenPerInszResponse(insz, verenigingen)));
+        await using var session = documentStore.LightweightSession();
+        var document = await session.Query<VerenigingenPerInszDocument>()
+            .Where(x => x.Insz.Equals(insz, StringComparison.CurrentCultureIgnoreCase))
+            .SingleOrDefaultAsync();
+
+        if (document is null)
+            return Ok(new VerenigingenPerInszDocument { Insz = insz });
+
+        return Ok(document);
     }
 
     [HttpPut]

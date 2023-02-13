@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Pu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Acm.Api", "test\AssociationRegistry.Test.Acm.Api\AssociationRegistry.Test.Acm.Api.csproj", "{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Acm.Schema", "src\AssociationRegistry.Acm.Schema\AssociationRegistry.Acm.Schema.csproj", "{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,10 @@ Global
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -143,5 +149,6 @@ Global
 		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F} = {C812C887-6495-405A-8B99-4F686D243126}
 		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1} = {C812C887-6495-405A-8B99-4F686D243126}
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7} = {C812C887-6495-405A-8B99-4F686D243126}
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal

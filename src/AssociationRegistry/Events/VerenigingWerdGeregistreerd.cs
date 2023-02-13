@@ -24,7 +24,7 @@ public record VerenigingWerdGeregistreerd(
     string? KboNummer,
     VerenigingWerdGeregistreerd.ContactInfo[]? ContactInfoLijst,
     VerenigingWerdGeregistreerd.Locatie[]? Locaties,
-    VerenigingWerdGeregistreerd.Vertegenwoordiger[]? Vertegenwoordigers) : IEvent
+    VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers) : IEvent
 {
     public record ContactInfo(
         string? Contactnaam,

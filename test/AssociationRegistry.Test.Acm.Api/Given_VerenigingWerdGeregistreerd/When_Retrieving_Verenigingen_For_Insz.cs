@@ -36,7 +36,7 @@ public class When_Retrieving_Verenigingen_For_Insz
             ""insz"":""{_scenario.Insz}"",
             ""verenigingen"":[
                 {{
-                    ""vcode"":""{_scenario.VerenigingWerdGeregistreerd.VCode}"",
+                    ""vCode"":""{_scenario.VerenigingWerdGeregistreerd.VCode}"",
                     ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}"",
                 }}
             ]
