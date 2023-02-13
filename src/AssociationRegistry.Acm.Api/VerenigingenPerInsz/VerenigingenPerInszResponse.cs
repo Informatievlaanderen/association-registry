@@ -5,5 +5,5 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record VerenigingenPerInszResponse(
-    [property: DataMember] string Rijksregisternummer,
+    [property: DataMember] string Insz,
     [property: DataMember] ImmutableArray<Vereniging> Verenigingen);

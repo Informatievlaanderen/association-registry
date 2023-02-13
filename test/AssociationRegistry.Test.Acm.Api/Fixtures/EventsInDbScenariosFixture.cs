@@ -4,7 +4,7 @@ using Scenarios;
 
 public class EventsInDbScenariosFixture : AcmApiFixture
 {
-    // public readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
+    public readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
     // public readonly VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario = new();
     // public readonly VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario = new();
     // public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
@@ -14,7 +14,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     {
         var scenarios = new IEventsInDbScenario[]
         {
-            // VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
+            VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
             // VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario,
             // VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario,
             // AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
