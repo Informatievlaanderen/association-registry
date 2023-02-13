@@ -122,6 +122,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001004";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingWerdGeregistreerd = VerenigingWerdGeregistreerd with { Vertegenwoordigers = VerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };

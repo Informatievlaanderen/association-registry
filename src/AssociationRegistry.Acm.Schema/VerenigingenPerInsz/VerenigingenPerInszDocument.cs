@@ -5,7 +5,7 @@ using Marten.Schema;
 public class VerenigingenPerInszDocument
 {
     [Identity] public string Insz { get; set; } = null!;
-    public Vereniging[] Verenigingen { get; set; } = Array.Empty<Vereniging>();
+    public List<Vereniging> Verenigingen { get; set; } = new();
 }
 
 public class Vereniging
