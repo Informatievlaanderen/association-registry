@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Acm.Api.Extensions;
+﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
+
 using System;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.S3;
-using Caches;
-using S3;
+using AssociationRegistry.Acm.Api.Caches;
+using AssociationRegistry.Acm.Api.S3;
 using Be.Vlaanderen.Basisregisters.BlobStore.Aws;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 public static class ServiceCollectionExtensions
 {
+    [Obsolete]
     public static IServiceCollection AddBlobClients(this IServiceCollection services, S3BlobClientOptions s3Options) =>
         services
             .AddSingleton(sp => new VerenigingenBlobClient(
@@ -20,6 +22,7 @@ public static class ServiceCollectionExtensions
                 sp.GetRequiredService<ILogger<VerenigingenBlobClient>>()
             ));
 
+    [Obsolete]
     public static IServiceCollection AddS3(this IServiceCollection services, IConfiguration configuration)
     {
         // Use MINIO
@@ -56,6 +59,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    [Obsolete]
     public static IServiceCollection AddDataCache(this IServiceCollection services)
         => services.AddSingleton<IVerenigingenRepository>(
             sp =>

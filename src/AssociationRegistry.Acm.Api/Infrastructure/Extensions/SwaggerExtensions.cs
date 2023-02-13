@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acm.Api.Infrastructure.Extentions;
+namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
 using System;
 using System.IO;
