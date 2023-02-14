@@ -22,6 +22,7 @@ public class VerenigingenHistoriekController : ApiController
     /// <summary>
     /// Vraag de historiek van een vereniging op.
     /// </summary>
+    /// <param name="documentStore"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">De historiek van een vereniging</response>

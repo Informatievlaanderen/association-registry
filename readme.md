@@ -15,11 +15,6 @@ Please see our [contributing guidelines](CONTRIBUTING.md) before contributing.
 ```~~~~
 docker compose up
 ```
-#### Minio
-- use a webbrowser to navigate to [http://localhost:9011](http://localhost:9011)
-- login into minio with the correct credentials
-- create a bucket with the name 'verenigingen'
-- insert the file 'data.json' from the solutionfolder 'minio'
 
 ## Conventions
 ### Json --- responses

@@ -156,7 +156,6 @@ jobs:
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
-      run-docker-minio: true
       run-docker-db: true
       run-docker-elasticsearch: false
     secrets: inherit
@@ -174,7 +173,6 @@ jobs:
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
-      run-docker-minio: false
       run-docker-db: true
       run-docker-elasticsearch: true
     secrets: inherit
@@ -192,7 +190,6 @@ jobs:
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
-      run-docker-minio: false
       run-docker-db: true
       run-docker-elasticsearch: true
     secrets: inherit
@@ -210,7 +207,6 @@ jobs:
       build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
-      run-docker-minio: false
       run-docker-db: true
       run-docker-elasticsearch: false
     secrets: inherit
@@ -245,11 +241,6 @@ jobs:
 #        shell: bash
 #        run: |
 #          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-#
-#      - name: Run minio container
-#        shell: bash
-#        run: |
-#          docker run -d --name minio -p 9010:9000 -p 9011:9001 -e MINIO_DEFAULT_BUCKETS=verenigingen -e MINIO_ROOT_USER=Q3AM3UQ867SPQQA43P2F -e MINIO_ROOT_PASSWORD=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG bitnami/minio:latest
 #
 #      - name: Cache Paket
 #        uses: actions/cache@v3
@@ -392,13 +383,6 @@ jobs:
 #        shell: bash
 #        run: |
 #          docker logs db
-#
-#      - name: Shows logs minio container
-#        if: ${{ failure() }}
-#        shell: bash
-#        run: |
-#          docker logs minio
-#
 #
 
   release:

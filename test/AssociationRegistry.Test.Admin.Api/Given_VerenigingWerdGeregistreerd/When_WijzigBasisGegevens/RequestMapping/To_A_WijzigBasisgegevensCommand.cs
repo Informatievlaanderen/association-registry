@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.VCodes;
+using Framework;
+using VCodes;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

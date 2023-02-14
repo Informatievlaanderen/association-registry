@@ -5,10 +5,10 @@ using Wolverine;
 
 public class MessageBusMock:IMessageBus
 {
-    public async Task InvokeAsync(object message, CancellationToken cancellation = new CancellationToken(), TimeSpan? timeout = null)
+    public async Task InvokeAsync(object message, CancellationToken cancellation = new(), TimeSpan? timeout = null)
         => throw new NotImplementedException();
 
-    public async Task<T> InvokeAsync<T>(object message, CancellationToken cancellation = new CancellationToken(), TimeSpan? timeout = null)
+    public async Task<T> InvokeAsync<T>(object message, CancellationToken cancellation = new(), TimeSpan? timeout = null)
         => throw new NotImplementedException();
 
     public IDestinationEndpoint EndpointFor(string endpointName)

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Test.Admin.Api.Fakes;
+using Fakes;
 using FluentValidation;
 using Xunit;
 using Xunit.Categories;

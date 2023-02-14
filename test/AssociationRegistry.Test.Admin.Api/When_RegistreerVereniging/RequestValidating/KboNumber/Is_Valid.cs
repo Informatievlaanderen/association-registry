@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.KboNumber;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

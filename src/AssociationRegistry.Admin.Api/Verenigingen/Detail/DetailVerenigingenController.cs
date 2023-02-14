@@ -21,6 +21,7 @@ public class DetailVerenigingenController : ApiController
     /// <summary>
     /// Vraag het detail van een vereniging op.
     /// </summary>
+    /// <param name="documentStore"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>

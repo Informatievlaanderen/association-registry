@@ -92,7 +92,7 @@ public class When_Retrieving_Detail
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers!.Select(x => $@"{{
+""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
                             ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",

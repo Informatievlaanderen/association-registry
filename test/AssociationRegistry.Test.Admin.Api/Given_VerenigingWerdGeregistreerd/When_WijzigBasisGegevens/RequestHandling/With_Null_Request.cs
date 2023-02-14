@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Test.Admin.Api.Fakes;
+using Fakes;
 using Xunit;
 using Xunit.Categories;
 

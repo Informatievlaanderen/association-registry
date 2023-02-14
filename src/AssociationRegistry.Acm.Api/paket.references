@@ -3,12 +3,12 @@ Be.Vlaanderen.Basisregisters.Api
 Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
-AWSSDK.S3
-AWSSDK.Core
+
 AspNetCore.HealthChecks.SqlServer
+
 Microsoft.AspNetCore.Authentication.JwtBearer
 IdentityModel.AspNetCore.OAuth2Introspection
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
-MediatR
-MediatR.Extensions.Microsoft.DependencyInjection
+
+Marten

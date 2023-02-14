@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;

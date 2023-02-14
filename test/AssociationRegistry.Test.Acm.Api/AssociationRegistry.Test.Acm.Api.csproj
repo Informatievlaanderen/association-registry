@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Acm.Api\AssociationRegistry.Acm.Api.csproj" />
+    <ProjectReference Include="..\..\src\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
