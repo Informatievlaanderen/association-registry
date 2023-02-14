@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_A_Not_Authenticated_Client;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using FluentAssertions;
 using Xunit;
 

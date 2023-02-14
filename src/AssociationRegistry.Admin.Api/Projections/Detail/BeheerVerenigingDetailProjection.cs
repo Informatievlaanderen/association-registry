@@ -35,7 +35,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                                    }).ToArray()
                                ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
             Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
-            Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers?.Select(
+            Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                 v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
                 {
                     PrimairContactpersoon = v.PrimairContactpersoon,
@@ -53,7 +53,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                             Website = c.Website,
                             SocialMedia = c.SocialMedia,
                         }).ToArray(),
-                }).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
+                }).ToArray(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
 

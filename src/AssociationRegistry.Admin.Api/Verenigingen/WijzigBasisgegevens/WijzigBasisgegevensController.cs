@@ -39,8 +39,10 @@ public class WijzigBasisgegevensController : ApiController
     /// Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
     /// Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
     /// </remarks>
+    /// <param name="request"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <param name="validator"></param>
     [HttpPatch]
     [Consumes("application/json")]
     [Produces("application/json")]

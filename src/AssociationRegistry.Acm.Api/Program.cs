@@ -10,11 +10,8 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using Extensions;
 using Infrastructure.Configuration;
-using Infrastructure.Extentions;
-using S3;
-using AssociationRegistry.OpenTelemetry.Extensions;
+using OpenTelemetry.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -30,6 +27,8 @@ using Constants;
 using Destructurama;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -104,6 +103,7 @@ public class Program
 
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
+            .UseAuthentication()
             .UseAuthorization()
             .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
@@ -262,14 +262,15 @@ public class Program
 
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
-        var s3Options = new S3BlobClientOptions();
-        builder.Configuration.GetSection(nameof(S3BlobClientOptions)).Bind(s3Options);
-
+        var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
 
         builder.Services
-            .AddS3(builder.Configuration)
-            .AddBlobClients(s3Options)
-            .AddDataCache()
+            .AddSingleton(
+                new AppSettings
+                {
+                    BaseUrl = builder.Configuration.GetBaseUrl(),
+                })
+            .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()
             .AddControllers();
@@ -372,22 +373,7 @@ public class Program
             .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
             .AddDatabaseDeveloperPageExceptionFilter();
 
-        var healthChecksBuilder = builder.Services.AddHealthChecks();
-
-        var connectionStrings = builder.Configuration
-            .GetSection("ConnectionStrings")
-            .GetChildren();
-
-        foreach (var connectionString in connectionStrings)
-            healthChecksBuilder.AddSqlServer(
-                connectionString.Value,
-                name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
-                tags: new[] { StartupConstants.DatabaseTag, "sql", "sqlserver" });
-
-        // health.AddDbContextCheck<LegacyContext>(
-        //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",
-        //     tags: new[] { DatabaseTag, "sql", "sqlserver" });
-
+        builder.Services.AddHealthChecks();
 
         builder.Services
             .AddLocalization(cfg => cfg.ResourcesPath = "Resources")

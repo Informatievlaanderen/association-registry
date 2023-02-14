@@ -191,7 +191,7 @@ public class With_All_Fields
         savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties![0].Should().BeEquivalentTo(Request.Locaties[0]);
-        savedEvent.Vertegenwoordigers!.Should().BeEquivalentTo(_vertegenwoordigers);
+        savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers);
     }
 
     [Fact]

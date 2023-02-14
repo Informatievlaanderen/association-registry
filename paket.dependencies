@@ -12,10 +12,6 @@ nuget AspNetCore.HealthChecks.SqlServer 6.0.2
 
 nuget Microsoft.EntityFrameworkCore.Design 6.0.3
 
-// AWS
-nuget AWSSDK.S3 3.7.8.11
-nuget AWSSDK.Core 3.7.10.11
-
 // BASE REGISTRIES STUFF
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.4
 nuget Be.Vlaanderen.Basisregisters.Testing.Infrastructure.Events 3.0.0 content: true, copy_content_to_output_dir: always, copy_local: true
@@ -77,10 +73,6 @@ nuget Structurizr.AdrTools 0.9.3
 nuget Marten 6.0.0-alpha.6
 nuget Testcontainers 2.3.0
 nuget WolverineFx 0.9.6
-
-// MediatR
-nuget MediatR 11.0.0
-nuget MediatR.Extensions.Microsoft.DependencyInjection 11.0.0
 
 // TEST STUFF
 nuget Microsoft.AspNetCore.Mvc.Testing 6.0.4

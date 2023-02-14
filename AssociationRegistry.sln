@@ -50,11 +50,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "identityserver", "identitys
 		identityserver\vr.json = identityserver\vr.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "minio", "minio", "{A5715AC1-4220-431A-B298-BCA9D857870B}"
-	ProjectSection(SolutionItems) = preProject
-		minio\data.json = minio\data.json
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.Api", "src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj", "{DAF6443B-10E9-4847-9E1F-DBE275E8C750}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry", "src\AssociationRegistry\AssociationRegistry.csproj", "{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E}"
@@ -72,6 +67,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Public.Api", "test\AssociationRegistry.Test.Public.Api\AssociationRegistry.Test.Public.Api.csproj", "{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.Acm.Api", "test\AssociationRegistry.Test.Acm.Api\AssociationRegistry.Test.Acm.Api.csproj", "{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Acm.Schema", "src\AssociationRegistry.Acm.Schema\AssociationRegistry.Acm.Schema.csproj", "{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -126,6 +123,10 @@ Global
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -134,7 +135,6 @@ Global
 		{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA} = {75DFC6A3-90CB-4041-B122-8546DCD4D7F6}
 		{EC780706-D1C5-46DA-A9EA-1691E3C5052A} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{D4AE63B8-9A67-43E5-865B-8E40BD1335CD} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
-		{A5715AC1-4220-431A-B298-BCA9D857870B} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
 		{DAF6443B-10E9-4847-9E1F-DBE275E8C750} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{08A33B13-190D-4A7A-B5D3-684D2DAD8A3E} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{C25E2A86-E408-42C0-BAB8-560B19067014} = {20B970CD-1737-4427-A924-D299A42346FE}
@@ -143,5 +143,6 @@ Global
 		{EC67CD82-32AE-4D2D-B861-C0C70AAB9C5F} = {C812C887-6495-405A-8B99-4F686D243126}
 		{BF7CCE7D-0CDD-430F-BC99-0DCC04E477D1} = {C812C887-6495-405A-8B99-4F686D243126}
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7} = {C812C887-6495-405A-8B99-4F686D243126}
+		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal
