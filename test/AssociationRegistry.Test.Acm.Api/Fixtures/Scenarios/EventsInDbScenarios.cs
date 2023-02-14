@@ -5,6 +5,8 @@ using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Framework;
+using Marten.Events;
+using IEvent = AssociationRegistry.Framework.IEvent;
 
 public interface IEventsInDbScenario
 {
@@ -112,31 +114,53 @@ public class VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario 
 public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public VerenigingWerdGeregistreerd AndereVerenigingWerdGeregistreerd { get; set; }
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
+    public NaamWerdGewijzigd NaamAndereVerenigingWerdGewijzigd { get; set; }
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
     public readonly CommandMetadata Metadata;
+    public NaamWerdGewijzigd NaamWerdOpnieuwGewijzigd { get; set; }
+
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001004";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        VerenigingWerdGeregistreerd = VerenigingWerdGeregistreerd with { Vertegenwoordigers = VerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
+        AndereVerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>();
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
+        NaamAndereVerenigingWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = AndereVerenigingWerdGeregistreerd.VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+
+        // Second Batch
+        NaamWerdOpnieuwGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
     }
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
 
-    public string Insz
-        => VerenigingWerdGeregistreerd.Vertegenwoordigers![0].Insz;
+    public List<string> Inszs
+        => VerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => x.Insz).ToList();
+
+    public List<string> InszsAndereVereniging
+        => AndereVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => x.Insz).ToList();
 
     public IEvent[] GetEvents()
-        => new IEvent[] { VerenigingWerdGeregistreerd, NaamWerdGewijzigd, KorteNaamWerdGewijzigd, KorteBeschrijvingWerdGewijzigd };
+        => new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            AndereVerenigingWerdGeregistreerd,
+            NaamWerdGewijzigd,
+            NaamAndereVerenigingWerdGewijzigd,
+            KorteNaamWerdGewijzigd,
+            KorteBeschrijvingWerdGewijzigd
+        };
+
+    public IEvent[] GetSecondBatchOfEvents()
+        => new[] { NaamWerdOpnieuwGewijzigd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

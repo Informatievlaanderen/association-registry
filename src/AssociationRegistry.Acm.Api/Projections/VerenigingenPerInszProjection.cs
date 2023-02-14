@@ -5,98 +5,101 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
+using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
-using Marten.Services;
+using Marten.Storage;
 using Schema.VerenigingenPerInsz;
 
-public class VerenigingenPerInszProjection : EventProjection
+public class VerenigingenPerInszProjection : MultiStreamAggregation<VerenigingenPerInszDocument, string>
 {
     public VerenigingenPerInszProjection()
     {
-        Options.BatchSize = 1;
+        CustomGrouping(new CustomSlicer());
     }
 
-    public void Project(VerenigingWerdGeregistreerd @event, IDocumentOperations ops)
+    public void Apply(VerenigingWerdGeregistreerd @event, VerenigingenPerInszDocument document)
     {
-        foreach (var vertegenwoordiger in @event.Vertegenwoordigers)
-        {
-            var doc = ops.Load<VerenigingenPerInszDocument>(vertegenwoordiger.Insz) ??
-                      new VerenigingenPerInszDocument
-                      {
-                          Insz = vertegenwoordiger.Insz,
-                      };
-            doc.Verenigingen.Add(new Vereniging(@event.VCode, @event.Naam));
-            ops.Store(doc);
-        }
+        document.Verenigingen.Add(new Vereniging(@event.VCode, @event.Naam));
     }
 
-    public async Task Project(NaamWerdGewijzigd e, IDocumentOperations ops)
+    public async Task Apply(NaamWerdGewijzigd e, VerenigingenPerInszDocument document)
     {
-        var querySession = await ops.DocumentStore.QuerySession(new SessionOptions() { IsolationLevel = IsolationLevel.ReadUncommitted })
-            .Query<VerenigingenPerInszDocument>()
-            .ToListAsync();
-
-        var docs = await ops.Query<VerenigingenPerInszDocument>()
-            .Where(document => document.Verenigingen.Any(vereniging => vereniging.VCode == e.VCode))
-            .ToListAsync();
-
-        foreach (var doc in docs)
-        {
-            doc.Verenigingen.Single(vereniging => vereniging.VCode == e.VCode).Naam = e.Naam;
-        }
-
-        ops.Store(docs.ToArray());
+        document.Verenigingen.Single(vereniging => vereniging.VCode == e.VCode).Naam = e.Naam;
     }
-
 }
 
-public class NaamWerdGewijzigdGrouper : IAggregateGrouper<string>
+public class CustomSlicer: IEventSlicer<VerenigingenPerInszDocument, string>
 {
-    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
+    public ValueTask<IReadOnlyList<EventSlice<VerenigingenPerInszDocument, string>>> SliceInlineActions(
+        IQuerySession querySession, IEnumerable<StreamAction> streams)
     {
+        var allEvents = streams.SelectMany(x => x.Events).ToList();
+        var group = new TenantSliceGroup<VerenigingenPerInszDocument, string>(Tenant.ForDatabase(querySession.Database));
+        group.AddEvents<VerenigingWerdGeregistreerd>(@event => @event.Vertegenwoordigers.Select(y => y.Insz).ToArray(), allEvents);
+
+        var naamWerdGewijzigdEvents = allEvents
+            .OfType<IEvent<NaamWerdGewijzigd>>()
+            .ToList();
+
+        var vCodes = naamWerdGewijzigdEvents.Select(x => x.Data.VCode).ToList();
+        var documents = querySession.Query<VerenigingenPerInszDocument>()
+            .Where(doc => doc.Verenigingen.Any(x => vCodes.Contains(x.VCode)))
+            .ToList();
+
+        var verenigingGeregistreerdEvents = allEvents
+            .OfType<IEvent<VerenigingWerdGeregistreerd>>()
+            .ToList();
+
+        naamWerdGewijzigdEvents.ForEach(
+            naamWerdGewijzigd =>
+            {
+                documents.Where(x => x.Verenigingen.Any(v => v.VCode == naamWerdGewijzigd.Data.VCode))
+                    .ToList()
+                    .ForEach(document => group.AddEvent(document.Insz, naamWerdGewijzigd));
+
+                var geregistreerdEvent = verenigingGeregistreerdEvents.SingleOrDefault(geregistreerd => geregistreerd.Data.VCode == naamWerdGewijzigd.Data.VCode);
+                if(geregistreerdEvent is not null)
+                    geregistreerdEvent.Data.Vertegenwoordigers.ForEach(x => group.AddEvent(x.Insz, naamWerdGewijzigd));
+            });
+
+        return new(group.Slices.ToList());
+    }
+
+    public ValueTask<IReadOnlyList<TenantSliceGroup<VerenigingenPerInszDocument, string>>> SliceAsyncEvents(
+        IQuerySession querySession, List<IEvent> events)
+    {
+        var group = new TenantSliceGroup<VerenigingenPerInszDocument, string>(Tenant.ForDatabase(querySession.Database));
+        group.AddEvents<VerenigingWerdGeregistreerd>(@event => @event.Vertegenwoordigers.Select(y => y.Insz).ToArray(), events);
+
         var naamWerdGewijzigdEvents = events
             .OfType<IEvent<NaamWerdGewijzigd>>()
             .ToList();
 
-        if (!naamWerdGewijzigdEvents.Any())
-        {
-            return;
-        }
+        var verenigingGeregistreerdEvents = events
+            .OfType<IEvent<VerenigingWerdGeregistreerd>>()
+            .ToList();
 
         var vCodes = naamWerdGewijzigdEvents.Select(x => x.Data.VCode).ToList();
-        var documents = await session.Query<VerenigingenPerInszDocument>()
+        var documentsThatAlreadyExist = querySession.Query<VerenigingenPerInszDocument>()
             .Where(doc => doc.Verenigingen.Any(x => vCodes.Contains(x.VCode)))
-            .ToListAsync();
+            .ToList();
 
-        foreach (var document in documents)
-        {
-            var vCodesForDoc = document.Verenigingen.Select(x => x.VCode);
-            var groupedEvents = naamWerdGewijzigdEvents
-                .Where(@event => vCodesForDoc.Contains(@event.Data.VCode));
-            grouping.AddEvents(document.Insz, groupedEvents);
-        }
+        naamWerdGewijzigdEvents.ForEach(
+            naamWerdGewijzigd =>
+            {
+                documentsThatAlreadyExist.Where(x => x.Verenigingen.Any(v => v.VCode == naamWerdGewijzigd.Data.VCode))
+                    .ToList()
+                    .ForEach(document => group.AddEvent(document.Insz, naamWerdGewijzigd));
 
-        // var vcodes = naamWerdGewijzigdEvents.Select(x => x.Data.VCode);
-        //
-        // var eventsPerInsz = new Dictionary<string, NaamWerdGewijzigd[]>();
-        //
-        // foreach (var vcode in vcodes)
-        // {
-        //     var documents = await session.Query<VerenigingenPerInszDocument>()
-        //         .Where(doc =>
-        //             doc.Verenigingen.Any(x => x.VCode == vcode))
-        //         .ToListAsync();
-        //
-        //     foreach (var document in documents)
-        //     {
-        //         // if(eventsPerInsz.ContainsKey(document.Insz))
-        //         eventsPerInsz[document.Insz] =
-        //     }
-        // }
-        // grouping.AddEvents<NaamWerdGewijzigd>(e => insz, @events);
+                var geregistreerdEvent = verenigingGeregistreerdEvents.SingleOrDefault(geregistreerd => geregistreerd.Data.VCode == naamWerdGewijzigd.Data.VCode);
+                if(geregistreerdEvent is not null)
+                    geregistreerdEvent.Data.Vertegenwoordigers.ForEach(x => group.AddEvent(x.Insz, naamWerdGewijzigd));
+            });
 
+
+        return new(new List<TenantSliceGroup<VerenigingenPerInszDocument, string>>{group});
     }
 }
