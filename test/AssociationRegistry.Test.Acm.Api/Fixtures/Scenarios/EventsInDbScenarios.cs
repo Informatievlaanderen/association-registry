@@ -129,14 +129,14 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         VCode = "V0001004";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         AndereVerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>();
-        NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
+        NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode, Naam = "Wijziging1"};
         NaamAndereVerenigingWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = AndereVerenigingWerdGeregistreerd.VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         // Second Batch
-        NaamWerdOpnieuwGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
+        NaamWerdOpnieuwGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode, Naam = "Opnieuw??"};
     }
 
     public string VCode { get; set; }
