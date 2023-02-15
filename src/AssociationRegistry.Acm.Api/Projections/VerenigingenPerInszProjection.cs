@@ -44,11 +44,13 @@ public class CustomSlicer: IEventSlicer<VerenigingenPerInszDocument, string>
             .OfType<IEvent<NaamWerdGewijzigd>>()
             .ToList();
 
-        var vCodes = naamWerdGewijzigdEvents.Select(x => x.Data.VCode).ToList();
-        var documents = querySession.Query<VerenigingenPerInszDocument>()
-            .Where(doc => doc.Verenigingen.Any(x => vCodes.Contains(x.VCode)))
+        // Take vertegenwoordigers in memory so we only do this query once
+        var vCodesWithNaamGewijzigd = naamWerdGewijzigdEvents.Select(x => x.Data.VCode).ToList();
+        var vertegenwoordigers = querySession.Query<VerenigingenPerInszDocument>()
+            .Where(doc => doc.Verenigingen.Any(x => vCodesWithNaamGewijzigd.Contains(x.VCode)))
             .ToList();
 
+        // Take events in memory so we only do this query once
         var verenigingGeregistreerdEvents = allEvents
             .OfType<IEvent<VerenigingWerdGeregistreerd>>()
             .ToList();
@@ -56,7 +58,7 @@ public class CustomSlicer: IEventSlicer<VerenigingenPerInszDocument, string>
         naamWerdGewijzigdEvents.ForEach(
             naamWerdGewijzigd =>
             {
-                documents.Where(x => x.Verenigingen.Any(v => v.VCode == naamWerdGewijzigd.Data.VCode))
+                vertegenwoordigers.Where(x => x.Verenigingen.Any(v => v.VCode == naamWerdGewijzigd.Data.VCode))
                     .ToList()
                     .ForEach(document => group.AddEvent(document.Insz, naamWerdGewijzigd));
 
