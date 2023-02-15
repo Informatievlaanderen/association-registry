@@ -14,9 +14,9 @@ public class VerenigingenPerInszProjection : EventProjection
 {
     public VerenigingenPerInszProjection()
     {
-        // Identities<VerenigingWerdGeregistreerd>(geregistreerd => geregistreerd.Vertegenwoordigers.Select(vertegenwoordiger => vertegenwoordiger.Insz).ToArray());
-        // FanOut<VerenigingWerdGeregistreerd, VerenigingWerdGeregistreerd.Vertegenwoordiger>(x => x.Vertegenwoordigers);
-        // CustomGrouping(new CustomSlicer());
+        // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
+        // the newly persisted VerenigingenPerInszDocument from VerenigingWerdGeregistreerd is not in the
+        // Query yet when we handle NaamWerdGewijzigd
         Options.BatchSize = 1;
     }
 
@@ -42,8 +42,6 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(NaamWerdGewijzigd e, IDocumentOperations ops)
     {
-        var allDocuments = ops.Query<VerenigingenPerInszDocument>().ToList();
-
         var documents = await ops.Query<VerenigingenPerInszDocument>()
             .Where(document => document.Verenigingen.Any(vereniging => vereniging.VCode == e.VCode))
             .ToListAsync();
