@@ -32,13 +32,13 @@ public class Hoofdactiviteit
         new Hoofdactiviteit("WESE", "Werk & Sociale economie"),
     };
 
-    public string Naam { get; }
+    public string Beschrijving { get; }
     public string Code { get; }
 
-    private Hoofdactiviteit(string code, string naam)
+    private Hoofdactiviteit(string code, string beschrijving)
     {
         Code = code;
-        Naam = naam;
+        Beschrijving = beschrijving;
     }
 
     public static Hoofdactiviteit Create(string key)

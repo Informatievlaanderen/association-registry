@@ -22,4 +22,7 @@ public class PublicApiClient : IDisposable
     {
         HttpClient.Dispose();
     }
+
+    public async Task<HttpResponseMessage> GetHoofdactiviteiten()
+        => await HttpClient.GetAsync($"/v1/hoofdactiviteiten");
 }
