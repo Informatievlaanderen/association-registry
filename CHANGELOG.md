@@ -1,3 +1,12 @@
+# [1.117.0](https://github.com/informatievlaanderen/association-registry/compare/v1.116.2...v1.117.0) (2023-02-15)
+
+
+### Features
+
+* or-1319 add acm projection - verenigingPerVergtegenwoordiger ([d1fb7fd](https://github.com/informatievlaanderen/association-registry/commit/d1fb7fdc8dc6ce3e5ed73c8d14e64a4e8fde1ca1))
+* or-1319 clarify and clean up ([13537b3](https://github.com/informatievlaanderen/association-registry/commit/13537b30e078f86b184d11c64882710f277fd1ac))
+* or-1570 add hoofdactiviteiten to registreer ([ae3c17f](https://github.com/informatievlaanderen/association-registry/commit/ae3c17f6dc4838cce0d581ce2a43a66a10edb10b))
+
 ## [1.116.2](https://github.com/informatievlaanderen/association-registry/compare/v1.116.1...v1.116.2) (2023-02-07)
 
 
