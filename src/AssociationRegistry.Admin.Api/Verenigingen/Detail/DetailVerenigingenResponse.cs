@@ -30,7 +30,9 @@ public record DetailVerenigingResponse(
         [property: DataMember(Name = "Locaties")]
         ImmutableArray<VerenigingDetail.Locatie> Locaties,
         [property: DataMember(Name = "Vertegenwoordigers")]
-        ImmutableArray<VerenigingDetail.Vertegenwoordiger> Vertegenwoordigers)
+        ImmutableArray<VerenigingDetail.Vertegenwoordiger> Vertegenwoordigers,
+        [property: DataMember(Name = "HoofdactiviteitenLijst")]
+        ImmutableArray<VerenigingDetail.HoofdActiviteit> HoofdactiviteitenLijst)
     {
         [DataContract]
         public record ContactInfo(
@@ -81,6 +83,11 @@ public record DetailVerenigingResponse(
             string Gemeente,
             [property: DataMember(Name = "Land")] string Land
         );
+
+        [DataContract]
+        public record HoofdActiviteit(
+            [property: DataMember(Name = "Code")]string Code,
+            [property: DataMember(Name = "Beschrijving")]string Beschrijving);
     }
 
     public record MetadataDetail(string DatumLaatsteAanpassing);

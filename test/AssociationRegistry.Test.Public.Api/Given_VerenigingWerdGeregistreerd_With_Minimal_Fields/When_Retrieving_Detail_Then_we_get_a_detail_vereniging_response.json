@@ -9,7 +9,8 @@
     "kboNummer": null,
     "status": "Actief",
     "contactInfoLijst": [],
-    "locaties":[]
+    "locaties":[],
+    "hoofdactiviteiten": []
   },
   "metadata": {
     "datumLaatsteAanpassing": ""

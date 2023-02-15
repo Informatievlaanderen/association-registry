@@ -38,7 +38,8 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
             null,
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
             Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>());
+            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
+            Array.Empty<string>());
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), clock);
 
@@ -61,6 +62,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()));
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Hoofdactiviteit>()));
     }
 }

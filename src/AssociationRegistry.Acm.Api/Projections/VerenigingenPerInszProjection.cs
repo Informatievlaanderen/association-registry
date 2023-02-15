@@ -1,14 +1,12 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
 using Marten;
 using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
-using Vertegenwoordigers;
 
 public class VerenigingenPerInszProjection : EventProjection
 {
@@ -32,7 +30,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 new VerenigingenPerInszDocument
                 {
                     Insz = vertegenwoordiger.Insz,
-                    Verenigingen = new List<Vereniging>()
+                    Verenigingen = new List<Vereniging>(),
                 };
             verenigingenPerInszDocument.Verenigingen.Add(new Vereniging(werdGeregistreerd.VCode, werdGeregistreerd.Naam));
             docs.Add(verenigingenPerInszDocument);

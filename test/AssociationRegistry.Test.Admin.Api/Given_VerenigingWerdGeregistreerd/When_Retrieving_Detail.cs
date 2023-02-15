@@ -64,7 +64,7 @@ public class When_Retrieving_Detail
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst!.Select(x => $@"{{
+                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Select(x => $@"{{
                         ""contactnaam"": ""{x.Contactnaam}"",
                         ""email"": ""{x.Email}"",
                         ""telefoon"": ""{x.Telefoon}"",
@@ -72,7 +72,7 @@ public class When_Retrieving_Detail
                         ""socialMedia"": ""{x.SocialMedia}""
                     }}"))}
                     ],
-                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties!.Select(x => $@"{{
+                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
                         ""adres"": ""{x.ToAdresString()}"",
@@ -101,6 +101,11 @@ public class When_Retrieving_Detail
                             }}"))}
                             ],
                         }}"))}],
+                    ""hoofdactiviteitenLijst"":[{string.Join(',', _verenigingWerdGeregistreerd.Hoofdactiviteiten.Select(x=> $@"{{
+                        ""code"":""{x.Code}"",
+                        ""beschrijving"":""{x.Beschrijving}""
+                    }}"))}
+                    ]
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": """"

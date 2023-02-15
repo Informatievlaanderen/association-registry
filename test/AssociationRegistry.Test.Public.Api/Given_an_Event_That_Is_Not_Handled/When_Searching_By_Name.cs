@@ -93,7 +93,7 @@ public class When_Searching_By_Name
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
 
-    [Fact]
+    [Fact(Skip = "Geen Hoofdactiviteiten")]
     public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");

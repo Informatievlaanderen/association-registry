@@ -15,9 +15,11 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerVereniging_WithAllFields {
+public sealed class When_RegistreerVereniging_WithAllFields
+{
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
+
     private When_RegistreerVereniging_WithAllFields(AdminApiFixture fixture)
     {
         var autoFixture = new Fixture();
@@ -93,12 +95,14 @@ public sealed class When_RegistreerVereniging_WithAllFields {
                     },
                 },
             },
+            HoofdactiviteitenLijst = new[] { "BIAG", "BWWC" },
         };
 
         Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
     }
 
     private static When_RegistreerVereniging_WithAllFields? called;
+
     public static When_RegistreerVereniging_WithAllFields Called(AdminApiFixture fixture)
         => called ??= new When_RegistreerVereniging_WithAllFields(fixture);
 
@@ -113,7 +117,8 @@ public sealed class When_RegistreerVereniging_WithAllFields {
             .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
-            .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers));
+            .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
+            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenLijst));
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -126,6 +131,7 @@ public class With_All_Fields
 
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_WithAllFields.Called(_fixture).Request;
+
     private HttpResponseMessage Response
         => When_RegistreerVereniging_WithAllFields.Called(_fixture).Response;
 
@@ -188,10 +194,16 @@ public class With_All_Fields
         savedEvent.Startdatum.Should().Be(Request.StartDatum);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
         savedEvent.ContactInfoLijst.Should().HaveCount(1);
-        savedEvent.ContactInfoLijst![0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
+        savedEvent.ContactInfoLijst[0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
         savedEvent.Locaties.Should().HaveCount(1);
-        savedEvent.Locaties![0].Should().BeEquivalentTo(Request.Locaties[0]);
+        savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers);
+        savedEvent.Hoofdactiviteiten.Should().BeEquivalentTo(
+            new[]
+            {
+                new VerenigingWerdGeregistreerd.Hoofdactiviteit("BIAG", "Burgerinitiatief & Actiegroep"),
+                new VerenigingWerdGeregistreerd.Hoofdactiviteit("BWWC", "Buurtwerking & Wijkcomité"),
+            });
     }
 
     [Fact]

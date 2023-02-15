@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Activiteiten;
 using AssociationRegistry.Admin.Api.Constants;
 using Events;
 using AssociationRegistry.Framework;
@@ -22,6 +23,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string KorteNaam = "korte naam";
     private const string KorteBeschrijving = "korte beschrijving";
     private const string KboNummber = "0123456749";
+    private const string hoofdactiviteit = "KECU";
 
     private static readonly RegistreerVerenigingCommand.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "www.test-website.be", "@test");
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
@@ -55,7 +57,8 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             KboNummber,
             new[] { ContactInfo },
             new[] { Locatie },
-            vertegenwoordigers);
+            vertegenwoordigers,
+            new[] { hoofdactiviteit });
 
         _magdaPersoon = new MagdaPersoon
         {
@@ -128,6 +131,10 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                                 VertegenwoordigerContactInfo.Website,
                                 VertegenwoordigerContactInfo.SocialMedia),
                         }),
+                },
+                new[]
+                {
+                    new VerenigingWerdGeregistreerd.Hoofdactiviteit(hoofdactiviteit, Hoofdactiviteit.All().Single(a => a.Code == hoofdactiviteit).Naam),
                 }));
     }
 }

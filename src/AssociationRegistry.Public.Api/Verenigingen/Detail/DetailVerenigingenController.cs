@@ -63,9 +63,13 @@ public class DetailVerenigingenController : ApiController
                                 info.Website,
                                 info.SocialMedia))
                         .ToArray(),
-                    vereniging.Locaties.Select(ToLocatie).ToImmutableArray()),
+                    vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
+                    vereniging.Hoofdactiviteiten.Select(ToHoofdactiviteit).ToImmutableArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
+
+    private static Hoofdactiviteit ToHoofdactiviteit(PubliekVerenigingDetailDocument.HoofdActiviteit ha)
+        => new(ha.Code, ha.Beschrijving);
 
     private static Locatie ToLocatie(PubliekVerenigingDetailDocument.Locatie loc)
         => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);

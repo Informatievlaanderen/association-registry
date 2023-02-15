@@ -3,13 +3,9 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using Infrastructure.Extensions;
-using Schema.Search;
 
 public interface IVerenigingBrolFeeder
 {
-    VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten { get; }
     string Doelgroep { get; }
     ImmutableArray<string> Activiteiten { get; }
     void SetStatic();
@@ -91,25 +87,6 @@ public class VerenigingBrolFeeder : IVerenigingBrolFeeder
         }
     }
 
-    private Activiteiten.Hoofdactiviteit GetHoofdactiviteit()
-    {
-        var hoofdactiviteiten = AssociationRegistry.Activiteiten.Hoofdactiviteit.All();
-        var index = _random.Next(hoofdactiviteiten.Count);
-
-        return hoofdactiviteiten[index];
-    }
-
-    public VerenigingDocument.Hoofdactiviteit[] Hoofdactiviteiten
-    {
-        get
-        {
-            var hoofdactiviteiten = isStatic
-                ? AssociationRegistry.Activiteiten.Hoofdactiviteit.Create("BWWC").ObjectToArray()
-                : ComposeArray(3, GetHoofdactiviteit).ToArray();
-
-            return hoofdactiviteiten.Select(h => new VerenigingDocument.Hoofdactiviteit(h.Code, h.Naam)).ToArray();
-        }
-    }
 
     public string Doelgroep
         => isStatic

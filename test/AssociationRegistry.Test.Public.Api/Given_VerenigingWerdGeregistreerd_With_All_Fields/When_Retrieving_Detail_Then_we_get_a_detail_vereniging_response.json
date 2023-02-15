@@ -30,6 +30,12 @@
         "gemeente": "Affligem",
         "land": "België"
       }
+    ],
+    "hoofdactiviteiten":[
+      {
+        "code": "BLA",
+        "beschrijving": "Buitengewoon Leuke Afkortingen"
+      }
     ]
   },
   "metadata": {

@@ -9,7 +9,13 @@
     "kboNummer": null,
     "status": "Actief",
     "contactInfoLijst": [],
-    "locaties": []
+    "locaties": [],
+    "hoofdactiviteiten": [
+      {
+        "code": "BLA",
+        "beschrijving": "Buitengewoon Leuke Afkortingen"
+      }
+    ]
   },
   "metadata": {
     "datumLaatsteAanpassing": "2023-01-25"

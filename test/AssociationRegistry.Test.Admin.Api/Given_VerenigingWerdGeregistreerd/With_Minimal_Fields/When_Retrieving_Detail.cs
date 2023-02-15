@@ -64,7 +64,8 @@ public class When_Retrieving_Detail
             ""status"": ""Actief"",
             ""contactInfoLijst"": [],
             ""locaties"":[],
-""vertegenwoordigers"":[],
+            ""vertegenwoordigers"":[],
+            ""hoofdactiviteitenLijst"":[]
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"
