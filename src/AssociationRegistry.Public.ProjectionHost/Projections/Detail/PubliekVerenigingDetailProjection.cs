@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
-using System;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -21,17 +20,24 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
-                                   c => new PubliekVerenigingDetailDocument.ContactInfo
-                                   {
-                                       Contactnaam = c.Contactnaam,
-                                       Email = c.Email,
-                                       Telefoon = c.Telefoon,
-                                       Website = c.Website,
-                                       SocialMedia = c.SocialMedia,
-                                   }).ToArray()
-                               ?? Array.Empty<PubliekVerenigingDetailDocument.ContactInfo>(),
-            Locaties = verenigingWerdGeregistreerd.Data.Locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
+            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
+                c => new PubliekVerenigingDetailDocument.ContactInfo
+                {
+                    Contactnaam = c.Contactnaam,
+                    Email = c.Email,
+                    Telefoon = c.Telefoon,
+                    Website = c.Website,
+                    SocialMedia = c.SocialMedia,
+                }).ToArray(),
+            Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            Hoofdactiviteiten = verenigingWerdGeregistreerd.Data.Hoofdactiviteiten.Select(MapHoofdactiviteit).ToArray(),
+        };
+
+    private static PubliekVerenigingDetailDocument.HoofdActiviteit MapHoofdactiviteit(VerenigingWerdGeregistreerd.Hoofdactiviteit arg)
+        => new()
+        {
+            Code = arg.Code,
+            Beschrijving = arg.Beschrijving,
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, PubliekVerenigingDetailDocument document)

@@ -39,7 +39,8 @@ public class VerenigingWerdGeregistreed_Commandhandler_Scenario : ICommandhandle
                 KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Hoofdactiviteit>()),
         };
     }
 }

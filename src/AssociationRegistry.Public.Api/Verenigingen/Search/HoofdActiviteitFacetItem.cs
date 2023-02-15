@@ -1,3 +1,3 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
-public record HoofdActiviteitFacetItem(string Code, string Naam, long Aantal, string Query);
+public record HoofdActiviteitFacetItem(string Code, long Aantal, string Query);

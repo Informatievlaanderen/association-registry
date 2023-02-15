@@ -22,9 +22,10 @@ public record VerenigingWerdGeregistreerd(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummer,
-    VerenigingWerdGeregistreerd.ContactInfo[]? ContactInfoLijst,
-    VerenigingWerdGeregistreerd.Locatie[]? Locaties,
-    VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers) : IEvent
+    VerenigingWerdGeregistreerd.ContactInfo[] ContactInfoLijst,
+    VerenigingWerdGeregistreerd.Locatie[] Locaties,
+    VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
+    VerenigingWerdGeregistreerd.Hoofdactiviteit[] Hoofdactiviteiten) : IEvent
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -56,4 +57,8 @@ public record VerenigingWerdGeregistreerd(
         string Voornaam,
         string Achternaam,
         ContactInfo[] ContactInfoLijst);
+
+    public record Hoofdactiviteit(
+        string Code,
+        string Beschrijving);
 }

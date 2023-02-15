@@ -27,7 +27,8 @@ public class To_A_RegistreerVerenigingCommand
             out var kboNummber,
             out var contactInfoLijst,
             out var locaties,
-            out var vertegenwoordigers);
+            out var vertegenwoordigers,
+            out var hoofdactiviteiten);
 
         naam.Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
@@ -37,5 +38,6 @@ public class To_A_RegistreerVerenigingCommand
         contactInfoLijst.Should().BeEquivalentTo(request.ContactInfoLijst);
         locaties.Should().BeEquivalentTo(request.Locaties);
         vertegenwoordigers.Should().BeEquivalentTo(request.Vertegenwoordigers);
+        hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenLijst);
     }
 }

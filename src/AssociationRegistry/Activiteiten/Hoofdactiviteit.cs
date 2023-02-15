@@ -3,6 +3,7 @@ namespace AssociationRegistry.Activiteiten;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Exceptions;
 
 public class Hoofdactiviteit
 {
@@ -29,7 +30,6 @@ public class Hoofdactiviteit
         new Hoofdactiviteit("ONWE", "Technologie & Wetenschap"),
         new Hoofdactiviteit("TOER", "Toerisme"),
         new Hoofdactiviteit("WESE", "Werk & Sociale economie"),
-
     };
 
     public string Naam { get; }
@@ -44,7 +44,7 @@ public class Hoofdactiviteit
     public static Hoofdactiviteit Create(string key)
     {
         var value = Hoofdactiviteiten.SingleOrDefault(p => p.Code == key);
-        return value ?? throw new KeyNotFoundException(key);
+        return value ?? throw new UnknownHoofdactiviteitCode();
     }
 
     public static IImmutableList<Hoofdactiviteit> All()

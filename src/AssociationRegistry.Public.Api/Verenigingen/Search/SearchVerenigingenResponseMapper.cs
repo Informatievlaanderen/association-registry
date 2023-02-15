@@ -62,26 +62,12 @@ public class SearchVerenigingenResponseMapper
         KeyedBucket<string> bucket,
         string originalQuery,
         string[] originalHoofdactiviteiten)
-        => CreateHoofdActiviteitFacetItem(
-            appSettings,
-            Activiteiten.Hoofdactiviteit.Create(bucket.Key),
-            bucket.DocCount ?? 0,
-            originalQuery,
-            originalHoofdactiviteiten);
-
-    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(
-        AppSettings appSettings,
-        Activiteiten.Hoofdactiviteit facetHoofdActiviteit,
-        long aantal,
-        string originalQuery,
-        string[] originalHoofdactiviteiten)
         => new(
-            facetHoofdActiviteit.Code,
-            facetHoofdActiviteit.Naam,
-            aantal,
+            bucket.Key,
+            bucket.DocCount ?? 0,
             AddHoofdactiviteitToQuery(
                 appSettings,
-                facetHoofdActiviteit.Code,
+                bucket.Key,
                 originalQuery,
                 originalHoofdactiviteiten));
 

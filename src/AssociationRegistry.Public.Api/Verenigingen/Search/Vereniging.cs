@@ -44,7 +44,7 @@ public record Activiteit(
 [DataContract]
 public record Hoofdactiviteit(
     [property: DataMember(Name = "Code")] string Code,
-    [property: DataMember(Name = "Name")] string Naam);
+    [property: DataMember(Name = "Beschrijving")] string Beschrijving);
 
 [DataContract]
 public record VerenigingLinks(

@@ -10,7 +10,8 @@ public record RegistreerVerenigingCommand(
     string? KboNummber,
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
     IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,
-    IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers)
+    IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers,
+    IEnumerable<string> Hoofdactiviteiten)
 {
     public record ContactInfo(
         string? Contactnaam,

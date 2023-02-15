@@ -16,6 +16,7 @@ public class PubliekVerenigingDetailDocument
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+    public HoofdActiviteit[] Hoofdactiviteiten { get; set; }= Array.Empty<HoofdActiviteit>();
 
     public class ContactInfo
     {
@@ -46,5 +47,11 @@ public class PubliekVerenigingDetailDocument
         public string Gemeente { get; set; } = null!;
 
         public string Land { get; set; } = null!;
+    }
+
+    public class HoofdActiviteit
+    {
+        public string Code { get; set; }= null!;
+        public string Beschrijving { get; set; }= null!;
     }
 }

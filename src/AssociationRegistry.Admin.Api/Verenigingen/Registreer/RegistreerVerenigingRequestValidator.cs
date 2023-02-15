@@ -30,6 +30,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleFor(request => request.Locaties)
             .Must(NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
+        RuleFor(request => request.HoofdactiviteitenLijst)
+            .Must(NotHaveDuplicates)
+            .WithMessage("HoofdactiviteitenLijst mag geen duplicaten bevatten.");
 
         RuleForEach(request => request.ContactInfoLijst)
             .SetValidator(new ContactInfoValidator());
@@ -49,6 +52,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 
     private static bool NotHaveDuplicates(RegistreerVerenigingRequest.Locatie[] locaties)
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
+
+    private static bool NotHaveDuplicates(string[] values)
+        => values.Length == values.DistinctBy(v => v.ToLower()).Count();
 
     private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
         => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
@@ -105,8 +111,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 
             RuleFor(vertegenwoordiger => vertegenwoordiger.Insz)
                 .Must(Have11Numbers)
-                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
-                                           ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
+                .When(
+                    vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
+                                         ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
 
             RuleForEach(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst)

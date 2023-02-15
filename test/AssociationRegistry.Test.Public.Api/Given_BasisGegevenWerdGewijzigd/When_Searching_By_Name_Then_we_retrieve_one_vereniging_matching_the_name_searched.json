@@ -6,8 +6,8 @@
       "korteNaam": "OW",
       "hoofdactiviteiten": [
         {
-          "code": "BWWC",
-          "name": "Buurtwerking & Wijkcomité"
+          "code": "BLA",
+          "beschrijving": "Buitengewoon Leuke Afkortingen"
         }
       ],
       "doelgroep": "+18",
@@ -34,10 +34,9 @@
   "facets": {
     "hoofdactiviteiten": [
       {
-        "code": "BWWC",
-        "naam": "Buurtwerking & Wijkcomité",
+        "code": "BLA",
         "aantal": 1,
-        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BWWC"
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BLA"
       }
     ]
   },

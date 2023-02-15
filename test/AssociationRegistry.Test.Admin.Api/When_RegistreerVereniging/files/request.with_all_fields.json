@@ -8,5 +8,6 @@
   "initiator": "{{vereniging.initiator}}",
   "contactInfoLijst": {{vereniging.contactInfoLijst}},
   "locaties": {{vereniging.locaties}},
-  "vertegenwoordigers" : {{vereniging.vertegenwoordigers}}
+  "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},
+  "hoofdactiviteitenLijst" : {{vereniging.hoofdactiviteitenLijst}}
 }

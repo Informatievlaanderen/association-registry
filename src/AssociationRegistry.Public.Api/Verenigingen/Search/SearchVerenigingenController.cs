@@ -60,7 +60,8 @@ public class SearchVerenigingenController : ApiController
         [FromServices] ElasticClient elasticClient,
         [FromServices] SearchVerenigingenResponseMapper responseMapper,
         [FromQuery] string? q,
-        [FromQuery(Name = "facets.hoofdactiviteiten")] string? hoofdactiviteiten,
+        [FromQuery(Name = "facets.hoofdactiviteiten")]
+        string? hoofdactiviteiten,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         q ??= "*";
@@ -93,22 +94,57 @@ public class SearchVerenigingenController : ApiController
                 )
                 .Aggregations(
                     agg =>
-                        agg.Global(
-                            WellknownFacets.GlobalAggregateName,
-                            d => d.Aggregations(
-                                gagg => gagg.Filter(
-                                    WellknownFacets.FilterAggregateName,
-                                    aggregationDescriptor => aggregationDescriptor.Filter(
-                                        containerDescriptor => containerDescriptor.Bool(
-                                            queryDescriptor => queryDescriptor.Must(
-                                                m => m.QueryString(qs => qs.Query(q))))).Aggregations(
-                                        agg2 => agg2.Terms(
-                                            WellknownFacets.HoofdactiviteitenCountAggregateName,
-                                            valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                                                .Field(document => document.Hoofdactiviteiten.Select(h => h.Code).Suffix("keyword"))
-                                                .Size(20)
-                                        ))))))
+                        GlobalAggregation(
+                            agg,
+                            agg2 =>
+                                QueryFilterAggregation(
+                                    agg2,
+                                    q,
+                                    HoofdactiviteitCountAggregation
+                                )
+                        )
+                )
         );
+
+    private static IAggregationContainer GlobalAggregation<T>(AggregationContainerDescriptor<T> agg, Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<T>> aggregations) where T : class
+    {
+        agg.Global(
+            WellknownFacets.GlobalAggregateName,
+            d => d.Aggregations(
+                aggregations
+            )
+        );
+        return agg;
+    }
+
+    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(AggregationContainerDescriptor<T> aggregationContainerDescriptor, string query, Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations) where T : class
+    {
+        return aggregationContainerDescriptor.Filter(
+            WellknownFacets.FilterAggregateName,
+            aggregationDescriptor => aggregationDescriptor.Filter(
+                    containerDescriptor => containerDescriptor.Bool(
+                        queryDescriptor => queryDescriptor.Must(
+                            m =>
+                                m.QueryString(
+                                    qs =>
+                                        qs.Query(query)
+                                )
+                        )
+                    )
+                )
+                .Aggregations(aggregations)
+        );
+    }
+
+    private static AggregationContainerDescriptor<VerenigingDocument> HoofdactiviteitCountAggregation(AggregationContainerDescriptor<VerenigingDocument> aggregationContainerDescriptor)
+    {
+        return aggregationContainerDescriptor.Terms(
+            WellknownFacets.HoofdactiviteitenCountAggregateName,
+            valueCountAggregationDescriptor => valueCountAggregationDescriptor
+                .Field(document => document.Hoofdactiviteiten.Select(h => h.Code).Suffix("keyword"))
+                .Size(20)
+        );
+    }
 
     private static string BuildHoofdActiviteiten(IReadOnlyCollection<string> hoofdactiviteiten)
     {

@@ -23,6 +23,11 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
     public readonly string? KorteNaam = "FOud";
     public readonly string? KboNummer = "0123456789";
 
+    public readonly VerenigingWerdGeregistreerd.Hoofdactiviteit[] Hoofdactiviteiten =
+    {
+        new("BLA", "Buitengewoon Leuke Afkortingen"),
+    };
+
     private readonly VerenigingWerdGeregistreerd.ContactInfo _contactInfo = new(
         "Algemeen",
         "info@FOud.be",
@@ -74,7 +79,8 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
                 KboNummer,
                 new[] { _contactInfo },
                 new[] { _locatie },
-                new[] { _vertegenwoordiger }),
+                new[] { _vertegenwoordiger },
+                Hoofdactiviteiten),
         };
     }
 
@@ -102,7 +108,8 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Hoofdactiviteit>()),
         };
     }
 
@@ -119,6 +126,11 @@ public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
     public readonly string KorteNaam = "OW";
     public readonly string Naam = "Oarelbeke Weireldstad";
 
+    public readonly VerenigingWerdGeregistreerd.Hoofdactiviteit[] Hoofdactiviteiten =
+    {
+        new("BLA", "Buitengewoon Leuke Afkortingen"),
+    };
+
     public IEvent[] GetEvents()
     {
         return new IEvent[]
@@ -132,7 +144,8 @@ public class KorteBeschrijvingWerdGewijzigdScenario : IScenario
                 null,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>()),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Hoofdactiviteiten),
             new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving),
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
@@ -150,6 +163,11 @@ public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
 
     public readonly string Naam = "Oostende voor anker";
     private readonly string KorteNaam = "OVA";
+
+    public static readonly VerenigingWerdGeregistreerd.Hoofdactiviteit[] Hoofdactiviteiten =
+    {
+        new("BLA", "Buitengewoon Leuke Afkortingen"),
+    };
 
     public IEvent[] GetEvents()
     {
@@ -176,7 +194,8 @@ public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
             null,
             Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>());
+            Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Hoofdactiviteiten);
 }
 
 public record EenEvent : IEvent;

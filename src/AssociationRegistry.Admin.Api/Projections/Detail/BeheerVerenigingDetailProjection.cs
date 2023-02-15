@@ -24,16 +24,15 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst?.Select(
-                                   c => new BeheerVerenigingDetailDocument.ContactInfo()
-                                   {
-                                       Contactnaam = c.Contactnaam,
-                                       Email = c.Email,
-                                       Telefoon = c.Telefoon,
-                                       Website = c.Website,
-                                       SocialMedia = c.SocialMedia,
-                                   }).ToArray()
-                               ?? Array.Empty<BeheerVerenigingDetailDocument.ContactInfo>(),
+            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
+                c => new BeheerVerenigingDetailDocument.ContactInfo()
+                {
+                    Contactnaam = c.Contactnaam,
+                    Email = c.Email,
+                    Telefoon = c.Telefoon,
+                    Website = c.Website,
+                    SocialMedia = c.SocialMedia,
+                }).ToArray(),
             Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
             Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                 v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
@@ -53,6 +52,12 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                             Website = c.Website,
                             SocialMedia = c.SocialMedia,
                         }).ToArray(),
+                }).ToArray(),
+            HoofdActiviteiten = verenigingWerdGeregistreerd.Data.Hoofdactiviteiten.Select(
+                h => new BeheerVerenigingDetailDocument.HoofdActiviteit()
+                {
+                    Code = h.Code,
+                    Beschrijving = h.Beschrijving,
                 }).ToArray(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
@@ -111,6 +116,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
+    public HoofdActiviteit[] HoofdActiviteiten { get; set; } = Array.Empty<HoofdActiviteit>();
     public Metadata Metadata { get; set; } = null!;
 
     public class ContactInfo
@@ -153,5 +159,11 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Rol { get; set; }
         public bool PrimairContactpersoon { get; set; }
         public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+    }
+
+    public class HoofdActiviteit
+    {
+        public string Code { get; set; } = null!;
+        public string Beschrijving { get; set; } = null!;
     }
 }

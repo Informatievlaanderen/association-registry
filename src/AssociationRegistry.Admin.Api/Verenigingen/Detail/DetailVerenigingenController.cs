@@ -63,9 +63,13 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Status,
                     vereniging.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
-                    vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray()),
+                    vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray(),
+                    vereniging.HoofdActiviteiten.Select(ToHoofdactiviteit).ToImmutableArray()),
                 new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
     }
+
+    private static DetailVerenigingResponse.VerenigingDetail.HoofdActiviteit ToHoofdactiviteit(BeheerVerenigingDetailDocument.HoofdActiviteit hoofdActiviteit)
+        => new(hoofdActiviteit.Code, hoofdActiviteit.Beschrijving);
 
     private static DetailVerenigingResponse.VerenigingDetail.ContactInfo ToContactInfo(BeheerVerenigingDetailDocument.ContactInfo info)
         => new(

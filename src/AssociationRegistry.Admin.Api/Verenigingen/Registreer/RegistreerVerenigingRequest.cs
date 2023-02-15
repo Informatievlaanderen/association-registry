@@ -51,6 +51,12 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
 
+    /// <summary>
+    /// De hoofdactivititeiten van deze vereniging.
+    /// </summary>
+    [DataMember]
+    public string[] HoofdactiviteitenLijst { get; set; } = Array.Empty<string>();
+
     [DataContract]
     public class Vertegenwoordiger
     {
@@ -167,7 +173,8 @@ public class RegistreerVerenigingRequest
             KboNummer,
             ContactInfoLijst.Select(ToContactInfo),
             Locaties.Select(ToLocatie),
-            Vertegenwoordigers.Select(ToVertegenwoordiger));
+            Vertegenwoordigers.Select(ToVertegenwoordiger),
+            HoofdactiviteitenLijst);
 
     private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
         => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ToContactInfo));

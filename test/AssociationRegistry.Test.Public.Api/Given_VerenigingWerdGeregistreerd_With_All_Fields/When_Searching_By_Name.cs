@@ -105,7 +105,7 @@ public class When_Searching_By_Name
         var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
         var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
 
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
+        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
