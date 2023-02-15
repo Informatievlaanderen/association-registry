@@ -85,7 +85,7 @@ public class Vereniging : IHasVersion
         => hoofdactiviteitenLijst.Select(ToEventData).ToArray();
 
     private static VerenigingWerdGeregistreerd.Hoofdactiviteit ToEventData(Hoofdactiviteit hoofdactiviteit)
-        => new(hoofdactiviteit.Code, hoofdactiviteit.Naam);
+        => new(hoofdactiviteit.Code, hoofdactiviteit.Beschrijving);
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(VertegenwoordigersLijst vertegenwoordigersLijst)
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();

@@ -134,7 +134,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 },
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.Hoofdactiviteit(hoofdactiviteit, Hoofdactiviteit.All().Single(a => a.Code == hoofdactiviteit).Naam),
+                    new VerenigingWerdGeregistreerd.Hoofdactiviteit(hoofdactiviteit, Hoofdactiviteit.All().Single(a => a.Code == hoofdactiviteit).Beschrijving),
                 }));
     }
 }

@@ -26,6 +26,8 @@
     <EmbeddedResource Include="Given_VerenigingWerdGeregistreerd_With_All_Fields\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="Given_VerenigingWerdGeregistreerd_With_Minimal_Fields\When_Retrieving_Detail_Then_we_get_a_detail_vereniging_response.json" />
     <None Remove="When_retrieving_a_detail_of_a_vereniging\Given_VerenigingWerdGeregistreerd_Then_we_get_a_detail_vereniging_response.json" />
+    <None Remove="When_Fetching_The_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
+    <EmbeddedResource Include="When_Fetching_The_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
