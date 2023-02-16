@@ -95,7 +95,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     },
                 },
             },
-            HoofdactiviteitenVerenigingsLoket = new[] { "BIAG", "BWWC" },
+            HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
         };
 
         Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
@@ -118,7 +118,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
-            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsLoket));
+            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsloket));
 }
 
 [Collection(nameof(AdminApiCollection))]

@@ -55,7 +55,7 @@ public class RegistreerVerenigingRequest
     /// De hoofdactivititeiten van deze vereniging volgens het verenigingsloket.
     /// </summary>
     [DataMember]
-    public string[] HoofdactiviteitenVerenigingsLoket { get; set; } = Array.Empty<string>();
+    public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
     [DataContract]
     public class Vertegenwoordiger
@@ -174,7 +174,7 @@ public class RegistreerVerenigingRequest
             ContactInfoLijst.Select(ToContactInfo),
             Locaties.Select(ToLocatie),
             Vertegenwoordigers.Select(ToVertegenwoordiger),
-            HoofdactiviteitenVerenigingsLoket);
+            HoofdactiviteitenVerenigingsloket);
 
     private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
         => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ToContactInfo));

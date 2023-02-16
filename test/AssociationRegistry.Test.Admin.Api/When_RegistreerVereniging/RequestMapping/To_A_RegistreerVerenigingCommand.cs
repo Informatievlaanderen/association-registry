@@ -38,6 +38,6 @@ public class To_A_RegistreerVerenigingCommand
         contactInfoLijst.Should().BeEquivalentTo(request.ContactInfoLijst);
         locaties.Should().BeEquivalentTo(request.Locaties);
         vertegenwoordigers.Should().BeEquivalentTo(request.Vertegenwoordigers);
-        hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsLoket);
+        hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
     }
 }

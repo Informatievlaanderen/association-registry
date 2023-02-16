@@ -30,7 +30,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleFor(request => request.Locaties)
             .Must(NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
-        RuleFor(request => request.HoofdactiviteitenVerenigingsLoket)
+        RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 

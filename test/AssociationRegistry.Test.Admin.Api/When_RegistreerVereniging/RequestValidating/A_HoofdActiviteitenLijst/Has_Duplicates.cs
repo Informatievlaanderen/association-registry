@@ -18,11 +18,11 @@ public class Has_Duplicates : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            HoofdactiviteitenVerenigingsLoket = new[] { hoofdactivitetiCode1, hoofdactivitetiCode2 },
+            HoofdactiviteitenVerenigingsloket = new[] { hoofdactivitetiCode1, hoofdactivitetiCode2 },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(vereniging => vereniging.HoofdactiviteitenVerenigingsLoket)
+        result.ShouldHaveValidationErrorFor(vereniging => vereniging.HoofdactiviteitenVerenigingsloket)
             .WithErrorMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
     }
 }
