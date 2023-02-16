@@ -1,3 +1,10 @@
+## [1.118.1](https://github.com/informatievlaanderen/association-registry/compare/v1.118.0...v1.118.1) (2023-02-16)
+
+
+### Bug Fixes
+
+* or-1319 make vereniging serializable ([92db1e6](https://github.com/informatievlaanderen/association-registry/commit/92db1e6331b6a2205cebf759d5bc67565e501b04))
+
 # [1.118.0](https://github.com/informatievlaanderen/association-registry/compare/v1.117.0...v1.118.0) (2023-02-16)
 
 
