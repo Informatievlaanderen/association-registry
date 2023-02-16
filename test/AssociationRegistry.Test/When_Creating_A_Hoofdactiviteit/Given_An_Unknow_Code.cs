@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Hoofdactiviteit;
 
-using Activiteiten;
-using Activiteiten.Exceptions;
 using FluentAssertions;
+using Hoofdactiviteiten;
+using Hoofdactiviteiten.Exceptions;
 using Xunit;
 
 public class Given_An_Unknow_Code
@@ -14,7 +14,7 @@ public class Given_An_Unknow_Code
     [InlineData("RANDOM")]
     public void Then_it_throws_an_UnknownHoofdactiviteitCodeException(string code)
     {
-        var ctor = () => Hoofdactiviteit.Create(code);
+        var ctor = () => HoofdactiviteitVerenigingsloket.Create(code);
         ctor.Should().Throw<UnknownHoofdactiviteitCode>();
     }
 }

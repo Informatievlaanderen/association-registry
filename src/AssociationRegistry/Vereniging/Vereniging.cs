@@ -3,10 +3,10 @@ namespace AssociationRegistry.Vereniging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Activiteiten;
 using ContactInfo;
 using Events;
 using Framework;
+using Hoofdactiviteiten;
 using KboNummers;
 using Locaties;
 using Marten.Schema;
@@ -57,7 +57,7 @@ public class Vereniging : IHasVersion
         ContactLijst contactLijst,
         LocatieLijst locatieLijst,
         VertegenwoordigersLijst vertegenwoordigersLijst,
-        HoofdactiviteitenLijst hoofdactiviteitenLijst)
+        HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -69,23 +69,23 @@ public class Vereniging : IHasVersion
             VerenigingWerdGeregistreerd.ContactInfo.FromContactInfoLijst(contactLijst),
             ToLocatieLijst(locatieLijst),
             ToVertegenwoordigersLijst(vertegenwoordigersLijst),
-            ToEventData(hoofdactiviteitenLijst));
+            ToEventData(hoofdactiviteitenVerenigingsloketLijst));
 
         Apply(verenigingWerdGeregistreerdEvent);
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenLijst hoofdactiviteitenLijst, DateOnly datumLaatsteAanpassing)
-        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenLijst);
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, DateOnly datumLaatsteAanpassing)
+        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
-        => new(vCode: vCode, naam: naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, contactLijst: ContactLijst.Empty, locatieLijst: LocatieLijst.Empty, vertegenwoordigersLijst: VertegenwoordigersLijst.Empty, hoofdactiviteitenLijst: HoofdactiviteitenLijst.Empty);
+        => new(vCode: vCode, naam: naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, contactLijst: ContactLijst.Empty, locatieLijst: LocatieLijst.Empty, vertegenwoordigersLijst: VertegenwoordigersLijst.Empty, hoofdactiviteitenVerenigingsloketLijst: HoofdactiviteitenVerenigingsloketLijst.Empty);
 
-    private static VerenigingWerdGeregistreerd.Hoofdactiviteit[] ToEventData(HoofdactiviteitenLijst hoofdactiviteitenLijst)
-        => hoofdactiviteitenLijst.Select(ToEventData).ToArray();
+    private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToEventData(HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
+        => hoofdactiviteitenVerenigingsloketLijst.Select(ToEventData).ToArray();
 
-    private static VerenigingWerdGeregistreerd.Hoofdactiviteit ToEventData(Hoofdactiviteit hoofdactiviteit)
-        => new(hoofdactiviteit.Code, hoofdactiviteit.Beschrijving);
+    private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket ToEventData(HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
+        => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(VertegenwoordigersLijst vertegenwoordigersLijst)
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();

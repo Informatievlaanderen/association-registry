@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using Activiteiten;
 using ContactInfo;
 using Framework;
+using Hoofdactiviteiten;
 using KboNummers;
 using Locaties;
 using Magda;
@@ -34,7 +34,7 @@ public class RegistreerVerenigingCommandHandler
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
-        var hoofdactiviteitenLijst = HoofdactiviteitenLijst.Create(command.Hoofdactiviteiten.Select(Hoofdactiviteit.Create));
+        var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
         var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
         var vertegenwoordigersLijst = await vertegenwoordigerService.GetVertegenwoordigersLijst(command.Vertegenwoordigers);
@@ -51,7 +51,7 @@ public class RegistreerVerenigingCommandHandler
             contactInfoLijst,
             locatieLijst,
             vertegenwoordigersLijst,
-            hoofdactiviteitenLijst,
+            hoofdactiviteitenVerenigingsloketLijst,
             _clock.Today);
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata);

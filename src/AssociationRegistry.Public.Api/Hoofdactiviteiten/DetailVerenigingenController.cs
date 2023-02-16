@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.Api.Hoofdactiviteiten;
 
 using System.Linq;
+using AssociationRegistry.Hoofdactiviteiten;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -26,10 +27,10 @@ public class HoofdactiviteitenController : ApiController
     public IActionResult GetAll()
         => Ok(
             new HoofdactiviteitenResponse(
-                Activiteiten.Hoofdactiviteit.All().Select(ToDto).ToArray()
+                HoofdactiviteitVerenigingsloket.All().Select(ToDto).ToArray()
             )
         );
 
-    private static HoofdactiviteitenResponse.Hoofdactiviteit ToDto(Activiteiten.Hoofdactiviteit arg)
+    private static HoofdactiviteitenResponse.Hoofdactiviteit ToDto(HoofdactiviteitVerenigingsloket arg)
         => new(arg.Code, arg.Beschrijving);
 }

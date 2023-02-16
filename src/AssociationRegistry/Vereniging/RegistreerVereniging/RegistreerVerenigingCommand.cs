@@ -11,7 +11,7 @@ public record RegistreerVerenigingCommand(
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
     IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,
     IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers,
-    IEnumerable<string> Hoofdactiviteiten)
+    IEnumerable<string> HoofdactiviteitenVerenigingsloket)
 {
     public record ContactInfo(
         string? Contactnaam,

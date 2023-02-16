@@ -57,7 +57,7 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : 
             KorteBeschrijving = null,
             ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-            Hoofdactiviteiten = Array.Empty<VerenigingWerdGeregistreerd.Hoofdactiviteit>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

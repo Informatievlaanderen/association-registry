@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Activiteiten.Exceptions;
+﻿namespace AssociationRegistry.Hoofdactiviteiten.Exceptions;
 
 using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class DuplicateHoofdactiviteit: DomainException
 {
-    public DuplicateHoofdactiviteit() : base("Elke hoofdactiviteit moet uniek zijn")
+    public DuplicateHoofdactiviteit() : base("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.")
     {
     }
 

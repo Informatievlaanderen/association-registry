@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.When_saving_a_vereniging;
 
-using Activiteiten;
 using ContactInfo;
 using Events;
 using EventStore;
@@ -12,6 +11,7 @@ using VerenigingsNamen;
 using Vertegenwoordigers;
 using AutoFixture;
 using FluentAssertions;
+using Hoofdactiviteiten;
 using Xunit;
 
 public class Given_A_New_Vereniging
@@ -25,7 +25,7 @@ public class Given_A_New_Vereniging
 
         var vCode = VCode.Create(1001);
         var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = Vereniging.Registreer(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+        var vereniging = Vereniging.Registreer(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
 
         await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
 

@@ -16,7 +16,7 @@ public class When_Searching_By_Name
     private readonly UnHandledEventAndVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VCode _vCode;
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteiten\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
@@ -93,20 +93,20 @@ public class When_Searching_By_Name
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
     }
 
-    [Fact(Skip = "Geen Hoofdactiviteiten")]
+    [Fact]
     public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");
         var content = await response.Content.ReadAsStringAsync();
 
-        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteiten"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
+        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
         var regexResult = regex.Match(content);
         var urlFromFacets = regexResult.Groups[2].Value;
 
         var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
         var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
 
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteiten=BWWC";
+        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }

@@ -10,8 +10,8 @@ public record Vereniging(
     [property: DataMember(Name = "Naam")] string Naam,
     [property: DataMember(Name = "KorteNaam")]
     string KorteNaam,
-    [property: DataMember(Name = "Hoofdactiviteiten")]
-    ImmutableArray<Hoofdactiviteit> Hoofdactiviteiten,
+    [property: DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
+    ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket,
     [property: DataMember(Name = "Doelgroep")]
     string Doelgroep,
     [property: DataMember(Name = "Locaties")]
@@ -42,7 +42,7 @@ public record Activiteit(
     string Categorie);
 
 [DataContract]
-public record Hoofdactiviteit(
+public record HoofdactiviteitVerenigingsloket(
     [property: DataMember(Name = "Code")] string Code,
     [property: DataMember(Name = "Beschrijving")] string Beschrijving);
 

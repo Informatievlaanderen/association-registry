@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
-using Activiteiten;
 using AssociationRegistry.Admin.Api.Constants;
 using Events;
 using AssociationRegistry.Framework;
@@ -12,6 +11,7 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using Hoofdactiviteiten;
 using Moq;
 using Xunit;
 using Xunit.Categories;
@@ -134,7 +134,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 },
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.Hoofdactiviteit(hoofdactiviteit, Hoofdactiviteit.All().Single(a => a.Code == hoofdactiviteit).Beschrijving),
+                    new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(hoofdactiviteit, HoofdactiviteitVerenigingsloket.All().Single(a => a.Code == hoofdactiviteit).Beschrijving),
                 }));
     }
 }

@@ -63,6 +63,6 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Hoofdactiviteit>()));
+                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
     }
 }
