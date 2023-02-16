@@ -28,7 +28,7 @@ public class SearchVerenigingenResponseMapper
             Verenigingen = GetVerenigingenFromResponse(_appSettings, searchResponse),
             Facets = new Facets
             {
-                HoofdActiviteiten = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
+                HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
             },
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
@@ -42,7 +42,7 @@ public class SearchVerenigingenResponseMapper
             )
         );
 
-    private static ImmutableArray<HoofdActiviteitFacetItem> GetHoofdActiviteitFacets(
+    private static ImmutableArray<HoofdactiviteitVerenigingsloketFacetItem> GetHoofdActiviteitFacets(
         AppSettings appSettings,
         ISearchResponse<VerenigingDocument> searchResponse,
         string originalQuery,
@@ -57,7 +57,7 @@ public class SearchVerenigingenResponseMapper
             .ToImmutableArray();
     }
 
-    private static HoofdActiviteitFacetItem CreateHoofdActiviteitFacetItem(
+    private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
         AppSettings appSettings,
         KeyedBucket<string> bucket,
         string originalQuery,
@@ -72,8 +72,8 @@ public class SearchVerenigingenResponseMapper
                 originalHoofdactiviteiten));
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdActiviteitCode, string originalQuery, string[] hoofdactiviteiten)
-        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteiten={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdActiviteitCode)}";
+    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
+        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
         => string.Join(
@@ -88,7 +88,7 @@ public class SearchVerenigingenResponseMapper
                     x.Source.VCode,
                     x.Source.Naam,
                     x.Source.KorteNaam ?? string.Empty,
-                    x.Source.Hoofdactiviteiten.Select(h => new Hoofdactiviteit(h.Code, h.Naam)).ToImmutableArray(),
+                    x.Source.Hoofdactiviteiten.Select(h => new HoofdactiviteitVerenigingsloket(h.Code, h.Naam)).ToImmutableArray(),
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),

@@ -101,7 +101,7 @@ public class When_Retrieving_Detail
                             }}"))}
                             ],
                         }}"))}],
-                    ""hoofdactiviteitenLijst"":[{string.Join(',', _verenigingWerdGeregistreerd.Hoofdactiviteiten.Select(x=> $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x=> $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}

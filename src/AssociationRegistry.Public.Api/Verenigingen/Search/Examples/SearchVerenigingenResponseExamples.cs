@@ -23,7 +23,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V0001001",
                     "FWA De vrolijke BA’s",
                     "DVB",
-                    new Hoofdactiviteit("CULT", "Cultuur").ObjectToImmutableArray(),
+                    new HoofdactiviteitVerenigingsloket("CULT", "Cultuur").ObjectToImmutableArray(),
                     "18+",
                     ImmutableArray.Create(
                         new Locatie(
@@ -41,7 +41,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     "V0036651",
                     "FWA De Bron",
                     string.Empty,
-                    new Hoofdactiviteit("SPRT", "Sport").ObjectToImmutableArray(),
+                    new HoofdactiviteitVerenigingsloket("SPRT", "Sport").ObjectToImmutableArray(),
                     "Alle leeftijden",
                     ImmutableArray.Create(
                         new Locatie(
@@ -57,9 +57,9 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 )),
             Facets = new Facets
             {
-                HoofdActiviteiten = ImmutableArray.Create(
-                    new HoofdActiviteitFacetItem("CULT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:CULT)"),
-                    new HoofdActiviteitFacetItem("SPRT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:SPRT)")
+                HoofdactiviteitenVerenigingsloket = ImmutableArray.Create(
+                    new HoofdactiviteitVerenigingsloketFacetItem("CULT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:CULT)"),
+                    new HoofdactiviteitVerenigingsloketFacetItem("SPRT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:SPRT)")
                 ),
             },
             Metadata = new Metadata(new Pagination(2, 0, 50)),

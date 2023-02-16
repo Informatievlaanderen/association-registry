@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Hoofdactiviteit;
 
-using Activiteiten;
 using FluentAssertions;
+using Hoofdactiviteiten;
 using Xunit;
 
 public class Given_A_Know_Code
@@ -30,7 +30,7 @@ public class Given_A_Know_Code
     [InlineData("WESE")]
     public void Then_it_returns_a_hoofdactiviteit(string code)
     {
-        var hoofdactiviteit = Hoofdactiviteit.Create(code);
-        hoofdactiviteit.Should().BeEquivalentTo(Hoofdactiviteit.All().Single(h => h.Code == code));
+        var hoofdactiviteit = HoofdactiviteitVerenigingsloket.Create(code);
+        hoofdactiviteit.Should().BeEquivalentTo(HoofdactiviteitVerenigingsloket.All().Single(h => h.Code == code));
     }
 }

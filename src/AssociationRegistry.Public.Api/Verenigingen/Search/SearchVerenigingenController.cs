@@ -60,12 +60,12 @@ public class SearchVerenigingenController : ApiController
         [FromServices] ElasticClient elasticClient,
         [FromServices] SearchVerenigingenResponseMapper responseMapper,
         [FromQuery] string? q,
-        [FromQuery(Name = "facets.hoofdactiviteiten")]
-        string? hoofdactiviteiten,
+        [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
+        string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         q ??= "*";
-        var hoofdActiviteitenArray = hoofdactiviteiten?.Split(',') ?? Array.Empty<string>();
+        var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(',') ?? Array.Empty<string>();
 
         var searchResponse = await Search(elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
 

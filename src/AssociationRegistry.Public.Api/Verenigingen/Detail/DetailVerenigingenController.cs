@@ -64,11 +64,11 @@ public class DetailVerenigingenController : ApiController
                                 info.SocialMedia))
                         .ToArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
-                    vereniging.Hoofdactiviteiten.Select(ToHoofdactiviteit).ToImmutableArray()),
+                    vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 
-    private static Hoofdactiviteit ToHoofdactiviteit(PubliekVerenigingDetailDocument.HoofdActiviteit ha)
+    private static HoofdactiviteitVerenigingsloket ToHoofdactiviteit(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
         => new(ha.Code, ha.Beschrijving);
 
     private static Locatie ToLocatie(PubliekVerenigingDetailDocument.Locatie loc)

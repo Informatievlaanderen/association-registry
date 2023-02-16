@@ -30,10 +30,10 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     SocialMedia = c.SocialMedia,
                 }).ToArray(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            Hoofdactiviteiten = verenigingWerdGeregistreerd.Data.Hoofdactiviteiten.Select(MapHoofdactiviteit).ToArray(),
+            HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
-    private static PubliekVerenigingDetailDocument.HoofdActiviteit MapHoofdactiviteit(VerenigingWerdGeregistreerd.Hoofdactiviteit arg)
+    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,

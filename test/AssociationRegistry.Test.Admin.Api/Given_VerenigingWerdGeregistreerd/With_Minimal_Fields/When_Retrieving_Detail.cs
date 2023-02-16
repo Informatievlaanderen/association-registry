@@ -65,7 +65,7 @@ public class When_Retrieving_Detail
             ""contactInfoLijst"": [],
             ""locaties"":[],
             ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenLijst"":[]
+            ""hoofdactiviteitenVerenigingsloket"":[]
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"

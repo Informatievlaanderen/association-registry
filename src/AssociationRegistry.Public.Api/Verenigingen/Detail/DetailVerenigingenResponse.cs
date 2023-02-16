@@ -51,8 +51,8 @@ public record VerenigingDetail(
     ContactInfo[] ContactInfoLijst,
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties,
-    [property: DataMember(Name = "Hoofdactiviteiten")]
-    ImmutableArray<Hoofdactiviteit> Hoofdactiviteiten);
+    [property: DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
+    ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket);
 
 public record Metadata(string DatumLaatsteAanpassing);
 
@@ -70,6 +70,6 @@ public record ContactInfo(
 );
 
 [DataContract]
-public record Hoofdactiviteit(
+public record HoofdactiviteitVerenigingsloket(
     [property: DataMember(Name = "Code")] string Code,
     [property: DataMember(Name = "Beschrijving")] string Beschrijving);

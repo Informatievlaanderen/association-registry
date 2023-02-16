@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Activiteiten.Exceptions;
+﻿namespace AssociationRegistry.Hoofdactiviteiten.Exceptions;
 
 using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class UnknownHoofdactiviteitCode: DomainException
 {
-    public UnknownHoofdactiviteitCode() : base("De opgegeven code is niet gekend.")
+    public UnknownHoofdactiviteitCode(string unknownCode) : base($"De opgegeven hoofdactiviteit is niet gekend: \"{unknownCode}\"")
     {
     }
 

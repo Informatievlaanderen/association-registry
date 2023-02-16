@@ -95,7 +95,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     },
                 },
             },
-            HoofdactiviteitenLijst = new[] { "BIAG", "BWWC" },
+            HoofdactiviteitenVerenigingsLoket = new[] { "BIAG", "BWWC" },
         };
 
         Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
@@ -118,7 +118,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
-            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenLijst));
+            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsLoket));
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -198,11 +198,11 @@ public class With_All_Fields
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers);
-        savedEvent.Hoofdactiviteiten.Should().BeEquivalentTo(
+        savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {
-                new VerenigingWerdGeregistreerd.Hoofdactiviteit("BIAG", "Burgerinitiatief & Actiegroep"),
-                new VerenigingWerdGeregistreerd.Hoofdactiviteit("BWWC", "Buurtwerking & Wijkcomité"),
+                new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
+                new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
             });
     }
 

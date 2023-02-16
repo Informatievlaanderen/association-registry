@@ -25,7 +25,7 @@ public record VerenigingWerdGeregistreerd(
     VerenigingWerdGeregistreerd.ContactInfo[] ContactInfoLijst,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
-    VerenigingWerdGeregistreerd.Hoofdactiviteit[] Hoofdactiviteiten) : IEvent
+    VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     public record ContactInfo(
         string? Contactnaam,
@@ -58,7 +58,7 @@ public record VerenigingWerdGeregistreerd(
         string Achternaam,
         ContactInfo[] ContactInfoLijst);
 
-    public record Hoofdactiviteit(
+    public record HoofdactiviteitVerenigingsloket(
         string Code,
         string Beschrijving);
 }

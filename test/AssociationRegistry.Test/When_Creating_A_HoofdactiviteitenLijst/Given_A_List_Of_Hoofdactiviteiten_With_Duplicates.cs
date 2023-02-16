@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_HoofdactiviteitenLijst;
 
-using Activiteiten;
-using Activiteiten.Exceptions;
 using AutoFixture;
 using FluentAssertions;
+using Hoofdactiviteiten;
+using Hoofdactiviteiten.Exceptions;
 using Xunit;
 
 public class Given_A_List_Of_Hoofdactiviteiten_With_Duplicates
@@ -12,13 +12,13 @@ public class Given_A_List_Of_Hoofdactiviteiten_With_Duplicates
     public void Then_It_Throws_A_DuplicateHoofdactiviteitException()
     {
         var fixture = new Fixture();
-        var listOfHoofdactiviteiten = Hoofdactiviteit.All()
+        var listOfHoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
             .OrderBy(_ => fixture.Create<int>())
             .Take(1)
             .Repeat(2)
             .ToList();
 
-        var ctor = () => HoofdactiviteitenLijst.Create(listOfHoofdactiviteiten);
+        var ctor = () => HoofdactiviteitenVerenigingsloketLijst.Create(listOfHoofdactiviteiten);
 
         ctor.Should().Throw<DuplicateHoofdactiviteit>();
     }

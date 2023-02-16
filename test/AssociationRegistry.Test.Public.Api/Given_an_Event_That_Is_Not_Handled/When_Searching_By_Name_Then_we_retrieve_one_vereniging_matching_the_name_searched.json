@@ -4,7 +4,7 @@
       "vCode": "V0001004",
       "naam": "Oostende voor anker",
       "korteNaam": "OVA",
-      "hoofdactiviteiten": [
+      "hoofdactiviteitenVerenigingsloket": [
         {
           "code":"BLA",
           "beschrijving":"Buitengewoon Leuke Afkortingen"
@@ -33,11 +33,11 @@
     }
   ],
   "facets": {
-    "hoofdactiviteiten": [
+    "hoofdactiviteitenVerenigingsloket": [
       {
         "code": "BLA",
         "aantal": 1,
-        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteiten=BLA"
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteitenVerenigingsloket=BLA"
       }
     ]
   },

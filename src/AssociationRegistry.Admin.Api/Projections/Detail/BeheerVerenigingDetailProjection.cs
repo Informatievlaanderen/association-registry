@@ -53,8 +53,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                             SocialMedia = c.SocialMedia,
                         }).ToArray(),
                 }).ToArray(),
-            HoofdActiviteiten = verenigingWerdGeregistreerd.Data.Hoofdactiviteiten.Select(
-                h => new BeheerVerenigingDetailDocument.HoofdActiviteit()
+            HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
+                h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket()
                 {
                     Code = h.Code,
                     Beschrijving = h.Beschrijving,
@@ -116,7 +116,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
-    public HoofdActiviteit[] HoofdActiviteiten { get; set; } = Array.Empty<HoofdActiviteit>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Metadata Metadata { get; set; } = null!;
 
     public class ContactInfo
@@ -161,7 +161,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
         public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     }
 
-    public class HoofdActiviteit
+    public class HoofdactiviteitVerenigingsloket
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;

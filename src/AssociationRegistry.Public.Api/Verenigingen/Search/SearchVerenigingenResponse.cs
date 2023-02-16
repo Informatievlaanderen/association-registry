@@ -14,6 +14,6 @@ public class SearchVerenigingenResponse
 [DataContract]
 public class Facets
 {
-    [DataMember(Name = "Hoofdactiviteiten")]
-    public ImmutableArray<HoofdActiviteitFacetItem>? HoofdActiviteiten { get; set; }
+    [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
+    public ImmutableArray<HoofdactiviteitVerenigingsloketFacetItem>? HoofdactiviteitenVerenigingsloket { get; set; }
 }
