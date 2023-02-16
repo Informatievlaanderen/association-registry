@@ -32,9 +32,10 @@ public class VerenigingenPerInszProjection : EventProjection
                     Insz = vertegenwoordiger.Insz,
                     Verenigingen = new List<Vereniging>(),
                 };
-            verenigingenPerInszDocument.Verenigingen.Add(new Vereniging(werdGeregistreerd.VCode, werdGeregistreerd.Naam));
+            verenigingenPerInszDocument.Verenigingen.Add(new Vereniging { VCode = werdGeregistreerd.VCode, Naam = werdGeregistreerd.Naam });
             docs.Add(verenigingenPerInszDocument);
         }
+
         ops.StoreObjects(docs);
     }
 

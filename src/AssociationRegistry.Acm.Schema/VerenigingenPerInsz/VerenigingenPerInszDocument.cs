@@ -10,14 +10,6 @@ public class VerenigingenPerInszDocument
 
 public class Vereniging
 {
-    public Vereniging(
-        string VCode,
-        string Naam)
-    {
-        this.VCode = VCode;
-        this.Naam = Naam;
-    }
-
     public string VCode { get; set; }
     public string Naam { get; set; }
 }

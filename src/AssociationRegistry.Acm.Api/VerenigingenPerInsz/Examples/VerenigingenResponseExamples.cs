@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz.Examples;
 using System.Collections.Generic;
 using Schema.VerenigingenPerInsz;
 using Swashbuckle.AspNetCore.Filters;
+using VCodes;
 
 public class VerenigingenResponseExamples : IExamplesProvider<VerenigingenPerInszDocument>
 {
@@ -12,8 +13,8 @@ public class VerenigingenResponseExamples : IExamplesProvider<VerenigingenPerIns
             Insz = "12345678901",
             Verenigingen = new List<Vereniging>()
             {
-                new("V1234567", "FWA De vrolijke BA’s"),
-                new("V7654321", "FWA De Bron"),
+                new() { VCode = "V1234567", Naam = "FWA De vrolijke BA’s" },
+                new() { VCode = "V7654321", Naam = "FWA De Bron" },
             },
         };
 }
