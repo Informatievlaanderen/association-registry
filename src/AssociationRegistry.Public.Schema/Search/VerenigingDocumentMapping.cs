@@ -21,9 +21,9 @@ public static class VerenigingDocumentMapping
                         .Name(document => document.Locaties)
                         .IncludeInRoot()
                         .Properties(LocationMapping.Get))
-                .Nested<VerenigingDocument.Hoofdactiviteit>(
+                .Nested<VerenigingDocument.HoofdactiviteitVerenigingsloket>(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Hoofdactiviteiten)
+                        .Name(document => document.HoofdactiviteitenVerenigingsloket)
                         .IncludeInRoot()
                         .Properties(HoofdactiviteitMapping.Get))
                 .Text(
@@ -60,7 +60,7 @@ public static class VerenigingDocumentMapping
 
     private static class HoofdactiviteitMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Hoofdactiviteit> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.HoofdactiviteitVerenigingsloket> map)
             => map
                 .Text(
                     propertiesDescriptor => propertiesDescriptor

@@ -10,6 +10,6 @@ public class VerenigingenPerInszDocument
 
 public class Vereniging
 {
-    public string VCode { get; set; }
-    public string Naam { get; set; }
+    public string VCode { get; set; } = null!;
+    public string Naam { get; set; } = null!;
 }

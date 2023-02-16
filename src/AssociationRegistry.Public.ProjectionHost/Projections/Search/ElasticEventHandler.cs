@@ -25,7 +25,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(ToDocument).ToArray(),
-                Hoofdactiviteiten = message.Data.HoofdactiviteitenVerenigingsloket.Select(ToDocument).ToArray(),
+                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket.Select(ToDocument).ToArray(),
                 Doelgroep = _brolFeeder.Doelgroep,
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
             }
@@ -52,6 +52,6 @@ public class ElasticEventHandler
     private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
         => new(loc.Locatietype, loc.Naam, loc.ToAdresString(), loc.Hoofdlocatie, loc.Postcode, loc.Gemeente);
 
-    private static VerenigingDocument.Hoofdactiviteit ToDocument(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
+    private static VerenigingDocument.HoofdactiviteitVerenigingsloket ToDocument(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
 }

@@ -88,7 +88,7 @@ public class SearchVerenigingenResponseMapper
                     x.Source.VCode,
                     x.Source.Naam,
                     x.Source.KorteNaam ?? string.Empty,
-                    x.Source.Hoofdactiviteiten.Select(h => new HoofdactiviteitVerenigingsloket(h.Code, h.Naam)).ToImmutableArray(),
+                    x.Source.HoofdactiviteitenVerenigingsloket.Select(h => new HoofdactiviteitVerenigingsloket(h.Code, h.Naam)).ToImmutableArray(),
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
                     x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),

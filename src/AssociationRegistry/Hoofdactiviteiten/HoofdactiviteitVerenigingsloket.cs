@@ -7,7 +7,7 @@ using Exceptions;
 
 public class HoofdactiviteitVerenigingsloket
 {
-    private static readonly List<HoofdactiviteitVerenigingsloket> Hoofdactiviteiten = new()
+    private static readonly List<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket = new()
     {
         new HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
         new HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
@@ -43,10 +43,10 @@ public class HoofdactiviteitVerenigingsloket
 
     public static HoofdactiviteitVerenigingsloket Create(string key)
     {
-        var value = Hoofdactiviteiten.SingleOrDefault(p => p.Code == key);
+        var value = HoofdactiviteitenVerenigingsloket.SingleOrDefault(p => p.Code == key);
         return value ?? throw new UnknownHoofdactiviteitCode(key);
     }
 
     public static IImmutableList<HoofdactiviteitVerenigingsloket> All()
-        => Hoofdactiviteiten.ToImmutableList();
+        => HoofdactiviteitenVerenigingsloket.ToImmutableList();
 }

@@ -141,7 +141,7 @@ public class SearchVerenigingenController : ApiController
         return aggregationContainerDescriptor.Terms(
             WellknownFacets.HoofdactiviteitenCountAggregateName,
             valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                .Field(document => document.Hoofdactiviteiten.Select(h => h.Code).Suffix("keyword"))
+                .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(h => h.Code).Suffix("keyword"))
                 .Size(20)
         );
     }

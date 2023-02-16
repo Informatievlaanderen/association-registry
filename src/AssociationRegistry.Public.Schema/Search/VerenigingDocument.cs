@@ -10,7 +10,7 @@ public class VerenigingDocument
         string Postcode,
         string Gemeente);
 
-    public record Hoofdactiviteit(
+    public record HoofdactiviteitVerenigingsloket(
         string Code,
         string Naam);
 
@@ -18,7 +18,7 @@ public class VerenigingDocument
     public string Naam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public Locatie[] Locaties { get; set; } = null!;
-    public Hoofdactiviteit[] Hoofdactiviteiten { get; set; } = null!;
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
 

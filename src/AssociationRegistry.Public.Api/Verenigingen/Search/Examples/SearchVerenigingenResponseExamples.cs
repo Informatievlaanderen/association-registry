@@ -58,8 +58,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             Facets = new Facets
             {
                 HoofdactiviteitenVerenigingsloket = ImmutableArray.Create(
-                    new HoofdactiviteitVerenigingsloketFacetItem("CULT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:CULT)"),
-                    new HoofdactiviteitVerenigingsloketFacetItem("SPRT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteiten.code:SPRT)")
+                    new HoofdactiviteitVerenigingsloketFacetItem("CULT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:CULT)"),
+                    new HoofdactiviteitVerenigingsloketFacetItem("SPRT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:SPRT)")
                 ),
             },
             Metadata = new Metadata(new Pagination(2, 0, 50)),

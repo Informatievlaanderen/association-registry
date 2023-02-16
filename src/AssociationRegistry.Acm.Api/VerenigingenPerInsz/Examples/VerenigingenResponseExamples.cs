@@ -3,7 +3,6 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz.Examples;
 using System.Collections.Generic;
 using Schema.VerenigingenPerInsz;
 using Swashbuckle.AspNetCore.Filters;
-using VCodes;
 
 public class VerenigingenResponseExamples : IExamplesProvider<VerenigingenPerInszDocument>
 {
