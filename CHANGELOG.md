@@ -1,3 +1,10 @@
+## [1.118.5](https://github.com/informatievlaanderen/association-registry/compare/v1.118.4...v1.118.5) (2023-02-16)
+
+
+### Bug Fixes
+
+* or-1319 missed rename ([45b7f9f](https://github.com/informatievlaanderen/association-registry/commit/45b7f9f012364f0a4897a827f210e20eb6cd5b92))
+
 ## [1.118.4](https://github.com/informatievlaanderen/association-registry/compare/v1.118.3...v1.118.4) (2023-02-16)
 
 
