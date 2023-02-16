@@ -24,5 +24,5 @@ public class PublicApiClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> GetHoofdactiviteiten()
-        => await HttpClient.GetAsync($"/v1/hoofdactiviteit-verenigingsloket");
+        => await HttpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
 }

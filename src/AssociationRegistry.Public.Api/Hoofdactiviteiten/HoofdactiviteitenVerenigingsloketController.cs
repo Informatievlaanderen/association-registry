@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("hoofdactiviteit-verenigingsloket")]
+[ApiRoute("hoofdactiviteitenVerenigingsloket")]
 [ApiExplorerSettings(GroupName = "HoofdactiviteitenVerenigingsloket")]
 public class HoofdactiviteitenVerenigingsloketController : ApiController
 {
