@@ -1,3 +1,11 @@
+# [1.118.0](https://github.com/informatievlaanderen/association-registry/compare/v1.117.0...v1.118.0) (2023-02-16)
+
+
+### Features
+
+* or-1570 rename to hoofdactiviteitenVerenigingsloket ([39bfbec](https://github.com/informatievlaanderen/association-registry/commit/39bfbec127864a12d1f34f81657130a104359a3d))
+* or-1592 add hoofdactiviteiten endpoint ([ac42e3a](https://github.com/informatievlaanderen/association-registry/commit/ac42e3a021deaee5ef7e272d65d07e45a510c1d9))
+
 # [1.117.0](https://github.com/informatievlaanderen/association-registry/compare/v1.116.2...v1.117.0) (2023-02-15)
 
 
