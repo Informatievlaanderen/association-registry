@@ -156,7 +156,7 @@ public class SearchVerenigingenController : ApiController
 
         foreach (var (hoofdactiviteit, index) in hoofdactiviteiten.Select((item, index) => (item, index)))
         {
-            builder.Append($"hoofdactiviteiten.code:{hoofdactiviteit}");
+            builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteit}");
             if (index < hoofdactiviteiten.Count - 1)
                 builder.Append(" OR ");
         }
