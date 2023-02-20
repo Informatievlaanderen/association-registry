@@ -1,3 +1,10 @@
+# [1.121.0](https://github.com/informatievlaanderen/association-registry/compare/v1.120.0...v1.121.0) (2023-02-20)
+
+
+### Features
+
+* or-1414 make Contactnaam unique ([bf538e7](https://github.com/informatievlaanderen/association-registry/commit/bf538e7941e7b9fd12b0944c75172f4577a25e15))
+
 # [1.120.0](https://github.com/informatievlaanderen/association-registry/compare/v1.119.0...v1.120.0) (2023-02-20)
 
 
