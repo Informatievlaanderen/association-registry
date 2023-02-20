@@ -1,3 +1,10 @@
+# [1.120.0](https://github.com/informatievlaanderen/association-registry/compare/v1.119.0...v1.120.0) (2023-02-20)
+
+
+### Features
+
+* or-1414 make Contactnaam required ([134b702](https://github.com/informatievlaanderen/association-registry/commit/134b702af71a1e933feac450ff2f9cae98db7059))
+
 # [1.119.0](https://github.com/informatievlaanderen/association-registry/compare/v1.118.5...v1.119.0) (2023-02-20)
 
 
