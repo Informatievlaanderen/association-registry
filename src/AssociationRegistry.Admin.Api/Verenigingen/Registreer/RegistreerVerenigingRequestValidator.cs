@@ -34,6 +34,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
         RuleFor(request => request.ContactInfoLijst)
+            .Must(ContactInfoValidator.NotHaveDuplicateContactnaam)
+            .WithMessage("Een contactnaam moet uniek zijn.");
+        RuleFor(request => request.ContactInfoLijst)
             .Must(ContactInfoValidator.NotHaveMultiplePrimaryContactInfos)
             .WithMessage("Er mag maximum één primair contactinfo opgegeven worden.");
 
@@ -69,6 +72,13 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 
         internal static bool NotHaveMultiplePrimaryContactInfos(RegistreerVerenigingRequest.ContactInfo[] contactInfos)
             => contactInfos.Count(i => i.PrimairContactInfo) <= 1;
+
+        public static bool NotHaveDuplicateContactnaam(RegistreerVerenigingRequest.ContactInfo[] arg)
+        {
+            var totalItems = arg.Length;
+            var distinct = arg.Select(i => i.Contactnaam).Distinct().Count();
+            return totalItems == distinct;
+        }
     }
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>

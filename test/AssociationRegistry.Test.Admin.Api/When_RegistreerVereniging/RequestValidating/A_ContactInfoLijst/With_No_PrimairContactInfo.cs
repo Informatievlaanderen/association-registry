@@ -16,6 +16,7 @@ public class With_No_PrimairContactInfo
             {
                 new()
                 {
+                    Contactnaam = "Algemeen",
                     Email = "master@outlook.com",
                     Telefoon = "9876543210",
                     Website = "www.master.lara",
@@ -23,6 +24,7 @@ public class With_No_PrimairContactInfo
                 },
                 new()
                 {
+                    Contactnaam = "Scrum",
                     Email = "scrum@gmail.com",
                     Telefoon = "0000111222",
                     Website = "www.scrum.google",

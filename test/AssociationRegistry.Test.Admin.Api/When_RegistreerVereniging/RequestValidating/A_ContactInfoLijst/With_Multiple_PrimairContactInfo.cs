@@ -7,7 +7,7 @@ using Xunit;
 public class With_Multiple_PrimairContactInfo
 {
     [Fact]
-    public void Has_no_validation_error_for_ContactInfoLijst()
+    public void Has_validation_error_for_ContactInfoLijst()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
