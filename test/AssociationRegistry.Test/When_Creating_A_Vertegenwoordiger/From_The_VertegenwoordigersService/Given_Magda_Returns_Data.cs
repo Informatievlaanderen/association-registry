@@ -37,8 +37,10 @@ public class Given_Magda_Returns_Data
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            fixture.CreateMany<RegistreerVerenigingCommand.ContactInfo>().Select(_ => _ with { PrimairContactInfo = false }));
-
+            new RegistreerVerenigingCommand.ContactInfo[]
+            {
+                new(fixture.Create<string>(), $"{fixture.Create<string?>()}@{fixture.Create<string?>()}.com", fixture.Create<int?>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
+            });
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 
         using (new AssertionScope())
@@ -49,7 +51,15 @@ public class Given_Magda_Returns_Data
             vertegenwoordigersLijst.Single().Roepnaam.Should().Be(vertegenwoordiger.Roepnaam);
             vertegenwoordigersLijst.Single().Rol.Should().Be(vertegenwoordiger.Rol);
             vertegenwoordigersLijst.Single().PrimairContactpersoon.Should().Be(vertegenwoordiger.PrimairContactpersoon);
-            vertegenwoordigersLijst.Single().ContactInfoLijst.Should().BeEquivalentTo(vertegenwoordiger.ContactInfoLijst);
+            foreach (var contactInfo in vertegenwoordigersLijst.Single().ContactInfoLijst)
+            {
+                contactInfo.PrimairContactInfo.Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().PrimairContactInfo);
+                contactInfo.Website?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Website);
+                contactInfo.Telefoon?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Telefoon);
+                contactInfo.Contactnaam.Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Contactnaam);
+                contactInfo.Email?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Email);
+                contactInfo.SocialMedia?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().SocialMedia);
+            }
         }
     }
 }

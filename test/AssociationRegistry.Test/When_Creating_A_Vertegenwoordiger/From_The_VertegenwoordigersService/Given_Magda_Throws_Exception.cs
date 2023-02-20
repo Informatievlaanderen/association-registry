@@ -30,8 +30,10 @@ public class Given_Magda_Throws_Exception
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            fixture.CreateMany<RegistreerVerenigingCommand.ContactInfo>().Select(_ => _ with { PrimairContactInfo = false }));
-
+            new RegistreerVerenigingCommand.ContactInfo[]
+            {
+                new(fixture.Create<string>(), $"{ fixture.Create<string?>() }@{ fixture.Create<string?>() }.com", fixture.Create<int>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
+            });
         var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 
         await createFunc.Should().ThrowAsync<UnknownInsz>();
