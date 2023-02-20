@@ -18,7 +18,8 @@ public record RegistreerVerenigingCommand(
         string? Email,
         string? Telefoon,
         string? Website,
-        string? SocialMedia);
+        string? SocialMedia,
+        bool PrimairContactInfo);
 
     public record Locatie(
         string? Naam,

@@ -33,7 +33,8 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         "info@FOud.be",
         "1111.11.11.11",
         "www.oudenaarde.be/feest",
-        "#FOudenaarde");
+        "#FOudenaarde",
+        true);
 
     private readonly VerenigingWerdGeregistreerd.Locatie _locatie = new(
         "Correspondentie",
@@ -62,7 +63,8 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
                 "asgard@world.tree",
                 "0000000001",
                 "www.asgard.tree",
-                "#Asgard"),
+                "#Asgard",
+                false),
         });
 
 

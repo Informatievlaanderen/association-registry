@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.ContactInfo;
 
+using Exceptions;
+using Framework;
 using Vereniging.RegistreerVereniging;
 
 public class ContactLijst : List<ContactInfo>
@@ -17,7 +19,18 @@ public class ContactLijst : List<ContactInfo>
         => new();
 
     public static ContactLijst Create(IEnumerable<ContactInfo>? listOfContactInfo)
-        => listOfContactInfo is null ? Empty : new ContactLijst(listOfContactInfo);
+    {
+        if (listOfContactInfo is null)
+            return Empty;
+
+        var contactInfoArray = listOfContactInfo as ContactInfo[] ?? listOfContactInfo.ToArray();
+
+        Throw<MultiplePrimaryContactInfos>.If(HasMultiplePrimaryContactInfos(contactInfoArray));
+        return new ContactLijst(contactInfoArray);
+    }
+
+    private static bool HasMultiplePrimaryContactInfos(IEnumerable<ContactInfo> contactInfos)
+        => contactInfos.Count(info => info.PrimairContactInfo) > 1;
 
     public static ContactLijst Create(IEnumerable<RegistreerVerenigingCommand.ContactInfo>? listOfContactInfo)
         => listOfContactInfo is null
@@ -29,5 +42,6 @@ public class ContactLijst : List<ContactInfo>
                         info.Email,
                         info.Telefoon,
                         info.Website,
-                        info.SocialMedia)));
+                        info.SocialMedia,
+                        info.PrimairContactInfo)));
 }

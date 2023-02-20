@@ -32,6 +32,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Telefoon = c.Telefoon,
                     Website = c.Website,
                     SocialMedia = c.SocialMedia,
+                    PrimairContactInfo = c.PrimairContactInfo,
                 }).ToArray(),
             Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
             Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
@@ -126,6 +127,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Telefoon { get; set; }
         public string? Website { get; set; }
         public string? SocialMedia { get; set; }
+        public bool PrimairContactInfo { get; set; }
     }
 
     public class Locatie

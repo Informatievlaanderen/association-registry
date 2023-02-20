@@ -99,6 +99,8 @@ public class RegistreerVerenigingRequest
         /// </summary>
         [DataMember]
         public string? SocialMedia { get; set; }
+
+        public bool PrimairContactInfo { get; set; } = false;
     }
 
     [DataContract]
@@ -180,7 +182,7 @@ public class RegistreerVerenigingRequest
         => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ToContactInfo));
 
     private static RegistreerVerenigingCommand.ContactInfo ToContactInfo(ContactInfo c)
-        => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia);
+        => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia, c.PrimairContactInfo);
 
     private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
         => new(

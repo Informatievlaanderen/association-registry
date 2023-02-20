@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Contact;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_ContactInfoLijst.With_A_Contact;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
@@ -7,7 +7,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Only_A_Contactnaam : ValidatorTest
+public class Without_Any_Values : ValidatorTest
 {
     [Fact]
     public void Has_validation_error__minsten_1_waarde_is_verplicht()
@@ -17,10 +17,7 @@ public class With_Only_A_Contactnaam : ValidatorTest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo
-            {
-                Contactnaam = "iets zinnig",
-            }},
+            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo()},
         };
 
         var result = validator.TestValidate(request);
