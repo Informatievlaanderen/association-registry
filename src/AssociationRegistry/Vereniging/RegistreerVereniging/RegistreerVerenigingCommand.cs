@@ -14,7 +14,7 @@ public record RegistreerVerenigingCommand(
     IEnumerable<string> HoofdactiviteitenVerenigingsloket)
 {
     public record ContactInfo(
-        string? Contactnaam,
+        string Contactnaam,
         string? Email,
         string? Telefoon,
         string? Website,

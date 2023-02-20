@@ -122,7 +122,7 @@ public class BeheerVerenigingDetailDocument : IVCode, IMetadata
 
     public class ContactInfo
     {
-        public string? Contactnaam { get; set; }
+        public string Contactnaam { get; set; } = null!;
         public string? Email { get; set; }
         public string? Telefoon { get; set; }
         public string? Website { get; set; }

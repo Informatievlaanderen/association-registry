@@ -28,7 +28,7 @@ public record VerenigingWerdGeregistreerd(
     VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     public record ContactInfo(
-        string? Contactnaam,
+        string Contactnaam,
         string? Email,
         string? Telefoon,
         string? Website,

@@ -87,6 +87,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     {
                         new()
                         {
+                            Contactnaam = "Scrum",
                             Email = "master@outlook.com",
                             Telefoon = "9876543210",
                             Website = "www.master.lara",
@@ -170,6 +171,7 @@ public class With_All_Fields
                 {
                     new()
                     {
+                        Contactnaam = "Scrum",
                         Email = "master@outlook.com",
                         Telefoon = "9876543210",
                         Website = "www.master.lara",

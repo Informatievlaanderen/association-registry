@@ -32,6 +32,6 @@ public class With_One_Or_More_Values : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldNotHaveValidationErrorFor($"{nameof(request.ContactInfoLijst)}[0]");
     }
 }

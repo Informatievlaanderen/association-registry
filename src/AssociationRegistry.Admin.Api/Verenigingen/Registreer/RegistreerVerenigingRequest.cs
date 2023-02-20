@@ -74,7 +74,7 @@ public class RegistreerVerenigingRequest
         /// Een groeperingsveld dat beschrijft welke contactgegevens worden opgegeven
         /// </summary>
         [DataMember]
-        public string? Contactnaam { get; set; }
+        public string Contactnaam { get; set; } = null!;
 
         /// <summary>
         /// Een e-mailadres

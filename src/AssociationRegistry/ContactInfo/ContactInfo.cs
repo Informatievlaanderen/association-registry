@@ -5,7 +5,7 @@ using Exceptions;
 
 public class ContactInfo
 {
-    private ContactInfo(string? contactnaam, string? email, string? telefoon, string? website, string? socialMedia, bool primairContactInfo)
+    private ContactInfo(string contactnaam, string? email, string? telefoon, string? website, string? socialMedia, bool primairContactInfo)
     {
         Contactnaam = contactnaam;
         Email = email;
@@ -15,16 +15,17 @@ public class ContactInfo
         PrimairContactInfo = primairContactInfo;
     }
 
-    public static ContactInfo CreateInstance(string? contactnaam, string? email, string? telefoonNummer, string? website, string? socialMedia, bool primairContactInfo)
+    public static ContactInfo CreateInstance(string contactnaam, string? email, string? telefoonNummer, string? website, string? socialMedia, bool primairContactInfo)
     {
         Throw<NoContactInfo>.If(NoValuesForAll(email, telefoonNummer, website, socialMedia));
+        Throw<NoContactnaam>.If(string.IsNullOrWhiteSpace(contactnaam));
         return new ContactInfo(contactnaam, email, telefoonNummer, website, socialMedia, primairContactInfo);
     }
 
     private static bool NoValuesForAll(params string?[] args)
         => args.All(string.IsNullOrEmpty);
 
-    public string? Contactnaam { get; }
+    public string Contactnaam { get; }
     public string? Email { get; }
     public string? Telefoon { get; }
     public string? Website { get; }

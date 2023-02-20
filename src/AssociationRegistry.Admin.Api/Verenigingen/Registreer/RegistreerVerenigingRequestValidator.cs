@@ -54,9 +54,11 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     {
         public ContactInfoValidator()
         {
-            RuleFor(request => request)
+            RuleFor(contactInfo => contactInfo)
                 .Must(HaveAtLeastOneValue)
                 .WithMessage("Een contact moet minstens één waarde bevatten.");
+
+            this.RequireNotNullOrEmpty(contactInfo => contactInfo.Contactnaam);
         }
 
         private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
