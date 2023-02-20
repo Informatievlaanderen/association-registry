@@ -13,7 +13,6 @@ using Xunit;
 
 public class Given_Magda_Returns_Data
 {
-
     [Fact]
     public async Task Then_it_returns_a_vertegenwoordiger()
     {
@@ -38,7 +37,7 @@ public class Given_Magda_Returns_Data
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            fixture.CreateMany<RegistreerVerenigingCommand.ContactInfo>());
+            fixture.CreateMany<RegistreerVerenigingCommand.ContactInfo>().Select(_ => _ with { PrimairContactInfo = false }));
 
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 

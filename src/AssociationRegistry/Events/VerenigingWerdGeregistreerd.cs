@@ -32,10 +32,11 @@ public record VerenigingWerdGeregistreerd(
         string? Email,
         string? Telefoon,
         string? Website,
-        string? SocialMedia)
+        string? SocialMedia,
+        bool PrimairContactInfo)
     {
         public static ContactInfo[] FromContactInfoLijst(ContactLijst contactLijst)
-            => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia)).ToArray();
+            => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia, c.PrimairContactInfo)).ToArray();
     }
 
     public record Locatie(

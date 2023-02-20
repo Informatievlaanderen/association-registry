@@ -28,6 +28,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     Telefoon = c.Telefoon,
                     Website = c.Website,
                     SocialMedia = c.SocialMedia,
+                    PrimairContactInfo = c.PrimairContactInfo,
                 }).ToArray(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),

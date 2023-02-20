@@ -61,7 +61,8 @@ public class DetailVerenigingenController : ApiController
                                 info.Email,
                                 info.Telefoon,
                                 info.Website,
-                                info.SocialMedia))
+                                info.SocialMedia,
+                                info.PrimairContactInfo))
                         .ToArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
                     vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),

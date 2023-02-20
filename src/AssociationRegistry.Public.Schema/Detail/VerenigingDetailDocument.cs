@@ -25,6 +25,7 @@ public class PubliekVerenigingDetailDocument
         public string? Telefoon { get; set; }
         public string? Website { get; set; }
         public string? SocialMedia { get; set; }
+        public bool PrimairContactInfo { get; set; }
     }
 
     public class Locatie

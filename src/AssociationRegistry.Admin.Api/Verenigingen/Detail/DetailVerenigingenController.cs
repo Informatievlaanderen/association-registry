@@ -77,7 +77,8 @@ public class DetailVerenigingenController : ApiController
             info.Email,
             info.Telefoon,
             info.Website,
-            info.SocialMedia);
+            info.SocialMedia,
+            info.PrimairContactInfo);
 
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
         => new(

@@ -69,7 +69,8 @@ public class When_Retrieving_Detail
                         ""email"": ""{x.Email}"",
                         ""telefoon"": ""{x.Telefoon}"",
                         ""website"": ""{x.Website}"",
-                        ""socialMedia"": ""{x.SocialMedia}""
+                        ""socialMedia"": ""{x.SocialMedia}"",
+                        ""primairContactInfo"": {(x.PrimairContactInfo ? "true" : "false")},
                     }}"))}
                     ],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
@@ -97,11 +98,12 @@ public class When_Retrieving_Detail
                                 ""email"": ""{y.Email}"",
                                 ""telefoon"": ""{y.Telefoon}"",
                                 ""website"": ""{y.Website}"",
-                                ""socialMedia"": ""{y.SocialMedia}""
+                                ""socialMedia"": ""{y.SocialMedia}"",
+                                ""primairContactInfo"": {(y.PrimairContactInfo ? "true" : "false")},
                             }}"))}
                             ],
                         }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x=> $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}

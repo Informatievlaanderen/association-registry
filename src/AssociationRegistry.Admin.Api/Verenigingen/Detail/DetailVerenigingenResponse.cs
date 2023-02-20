@@ -44,7 +44,9 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "Website")]
             string? Website,
             [property: DataMember(Name = "SocialMedia")]
-            string? SocialMedia
+            string? SocialMedia,
+            [property: DataMember(Name = "PrimairContactInfo")]
+            bool PrimairContactInfo
         );
 
         [DataContract]

@@ -6,7 +6,8 @@ using System.Runtime.Serialization;
 
 [DataContract]
 public record Locatie(
-    [property: DataMember(Name = "Locatietype")] string Locatietype,
+    [property: DataMember(Name = "Locatietype")]
+    string Locatietype,
     [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
     bool Hoofdlocatie,
     [property: DataMember(Name = "Adres")] string Adres,
@@ -66,10 +67,13 @@ public record ContactInfo(
     [property: DataMember(Name = "Website")]
     string? Website,
     [property: DataMember(Name = "SocialMedia")]
-    string? SocialMedia
+    string? SocialMedia,
+    [property: DataMember(Name = "PrimairContactInfo")]
+    bool PrimairContactInfo
 );
 
 [DataContract]
 public record HoofdactiviteitVerenigingsloket(
     [property: DataMember(Name = "Code")] string Code,
-    [property: DataMember(Name = "Beschrijving")] string Beschrijving);
+    [property: DataMember(Name = "Beschrijving")]
+    string Beschrijving);
