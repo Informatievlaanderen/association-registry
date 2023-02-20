@@ -100,6 +100,10 @@ public class RegistreerVerenigingRequest
         [DataMember]
         public string? SocialMedia { get; set; }
 
+        /// <summary>
+        /// Indiceert dat dit het primair contactgegeven is.
+        /// </summary>
+        [DataMember]
         public bool PrimairContactInfo { get; set; } = false;
     }
 
