@@ -1,3 +1,10 @@
+# [1.119.0](https://github.com/informatievlaanderen/association-registry/compare/v1.118.5...v1.119.0) (2023-02-20)
+
+
+### Features
+
+* or-1579 add primairContactInfo ([f5acad0](https://github.com/informatievlaanderen/association-registry/commit/f5acad076763eb2cdd60092962451d5960d3be0b))
+
 ## [1.118.5](https://github.com/informatievlaanderen/association-registry/compare/v1.118.4...v1.118.5) (2023-02-16)
 
 
