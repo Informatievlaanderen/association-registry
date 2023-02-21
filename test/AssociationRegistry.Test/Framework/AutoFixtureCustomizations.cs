@@ -1,11 +1,8 @@
 namespace AssociationRegistry.Test.Framework;
 
-using System.Diagnostics.Tracing;
 using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
-using Be.Vlaanderen.Basisregisters.Utilities;
-using ContactInfo.Emails;
 using NodaTime;
 
 public static class AutoFixtureCustomizations
@@ -28,16 +25,6 @@ public static class AutoFixtureCustomizations
         fixture.Customize<VCode>(
             customization => customization.FromFactory(
                 generator => VCode.Create(generator.Next(10000, 100000))));
-    }
-
-    public static void CustomizeEmail(this IFixture fixture)
-    {
-        var name = "a" + Guid.NewGuid() + "b";
-        var domain = "digitaal";
-        var topLevel = "vlaanderen";
-        fixture.Customize<Email>(
-            customization => customization.FromFactory(
-                _ => Email.Create($"{name}@{domain}.{topLevel}")));
     }
 
     public static IPostprocessComposer<T> FromFactory<T>(this IFactoryComposer<T> composer, Func<Random, T> factory)

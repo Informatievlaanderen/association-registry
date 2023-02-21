@@ -33,7 +33,7 @@ public class Given_Magda_Returns_Data
 
         var service = new VertegenwoordigerService(magdaMock.Object);
 
-        var email = "iemand@digitaal.vlaanderen";
+        const string email = "iemand@digitaal.vlaanderen";
         var vertegenwoordiger = new RegistreerVerenigingCommand.Vertegenwoordiger(
             insz,
             fixture.Create<bool>(),
