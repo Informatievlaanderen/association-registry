@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public class DetailVerenigingenController : ApiController
     {
         await using var session = documentStore.LightweightSession();
         var maybeVereniging = await session.Query<PubliekVerenigingDetailDocument>()
-            .Where(document => document.VCode == vCode)
+            .WithVCode(vCode)
             .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
