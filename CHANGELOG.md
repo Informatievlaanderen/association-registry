@@ -1,3 +1,10 @@
+## [1.121.1](https://github.com/informatievlaanderen/association-registry/compare/v1.121.0...v1.121.1) (2023-02-21)
+
+
+### Bug Fixes
+
+* or-1579 add primaryContactInfo to DTO object ([78f370a](https://github.com/informatievlaanderen/association-registry/commit/78f370a5477e711018e65a53e4de196cf6dc054d))
+
 # [1.121.0](https://github.com/informatievlaanderen/association-registry/compare/v1.120.0...v1.121.0) (2023-02-20)
 
 
