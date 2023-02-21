@@ -1,3 +1,10 @@
+## [1.124.1](https://github.com/informatievlaanderen/association-registry/compare/v1.124.0...v1.124.1) (2023-02-21)
+
+
+### Bug Fixes
+
+* or-1567 remove bus from adres when no busnummer is present ([760475f](https://github.com/informatievlaanderen/association-registry/commit/760475f7481a0867ba0c294a67182fb119b00085))
+
 # [1.124.0](https://github.com/informatievlaanderen/association-registry/compare/v1.123.0...v1.124.0) (2023-02-21)
 
 
