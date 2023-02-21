@@ -1,3 +1,10 @@
+## [1.121.2](https://github.com/informatievlaanderen/association-registry/compare/v1.121.1...v1.121.2) (2023-02-21)
+
+
+### Bug Fixes
+
+* or-1579 map PrimairContactInfo in beheer detail ([3cf2878](https://github.com/informatievlaanderen/association-registry/commit/3cf2878ca425599380dee4e54cb6dd4f131938ad))
+
 ## [1.121.1](https://github.com/informatievlaanderen/association-registry/compare/v1.121.0...v1.121.1) (2023-02-21)
 
 
