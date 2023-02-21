@@ -1,3 +1,18 @@
+# [1.122.0](https://github.com/informatievlaanderen/association-registry/compare/v1.121.2...v1.122.0) (2023-02-21)
+
+
+### Bug Fixes
+
+* or-1412 modify email validation to be less strict ([490c195](https://github.com/informatievlaanderen/association-registry/commit/490c1950ffbcb9f2b6f12b6dc52d1308798c6e8f))
+* or-1412 update documentation of registreer vereniging ([6aa7460](https://github.com/informatievlaanderen/association-registry/commit/6aa746083852e257b182ffe2010e40db32d30632))
+* or-1412 update documentation of registreer vereniging ([cd0ee9b](https://github.com/informatievlaanderen/association-registry/commit/cd0ee9b2c8bc651bf8098832cb37559e624a21c5))
+
+
+### Features
+
+* or-1412 add validation for contactinfo parts ([131090a](https://github.com/informatievlaanderen/association-registry/commit/131090a7eba89634a3317f806710d174c6f58a1d))
+* or-1412 simplify email regex and use Url for website and social media ([72b8e43](https://github.com/informatievlaanderen/association-registry/commit/72b8e43d3d4f2222646c877b8b0ffc3e80d3c522))
+
 ## [1.121.2](https://github.com/informatievlaanderen/association-registry/compare/v1.121.1...v1.121.2) (2023-02-21)
 
 
