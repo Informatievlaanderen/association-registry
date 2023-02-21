@@ -8,7 +8,7 @@ using Urls;
 
 public class Email : StringValueObject<Url>
 {
-    private static readonly Regex EmailRegex = new(@"^([a-z]+[a-z0-9]*[\.!#$%&'*+/=?^_`{|}~-]?[a-z0-9]+)@(([a-z]+[a-z0-9]*[\.-]?)*[a-z0-9]{2,}\.)+[a-z]{2,}$");
+    private static readonly Regex EmailRegex = new(@"^(([a-z]+[a-z0-9]*[\.!#$%&'*+/=?^_`{|}~-]*)*[a-z0-9]+)@(([a-z]+[a-z0-9]*[\.-]?)*[a-z0-9]\.)+[a-z]{2,}$");
     private Email(string @string) : base(@string)
     {
     }
