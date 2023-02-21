@@ -12,21 +12,15 @@ public class WijzigBasisgegevensRequest
     [Required]
     public string Initiator { get; init; } = null!;
 
-    /// <summary>
-    /// Nieuwe naam van de vereniging
-    /// </summary>
+    /// <summary>Nieuwe naam van de vereniging</summary>
     [DataMember]
     public string? Naam { get; set; }
 
-    /// <summary>
-    /// Nieuwe korte naam van de vereniging
-    /// </summary>
+    /// <summary>Nieuwe korte naam van de vereniging</summary>
     [DataMember]
     public string? KorteNaam { get; set; }
 
-    /// <summary>
-    /// Nieuwe korte beschrijving van de vereniging
-    /// </summary>
+    /// <summary>Nieuwe korte beschrijving van de vereniging</summary>
     [DataMember]
     public string? KorteBeschrijving { get; set; }
 
