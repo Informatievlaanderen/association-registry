@@ -6,9 +6,8 @@ using Framework;
 
 public class TelefoonNummer : StringValueObject<TelefoonNummer>
 {
-    private static readonly string[] AllowedCharacters = new[]
-    {
-        " ", ".", "(", ")", "/", "-",
+    private static readonly string[] AllowedCharacters = {
+        " ", ".", "(", ")", "/", "-", "+",
     };
 
     private TelefoonNummer(string @string) : base(@string)

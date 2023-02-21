@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidTelefoonNummerCharacter : DomainException
 {
-    public InvalidTelefoonNummerCharacter() : base("TelefoonNummer moet bestaan uit cijfers, whitespace en \"./()-\"")
+    public InvalidTelefoonNummerCharacter() : base("TelefoonNummer moet bestaan uit cijfers, whitespace en \". /( ) - + \"")
     {
     }
 

@@ -2,9 +2,8 @@
 
 using Exceptions;
 using Framework;
-using SocialMedias;
+using Urls;
 using Vereniging.RegistreerVereniging;
-using Websites;
 
 public class ContactLijst : List<ContactInfo>
 {
@@ -51,7 +50,7 @@ public class ContactLijst : List<ContactInfo>
                         info.Contactnaam,
                         info.Email,
                         info.Telefoon,
-                        Website.Create(info.Website),
-                        SocialMedia.Create(info.SocialMedia),
+                        info.Website,
+                        info.SocialMedia,
                         info.PrimairContactInfo)));
 }
