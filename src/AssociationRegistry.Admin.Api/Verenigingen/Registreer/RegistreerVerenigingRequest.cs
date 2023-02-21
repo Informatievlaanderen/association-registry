@@ -27,82 +27,90 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public string? KorteBeschrijving { get; init; }
 
-    /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag.</summary>
+    /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember]
     public DateOnly? StartDatum { get; init; }
 
-    /// <summary>Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten.</summary>
+    /// <summary>
+    /// Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
+    /// </summary>
     [DataMember]
     public string? KboNummer { get; init; }
 
-    /// <summary>
-    /// De contact info van deze vereniging
-    /// </summary>
+    /// <summary>De contact info van deze vereniging</summary>
     [DataMember]
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
 
-    /// <summary>Alle locaties waar deze vereniging actief is.</summary>
+    /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember]
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
 
-    /// <summary>
-    /// De vertegenwoordigers van deze vereniging.
-    /// </summary>
+    /// <summary>De vertegenwoordigers van deze vereniging</summary>
     [DataMember]
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
 
-    /// <summary>
-    /// De hoofdactivititeiten van deze vereniging volgens het verenigingsloket.
-    /// </summary>
+    /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
     [DataContract]
     public class Vertegenwoordiger
     {
+        /// <summary>
+        /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
+        /// </summary>
         [DataMember] public string? Insz { get; set; } = null!;
+
+        /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
         [DataMember] public string? Rol { get; set; }
+
+        /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
         [DataMember] public string? Roepnaam { get; set; }
+
+        /// <summary>
+        /// Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
+        /// </summary>
         [DataMember] public bool PrimairContactpersoon { get; set; } = false;
+
+        /// <summary>Dit zijn de contactgegevens van een vertegenwoordiger</summary>
         [DataMember] public ContactInfo[]? ContactInfoLijst { get; set; }
     }
 
     [DataContract]
     public class ContactInfo
     {
-        /// <summary>
-        /// Een groeperingsveld dat beschrijft welke contactgegevens worden opgegeven
-        /// </summary>
+        /// <summary>Dit is de verplichte en unieke identificatie van een contactgegeven</summary>
         [DataMember]
         public string Contactnaam { get; set; } = null!;
 
         /// <summary>
-        /// Een e-mailadres
+        /// Een e-mailadres<br/>
+        /// Hier verwachten we het volgende formaat (naam@domein.vlaanderen),<br/>
+        /// In naam worden de volgende characters toegestaan '!#$%&'*+/=?^_`{|}~-',<br/>
+        /// in domein enkel '.' en '-'
         /// </summary>
         [DataMember]
         public string? Email { get; set; }
 
-        /// <summary>
-        ///  Een telefoonnummer
-        /// </summary>
+        /// <summary>Een telefoonnummer</summary>
         [DataMember]
         public string? Telefoon { get; set; }
 
         /// <summary>
-        /// Een website link
+        /// Een website link<br/>
+        /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
         /// </summary>
         [DataMember]
         public string? Website { get; set; }
 
         /// <summary>
-        /// Een socialmedia identifier
+        /// Een socialmedia link<br/>
+        /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
         /// </summary>
         [DataMember]
         public string? SocialMedia { get; set; }
 
-        /// <summary>
-        /// Indiceert dat dit het primair contactgegeven is.
-        /// </summary>
+        /// <summary>Dit duidt aan dat dit het unieke primaire contactgegeven is</summary>
         [DataMember]
         public bool PrimairContactInfo { get; set; } = false;
     }
@@ -112,7 +120,7 @@ public class RegistreerVerenigingRequest
     {
         /// <summary>
         /// Het soort locatie dat beschreven word.<br/>
-        ///
+        /// <br/>
         /// Mogelijke waarden:<br/>
         ///   - Activiteiten<br/>
         ///   - Correspondentie - Slecht één maal mogelijk<br/>
@@ -120,52 +128,35 @@ public class RegistreerVerenigingRequest
         [DataMember]
         public string Locatietype { get; set; } = null!;
 
-        /// <summary>
-        /// Zet true als deze locatie de hoofdlocatie van de vereniging is.<br/>
-        /// Maximum één aanduiden.
-        /// </summary>
+        /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
         [DataMember]
         public bool Hoofdlocatie { get; set; } = false;
 
-        /// <summary>
-        /// Een beschrijvende naam voor de locatie
-        /// </summary>
+        /// <summary>Een beschrijvende naam voor de locatie</summary>
         [DataMember]
         public string? Naam { get; set; }
 
-        /// <summary>
-        /// De straat van de locatie
-        /// </summary>
+        /// <summary>De straat van de locatie</summary>
         [DataMember]
         public string Straatnaam { get; set; } = null!;
 
-        /// <summary>
-        /// He huisnummer van de locatie
-        /// </summary>
+        /// <summary>Het huisnummer van de locatie</summary>
         [DataMember]
         public string Huisnummer { get; set; } = null!;
 
-        /// <summary>
-        /// Het busnummer van de locatie
-        /// </summary>
+        /// <summary>Het busnummer van de locatie</summary>
         [DataMember]
         public string? Busnummer { get; set; }
 
-        /// <summary>
-        /// De postcode van de locatie
-        /// </summary>
+        /// <summary>De postcode van de locatie</summary>
         [DataMember]
         public string Postcode { get; set; } = null!;
 
-        /// <summary>
-        /// De gemeente van de locatie
-        /// </summary>
+        /// <summary>De gemeente van de locatie</summary>
         [DataMember]
         public string Gemeente { get; set; } = null!;
 
-        /// <summary>
-        /// Het land van de locatie
-        /// </summary>
+        /// <summary>Het land van de locatie</summary>
         [DataMember]
         public string Land { get; set; } = null!;
     }

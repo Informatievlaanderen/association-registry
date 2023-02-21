@@ -7,23 +7,30 @@ using Swashbuckle.AspNetCore.Filters;
 public class RegistreerVerenigingenRequestExamples : IExamplesProvider<RegistreerVerenigingRequest>
 {
     public RegistreerVerenigingRequest GetExamples()
-        => new() { Naam = "Naam van de vereniging", Initiator = "OVO000001", KorteNaam = "Korte naam", KorteBeschrijving = "Beschrijving", Locaties = new []
+        => new()
         {
-            new RegistreerVerenigingRequest.Locatie
-            {
-                Naam = "Naam locatie",
-                Busnummer = "12",
-                Gemeente = "Gemeente",
-                Hoofdlocatie = true,
-                Huisnummer = "234",
-                Land = "België",
-                Locatietype = Locatietypes.Activiteiten,
-                Postcode = "1000",
-                Straatnaam = "Straatnaam",
-            },
-        }, KboNummer = "BE0123456789",
+            Naam = "Naam van de vereniging",
+            Initiator = "OVO000001",
+            KorteNaam = "Korte naam",
+            KorteBeschrijving = "Beschrijving",
+            KboNummer = "BE0123456789",
             StartDatum = DateOnly.FromDateTime(DateTime.Today),
-            ContactInfoLijst = new []
+            Locaties = new[]
+            {
+                new RegistreerVerenigingRequest.Locatie
+                {
+                    Naam = "Naam locatie",
+                    Busnummer = "12",
+                    Gemeente = "Gemeente",
+                    Hoofdlocatie = true,
+                    Huisnummer = "234",
+                    Land = "België",
+                    Locatietype = Locatietypes.Activiteiten,
+                    Postcode = "1000",
+                    Straatnaam = "Straatnaam",
+                },
+            },
+            ContactInfoLijst = new[]
             {
                 new RegistreerVerenigingRequest.ContactInfo
                 {
@@ -31,18 +38,30 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Email = "algemeen@example.com",
                     Telefoon = "000000000",
                     Website = "https://example.com",
-                    SocialMedia = "@example",
+                    SocialMedia = "https://example.com/example",
                 },
             },
-            Vertegenwoordigers = new []
+            Vertegenwoordigers = new[]
             {
-              new RegistreerVerenigingRequest.Vertegenwoordiger
-              {
-                  Insz = "yymmddxxxcc",
-                  PrimairContactpersoon = true,
-                  Roepnaam = "Conan",
-                  Rol = "Barbarian",
-              },
+                new RegistreerVerenigingRequest.Vertegenwoordiger
+                {
+                    Insz = "yymmddxxxcc",
+                    PrimairContactpersoon = true,
+                    Roepnaam = "Conan",
+                    Rol = "Barbarian",
+                    ContactInfoLijst = new[]
+                    {
+                        new RegistreerVerenigingRequest.ContactInfo
+                        {
+                            Contactnaam = "Persoonlijk",
+                            Email = "conan@example.com",
+                            Telefoon = "000000007",
+                            Website = "https://conan.com",
+                            SocialMedia = "https://example.com/conan",
+                            PrimairContactInfo = true,
+                        },
+                    },
+                },
             },
         };
 }
