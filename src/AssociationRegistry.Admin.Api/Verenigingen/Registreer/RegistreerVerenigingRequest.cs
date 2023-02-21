@@ -85,6 +85,7 @@ public class RegistreerVerenigingRequest
 
         /// <summary>
         /// Een e-mailadres<br/>
+        /// <br/>
         /// Hier verwachten we het volgende formaat (naam@domein.vlaanderen),<br/>
         /// In naam worden de volgende characters toegestaan '!#$%&'*+/=?^_`{|}~-',<br/>
         /// in domein enkel '.' en '-'
@@ -98,6 +99,7 @@ public class RegistreerVerenigingRequest
 
         /// <summary>
         /// Een website link<br/>
+        /// <br/>
         /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
         /// </summary>
         [DataMember]
@@ -105,6 +107,7 @@ public class RegistreerVerenigingRequest
 
         /// <summary>
         /// Een socialmedia link<br/>
+        /// <br/>
         /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
         /// </summary>
         [DataMember]
@@ -119,7 +122,7 @@ public class RegistreerVerenigingRequest
     public class Locatie
     {
         /// <summary>
-        /// Het soort locatie dat beschreven word.<br/>
+        /// Het soort locatie dat beschreven word<br/>
         /// <br/>
         /// Mogelijke waarden:<br/>
         ///   - Activiteiten<br/>
