@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.When_Creating_A_Website;
+﻿namespace AssociationRegistry.Test.When_Creating_A_Url;
 
-using ContactInfo.Websites;
-using ContactInfo.Websites.Exceptions;
+using AssociationRegistry.ContactInfo.Urls;
+using AssociationRegistry.ContactInfo.Urls.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -15,8 +15,8 @@ public class Given_A_String_With_Invalid_Start
     [InlineData("www.hello.me")]
     public void Then_it_throws_InvalidWebsiteStartException(string? invalidWebsiteString)
     {
-        var ctor = () => Website.Create(invalidWebsiteString);
+        var ctor = () => Url.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<InvalidWebsiteStart>();
+        ctor.Should().Throw<InvalidUrlStart>();
     }
 }

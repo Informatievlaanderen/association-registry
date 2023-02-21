@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.When_Creating_A_Website;
+﻿namespace AssociationRegistry.Test.When_Creating_A_Url;
 
-using ContactInfo.Websites;
-using ContactInfo.Websites.Exceptions;
+using AssociationRegistry.ContactInfo.Urls;
+using AssociationRegistry.ContactInfo.Urls.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -14,8 +14,8 @@ public class Given_A_String_Without_A_Period
     [InlineData("https://gibberish")]
     public void Then_it_throws_WebsiteMissingPeriodException(string? invalidWebsiteString)
     {
-        var ctor = () => Website.Create(invalidWebsiteString);
+        var ctor = () => Url.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<WebsiteMissingPeriod>();
+        ctor.Should().Throw<UrlMissingPeriod>();
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.When_Creating_A_Website;
+﻿namespace AssociationRegistry.Test.When_Creating_A_Url;
 
-using ContactInfo.Websites;
+using AssociationRegistry.ContactInfo.Urls;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -11,7 +11,7 @@ public class Given_Null
     [Fact]
     public void Then_it_returns_Null()
     {
-        var website = Website.Create(null!);
+        var website = Url.Create(null!);
         website.Should().BeNull();
     }
 }
