@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
-using System; 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -361,10 +361,13 @@ public class Program
                             .AllowCredentials());
                 })
             .AddControllersAsServices()
-            .AddAuthorization(options =>
-                options.AddPolicy(AdminGlobalPolicyName, new AuthorizationPolicyBuilder()
-                    .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
-                    .Build()))
+            .AddAuthorization(
+                options =>
+                    options.AddPolicy(
+                        AdminGlobalPolicyName,
+                        new AuthorizationPolicyBuilder()
+                            .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                            .Build()))
             .AddNewtonsoftJson(
                 opt =>
                 {
