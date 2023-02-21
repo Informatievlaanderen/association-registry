@@ -1,3 +1,15 @@
+# [1.123.0](https://github.com/informatievlaanderen/association-registry/compare/v1.122.0...v1.123.0) (2023-02-21)
+
+
+### Bug Fixes
+
+* or-1412 make email case insensitive ([1985366](https://github.com/informatievlaanderen/association-registry/commit/1985366b6c6e140877f7d04c4ffa77c04e490ec9))
+
+
+### Features
+
+* or-1400 make VCode in public detail case insentitive ([99ec77d](https://github.com/informatievlaanderen/association-registry/commit/99ec77d77b6bf450ec86e2c6cbe515022d6ab705))
+
 # [1.122.0](https://github.com/informatievlaanderen/association-registry/compare/v1.121.2...v1.122.0) (2023-02-21)
 
 
