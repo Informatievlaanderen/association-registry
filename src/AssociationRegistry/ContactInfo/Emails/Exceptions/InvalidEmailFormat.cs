@@ -6,7 +6,9 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidEmailFormat: DomainException
 {
-    public InvalidEmailFormat() : base("Email voldeed niet aan de opgelegde regex.")
+    public InvalidEmailFormat() : base("Email voldeed niet aan het verwachte formaat (naam@domein.vlaanderen). " +
+                                       "In naam worden de volgende characters toegestaan '!#$%&'*+/=?^_`{|}~-', " +
+                                       "in domein enkel '.' en '-'.")
     {
     }
 
