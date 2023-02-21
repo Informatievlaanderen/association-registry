@@ -3,7 +3,7 @@
 using System;
 using Marten.Schema;
 
-public class PubliekVerenigingDetailDocument
+public class PubliekVerenigingDetailDocument : IVCode
 {
     [Identity] public string VCode { get; set; } = null!;
 
