@@ -25,6 +25,7 @@ public class Given_Magda_Throws_Exception
 
         var service = new VertegenwoordigerService(magdaMock.Object);
 
+        var email = "iemand@digitaal.vlaanderen";
         var vertegenwoordiger = new RegistreerVerenigingCommand.Vertegenwoordiger(
             insz,
             fixture.Create<bool>(),
@@ -32,7 +33,7 @@ public class Given_Magda_Throws_Exception
             fixture.Create<string>(),
             new RegistreerVerenigingCommand.ContactInfo[]
             {
-                new(fixture.Create<string>(), $"{ fixture.Create<string?>() }@{ fixture.Create<string?>() }.com", fixture.Create<int>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
+                new(fixture.Create<string>(), email, fixture.Create<int>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
             });
         var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 

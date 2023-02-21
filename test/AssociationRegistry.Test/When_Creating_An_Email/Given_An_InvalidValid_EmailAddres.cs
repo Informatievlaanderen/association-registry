@@ -14,7 +14,9 @@ public class Given_An_InvalidValid_EmailAddres
     [InlineData("http://ongeldig.als.email")]
     [InlineData("http://ongeldig.@als")]
     [InlineData("http://@ongeldig.als")]
-    [InlineData("toet@er.nitoe")]
+    [InlineData("conan@barbarian#sonya.red.com")]
+    [InlineData("conan@barbarian-sonya.r.com")]
+    [InlineData("conan@barbarian-sonya.c")]
     public void Then_it_throws_InvalidEmailFormatException(string emailString)
     {
         var ctor = () => Email.Create(emailString);

@@ -7,11 +7,11 @@ using Xunit;
 public class Given_Any_Value
 {
     [Theory]
-    [InlineData("em@a.il", null, null, null, false)]
+    [InlineData("em@aa.il", null, null, null, false)]
     [InlineData(null, "-123456", null, null, true)]
     [InlineData(null, null, "http://web.site", null, false)]
     [InlineData(null, null, null, "http://so.cial", true)]
-    [InlineData("eenem@a.il", "44/1/44", "https://een.website", "https://een.social", false)]
+    [InlineData("eenem@aa.il", "44/1/44", "https://een.website", "https://een.social", false)]
     [InlineData(null, "0125487", null, "http://@.me", true)]
     public void Then_it_returns_a_ContactInfo(string? email, string? telefoon, string? website, string? socialMedia, bool primairContactInfo)
     {
