@@ -1,3 +1,10 @@
+# [1.124.0](https://github.com/informatievlaanderen/association-registry/compare/v1.123.0...v1.124.0) (2023-02-21)
+
+
+### Features
+
+* or-1412 trigger deploy ([23f4580](https://github.com/informatievlaanderen/association-registry/commit/23f4580c21f3e779d7e30d6c91c3fddb477427db))
+
 # [1.123.0](https://github.com/informatievlaanderen/association-registry/compare/v1.122.0...v1.123.0) (2023-02-21)
 
 
