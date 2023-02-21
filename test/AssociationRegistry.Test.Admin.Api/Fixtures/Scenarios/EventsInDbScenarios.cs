@@ -5,6 +5,8 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using Be.Vlaanderen.Basisregisters.Utilities;
+using Vertegenwoordigers;
 
 public interface IEventsInDbScenario
 {
@@ -23,7 +25,26 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001001";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        {
+            VCode = VCode,
+            ContactInfoLijst = fixture.CreateMany<VerenigingWerdGeregistreerd.ContactInfo>().Select(
+                (contactInfo, w) => contactInfo with
+                {
+                    PrimairContactInfo = w == 0,
+                }
+            ).ToArray(),
+            Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+                (vertegenwoordiger, i) => vertegenwoordiger with
+                {
+                    PrimairContactpersoon = i == 0,
+                    ContactInfoLijst = fixture.CreateMany<VerenigingWerdGeregistreerd.ContactInfo>().Select(
+                        (contactInfo, p) => contactInfo with
+                        {
+                            PrimairContactInfo = p == 0,
+                        }).ToArray(),
+                }).ToArray(),
+        };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

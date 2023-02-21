@@ -52,6 +52,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                             Telefoon = c.Telefoon,
                             Website = c.Website,
                             SocialMedia = c.SocialMedia,
+                            PrimairContactInfo = c.PrimairContactInfo,
                         }).ToArray(),
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
