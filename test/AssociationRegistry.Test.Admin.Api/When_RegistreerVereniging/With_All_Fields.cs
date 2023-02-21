@@ -176,6 +176,7 @@ public class With_All_Fields
                         Telefoon = "9876543210",
                         Website = "www.master.lara",
                         SocialMedia = "#ScrumMaster",
+                        PrimairContactInfo = true,
                     },
                 },
             },
