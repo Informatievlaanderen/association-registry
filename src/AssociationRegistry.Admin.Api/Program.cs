@@ -299,7 +299,7 @@ public class Program
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()
-            .AddControllers();
+            .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
