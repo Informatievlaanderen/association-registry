@@ -1,3 +1,10 @@
+# [1.126.0](https://github.com/informatievlaanderen/association-registry/compare/v1.125.0...v1.126.0) (2023-02-22)
+
+
+### Features
+
+* or-1412 add JsonReaderExceptionHandler ([60f18e9](https://github.com/informatievlaanderen/association-registry/commit/60f18e9404aa40cf57fd676044fcc84207b817fe))
+
 # [1.125.0](https://github.com/informatievlaanderen/association-registry/compare/v1.124.1...v1.125.0) (2023-02-22)
 
 
