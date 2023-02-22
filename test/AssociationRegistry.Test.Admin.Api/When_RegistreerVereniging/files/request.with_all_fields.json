@@ -1,5 +1,4 @@
 ﻿{
-  "initiator": "V0001001",
   "naam": "{{vereniging.naam}}",
   "korteNaam": "{{vereniging.korteNaam}}",
   "korteBeschrijving": "{{vereniging.korteBeschrijving}}",
