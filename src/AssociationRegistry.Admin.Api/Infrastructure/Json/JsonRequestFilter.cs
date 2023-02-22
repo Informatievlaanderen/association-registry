@@ -2,11 +2,12 @@
 
 using System.IO;
 using System.Threading.Tasks;
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using JasperFx.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Linq;
 
 public class JsonRequestFilter : IAsyncActionFilter
@@ -28,13 +29,24 @@ public class JsonRequestFilter : IAsyncActionFilter
 
     private static void ThrowifInvalidJson(string json)
     {
-        try
-        {
-            JObject.Parse(json, JsonLoadSettings);
-        }
-        catch (JsonReaderException e)
-        {
-            throw new CouldNotParseRequestException();
-        }
+        JObject.Parse(json, JsonLoadSettings);
     }
+}
+
+public class JsonReaderExceptionHandler : DefaultExceptionHandler<JsonReaderException>
+{
+    private readonly ProblemDetailsHelper _problemDetailsHelper;
+
+    public JsonReaderExceptionHandler(ProblemDetailsHelper problemDetailsHelper)
+        => _problemDetailsHelper = problemDetailsHelper;
+
+    protected override ProblemDetails GetApiProblemFor(JsonReaderException exception)
+        => new()
+        {
+            HttpStatus = StatusCodes.Status400BadRequest,
+            Title = ProblemDetails.DefaultTitle,
+            Detail = "Request body bevat een ongeldig JSON formaat.",
+            ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
+            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+        };
 }

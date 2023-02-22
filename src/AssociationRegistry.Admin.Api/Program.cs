@@ -213,6 +213,7 @@ public class Program
             {
                 new BadHttpRequestExceptionHandler(problemDetailsHelper),
                 new CouldNotParseRequestExceptionHandler(problemDetailsHelper),
+                new JsonReaderExceptionHandler(problemDetailsHelper),
             },
             problemDetailsHelper);
         app.UseExceptionHandler404Allowed(
