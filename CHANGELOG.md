@@ -1,3 +1,15 @@
+# [1.125.0](https://github.com/informatievlaanderen/association-registry/compare/v1.124.1...v1.125.0) (2023-02-22)
+
+
+### Bug Fixes
+
+* or-1413 fix broken tests ([f059868](https://github.com/informatievlaanderen/association-registry/commit/f0598687da7ebad94e7951026d8ffb3dbb0c3c0d))
+
+
+### Features
+
+* or-1413 throw exception if duplicate properties in json request filter ([937ea6c](https://github.com/informatievlaanderen/association-registry/commit/937ea6c16183fba56aff92235b1fddee16944e12))
+
 ## [1.124.1](https://github.com/informatievlaanderen/association-registry/compare/v1.124.0...v1.124.1) (2023-02-21)
 
 
