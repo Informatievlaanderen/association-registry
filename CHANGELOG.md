@@ -1,3 +1,12 @@
+# [1.127.0](https://github.com/informatievlaanderen/association-registry/compare/v1.126.0...v1.127.0) (2023-02-23)
+
+
+### Features
+
+* or-1597 add headers to swaggerdocs ([86274a8](https://github.com/informatievlaanderen/association-registry/commit/86274a801941ac26347cd3d1fc793ae69275a218))
+* or-1597 pull swagger in extention methods ([41ace43](https://github.com/informatievlaanderen/association-registry/commit/41ace43ec1f908ba6930824ef3e729979095bdaf))
+* or-1597 remove comments ([d17c0fb](https://github.com/informatievlaanderen/association-registry/commit/d17c0fbc07344c9fae33a9b3a95e76f6f33349f8))
+
 # [1.126.0](https://github.com/informatievlaanderen/association-registry/compare/v1.125.0...v1.126.0) (2023-02-22)
 
 
