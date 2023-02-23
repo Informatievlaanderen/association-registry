@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.ContactInfo.Urls;
 
-using AssociationRegistry.Framework;
+using Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 

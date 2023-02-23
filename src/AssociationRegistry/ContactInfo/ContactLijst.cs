@@ -2,7 +2,6 @@
 
 using Exceptions;
 using Framework;
-using Urls;
 using Vereniging.RegistreerVereniging;
 
 public class ContactLijst : List<ContactInfo>

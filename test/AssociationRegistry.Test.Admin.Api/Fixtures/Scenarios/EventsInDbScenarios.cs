@@ -5,8 +5,6 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
-using Be.Vlaanderen.Basisregisters.Utilities;
-using Vertegenwoordigers;
 
 public interface IEventsInDbScenario
 {

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Vertegenwoordiger.From_The_VertegenwoordigersService;
 
 using AutoFixture;
-using ContactInfo.Emails;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

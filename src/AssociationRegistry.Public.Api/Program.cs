@@ -16,8 +16,6 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
@@ -34,7 +32,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -46,14 +43,12 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
-using Swashbuckle.AspNetCore.Filters;
 using Verenigingen.Search;
 
 public class Program
@@ -98,8 +93,7 @@ public class Program
 
         ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
-        ConfigureSwagger(app);
-
+        app.ConfigurePublicApiSwagger();
         // Deze volgorde is belangrijk ! DKW
         app.UseRouting()
             .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
@@ -107,26 +101,6 @@ public class Program
         ConfigureLifetimeHooks(app);
 
         app.Run();
-    }
-
-    private static void ConfigureSwagger(WebApplication app)
-    {
-        app.UseSwaggerDocumentation(
-            new SwaggerDocumentationOptions
-            {
-                ApiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>(),
-                DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Publieke API {groupName}",
-                FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
-                CSharpClient =
-                {
-                    ClassName = "Verenigingsregister",
-                    Namespace = "Be.Vlaanderen.Basisregisters",
-                },
-                TypeScriptClient =
-                {
-                    ClassName = "Verenigingsregister",
-                },
-            });
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
@@ -419,67 +393,7 @@ public class Program
             .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
             .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
-        builder.Services
-            .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
-            .AddSwaggerGen(
-                options =>
-                {
-                    options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
-                    options.DescribeAllParametersInCamelCase();
-                    options.SupportNonNullableReferenceTypes();
-                    options.MapType<DateOnly>(
-                        () => new OpenApiSchema
-                        {
-                            Type = "string",
-                            Format = "date",
-                            Pattern = "yyyy-MM-dd",
-                        });
-                    options.CustomSchemaIds(type => type.FullName);
-                    options.SwaggerDoc(
-                        "v1",
-                        new OpenApiInfo
-                        {
-                            Version = "v1",
-                            Title = "Basisregisters Vlaanderen Verenigingsregister Publieke API",
-                            Description = "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister Publieke API.",
-                            Contact = new OpenApiContact
-                            {
-                                Name = "Digitaal Vlaanderen",
-                                Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://beheer.verenigingen.vlaanderen.be"),
-                            },
-                        });
-                    // Apply [SwaggerRequestExample] & [SwaggerResponseExample]
-                    options.ExampleFilters();
-
-                    // Add an AutoRest vendor extension (see https://github.com/Azure/autorest/blob/master/docs/extensions/readme.md#x-ms-enum) to inform the AutoRest tool how enums should be modelled when it generates the API client.
-                    options.SchemaFilter<AutoRestSchemaFilter>();
-
-                    // Fix up some Swagger parameter values by discovering them from ModelMetadata and RouteInfo
-                    options.OperationFilter<SwaggerDefaultValues>();
-
-                    // Apply [Description] on Response properties
-                    options.OperationFilter<DescriptionOperationFilter>();
-
-                    // Adds an Upload button to endpoints which have [AddSwaggerFileUploadButton]
-                    //x.OperationFilter<AddFileParamTypesOperationFilter>(); Marked AddFileParamTypesOperationFilter as Obsolete, because Swashbuckle 4.0 supports IFormFile directly.
-
-                    // Apply [SwaggerResponseHeader] to headers
-                    options.OperationFilter<AddResponseHeadersFilter>();
-
-                    // Apply [ApiExplorerSettings(GroupName=...)] property to tags.
-                    options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
-
-                    // Adds a 401 Unauthorized and 403 Forbidden response to every action which requires authorization
-                    options.OperationFilter<AuthorizationResponseOperationFilter>();
-
-                    // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization
-                    options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-                    options.OrderActionsBy(SortByTag.Sort);
-
-                    options.DocInclusionPredicate((_, _) => true);
-                })
-            .AddSwaggerGenNewtonsoftSupport();
+        builder.Services.AddPublicApiSwagger();
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

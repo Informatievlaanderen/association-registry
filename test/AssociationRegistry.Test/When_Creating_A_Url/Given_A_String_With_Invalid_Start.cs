@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Url;
 
-using AssociationRegistry.ContactInfo.Urls;
-using AssociationRegistry.ContactInfo.Urls.Exceptions;
+using ContactInfo.Urls;
+using ContactInfo.Urls.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
