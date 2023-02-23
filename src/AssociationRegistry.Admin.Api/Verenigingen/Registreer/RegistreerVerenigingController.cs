@@ -41,12 +41,18 @@ public class RegistreerVerenigingController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
+    /// <response code="202">De vereniging is aangemaakt.</response>
+    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meet info.</response>
+    /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPost]
     [Consumes("application/json")]
     [Produces("application/json")]
     [SwaggerRequestExample(typeof(RegistreerVerenigingRequest), typeof(RegistreerVerenigingenRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de aangemaakte vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "Location", "string", "De locatie van de aangemaakte vereniging.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -61,9 +67,6 @@ public class RegistreerVerenigingController : ApiController
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<CommandResult>(envelope);
-
-        Response.AddSequenceHeader(registratieResult.Sequence);
-        Response.AddETagHeader(registratieResult.Version);
 
         return this.AcceptedCommand(_appSettings, registratieResult);
     }
