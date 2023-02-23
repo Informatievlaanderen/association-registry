@@ -43,15 +43,21 @@ public class WijzigBasisgegevensController : ApiController
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="validator"></param>
+    /// <response code="200">Er waren geen wijzigingen</response>
+    /// <response code="202">De vereniging is aangepast</response>
+    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meet info.</response>
+    /// <response code="404">De gevraagde vereniging is niet gevonden</response>
+    /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
+    /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPatch]
     [Consumes("application/json")]
     [Produces("application/json")]
     [SwaggerRequestExample(typeof(WijzigBasisgegevensRequest), typeof(WijzigBasisgegevensRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "Location", "string", "De locatie van de aangepaste vereniging.")]
     public async Task<IActionResult> Patch(
         [FromServices] IValidator<WijzigBasisgegevensRequest> validator,
         [FromBody] WijzigBasisgegevensRequest? request,
@@ -69,9 +75,6 @@ public class WijzigBasisgegevensController : ApiController
             var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
             if (!wijzigResult.HasChanges()) return Ok();
-
-            Response.AddSequenceHeader(wijzigResult.Sequence);
-            Response.AddETagHeader(wijzigResult.Version);
 
             return this.AcceptedCommand(_appSettings, wijzigResult);
         }
