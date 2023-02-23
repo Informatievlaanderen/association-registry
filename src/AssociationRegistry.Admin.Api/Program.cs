@@ -55,6 +55,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -507,7 +508,11 @@ public class Program
                         {
                             Version = "v1",
                             Title = "Basisregisters Vlaanderen Verenigingsregister Beheer API",
-                            Description = "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister Beheer API.",
+                            Description = "</br>" +
+                                          "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister Beheer API. " +
+                                          "</br></br>" +
+                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
+                                          "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/WEGWIJS/pages/6161826264/API+documentatie#Gebruik-van-de-API\">publieke confluence pagina</a>.",
                             Contact = new OpenApiContact
                             {
                                 Name = "Digitaal Vlaanderen",
