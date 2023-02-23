@@ -50,31 +50,20 @@ public static class SwaggerExtensions
                                 Url = new Uri("https://beheer.verenigingen.vlaanderen.be"),
                             },
                         });
-                    // Apply [SwaggerRequestExample] & [SwaggerResponseExample]
                     options.ExampleFilters();
 
-                    // Add an AutoRest vendor extension (see https://github.com/Azure/autorest/blob/master/docs/extensions/readme.md#x-ms-enum) to inform the AutoRest tool how enums should be modelled when it generates the API client.
                     options.SchemaFilter<AutoRestSchemaFilter>();
 
-                    // Fix up some Swagger parameter values by discovering them from ModelMetadata and RouteInfo
                     options.OperationFilter<SwaggerDefaultValues>();
 
-                    // Apply [Description] on Response properties
                     options.OperationFilter<DescriptionOperationFilter>();
 
-                    // Adds an Upload button to endpoints which have [AddSwaggerFileUploadButton]
-                    //x.OperationFilter<AddFileParamTypesOperationFilter>(); Marked AddFileParamTypesOperationFilter as Obsolete, because Swashbuckle 4.0 supports IFormFile directly.
-
-                    // Apply [SwaggerResponseHeader] to headers
                     options.OperationFilter<AddResponseHeadersFilter>();
 
-                    // Apply [ApiExplorerSettings(GroupName=...)] property to tags.
                     options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
 
-                    // Adds a 401 Unauthorized and 403 Forbidden response to every action which requires authorization
                     options.OperationFilter<AuthorizationResponseOperationFilter>();
 
-                    // Adds "(Auth)" to the summary so that you can see which endpoints have Authorization
                     options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
                     options.OrderActionsBy(SortByTag.Sort);
 
