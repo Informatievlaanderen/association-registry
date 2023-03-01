@@ -70,7 +70,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
     }
 
     [Fact]
-    public void Then_The_Result_Is_A_Failure()
+    public void Then_The_Result_Is_A_Success()
     {
         _result.IsSuccess().Should().BeTrue();
     }

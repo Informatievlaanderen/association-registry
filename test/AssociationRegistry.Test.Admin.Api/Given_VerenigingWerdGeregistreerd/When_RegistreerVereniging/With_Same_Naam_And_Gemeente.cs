@@ -9,6 +9,7 @@ using Framework;
 using AutoFixture;
 using Events;
 using FluentAssertions;
+using Marten;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
@@ -66,7 +67,8 @@ public class With_Same_Naam_And_Gemeente
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
 
-    private string ResponseBody => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
+    private string ResponseBody
+        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
 
     public With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
     {
@@ -99,14 +101,39 @@ public class With_Same_Naam_And_Gemeente
     }
 
     [Fact]
-    public void Then_it_saves_no_extra_events()
+    public async Task Then_it_saves_no_extra_events()
     {
         using var session = _fixture.DocumentStore
             .LightweightSession();
-        var savedEvents = session.Events
+        var savedEvents = await session.Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
-            .SingleOrDefault(@event => @event.Naam == Naam);
+            .ToListAsync();
 
-        savedEvents.Should().NotBeNull();
+        savedEvents.Should().NotContainEquivalentOf(
+            new VerenigingWerdGeregistreerd(
+                string.Empty,
+                Request.Naam,
+                Request.KorteNaam,
+                Request.KorteBeschrijving,
+                Request.StartDatum,
+                Request.KboNummer,
+                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                new[]
+                {
+                    new VerenigingWerdGeregistreerd.Locatie(
+                        Request.Locaties.First().Naam,
+                        Request.Locaties.First().Straatnaam,
+                        Request.Locaties.First().Huisnummer,
+                        Request.Locaties.First().Busnummer,
+                        Request.Locaties.First().Postcode,
+                        Request.Locaties.First().Gemeente,
+                        Request.Locaties.First().Land,
+                        Request.Locaties.First().Hoofdlocatie,
+                        Request.Locaties.First().Locatietype),
+                },
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+            ),
+            options => options.Excluding(e => e.VCode));
     }
 }
