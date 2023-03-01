@@ -13,7 +13,6 @@ using FluentValidation;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NodaTime;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
@@ -30,11 +29,13 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class RegistreerVerenigingController : ApiController
 {
     private readonly IMessageBus _bus;
+    private readonly IValidator<RegistreerVerenigingRequest> _validator;
     private readonly AppSettings _appSettings;
 
-    public RegistreerVerenigingController(IMessageBus bus, AppSettings appSettings)
+    public RegistreerVerenigingController(IMessageBus bus, IValidator<RegistreerVerenigingRequest> validator, AppSettings appSettings)
     {
         _bus = bus;
+        _validator = validator;
         _appSettings = appSettings;
     }
 
@@ -62,21 +63,27 @@ public class RegistreerVerenigingController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
-        [FromServices] IValidator<RegistreerVerenigingRequest> validator,
-        [FromBody] RegistreerVerenigingRequest? request)
+        [FromBody] RegistreerVerenigingRequest? request,
+        [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
+        string? bevestigingsToken = null)
     {
-        await validator.NullValidateAndThrowAsync(request);
+        await _validator.NullValidateAndThrowAsync(request);
 
         var command = request.ToRegistreerVerenigingCommand();
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
+        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), WithForce: BevestigingsTokenHelper.IsValid(bevestigingsToken, request));
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
         return registratieResult switch
         {
             Result<CommandResult> commandResult => this.AcceptedCommand(_appSettings, commandResult.Data),
-            Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(new PotentialDuplicatesResponse(potentialDuplicates.Data)),
+
+            Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(
+                new PotentialDuplicatesResponse(
+                    BevestigingsTokenHelper.Calculate(request),
+                    potentialDuplicates.Data)),
+
             _ => throw new ArgumentOutOfRangeException(),
         };
     }
@@ -84,10 +91,12 @@ public class RegistreerVerenigingController : ApiController
 
 public class PotentialDuplicatesResponse
 {
-    public DuplicateCandidateResponse[] Duplicaten { get; set; }
+    public string BevestigingsToken { get; }
+    public DuplicateCandidateResponse[] Duplicaten { get; }
 
-    public PotentialDuplicatesResponse(PotentialDuplicatesFound potentialDuplicates)
+    public PotentialDuplicatesResponse(string hashedRequest, PotentialDuplicatesFound potentialDuplicates)
     {
+        BevestigingsToken = hashedRequest;
         Duplicaten = potentialDuplicates.Candidates.Select(DuplicateCandidateResponse.FromDuplicateCandidate).ToArray();
     }
 

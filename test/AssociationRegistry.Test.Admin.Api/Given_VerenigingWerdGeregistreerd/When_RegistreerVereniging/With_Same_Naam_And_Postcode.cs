@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.W
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
 using Framework;
@@ -14,7 +15,6 @@ using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
 {
-    public readonly string VCode;
     public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
@@ -34,7 +34,6 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
             },
             Initiator = "OVO000001",
         };
-        VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
 
         Response = fixture.DefaultClient.RegistreerVereniging(JsonConvert.SerializeObject(Request)).GetAwaiter().GetResult();
@@ -52,16 +51,18 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
 public class With_Same_Naam_And_Postcode
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    private string ResponseBody => @$"{{""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
+
+    private RegistreerVerenigingRequest Request
+        => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Request;
 
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Response;
 
-    private string VCode
-        => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).VCode;
-
     private string Naam
         => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Naam;
+
+    private string ResponseBody
+        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
 
     public With_Same_Naam_And_Postcode(EventsInDbScenariosFixture fixture)
     {

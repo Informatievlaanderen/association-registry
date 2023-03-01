@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
@@ -13,7 +12,7 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
+public sealed class When_RegistreerVereniging_With_Duplicate_But_Valid_Hash
 {
     public readonly string VCode;
     public readonly string Naam;
@@ -22,7 +21,7 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
     public string RequestAsJson { get; }
 
 
-    private When_RegistreerVereniging_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
+    private When_RegistreerVereniging_With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
@@ -41,34 +40,38 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
 
         RequestAsJson = JsonConvert.SerializeObject(Request);
-        Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
+        Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson, BevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
     }
 
-    private static When_RegistreerVereniging_With_Same_Naam_And_Gemeente? called;
+    private static When_RegistreerVereniging_With_Duplicate_But_Valid_Hash? called;
 
-    public static When_RegistreerVereniging_With_Same_Naam_And_Gemeente Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_RegistreerVereniging_With_Same_Naam_And_Gemeente(fixture);
+    public static When_RegistreerVereniging_With_Duplicate_But_Valid_Hash Called(EventsInDbScenariosFixture fixture)
+        => called ??= new When_RegistreerVereniging_With_Duplicate_But_Valid_Hash(fixture);
 }
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_Same_Naam_And_Gemeente
+public class When_Duplicate_But_Valid_Hash
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
     private HttpResponseMessage Response
-        => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
+        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Response;
+
+    private string VCode
+        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).VCode;
 
     private string Naam
-        => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
+        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Naam;
 
     private RegistreerVerenigingRequest Request
-        => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
+        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Request;
 
-    private string ResponseBody => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
+    private string ResponseBody
+        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
 
-    public With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
+    public When_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }
@@ -76,37 +79,17 @@ public class With_Same_Naam_And_Gemeente
     [Fact]
     public void Then_it_returns_a_conflict_response()
     {
-        Response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
-    public async Task Then_it_returns_the_list_of_potential_duplicates()
-    {
-        var content = await Response.Content.ReadAsStringAsync();
-        content.Should().BeEquivalentJson(ResponseBody);
-    }
-
-    [Fact]
-    public void Then_it_returns_no_sequence_header()
-    {
-        Response.Headers.Should().NotContainKey(WellknownHeaderNames.Sequence);
-    }
-
-    [Fact]
-    public void Then_it_returns_no_location_header()
-    {
-        Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
-    }
-
-    [Fact]
-    public void Then_it_saves_no_extra_events()
+    public void Then_it_saves_an_extra_events()
     {
         using var session = _fixture.DocumentStore
             .LightweightSession();
-        var savedEvents = session.Events
+        session.Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
-            .SingleOrDefault(@event => @event.Naam == Naam);
-
-        savedEvents.Should().NotBeNull();
+            .Where(@event => @event.Naam == Naam)
+            .Should().HaveCount(2);
     }
 }
