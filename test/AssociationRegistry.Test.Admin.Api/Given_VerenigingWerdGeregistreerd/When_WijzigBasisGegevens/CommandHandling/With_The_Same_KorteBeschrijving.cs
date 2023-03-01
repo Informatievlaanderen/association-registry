@@ -10,12 +10,12 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_The_Same_KorteBeschrijving : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario>>
+public class With_The_Same_KorteBeschrijving : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreed_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
 
-    public With_The_Same_KorteBeschrijving(CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> classFixture)
+    public With_The_Same_KorteBeschrijving(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _scenario = classFixture.Scenario;

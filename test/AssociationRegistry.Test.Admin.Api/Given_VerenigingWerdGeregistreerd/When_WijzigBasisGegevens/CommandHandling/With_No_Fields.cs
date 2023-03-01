@@ -10,12 +10,12 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_No_Fields : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario>>
+public class With_No_Fields : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreed_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
 
-    public With_No_Fields(CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> classFixture)
+    public With_No_Fields(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _scenario = classFixture.Scenario;

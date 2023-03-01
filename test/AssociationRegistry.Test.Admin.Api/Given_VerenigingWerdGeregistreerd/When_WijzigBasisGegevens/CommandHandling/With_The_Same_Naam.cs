@@ -14,14 +14,14 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario>>
+public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly Mock<IVerenigingsRepository> _verenigingRepositoryMock;
     private readonly CommandResult _result;
     private readonly CommandMetadata _commandMetadata;
-    private readonly CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> _classfixure;
+    private readonly CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> _classfixure;
 
-    public With_The_Same_Naam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> classFixture)
+    public With_The_Same_Naam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
         _classfixure = classFixture;
