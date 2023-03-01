@@ -1,3 +1,10 @@
+# [1.128.0](https://github.com/informatievlaanderen/association-registry/compare/v1.127.0...v1.128.0) (2023-03-01)
+
+
+### Features
+
+* OR-1556 detect potential duplicates ([4ddd048](https://github.com/informatievlaanderen/association-registry/commit/4ddd0486d0800fc10e5b567adb814273cf0be2a8))
+
 # [1.127.0](https://github.com/informatievlaanderen/association-registry/compare/v1.126.0...v1.127.0) (2023-02-23)
 
 
