@@ -3,11 +3,12 @@ namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.W
 using System.Net;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Fixtures;
-using Framework;
 using AutoFixture;
 using Events;
+using Fixtures;
 using FluentAssertions;
+using Framework;
+using Marten;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
@@ -83,13 +84,39 @@ public class When_Duplicate_But_Valid_Hash
     }
 
     [Fact]
-    public void Then_it_saves_an_extra_events()
+    public async Task Then_it_saves_an_extra_event()
     {
-        using var session = _fixture.DocumentStore
+        await using var session = _fixture.DocumentStore
             .LightweightSession();
-        session.Events
+        var savedEvents = await session.Events
             .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
-            .Where(@event => @event.Naam == Naam)
-            .Should().HaveCount(2);
+            .ToListAsync();
+
+        savedEvents.Should().ContainEquivalentOf(
+            new VerenigingWerdGeregistreerd(
+                string.Empty,
+                Request.Naam,
+                Request.KorteNaam,
+                Request.KorteBeschrijving,
+                Request.StartDatum,
+                Request.KboNummer,
+                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                new[]
+                {
+                    new VerenigingWerdGeregistreerd.Locatie(
+                        Request.Locaties.First().Naam,
+                        Request.Locaties.First().Straatnaam,
+                        Request.Locaties.First().Huisnummer,
+                        Request.Locaties.First().Busnummer,
+                        Request.Locaties.First().Postcode,
+                        Request.Locaties.First().Gemeente,
+                        Request.Locaties.First().Land,
+                        Request.Locaties.First().Hoofdlocatie,
+                        Request.Locaties.First().Locatietype),
+                },
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+            ),
+            options => options.Excluding(e => e.VCode));
     }
 }
