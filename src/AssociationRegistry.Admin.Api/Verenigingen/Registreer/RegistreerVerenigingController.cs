@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -11,8 +13,11 @@ using FluentValidation;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NodaTime;
+using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -66,8 +71,36 @@ public class RegistreerVerenigingController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
-        var registratieResult = await _bus.InvokeAsync<CommandResult>(envelope);
+        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
-        return this.AcceptedCommand(_appSettings, registratieResult);
+        return registratieResult switch
+        {
+            Result<CommandResult> commandResult => this.AcceptedCommand(_appSettings, commandResult.Data),
+            Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(new PotentialDuplicatesResponse(potentialDuplicates.Data)),
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
+}
+
+public class PotentialDuplicatesResponse
+{
+    public DuplicateCandidateResponse[] Duplicaten { get; set; }
+
+    public PotentialDuplicatesResponse(PotentialDuplicatesFound potentialDuplicates)
+    {
+        Duplicaten = potentialDuplicates.Candidates.Select(DuplicateCandidateResponse.FromDuplicateCandidate).ToArray();
+    }
+
+    public class DuplicateCandidateResponse
+    {
+        public string VCode { get; set; } = null!;
+        public string Naam { get; set; } = null!;
+
+        public static DuplicateCandidateResponse FromDuplicateCandidate(DuplicateCandidate candidate)
+            => new()
+            {
+                VCode = candidate.VCode,
+                Naam = candidate.Naam,
+            };
     }
 }

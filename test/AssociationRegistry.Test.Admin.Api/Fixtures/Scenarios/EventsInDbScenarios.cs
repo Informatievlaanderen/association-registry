@@ -23,9 +23,11 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0001001";
+        Naam = "Dee coolste club";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
+            Naam = Naam,
             ContactInfoLijst = fixture.CreateMany<VerenigingWerdGeregistreerd.ContactInfo>().Select(
                 (contactInfo, w) => contactInfo with
                 {
@@ -48,6 +50,7 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
+    public string Naam { get; set; }
 
     public IEvent[] GetEvents()
         => new IEvent[]

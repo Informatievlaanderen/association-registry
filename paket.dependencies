@@ -2,6 +2,7 @@ framework: net6.0, net472
 source https://api.nuget.org/v3/index.json
 
 // PRODUCTION STUFF
+nuget Result.Net 1.4.0
 nuget Microsoft.Extensions.Configuration 6.0.1
 nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
 nuget Microsoft.Extensions.Configuration.FileExtensions 6.0.0

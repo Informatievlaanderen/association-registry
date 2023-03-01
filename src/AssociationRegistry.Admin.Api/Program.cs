@@ -27,6 +27,7 @@ using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Destructurama;
+using DuplicateDetection;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
@@ -59,6 +60,7 @@ using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
+using Vereniging.DuplicateDetection;
 using Wolverine;
 using Security = Constants.Security;
 
@@ -273,6 +275,7 @@ public class Program
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddTransient<IMagdaFacade, StaticMagdaFacade>()
+            .AddTransient<IDuplicateDetectionService, SearchDuplicateDetectionService>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()

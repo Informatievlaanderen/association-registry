@@ -11,13 +11,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_KorteNaam: IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario>>
+public class With_A_KorteNaam: IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreed_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
     private const string NieuweKorteNaam = "NewKortNa";
 
-    public With_A_KorteNaam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreed_Commandhandler_Scenario> classFixture)
+    public With_A_KorteNaam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
 

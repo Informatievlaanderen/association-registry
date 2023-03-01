@@ -41,7 +41,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
             Array.Empty<string>());
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(),new NoDuplicateDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
