@@ -45,9 +45,12 @@ public class RegistreerVerenigingCommandHandler
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
-        var duplicates = (await _duplicateDetectionService.GetDuplicates(naam, locatieLijst)).ToList();
-        if (duplicates.Any())
-            return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
+        if (!message.Metadata.WithForce)
+        {
+            var duplicates = (await _duplicateDetectionService.GetDuplicates(naam, locatieLijst)).ToList();
+            if (duplicates.Any())
+                return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
+        }
 
         var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
         var vertegenwoordigersLijst = await vertegenwoordigerService.GetVertegenwoordigersLijst(command.Vertegenwoordigers);

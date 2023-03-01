@@ -17,7 +17,7 @@ public class With_Empty_KboNumber
     {
         var messageBusMock = new MessageBusMock();
         var autoFixture = new Fixture();
-        _controller = new RegistreerVerenigingController(messageBusMock, new AppSettings());
+        _controller = new RegistreerVerenigingController(messageBusMock,new RegistreerVerenigingRequestValidator(), new AppSettings());
         _request = new RegistreerVerenigingRequest
         {
             Initiator = "V0001001",
@@ -30,9 +30,7 @@ public class With_Empty_KboNumber
     public async Task Then_it_is_valid()
     {
         await Assert.ThrowsAsync<NotImplementedException>(
-            async () => await _controller.Post(
-                new RegistreerVerenigingRequestValidator(),
-                _request));
+            async () => await _controller.Post(_request));
     }
 
 }

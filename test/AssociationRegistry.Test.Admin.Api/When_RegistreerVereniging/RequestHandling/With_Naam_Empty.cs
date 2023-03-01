@@ -15,7 +15,7 @@ public class With_Naam_Empty
     public With_Naam_Empty()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new RegistreerVerenigingController(messageBusMock, new AppSettings());
+        _controller = new RegistreerVerenigingController(messageBusMock, new RegistreerVerenigingRequestValidator(), new AppSettings());
         _request = new RegistreerVerenigingRequest
         {
             Initiator = "V0001001",
@@ -27,8 +27,6 @@ public class With_Naam_Empty
     public async Task Then_it_throws_a_ValidationException()
     {
         await Assert.ThrowsAsync<FluentValidation.ValidationException>(
-            async () => await _controller.Post(
-                new RegistreerVerenigingRequestValidator(),
-                _request));
+            async () => await _controller.Post(_request));
     }
 }
