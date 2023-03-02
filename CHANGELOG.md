@@ -1,3 +1,12 @@
+# [1.129.0](https://github.com/informatievlaanderen/association-registry/compare/v1.128.0...v1.129.0) (2023-03-02)
+
+
+### Features
+
+* or-1614 add header for bevestigingsToken ([5d0b3d1](https://github.com/informatievlaanderen/association-registry/commit/5d0b3d18dcac60067079fc3749f312160b213c4c))
+* or-1614 bad request if hash if faulty ([5fac380](https://github.com/informatievlaanderen/association-registry/commit/5fac38059d8e8f67bb96397105513d06100adb3b))
+* or-1614 fix for tests ([691fd71](https://github.com/informatievlaanderen/association-registry/commit/691fd7162c59951bb6227bf702b298ad3f8ecd7e))
+
 # [1.128.0](https://github.com/informatievlaanderen/association-registry/compare/v1.127.0...v1.128.0) (2023-03-01)
 
 
