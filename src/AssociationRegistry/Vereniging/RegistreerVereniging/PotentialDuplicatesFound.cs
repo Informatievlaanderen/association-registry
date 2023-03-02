@@ -2,4 +2,4 @@
 
 using DuplicateDetection;
 
-public record PotentialDuplicatesFound(IEnumerable<DuplicateCandidate> Candidates);
+public record PotentialDuplicatesFound(IEnumerable<DuplicaatVereniging> Candidates);

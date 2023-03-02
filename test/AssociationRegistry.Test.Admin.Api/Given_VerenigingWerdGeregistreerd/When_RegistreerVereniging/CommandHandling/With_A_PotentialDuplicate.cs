@@ -11,7 +11,6 @@ using Locaties;
 using Magda;
 using Moq;
 using ResultNet;
-using VCodes;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
@@ -22,14 +21,14 @@ using Xunit.Categories;
 public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario>>
 {
     private readonly Result _result;
-    private readonly List<DuplicateCandidate> _potentialDuplicates;
+    private readonly List<DuplicaatVereniging> _potentialDuplicates;
 
     public With_A_PotentialDuplicate(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario> classFixture)
     {
         var fixture = new Fixture().CustomizeAll();
 
         var duplicateChecker = new Mock<IDuplicateDetectionService>();
-        _potentialDuplicates = new List<DuplicateCandidate> { new(fixture.Create<VCode>(), fixture.Create<string>()) };
+        _potentialDuplicates = new List<DuplicaatVereniging> { fixture.Create<DuplicaatVereniging>() };
         duplicateChecker.Setup(
                 d =>
                     d.GetDuplicates(

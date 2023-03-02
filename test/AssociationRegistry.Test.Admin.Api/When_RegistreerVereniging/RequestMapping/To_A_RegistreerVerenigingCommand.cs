@@ -28,7 +28,8 @@ public class To_A_RegistreerVerenigingCommand
             out var contactInfoLijst,
             out var locaties,
             out var vertegenwoordigers,
-            out var hoofdactiviteiten);
+            out var hoofdactiviteiten,
+            out var skipDuplicateDetection);
 
         naam.Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
@@ -39,5 +40,6 @@ public class To_A_RegistreerVerenigingCommand
         locaties.Should().BeEquivalentTo(request.Locaties);
         vertegenwoordigers.Should().BeEquivalentTo(request.Vertegenwoordigers);
         hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
+        skipDuplicateDetection.Should().BeFalse();
     }
 }

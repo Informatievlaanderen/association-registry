@@ -45,7 +45,7 @@ public class RegistreerVerenigingCommandHandler
         var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
-        if (!message.Metadata.WithForce)
+        if (!message.Command.SkipDuplicateDetection)
         {
             var duplicates = (await _duplicateDetectionService.GetDuplicates(naam, locatieLijst)).ToList();
             if (duplicates.Any())

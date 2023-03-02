@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
@@ -9,6 +10,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using Marten;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
@@ -19,6 +21,7 @@ public sealed class When_RegistreerVereniging_With_Duplicate_But_Valid_Hash
     public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
+    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public string RequestAsJson { get; }
 
 
@@ -39,6 +42,7 @@ public sealed class When_RegistreerVereniging_With_Duplicate_But_Valid_Hash
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
+        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
         RequestAsJson = JsonConvert.SerializeObject(Request);
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson, BevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
@@ -59,6 +63,8 @@ public class When_Duplicate_But_Valid_Hash
 
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Response;
+    private BevestigingsTokenHelper BevestigingsTokenHelper
+        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).BevestigingsTokenHelper;
 
     private string VCode
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).VCode;
@@ -68,9 +74,6 @@ public class When_Duplicate_But_Valid_Hash
 
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Request;
-
-    private string ResponseBody
-        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
 
     public When_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
     {

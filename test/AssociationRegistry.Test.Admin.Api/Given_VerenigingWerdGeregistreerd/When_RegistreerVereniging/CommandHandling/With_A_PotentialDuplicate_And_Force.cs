@@ -12,7 +12,6 @@ using Locaties;
 using Magda;
 using Moq;
 using ResultNet;
-using VCodes;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
@@ -33,7 +32,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
         var fixture = new Fixture().CustomizeAll();
 
         var duplicateChecker = new Mock<IDuplicateDetectionService>();
-        var potentialDuplicates = new[] { new DuplicateCandidate(fixture.Create<VCode>(), fixture.Create<string>()) };
+        var potentialDuplicates = new[] { fixture.Create<DuplicaatVereniging>() };
         duplicateChecker.Setup(
                 d =>
                     d.GetDuplicates(
@@ -52,9 +51,10 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
             new[] { _locatie },
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>());
+            Array.Empty<string>(),
+            SkipDuplicateDetection: true);
 
-        var commandMetadata = fixture.Create<CommandMetadata>() with { WithForce = true };
+        var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _vCodeService = new InMemorySequentialVCodeService();
         var commandHandler = new RegistreerVerenigingCommandHandler(

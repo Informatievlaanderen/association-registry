@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
+using System.Collections.Immutable;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
+using AutoFixture.Kernel;
 using Events;
 using NodaTime;
 
@@ -17,6 +19,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeInstant();
         fixture.CustomizeRegistreerVerenigingRequestLocatie();
         fixture.CustomizeVerenigingWerdGeregistreerdLocatie();
+        fixture.CustomizeImmutableArray();
         return fixture;
     }
 
@@ -66,16 +69,52 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<VerenigingWerdGeregistreerd.Locatie>(
             composer => composer.FromFactory<int>(
-                value => new VerenigingWerdGeregistreerd.Locatie(
-                    Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
-                    Naam: fixture.Create<string>(),
-                    Straatnaam: fixture.Create<string>(),
-                    Huisnummer: fixture.Create<int>().ToString(),
-                    Busnummer: fixture.Create<string?>(),
-                    Postcode: (fixture.Create<int>() % 10000).ToString(),
-                    Gemeente: fixture.Create<string>(),
-                    Land: fixture.Create<string>(),
-                    Hoofdlocatie: false))
+                    value => new VerenigingWerdGeregistreerd.Locatie(
+                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
+                        Naam: fixture.Create<string>(),
+                        Straatnaam: fixture.Create<string>(),
+                        Huisnummer: fixture.Create<int>().ToString(),
+                        Busnummer: fixture.Create<string?>(),
+                        Postcode: (fixture.Create<int>() % 10000).ToString(),
+                        Gemeente: fixture.Create<string>(),
+                        Land: fixture.Create<string>(),
+                        Hoofdlocatie: false))
                 .OmitAutoProperties());
+    }
+
+    public static void CustomizeImmutableArray(this IFixture fixture)
+    {
+        fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
+    }
+}
+
+public class ImmutableArraySpecimenBuilder : ISpecimenBuilder
+{
+    public object Create(object request, ISpecimenContext context)
+    {
+        if (context == null)
+        {
+            throw new ArgumentNullException(nameof(context));
+        }
+
+        var t = request as Type;
+        if (t == null)
+        {
+            return new NoSpecimen();
+        }
+
+        var typeArguments = t.GetGenericArguments();
+        if (typeArguments.Length != 1)
+        {
+            return new NoSpecimen();
+        }
+
+        if (typeof(ImmutableArray<>) == t.GetGenericTypeDefinition())
+        {
+            dynamic list = context.Resolve(typeof(IList<>).MakeGenericType(typeArguments));
+            return ImmutableArray.ToImmutableArray(list);
+        }
+
+        return new NoSpecimen();
     }
 }

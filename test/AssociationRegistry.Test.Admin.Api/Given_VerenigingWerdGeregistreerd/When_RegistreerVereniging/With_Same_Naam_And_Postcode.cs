@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.W
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
@@ -10,6 +12,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Marten;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
@@ -18,7 +21,9 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
 {
     public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly HttpResponseMessage Response;
+    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
 
     private When_RegistreerVereniging_With_Same_Naam_And_Postcode(EventsInDbScenariosFixture fixture)
     {
@@ -36,7 +41,8 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
             Initiator = "OVO000001",
         };
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
-
+        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+        VerenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(JsonConvert.SerializeObject(Request)).GetAwaiter().GetResult();
     }
 
@@ -56,14 +62,51 @@ public class With_Same_Naam_And_Postcode
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Request;
 
+    private BevestigingsTokenHelper BevestigingsTokenHelper
+        => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).BevestigingsTokenHelper;
+
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Response;
+
+    private VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd
+        => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).VerenigingWerdGeregistreerd;
 
     private string Naam
         => When_RegistreerVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Naam;
 
     private string ResponseBody
-        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
+        => @$"{{
+  ""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"",
+  ""mogelijkeDuplicateVerenigingen"": [
+    {{
+      ""vCode"": ""{VerenigingWerdGeregistreerd.VCode}"",
+      ""naam"": ""{VerenigingWerdGeregistreerd.Naam}"",
+      ""korteNaam"": ""{VerenigingWerdGeregistreerd.KorteNaam}"",
+      ""hoofdactiviteitenVerenigingsloket"": [{string.Join(",",
+          VerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
+              .Select(hoofdactiviteit => $@"{{
+          ""code"": ""{hoofdactiviteit.Code}"",
+          ""beschrijving"": ""{hoofdactiviteit.Beschrijving}""
+        }}"))}
+      ],
+      ""doelgroep"": """",
+      ""locaties"": [{string.Join(",",
+          VerenigingWerdGeregistreerd.Locaties
+              .Select(locatie => $@"{{
+          ""locatietype"": ""{locatie.Locatietype}"",
+          ""adres"": ""{locatie.ToAdresString()}"",
+          ""naam"": ""{locatie.Naam}"",
+          ""postcode"": ""{locatie.Postcode}"",
+          ""gemeente"": ""{locatie.Gemeente}""
+        }}"))}
+      ],
+      ""activiteiten"": [],
+      ""links"": {{
+        ""detail"": ""http://127.0.0.1:11004/v1/verenigingen/{VerenigingWerdGeregistreerd.VCode}""
+      }}
+    }}
+  ]
+}}";
 
     public With_Same_Naam_And_Postcode(EventsInDbScenariosFixture fixture)
     {

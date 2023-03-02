@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Locaties;
@@ -19,10 +20,10 @@ public class SearchDuplicateDetectionService : IDuplicateDetectionService
         _session = session;
     }
 
-    public async Task<IReadOnlyCollection<DuplicateCandidate>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties)
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties)
     {
         var postcodes = locaties.Select(l => l.Postcode).ToArray();
-        var gemeentes = locaties.Select(l => l.Gemeente.ToLower()).ToArray();
+        var gemeentes = locaties.Select(l => l.Gemeente).ToArray();
         return (await _session.Query<BeheerVerenigingDetailDocument>()
                 .Where(
                     document =>
@@ -30,14 +31,23 @@ public class SearchDuplicateDetectionService : IDuplicateDetectionService
                         document.Locaties.Any(
                             locatie =>
                                 locatie.Postcode.IsOneOf(postcodes) ||
-                                locatie.Gemeente.ToLower().IsOneOf(gemeentes)
+                                locatie.Gemeente.IsOneOf(gemeentes)
                         )
                 )
                 .ToListAsync())
-            .Select(ToDuplicateCandidate)
+            .Select(ToDuplicateVereniging)
             .ToArray();
     }
 
-    private static DuplicateCandidate ToDuplicateCandidate(BeheerVerenigingDetailDocument document)
-        => new(document.VCode, document.Naam);
+    private static DuplicaatVereniging ToDuplicateVereniging(BeheerVerenigingDetailDocument document)
+        => new(document.VCode,
+            document.Naam,
+            document.KorteNaam ?? string.Empty,
+            document.HoofdactiviteitenVerenigingsloket.Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)).ToImmutableArray(),
+            string.Empty,
+            document.Locaties.Select(ToLocatie).ToImmutableArray(),
+            ImmutableArray<DuplicaatVereniging.Activiteit>.Empty);
+
+    private static DuplicaatVereniging.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
+        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
 }

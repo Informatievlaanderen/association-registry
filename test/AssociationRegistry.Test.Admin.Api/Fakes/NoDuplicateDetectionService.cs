@@ -6,6 +6,6 @@ using VerenigingsNamen;
 
 public class NoDuplicateDetectionService : IDuplicateDetectionService
 {
-    public Task<IReadOnlyCollection<DuplicateCandidate>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties)
-        => Task.FromResult<IReadOnlyCollection<DuplicateCandidate>>(new List<DuplicateCandidate>());
+    public Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties)
+        => Task.FromResult<IReadOnlyCollection<DuplicaatVereniging>>(new List<DuplicaatVereniging>());
 }
