@@ -1,3 +1,10 @@
+# [1.130.0](https://github.com/informatievlaanderen/association-registry/compare/v1.129.0...v1.130.0) (2023-03-02)
+
+
+### Features
+
+* or-1614 correction public documantation href ([1f1bdcc](https://github.com/informatievlaanderen/association-registry/commit/1f1bdcc7a04d3c803884cbd3c89a4d696ebad410))
+
 # [1.129.0](https://github.com/informatievlaanderen/association-registry/compare/v1.128.0...v1.129.0) (2023-03-02)
 
 
