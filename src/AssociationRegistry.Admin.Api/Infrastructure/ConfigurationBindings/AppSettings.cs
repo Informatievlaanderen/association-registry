@@ -3,4 +3,5 @@
 public class AppSettings
 {
     public string BaseUrl { get; set; } = null!;
+    public string Salt { get; set; } = null!;
 }

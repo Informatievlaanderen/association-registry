@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -16,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -30,13 +28,18 @@ public class RegistreerVerenigingController : ApiController
 {
     private readonly IMessageBus _bus;
     private readonly IValidator<RegistreerVerenigingRequest> _validator;
+    private readonly BevestigingsTokenHelper _bevestigingsTokenHelper;
     private readonly AppSettings _appSettings;
 
-    public RegistreerVerenigingController(IMessageBus bus, IValidator<RegistreerVerenigingRequest> validator, AppSettings appSettings)
+    public RegistreerVerenigingController(
+        IMessageBus bus,
+        IValidator<RegistreerVerenigingRequest> validator,
+        AppSettings appSettings)
     {
         _bus = bus;
         _validator = validator;
         _appSettings = appSettings;
+        _bevestigingsTokenHelper = new BevestigingsTokenHelper(_appSettings!);
     }
 
     /// <summary>
@@ -69,9 +72,16 @@ public class RegistreerVerenigingController : ApiController
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var command = request.ToRegistreerVerenigingCommand();
+        var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
+        Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), WithForce: BevestigingsTokenHelper.IsValid(bevestigingsToken, request));
+        var command = request.ToRegistreerVerenigingCommand()
+            with
+            {
+                SkipDuplicateDetection = skipDuplicateDetection,
+            };
+
+        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
@@ -81,35 +91,11 @@ public class RegistreerVerenigingController : ApiController
 
             Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(
                 new PotentialDuplicatesResponse(
-                    BevestigingsTokenHelper.Calculate(request),
-                    potentialDuplicates.Data)),
+                    _bevestigingsTokenHelper.Calculate(request),
+                    potentialDuplicates.Data,
+                    _appSettings)),
 
             _ => throw new ArgumentOutOfRangeException(),
         };
-    }
-}
-
-public class PotentialDuplicatesResponse
-{
-    public string BevestigingsToken { get; }
-    public DuplicateCandidateResponse[] Duplicaten { get; }
-
-    public PotentialDuplicatesResponse(string hashedRequest, PotentialDuplicatesFound potentialDuplicates)
-    {
-        BevestigingsToken = hashedRequest;
-        Duplicaten = potentialDuplicates.Candidates.Select(DuplicateCandidateResponse.FromDuplicateCandidate).ToArray();
-    }
-
-    public class DuplicateCandidateResponse
-    {
-        public string VCode { get; set; } = null!;
-        public string Naam { get; set; } = null!;
-
-        public static DuplicateCandidateResponse FromDuplicateCandidate(DuplicateCandidate candidate)
-            => new()
-            {
-                VCode = candidate.VCode,
-                Naam = candidate.Naam,
-            };
     }
 }

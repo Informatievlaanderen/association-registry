@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.W
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
@@ -10,6 +12,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Marten;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
@@ -20,6 +23,8 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
     public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public string RequestAsJson { get; }
 
 
@@ -40,8 +45,9 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
-
+        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(Request);
+        VerenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
     }
 
@@ -61,14 +67,51 @@ public class With_Same_Naam_And_Gemeente
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
 
+    private BevestigingsTokenHelper BevestigingsTokenHelper
+        => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingsTokenHelper;
+
     private string Naam
         => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
+
+    private VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd
+        => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).VerenigingWerdGeregistreerd;
 
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
 
     private string ResponseBody
-        => @$"{{""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"", ""duplicaten"":[{{""vCode"":""V0001001"",""naam"":""{Naam}""}}]}}";
+        => @$"{{
+  ""bevestigingsToken"": ""{BevestigingsTokenHelper.Calculate(Request)}"",
+  ""mogelijkeDuplicateVerenigingen"": [
+    {{
+      ""vCode"": ""{VerenigingWerdGeregistreerd.VCode}"",
+      ""naam"": ""{VerenigingWerdGeregistreerd.Naam}"",
+      ""korteNaam"": ""{VerenigingWerdGeregistreerd.KorteNaam}"",
+      ""hoofdactiviteitenVerenigingsloket"": [{string.Join(",",
+          VerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
+              .Select(hoofdactiviteit => $@"{{
+          ""code"": ""{hoofdactiviteit.Code}"",
+          ""beschrijving"": ""{hoofdactiviteit.Beschrijving}""
+        }}"))}
+      ],
+      ""doelgroep"": """",
+      ""locaties"": [{string.Join(",",
+          VerenigingWerdGeregistreerd.Locaties
+              .Select(locatie => $@"{{
+          ""locatietype"": ""{locatie.Locatietype}"",
+          ""adres"": ""{locatie.ToAdresString()}"",
+          ""naam"": ""{locatie.Naam}"",
+          ""postcode"": ""{locatie.Postcode}"",
+          ""gemeente"": ""{locatie.Gemeente}""
+        }}"))}
+      ],
+      ""activiteiten"": [],
+      ""links"": {{
+        ""detail"": ""http://127.0.0.1:11004/v1/verenigingen/{VerenigingWerdGeregistreerd.VCode}""
+      }}
+    }}
+  ]
+}}";
 
     public With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
     {

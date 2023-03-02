@@ -5,5 +5,5 @@ using VerenigingsNamen;
 
 public interface IDuplicateDetectionService
 {
-    Task<IReadOnlyCollection<DuplicateCandidate>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties);
+    Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties);
 }

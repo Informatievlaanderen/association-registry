@@ -11,7 +11,8 @@ public record RegistreerVerenigingCommand(
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
     IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,
     IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers,
-    IEnumerable<string> HoofdactiviteitenVerenigingsloket)
+    IEnumerable<string> HoofdactiviteitenVerenigingsloket,
+    bool SkipDuplicateDetection = false)
 {
     public record ContactInfo(
         string Contactnaam,
