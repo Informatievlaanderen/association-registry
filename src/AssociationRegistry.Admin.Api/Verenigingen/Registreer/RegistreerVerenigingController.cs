@@ -51,7 +51,8 @@ public class RegistreerVerenigingController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <response code="202">De vereniging is aangemaakt.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meet info.</response>
+    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="409">Er zijn een of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPost]
     [Consumes("application/json")]
@@ -59,12 +60,15 @@ public class RegistreerVerenigingController : ApiController
     [SwaggerRequestExample(typeof(RegistreerVerenigingRequest), typeof(RegistreerVerenigingenRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(PotentialDuplicatesResponseExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de aangemaakte vereniging.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "Location", "string", "De locatie van de aangemaakte vereniging.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(typeof(PotentialDuplicatesResponse), StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingRequest? request,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
