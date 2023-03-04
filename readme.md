@@ -1,4 +1,4 @@
-# Association Registry
+# Association Registry [![Main](https://github.com/Informatievlaanderen/association-registry/actions/workflows/main.yml/badge.svg)](https://github.com/Informatievlaanderen/association-registry/actions/workflows/main.yml)
 
 ## Goal
 
