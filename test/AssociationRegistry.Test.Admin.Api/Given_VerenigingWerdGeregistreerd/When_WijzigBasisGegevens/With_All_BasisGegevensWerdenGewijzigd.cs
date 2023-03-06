@@ -24,7 +24,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
         const string nieuweKorteNaam = "De nieuwe korte naam";
         const string nieuweKorteBeschrijving = "De nieuwe korte beschrijving";
         const string initiator = "OVO000001";
-        var nieuweStartDatum = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.StartDatum!.Value.AddDays(-1);
+        var nieuweStartdatum = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Startdatum!.Value.AddDays(-1);
 
         Request = new WijzigBasisgegevensRequest()
         {
@@ -32,7 +32,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
             KorteNaam = nieuweKorteNaam,
             KorteBeschrijving = nieuweKorteBeschrijving,
             Initiator = initiator,
-            StartDatum = nieuweStartDatum,
+            Startdatum = nieuweStartdatum,
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
 
@@ -40,7 +40,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
             ""naam"":""{nieuweVerenigingsNaam}"",
             ""korteNaam"":""{nieuweKorteNaam}"",
             ""korteBeschrijving"":""{nieuweKorteBeschrijving}"",
-            ""startDatum"":""{nieuweStartDatum.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"":""{nieuweStartdatum.ToString(WellknownFormats.DateOnly)}"",
              ""Initiator"": ""OVO000001""}}";
 
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody).GetAwaiter().GetResult();
@@ -91,14 +91,14 @@ public class With_All_BasisGegevensWerdenGewijzigd
             .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
             .Single(@event => @event.VCode == VCode);
         var startRatumerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<StartDatumWerdGewijzigd>()
+            .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
             .Single(@event => @event.VCode == VCode);
 
 
         naamWerdGewijzigd.Naam.Should().Be(Request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(Request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
-        startRatumerdGewijzigd.StartDatum.Should().Be(Request.StartDatum);
+        startRatumerdGewijzigd.Startdatum.Should().Be(Request.Startdatum);
     }
 
     [Fact]

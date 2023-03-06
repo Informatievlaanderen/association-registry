@@ -27,7 +27,7 @@ public class WijzigBasisgegevensRequest
 
     /// <summary>Nieuwe startdatum van de vereniging</summary>
     [DataMember]
-    public DateOnly? StartDatum { get; set; }
+    public DateOnly? Startdatum { get; set; }
 
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(
@@ -35,5 +35,5 @@ public class WijzigBasisgegevensRequest
             Naam: Naam,
             KorteNaam: KorteNaam,
             KorteBeschrijving: KorteBeschrijving,
-            StartDatum: StartDatum);
+            Startdatum: Startdatum);
 }

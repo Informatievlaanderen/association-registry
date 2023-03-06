@@ -52,7 +52,7 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     public StreamActionResult Result { get; set; } = null!;
     public string Naam { get; set; }
 
-    public DateOnly? StartDatum
+    public DateOnly? Startdatum
         => VerenigingWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
@@ -138,7 +138,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
-    public readonly StartDatumWerdGewijzigd StartDatumWerdGewijzigd;
+    public readonly StartdatumWerdGewijzigd StartdatumWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
@@ -149,7 +149,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
-        StartDatumWerdGewijzigd = fixture.Create<StartDatumWerdGewijzigd>() with { VCode = VCode };
+        StartdatumWerdGewijzigd = fixture.Create<StartdatumWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -163,7 +163,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
             NaamWerdGewijzigd,
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,
-            StartDatumWerdGewijzigd
+            StartdatumWerdGewijzigd
         };
 
     public CommandMetadata GetCommandMetadata()

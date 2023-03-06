@@ -127,7 +127,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
     public readonly string KorteBeschrijving = "Harelbeke";
     public readonly string KorteNaam = "OW";
     public readonly string Naam = "Oarelbeke Weireldstad";
-    public readonly DateOnly StartDatum = new(2023,6,3);
+    public readonly DateOnly Startdatum = new(2023,6,3);
 
     public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
@@ -152,7 +152,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving),
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
-            new StartDatumWerdGewijzigd(VCode, StartDatum),
+            new StartdatumWerdGewijzigd(VCode, Startdatum),
         };
     }
 

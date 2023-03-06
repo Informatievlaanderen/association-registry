@@ -158,7 +158,7 @@ public class With_Same_Naam_And_Gemeente
                 Request.Naam,
                 Request.KorteNaam,
                 Request.KorteBeschrijving,
-                Request.StartDatum,
+                Request.Startdatum,
                 Request.KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

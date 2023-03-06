@@ -77,7 +77,7 @@ public class When_Retrieving_Historiek
                         ""tijdstip"":""{_metadata.Tijdstip}""
                     }},
                     {{
-                        ""gebeurtenis"": ""StartDatumWerdGewijzigd"",
+                        ""gebeurtenis"": ""StartdatumWerdGewijzigd"",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip}""
                     }}
