@@ -101,7 +101,7 @@ public class When_Duplicate_But_Valid_Hash
                 Request.Naam,
                 Request.KorteNaam,
                 Request.KorteBeschrijving,
-                Request.StartDatum,
+                Request.Startdatum,
                 Request.KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

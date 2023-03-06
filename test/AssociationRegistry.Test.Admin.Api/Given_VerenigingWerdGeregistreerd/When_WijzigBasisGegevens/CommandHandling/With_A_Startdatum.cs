@@ -9,20 +9,20 @@ using Fixtures.Scenarios;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
 
-public class With_A_StartDatum : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
+public class With_A_Startdatum : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
-    private readonly DateOnly _nieuweStartDatum;
+    private readonly DateOnly _nieuweStartdatum;
 
-    public With_A_StartDatum(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
+    public With_A_Startdatum(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
 
         var fixture = new Fixture();
         _scenario = classFixture.Scenario;
-        _nieuweStartDatum = _scenario.Startdatum!.Value.AddDays(-1);
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, StartDatum: _nieuweStartDatum);
+        _nieuweStartdatum = _scenario.Startdatum!.Value.AddDays(-1);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: _nieuweStartdatum);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateTime(2023, 3, 6)));
 
@@ -38,10 +38,10 @@ public class With_A_StartDatum : IClassFixture<CommandHandlerScenarioFixture<Ver
     }
 
     [Fact]
-    public void Then_A_StartDatumWerdGewijzigd_Event_Is_Saved()
+    public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new StartDatumWerdGewijzigd(_scenario.VCode, _nieuweStartDatum)
+            new StartdatumWerdGewijzigd(_scenario.VCode, _nieuweStartdatum)
         );
     }
 }

@@ -88,11 +88,11 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
     }
 
-    public void Apply(IEvent<StartDatumWerdGewijzigd> startDatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
-        document.Startdatum = startDatumWerdGewijzigd.Data.StartDatum;
-        document.DatumLaatsteAanpassing = startDatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = startDatumWerdGewijzigd.Sequence, Version = startDatumWerdGewijzigd.Version };
+        document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum;
+        document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
     }
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)

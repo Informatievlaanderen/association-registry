@@ -61,16 +61,16 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
     }
 
-    public void Apply(IEvent<StartDatumWerdGewijzigd> startDatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
         document.Gebeurtenissen.Add(
             new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(StartDatumWerdGewijzigd),
-                startDatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                startDatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+                nameof(StartdatumWerdGewijzigd),
+                startdatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
+                startdatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
             )
         );
-        document.Metadata = document.Metadata with { Sequence = startDatumWerdGewijzigd.Sequence, Version = startDatumWerdGewijzigd.Version };
+        document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
     }
 }
 

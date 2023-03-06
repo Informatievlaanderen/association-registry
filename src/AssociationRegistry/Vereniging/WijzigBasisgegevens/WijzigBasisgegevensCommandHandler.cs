@@ -21,19 +21,19 @@ public class WijzigBasisgegevensCommandHandler
         HandleNaam(vereniging, message.Command.Naam);
         HandleKorteNaam(vereniging, message.Command.KorteNaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
-        HandleStartDatum(vereniging, message.Command.StartDatum);
+        HandleStartdatum(vereniging, message.Command.Startdatum);
 
         var result = await repository.Save(vereniging, message.Metadata);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private void HandleStartDatum(Vereniging vereniging, DateOnly? startDatum)
+    private void HandleStartdatum(Vereniging vereniging, DateOnly? startdatum)
     {
-        if (startDatum is null) return;
+        if (startdatum is null) return;
 
-        if (startDatum.Equals(DateOnly.MinValue)) startDatum = null;
+        if (startdatum.Equals(DateOnly.MinValue)) startdatum = null;
 
-        vereniging.WijzigStartDatum(StartDatum.Create(_clock, startDatum));
+        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum));
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

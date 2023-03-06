@@ -25,7 +25,7 @@ public class Vereniging : IHasVersion
         public string? KorteNaam { get; set; }
 
         public string? KorteBeschrijving { get; set; }
-        public StartDatum? StartDatum { get; set; }
+        public Startdatum? Startdatum { get; set; }
 
         public State(string vCode)
         {
@@ -53,7 +53,7 @@ public class Vereniging : IHasVersion
         VerenigingsNaam naam,
         string? korteNaam,
         string? korteBeschrijving,
-        StartDatum? startdatum,
+        Startdatum? startdatum,
         KboNummer? kboNummer,
         ContactLijst contactLijst,
         LocatieLijst locatieLijst,
@@ -76,7 +76,7 @@ public class Vereniging : IHasVersion
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, StartDatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, DateOnly datumLaatsteAanpassing)
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, DateOnly datumLaatsteAanpassing)
         => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
@@ -143,12 +143,12 @@ public class Vereniging : IHasVersion
         UncommittedEvents = UncommittedEvents.Append(@event);
     }
 
-    public void WijzigStartDatum(StartDatum? startDatum)
+    public void WijzigStartdatum(Startdatum? startdatum)
     {
-        if (startDatum is not null && startDatum.Equals(_state.StartDatum)) return;
+        if (startdatum is not null && startdatum.Equals(_state.Startdatum)) return;
 
 
-        var @event = new StartDatumWerdGewijzigd(VCode, startDatum?.Value);
+        var @event = new StartdatumWerdGewijzigd(VCode, startdatum?.Value);
         Apply(@event);
         UncommittedEvents = UncommittedEvents.Append(@event);
     }
@@ -159,7 +159,7 @@ public class Vereniging : IHasVersion
             Naam = new VerenigingsNaam(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            StartDatum = StartDatum.Create(@event.Startdatum)
+            Startdatum = Startdatum.Create(@event.Startdatum)
         };
 
     public void Apply(NaamWerdGewijzigd @event)
@@ -172,6 +172,6 @@ public class Vereniging : IHasVersion
         => _state = _state with { KorteBeschrijving = @event.KorteBeschrijving };
 
 
-    public void Apply(StartDatumWerdGewijzigd @event)
-        => _state = _state with { StartDatum = StartDatum.Create(@event.StartDatum) };
+    public void Apply(StartdatumWerdGewijzigd @event)
+        => _state = _state with { Startdatum = Startdatum.Create(@event.Startdatum) };
 }

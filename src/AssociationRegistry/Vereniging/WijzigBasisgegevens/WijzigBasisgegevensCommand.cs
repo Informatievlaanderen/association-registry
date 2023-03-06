@@ -5,4 +5,4 @@ public record WijzigBasisgegevensCommand(
     string? Naam = null,
     string? KorteNaam = null,
     string? KorteBeschrijving = null,
-    DateOnly? StartDatum = null);
+    DateOnly? Startdatum = null);

@@ -34,7 +34,7 @@ public class To_A_RegistreerVerenigingCommand
         naam.Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(request.StartDatum);
+        startdatum.Should().Be(request.Startdatum);
         kboNummber.Should().Be(request.KboNummer);
         contactInfoLijst.Should().BeEquivalentTo(request.ContactInfoLijst);
         locaties.Should().BeEquivalentTo(request.Locaties);
