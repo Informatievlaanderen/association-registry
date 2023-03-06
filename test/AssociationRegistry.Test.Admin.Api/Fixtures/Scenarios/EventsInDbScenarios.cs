@@ -52,6 +52,9 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     public StreamActionResult Result { get; set; } = null!;
     public string Naam { get; set; }
 
+    public DateOnly? StartDatum
+        => VerenigingWerdGeregistreerd.Startdatum;
+
     public IEvent[] GetEvents()
         => new IEvent[]
             { VerenigingWerdGeregistreerd };

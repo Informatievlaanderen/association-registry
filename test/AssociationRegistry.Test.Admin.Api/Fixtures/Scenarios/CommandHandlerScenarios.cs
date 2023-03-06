@@ -26,7 +26,7 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : ICommandhandl
     public readonly string? KorteNaam = "FOud";
     public readonly string? KboNummer = null;
     public readonly string Initiator = "Een initiator";
-    public readonly DateOnly? Startdatum = null;
+    public readonly DateOnly? Startdatum = new DateOnly(2023, 3, 6);
 
     public IEnumerable<IEvent> Events()
     {
@@ -77,7 +77,7 @@ public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario :
                 Startdatum,
                 KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                new [] { Locatie },
+                new[] { Locatie },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
         };

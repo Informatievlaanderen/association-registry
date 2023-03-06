@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging.WijzigBasisgegevens;
@@ -24,6 +25,15 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? KorteBeschrijving { get; set; }
 
+    /// <summary>Nieuwe startdatum van de vereniging</summary>
+    [DataMember]
+    public DateOnly? StartDatum { get; set; }
+
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
-        => new(vCode, Naam: Naam, KorteNaam: KorteNaam, KorteBeschrijving: KorteBeschrijving);
+        => new(
+            vCode,
+            Naam: Naam,
+            KorteNaam: KorteNaam,
+            KorteBeschrijving: KorteBeschrijving,
+            StartDatum: StartDatum);
 }

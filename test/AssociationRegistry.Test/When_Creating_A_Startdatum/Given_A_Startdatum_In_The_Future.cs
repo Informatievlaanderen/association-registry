@@ -13,7 +13,7 @@ public class Given_A_Startdatum_In_The_Future
     public void Then_it_throws_an_InvalidStartdatumException()
     {
         var startdatum = DateOnly.FromDateTime(new DateTime(3022, 10, 04));
-        var factory = () => Startdatum.Create(ClockStub, startdatum);
+        var factory = () => StartDatum.Create(ClockStub, startdatum);
 
         factory.Should().Throw<InvalidStartdatumFuture>();
     }

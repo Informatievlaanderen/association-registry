@@ -11,7 +11,7 @@ public class Given_Null_Startdatum
     [Fact]
     public void Then_it_returns_null()
     {
-        var startdatum = Startdatum.Create(ClockStub, null);
+        var startdatum = StartDatum.Create(ClockStub, null);
 
         startdatum.Should().BeNull();
     }

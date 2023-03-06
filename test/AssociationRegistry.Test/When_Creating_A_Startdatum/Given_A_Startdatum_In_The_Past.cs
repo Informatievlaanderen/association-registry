@@ -12,7 +12,7 @@ public class Given_A_Startdatum_In_The_Past
     public void Then_it_returns_a_startdatum()
     {
         var expectedStartdatum = DateOnly.FromDateTime(new DateTime(2022, 10, 04));
-        var startdatum = Startdatum.Create(ClockStub, expectedStartdatum)!;
+        var startdatum = StartDatum.Create(ClockStub, expectedStartdatum)!;
 
         startdatum.Value.Should().Be(expectedStartdatum);
     }
