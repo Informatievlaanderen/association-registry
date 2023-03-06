@@ -75,6 +75,11 @@ public class When_Retrieving_Historiek
                         ""gebeurtenis"": ""KorteBeschrijvingWerdGewijzigd"",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""StartDatumWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
                     }}
                 ]
             }}

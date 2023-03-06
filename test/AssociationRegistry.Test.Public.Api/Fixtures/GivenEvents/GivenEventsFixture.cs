@@ -4,7 +4,7 @@ public class GivenEventsFixture : PublicApiFixture
 {
     public readonly VerenigingWerdGeregistreerdScenario VerenigingWerdGeregistreerdScenario = new();
     public readonly VerenigingWerdGeregistreerdWithMinimalFieldsScenario VerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
-    public readonly KorteBeschrijvingWerdGewijzigdScenario KorteBeschrijvingWerdGewijzigdScenario = new();
+    public readonly BasisgegevensWerdenGewijzigdScenario BasisgegevensWerdenGewijzigdScenario = new();
     public readonly UnHandledEventAndVerenigingWerdGeregistreerdScenario UnHandledEventAndVerenigingWerdGeregistreerdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
@@ -12,7 +12,7 @@ public class GivenEventsFixture : PublicApiFixture
         {
             VerenigingWerdGeregistreerdScenario,
             VerenigingWerdGeregistreerdWithMinimalFieldsScenario,
-            KorteBeschrijvingWerdGewijzigdScenario,
+            BasisgegevensWerdenGewijzigdScenario,
             UnHandledEventAndVerenigingWerdGeregistreerdScenario,
         };
 

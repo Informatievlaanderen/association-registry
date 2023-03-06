@@ -26,6 +26,7 @@ public class When_Retrieving_Detail
     private readonly NaamWerdGewijzigd _naamWerdGewijzigd;
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
+    private readonly StartDatumWerdGewijzigd _startDatumWerdGewijzigd;
 
     public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
@@ -35,6 +36,7 @@ public class When_Retrieving_Detail
         _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
         _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
+        _startDatumWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.StartDatumWerdGewijzigd;
         _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
         _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
@@ -69,7 +71,7 @@ public class When_Retrieving_Detail
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
-                    ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""startdatum"": ""{_startDatumWerdGewijzigd.StartDatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
                     ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Select(x => $@"{{
                         ""contactnaam"": ""{x.Contactnaam}"",

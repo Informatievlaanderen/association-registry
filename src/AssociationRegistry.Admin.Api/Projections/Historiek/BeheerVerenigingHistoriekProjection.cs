@@ -48,6 +48,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         );
         document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
     }
+
     public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
         document.Gebeurtenissen.Add(
@@ -58,6 +59,18 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             )
         );
         document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
+    }
+
+    public void Apply(IEvent<StartDatumWerdGewijzigd> startDatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen.Add(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                nameof(StartDatumWerdGewijzigd),
+                startDatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
+                startDatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
+        );
+        document.Metadata = document.Metadata with { Sequence = startDatumWerdGewijzigd.Sequence, Version = startDatumWerdGewijzigd.Version };
     }
 }
 
