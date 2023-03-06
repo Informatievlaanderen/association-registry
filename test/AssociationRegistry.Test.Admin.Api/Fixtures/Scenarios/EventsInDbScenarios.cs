@@ -138,6 +138,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
+    public readonly StartDatumWerdGewijzigd StartDatumWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
@@ -148,6 +149,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
+        StartDatumWerdGewijzigd = fixture.Create<StartDatumWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -155,7 +157,14 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
-        => new IEvent[] { VerenigingWerdGeregistreerd, NaamWerdGewijzigd, KorteNaamWerdGewijzigd, KorteBeschrijvingWerdGewijzigd };
+        => new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            NaamWerdGewijzigd,
+            KorteNaamWerdGewijzigd,
+            KorteBeschrijvingWerdGewijzigd,
+            StartDatumWerdGewijzigd
+        };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

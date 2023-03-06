@@ -47,6 +47,12 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
+    public void Apply(IEvent<StartDatumWerdGewijzigd> startDatumWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.Startdatum = startDatumWerdGewijzigd.Data.StartDatum;
+        document.DatumLaatsteAanpassing = startDatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, PubliekVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
