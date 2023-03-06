@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
@@ -16,12 +17,14 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
     public readonly string VCode;
     public readonly WijzigBasisgegevensRequest Request;
 
+
     private When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd(EventsInDbScenariosFixture fixture)
     {
         const string nieuweVerenigingsNaam = "De nieuwe vereniging";
         const string nieuweKorteNaam = "De nieuwe korte naam";
         const string nieuweKorteBeschrijving = "De nieuwe korte beschrijving";
         const string initiator = "OVO000001";
+        var nieuweStartDatum = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.StartDatum!.Value.AddDays(-1);
 
         Request = new WijzigBasisgegevensRequest()
         {
@@ -29,13 +32,15 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
             KorteNaam = nieuweKorteNaam,
             KorteBeschrijving = nieuweKorteBeschrijving,
             Initiator = initiator,
+            StartDatum = nieuweStartDatum,
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
 
-        const string jsonBody = $@"{{
+        var jsonBody = $@"{{
             ""naam"":""{nieuweVerenigingsNaam}"",
             ""korteNaam"":""{nieuweKorteNaam}"",
             ""korteBeschrijving"":""{nieuweKorteBeschrijving}"",
+            ""startDatum"":""{nieuweStartDatum.ToString(WellknownFormats.DateOnly)}"",
              ""Initiator"": ""OVO000001""}}";
 
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody).GetAwaiter().GetResult();
@@ -59,11 +64,13 @@ public class With_All_BasisGegevensWerdenGewijzigd
 
     private WijzigBasisgegevensRequest Request
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).Request;
+
     private HttpResponseMessage Response
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).Response;
 
     private string VCode
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd.Called(_fixture).VCode;
+
     public With_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
@@ -83,11 +90,15 @@ public class With_All_BasisGegevensWerdenGewijzigd
         var korteBeschrijvingWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
             .Single(@event => @event.VCode == VCode);
+        var startRatumerdGewijzigd = session.Events
+            .QueryRawEventDataOnly<StartDatumWerdGewijzigd>()
+            .Single(@event => @event.VCode == VCode);
 
 
         naamWerdGewijzigd.Naam.Should().Be(Request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(Request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
+        startRatumerdGewijzigd.StartDatum.Should().Be(Request.StartDatum);
     }
 
     [Fact]

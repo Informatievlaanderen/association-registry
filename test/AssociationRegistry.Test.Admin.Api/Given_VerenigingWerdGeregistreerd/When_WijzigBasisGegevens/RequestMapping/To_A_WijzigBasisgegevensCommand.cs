@@ -19,11 +19,12 @@ public class To_A_WijzigBasisgegevensCommand
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToWijzigBasisgegevensCommand(actualVCode);
 
-        actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving);
+        actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startDatum);
 
         vCode.Should().Be(actualVCode);
         naam.Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
+        startDatum.Should().Be(request.StartDatum);
     }
 }

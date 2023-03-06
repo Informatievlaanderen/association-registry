@@ -20,5 +20,7 @@ public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
     }
 
     public override DateOnly ReadJson(JsonReader reader, Type objectType, DateOnly existingValue, bool hasExistingValue, JsonSerializer serializer)
-        => DateOnlyHelpers.TryParse((string)reader.Value!, _format);
+        => reader.Value!.Equals(string.Empty) ?
+            DateOnly.MinValue :
+            DateOnlyHelpers.TryParse((string)reader.Value!, _format);
 }
