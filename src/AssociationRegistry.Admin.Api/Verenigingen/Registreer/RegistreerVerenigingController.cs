@@ -52,7 +52,7 @@ public class RegistreerVerenigingController : ApiController
     /// </remarks>
     /// <response code="202">De vereniging is aangemaakt.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
-    /// <response code="409">Er zijn een of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
+    /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPost]
     [Consumes("application/json")]
