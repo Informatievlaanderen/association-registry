@@ -1,3 +1,20 @@
+# [1.131.0](https://github.com/informatievlaanderen/association-registry/compare/v1.130.0...v1.131.0) (2023-03-07)
+
+
+### Bug Fixes
+
+* or-1424 rm duplicate file ([602de44](https://github.com/informatievlaanderen/association-registry/commit/602de446db35528b7945786578b6cb5e3496b4ab))
+* or-1424 roll back .net version ([e98a82b](https://github.com/informatievlaanderen/association-registry/commit/e98a82b977bb909f39654edfa4733545b787de0b))
+
+
+### Features
+
+* or-1424 add startdatum to patch call ([c944f35](https://github.com/informatievlaanderen/association-registry/commit/c944f35f8c7f614e82f1bfd9b5d9c13a20435668))
+* or-1424 introduce NullOrEmpty ([0c8d82f](https://github.com/informatievlaanderen/association-registry/commit/0c8d82f4479744fb95a2214a28a5904e37c1ece3))
+* or-1424 rename Startdatum ([f0a93ea](https://github.com/informatievlaanderen/association-registry/commit/f0a93eaff8b7dcecd018fb52d537a0433428a4a7))
+* or-1424 update projecties ([94acfcc](https://github.com/informatievlaanderen/association-registry/commit/94acfcc059b9d9345c8c9e2ae5b1580a9fc45fd0))
+* OR-1556 add docs for 409 header (and a few improvements) ([3a8c86b](https://github.com/informatievlaanderen/association-registry/commit/3a8c86bf67683ea896d5e2a3cfb191f0dc3ee8d6))
+
 # [1.130.0](https://github.com/informatievlaanderen/association-registry/compare/v1.129.0...v1.130.0) (2023-03-02)
 
 
