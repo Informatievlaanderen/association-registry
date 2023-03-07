@@ -11,6 +11,7 @@ using AutoFixture;
 using Fakes;
 using FluentAssertions;
 using Moq;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 
@@ -28,9 +29,9 @@ public class With_The_Same_Startdatum : IClassFixture<CommandHandlerScenarioFixt
         _classfixure = classFixture;
 
         var fixture = new Fixture();
-        var command = new WijzigBasisgegevensCommand(_classfixure.Scenario.VCode, Startdatum: _classfixure.Scenario.Startdatum);
+        var command = new WijzigBasisgegevensCommand(_classfixure.Scenario.VCode, Startdatum: NullOrEmpty<DateOnly>.Create(_classfixure.Scenario.Startdatum));
         _commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(_classfixure.Scenario.Startdatum!.Value.AddYears(1).ToDateTime(new TimeOnly())));
+        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(_classfixure.Scenario.Startdatum.AddYears(1).ToDateTime(new TimeOnly())));
 
         _verenigingRepositoryMock
             .Setup(r => r.Load(_classfixure.Scenario.VCode, _commandMetadata.ExpectedVersion))

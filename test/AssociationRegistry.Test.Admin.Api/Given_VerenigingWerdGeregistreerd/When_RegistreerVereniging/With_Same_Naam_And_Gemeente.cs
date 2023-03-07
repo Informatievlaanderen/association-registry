@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Infrastructure.Json;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
@@ -14,6 +16,7 @@ using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Categories;
 
@@ -46,7 +49,8 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
         Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
-        RequestAsJson = JsonConvert.SerializeObject(Request);
+        RequestAsJson = JsonConvert.SerializeObject(
+            Request);
         VerenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
     }
@@ -158,7 +162,7 @@ public class With_Same_Naam_And_Gemeente
                 Request.Naam,
                 Request.KorteNaam,
                 Request.KorteBeschrijving,
-                Request.Startdatum,
+                Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

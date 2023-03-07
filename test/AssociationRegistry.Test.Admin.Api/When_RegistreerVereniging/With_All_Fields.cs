@@ -12,6 +12,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 
@@ -28,7 +29,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             Naam = autoFixture.Create<string>(),
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
-            Startdatum = DateOnly.FromDateTime(DateTime.Today),
+            Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
             ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
@@ -114,7 +115,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.naam}}", request.Naam)
             .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
-            .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
+            .Replace("{{vereniging.startdatum}}", request.Startdatum.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
@@ -195,7 +196,7 @@ public class With_All_Fields
 
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
-        savedEvent.Startdatum.Should().Be(Request.Startdatum);
+        savedEvent.Startdatum.Should().Be(Request.Startdatum.Value);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
         savedEvent.ContactInfoLijst.Should().HaveCount(1);
         savedEvent.ContactInfoLijst[0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);

@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
 using System;
+using Primitives;
 
 public record RegistreerVerenigingCommand(
     string Naam,
     string? KorteNaam,
     string? KorteBeschrijving,
-    DateOnly? Startdatum,
+    NullOrEmpty<DateOnly> Startdatum,
     string? KboNummber,
     IEnumerable<RegistreerVerenigingCommand.ContactInfo>? ContactInfoLijst,
     IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,

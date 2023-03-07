@@ -153,7 +153,7 @@ public class With_Same_Naam_And_Postcode
                 Request.Naam,
                 Request.KorteNaam,
                 Request.KorteBeschrijving,
-                Request.Startdatum,
+                Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

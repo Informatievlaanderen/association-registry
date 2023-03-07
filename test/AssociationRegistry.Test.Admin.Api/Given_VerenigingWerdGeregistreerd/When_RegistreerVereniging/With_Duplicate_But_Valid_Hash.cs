@@ -63,6 +63,7 @@ public class When_Duplicate_But_Valid_Hash
 
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Response;
+
     private BevestigingsTokenHelper BevestigingsTokenHelper
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).BevestigingsTokenHelper;
 
@@ -101,7 +102,7 @@ public class When_Duplicate_But_Valid_Hash
                 Request.Naam,
                 Request.KorteNaam,
                 Request.KorteBeschrijving,
-                Request.Startdatum,
+                Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using Constants;
+using Primitives;
 using Swashbuckle.AspNetCore.Filters;
 
 public class RegistreerVerenigingenRequestExamples : IExamplesProvider<RegistreerVerenigingRequest>
@@ -14,7 +15,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             KorteNaam = "Korte naam",
             KorteBeschrijving = "Beschrijving",
             KboNummer = "BE0123456789",
-            Startdatum = DateOnly.FromDateTime(DateTime.Today),
+            Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
             Locaties = new[]
             {
                 new RegistreerVerenigingRequest.Locatie
