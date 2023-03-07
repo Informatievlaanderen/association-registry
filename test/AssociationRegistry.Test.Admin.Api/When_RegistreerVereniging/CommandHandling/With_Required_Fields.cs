@@ -9,6 +9,7 @@ using Fixtures.Scenarios;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Moq;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,7 +35,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
             Naam,
             null,
             null,
-            null,
+            NullOrEmpty<DateOnly>.Null,
             null,
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
             Array.Empty<RegistreerVerenigingCommand.Locatie>(),
@@ -54,15 +55,15 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
-                _vCodeService.GetLast(),
-                Naam,
-                null,
-                null,
-                null,
-                null,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+                VCode: _vCodeService.GetLast(),
+                Naam: Naam,
+                KorteNaam: null,
+                KorteBeschrijving: null,
+                Startdatum: null,
+                KboNummer: null,
+                ContactInfoLijst: Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                Vertegenwoordigers: Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                HoofdactiviteitenVerenigingsloket: Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
     }
 }

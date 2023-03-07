@@ -39,7 +39,7 @@ public class RegistreerVerenigingController : ApiController
         _bus = bus;
         _validator = validator;
         _appSettings = appSettings;
-        _bevestigingsTokenHelper = new BevestigingsTokenHelper(_appSettings!);
+        _bevestigingsTokenHelper = new BevestigingsTokenHelper(_appSettings);
     }
 
     /// <summary>

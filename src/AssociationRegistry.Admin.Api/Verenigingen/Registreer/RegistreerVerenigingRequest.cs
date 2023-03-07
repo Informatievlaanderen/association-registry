@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
+using Primitives;
 using Vereniging.RegistreerVereniging;
 
 [DataContract]
@@ -29,7 +30,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember]
-    public DateOnly? Startdatum { get; init; }
+    public NullOrEmpty<DateOnly> Startdatum { get; init; }
 
     /// <summary>
     /// Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten

@@ -9,6 +9,7 @@ using Events;
 using Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 
@@ -32,7 +33,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
             KorteNaam = nieuweKorteNaam,
             KorteBeschrijving = nieuweKorteBeschrijving,
             Initiator = initiator,
-            Startdatum = nieuweStartdatum,
+            Startdatum = NullOrEmpty<DateOnly>.Create(nieuweStartdatum),
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
 
@@ -90,7 +91,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
         var korteBeschrijvingWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
             .Single(@event => @event.VCode == VCode);
-        var startRatumerdGewijzigd = session.Events
+        var startdatumWerdGewijzigd = session.Events
             .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
             .Single(@event => @event.VCode == VCode);
 
@@ -98,7 +99,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
         naamWerdGewijzigd.Naam.Should().Be(Request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(Request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
-        startRatumerdGewijzigd.Startdatum.Should().Be(Request.Startdatum);
+        startdatumWerdGewijzigd.Startdatum.Should().Be(Request.Startdatum.Value);
     }
 
     [Fact]

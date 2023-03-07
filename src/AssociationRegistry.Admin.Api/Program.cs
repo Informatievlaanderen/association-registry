@@ -353,6 +353,7 @@ public class Program
                 {
                     opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                     opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                    opt.SerializerSettings.Converters.Add(new NullOrEmptyJsonConvertor<DateOnly>());
                     opt.SerializerSettings.NullValueHandling = NullValueHandling.Include;
                     opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
@@ -527,6 +528,12 @@ public class Program
     private static void ConfigureJsonSerializerSettings()
     {
         var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
+        jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+        jsonSerializerSettings.Converters.Add(new NullOrEmptyJsonConvertor<DateOnly>());
+        jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;
+        jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
         JsonConvert.DefaultSettings = () => jsonSerializerSettings;
     }
 

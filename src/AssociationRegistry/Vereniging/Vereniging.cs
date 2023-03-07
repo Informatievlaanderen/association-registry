@@ -145,7 +145,8 @@ public class Vereniging : IHasVersion
 
     public void WijzigStartdatum(Startdatum? startdatum)
     {
-        if (startdatum is not null && startdatum.Equals(_state.Startdatum)) return;
+        if (_state.Startdatum is null && startdatum is null) return;
+        if (_state.Startdatum is not null && startdatum is not null && startdatum.Equals(_state.Startdatum)) return;
 
 
         var @event = new StartdatumWerdGewijzigd(VCode, startdatum?.Value);
@@ -159,7 +160,7 @@ public class Vereniging : IHasVersion
             Naam = new VerenigingsNaam(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Create(@event.Startdatum)
+            Startdatum = Startdatum.Create(@event.Startdatum),
         };
 
     public void Apply(NaamWerdGewijzigd @event)

@@ -26,7 +26,7 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : ICommandhandl
     public readonly string? KorteNaam = "FOud";
     public readonly string? KboNummer = null;
     public readonly string Initiator = "Een initiator";
-    public readonly DateOnly? Startdatum = new DateOnly(2023, 3, 6);
+    public readonly DateOnly Startdatum = new(2023, 3, 6);
 
     public IEnumerable<IEvent> Events()
     {

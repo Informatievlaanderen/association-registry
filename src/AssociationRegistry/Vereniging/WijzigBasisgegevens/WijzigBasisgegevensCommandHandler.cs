@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigBasisgegevens;
 
 using Framework;
+using Primitives;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
@@ -27,13 +28,10 @@ public class WijzigBasisgegevensCommandHandler
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private void HandleStartdatum(Vereniging vereniging, DateOnly? startdatum)
+    private void HandleStartdatum(Vereniging vereniging, NullOrEmpty<DateOnly> startdatum)
     {
-        if (startdatum is null) return;
-
-        if (startdatum.Equals(DateOnly.MinValue)) startdatum = null;
-
-        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum));
+        if (startdatum.IsNull) return;
+        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum.Value));
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

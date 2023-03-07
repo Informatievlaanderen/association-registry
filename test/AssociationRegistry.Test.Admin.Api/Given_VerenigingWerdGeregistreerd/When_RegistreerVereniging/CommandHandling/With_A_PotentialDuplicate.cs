@@ -10,6 +10,7 @@ using Framework;
 using Locaties;
 using Magda;
 using Moq;
+using Primitives;
 using ResultNet;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
@@ -42,7 +43,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
             classFixture.Scenario.Naam,
             null,
             null,
-            null,
+            NullOrEmpty<DateOnly>.Null,
             null,
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
             new[] { locatie },

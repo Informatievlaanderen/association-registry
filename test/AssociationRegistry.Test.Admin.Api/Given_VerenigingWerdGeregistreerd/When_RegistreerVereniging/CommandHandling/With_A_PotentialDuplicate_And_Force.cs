@@ -11,6 +11,7 @@ using Framework;
 using Locaties;
 using Magda;
 using Moq;
+using Primitives;
 using ResultNet;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
@@ -46,7 +47,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             classFixture.Scenario.Naam,
             null,
             null,
-            null,
+            NullOrEmpty<DateOnly>.Null,
             null,
             Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
             new[] { _locatie },
@@ -84,7 +85,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.Naam,
                 _command.KorteNaam,
                 _command.KorteBeschrijving,
-                _command.Startdatum,
+                null,
                 _command.KboNummber,
                 Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
                 new[]

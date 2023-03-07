@@ -163,7 +163,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
             NaamWerdGewijzigd,
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,
-            StartdatumWerdGewijzigd
+            StartdatumWerdGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()

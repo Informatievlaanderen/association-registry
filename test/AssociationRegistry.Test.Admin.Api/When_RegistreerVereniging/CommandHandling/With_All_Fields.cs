@@ -13,6 +13,7 @@ using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Hoofdactiviteiten;
 using Moq;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 
@@ -53,7 +54,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             Naam,
             KorteNaam,
             KorteBeschrijving,
-            _fromDateTime,
+            NullOrEmpty<DateOnly>.Create(_fromDateTime),
             KboNummber,
             new[] { ContactInfo },
             new[] { Locatie },
