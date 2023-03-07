@@ -4,6 +4,7 @@ using System;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
+using Primitives;
 
 public class Startdatum : ValueObject<Startdatum>
 {
@@ -13,9 +14,6 @@ public class Startdatum : ValueObject<Startdatum>
     }
 
     public DateOnly Value { get; }
-
-    public static Startdatum? Create(IClock clock, DateOnly? maybeDatum)
-        => Create(maybeDatum, datum => Validate(clock.Today, datum));
 
     internal static Startdatum? Create(DateOnly? maybeDatum, Action<DateOnly>? validate = null)
     {
@@ -32,5 +30,11 @@ public class Startdatum : ValueObject<Startdatum>
     protected override IEnumerable<object> Reflect()
     {
         yield return Value;
+    }
+
+    public static Startdatum? Create(IClock clock, NullOrEmpty<DateOnly> commandStartdatum)
+    {
+        if(!commandStartdatum.HasValue) return null;
+        return Create(commandStartdatum.Value, datum => Validate(clock.Today, datum));
     }
 }
