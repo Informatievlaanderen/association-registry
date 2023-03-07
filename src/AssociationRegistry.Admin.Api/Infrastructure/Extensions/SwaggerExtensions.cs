@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Primitives;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -30,6 +31,14 @@ public static class SwaggerExtensions
                             Type = "string",
                             Format = "date",
                             Pattern = "yyyy-MM-dd",
+                        });
+                    options.MapType<NullOrEmpty<DateOnly>>(
+                        () => new OpenApiSchema
+                        {
+                            Type = "string",
+                            Format = "date",
+                            Pattern = "yyyy-MM-dd",
+                            Nullable = true,
                         });
                     options.CustomSchemaIds(type => type.FullName);
                     options.SwaggerDoc(
