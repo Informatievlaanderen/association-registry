@@ -1,3 +1,11 @@
+## [1.131.1](https://github.com/informatievlaanderen/association-registry/compare/v1.131.0...v1.131.1) (2023-03-09)
+
+
+### Bug Fixes
+
+* or-1424 fix flaky test ([db1ca2f](https://github.com/informatievlaanderen/association-registry/commit/db1ca2fdc14cef6eddea5639f6c9ec009137ed51))
+* or-1424 fix validation + complete documentation ([da0848b](https://github.com/informatievlaanderen/association-registry/commit/da0848b6b6aa41679ef3b68d52c3c456bad0d563))
+
 # [1.131.0](https://github.com/informatievlaanderen/association-registry/compare/v1.130.0...v1.131.0) (2023-03-07)
 
 
