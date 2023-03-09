@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using FluentAssertions;
@@ -25,7 +26,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewwijzigd
         const string nieuweKorteNaam = "De nieuwe korte naam";
         const string nieuweKorteBeschrijving = "De nieuwe korte beschrijving";
         const string initiator = "OVO000001";
-        var nieuweStartdatum = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Startdatum!.Value.AddDays(-1);
+        var nieuweStartdatum = fixture.ServiceProvider.GetRequiredService<IClock>().Today.AddDays(-1);
 
         Request = new WijzigBasisgegevensRequest()
         {
