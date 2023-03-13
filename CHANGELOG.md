@@ -1,3 +1,10 @@
+## [1.131.2](https://github.com/informatievlaanderen/association-registry/compare/v1.131.1...v1.131.2) (2023-03-13)
+
+
+### Bug Fixes
+
+* or-1635 add domain validation description to startdatum for wijzig basisgegevens ([d885bea](https://github.com/informatievlaanderen/association-registry/commit/d885beae256f370eea02d20de9ab873205350dfa))
+
 ## [1.131.1](https://github.com/informatievlaanderen/association-registry/compare/v1.131.0...v1.131.1) (2023-03-09)
 
 
