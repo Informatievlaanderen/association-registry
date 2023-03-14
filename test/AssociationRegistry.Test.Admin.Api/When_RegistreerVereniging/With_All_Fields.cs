@@ -32,7 +32,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
-            ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+            ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
             {
                 new()
                 {
@@ -66,7 +66,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
-                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
                     {
                         new()
                         {
@@ -84,7 +84,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
-                    ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                    ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
                     {
                         new()
                         {
@@ -150,7 +150,7 @@ public class With_All_Fields
                 Rol = "Voorzitter, Hoofdcoach",
                 Roepnaam = "QTPY",
                 PrimairContactpersoon = true,
-                ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
                 {
                     new()
                     {
@@ -168,7 +168,7 @@ public class With_All_Fields
                 Rol = "Master",
                 Roepnaam = "Lara",
                 PrimairContactpersoon = false,
-                ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+                ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
                 {
                     new()
                     {

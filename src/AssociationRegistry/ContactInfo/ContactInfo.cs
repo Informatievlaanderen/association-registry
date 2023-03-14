@@ -25,6 +25,9 @@ public class ContactInfo
         return new ContactInfo(contactnaam, email, telefoonNummer, website, socialMedia, primairContactInfo);
     }
 
+    public static ContactInfo FromEvent(Events.CommonEventDataTypes.ContactInfo contactInfo)
+        => new(contactInfo.Contactnaam, contactInfo.Email, contactInfo.Telefoon, contactInfo.Website, contactInfo.SocialMedia, contactInfo.PrimairContactInfo);
+
     private static bool NoValuesForAll(params string?[] args)
         => args.All(string.IsNullOrEmpty);
 

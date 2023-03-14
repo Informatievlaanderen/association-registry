@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
+
 [UnitTest]
 public class With_Two_Identical_Locations : ValidatorTest
 {

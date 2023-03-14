@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 using Events;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Events.CommonEventDataTypes;
 using Framework;
 using VCodes;
 
@@ -39,7 +40,7 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : ICommandhandl
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
@@ -76,7 +77,7 @@ public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario :
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 new[] { Locatie },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),

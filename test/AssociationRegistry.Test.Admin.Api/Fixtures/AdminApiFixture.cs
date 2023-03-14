@@ -50,6 +50,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 GetConnectionString(GetConfiguration(), RootDatabase))
             .GetAwaiter().GetResult();
 
+        DropDatabase();
+
         EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
 
         WaitFor.PostGreSQLToBecomeAvailable(

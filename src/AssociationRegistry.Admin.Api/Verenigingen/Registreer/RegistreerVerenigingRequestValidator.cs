@@ -4,6 +4,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.Linq;
+using CommonRequestDataTypes;
 using Constants;
 using Infrastructure.Validation;
 using FluentValidation;
@@ -53,33 +54,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     private static bool NotHaveDuplicates(string[] values)
         => values.Length == values.DistinctBy(v => v.ToLower()).Count();
 
-    private class ContactInfoValidator : AbstractValidator<RegistreerVerenigingRequest.ContactInfo>
-    {
-        public ContactInfoValidator()
-        {
-            RuleFor(contactInfo => contactInfo)
-                .Must(HaveAtLeastOneValue)
-                .WithMessage("Een contact moet minstens één waarde bevatten.");
-
-            this.RequireNotNullOrEmpty(contactInfo => contactInfo.Contactnaam);
-        }
-
-        private static bool HaveAtLeastOneValue(RegistreerVerenigingRequest.ContactInfo contactInfo)
-            => !string.IsNullOrEmpty(contactInfo.Email) ||
-               !string.IsNullOrEmpty(contactInfo.Telefoon) ||
-               !string.IsNullOrEmpty(contactInfo.Website) ||
-               !string.IsNullOrEmpty(contactInfo.SocialMedia);
-
-        internal static bool NotHaveMultiplePrimaryContactInfos(RegistreerVerenigingRequest.ContactInfo[] contactInfos)
-            => contactInfos.Count(i => i.PrimairContactInfo) <= 1;
-
-        public static bool NotHaveDuplicateContactnaam(RegistreerVerenigingRequest.ContactInfo[] arg)
-        {
-            var totalItems = arg.Length;
-            var distinct = arg.Select(i => i.Contactnaam).Distinct().Count();
-            return totalItems == distinct;
-        }
-    }
 
     private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
     {

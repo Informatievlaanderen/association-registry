@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigBasisgegevens;
 
+using ContactInfo;
 using Framework;
 using Primitives;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
+using ContactInfo = CommonCommandDataTypes.ContactInfo;
 
 public class WijzigBasisgegevensCommandHandler
 {
@@ -23,9 +25,18 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteNaam(vereniging, message.Command.KorteNaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleStartdatum(vereniging, message.Command.Startdatum);
+        HandleContactInfolijst(vereniging, message.Command.ContactInfoLijst);
 
         var result = await repository.Save(vereniging, message.Metadata);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
+    }
+
+    private void HandleContactInfolijst(Vereniging vereniging, ContactInfo[]? contactInfoLijst)
+    {
+        if (contactInfoLijst is null)
+            return;
+
+        vereniging.WijzigContactInfoLijst(ContactLijst.Create(contactInfoLijst));
     }
 
     private void HandleStartdatum(Vereniging vereniging, NullOrEmpty<DateOnly> startdatum)

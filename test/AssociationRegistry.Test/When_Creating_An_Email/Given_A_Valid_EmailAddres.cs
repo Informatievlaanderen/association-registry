@@ -35,6 +35,8 @@ public class Given_A_Valid_EmailAddres
     [InlineData("fons@spons.be")]
     [InlineData("a@b.cd")]
     [InlineData("Jane@do.com")]
+    [InlineData("1770@liedekerke.be")]
+    [InlineData("17.70@liedekerke.be")]
     public void Then_it_returns_a_new_Email(string emailString)
     {
         var email = Email.Create(emailString);

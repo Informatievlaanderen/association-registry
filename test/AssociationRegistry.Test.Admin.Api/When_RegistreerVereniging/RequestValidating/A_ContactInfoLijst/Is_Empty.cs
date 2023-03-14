@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_ContactInfoLijst;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -17,7 +18,7 @@ public class Is_Empty : ValidatorTest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            ContactInfoLijst = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
         };
         var result = validator.TestValidate(request);
 

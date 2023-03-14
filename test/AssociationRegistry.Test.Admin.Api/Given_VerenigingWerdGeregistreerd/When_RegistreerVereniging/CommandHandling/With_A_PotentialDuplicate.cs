@@ -45,7 +45,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
             null,
             NullOrEmpty<DateOnly>.Null,
             null,
-            Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
+            Array.Empty<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>(),
             new[] { locatie },
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
             Array.Empty<string>());

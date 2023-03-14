@@ -4,6 +4,7 @@ using Events;
 using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Events.CommonEventDataTypes;
 using Framework;
 
 public interface IEventsInDbScenario
@@ -58,7 +59,7 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : 
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -92,7 +93,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario 
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -159,7 +160,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenar
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

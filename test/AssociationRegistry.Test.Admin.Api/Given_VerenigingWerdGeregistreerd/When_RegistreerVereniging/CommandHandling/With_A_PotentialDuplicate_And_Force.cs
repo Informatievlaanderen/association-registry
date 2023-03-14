@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
+using Events.CommonEventDataTypes;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
@@ -49,7 +50,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             null,
             NullOrEmpty<DateOnly>.Null,
             null,
-            Array.Empty<RegistreerVerenigingCommand.ContactInfo>(),
+            Array.Empty<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>(),
             new[] { _locatie },
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
             Array.Empty<string>(),
@@ -87,7 +88,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.KorteBeschrijving,
                 null,
                 _command.KboNummber,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_A_ContactInfoLijst.With_A_Contact;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
+
 
 [UnitTest]
 public class With_Only_A_Contactnaam : ValidatorTest
@@ -23,7 +25,7 @@ public class With_Only_A_Contactnaam : ValidatorTest
                 {
                     ContactInfoLijst = new[]
                     {
-                        new RegistreerVerenigingRequest.ContactInfo
+                        new ContactInfo
                         {
                             Contactnaam = "iets zinnig",
                         },

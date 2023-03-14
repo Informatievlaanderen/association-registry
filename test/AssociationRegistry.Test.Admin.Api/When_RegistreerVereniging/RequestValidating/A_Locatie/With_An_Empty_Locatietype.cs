@@ -6,6 +6,7 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
+
 [UnitTest]
 public class With_An_Empty_Locatietype : ValidatorTest
 {
