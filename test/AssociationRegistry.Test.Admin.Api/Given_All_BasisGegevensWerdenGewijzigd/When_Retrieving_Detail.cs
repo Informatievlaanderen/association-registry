@@ -65,6 +65,10 @@ public class When_Retrieving_Detail
     {
         var content = await _response.Content.ReadAsStringAsync();
 
+        var contactInfos = _verenigingWerdGeregistreerd.ContactInfoLijst
+            .Concat(_contactInfoLijstWerdGewijzigd.Toevoegingen)
+            .Except(_contactInfoLijstWerdGewijzigd.Verwijderingen);
+
         var expected = $@"
         {{
             ""vereniging"": {{
@@ -75,7 +79,7 @@ public class When_Retrieving_Detail
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Concat(_contactInfoLijstWerdGewijzigd.Toevoegingen).Select(x => $@"{{
+                    ""contactInfoLijst"": [{string.Join(',', contactInfos.Select(x => $@"{{
                         ""contactnaam"": ""{x.Contactnaam}"",
                         ""email"": ""{x.Email}"",
                         ""telefoon"": ""{x.Telefoon}"",

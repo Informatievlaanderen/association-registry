@@ -102,6 +102,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
     {
         document.ContactInfoLijst = document.ContactInfoLijst
             .Concat(contactInfoLijstWerdGewijzigd.Data.Toevoegingen.Select(ContactInfoFromEvent))
+            .Except(contactInfoLijstWerdGewijzigd.Data.Verwijderingen.Select(ContactInfoFromEvent))
             .ToArray();
     }
 
@@ -138,7 +139,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Metadata Metadata { get; set; } = null!;
 
-    public class ContactInfo
+    public record ContactInfo
     {
         public string Contactnaam { get; set; } = null!;
         public string? Email { get; set; }
@@ -148,7 +149,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public bool PrimairContactInfo { get; set; }
     }
 
-    public class Locatie
+    public record Locatie
     {
         public string Locatietype { get; set; } = null!;
 
@@ -170,7 +171,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Land { get; set; } = null!;
     }
 
-    public class Vertegenwoordiger
+    public record Vertegenwoordiger
     {
         public string Insz { get; set; } = null!;
         public string Voornaam { get; set; } = null!;
@@ -181,7 +182,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     }
 
-    public class HoofdactiviteitVerenigingsloket
+    public record HoofdactiviteitVerenigingsloket
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;

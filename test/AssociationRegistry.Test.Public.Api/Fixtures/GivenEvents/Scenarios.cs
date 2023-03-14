@@ -136,6 +136,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
     };
 
     public readonly ContactInfo VerenigingContactInfo = new("Initiële waarde", "email@example.org", "9876543210", "http://example.org", "https://example.org/social", true);
+    public readonly ContactInfo VerwijderdeContactInfo = new("Verwijderde waarde", "email3@example.org", "0246813579", "http://example.org/3", "https://example.org/social/3", false);
     public readonly ContactInfo ToegevoegdeContactInfo = new("Toegevoegde waarde", "email2@example.org", "0123456789", "http://example.org/2", "https://example.org/social/2", false);
 
     public IEvent[] GetEvents()
@@ -149,9 +150,10 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
                 null,
                 null,
                 null,
-                new ContactInfo[]
+                new[]
                 {
-                    VerenigingContactInfo
+                    VerenigingContactInfo,
+                    VerwijderdeContactInfo
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -160,7 +162,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
             new StartdatumWerdGewijzigd(VCode, Startdatum),
-            new ContactInfoLijstWerdGewijzigd(VCode, new[] { ToegevoegdeContactInfo }),
+            new ContactInfoLijstWerdGewijzigd(VCode, new[] { ToegevoegdeContactInfo }, new[] { VerwijderdeContactInfo }),
         };
     }
 
