@@ -26,6 +26,7 @@ public class With_One_Or_More_Values : ValidatorTest
             Initiator = "OVO000001",
             ContactInfoLijst = new []{new ContactInfo
             {
+                Contactnaam = "Algemeen",
                 Email = email,
                 Telefoon = telefoon,
                 Website = website,
@@ -34,6 +35,6 @@ public class With_One_Or_More_Values : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(request.ContactInfoLijst)}[0]");
+        result.ShouldNotHaveAnyValidationErrors();
     }
 }
