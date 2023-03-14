@@ -1,3 +1,11 @@
+# [1.132.0](https://github.com/informatievlaanderen/association-registry/compare/v1.131.2...v1.132.0) (2023-03-14)
+
+
+### Features
+
+* or-1633 add contact info to request examples ([9844a74](https://github.com/informatievlaanderen/association-registry/commit/9844a74c207020f0eafb0ca996877987e3b4baad))
+* or-1633 allow addition of contact info ([0ce9082](https://github.com/informatievlaanderen/association-registry/commit/0ce90822e0cd525fd4d4174ad29237a31c804ebb))
+
 ## [1.131.2](https://github.com/informatievlaanderen/association-registry/compare/v1.131.1...v1.131.2) (2023-03-13)
 
 
