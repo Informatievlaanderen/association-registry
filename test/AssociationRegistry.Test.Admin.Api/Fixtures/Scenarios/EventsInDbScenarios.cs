@@ -151,7 +151,14 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
-        ContactInfoLijstWerdGewijzigd = fixture.Create<ContactInfoLijstWerdGewijzigd>() with { VCode = VCode };
+        ContactInfoLijstWerdGewijzigd = fixture.Create<ContactInfoLijstWerdGewijzigd>() with
+        {
+            VCode = VCode,
+            Verwijderingen = new[]
+            {
+                VerenigingWerdGeregistreerd.ContactInfoLijst[0]
+            }
+        };
         StartdatumWerdGewijzigd = fixture.Create<StartdatumWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

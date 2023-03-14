@@ -45,16 +45,19 @@ public class With_A_New_ContactInfo
     public void Then_A_ContactInfoLijstWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactInfoLijstWerdGewijzigd(_scenario.VCode, new[]
-            {
-                new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
-                    _contactInfoLijst[0].Contactnaam,
-                    _contactInfoLijst[0].Email,
-                    _contactInfoLijst[0].Telefoon,
-                    _contactInfoLijst[0].Website,
-                    _contactInfoLijst[0].SocialMedia,
-                    _contactInfoLijst[0].PrimairContactInfo),
-            })
-        );
+            new ContactInfoLijstWerdGewijzigd(
+                _scenario.VCode,
+                new[]
+                {
+                    new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
+                        _contactInfoLijst[0].Contactnaam,
+                        _contactInfoLijst[0].Email,
+                        _contactInfoLijst[0].Telefoon,
+                        _contactInfoLijst[0].Website,
+                        _contactInfoLijst[0].SocialMedia,
+                        _contactInfoLijst[0].PrimairContactInfo),
+                },
+                Array.Empty<Events.CommonEventDataTypes.ContactInfo>()
+            ));
     }
 }

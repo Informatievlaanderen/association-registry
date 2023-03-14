@@ -52,7 +52,9 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd
                             Website = x.Website,
                             SocialMedia = x.SocialMedia,
                             PrimairContactInfo = x.PrimairContactInfo,
-                        }).Append(ToegevoegdeContactInfo)
+                        })
+                .Append(ToegevoegdeContactInfo)
+                .Skip(1)
                 .ToArray(),
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
@@ -130,6 +132,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         startdatumWerdGewijzigd.Startdatum.Should().Be(Request.Startdatum.Value);
         contactInfoLijstWerdGewijzigd.Toevoegingen.Should().BeEquivalentTo(new[] { ToegevoegdeContactInfo });
+        contactInfoLijstWerdGewijzigd.Verwijderingen.Should().BeEquivalentTo(new[] { _fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.ContactInfoLijst[0] });
     }
 
     [Fact]

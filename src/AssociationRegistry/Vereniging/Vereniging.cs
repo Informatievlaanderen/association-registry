@@ -163,9 +163,14 @@ public class Vereniging : IHasVersion
             .Select(Events.CommonEventDataTypes.ContactInfo.FromDomain)
             .ToArray();
 
+        var verwijderingen = contactInfoLijst.FindAdditionsIn(_state.ContactInfoLijst)
+            .Select(Events.CommonEventDataTypes.ContactInfo.FromDomain)
+            .ToArray();
+
         var @event = new ContactInfoLijstWerdGewijzigd(
             VCode,
-            toevoegingen
+            toevoegingen,
+            verwijderingen
         );
 
         Apply(@event);
