@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Events;
 using AssociationRegistry.Framework;
+using Events.CommonEventDataTypes;
 using VCodes;
 using NodaTime;
 using NodaTime.Extensions;
@@ -28,7 +29,7 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
 
-    private readonly VerenigingWerdGeregistreerd.ContactInfo _contactInfo = new(
+    private readonly ContactInfo _contactInfo = new(
         "Algemeen",
         "info@FOud.be",
         "1111.11.11.11",
@@ -58,7 +59,7 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         "Allfather",
         new[]
         {
-            new VerenigingWerdGeregistreerd.ContactInfo(
+            new ContactInfo(
                 "Asgard",
                 "asgard@world.tree",
                 "0000000001",
@@ -108,7 +109,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
                 null,
                 null,
                 null,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
@@ -127,12 +128,15 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
     public readonly string KorteBeschrijving = "Harelbeke";
     public readonly string KorteNaam = "OW";
     public readonly string Naam = "Oarelbeke Weireldstad";
-    public readonly DateOnly Startdatum = new(2023,6,3);
+    public readonly DateOnly Startdatum = new(2023, 6, 3);
 
     public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
+
+    public readonly ContactInfo VerenigingContactInfo = new("Initiële waarde", "email@example.org", "9876543210", "http://example.org", "https://example.org/social", true);
+    public readonly ContactInfo ToegevoegdeContactInfo = new("Toegevoegde waarde", "email2@example.org", "0123456789", "http://example.org/2", "https://example.org/social/2", false);
 
     public IEvent[] GetEvents()
     {
@@ -145,7 +149,10 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
                 null,
                 null,
                 null,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                new ContactInfo[]
+                {
+                    VerenigingContactInfo
+                },
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Hoofdactiviteiten),
@@ -153,6 +160,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
             new StartdatumWerdGewijzigd(VCode, Startdatum),
+            new ContactInfoLijstWerdGewijzigd(VCode, new[] { ToegevoegdeContactInfo }),
         };
     }
 
@@ -196,7 +204,7 @@ public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
             null,
             null,
             null,
-            Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            Array.Empty<ContactInfo>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             Hoofdactiviteiten);

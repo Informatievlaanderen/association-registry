@@ -72,6 +72,18 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         );
         document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
     }
+
+    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen.Add(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                nameof(ContactInfoLijstWerdGewijzigd),
+                contactInfoLijstWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
+                contactInfoLijstWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+            )
+        );
+        document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
+    }
 }
 
 // TODO bekijken of Metadata weg kan?

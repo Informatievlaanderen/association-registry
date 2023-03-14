@@ -2,7 +2,6 @@
 
 using Exceptions;
 using Framework;
-using Vereniging.RegistreerVereniging;
 
 public class ContactLijst : List<ContactInfo>
 {
@@ -13,6 +12,13 @@ public class ContactLijst : List<ContactInfo>
 
     private ContactLijst()
     {
+    }
+
+    public ContactInfo[] FindAdditionsIn(ContactLijst contactInfoLijst)
+    {
+        return contactInfoLijst.ExceptBy(this.Select(x => x.Contactnaam),
+                info => info.Contactnaam)
+            .ToArray();
     }
 
     public static ContactLijst Empty
@@ -40,7 +46,7 @@ public class ContactLijst : List<ContactInfo>
         return totalItems != distinct;
     }
 
-    public static ContactLijst Create(IEnumerable<RegistreerVerenigingCommand.ContactInfo>? listOfContactInfo)
+    public static ContactLijst Create(IEnumerable<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>? listOfContactInfo)
         => listOfContactInfo is null
             ? Empty
             : Create(

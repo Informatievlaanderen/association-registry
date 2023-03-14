@@ -3,6 +3,7 @@
 using System;
 using System.Linq;
 using Events;
+using Events.CommonEventDataTypes;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -44,16 +45,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
-                    ContactInfoLijst = v.ContactInfoLijst.Select(
-                        c => new BeheerVerenigingDetailDocument.ContactInfo
-                        {
-                            Contactnaam = c.Contactnaam,
-                            Email = c.Email,
-                            Telefoon = c.Telefoon,
-                            Website = c.Website,
-                            SocialMedia = c.SocialMedia,
-                            PrimairContactInfo = c.PrimairContactInfo,
-                        }).ToArray(),
+                    ContactInfoLijst = v.ContactInfoLijst.Select(ContactInfoFromEvent).ToArray(),
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                 h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket()
@@ -62,6 +54,17 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Beschrijving = h.Beschrijving,
                 }).ToArray(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
+        };
+
+    private static BeheerVerenigingDetailDocument.ContactInfo ContactInfoFromEvent(ContactInfo c)
+        => new BeheerVerenigingDetailDocument.ContactInfo
+        {
+            Contactnaam = c.Contactnaam,
+            Email = c.Email,
+            Telefoon = c.Telefoon,
+            Website = c.Website,
+            SocialMedia = c.SocialMedia,
+            PrimairContactInfo = c.PrimairContactInfo,
         };
 
     private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(VerenigingWerdGeregistreerd.Locatie[]? locaties)
@@ -95,6 +98,13 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
     }
 
+    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.ContactInfoLijst = document.ContactInfoLijst
+            .Concat(contactInfoLijstWerdGewijzigd.Data.Toevoegingen.Select(ContactInfoFromEvent))
+            .ToArray();
+    }
+
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
@@ -111,7 +121,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         };
 }
 
-public class BeheerVerenigingDetailDocument : IVCode, IMetadata
+public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; init; } = null!;
 

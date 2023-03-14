@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_ContactInfoLijst;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -14,7 +15,7 @@ public class With_Duplicate_Contactnaam
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            ContactInfoLijst = new RegistreerVerenigingRequest.ContactInfo[]
+            ContactInfoLijst = new ContactInfo[]
             {
                 new()
                 {

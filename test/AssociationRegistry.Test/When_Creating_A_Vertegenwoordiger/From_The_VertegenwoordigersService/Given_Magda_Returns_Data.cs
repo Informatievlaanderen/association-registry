@@ -7,6 +7,7 @@ using Framework;
 using INSZ;
 using Magda;
 using Moq;
+using Vereniging.CommonCommandDataTypes;
 using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Xunit;
@@ -38,7 +39,7 @@ public class Given_Magda_Returns_Data
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new RegistreerVerenigingCommand.ContactInfo[]
+            new ContactInfo[]
             {
                 new(fixture.Create<string>(), email, fixture.Create<int?>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
             });

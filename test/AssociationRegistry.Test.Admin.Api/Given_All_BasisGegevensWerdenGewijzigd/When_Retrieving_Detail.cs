@@ -27,6 +27,7 @@ public class When_Retrieving_Detail
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
+    private ContactInfoLijstWerdGewijzigd _contactInfoLijstWerdGewijzigd;
 
     public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
@@ -36,6 +37,7 @@ public class When_Retrieving_Detail
         _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
         _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
+        _contactInfoLijstWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.ContactInfoLijstWerdGewijzigd;
         _startdatumWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.StartdatumWerdGewijzigd;
         _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
         _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
@@ -73,7 +75,7 @@ public class When_Retrieving_Detail
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Select(x => $@"{{
+                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Concat(_contactInfoLijstWerdGewijzigd.Toevoegingen).Select(x => $@"{{
                         ""contactnaam"": ""{x.Contactnaam}"",
                         ""email"": ""{x.Email}"",
                         ""telefoon"": ""{x.Telefoon}"",

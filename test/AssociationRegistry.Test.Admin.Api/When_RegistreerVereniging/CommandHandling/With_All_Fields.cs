@@ -11,6 +11,7 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using Events.CommonEventDataTypes;
 using Hoofdactiviteiten;
 using Moq;
 using Primitives;
@@ -26,9 +27,9 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string KboNummber = "0123456749";
     private const string Hoofdactiviteit = "KECU";
 
-    private static readonly RegistreerVerenigingCommand.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "https://www.test-website.be", "http://te.st", true);
+    private static readonly AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "https://www.test-website.be", "http://te.st", true);
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.ContactInfo VertegenwoordigerContactInfo = new("History", "conan@barbarian.history.com", "0918372645", "https://www.conan-the-destroyer.history.com", "http://Conan.The.Barbarian", true);
+    private static readonly AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo VertegenwoordigerContactInfo = new("History", "conan@barbarian.history.com", "0918372645", "https://www.conan-the-destroyer.history.com", "http://Conan.The.Barbarian", true);
     private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactInfo });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -94,7 +95,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 KboNummber,
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.ContactInfo(
+                    new ContactInfo(
                         ContactInfo.Contactnaam,
                         ContactInfo.Email,
                         ContactInfo.Telefoon,
@@ -126,7 +127,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                         _magdaPersoon.Achternaam,
                         new[]
                         {
-                            new VerenigingWerdGeregistreerd.ContactInfo(
+                            new ContactInfo(
                                 VertegenwoordigerContactInfo.Contactnaam,
                                 VertegenwoordigerContactInfo.Email,
                                 VertegenwoordigerContactInfo.Telefoon,

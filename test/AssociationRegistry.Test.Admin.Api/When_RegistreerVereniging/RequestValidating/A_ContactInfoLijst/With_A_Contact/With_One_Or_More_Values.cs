@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_ContactInfoLijst.With_A_Contact;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -22,7 +23,7 @@ public class With_One_Or_More_Values : ValidatorTest
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo
+            ContactInfoLijst = new []{new ContactInfo
             {
                 Email = email,
                 Telefoon = telefoon,

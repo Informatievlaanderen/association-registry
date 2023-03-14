@@ -7,6 +7,7 @@ using INSZ;
 using Magda;
 using Magda.Exceptions;
 using Moq;
+using Vereniging.CommonCommandDataTypes;
 using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
@@ -31,7 +32,7 @@ public class Given_Magda_Throws_Exception
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new RegistreerVerenigingCommand.ContactInfo[]
+            new ContactInfo[]
             {
                 new(fixture.Create<string>(), email, fixture.Create<int>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
             });

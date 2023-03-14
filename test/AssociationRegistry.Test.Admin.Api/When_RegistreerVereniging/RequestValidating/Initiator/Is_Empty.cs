@@ -6,6 +6,7 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
+
 [UnitTest]
 public class Is_Empty : ValidatorTest
 {

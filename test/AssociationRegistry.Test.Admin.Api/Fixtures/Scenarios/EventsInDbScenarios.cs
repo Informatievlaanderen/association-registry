@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using Events.CommonEventDataTypes;
 
 public interface IEventsInDbScenario
 {
@@ -22,13 +23,13 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     public VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001001";
+        VCode = "V9999001";
         Naam = "Dee coolste club";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
-            ContactInfoLijst = fixture.CreateMany<VerenigingWerdGeregistreerd.ContactInfo>().Select(
+            ContactInfoLijst = fixture.CreateMany<ContactInfo>().Select(
                 (contactInfo, w) => contactInfo with
                 {
                     PrimairContactInfo = w == 0,
@@ -38,7 +39,7 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
                 (vertegenwoordiger, i) => vertegenwoordiger with
                 {
                     PrimairContactpersoon = i == 0,
-                    ContactInfoLijst = fixture.CreateMany<VerenigingWerdGeregistreerd.ContactInfo>().Select(
+                    ContactInfoLijst = fixture.CreateMany<ContactInfo>().Select(
                         (contactInfo, p) => contactInfo with
                         {
                             PrimairContactInfo = p == 0,
@@ -71,7 +72,7 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : 
     public VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001002";
+        VCode = "V9999002";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -80,7 +81,7 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : 
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(),
         };
@@ -106,7 +107,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario 
     public VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001003";
+        VCode = "V9999003";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -115,7 +116,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario 
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -139,16 +140,18 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
     public readonly StartdatumWerdGewijzigd StartdatumWerdGewijzigd;
+    public readonly ContactInfoLijstWerdGewijzigd ContactInfoLijstWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001004";
+        VCode = "V9999004";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
+        ContactInfoLijstWerdGewijzigd = fixture.Create<ContactInfoLijstWerdGewijzigd>() with { VCode = VCode };
         StartdatumWerdGewijzigd = fixture.Create<StartdatumWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -164,6 +167,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,
             StartdatumWerdGewijzigd,
+            ContactInfoLijstWerdGewijzigd
         };
 
     public CommandMetadata GetCommandMetadata()
@@ -178,7 +182,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenar
     public VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001005";
+        VCode = "V9999005";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -187,7 +191,7 @@ public class VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenar
             KboNummer = null,
             Startdatum = null,
             KorteBeschrijving = null,
-            ContactInfoLijst = Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+            ContactInfoLijst = Array.Empty<ContactInfo>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

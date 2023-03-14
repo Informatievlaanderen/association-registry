@@ -80,6 +80,11 @@ public class When_Retrieving_Historiek
                         ""gebeurtenis"": ""StartdatumWerdGewijzigd"",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""ContactInfoLijstWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
                     }}
                 ]
             }}

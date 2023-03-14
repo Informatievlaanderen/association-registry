@@ -9,6 +9,7 @@ using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using Events;
 using NodaTime;
+using Vereniging.CommonCommandDataTypes;
 
 public static class AutoFixtureCustomizations
 {
@@ -20,6 +21,9 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeRegistreerVerenigingRequestLocatie();
         fixture.CustomizeVerenigingWerdGeregistreerdLocatie();
         fixture.CustomizeImmutableArray();
+        fixture.CustomizeContactInfo();
+        fixture.CustomizeRequestContactInfo();
+        fixture.CustomizeEventContactInfo();
         return fixture;
     }
 
@@ -85,6 +89,53 @@ public static class AutoFixtureCustomizations
     public static void CustomizeImmutableArray(this IFixture fixture)
     {
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
+    }
+
+    public static void CustomizeContactInfo(this IFixture fixture)
+    {
+        fixture.Customize<ContactInfo>(
+            composer => composer.FromFactory<int>(
+                    value => new ContactInfo(
+                        fixture.Create<string>(),
+                        $"a{fixture.Create<string>()}@example.org",
+                        fixture.Create<uint>().ToString(),
+                        $"https://{fixture.Create<string>()}.vlaanderen",
+                        $"https://{fixture.Create<string>()}.vlaanderen",
+                        false
+                    )
+                ).OmitAutoProperties());
+    }
+
+    public static void CustomizeRequestContactInfo(this IFixture fixture)
+    {
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo>(
+            composer => composer.FromFactory<int>(
+                value => new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo
+                {
+                    Contactnaam = fixture.Create<string>(),
+                    Email = $"a{fixture.Create<string>()}@example.org",
+                    Telefoon = fixture.Create<uint>().ToString(),
+                    Website = $"https://{fixture.Create<string>()}.vlaanderen",
+                    SocialMedia = $"https://{fixture.Create<string>()}.vlaanderen",
+                    PrimairContactInfo = false
+                }
+            ).OmitAutoProperties());
+    }
+
+
+    public static void CustomizeEventContactInfo(this IFixture fixture)
+    {
+        fixture.Customize<AssociationRegistry.Events.CommonEventDataTypes.ContactInfo>(
+            composer => composer.FromFactory<int>(
+                    value => new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
+                        fixture.Create<string>(),
+                        $"a{fixture.Create<string>()}@example.org",
+                        fixture.Create<uint>().ToString(),
+                        $"https://{fixture.Create<string>()}.vlaanderen",
+                        $"https://{fixture.Create<string>()}.vlaanderen",
+                        false
+                    )
+                ).OmitAutoProperties());
     }
 }
 

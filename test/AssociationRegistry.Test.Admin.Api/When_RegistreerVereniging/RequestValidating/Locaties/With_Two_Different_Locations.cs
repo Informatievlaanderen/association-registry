@@ -7,6 +7,7 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
+
 [UnitTest]
 public class With_Two_Different_Locations : ValidatorTest
 {

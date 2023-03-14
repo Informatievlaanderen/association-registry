@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
 using Events;
+using Events.CommonEventDataTypes;
 using Fixtures;
 using FluentAssertions;
 using Framework;
@@ -104,7 +105,7 @@ public class When_Duplicate_But_Valid_Hash
                 Request.KorteBeschrijving,
                 Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

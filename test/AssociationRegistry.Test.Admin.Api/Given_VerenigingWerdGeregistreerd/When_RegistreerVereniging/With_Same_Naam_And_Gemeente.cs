@@ -1,22 +1,20 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_RegistreerVereniging;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Json;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fixtures;
 using Framework;
 using AutoFixture;
 using Events;
+using Events.CommonEventDataTypes;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Xunit;
 using Xunit.Categories;
 
@@ -164,7 +162,7 @@ public class With_Same_Naam_And_Gemeente
                 Request.KorteBeschrijving,
                 Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

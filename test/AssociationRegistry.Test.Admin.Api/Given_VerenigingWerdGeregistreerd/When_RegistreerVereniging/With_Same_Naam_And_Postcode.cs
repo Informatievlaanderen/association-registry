@@ -10,6 +10,7 @@ using Fixtures;
 using Framework;
 using AutoFixture;
 using Events;
+using Events.CommonEventDataTypes;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
@@ -155,7 +156,7 @@ public class With_Same_Naam_And_Postcode
                 Request.KorteBeschrijving,
                 Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.ContactInfo>(),
+                Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

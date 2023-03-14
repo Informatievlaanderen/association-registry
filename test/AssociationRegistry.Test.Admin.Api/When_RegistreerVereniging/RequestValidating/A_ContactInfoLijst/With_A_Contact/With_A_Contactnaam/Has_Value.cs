@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_ContactInfoLijst.With_A_Contact.With_A_Contactnaam;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -16,7 +17,7 @@ public class Has_Value
         {
             Naam = "abcd",
             Initiator = "OVO000001",
-            ContactInfoLijst = new []{new RegistreerVerenigingRequest.ContactInfo
+            ContactInfoLijst = new []{new ContactInfo
             {
                 Contactnaam = "Algemeen",
                 Email = "info@something.be",
@@ -25,6 +26,6 @@ public class Has_Value
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor($"{nameof(request.ContactInfoLijst)}[0]" +
-                                            $".{nameof(RegistreerVerenigingRequest.ContactInfo.Contactnaam)}");
+                                            $".{nameof(ContactInfo.Contactnaam)}");
     }
 }

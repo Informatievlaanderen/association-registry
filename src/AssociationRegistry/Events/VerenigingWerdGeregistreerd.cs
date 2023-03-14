@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
-using ContactInfo;
+using CommonEventDataTypes;
 using Framework;
 
 /// <summary>
@@ -22,22 +22,12 @@ public record VerenigingWerdGeregistreerd(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummer,
-    VerenigingWerdGeregistreerd.ContactInfo[] ContactInfoLijst,
+    ContactInfo[] ContactInfoLijst,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
     VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
-    public record ContactInfo(
-        string Contactnaam,
-        string? Email,
-        string? Telefoon,
-        string? Website,
-        string? SocialMedia,
-        bool PrimairContactInfo)
-    {
-        public static ContactInfo[] FromContactInfoLijst(ContactLijst contactLijst)
-            => contactLijst.Select(c => new ContactInfo(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia, c.PrimairContactInfo)).ToArray();
-    }
+
 
     public record Locatie(
         string? Naam,

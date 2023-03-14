@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
+using Events.CommonEventDataTypes;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -21,17 +22,20 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
-                c => new PubliekVerenigingDetailDocument.ContactInfo
-                {
-                    Contactnaam = c.Contactnaam,
-                    Email = c.Email,
-                    Telefoon = c.Telefoon,
-                    Website = c.Website,
-                    SocialMedia = c.SocialMedia,
-                    PrimairContactInfo = c.PrimairContactInfo,
-                }).ToArray(),
+                ToDetailContactInfo).ToArray(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
+        };
+
+    private static PubliekVerenigingDetailDocument.ContactInfo ToDetailContactInfo(ContactInfo c)
+        => new()
+        {
+            Contactnaam = c.Contactnaam,
+            Email = c.Email,
+            Telefoon = c.Telefoon,
+            Website = c.Website,
+            SocialMedia = c.SocialMedia,
+            PrimairContactInfo = c.PrimairContactInfo,
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
@@ -64,6 +68,13 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
+
+    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.ContactInfoLijst = document.ContactInfoLijst.Concat(contactInfoWerdGewijzigd.Data.Toevoegingen.Select(ToDetailContactInfo)).ToArray();
+        document.DatumLaatsteAanpassing = contactInfoWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()

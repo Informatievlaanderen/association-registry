@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_A_ContactInfoLijst;
 
+using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
+
 
 [UnitTest]
 public class Is_Empty : ValidatorTest
@@ -21,7 +23,7 @@ public class Is_Empty : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    ContactInfoLijst = Array.Empty<RegistreerVerenigingRequest.ContactInfo>(),
+                    ContactInfoLijst = Array.Empty<ContactInfo>(),
                 },
             },
         };

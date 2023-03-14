@@ -33,7 +33,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             },
             ContactInfoLijst = new[]
             {
-                new RegistreerVerenigingRequest.ContactInfo
+                new CommonRequestDataTypes.ContactInfo
                 {
                     Contactnaam = "Algemeen",
                     Email = "algemeen@example.com",
@@ -52,7 +52,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Rol = "Barbarian",
                     ContactInfoLijst = new[]
                     {
-                        new RegistreerVerenigingRequest.ContactInfo
+                        new CommonRequestDataTypes.ContactInfo
                         {
                             Contactnaam = "Persoonlijk",
                             Email = "conan@example.com",
