@@ -34,7 +34,7 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         ),
                         ImmutableArray.Create(
                             new DuplicaatVereniging.Activiteit(1, "Categorie")
-                        ))
+                        )),
                 }),
             _appSettings);
 }

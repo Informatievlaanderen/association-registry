@@ -5,7 +5,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using CommonRequestDataTypes;
 using FluentValidation;
 using Infrastructure.Validation;
-using Registreer;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens.RequestValidating.A_ContactInfoLijst;
 
 using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using FluentValidation.TestHelper;
 using Xunit;

@@ -23,8 +23,8 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
                     Website = "https://example.org",
                     PrimairContactInfo = false,
                     Telefoon = "123456789",
-                    Email = "info@example.org"
-                }
+                    Email = "info@example.org",
+                },
             },
             Initiator = "OVO000001",
         };

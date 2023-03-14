@@ -57,7 +57,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         };
 
     private static BeheerVerenigingDetailDocument.ContactInfo ContactInfoFromEvent(ContactInfo c)
-        => new BeheerVerenigingDetailDocument.ContactInfo
+        => new()
         {
             Contactnaam = c.Contactnaam,
             Email = c.Email,

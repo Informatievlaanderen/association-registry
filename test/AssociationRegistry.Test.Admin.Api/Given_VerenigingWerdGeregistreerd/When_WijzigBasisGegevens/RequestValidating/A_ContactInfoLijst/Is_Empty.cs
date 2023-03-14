@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.When_WijzigBasisGegevens.RequestValidating.A_ContactInfoLijst;
 
 using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Vereniging.WijzigBasisgegevens;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,7 +14,7 @@ public class Is_Empty : ValidatorTest
     public void Has_no_validation_errors()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
-        var request = new WijzigBasisgegevensRequest()
+        var request = new WijzigBasisgegevensRequest
         {
             Naam = "abcd",
             Initiator = "OVO000001",

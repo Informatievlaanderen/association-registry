@@ -14,7 +14,6 @@ using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 using Vertegenwoordigers;
-using ContactInfo = CommonCommandDataTypes.ContactInfo;
 
 public class Vereniging : IHasVersion
 {
@@ -28,7 +27,7 @@ public class Vereniging : IHasVersion
         public string? KorteBeschrijving { get; set; }
         public Startdatum? Startdatum { get; set; }
 
-        public ContactLijst ContactInfoLijst { get; set; }
+        public ContactLijst ContactInfoLijst { get; set; } = ContactLijst.Empty;
 
         public State(string vCode)
         {
@@ -185,7 +184,7 @@ public class Vereniging : IHasVersion
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Create(@event.Startdatum),
             ContactInfoLijst = ContactLijst.Create(
-                @event.ContactInfoLijst.Select(info => AssociationRegistry.ContactInfo.ContactInfo.FromEvent(info)))
+                @event.ContactInfoLijst.Select(ContactInfo.FromEvent)),
         };
 
     public void Apply(NaamWerdGewijzigd @event)
@@ -208,7 +207,7 @@ public class Vereniging : IHasVersion
             _state = _state with
             {
                 ContactInfoLijst = ContactLijst.Create(
-                    _state.ContactInfoLijst.Append(AssociationRegistry.ContactInfo.ContactInfo.FromEvent(toevoeging)))
+                    _state.ContactInfoLijst.Append(ContactInfo.FromEvent(toevoeging))),
             };
         }
     }

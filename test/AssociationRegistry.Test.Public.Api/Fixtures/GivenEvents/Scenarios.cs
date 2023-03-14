@@ -153,7 +153,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
                 new[]
                 {
                     VerenigingContactInfo,
-                    VerwijderdeContactInfo
+                    VerwijderdeContactInfo,
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),

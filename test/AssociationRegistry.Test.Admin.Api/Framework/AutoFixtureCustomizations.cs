@@ -94,8 +94,8 @@ public static class AutoFixtureCustomizations
     public static void CustomizeContactInfo(this IFixture fixture)
     {
         fixture.Customize<ContactInfo>(
-            composer => composer.FromFactory<int>(
-                    value => new ContactInfo(
+            composer => composer.FromFactory(
+                    () => new ContactInfo(
                         fixture.Create<string>(),
                         $"a{fixture.Create<string>()}@example.org",
                         fixture.Create<uint>().ToString(),
@@ -109,15 +109,15 @@ public static class AutoFixtureCustomizations
     public static void CustomizeRequestContactInfo(this IFixture fixture)
     {
         fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo>(
-            composer => composer.FromFactory<int>(
-                value => new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo
+            composer => composer.FromFactory(
+                () => new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo
                 {
                     Contactnaam = fixture.Create<string>(),
                     Email = $"a{fixture.Create<string>()}@example.org",
                     Telefoon = fixture.Create<uint>().ToString(),
                     Website = $"https://{fixture.Create<string>()}.vlaanderen",
                     SocialMedia = $"https://{fixture.Create<string>()}.vlaanderen",
-                    PrimairContactInfo = false
+                    PrimairContactInfo = false,
                 }
             ).OmitAutoProperties());
     }
@@ -126,8 +126,8 @@ public static class AutoFixtureCustomizations
     public static void CustomizeEventContactInfo(this IFixture fixture)
     {
         fixture.Customize<AssociationRegistry.Events.CommonEventDataTypes.ContactInfo>(
-            composer => composer.FromFactory<int>(
-                    value => new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
+            composer => composer.FromFactory(
+                    () => new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
                         fixture.Create<string>(),
                         $"a{fixture.Create<string>()}@example.org",
                         fixture.Create<uint>().ToString(),

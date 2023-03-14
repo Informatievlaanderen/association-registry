@@ -156,8 +156,8 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
             VCode = VCode,
             Verwijderingen = new[]
             {
-                VerenigingWerdGeregistreerd.ContactInfoLijst[0]
-            }
+                VerenigingWerdGeregistreerd.ContactInfoLijst[0],
+            },
         };
         StartdatumWerdGewijzigd = fixture.Create<StartdatumWerdGewijzigd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -174,7 +174,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,
             StartdatumWerdGewijzigd,
-            ContactInfoLijstWerdGewijzigd
+            ContactInfoLijstWerdGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()
