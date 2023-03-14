@@ -1,3 +1,10 @@
+# [1.134.0](https://github.com/informatievlaanderen/association-registry/compare/v1.133.0...v1.134.0) (2023-03-14)
+
+
+### Features
+
+* or-1632 allow removal of contactInfo ([9e2f69b](https://github.com/informatievlaanderen/association-registry/commit/9e2f69b7c076298052720cc9b7c1b4d6f11da84d))
+
 # [1.133.0](https://github.com/informatievlaanderen/association-registry/compare/v1.132.0...v1.133.0) (2023-03-14)
 
 
