@@ -1,3 +1,11 @@
+# [1.135.0](https://github.com/informatievlaanderen/association-registry/compare/v1.134.0...v1.135.0) (2023-03-14)
+
+
+### Features
+
+* or-1632 cleanup ([ef315ca](https://github.com/informatievlaanderen/association-registry/commit/ef315cab5831974f5627bec2af4e6a8ae953ac30))
+* or-1632 update sequence and version on contactinfoLijstGewijzigd ([beb5552](https://github.com/informatievlaanderen/association-registry/commit/beb5552402f3c3db13457d8852aaaee949134596))
+
 # [1.134.0](https://github.com/informatievlaanderen/association-registry/compare/v1.133.0...v1.134.0) (2023-03-14)
 
 
