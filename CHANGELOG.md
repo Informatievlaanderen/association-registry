@@ -1,3 +1,10 @@
+# [1.133.0](https://github.com/informatievlaanderen/association-registry/compare/v1.132.0...v1.133.0) (2023-03-14)
+
+
+### Features
+
+* or-1633 add validation for contactInfoLijst ([a4d08be](https://github.com/informatievlaanderen/association-registry/commit/a4d08beb186ad036f224fea9710dae0195438c1c))
+
 # [1.132.0](https://github.com/informatievlaanderen/association-registry/compare/v1.131.2...v1.132.0) (2023-03-14)
 
 
