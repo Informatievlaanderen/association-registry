@@ -104,6 +104,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             .Concat(contactInfoLijstWerdGewijzigd.Data.Toevoegingen.Select(ContactInfoFromEvent))
             .Except(contactInfoLijstWerdGewijzigd.Data.Verwijderingen.Select(ContactInfoFromEvent))
             .ToArray();
+        document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
     }
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
