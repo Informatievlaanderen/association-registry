@@ -1,20 +1,15 @@
 ﻿namespace AssociationRegistry.ContactInfo.Emails;
 
 using System.Text.RegularExpressions;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
-using Urls;
 
-public class Email : StringValueObject<Url>
+public record Email(string Value)
 {
     private static readonly Regex EmailRegex = new(
         @"^(([a-z0-9]+[\.!#$%&'*+/=?^_`{|}~-]*)*[a-z0-9]+)@(([a-z0-9]+[\.-]?)*[a-z0-9]\.)+[a-z]{2,}$",
         RegexOptions.IgnoreCase);
 
-    private Email(string @string) : base(@string)
-    {
-    }
 
     public static Email Create(string? email)
     {

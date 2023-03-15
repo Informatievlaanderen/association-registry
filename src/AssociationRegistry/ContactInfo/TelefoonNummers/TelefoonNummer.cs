@@ -1,18 +1,13 @@
 ﻿namespace AssociationRegistry.ContactInfo.TelefoonNummers;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
 
-public class TelefoonNummer : StringValueObject<TelefoonNummer>
+public record TelefoonNummer(string Value)
 {
     private static readonly string[] AllowedCharacters = {
         " ", ".", "(", ")", "/", "-", "+",
     };
-
-    private TelefoonNummer(string @string) : base(@string)
-    {
-    }
 
     public static TelefoonNummer Create(string? telefoonNummer)
     {

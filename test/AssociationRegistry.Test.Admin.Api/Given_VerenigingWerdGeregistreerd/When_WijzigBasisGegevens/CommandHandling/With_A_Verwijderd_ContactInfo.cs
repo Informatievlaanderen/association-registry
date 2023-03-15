@@ -7,26 +7,28 @@ using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.CommonCommandDataTypes;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
 
-public class With_A_New_ContactInfo
+public class With_A_Verwijderd_ContactInfo
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly ContactInfo[] _contactInfoLijst;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario _scenario;
 
-    public With_A_New_ContactInfo()
+    public With_A_Verwijderd_ContactInfo()
     {
-        var scenarioFixture = new CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>();
+        var scenarioFixture = new CommandHandlerScenarioFixture<VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario>();
         _scenario = scenarioFixture.Scenario;
 
         _verenigingRepositoryMock = scenarioFixture.VerenigingRepositoryMock;
 
         var fixture = new Fixture().CustomizeAll();
-        _contactInfoLijst = new[] { fixture.Create<ContactInfo>() };
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, ContactInfoLijst: _contactInfoLijst);
+        var command = new WijzigBasisgegevensCommand(
+            VCode: _scenario.VCode,
+            ContactInfoLijst: _scenario.ContactInfoLijst
+                .Skip(1)
+                .Select(MapperExtensions.ToCommandDataType)
+                .ToArray());
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateTime(2023, 3, 13)));
 
@@ -47,17 +49,11 @@ public class With_A_New_ContactInfo
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactInfoLijstWerdGewijzigd(
                 _scenario.VCode,
+                Array.Empty<Events.CommonEventDataTypes.ContactInfo>(),
                 new[]
                 {
-                    new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
-                        _contactInfoLijst[0].Contactnaam,
-                        _contactInfoLijst[0].Email,
-                        _contactInfoLijst[0].Telefoon,
-                        _contactInfoLijst[0].Website,
-                        _contactInfoLijst[0].SocialMedia,
-                        _contactInfoLijst[0].PrimairContactInfo),
+                    _scenario.ContactInfoLijst.First(),
                 },
-                Array.Empty<Events.CommonEventDataTypes.ContactInfo>(),
                 Array.Empty<Events.CommonEventDataTypes.ContactInfo>()
             ));
     }

@@ -24,6 +24,14 @@
         "website": "http://example.org/2",
         "socialMedia": "https://example.org/social/2",
         "primairContactInfo": false
+      },
+      {
+        "contactnaam": "ContactNaamDieGewijzigdZalWorden",
+        "email": "email2@example.org",
+        "telefoon": "+9876543210",
+        "website": "http://example2.org",
+        "socialMedia": "https://example2.org/social",
+        "primairContactInfo": false
       }
     ],
     "locaties": [],

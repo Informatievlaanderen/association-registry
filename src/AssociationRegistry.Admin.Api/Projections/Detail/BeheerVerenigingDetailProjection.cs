@@ -9,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using IEvent = Marten.Events.IEvent;
 
 public record Metadata(long Sequence, long Version);
 
@@ -103,6 +104,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.ContactInfoLijst = document.ContactInfoLijst
             .Concat(contactInfoLijstWerdGewijzigd.Data.Toevoegingen.Select(ContactInfoFromEvent))
             .Except(contactInfoLijstWerdGewijzigd.Data.Verwijderingen.Select(ContactInfoFromEvent))
+            .ExceptBy(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(info => info.Contactnaam), info => info.Contactnaam)
+            .Concat(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(ContactInfoFromEvent))
             .ToArray();
         document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
     }

@@ -27,7 +27,7 @@ public class When_Retrieving_Detail
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
-    private ContactInfoLijstWerdGewijzigd _contactInfoLijstWerdGewijzigd;
+    private readonly ContactInfoLijstWerdGewijzigd _contactInfoLijstWerdGewijzigd;
 
     public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
     {
@@ -67,7 +67,9 @@ public class When_Retrieving_Detail
 
         var contactInfos = _verenigingWerdGeregistreerd.ContactInfoLijst
             .Concat(_contactInfoLijstWerdGewijzigd.Toevoegingen)
-            .Except(_contactInfoLijstWerdGewijzigd.Verwijderingen);
+            .Except(_contactInfoLijstWerdGewijzigd.Verwijderingen)
+            .ExceptBy(_contactInfoLijstWerdGewijzigd.Wijzigingen.Select(x => x.Contactnaam), info => info.Contactnaam)
+            .Concat(_contactInfoLijstWerdGewijzigd.Wijzigingen);
 
         var expected = $@"
         {{

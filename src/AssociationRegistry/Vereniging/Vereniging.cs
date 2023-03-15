@@ -158,18 +158,20 @@ public class Vereniging : IHasVersion
 
     public void WijzigContactInfoLijst(ContactLijst contactInfoLijst)
     {
-        var toevoegingen = _state.ContactInfoLijst.FindAdditionsIn(contactInfoLijst)
-            .Select(Events.CommonEventDataTypes.ContactInfo.FromDomain)
-            .ToArray();
+        var toevoegingen = _state.ContactInfoLijst.FindAdditionsIn(contactInfoLijst);
 
-        var verwijderingen = contactInfoLijst.FindAdditionsIn(_state.ContactInfoLijst)
-            .Select(Events.CommonEventDataTypes.ContactInfo.FromDomain)
-            .ToArray();
+        var verwijderingen = contactInfoLijst.FindAdditionsIn(_state.ContactInfoLijst);
+
+        var wijzigingen = contactInfoLijst
+            .Except(toevoegingen)
+            .Except(verwijderingen)
+            .Where(info => !_state.ContactInfoLijst.Any(info.Equals));
 
         var @event = new ContactInfoLijstWerdGewijzigd(
             VCode,
-            toevoegingen,
-            verwijderingen
+            toevoegingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
+            verwijderingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
+            wijzigingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray()
         );
 
         Apply(@event);
@@ -202,13 +204,12 @@ public class Vereniging : IHasVersion
 
     public void Apply(ContactInfoLijstWerdGewijzigd @event)
     {
-        foreach (var toevoeging in @event.Toevoegingen)
+        _state = _state with
         {
-            _state = _state with
-            {
-                ContactInfoLijst = ContactLijst.Create(
-                    _state.ContactInfoLijst.Append(ContactInfo.FromEvent(toevoeging))),
-            };
-        }
+            ContactInfoLijst = _state.ContactInfoLijst
+                .MetVerwijderingen(@event.Verwijderingen)
+                .MetToevoegingen(@event.Toevoegingen)
+                .MetWijzigingen(@event.Wijzigingen)
+        };
     }
 }

@@ -122,6 +122,8 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 
 public class BasisgegevensWerdenGewijzigdScenario : IScenario
 {
+    private const string ContactInfoDieGewijzigdZalWordenNaam = "ContactNaamDieGewijzigdZalWorden";
+
     public VCode VCode
         => VCode.Create("V0001003");
 
@@ -136,8 +138,10 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
     };
 
     public readonly ContactInfo VerenigingContactInfo = new("Initiële waarde", "email@example.org", "9876543210", "http://example.org", "https://example.org/social", true);
+    public readonly ContactInfo VerenigingContactInfoDieGewijzigdZalWorden = new(ContactInfoDieGewijzigdZalWordenNaam, "email@example.org", "9876543210", "http://example.org", "https://example.org/social", false);
     public readonly ContactInfo VerwijderdeContactInfo = new("Verwijderde waarde", "email3@example.org", "0246813579", "http://example.org/3", "https://example.org/social/3", false);
     public readonly ContactInfo ToegevoegdeContactInfo = new("Toegevoegde waarde", "email2@example.org", "0123456789", "http://example.org/2", "https://example.org/social/2", false);
+    public readonly ContactInfo VerenigingContactInfoDieGewijzigdIs = new(ContactInfoDieGewijzigdZalWordenNaam, "email2@example.org", "+9876543210", "http://example2.org", "https://example2.org/social", false);
 
     public IEvent[] GetEvents()
     {
@@ -153,6 +157,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
                 new[]
                 {
                     VerenigingContactInfo,
+                    VerenigingContactInfoDieGewijzigdZalWorden,
                     VerwijderdeContactInfo,
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
@@ -162,7 +167,11 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
             new StartdatumWerdGewijzigd(VCode, Startdatum),
-            new ContactInfoLijstWerdGewijzigd(VCode, new[] { ToegevoegdeContactInfo }, new[] { VerwijderdeContactInfo }),
+            new ContactInfoLijstWerdGewijzigd(
+                VCode,
+                new[] { ToegevoegdeContactInfo },
+                new[] { VerwijderdeContactInfo},
+                new[] { VerenigingContactInfoDieGewijzigdIs }),
         };
     }
 
