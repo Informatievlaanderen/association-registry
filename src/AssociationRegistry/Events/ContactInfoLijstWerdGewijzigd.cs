@@ -6,4 +6,5 @@ using Framework;
 public record ContactInfoLijstWerdGewijzigd(
     string VCode,
     ContactInfo[] Toevoegingen,
-    ContactInfo[] Verwijderingen) : IEvent;
+    ContactInfo[] Verwijderingen,
+    ContactInfo[] Wijzigingen) : IEvent;

@@ -1,16 +1,12 @@
 ﻿namespace AssociationRegistry.ContactInfo;
 
+using System.Collections.ObjectModel;
 using Exceptions;
 using Framework;
 
-public class ContactLijst : List<ContactInfo>
+public class ContactLijst : ReadOnlyCollection<ContactInfo>
 {
-    private ContactLijst(IEnumerable<ContactInfo> listOfContactInfo)
-    {
-        AddRange(listOfContactInfo);
-    }
-
-    private ContactLijst()
+    private ContactLijst(IEnumerable<ContactInfo> listOfContactInfo): base(listOfContactInfo.ToList())
     {
     }
 
@@ -22,7 +18,7 @@ public class ContactLijst : List<ContactInfo>
     }
 
     public static ContactLijst Empty
-        => new();
+        => new(Enumerable.Empty<ContactInfo>());
 
     public static ContactLijst Create(IEnumerable<ContactInfo>? listOfContactInfo)
     {
@@ -58,4 +54,17 @@ public class ContactLijst : List<ContactInfo>
                         info.Website,
                         info.SocialMedia,
                         info.PrimairContactInfo)));
+
+    public ContactLijst MetToevoegingen(Events.CommonEventDataTypes.ContactInfo[] toevoegingen)
+        => Create(this.Concat(toevoegingen.Select(ContactInfo.FromEvent)));
+
+
+    public ContactLijst MetVerwijderingen(Events.CommonEventDataTypes.ContactInfo[] verwijderingen)
+        => Create(this.Except(verwijderingen.Select(ContactInfo.FromEvent)));
+
+    public ContactLijst MetWijzigingen(Events.CommonEventDataTypes.ContactInfo[] wijzigingen)
+        => Create(
+            this
+                .ExceptBy(wijzigingen.Select(x => x.Contactnaam), info => info.Contactnaam)
+                .Concat(wijzigingen.Select(ContactInfo.FromEvent)));
 }

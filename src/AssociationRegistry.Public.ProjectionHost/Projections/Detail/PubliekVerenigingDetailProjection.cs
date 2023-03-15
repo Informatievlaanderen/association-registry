@@ -74,7 +74,10 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.ContactInfoLijst = document.ContactInfoLijst
             .Concat(contactInfoWerdGewijzigd.Data.Toevoegingen.Select(ToDetailContactInfo))
             .ExceptBy(contactInfoWerdGewijzigd.Data.Verwijderingen.Select(info => info.Contactnaam), info => info.Contactnaam)
+            .ExceptBy(contactInfoWerdGewijzigd.Data.Wijzigingen.Select(info => info.Contactnaam), info => info.Contactnaam)
+            .Concat(contactInfoWerdGewijzigd.Data.Wijzigingen.Select(ToDetailContactInfo))
             .ToArray();
+
         document.DatumLaatsteAanpassing = contactInfoWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 

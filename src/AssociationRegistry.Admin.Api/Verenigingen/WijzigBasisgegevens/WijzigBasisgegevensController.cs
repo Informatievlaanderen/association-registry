@@ -46,7 +46,6 @@ public class WijzigBasisgegevensController : ApiController
     /// <response code="200">Er waren geen wijzigingen</response>
     /// <response code="202">De vereniging is aangepast</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
-    /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPatch]

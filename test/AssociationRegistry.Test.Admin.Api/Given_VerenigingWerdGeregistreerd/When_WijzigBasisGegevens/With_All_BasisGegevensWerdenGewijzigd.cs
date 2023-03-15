@@ -22,6 +22,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd
 {
     public readonly string VCode;
     public readonly WijzigBasisgegevensRequest Request;
+    public readonly ContactInfo GewijzigdContactInfo;
+
 
     private When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd(EventsInDbScenariosFixture fixture)
     {
@@ -35,6 +37,21 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd
         ToegevoegdeContactInfo = autofixture.Create<ContactInfo>();
         ToegevoegdeContactInfo.PrimairContactInfo = false;
 
+        var contactInfoLijst = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.ContactInfoLijst
+            .Skip(1)
+            .Select(
+                MapperExtensions.ToRequestDataType)
+            .Append(ToegevoegdeContactInfo)
+            .ToArray();
+
+        GewijzigdContactInfo = contactInfoLijst[0];
+        GewijzigdContactInfo.PrimairContactInfo = !GewijzigdContactInfo.PrimairContactInfo;
+        GewijzigdContactInfo.Email = "gewijzigd_" + GewijzigdContactInfo.Email;
+        GewijzigdContactInfo.SocialMedia += "_gewijzigd";
+        GewijzigdContactInfo.Website += "_gewijzigd";
+        GewijzigdContactInfo.Telefoon = "+32" + GewijzigdContactInfo.Telefoon;
+
+
         Request = new WijzigBasisgegevensRequest
         {
             Naam = nieuweVerenigingsNaam,
@@ -42,20 +59,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd
             KorteBeschrijving = nieuweKorteBeschrijving,
             Initiator = initiator,
             Startdatum = NullOrEmpty<DateOnly>.Create(nieuweStartdatum),
-            ContactInfoLijst = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.ContactInfoLijst.Select(
-                    x =>
-                        new ContactInfo
-                        {
-                            Contactnaam = x.Contactnaam,
-                            Email = x.Email,
-                            Telefoon = x.Telefoon,
-                            Website = x.Website,
-                            SocialMedia = x.SocialMedia,
-                            PrimairContactInfo = x.PrimairContactInfo,
-                        })
-                .Append(ToegevoegdeContactInfo)
-                .Skip(1)
-                .ToArray(),
+            ContactInfoLijst = contactInfoLijst,
         };
         VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
 
@@ -90,6 +94,8 @@ public class With_All_BasisGegevensWerdenGewijzigd
     private ContactInfo? ToegevoegdeContactInfo
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd.Called(_fixture).ToegevoegdeContactInfo;
 
+    private ContactInfo? GewijzigdContactInfo
+        => When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd.Called(_fixture).GewijzigdContactInfo;
 
     private WijzigBasisgegevensRequest Request
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd.Called(_fixture).Request;
@@ -133,6 +139,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
         startdatumWerdGewijzigd.Startdatum.Should().Be(Request.Startdatum.Value);
         contactInfoLijstWerdGewijzigd.Toevoegingen.Should().BeEquivalentTo(new[] { ToegevoegdeContactInfo });
         contactInfoLijstWerdGewijzigd.Verwijderingen.Should().BeEquivalentTo(new[] { _fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.ContactInfoLijst[0] });
+        contactInfoLijstWerdGewijzigd.Wijzigingen.Should().BeEquivalentTo(new[] { GewijzigdContactInfo });
     }
 
     [Fact]

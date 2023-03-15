@@ -6,18 +6,8 @@ using Exceptions;
 using TelefoonNummers;
 using Urls;
 
-public class ContactInfo
+public record ContactInfo(string Contactnaam, Email? Email, TelefoonNummer? Telefoon, Url? Website, Url? SocialMedia, bool PrimairContactInfo)
 {
-    private ContactInfo(string contactnaam, Email? email, TelefoonNummer? telefoon, Url? website, Url? socialMedia, bool primairContactInfo)
-    {
-        Contactnaam = contactnaam;
-        Email = email;
-        Telefoon = telefoon;
-        Website = website;
-        SocialMedia = socialMedia;
-        PrimairContactInfo = primairContactInfo;
-    }
-
     public static ContactInfo CreateInstance(string contactnaam, Email? email, TelefoonNummer? telefoonNummer, Url? website, Url? socialMedia, bool primairContactInfo)
     {
         Throw<NoContactInfo>.If(NoValuesForAll(email, telefoonNummer, website, socialMedia));
@@ -30,11 +20,4 @@ public class ContactInfo
 
     private static bool NoValuesForAll(params string?[] args)
         => args.All(string.IsNullOrEmpty);
-
-    public string Contactnaam { get; }
-    public Email? Email { get; }
-    public TelefoonNummer? Telefoon { get; }
-    public Url? Website { get; }
-    public Url? SocialMedia { get; }
-    public bool PrimairContactInfo { get; }
 }

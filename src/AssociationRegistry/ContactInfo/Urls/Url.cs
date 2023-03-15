@@ -1,15 +1,10 @@
 ﻿namespace AssociationRegistry.ContactInfo.Urls;
 
 using Framework;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 
-public class Url : StringValueObject<Url>
+public record Url(string Value)
 {
-    private Url(string @string) : base(@string)
-    {
-    }
-
     public static Url Create(string? urlString)
     {
         if (string.IsNullOrEmpty(urlString))
