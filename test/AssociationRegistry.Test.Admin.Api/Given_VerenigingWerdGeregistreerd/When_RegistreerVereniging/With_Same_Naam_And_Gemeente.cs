@@ -59,6 +59,7 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         => called ??= new When_RegistreerVereniging_With_Same_Naam_And_Gemeente(fixture);
 }
 
+//TODO: Rework to unit test
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
