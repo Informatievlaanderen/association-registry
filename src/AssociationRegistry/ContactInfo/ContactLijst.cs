@@ -10,7 +10,7 @@ public class ContactLijst : ReadOnlyCollection<ContactInfo>
     {
     }
 
-    public ContactInfo[] FindAdditionsIn(ContactLijst contactInfoLijst)
+    public ContactInfo[] ExcludeByName(ContactLijst contactInfoLijst)
     {
         return contactInfoLijst.ExceptBy(this.Select(x => x.Contactnaam),
                 info => info.Contactnaam)
