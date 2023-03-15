@@ -158,9 +158,9 @@ public class Vereniging : IHasVersion
 
     public void WijzigContactInfoLijst(ContactLijst contactInfoLijst)
     {
-        var toevoegingen = _state.ContactInfoLijst.FindAdditionsIn(contactInfoLijst);
+        var toevoegingen = _state.ContactInfoLijst.ExcludeByName(contactInfoLijst);
 
-        var verwijderingen = contactInfoLijst.FindAdditionsIn(_state.ContactInfoLijst);
+        var verwijderingen = contactInfoLijst.ExcludeByName(_state.ContactInfoLijst);
 
         var wijzigingen = contactInfoLijst
             .Except(toevoegingen)
