@@ -4,8 +4,11 @@ using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class When_Registreer_Vereniging
 {
     private readonly EventsInDbScenariosFixture _fixture;

@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.When_Creating_A_VCode;
 using FluentAssertions;
 using VCodes;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Valid_String_With_Lower_Case_V
 {
     [Theory]

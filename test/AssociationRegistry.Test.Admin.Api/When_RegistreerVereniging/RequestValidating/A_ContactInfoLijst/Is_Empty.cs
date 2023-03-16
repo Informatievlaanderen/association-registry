@@ -16,12 +16,10 @@ public class Is_Empty : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             ContactInfoLijst = Array.Empty<ContactInfo>(),
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldNotHaveValidationErrorFor(v=>v.ContactInfoLijst);
     }
 }

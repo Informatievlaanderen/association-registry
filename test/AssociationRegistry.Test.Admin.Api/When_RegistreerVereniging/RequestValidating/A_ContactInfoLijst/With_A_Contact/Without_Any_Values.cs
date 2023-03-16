@@ -16,8 +16,6 @@ public class Without_Any_Values : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             ContactInfoLijst = new []{new ContactInfo()},
         };
 

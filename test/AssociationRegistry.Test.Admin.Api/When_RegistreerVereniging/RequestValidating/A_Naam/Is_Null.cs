@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.Initiator;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Naam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
@@ -6,17 +6,16 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class Is_Null : ValidatorTest
 {
     [Fact]
-    public void Has_validation_error__initiator_is_verplicht()
+    public void Has_validation_error__naam_is_verplicht()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var result = validator.TestValidate(new RegistreerVerenigingRequest());
 
-        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Initiator)
-            .WithErrorMessage("'Initiator' is verplicht.");
+        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Naam)
+            .WithErrorMessage("'Naam' is verplicht.");
     }
 }

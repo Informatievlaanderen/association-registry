@@ -4,7 +4,9 @@ using Admin.Api.Constants;
 using FluentAssertions;
 using Locaties;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Locatie
 {
     [Fact]

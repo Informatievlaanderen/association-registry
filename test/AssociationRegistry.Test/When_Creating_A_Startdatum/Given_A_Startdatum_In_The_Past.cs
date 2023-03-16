@@ -4,7 +4,9 @@ using Startdatums;
 using Framework;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Startdatum_In_The_Past
 {
     private static readonly ClockStub ClockStub = new(new DateTime(2022, 12, 31));

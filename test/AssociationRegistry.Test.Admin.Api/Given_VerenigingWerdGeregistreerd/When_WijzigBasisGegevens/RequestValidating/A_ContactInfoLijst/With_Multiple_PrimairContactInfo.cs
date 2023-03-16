@@ -3,9 +3,10 @@
 using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
-public class With_Multiple_PrimairContactInfo
+public class With_Multiple_PrimairContactInfo:ValidatorTest
 {
     [Fact]
     public void Has_validation_error_for_ContactInfoLijst()

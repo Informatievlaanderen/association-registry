@@ -38,16 +38,12 @@ public class EventStore : IEventStore
         }
     }
 
-    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
+    public async Task<T> Load<T>(string id) where T : class, IHasVersion
     {
         await using var session = _documentStore.OpenSession();
 
         var aggregate = await session.Events.AggregateStreamAsync<T>(id) ??
                         throw new AggregateNotFoundException(id, typeof(T));
-
-        if (expectedVersion is not null && aggregate.Version != expectedVersion)
-            throw new UnexpectedAggregateVersionException();
-
         return aggregate;
     }
 }

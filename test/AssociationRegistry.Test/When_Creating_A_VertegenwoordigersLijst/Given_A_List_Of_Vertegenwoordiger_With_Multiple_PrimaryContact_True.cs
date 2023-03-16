@@ -7,7 +7,9 @@ using INSZ;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Vertegenwoordiger_With_Multiple_PrimaryContact_True
 {
     [Fact]

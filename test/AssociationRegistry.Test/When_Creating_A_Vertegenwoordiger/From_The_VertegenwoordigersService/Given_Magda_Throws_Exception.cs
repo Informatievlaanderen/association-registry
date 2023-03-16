@@ -12,7 +12,9 @@ using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Magda_Throws_Exception
 {
     [Fact]

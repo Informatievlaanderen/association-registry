@@ -4,7 +4,9 @@ using ContactInfo.TelefoonNummers;
 using ContactInfo.TelefoonNummers.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_String_With_Invalid_Characters
 {
     [Theory]

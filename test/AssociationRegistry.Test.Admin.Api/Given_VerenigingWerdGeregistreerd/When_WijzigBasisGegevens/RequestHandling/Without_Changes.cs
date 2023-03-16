@@ -17,9 +17,10 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Without_Changes
+public class Without_Changes : IAsyncLifetime
 {
     private readonly WijzigBasisgegevensController _controller;
+    private IActionResult _result = null!;
 
     public Without_Changes()
     {
@@ -28,19 +29,22 @@ public class Without_Changes
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigBasisgegevensCommand>>(), default, null))
             .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
         _controller = new WijzigBasisgegevensController(messageBusMock.Object, new AppSettings())
-            { ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() } };
+            { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
+    }
+
+    public async Task InitializeAsync()
+    {
+        _result = await _controller.Patch(
+            new WijzigBasisgegevensRequestValidator(),
+            new WijzigBasisgegevensRequest { Initiator = "V0001001", KorteNaam = "Korte naam" },
+            "V0001001",
+            "W/\"1\"");
     }
 
     [Fact]
-    public async Task Then_it_returns_an_ok_response()
+    public void Then_it_returns_an_ok_response()
     {
-        var result = await _controller.Patch(
-            new WijzigBasisgegevensRequestValidator(),
-            new WijzigBasisgegevensRequest() {Initiator = "V0001001", KorteNaam = "Korte naam"},
-            "V0001001",
-            "W/\"1\"");
-
-        result.Should().BeOfType<OkResult>();
+        _result.Should().BeOfType<OkResult>();
     }
 
     [Fact]
@@ -54,4 +58,7 @@ public class Without_Changes
     {
         _controller.Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
     }
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

@@ -7,8 +7,11 @@ using VCodes;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class When_Searching_By_Name
 {
     private readonly string _goldenMasterWithOneVereniging;

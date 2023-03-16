@@ -16,8 +16,6 @@ public class With_Only_A_Contactnaam : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             ContactInfoLijst = new []{new ContactInfo
             {
                 Contactnaam = "iets zinnig",

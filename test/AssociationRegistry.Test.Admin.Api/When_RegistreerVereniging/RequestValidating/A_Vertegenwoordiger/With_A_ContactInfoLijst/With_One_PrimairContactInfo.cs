@@ -4,8 +4,9 @@ using AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
-
+[UnitTest]
 public class With_One_PrimairContactInfo
 {
     [Fact]

@@ -4,7 +4,9 @@ using FluentAssertions;
 using VCodes;
 using VCodes.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_String_Not_Ending_With_Numbers
 {
     [Theory]

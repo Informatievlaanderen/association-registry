@@ -33,12 +33,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_an_invalid_startdatum.json" />
     <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_missing_naam.json" />
     <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_unparsable_request.json" />
-    <EmbeddedResource Include="When_RegistreerVereniging\files\response.invalid_startdatum_validation_error.json" />
-    <EmbeddedResource Include="When_RegistreerVereniging\files\response.missing_name_error.json" />
     <EmbeddedResource Include="When_RegistreerVereniging\files\response.unparsable.json" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

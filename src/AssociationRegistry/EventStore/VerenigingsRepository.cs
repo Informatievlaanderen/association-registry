@@ -25,5 +25,12 @@ public class VerenigingsRepository : IVerenigingsRepository
     }
 
     public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)
-        => await _eventStore.Load<Vereniging>(vCode, expectedVersion);
+    {
+        var vereniging = await _eventStore.Load<Vereniging>(vCode);
+
+        if (expectedVersion is not null && vereniging.Version != expectedVersion)
+            throw new UnexpectedAggregateVersionException();
+
+        return vereniging;
+    }
 }

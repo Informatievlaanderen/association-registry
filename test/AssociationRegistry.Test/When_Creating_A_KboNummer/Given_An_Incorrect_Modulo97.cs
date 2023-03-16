@@ -4,7 +4,9 @@ using FluentAssertions;
 using KboNummers;
 using KboNummers.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Incorrect_Modulo97
 {
     [Theory]

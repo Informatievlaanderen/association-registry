@@ -4,7 +4,9 @@ using FluentAssertions;
 using VerenigingsNamen;
 using VerenigingsNamen.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Null
 {
     [Fact]

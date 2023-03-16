@@ -4,7 +4,9 @@ using FluentAssertions;
 using Hoofdactiviteiten;
 using Hoofdactiviteiten.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Unknow_Code
 {
     [Theory]

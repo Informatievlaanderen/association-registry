@@ -7,7 +7,6 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class With_A_Valid_Locatietype : ValidatorTest
 {
@@ -19,8 +18,6 @@ public class With_A_Valid_Locatietype : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Locaties = new[]
             {
                 new RegistreerVerenigingRequest.Locatie
@@ -36,6 +33,6 @@ public class With_A_Valid_Locatietype : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Gemeente)}");
     }
 }

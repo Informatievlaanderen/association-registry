@@ -11,7 +11,9 @@ using Vereniging.CommonCommandDataTypes;
 using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Magda_Returns_Data
 {
     [Fact]
