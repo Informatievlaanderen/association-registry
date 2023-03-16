@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.CommandHandling;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
-using AssociationRegistry.Vereniging.WijzigBasisgegevens;
+using Fakes;
+using Fixtures;
+using Fixtures.Scenarios;
+using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
 using Moq;
 using Xunit;

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd;
+namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
 using System.Text.RegularExpressions;
@@ -15,7 +15,7 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Retrieving_Detail
+public class Given_VerenigingWerdGeregistreerd
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly string _vCode;
@@ -23,7 +23,7 @@ public class When_Retrieving_Detail
     private readonly HttpResponseMessage _response;
     private readonly StreamActionResult _result;
 
-    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
+    public Given_VerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _adminApiClient = fixture.DefaultClient;
         _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;

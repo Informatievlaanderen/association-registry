@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.RequestValidating.A_Startdatum;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Primitives;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

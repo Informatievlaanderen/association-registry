@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Locaties;
-using AssociationRegistry.Magda;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Test.Admin.Api.Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging.DuplicateDetection;
-using AssociationRegistry.Vereniging.RegistreerVereniging;
-using AssociationRegistry.VerenigingsNamen;
+using Locaties;
+using Magda;
+using Primitives;
+using Fakes;
+using Fixtures;
+using Fixtures.Scenarios;
+using Framework;
+using Vereniging.DuplicateDetection;
+using Vereniging.RegistreerVereniging;
+using VerenigingsNamen;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
