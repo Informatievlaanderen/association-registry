@@ -8,10 +8,6 @@ using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 public class NullOrEmptyJsonConvertor : JsonConverter<NullOrEmpty<DateOnly>>
 {
-    public NullOrEmptyJsonConvertor()
-    {
-    }
-
     public override void WriteJson(JsonWriter writer, NullOrEmpty<DateOnly> value, JsonSerializer serializer)
     {
         if (value.IsNull) writer.WriteNull();
