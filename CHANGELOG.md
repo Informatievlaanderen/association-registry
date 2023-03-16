@@ -1,3 +1,10 @@
+## [1.137.1](https://github.com/informatievlaanderen/association-registry/compare/v1.137.0...v1.137.1) (2023-03-16)
+
+
+### Bug Fixes
+
+* remove unnecessary ctor ([3543b4c](https://github.com/informatievlaanderen/association-registry/commit/3543b4caa5b20f2ba0119688f75b10192d53b307))
+
 # [1.137.0](https://github.com/informatievlaanderen/association-registry/compare/v1.136.0...v1.137.0) (2023-03-16)
 
 
