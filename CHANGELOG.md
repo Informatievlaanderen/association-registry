@@ -1,3 +1,10 @@
+# [1.137.0](https://github.com/informatievlaanderen/association-registry/compare/v1.136.0...v1.137.0) (2023-03-16)
+
+
+### Features
+
+* or-1404 trigger again ([058292d](https://github.com/informatievlaanderen/association-registry/commit/058292d2d6faa314ef200b58ddfd87f79935f7fb))
+
 # [1.136.0](https://github.com/informatievlaanderen/association-registry/compare/v1.135.0...v1.136.0) (2023-03-16)
 
 
