@@ -1,3 +1,10 @@
+# [1.136.0](https://github.com/informatievlaanderen/association-registry/compare/v1.135.0...v1.136.0) (2023-03-16)
+
+
+### Features
+
+* or-1404 allow modifications to contact info ([bc21d78](https://github.com/informatievlaanderen/association-registry/commit/bc21d789f9b9d1865f6e042ffb9bc849a54bf711))
+
 # [1.135.0](https://github.com/informatievlaanderen/association-registry/compare/v1.134.0...v1.135.0) (2023-03-14)
 
 
