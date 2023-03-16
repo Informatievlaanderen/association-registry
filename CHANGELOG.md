@@ -1,3 +1,10 @@
+## [1.137.2](https://github.com/informatievlaanderen/association-registry/compare/v1.137.1...v1.137.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* or-1632 don't return event if no changes happen ([b2fffcd](https://github.com/informatievlaanderen/association-registry/commit/b2fffcda5cab917083b56cdb6a91b55359547c7b))
+
 ## [1.137.1](https://github.com/informatievlaanderen/association-registry/compare/v1.137.0...v1.137.1) (2023-03-16)
 
 
