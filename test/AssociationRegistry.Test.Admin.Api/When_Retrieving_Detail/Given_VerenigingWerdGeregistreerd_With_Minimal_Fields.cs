@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd.With_Minimal_Fields;
+namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
 using System.Text.RegularExpressions;
@@ -13,7 +13,7 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Retrieving_Detail
+public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
 {
     private readonly string _vCode;
     private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
@@ -21,7 +21,7 @@ public class When_Retrieving_Detail
     private readonly AdminApiClient _adminApiClient;
     private readonly HttpResponseMessage _response;
 
-    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
+    public Given_VerenigingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VCode;

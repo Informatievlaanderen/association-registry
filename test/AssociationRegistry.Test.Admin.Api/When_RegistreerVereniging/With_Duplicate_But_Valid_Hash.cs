@@ -4,10 +4,10 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Events;
-using AssociationRegistry.Events.CommonEventDataTypes;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Events;
+using Events.CommonEventDataTypes;
+using Fixtures;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
@@ -58,7 +58,7 @@ public sealed class When_RegistreerVereniging_With_Duplicate_But_Valid_Hash
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Duplicate_But_Valid_Hash
+public class With_Duplicate_But_Valid_Hash
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
@@ -77,7 +77,7 @@ public class When_Duplicate_But_Valid_Hash
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Request;
 
-    public When_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
+    public With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }

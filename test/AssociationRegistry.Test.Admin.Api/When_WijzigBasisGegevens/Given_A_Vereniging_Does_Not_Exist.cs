@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging;
 
 using System.Net;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -9,11 +9,11 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Registreer_Vereniging
+public class With_An_Unauthenticated_Client
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
-    public When_Registreer_Vereniging(EventsInDbScenariosFixture fixture)
+    public With_An_Unauthenticated_Client(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }

@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Test.Admin.Api.Fakes;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.VCodes;
+using Fakes;
+using Framework;
+using VCodes;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_All_BasisGegevensWerdenGewijzigd;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
@@ -15,7 +15,7 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Retrieving_Detail
+public class Given_All_BasisGegevensWerdenGewijzigd
 {
     private readonly string _vCode;
     private readonly AdminApiClient _adminApiClient;
@@ -29,7 +29,7 @@ public class When_Retrieving_Detail
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
     private readonly ContactInfoLijstWerdGewijzigd _contactInfoLijstWerdGewijzigd;
 
-    public When_Retrieving_Detail(EventsInDbScenariosFixture fixture)
+    public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
         _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
         _adminApiClient = fixture.DefaultClient;

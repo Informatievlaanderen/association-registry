@@ -3,11 +3,11 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.VCodes;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.WijzigBasisgegevens;
+using VCodes;
+using Vereniging;
+using Vereniging.WijzigBasisgegevens;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

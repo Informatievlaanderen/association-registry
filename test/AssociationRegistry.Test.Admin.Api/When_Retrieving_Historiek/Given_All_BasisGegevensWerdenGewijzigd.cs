@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_VerenigingWerdGeregistreerd;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
 using System.Net;
 using System.Text.RegularExpressions;
@@ -13,7 +13,7 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class When_Retrieving_Historiek
+public class Given_All_BasisGegevensWerdenGewijzigd
 {
     private readonly string _vCode;
     private readonly AdminApiClient _adminApiClient;
@@ -21,12 +21,12 @@ public class When_Retrieving_Historiek
     private readonly HttpResponseMessage _response;
     private readonly CommandMetadata _metadata;
 
-    public When_Retrieving_Historiek(EventsInDbScenariosFixture fixture)
+    public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
+        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
         _adminApiClient = fixture.DefaultClient;
-        _metadata = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Metadata;
-        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Result;
+        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
+        _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
         _response = fixture.DefaultClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
     }
 
@@ -42,12 +42,12 @@ public class When_Retrieving_Historiek
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(_vCode, long.MaxValue))
+        => (await _adminApiClient.GetHistoriek(_vCode, _result.Sequence + 10))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
-    public async Task Then_we_get_registratie_gebeurtenissen()
+    public async Task Then_we_get_all_gebeurtenissen()
     {
         var content = await _response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
@@ -58,6 +58,31 @@ public class When_Retrieving_Historiek
                 ""gebeurtenissen"": [
                     {{
                         ""gebeurtenis"": ""VerenigingWerdGeregistreerd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""NaamWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+{{
+                        ""gebeurtenis"": ""KorteNaamWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""KorteBeschrijvingWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""StartdatumWerdGewijzigd"",
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip}""
+                    }},
+                    {{
+                        ""gebeurtenis"": ""ContactInfoLijstWerdGewijzigd"",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip}""
                     }}
