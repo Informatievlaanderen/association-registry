@@ -158,26 +158,16 @@ public class Vereniging : IHasVersion
 
     public void WijzigContactInfoLijst(ContactLijst contactInfoLijst)
     {
-        var toevoegingen = _state.ContactInfoLijst.ExcludeByName(contactInfoLijst);
+        var diff = ContactInfoLijstDiffer.Calculate(_state.ContactInfoLijst, contactInfoLijst);
 
-        var verwijderingen = contactInfoLijst.ExcludeByName(_state.ContactInfoLijst);
-
-        var wijzigingen = contactInfoLijst
-            .Except(toevoegingen)
-            .Except(verwijderingen)
-            .Where(info => !_state.ContactInfoLijst.Any(info.Equals))
-            .ToArray();
-
-        if (!toevoegingen.Any() &&
-            !verwijderingen.Any() &&
-            !wijzigingen.Any())
+        if (!diff.HasChanges)
             return;
 
         var @event = new ContactInfoLijstWerdGewijzigd(
             VCode,
-            toevoegingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
-            verwijderingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
-            wijzigingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray()
+            diff.Toevoegingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
+            diff.Verwijderingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
+            diff.Wijzigingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray()
         );
 
         Apply(@event);
