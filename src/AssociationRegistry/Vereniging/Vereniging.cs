@@ -165,7 +165,13 @@ public class Vereniging : IHasVersion
         var wijzigingen = contactInfoLijst
             .Except(toevoegingen)
             .Except(verwijderingen)
-            .Where(info => !_state.ContactInfoLijst.Any(info.Equals));
+            .Where(info => !_state.ContactInfoLijst.Any(info.Equals))
+            .ToArray();
+
+        if (!toevoegingen.Any() &&
+            !verwijderingen.Any() &&
+            !wijzigingen.Any())
+            return;
 
         var @event = new ContactInfoLijstWerdGewijzigd(
             VCode,

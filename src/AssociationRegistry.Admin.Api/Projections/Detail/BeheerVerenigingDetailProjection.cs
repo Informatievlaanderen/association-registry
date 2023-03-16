@@ -107,6 +107,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             .ExceptBy(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(info => info.Contactnaam), info => info.Contactnaam)
             .Concat(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(ContactInfoFromEvent))
             .ToArray();
+        document.DatumLaatsteAanpassing = contactInfoLijstWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
     }
 
