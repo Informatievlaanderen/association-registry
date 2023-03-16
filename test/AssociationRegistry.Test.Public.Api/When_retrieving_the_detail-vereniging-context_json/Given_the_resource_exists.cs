@@ -5,8 +5,11 @@ using FluentAssertions;
 using Framework;
 using global::AssociationRegistry.Public.Api.Contexten;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(VerenigingPublicApiCollection.Name)]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_the_resource_exists : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;

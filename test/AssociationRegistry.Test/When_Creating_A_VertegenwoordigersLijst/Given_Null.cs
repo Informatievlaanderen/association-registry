@@ -3,7 +3,9 @@
 using FluentAssertions;
 using Vertegenwoordigers;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Null
 {
     [Fact]

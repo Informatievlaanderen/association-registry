@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 using IEvent = AssociationRegistry.Framework.IEvent;
 
 public class Given_an_unhandled_event_fixture : ProjectionHostFixture
@@ -27,6 +28,7 @@ public class Given_an_unhandled_event_fixture : ProjectionHostFixture
     public record AnUnhandledEvent : IEvent;
 }
 
+[UnitTest]
 public class Given_an_unhandled_event : IClassFixture<Given_an_unhandled_event_fixture>
 {
     private readonly WebApplicationFactory<Program> _projectionHost;

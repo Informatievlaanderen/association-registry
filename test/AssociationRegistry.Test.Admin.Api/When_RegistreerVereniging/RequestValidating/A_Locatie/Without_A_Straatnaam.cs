@@ -9,6 +9,7 @@ using Xunit.Categories;
 
 
 [UnitTest]
+
 public class Without_A_Straatnaam : ValidatorTest
 {
     [Fact]
@@ -17,8 +18,6 @@ public class Without_A_Straatnaam : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Locaties = new[]
             {
                 new RegistreerVerenigingRequest.Locatie

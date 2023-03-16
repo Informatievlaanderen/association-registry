@@ -7,7 +7,9 @@ using Framework;
 using INSZ;
 using Vertegenwoordigers;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Vertegenwoordigers
 {
     [Fact]

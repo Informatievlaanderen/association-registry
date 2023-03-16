@@ -15,17 +15,18 @@ public class Has_Value
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
-            ContactInfoLijst = new []{new ContactInfo
+            ContactInfoLijst = new[]
             {
-                Contactnaam = "Algemeen",
-                Email = "info@something.be",
-            }},
+                new ContactInfo
+                {
+                    Contactnaam = "Algemeen",
+                },
+            },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(request.ContactInfoLijst)}[0]" +
-                                            $".{nameof(ContactInfo.Contactnaam)}");
+        result.ShouldNotHaveValidationErrorFor(
+            $"{nameof(request.ContactInfoLijst)}[0]" +
+            $".{nameof(ContactInfo.Contactnaam)}");
     }
 }

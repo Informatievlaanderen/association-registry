@@ -3,7 +3,9 @@
 using VCodes;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Valid_Integer
 {
     [Theory]

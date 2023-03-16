@@ -24,7 +24,7 @@ public sealed class When_RetrievingDocs
 }
 
 [Collection(nameof(AdminApiCollection))]
-[System.ComponentModel.Category("AdminApi")]
+[Category("AdminApi")]
 [IntegrationTest]
 public class Given_Docs_Exist
 {

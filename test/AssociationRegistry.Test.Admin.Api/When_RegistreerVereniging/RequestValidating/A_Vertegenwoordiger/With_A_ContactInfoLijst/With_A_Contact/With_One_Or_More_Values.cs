@@ -22,8 +22,6 @@ public class With_One_Or_More_Values : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Vertegenwoordigers = new[]
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger

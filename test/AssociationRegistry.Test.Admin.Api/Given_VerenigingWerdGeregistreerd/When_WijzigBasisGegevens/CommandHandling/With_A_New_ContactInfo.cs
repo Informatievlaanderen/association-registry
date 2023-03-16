@@ -10,7 +10,9 @@ using Framework;
 using Vereniging.CommonCommandDataTypes;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_New_ContactInfo
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

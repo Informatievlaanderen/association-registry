@@ -7,7 +7,9 @@ using INSZ;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
 {
     [Fact]

@@ -13,34 +13,50 @@ using AutoFixture;
 using FluentAssertions;
 using Hoofdactiviteiten;
 using Xunit;
+using Xunit.Categories;
 
-public class Given_A_New_Vereniging
+[UnitTest]
+public class Given_A_New_Vereniging : IAsyncLifetime
 {
-    [Fact]
-    public async Task Then_the_VerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
+    private EventStoreMock _eventStore;
+    private VerenigingsRepository _repo;
+    private VCode _vCode;
+    private Vereniging _vereniging;
+    private VerenigingsNaam _naam;
+
+    public Given_A_New_Vereniging()
     {
-        var eventStore = new EventStoreMock();
+        _eventStore = new EventStoreMock();
 
-        var repo = new VerenigingsRepository(eventStore);
+        _repo = new VerenigingsRepository(_eventStore);
 
-        var vCode = VCode.Create(1001);
-        var naam = new VerenigingsNaam("Vereniging 1");
-        var vereniging = Vereniging.Registreer(vCode, naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+        _vCode = VCode.Create(1001);
+        _naam = new VerenigingsNaam("Vereniging 1");
+        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+    }
 
-        await repo.Save(vereniging, new Fixture().Create<CommandMetadata>());
+    public async Task InitializeAsync()
+        => await _repo.Save(_vereniging, new Fixture().Create<CommandMetadata>());
 
-        eventStore.Invocations.Should().HaveCount(1);
-        var invocation = eventStore.Invocations.Single();
+    [Fact]
+    public void Then_the_VerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
+    {
+        _eventStore.Invocations.Should().HaveCount(1);
+        var invocation = _eventStore.Invocations.Single();
 
-        invocation.AggregateId.Should().Be(vCode);
+        invocation.AggregateId.Should().Be(_vCode);
 
         var theEvent = (VerenigingWerdGeregistreerd)invocation.Events.Single();
 
-        theEvent.VCode.Should().Be("V0001001");
-        theEvent.Naam.Should().Be("Vereniging 1");
+        theEvent.VCode.Should().Be(_vCode);
+        theEvent.Naam.Should().Be(_naam);
         theEvent.KorteNaam.Should().BeNull();
         theEvent.KorteBeschrijving.Should().BeNull();
         theEvent.KboNummer.Should().BeNull();
         theEvent.Startdatum.Should().BeNull();
     }
+
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

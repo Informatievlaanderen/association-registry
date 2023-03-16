@@ -4,7 +4,9 @@ using ContactInfo;
 using ContactInfo.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_All_Null
 {
     [Fact]

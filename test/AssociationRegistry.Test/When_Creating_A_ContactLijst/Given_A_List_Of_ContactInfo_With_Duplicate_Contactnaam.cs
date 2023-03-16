@@ -4,7 +4,9 @@ using ContactInfo;
 using ContactInfo.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_ContactInfo_With_Duplicate_Contactnaam
 {
     [Fact]

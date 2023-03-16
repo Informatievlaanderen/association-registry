@@ -5,7 +5,6 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class With_Invalid_Length
 {
@@ -17,8 +16,6 @@ public class With_Invalid_Length
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Vertegenwoordigers = new[]
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()

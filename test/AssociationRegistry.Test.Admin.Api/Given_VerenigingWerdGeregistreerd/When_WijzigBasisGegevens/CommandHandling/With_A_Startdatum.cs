@@ -9,7 +9,9 @@ using Fixtures.Scenarios;
 using Primitives;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Startdatum : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

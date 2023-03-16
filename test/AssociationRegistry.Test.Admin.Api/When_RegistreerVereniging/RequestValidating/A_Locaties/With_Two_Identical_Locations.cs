@@ -1,18 +1,18 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.Locaties;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
-public class With_Two_Different_Locations : ValidatorTest
+public class With_Two_Identical_Locations : ValidatorTest
 {
     [Fact]
-    public void Has_no_validation_error()
+    public void Has_validation_error__idenitiek_locaties_verboden()
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var identiekLocatie = new RegistreerVerenigingRequest.Locatie
@@ -21,30 +21,22 @@ public class With_Two_Different_Locations : ValidatorTest
             Huisnummer = "23",
             Gemeente = "Zonnedorp",
             Postcode = "0123",
-            Straatnaam = "Kerkstraat",
-            Land = "Belgie",
-        };
-        var andereLocatie = new RegistreerVerenigingRequest.Locatie
-        {
-            Locatietype = Locatietypes.Activiteiten,
-            Huisnummer = "23",
-            Gemeente = "Anderdorp",
-            Postcode = "0123",
-            Straatnaam = "Kerkstraat",
             Land = "Belgie",
         };
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Locaties = new[]
             {
-                identiekLocatie,
-                andereLocatie,
+                Copy(identiekLocatie),
+                Copy(identiekLocatie),
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldHaveValidationErrorFor(vereniging => vereniging.Locaties)
+            .WithErrorMessage("Identieke locaties zijn niet toegelaten.");
     }
+
+    private static T Copy<T>(T obj)
+        => JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj))!;
 }

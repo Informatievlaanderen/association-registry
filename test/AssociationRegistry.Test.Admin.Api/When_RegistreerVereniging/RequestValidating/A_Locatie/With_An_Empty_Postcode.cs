@@ -17,8 +17,6 @@ public class With_An_Empty_Postcode : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Locaties = new[]
             {
                 new RegistreerVerenigingRequest.Locatie

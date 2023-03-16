@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 using FluentAssertions;
 using Vertegenwoordigers;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Empty_List
 {
     [Fact]

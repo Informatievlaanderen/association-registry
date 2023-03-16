@@ -5,7 +5,9 @@ using Framework;
 using Primitives;
 using Startdatums;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Null_Startdatum
 {
     private static readonly ClockStub ClockStub = new(new DateTime(2022, 12, 31));

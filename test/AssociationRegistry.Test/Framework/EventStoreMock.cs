@@ -15,6 +15,6 @@ public class EventStoreMock : IEventStore
         return await Task.FromResult(new StreamActionResult(-1, -1));
     }
 
-    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion
+    public async Task<T> Load<T>(string id) where T : class, IHasVersion
         => throw new NotImplementedException();
 }

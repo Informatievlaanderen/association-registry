@@ -15,11 +15,9 @@ public class Is_Null
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             ContactInfoLijst = new []{new ContactInfo
             {
-                Email = "info@something.be",
+                Contactnaam = null!,
             }},
         };
         var result = validator.TestValidate(request);

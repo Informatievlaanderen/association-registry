@@ -18,8 +18,6 @@ public class Is_Valid
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Naam = "abcd",
-            Initiator = "OVO000001",
             Vertegenwoordigers = new []
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger()
@@ -30,6 +28,6 @@ public class Is_Valid
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveAnyValidationErrors();
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}");
     }
 }

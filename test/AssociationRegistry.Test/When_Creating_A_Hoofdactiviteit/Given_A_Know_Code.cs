@@ -3,7 +3,9 @@
 using FluentAssertions;
 using Hoofdactiviteiten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Know_Code
 {
     [Theory]

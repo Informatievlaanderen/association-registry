@@ -4,7 +4,9 @@ using AutoFixture;
 using FluentAssertions;
 using Hoofdactiviteiten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Hoofdactiviteiten
 {
     [Fact]
