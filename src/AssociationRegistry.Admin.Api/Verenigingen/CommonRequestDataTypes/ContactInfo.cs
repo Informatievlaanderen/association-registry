@@ -13,7 +13,7 @@ public class ContactInfo
     /// Een e-mailadres<br/>
     /// <br/>
     /// Hier verwachten we het volgende formaat (naam@domein.vlaanderen),<br/>
-    /// In naam worden de volgende characters toegestaan '!#$%&'*+/=?^_`{|}~-',<br/>
+    /// In naam worden de volgende tekens toegestaan '!#$%&'*+/=?^_`{|}~-',<br/>
     /// in domein enkel '.' en '-'
     /// </summary>
     [DataMember]
