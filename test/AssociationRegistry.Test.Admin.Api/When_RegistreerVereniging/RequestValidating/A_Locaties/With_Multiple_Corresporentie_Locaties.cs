@@ -33,4 +33,3 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
             .WithErrorMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
     }
 }
-"
