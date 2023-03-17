@@ -35,6 +35,12 @@ public class Startdatum : ValueObject<Startdatum>
     public static Startdatum? Create(IClock clock, NullOrEmpty<DateOnly> commandStartdatum)
     {
         if(!commandStartdatum.HasValue) return null;
+
         return Create(commandStartdatum.Value, datum => Validate(clock.Today, datum));
+    }
+
+    public static Startdatum? Create(IClock clock, DateOnly commandStartdatum)
+    {
+        return Create(commandStartdatum, datum => Validate(clock.Today, datum));
     }
 }
