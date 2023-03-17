@@ -16,52 +16,53 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash
-{
-    public readonly RegistreerVerenigingRequest Request;
-    public readonly HttpResponseMessage Response;
-    public RegistreerVerenigingRequest.Locatie RequestLocatie { get; }
-
-    public When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash(EventsInDbScenariosFixture fixture)
-    {
-        var autoFixture = new Fixture().CustomizeAll();
-        RequestLocatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
-
-        RequestLocatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-        Request = new RegistreerVerenigingRequest
-        {
-            Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Naam,
-            Locaties = new[]
-            {
-                RequestLocatie,
-            },
-            Initiator = "OVO000001",
-        };
-        var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
-
-        var requestAsJson = JsonConvert.SerializeObject(Request);
-        Response = fixture.DefaultClient.RegistreerVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
-    }
-}
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_Duplicate_But_Valid_Hash : IClassFixture<When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash>
+public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Valid_Hash.Setup>
 {
-    private readonly EventsInDbScenariosFixture _fixture;
-    private readonly When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash _classFixture;
+    public sealed class Setup
+    {
+        public readonly RegistreerVerenigingRequest Request;
+        public readonly HttpResponseMessage Response;
+        public RegistreerVerenigingRequest.Locatie RequestLocatie { get; }
 
-    public With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture, When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash classFixture)
+        public Setup(EventsInDbScenariosFixture fixture)
+        {
+            var autoFixture = new Fixture().CustomizeAll();
+            RequestLocatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
+
+            RequestLocatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+            Request = new RegistreerVerenigingRequest
+            {
+                Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Naam,
+                Locaties = new[]
+                {
+                    RequestLocatie,
+                },
+                Initiator = "OVO000001",
+            };
+            var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+
+            var requestAsJson = JsonConvert.SerializeObject(Request);
+            Response = fixture.DefaultClient.RegistreerVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
+        }
+    }
+
+    private readonly EventsInDbScenariosFixture _fixture;
+    private readonly Setup _setup;
+
+    public With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture, Setup setup)
     {
         _fixture = fixture;
-        _classFixture = classFixture;
+        _setup = setup;
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
-        _classFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        _setup.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
@@ -76,24 +77,24 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<When_RegistreerVereni
         savedEvents.Should().ContainEquivalentOf(
             new VerenigingWerdGeregistreerd(
                 string.Empty,
-                _classFixture.Request.Naam,
-                _classFixture.Request.KorteNaam,
-                _classFixture.Request.KorteBeschrijving,
-                _classFixture.Request.Startdatum.HasValue ? _classFixture.Request.Startdatum.Value : null,
-                _classFixture.Request.KboNummer,
+                _setup.Request.Naam,
+                _setup.Request.KorteNaam,
+                _setup.Request.KorteBeschrijving,
+                _setup.Request.Startdatum.HasValue ? _setup.Request.Startdatum.Value : null,
+                _setup.Request.KboNummer,
                 Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(
-                        _classFixture.RequestLocatie.Naam,
-                        _classFixture.RequestLocatie.Straatnaam,
-                        _classFixture.RequestLocatie.Huisnummer,
-                        _classFixture.RequestLocatie.Busnummer,
-                        _classFixture.RequestLocatie.Postcode,
-                        _classFixture.RequestLocatie.Gemeente,
-                        _classFixture.RequestLocatie.Land,
-                        _classFixture.RequestLocatie.Hoofdlocatie,
-                        _classFixture.RequestLocatie.Locatietype),
+                        _setup.RequestLocatie.Naam,
+                        _setup.RequestLocatie.Straatnaam,
+                        _setup.RequestLocatie.Huisnummer,
+                        _setup.RequestLocatie.Busnummer,
+                        _setup.RequestLocatie.Postcode,
+                        _setup.RequestLocatie.Gemeente,
+                        _setup.RequestLocatie.Land,
+                        _setup.RequestLocatie.Hoofdlocatie,
+                        _setup.RequestLocatie.Locatietype),
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
