@@ -27,7 +27,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .WithMessage("Identieke locaties zijn niet toegelaten.");
         RuleFor(request => request.Locaties)
             .Must(LocatieValidator.NotHaveMultipleCorresporentieLocaties)
-            .WithMessage("Er mag maximum één coresporentie locatie opgegeven worden.");
+            .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
         RuleFor(request => request.Locaties)
             .Must(LocatieValidator.NotHaveMultipleHoofdlocaties)
             .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");

@@ -30,6 +30,7 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}")
-            .WithErrorMessage("Er mag maximum één coresporentie locatie opgegeven worden.");
+            .WithErrorMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
     }
 }
+"
