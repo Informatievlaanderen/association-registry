@@ -42,7 +42,7 @@ public class WijzigBasisgegevensCommandHandler
     private void HandleStartdatum(Vereniging vereniging, NullOrEmpty<DateOnly> startdatum)
     {
         if (startdatum.IsNull) return;
-        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum.Value));
+        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum));
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

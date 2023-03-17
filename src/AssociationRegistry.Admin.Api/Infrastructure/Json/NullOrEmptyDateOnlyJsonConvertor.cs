@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Primitives;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
-public class NullOrEmptyJsonConvertor : JsonConverter<NullOrEmpty<DateOnly>>
+public class NullOrEmptyDateOnlyJsonConvertor : JsonConverter<NullOrEmpty<DateOnly>>
 {
     public override void WriteJson(JsonWriter writer, NullOrEmpty<DateOnly> value, JsonSerializer serializer)
     {

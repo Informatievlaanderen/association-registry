@@ -35,11 +35,6 @@ public readonly struct NullOrEmpty<T>
     public static NullOrEmpty<T> Null
         => new(default, NullOrEmptyType.IsNull);
 
-    public static implicit operator T?(NullOrEmpty<T> nullOrEmpty)
-        => nullOrEmpty.Value;
-
-    public static implicit operator NullOrEmpty<T>(T? value)
-        => Create(value);
     private enum NullOrEmptyType
     {
         IsNull,
