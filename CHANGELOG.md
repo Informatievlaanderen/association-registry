@@ -1,3 +1,10 @@
+## [1.138.1](https://github.com/informatievlaanderen/association-registry/compare/v1.138.0...v1.138.1) (2023-03-17)
+
+
+### Bug Fixes
+
+* or-1638 make sure null is saved when passing empty startdatum ([4941254](https://github.com/informatievlaanderen/association-registry/commit/4941254973a98cf5d012c8601d7b3c1e5a23bd42))
+
 # [1.138.0](https://github.com/informatievlaanderen/association-registry/compare/v1.137.2...v1.138.0) (2023-03-17)
 
 
