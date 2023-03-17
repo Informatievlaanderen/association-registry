@@ -1,3 +1,17 @@
+# [1.138.0](https://github.com/informatievlaanderen/association-registry/compare/v1.137.2...v1.138.0) (2023-03-17)
+
+
+### Bug Fixes
+
+* or-1636 fix typo ([6cd8472](https://github.com/informatievlaanderen/association-registry/commit/6cd84720047b4eb61f37cf1f6eb1c59a32e8707b))
+* or-1636 fix typos ([d30b347](https://github.com/informatievlaanderen/association-registry/commit/d30b3476816455f35faab6b6b3aecb25e2ac89fa))
+* OR-1639 fix typos ([260765e](https://github.com/informatievlaanderen/association-registry/commit/260765e1830e25d3a37819a97ceb1b24fb483163))
+
+
+### Features
+
+* or-1641 cleanup tests ([ce9f305](https://github.com/informatievlaanderen/association-registry/commit/ce9f305a4163046031f623aad70f743b7d0701a2))
+
 ## [1.137.2](https://github.com/informatievlaanderen/association-registry/compare/v1.137.1...v1.137.2) (2023-03-16)
 
 
