@@ -16,76 +16,52 @@ using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerVereniging_With_Duplicate_But_Valid_Hash
+public sealed class When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash
 {
-    public readonly string VCode;
-    public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
-    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
-    public string RequestAsJson { get; }
+    public RegistreerVerenigingRequest.Locatie RequestLocatie { get; }
 
-
-    private When_RegistreerVereniging_With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
+    public When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAll();
-        var locatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
+        RequestLocatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
 
-        locatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-        Request = new RegistreerVerenigingRequest()
+        RequestLocatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+        Request = new RegistreerVerenigingRequest
         {
             Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
             {
-                locatie,
+                RequestLocatie,
             },
             Initiator = "OVO000001",
         };
-        VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
-        Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
-        BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+        var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
-        RequestAsJson = JsonConvert.SerializeObject(Request);
-        Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson, BevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
+        var requestAsJson = JsonConvert.SerializeObject(Request);
+        Response = fixture.DefaultClient.RegistreerVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
     }
-
-    private static When_RegistreerVereniging_With_Duplicate_But_Valid_Hash? called;
-
-    public static When_RegistreerVereniging_With_Duplicate_But_Valid_Hash Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_RegistreerVereniging_With_Duplicate_But_Valid_Hash(fixture);
 }
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_Duplicate_But_Valid_Hash
+public class With_Duplicate_But_Valid_Hash : IClassFixture<When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash>
 {
     private readonly EventsInDbScenariosFixture _fixture;
+    private readonly When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash _classFixture;
 
-    private HttpResponseMessage Response
-        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Response;
-
-    private BevestigingsTokenHelper BevestigingsTokenHelper
-        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).BevestigingsTokenHelper;
-
-    private string VCode
-        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).VCode;
-
-    private string Naam
-        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Naam;
-
-    private RegistreerVerenigingRequest Request
-        => When_RegistreerVereniging_With_Duplicate_But_Valid_Hash.Called(_fixture).Request;
-
-    public With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture)
+    public With_Duplicate_But_Valid_Hash(EventsInDbScenariosFixture fixture, When_RegistreerVereniging_As_Duplicate_But_With_Valid_Hash classFixture)
     {
         _fixture = fixture;
+        _classFixture = classFixture;
     }
 
     [Fact]
-    public void Then_it_returns_a_conflict_response()
+    public void Then_it_returns_an_accepted_response()
     {
-        Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        _classFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
@@ -100,24 +76,24 @@ public class With_Duplicate_But_Valid_Hash
         savedEvents.Should().ContainEquivalentOf(
             new VerenigingWerdGeregistreerd(
                 string.Empty,
-                Request.Naam,
-                Request.KorteNaam,
-                Request.KorteBeschrijving,
-                Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
-                Request.KboNummer,
+                _classFixture.Request.Naam,
+                _classFixture.Request.KorteNaam,
+                _classFixture.Request.KorteBeschrijving,
+                _classFixture.Request.Startdatum.HasValue ? _classFixture.Request.Startdatum.Value : null,
+                _classFixture.Request.KboNummer,
                 Array.Empty<ContactInfo>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(
-                        Request.Locaties.First().Naam,
-                        Request.Locaties.First().Straatnaam,
-                        Request.Locaties.First().Huisnummer,
-                        Request.Locaties.First().Busnummer,
-                        Request.Locaties.First().Postcode,
-                        Request.Locaties.First().Gemeente,
-                        Request.Locaties.First().Land,
-                        Request.Locaties.First().Hoofdlocatie,
-                        Request.Locaties.First().Locatietype),
+                        _classFixture.RequestLocatie.Naam,
+                        _classFixture.RequestLocatie.Straatnaam,
+                        _classFixture.RequestLocatie.Huisnummer,
+                        _classFixture.RequestLocatie.Busnummer,
+                        _classFixture.RequestLocatie.Postcode,
+                        _classFixture.RequestLocatie.Gemeente,
+                        _classFixture.RequestLocatie.Land,
+                        _classFixture.RequestLocatie.Hoofdlocatie,
+                        _classFixture.RequestLocatie.Locatietype),
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
