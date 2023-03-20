@@ -8,6 +8,7 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using Events;
+using Marten.Events;
 using NodaTime;
 using Vereniging.CommonCommandDataTypes;
 
@@ -20,10 +21,13 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeInstant();
         fixture.CustomizeRegistreerVerenigingRequestLocatie();
         fixture.CustomizeVerenigingWerdGeregistreerdLocatie();
-        fixture.CustomizeImmutableArray();
         fixture.CustomizeContactInfo();
         fixture.CustomizeRequestContactInfo();
         fixture.CustomizeEventContactInfo();
+
+        fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
+        fixture.Customizations.Add(new TestEventSpecimenBuilder());
+
         return fixture;
     }
 
@@ -86,24 +90,19 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 
-    public static void CustomizeImmutableArray(this IFixture fixture)
-    {
-        fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
-    }
-
     public static void CustomizeContactInfo(this IFixture fixture)
     {
         fixture.Customize<ContactInfo>(
             composer => composer.FromFactory(
-                    () => new ContactInfo(
-                        fixture.Create<string>(),
-                        $"a{fixture.Create<string>()}@example.org",
-                        fixture.Create<uint>().ToString(),
-                        $"https://{fixture.Create<string>()}.vlaanderen",
-                        $"https://{fixture.Create<string>()}.vlaanderen",
-                        false
-                    )
-                ).OmitAutoProperties());
+                () => new ContactInfo(
+                    fixture.Create<string>(),
+                    $"a{fixture.Create<string>()}@example.org",
+                    fixture.Create<uint>().ToString(),
+                    $"https://{fixture.Create<string>()}.vlaanderen",
+                    $"https://{fixture.Create<string>()}.vlaanderen",
+                    false
+                )
+            ).OmitAutoProperties());
     }
 
     public static void CustomizeRequestContactInfo(this IFixture fixture)
@@ -127,15 +126,15 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<AssociationRegistry.Events.CommonEventDataTypes.ContactInfo>(
             composer => composer.FromFactory(
-                    () => new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
-                        fixture.Create<string>(),
-                        $"a{fixture.Create<string>()}@example.org",
-                        fixture.Create<uint>().ToString(),
-                        $"https://{fixture.Create<string>()}.vlaanderen",
-                        $"https://{fixture.Create<string>()}.vlaanderen",
-                        false
-                    )
-                ).OmitAutoProperties());
+                () => new AssociationRegistry.Events.CommonEventDataTypes.ContactInfo(
+                    fixture.Create<string>(),
+                    $"a{fixture.Create<string>()}@example.org",
+                    fixture.Create<uint>().ToString(),
+                    $"https://{fixture.Create<string>()}.vlaanderen",
+                    $"https://{fixture.Create<string>()}.vlaanderen",
+                    false
+                )
+            ).OmitAutoProperties());
     }
 }
 
@@ -144,28 +143,44 @@ public class ImmutableArraySpecimenBuilder : ISpecimenBuilder
     public object Create(object request, ISpecimenContext context)
     {
         if (context == null)
-        {
             throw new ArgumentNullException(nameof(context));
-        }
 
-        var t = request as Type;
-        if (t == null)
-        {
+        if (request is not Type t)
             return new NoSpecimen();
-        }
 
         var typeArguments = t.GetGenericArguments();
         if (typeArguments.Length != 1)
-        {
             return new NoSpecimen();
-        }
 
-        if (typeof(ImmutableArray<>) == t.GetGenericTypeDefinition())
-        {
-            dynamic list = context.Resolve(typeof(IList<>).MakeGenericType(typeArguments));
-            return ImmutableArray.ToImmutableArray(list);
-        }
+        if (typeof(ImmutableArray<>) != t.GetGenericTypeDefinition())
+            return new NoSpecimen();
 
-        return new NoSpecimen();
+        dynamic list = context.Resolve(typeof(IList<>).MakeGenericType(typeArguments));
+        return ImmutableArray.ToImmutableArray(list);
+    }
+}
+
+public class TestEventSpecimenBuilder : ISpecimenBuilder
+{
+    public object Create(object request, ISpecimenContext context)
+    {
+        if (context == null)
+            throw new ArgumentNullException(nameof(context));
+
+        if (request is not Type t)
+            return new NoSpecimen();
+
+        var typeArguments = t.GetGenericArguments();
+        if (typeArguments.Length != 1)
+            return new NoSpecimen();
+
+        if (typeof(TestEvent<>) != t.GetGenericTypeDefinition())
+            return new NoSpecimen();
+
+        var @event = context.Resolve(typeArguments.Single());
+        var instance = (IEvent)Activator.CreateInstance(t, @event, context.Create<string>(), context.Create<Instant>())!;
+        instance.Version = context.Create<long>();
+        instance.Sequence = context.Create<long>();
+        return instance;
     }
 }

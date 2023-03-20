@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Framework;
 using Detail;
 using Events;
+using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
@@ -11,27 +12,34 @@ using Marten.Schema;
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
     public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
-        => new()
+    {
+        var initiator = verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+
+        return new BeheerVerenigingHistoriekDocument
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
             Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
             {
                 new(
-                    nameof(VerenigingWerdGeregistreerd),
-                    verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator),
-                    verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+                    $"Vereniging werd aangemaakt met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}",
+                    initiator,
+                    tijdstip
                 ),
             },
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
+    }
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
+        var initiator = naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
         document.Gebeurtenissen.Add(
             new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(NaamWerdGewijzigd),
-                naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+                $"Naam vereniging werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}' door {initiator} op datum {tijdstip}",
+                initiator,
+                tijdstip
             )
         );
         document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
