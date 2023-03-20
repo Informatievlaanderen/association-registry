@@ -16,7 +16,6 @@ public class With_A_Startdatum_Empty : IClassFixture<CommandHandlerScenarioFixtu
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
-    private readonly DateOnly _nieuweStartdatum;
 
     public With_A_Startdatum_Empty(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
     {

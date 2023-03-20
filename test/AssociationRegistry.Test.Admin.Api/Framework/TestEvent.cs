@@ -11,6 +11,8 @@ public class TestEvent<T> : IEvent<T> where T : notnull
     public TestEvent(T data, string ovoNumber = "OVO001001", Instant? instant = null)
     {
         Data = data;
+        EventTypeName = nameof(T);
+        DotNetTypeName = typeof(T).FullName!;
         SetHeader(MetadataHeaderNames.Initiator, JsonSerializer.SerializeToElement(ovoNumber));
         SetHeader(MetadataHeaderNames.Tijdstip, JsonSerializer.SerializeToElement((instant ?? new Instant()).ToString()));
     }
@@ -99,6 +101,7 @@ public class TestEvent<T> : IEvent<T> where T : notnull
     }
 
     public override int GetHashCode()
+        // ReSharper disable once NonReadonlyMemberInGetHashCode
         => Id.GetHashCode();
 
     public string Initiator

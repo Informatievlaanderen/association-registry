@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Events;
+using Events;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

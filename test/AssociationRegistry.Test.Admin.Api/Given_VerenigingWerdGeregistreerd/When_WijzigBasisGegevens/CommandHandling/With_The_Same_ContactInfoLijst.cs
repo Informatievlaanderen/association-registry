@@ -2,8 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using Events.CommonEventDataTypes;
 using EventStore;
 using Fakes;
 using Fixtures;
@@ -20,8 +18,8 @@ public class With_The_Same_ContactInfoLijst
 {
     private readonly VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario _scenario;
     private readonly Mock<IVerenigingsRepository> _verenigingRepositoryMock;
-    private CommandMetadata? _commandMetadata;
-    private CommandResult _result;
+    private readonly CommandMetadata _commandMetadata;
+    private readonly CommandResult _result;
 
     public With_The_Same_ContactInfoLijst()
     {
