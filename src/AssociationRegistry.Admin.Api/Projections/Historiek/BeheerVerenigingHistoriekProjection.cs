@@ -7,6 +7,7 @@ using Constants;
 using Framework;
 using Detail;
 using Events;
+using Events.CommonEventDataTypes;
 using Infrastructure.Extensions;
 using JasperFx.Core;
 using Marten.Events;
@@ -57,54 +58,13 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
     public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
-        contactInfoLijstWerdGewijzigd.Data.Toevoegingen.ForEach(
-            toevoeging => AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                (initiator, tijdstip) =>
-                    $"Contactinfo vereniging werd toegevoegd met naam '{toevoeging.Contactnaam}' door {initiator} op datum {tijdstip}.",
-                document));
         contactInfoLijstWerdGewijzigd.Data.Verwijderingen.ForEach(
-            toevoeging => AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                (initiator, tijdstip) =>
-                    $"Contactinfo vereniging werd verwijderd met naam '{toevoeging.Contactnaam}' door {initiator} op datum {tijdstip}.",
-                document));
+            toevoeging => AddVerwijderingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
         contactInfoLijstWerdGewijzigd.Data.Wijzigingen.ForEach(
-            wijziging =>
-            {
-                if (wijziging.Email is not null)
-                    AddHistoriekEntry(
-                        contactInfoLijstWerdGewijzigd,
-                        (initiator, tijdstip) =>
-                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Email' werd gewijzgid naar '{wijziging.Email}', door {initiator} op datum {tijdstip}.",
-                        document);
-                if (wijziging.Telefoon is not null)
-                    AddHistoriekEntry(
-                        contactInfoLijstWerdGewijzigd,
-                        (initiator, tijdstip) =>
-                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzgid naar '{wijziging.Telefoon}', door {initiator} op datum {tijdstip}.",
-                        document);
-                if (wijziging.Website is not null)
-                    AddHistoriekEntry(
-                        contactInfoLijstWerdGewijzigd,
-                        (initiator, tijdstip) =>
-                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Website' werd gewijzgid naar '{wijziging.Website}', door {initiator} op datum {tijdstip}.",
-                        document);
-                if (wijziging.SocialMedia is not null)
-                    AddHistoriekEntry(
-                        contactInfoLijstWerdGewijzigd,
-                        (initiator, tijdstip) =>
-                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzgid naar '{wijziging.SocialMedia}', door {initiator} op datum {tijdstip}.",
-                        document);
-                if (wijziging.PrimairContactInfo)
-                    AddHistoriekEntry(
-                        contactInfoLijstWerdGewijzigd,
-                        (initiator, tijdstip) =>
-                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd als primair aangeduid door {initiator} op datum {tijdstip}.",
-                        document);
-            });
+            wijziging => AddWijzigContactInfoHistoriekEntries(contactInfoLijstWerdGewijzigd, document, wijziging));
+        contactInfoLijstWerdGewijzigd.Data.Toevoegingen.ForEach(
+            toevoeging => AddToevoegingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
     }
-
     private static BeheerVerenigingHistoriekDocument AddHistoriekEntry(IEvent verenigingWerdGeregistreerd, Func<string?, string?, string> gebeurtenis, BeheerVerenigingHistoriekDocument document)
     {
         var initiator = verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator);
@@ -120,6 +80,59 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
         return document;
     }
+
+    private static void AddToevoegingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo toevoeging)
+    {
+        AddHistoriekEntry(
+            contactInfoLijstWerdGewijzigd,
+            (initiator, tijdstip) =>
+                $"Contactinfo vereniging werd toegevoegd met naam '{toevoeging.Contactnaam}' door {initiator} op datum {tijdstip}.",
+            document);
+    }
+
+    private static void AddWijzigContactInfoHistoriekEntries(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo wijziging)
+    {
+        if (wijziging.Email is not null)
+            AddHistoriekEntry(
+                contactInfoLijstWerdGewijzigd,
+                (initiator, tijdstip) =>
+                    $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{wijziging.Email}', door {initiator} op datum {tijdstip}.",
+                document);
+        if (wijziging.Telefoon is not null)
+            AddHistoriekEntry(
+                contactInfoLijstWerdGewijzigd,
+                (initiator, tijdstip) =>
+                    $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{wijziging.Telefoon}', door {initiator} op datum {tijdstip}.",
+                document);
+        if (wijziging.Website is not null)
+            AddHistoriekEntry(
+                contactInfoLijstWerdGewijzigd,
+                (initiator, tijdstip) =>
+                    $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{wijziging.Website}', door {initiator} op datum {tijdstip}.",
+                document);
+        if (wijziging.SocialMedia is not null)
+            AddHistoriekEntry(
+                contactInfoLijstWerdGewijzigd,
+                (initiator, tijdstip) =>
+                    $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{wijziging.SocialMedia}', door {initiator} op datum {tijdstip}.",
+                document);
+        if (wijziging.PrimairContactInfo)
+            AddHistoriekEntry(
+                contactInfoLijstWerdGewijzigd,
+                (initiator, tijdstip) =>
+                    $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd als primair aangeduid door {initiator} op datum {tijdstip}.",
+                document);
+    }
+
+    private static void AddVerwijderingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo toevoeging)
+    {
+        AddHistoriekEntry(
+            contactInfoLijstWerdGewijzigd,
+            (initiator, tijdstip) =>
+                $"Contactinfo vereniging werd verwijderd met naam '{toevoeging.Contactnaam}' door {initiator} op datum {tijdstip}.",
+            document);
+    }
+
 }
 
 // TODO bekijken of Metadata weg kan?
