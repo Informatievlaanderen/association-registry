@@ -1,6 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Projections.Historiek;
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Constants;
 using Framework;
 using Detail;
 using Events;
@@ -8,91 +11,70 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
     public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+        => AddHistoriekEntry(
+            verenigingWerdGeregistreerd,
+            (initiator, tijdstip) => $"Vereniging werd aangemaakt met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}",
+            new BeheerVerenigingHistoriekDocument
+            {
+                VCode = verenigingWerdGeregistreerd.Data.VCode,
+                Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
+                Metadata = new Metadata(0, 0)
+            });
+
+    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            naamWerdGewijzigd,
+            (initiator, tijdstip) => $"Naam vereniging werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}' door {initiator} op datum {tijdstip}",
+            document);
+
+    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            korteNaamWerdGewijzigd,
+            (initiator, tijdstip) =>
+                $"Korte naam vereniging werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}' door {initiator} op datum {tijdstip}",
+            document);
+
+    public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            korteBeschrijvingWerdGewijzigd,
+            (initiator, tijdstip) =>
+                $"Korte beschrijving vereniging werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}' door {initiator} op datum {tijdstip}",
+            document);
+
+
+    public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            startdatumWerdGewijzigd,
+            (initiator, tijdstip) =>
+                $"Startdatum vereniging werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}' door {initiator} op datum {tijdstip}",
+            document);
+
+    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            contactInfoLijstWerdGewijzigd,
+            (initiator, tijdstip) =>
+                nameof(ContactInfoLijstWerdGewijzigd),
+            document);
+
+    private static BeheerVerenigingHistoriekDocument AddHistoriekEntry(IEvent verenigingWerdGeregistreerd, Func<string?, string?, string> gebeurtenis, BeheerVerenigingHistoriekDocument document)
     {
         var initiator = verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator);
         var tijdstip = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
 
-        return new BeheerVerenigingHistoriekDocument
-        {
-            VCode = verenigingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
-            {
-                new(
-                    $"Vereniging werd aangemaakt met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}",
-                    initiator,
-                    tijdstip
-                ),
-            },
-            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
-        };
-    }
-
-    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        var initiator = naamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
-        document.Gebeurtenissen.Add(
+        document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Naam vereniging werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}' door {initiator} op datum {tijdstip}",
+                gebeurtenis(initiator, tijdstip),
                 initiator,
                 tijdstip
-            )
-        );
-        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
-    }
+            )).ToList();
+        document.Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version);
 
-    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        var initiator = korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
-        document.Gebeurtenissen.Add(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                $"Korte naam vereniging werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}' door {initiator} op datum {tijdstip}",
-                initiator,
-                tijdstip
-            )
-        );
-        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
-    }
-
-    public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        document.Gebeurtenissen.Add(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(KorteBeschrijvingWerdGewijzigd),
-                korteBeschrijvingWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                korteBeschrijvingWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-            )
-        );
-        document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
-    }
-
-    public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        document.Gebeurtenissen.Add(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(StartdatumWerdGewijzigd),
-                startdatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                startdatumWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-            )
-        );
-        document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
-    }
-
-    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        document.Gebeurtenissen.Add(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(ContactInfoLijstWerdGewijzigd),
-                contactInfoLijstWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                contactInfoLijstWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
-            )
-        );
-        document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
+        return document;
     }
 }
 

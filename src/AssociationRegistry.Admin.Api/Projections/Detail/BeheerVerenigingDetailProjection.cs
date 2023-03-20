@@ -9,7 +9,6 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
-using IEvent = Marten.Events.IEvent;
 
 public record Metadata(long Sequence, long Version);
 

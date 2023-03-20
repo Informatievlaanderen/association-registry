@@ -205,7 +205,7 @@ public class Vereniging : IHasVersion
             ContactInfoLijst = _state.ContactInfoLijst
                 .MetVerwijderingen(@event.Verwijderingen)
                 .MetToevoegingen(@event.Toevoegingen)
-                .MetWijzigingen(@event.Wijzigingen)
+                .MetWijzigingen(@event.Wijzigingen),
         };
     }
 }

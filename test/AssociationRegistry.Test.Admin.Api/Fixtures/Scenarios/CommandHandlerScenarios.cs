@@ -59,7 +59,7 @@ public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario 
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public ContactInfo[] ContactInfoLijst { get; }
-    private Fixture _fixture;
+    private readonly Fixture _fixture;
     public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; }
 
     public VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario()

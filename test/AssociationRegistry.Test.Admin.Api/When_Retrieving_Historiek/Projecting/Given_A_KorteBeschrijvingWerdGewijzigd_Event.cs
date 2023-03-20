@@ -12,21 +12,21 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_NaamWerdGewijzigd_Event
+public class Given_A_KorteBeschrijvingWerdGewijzigd_Event
 {
-    private readonly TestEvent<NaamWerdGewijzigd> _naamWerdGewijzigd;
+    private readonly TestEvent<KorteBeschrijvingWerdGewijzigd> _korteBeschrijvingWerdGewijzigd;
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly BeheerVerenigingHistoriekDocument _documentAfterChanges;
 
-    public Given_A_NaamWerdGewijzigd_Event()
+    public Given_A_KorteBeschrijvingWerdGewijzigd_Event()
     {
         var fixture = new Fixture().CustomizeAll();
         var beheerVerenigingHistoriekProjection = new BeheerVerenigingHistoriekProjection();
         _document = fixture.Create<BeheerVerenigingHistoriekDocument>();
-        _naamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
+        _korteBeschrijvingWerdGewijzigd = fixture.Create<TestEvent<KorteBeschrijvingWerdGewijzigd>>();
 
         _documentAfterChanges = _document.Copy();
-        beheerVerenigingHistoriekProjection.Apply(_naamWerdGewijzigd, _documentAfterChanges);
+        beheerVerenigingHistoriekProjection.Apply(_korteBeschrijvingWerdGewijzigd, _documentAfterChanges);
     }
 
     [Fact]
@@ -38,11 +38,11 @@ public class Given_A_NaamWerdGewijzigd_Event
                 VCode = _document.VCode,
                 Gebeurtenissen = _document.Gebeurtenissen.Append(new BeheerVerenigingHistoriekGebeurtenis
                 (
-                    $"Naam vereniging werd gewijzigd naar '{_naamWerdGewijzigd.Data.Naam}' door {_naamWerdGewijzigd.Initiator} op datum {_naamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
-                        _naamWerdGewijzigd.Initiator,
-                        _naamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()
+                    $"Korte beschrijving vereniging werd gewijzigd naar '{_korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}' door {_korteBeschrijvingWerdGewijzigd.Initiator} op datum {_korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
+                        _korteBeschrijvingWerdGewijzigd.Initiator,
+                        _korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()
                 )).ToList(),
-                Metadata = new Metadata(_naamWerdGewijzigd.Sequence, _naamWerdGewijzigd.Version),
+                Metadata = new Metadata(_korteBeschrijvingWerdGewijzigd.Sequence, _korteBeschrijvingWerdGewijzigd.Version),
             }
         );
     }

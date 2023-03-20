@@ -94,7 +94,7 @@ public class With_All_BasisGegevensWerdenGewijzigd
     private ContactInfo? ToegevoegdeContactInfo
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd.Called(_fixture).ToegevoegdeContactInfo;
 
-    private ContactInfo? GewijzigdContactInfo
+    private ContactInfo GewijzigdContactInfo
         => When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd.Called(_fixture).GewijzigdContactInfo;
 
     private WijzigBasisgegevensRequest Request

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
 using Primitives;
 using Fakes;

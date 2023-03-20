@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.When_saving_a_vereniging;
+﻿namespace AssociationRegistry.Test.Framework;
 
 using EventStore;
 using AssociationRegistry.Framework;
