@@ -11,6 +11,7 @@ using VerenigingsNamen;
 using Vertegenwoordigers;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Hoofdactiviteiten;
 using Xunit;
 using Xunit.Categories;

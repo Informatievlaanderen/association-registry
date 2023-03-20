@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
@@ -12,21 +13,21 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_NaamWerdGewijzigd_Event
+public class Given_A_StartdatumWerdGewijzigd_Event
 {
-    private readonly TestEvent<NaamWerdGewijzigd> _naamWerdGewijzigd;
+    private readonly TestEvent<StartdatumWerdGewijzigd> _startdatumWerdGewijzigd;
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly BeheerVerenigingHistoriekDocument _documentAfterChanges;
 
-    public Given_A_NaamWerdGewijzigd_Event()
+    public Given_A_StartdatumWerdGewijzigd_Event()
     {
         var fixture = new Fixture().CustomizeAll();
         var beheerVerenigingHistoriekProjection = new BeheerVerenigingHistoriekProjection();
         _document = fixture.Create<BeheerVerenigingHistoriekDocument>();
-        _naamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
+        _startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
 
         _documentAfterChanges = _document.Copy();
-        beheerVerenigingHistoriekProjection.Apply(_naamWerdGewijzigd, _documentAfterChanges);
+        beheerVerenigingHistoriekProjection.Apply(_startdatumWerdGewijzigd, _documentAfterChanges);
     }
 
     [Fact]
@@ -38,11 +39,11 @@ public class Given_A_NaamWerdGewijzigd_Event
                 VCode = _document.VCode,
                 Gebeurtenissen = _document.Gebeurtenissen.Append(new BeheerVerenigingHistoriekGebeurtenis
                 (
-                    $"Naam vereniging werd gewijzigd naar '{_naamWerdGewijzigd.Data.Naam}' door {_naamWerdGewijzigd.Initiator} op datum {_naamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
-                        _naamWerdGewijzigd.Initiator,
-                        _naamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()
+                    $"Startdatum vereniging werd gewijzigd naar '{_startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}' door {_startdatumWerdGewijzigd.Initiator} op datum {_startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
+                        _startdatumWerdGewijzigd.Initiator,
+                        _startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()
                 )).ToList(),
-                Metadata = new Metadata(_naamWerdGewijzigd.Sequence, _naamWerdGewijzigd.Version),
+                Metadata = new Metadata(_startdatumWerdGewijzigd.Sequence, _startdatumWerdGewijzigd.Version),
             }
         );
     }

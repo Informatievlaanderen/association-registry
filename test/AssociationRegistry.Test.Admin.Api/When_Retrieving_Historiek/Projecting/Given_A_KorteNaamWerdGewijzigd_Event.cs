@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using FluentAssertions.Execution;
 using Framework;
 using Framework.Helpers;
 using Xunit;
@@ -39,7 +38,7 @@ public class Given_A_KorteNaamWerdGewijzigd_Event
                 VCode = _document.VCode,
                 Gebeurtenissen = _document.Gebeurtenissen.Append(new BeheerVerenigingHistoriekGebeurtenis
                 (
-                    $"Korte naam vereniging werd gewijzigd van naar '{_korteNaamWerdGewijzigd.Data.KorteNaam}' door {_korteNaamWerdGewijzigd.Initiator} op datum {_korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
+                    $"Korte naam vereniging werd gewijzigd naar '{_korteNaamWerdGewijzigd.Data.KorteNaam}' door {_korteNaamWerdGewijzigd.Initiator} op datum {_korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()}",
                         _korteNaamWerdGewijzigd.Initiator,
                         _korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()
                 )).ToList(),
