@@ -2,6 +2,7 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -10,35 +11,28 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using FluentAssertions;
-using VCodes;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_All_BasisGegevensWerdenGewijzigd
+public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly StreamActionResult _result;
-    private readonly HttpResponseMessage _response;
-
     private readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario _scenario;
+
+    private HttpResponseMessage _response =  null!;
+
     private string VCode
         => _scenario.VCode;
 
     private CommandMetadata Metadata
         => _scenario.Metadata;
-    private VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd
-        => _scenario.VerenigingWerdGeregistreerd;
-    private NaamWerdGewijzigd NaamWerdGewijzigd
-        => _scenario.NaamWerdGewijzigd;
-    private KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd
-        => _scenario.KorteNaamWerdGewijzigd;
-    private KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd
-        => _scenario.KorteBeschrijvingWerdGewijzigd;
-    private StartdatumWerdGewijzigd StartdatumWerdGewijzigd
-        => _scenario.StartdatumWerdGewijzigd;
+
+    private StreamActionResult Result
+        => _scenario.Result;
+
     private ContactInfoLijstWerdGewijzigd ContactInfoLijstWerdGewijzigd
         => _scenario.ContactInfoLijstWerdGewijzigd;
 
@@ -46,13 +40,16 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     {
         _scenario = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario;
         _adminApiClient = fixture.DefaultClient;
-        _result = _scenario.Result;
-        _response = fixture.DefaultClient.GetHistoriek(VCode).GetAwaiter().GetResult();
+    }
+
+    public async Task InitializeAsync()
+    {
+        _response = await _adminApiClient.GetHistoriek(VCode);
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, _result.Sequence))
+        => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -62,7 +59,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, _result.Sequence + 10))
+        => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence + 10))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
@@ -77,27 +74,27 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                 ""vCode"": ""{VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""gebeurtenis"": ""Vereniging werd aangemaakt met naam '{VerenigingWerdGeregistreerd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
+                        ""gebeurtenis"": ""Vereniging werd aangemaakt met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
-                        ""gebeurtenis"": ""Naam vereniging werd gewijzigd naar '{NaamWerdGewijzigd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
+                        ""gebeurtenis"": ""Naam vereniging werd gewijzigd naar '{_scenario.NaamWerdGewijzigd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
-                        ""gebeurtenis"": ""KorteNaamWerdGewijzigd"",
+                        ""gebeurtenis"": ""Korte naam vereniging werd gewijzigd naar '{_scenario.KorteNaamWerdGewijzigd.KorteNaam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
-                        ""gebeurtenis"": ""KorteBeschrijvingWerdGewijzigd"",
+                        ""gebeurtenis"": ""Korte beschrijving vereniging werd gewijzigd naar '{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
-                        ""gebeurtenis"": ""StartdatumWerdGewijzigd"",
+                        ""gebeurtenis"": ""Startdatum vereniging werd gewijzigd naar '{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
@@ -112,4 +109,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
 
         content.Should().BeEquivalentJson(expected);
     }
+
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
