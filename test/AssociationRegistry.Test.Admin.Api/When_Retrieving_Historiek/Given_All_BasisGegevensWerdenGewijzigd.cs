@@ -2,11 +2,15 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
+using Events;
 using Fixtures;
+using Fixtures.Scenarios;
 using Framework;
 using FluentAssertions;
+using VCodes;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,34 +19,50 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_All_BasisGegevensWerdenGewijzigd
 {
-    private readonly string _vCode;
     private readonly AdminApiClient _adminApiClient;
     private readonly StreamActionResult _result;
     private readonly HttpResponseMessage _response;
-    private readonly CommandMetadata _metadata;
+
+    private readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario _scenario;
+    private string VCode
+        => _scenario.VCode;
+
+    private CommandMetadata Metadata
+        => _scenario.Metadata;
+    private VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd
+        => _scenario.VerenigingWerdGeregistreerd;
+    private NaamWerdGewijzigd NaamWerdGewijzigd
+        => _scenario.NaamWerdGewijzigd;
+    private KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd
+        => _scenario.KorteNaamWerdGewijzigd;
+    private KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd
+        => _scenario.KorteBeschrijvingWerdGewijzigd;
+    private StartdatumWerdGewijzigd StartdatumWerdGewijzigd
+        => _scenario.StartdatumWerdGewijzigd;
+    private ContactInfoLijstWerdGewijzigd ContactInfoLijstWerdGewijzigd
+        => _scenario.ContactInfoLijstWerdGewijzigd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
+        _scenario = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario;
         _adminApiClient = fixture.DefaultClient;
-        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
-        _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
-        _response = fixture.DefaultClient.GetHistoriek(_vCode).GetAwaiter().GetResult();
+        _result = _scenario.Result;
+        _response = fixture.DefaultClient.GetHistoriek(VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(_vCode, _result.Sequence))
+        => (await _adminApiClient.GetHistoriek(VCode, _result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
-        => (await _adminApiClient.GetHistoriek(_vCode))
+        => (await _adminApiClient.GetHistoriek(VCode))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(_vCode, _result.Sequence + 10))
+        => (await _adminApiClient.GetHistoriek(VCode, _result.Sequence + 10))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
@@ -54,37 +74,37 @@ public class Given_All_BasisGegevensWerdenGewijzigd
 
         var expected = $@"
             {{
-                ""vCode"": ""{_vCode}"",
+                ""vCode"": ""{VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""gebeurtenis"": ""VerenigingWerdGeregistreerd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""gebeurtenis"": ""Vereniging werd aangemaakt met naam '{VerenigingWerdGeregistreerd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
-                        ""gebeurtenis"": ""NaamWerdGewijzigd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""gebeurtenis"": ""Naam vereniging werd gewijzigd naar '{NaamWerdGewijzigd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}"",
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
-{{
+                    {{
                         ""gebeurtenis"": ""KorteNaamWerdGewijzigd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""gebeurtenis"": ""KorteBeschrijvingWerdGewijzigd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""gebeurtenis"": ""StartdatumWerdGewijzigd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""gebeurtenis"": ""ContactInfoLijstWerdGewijzigd"",
-                        ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip}""
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]
             }}

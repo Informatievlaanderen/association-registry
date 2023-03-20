@@ -47,11 +47,13 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
+        var initiator = korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
         document.Gebeurtenissen.Add(
             new BeheerVerenigingHistoriekGebeurtenis(
-                nameof(KorteNaamWerdGewijzigd),
-                korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Initiator),
-                korteNaamWerdGewijzigd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+                $"Korte naam vereniging werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}' door {initiator} op datum {tijdstip}",
+                initiator,
+                tijdstip
             )
         );
         document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
