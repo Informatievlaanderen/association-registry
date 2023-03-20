@@ -35,7 +35,7 @@ public class Given_A_VerenigingWerdGeregistreerd_Event
                 Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
                 {
                     new(
-                        $"Vereniging werd aangemaakt met naam '{_verenigingWerdGeregistreerd.Data.Naam}' door {_verenigingWerdGeregistreerd.Initiator} op datum {_verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()}",
+                        $"Vereniging werd aangemaakt met naam '{_verenigingWerdGeregistreerd.Data.Naam}' door {_verenigingWerdGeregistreerd.Initiator} op datum {_verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()}.",
                         _verenigingWerdGeregistreerd.Initiator,
                         _verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
                 },
