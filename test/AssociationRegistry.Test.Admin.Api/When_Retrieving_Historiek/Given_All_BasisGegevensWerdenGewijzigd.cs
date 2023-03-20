@@ -98,13 +98,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
-                    {string.Join(",", ContactInfoLijstWerdGewijzigd.Toevoegingen.Select(t => $@"
-                        {{
-                            ""gebeurtenis"": ""Contactinfo vereniging werd toegevoegd met naam '{t.Contactnaam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }}
-                    "))},
                     {string.Join(",", ContactInfoLijstWerdGewijzigd.Verwijderingen.Select(v => $@"
                         {{
                             ""gebeurtenis"": ""Contactinfo vereniging werd verwijderd met naam '{v.Contactnaam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
@@ -114,19 +107,25 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                     "))},
                     {string.Join(",", ContactInfoLijstWerdGewijzigd.Wijzigingen.Select(w => $@"
                         {{
-                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Email' werd gewijzgid naar '{w.Email}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{w.Email}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
-                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzgid naar '{w.Telefoon}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{w.Telefoon}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
-                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Website' werd gewijzgid naar '{w.Website}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{w.Website}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
-                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzgid naar '{w.SocialMedia}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                            ""gebeurtenis"": ""Contactinfo vereniging met naam '{w.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{w.SocialMedia}', door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                            ""initiator"":""{Metadata.Initiator}"",
+                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        }}
+                    "))},{string.Join(",", ContactInfoLijstWerdGewijzigd.Toevoegingen.Select(t => $@"
+                        {{
+                            ""gebeurtenis"": ""Contactinfo vereniging werd toegevoegd met naam '{t.Contactnaam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }}
