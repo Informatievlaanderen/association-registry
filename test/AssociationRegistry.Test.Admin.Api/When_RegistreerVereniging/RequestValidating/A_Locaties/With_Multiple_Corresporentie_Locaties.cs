@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
 public class With_Multiple_Corresporentie_Locaties : ValidatorTest
 {

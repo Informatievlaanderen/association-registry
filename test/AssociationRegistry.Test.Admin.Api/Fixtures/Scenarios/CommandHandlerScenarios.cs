@@ -59,13 +59,11 @@ public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario 
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public ContactInfo[] ContactInfoLijst { get; }
-    private readonly Fixture _fixture;
-    public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; }
+    public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
 
     public VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario()
     {
-        _fixture = new Fixture().CustomizeAll();
-        ContactInfoLijst = _fixture.CreateMany<ContactInfo>().ToArray();
+        ContactInfoLijst = new Fixture().CustomizeAll().CreateMany<ContactInfo>().ToArray();
     }
 
     public IEnumerable<IEvent> Events()
@@ -87,7 +85,6 @@ public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario 
         };
     }
 }
-
 
 public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario : ICommandhandlerScenario
 {

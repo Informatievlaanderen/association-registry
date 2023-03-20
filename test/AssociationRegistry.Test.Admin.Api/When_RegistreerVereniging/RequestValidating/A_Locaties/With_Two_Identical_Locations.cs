@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
 using Framework.Helpers;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
