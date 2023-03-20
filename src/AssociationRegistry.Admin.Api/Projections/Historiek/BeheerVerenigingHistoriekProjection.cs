@@ -96,6 +96,12 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                         (initiator, tijdstip) =>
                             $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzgid naar '{wijziging.SocialMedia}', door {initiator} op datum {tijdstip}.",
                         document);
+                if (wijziging.PrimairContactInfo)
+                    AddHistoriekEntry(
+                        contactInfoLijstWerdGewijzigd,
+                        (initiator, tijdstip) =>
+                            $"Contactinfo vereniging met naam '{wijziging.Contactnaam}' werd als primair aangeduid door {initiator} op datum {tijdstip}.",
+                        document);
             });
     }
 
