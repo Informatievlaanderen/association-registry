@@ -1,3 +1,17 @@
+# [1.139.0](https://github.com/informatievlaanderen/association-registry/compare/v1.138.1...v1.139.0) (2023-03-20)
+
+
+### Features
+
+* or-1617 add history mesage for primairContactInfo ([99a3e49](https://github.com/informatievlaanderen/association-registry/commit/99a3e49b4dd67d56ac4b5186c0f0e4384de94080))
+* or-1617 change historiek message for registreer and wijzigNaam ([e81cec1](https://github.com/informatievlaanderen/association-registry/commit/e81cec110a046771bb2c3147b73ac8455be3a820))
+* or-1617 change historiek message for wijzig korte naam ([f339c7b](https://github.com/informatievlaanderen/association-registry/commit/f339c7b7a89c8437a51a0420128f65d67f284c13))
+* or-1617 change history message for all events ([80aa186](https://github.com/informatievlaanderen/association-registry/commit/80aa186d935d5dbd01bb9fd4ef7e0ef819940050))
+* or-1617 change history message for contactInfo ([42cc8c4](https://github.com/informatievlaanderen/association-registry/commit/42cc8c4342a0169eb0ab97a997d25c9ad3cc9bea))
+* or-1617 cleanup ([dd11aea](https://github.com/informatievlaanderen/association-registry/commit/dd11aea172830a8609d89905e36386a71c602e73))
+* or-1617 fix integration test ([5b356d5](https://github.com/informatievlaanderen/association-registry/commit/5b356d56c3b0e83dc6de968df7f5897db227506c))
+* or-1617 update test format ([2f640c1](https://github.com/informatievlaanderen/association-registry/commit/2f640c1f079ab5c11163e5cea26db5d8cd458b0f))
+
 ## [1.138.1](https://github.com/informatievlaanderen/association-registry/compare/v1.138.0...v1.138.1) (2023-03-17)
 
 
