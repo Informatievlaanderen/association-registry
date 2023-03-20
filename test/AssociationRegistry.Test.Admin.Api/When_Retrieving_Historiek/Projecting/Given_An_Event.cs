@@ -61,7 +61,7 @@ public class Given_A_NaamWerdGewijzigd_Event : Given_An_Event<NaamWerdGewijzigd>
     [Fact]
     public void Test()
         => AppendsTheCorrectGebeurtenissen(
-            $"Naam vereniging gewijzigd naar '{Event.Data.Naam}' door {Event.Initiator} op datum {Event.Tijdstip.ToBelgianDateAndTime()}");
+            $"Naam vereniging werd gewijzigd naar '{Event.Data.Naam}' door {Event.Initiator} op datum {Event.Tijdstip.ToBelgianDateAndTime()}");
 }
 
 public class Given_A_KorteBeschrijvingWerdGewijzigd_Event : Given_An_Event<KorteBeschrijvingWerdGewijzigd>
