@@ -28,7 +28,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
         AddHistoriekEntry(
             verenigingWerdGeregistreerd,
-            (initiator, tijdstip) => $"Vereniging werd aangemaakt met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}.",
+            (initiator, tijdstip) => $"Vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}.",
             beheerVerenigingHistoriekDocument);
 
         return beheerVerenigingHistoriekDocument;

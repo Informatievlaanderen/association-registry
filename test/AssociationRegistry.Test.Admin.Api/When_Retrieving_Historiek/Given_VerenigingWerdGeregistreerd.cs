@@ -69,7 +69,7 @@ public class Given_VerenigingWerdGeregistreerd
                 ""vCode"": ""{VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""gebeurtenis"": ""Vereniging werd aangemaakt met naam '{VerenigingWerdGeregistreerd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
+                        ""gebeurtenis"": ""Vereniging werd geregistreerd met naam '{VerenigingWerdGeregistreerd.Naam}' door {Metadata.Initiator} op datum {Metadata.Tijdstip.ToBelgianDateAndTime()}."",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
