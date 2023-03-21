@@ -11,12 +11,12 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_VerenigingWerdGeregistreerd_Event
+public class Given_VerenigingWerdGeregistreerd
 {
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly TestEvent<VerenigingWerdGeregistreerd> _verenigingWerdGeregistreerd;
 
-    public Given_A_VerenigingWerdGeregistreerd_Event()
+    public Given_VerenigingWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeAll();
         var beheerVerenigingHistoriekProjection = new BeheerVerenigingHistoriekProjection();

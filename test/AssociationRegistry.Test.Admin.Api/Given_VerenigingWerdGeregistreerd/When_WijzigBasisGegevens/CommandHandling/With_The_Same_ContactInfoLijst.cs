@@ -13,7 +13,9 @@ using VCodes;
 using Vereniging;
 using Vereniging.WijzigBasisgegevens;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_The_Same_ContactInfoLijst
 {
     private readonly VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario _scenario;

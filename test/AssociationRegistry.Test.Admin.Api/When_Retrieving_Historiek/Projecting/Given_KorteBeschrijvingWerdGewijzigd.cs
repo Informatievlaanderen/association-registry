@@ -4,10 +4,10 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
 using Xunit;
 
-public class Given_A_KorteNaamWerdGewijzigd_EventTestBase : GivenAnEventTestBase<KorteNaamWerdGewijzigd>
+public class Given_KorteBeschrijvingWerdGewijzigd : GivenAnEventTestBase<KorteBeschrijvingWerdGewijzigd>
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
         => AppendsTheCorrectGebeurtenissen(
-            $"Korte naam vereniging werd gewijzigd naar '{Event.Data.KorteNaam}' door {Event.Initiator} op datum {Event.Tijdstip.ToBelgianDateAndTime()}.");
+            $"Korte beschrijving vereniging werd gewijzigd naar '{Event.Data.KorteBeschrijving}' door {Event.Initiator} op datum {Event.Tijdstip.ToBelgianDateAndTime()}.");
 }
