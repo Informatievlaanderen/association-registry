@@ -78,6 +78,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
                 beschrijving,
+                @event.Data.GetType().Name,
                 initiator,
                 tijdstip
             )).ToList();
@@ -140,5 +141,6 @@ public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode
 
 public record BeheerVerenigingHistoriekGebeurtenis(
     string Beschrijving,
+    string Gebeurtenis,
     string Initiator,
     string Tijdstip);

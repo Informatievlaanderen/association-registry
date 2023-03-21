@@ -34,18 +34,18 @@ public class WhenApplying<TEvent> where TEvent : notnull
         return new WhenApplying<TEvent>(@event);
     }
 
-    internal void AppendsTheCorrectGebeurtenissen(params string[] appendedGebeurtenissen)
+    internal void AppendsTheCorrectGebeurtenissen(params Func<string, string, BeheerVerenigingHistoriekGebeurtenis>[] appendedGebeurtenissenFuncs)
     {
         _documentAfterChanges.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument
             {
                 VCode = _document.VCode,
                 Gebeurtenissen = _document.Gebeurtenissen.Concat(
-                    appendedGebeurtenissen.Select(
-                        gebeurtenis => new BeheerVerenigingHistoriekGebeurtenis(
-                            gebeurtenis,
-                            Event.Initiator,
-                            Event.Tijdstip.ToBelgianDateAndTime()))).ToList(),
+                    appendedGebeurtenissenFuncs.Select(
+                        gebeurtenisFunc =>
+                            gebeurtenisFunc(
+                                Event.Initiator,
+                                Event.Tijdstip.ToBelgianDateAndTime()))).ToList(),
                 Metadata = new Metadata(Event.Sequence, Event.Version),
             },
             options => options.WithStrictOrderingFor(doc => doc.Gebeurtenissen)

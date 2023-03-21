@@ -70,6 +70,7 @@ public class Given_VerenigingWerdGeregistreerd
                 ""gebeurtenissen"": [
                     {{
                         ""beschrijving"": ""Vereniging werd geregistreerd met naam '{VerenigingWerdGeregistreerd.Naam}'."",
+                        ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
