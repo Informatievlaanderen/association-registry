@@ -13,14 +13,14 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_ContactInfoLijstWerdGewijzigd_Event
+public class Given_ContactInfoLijstWerdGewijzigd
 {
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly BeheerVerenigingHistoriekDocument _documentAfterChanges;
     private readonly TestEvent<ContactInfoLijstWerdGewijzigd> _testEvent;
     private readonly Fixture _fixture;
 
-    public Given_A_ContactInfoLijstWerdGewijzigd_Event()
+    public Given_ContactInfoLijstWerdGewijzigd()
     {
         _fixture = new Fixture().CustomizeAll();
         _document = _fixture.Create<BeheerVerenigingHistoriekDocument>();
@@ -173,11 +173,7 @@ public class Given_A_ContactInfoLijstWerdGewijzigd_Event
             Array.Empty<ContactInfo>(),
             new[]
             {
-                _fixture.Create<ContactInfo>() with { Telefoon = null, Website = null, SocialMedia = null, PrimairContactInfo = false },
-                _fixture.Create<ContactInfo>() with { Email = null, Website = null, SocialMedia = null, PrimairContactInfo = false },
-                _fixture.Create<ContactInfo>() with { Email = null, Telefoon = null, SocialMedia = null, PrimairContactInfo = false },
-                _fixture.Create<ContactInfo>() with { Email = null, Telefoon = null, Website = null, PrimairContactInfo = false },
-                _fixture.Create<ContactInfo>() with { Email = null, Telefoon = null, Website = null, SocialMedia = null, PrimairContactInfo = true },
+                _fixture.Create<ContactInfo>() with { Email = null, Telefoon = null, Website = null, SocialMedia = null, PrimairContactInfo = false },
             }
         );
         new BeheerVerenigingHistoriekProjection().Apply(_testEvent, _documentAfterChanges);
@@ -185,66 +181,27 @@ public class Given_A_ContactInfoLijstWerdGewijzigd_Event
             new BeheerVerenigingHistoriekDocument
             {
                 VCode = _document.VCode,
-                Gebeurtenissen = _document.Gebeurtenissen
-                    .Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging met naam '{_testEvent.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{_testEvent.Data.Wijzigingen[0].Email}', door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    ).Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging met naam '{_testEvent.Data.Wijzigingen[1].Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{_testEvent.Data.Wijzigingen[1].Telefoon}', door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    ).Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging met naam '{_testEvent.Data.Wijzigingen[2].Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{_testEvent.Data.Wijzigingen[2].Website}', door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    ).Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging met naam '{_testEvent.Data.Wijzigingen[3].Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{_testEvent.Data.Wijzigingen[3].SocialMedia}', door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    )
-                    .Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging met naam '{_testEvent.Data.Wijzigingen[4].Contactnaam}' werd als primair aangeduid door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    )
-                    .ToList(),
+                Gebeurtenissen = _document.Gebeurtenissen,
                 Metadata = new Metadata(_testEvent.Sequence, _testEvent.Version),
             }
         );
     }
+
     [Fact]
-    public void Then_it_adds_a_new_gebeurtenisen()
+    public void Then_it_first_adds_verwijderingen_Then_wijzigingen_Then_toevoegingen()
     {
         _testEvent.Data = new ContactInfoLijstWerdGewijzigd(
             _fixture.Create<string>(),
             new[] { _fixture.Create<ContactInfo>() },
             new[] { _fixture.Create<ContactInfo>() },
-            new[] { _fixture.Create<ContactInfo>() with {PrimairContactInfo = true} }
-            );
+            new[] { _fixture.Create<ContactInfo>() with { PrimairContactInfo = true } }
+        );
         new BeheerVerenigingHistoriekProjection().Apply(_testEvent, _documentAfterChanges);
         _documentAfterChanges.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument
             {
                 VCode = _document.VCode,
                 Gebeurtenissen = _document.Gebeurtenissen
-                    .Append(
-                        new BeheerVerenigingHistoriekGebeurtenis(
-                            $"Contactinfo vereniging werd toegevoegd met naam '{_testEvent.Data.Toevoegingen[0].Contactnaam}' door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
-                            _testEvent.Initiator,
-                            _testEvent.Tijdstip.ToBelgianDateAndTime()
-                        )
-                    )
                     .Append(
                         new BeheerVerenigingHistoriekGebeurtenis(
                             $"Contactinfo vereniging werd verwijderd met naam '{_testEvent.Data.Verwijderingen[0].Contactnaam}' door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
@@ -282,10 +239,16 @@ public class Given_A_ContactInfoLijstWerdGewijzigd_Event
                             _testEvent.Initiator,
                             _testEvent.Tijdstip.ToBelgianDateAndTime()
                         )
+                    ).Append(
+                        new BeheerVerenigingHistoriekGebeurtenis(
+                            $"Contactinfo vereniging werd toegevoegd met naam '{_testEvent.Data.Toevoegingen[0].Contactnaam}' door {_testEvent.Initiator} op datum {_testEvent.Tijdstip.ToBelgianDateAndTime()}.",
+                            _testEvent.Initiator,
+                            _testEvent.Tijdstip.ToBelgianDateAndTime()
+                        )
                     )
                     .ToList(),
                 Metadata = new Metadata(_testEvent.Sequence, _testEvent.Version),
-            }
+            }, options => options.WithStrictOrderingFor(doc=>doc.Gebeurtenissen)
         );
     }
 }

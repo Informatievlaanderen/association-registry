@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
 using Xunit;
 
-public class Given_A_NaamWerdGewijzigd_EventTestBase : GivenAnEventTestBase<NaamWerdGewijzigd>
+public class Given_A_NaamWerdGewijzigd : GivenAnEventTestBase<NaamWerdGewijzigd>
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()

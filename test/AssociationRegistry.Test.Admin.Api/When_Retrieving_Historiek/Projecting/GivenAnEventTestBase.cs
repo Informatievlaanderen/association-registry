@@ -23,12 +23,12 @@ public abstract class GivenAnEventTestBase<TEvent> where TEvent : notnull
         Event = fixture.Create<TestEvent<TEvent>>();
 
         _documentAfterChanges = _document.Copy();
-
-        new BeheerVerenigingHistoriekProjection().Apply((dynamic)Event, _documentAfterChanges);
     }
 
     protected void AppendsTheCorrectGebeurtenissen(params string[] appendedGebeurtenissen)
     {
+        new BeheerVerenigingHistoriekProjection().Apply((dynamic)Event, _documentAfterChanges);
+
         _documentAfterChanges.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument
             {

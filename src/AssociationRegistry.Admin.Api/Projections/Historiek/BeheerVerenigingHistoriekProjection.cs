@@ -18,15 +18,21 @@ using IEvent = Marten.Events.IEvent;
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
     public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
-        => AddHistoriekEntry(
+    {
+        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
+        {
+            VCode = verenigingWerdGeregistreerd.Data.VCode,
+            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
+            Metadata = new Metadata(0, 0),
+        };
+
+        AddHistoriekEntry(
             verenigingWerdGeregistreerd,
             (initiator, tijdstip) => $"Vereniging werd aangemaakt met naam '{verenigingWerdGeregistreerd.Data.Naam}' door {initiator} op datum {tijdstip}.",
-            new BeheerVerenigingHistoriekDocument
-            {
-                VCode = verenigingWerdGeregistreerd.Data.VCode,
-                Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-                Metadata = new Metadata(0, 0),
-            });
+            beheerVerenigingHistoriekDocument);
+
+        return beheerVerenigingHistoriekDocument;
+    }
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
@@ -53,7 +59,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         => AddHistoriekEntry(
             startdatumWerdGewijzigd,
             (initiator, tijdstip) =>
-                $"Startdatum vereniging werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}' door {initiator} op datum {tijdstip}.",
+                $"Startdatum vereniging werd gewijzigd naar '{(startdatumWerdGewijzigd.Data.Startdatum is { } startdatum ? startdatum.ToString(WellknownFormats.DateOnly) : string.Empty)}' door {initiator} op datum {tijdstip}.",
             document);
 
     public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -64,11 +70,14 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             wijziging => AddWijzigContactInfoHistoriekEntries(contactInfoLijstWerdGewijzigd, document, wijziging));
         contactInfoLijstWerdGewijzigd.Data.Toevoegingen.ForEach(
             toevoeging => AddToevoegingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
+
+        document.Metadata = new Metadata(contactInfoLijstWerdGewijzigd.Sequence, contactInfoLijstWerdGewijzigd.Version);
     }
-    private static BeheerVerenigingHistoriekDocument AddHistoriekEntry(IEvent verenigingWerdGeregistreerd, Func<string?, string?, string> gebeurtenis, BeheerVerenigingHistoriekDocument document)
+
+    private static void AddHistoriekEntry(IEvent @event, Func<string?, string?, string> gebeurtenis, BeheerVerenigingHistoriekDocument document)
     {
-        var initiator = verenigingWerdGeregistreerd.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -76,9 +85,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 initiator,
                 tijdstip
             )).ToList();
-        document.Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version);
-
-        return document;
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
     private static void AddToevoegingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo toevoeging)
@@ -132,7 +139,6 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 $"Contactinfo vereniging werd verwijderd met naam '{toevoeging.Contactnaam}' door {initiator} op datum {tijdstip}.",
             document);
     }
-
 }
 
 // TODO bekijken of Metadata weg kan?

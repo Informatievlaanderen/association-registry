@@ -5,7 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
 using Xunit;
 
-public class Given_A_StartdatumWerdGewijzigd_EventTestBase : GivenAnEventTestBase<StartdatumWerdGewijzigd>
+public class Given_StartdatumWerdGewijzigd : GivenAnEventTestBase<StartdatumWerdGewijzigd>
 {
     [Fact]
     public void Test()
