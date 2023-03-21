@@ -14,10 +14,6 @@ public class WhenApplying<TEvent> where TEvent : notnull
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly BeheerVerenigingHistoriekDocument _documentAfterChanges;
 
-    protected WhenApplying() : this(new Fixture().CustomizeAll().Create<TEvent>())
-    {
-    }
-
     private WhenApplying(TEvent @event)
     {
         var fixture = new Fixture().CustomizeAll();
@@ -29,8 +25,14 @@ public class WhenApplying<TEvent> where TEvent : notnull
         new BeheerVerenigingHistoriekProjection().Apply((dynamic)Event, _documentAfterChanges);
     }
 
-    internal static WhenApplying<TEvent> ToHistoriekProjectie(TEvent @event)
-        => new(@event);
+    internal static WhenApplying<TEvent> ToHistoriekProjectie(Func<TEvent, TEvent>? eventAction = null)
+    {
+        var @event = new Fixture().CustomizeAll().Create<TEvent>();
+        if (eventAction is not null)
+            @event = eventAction(@event);
+
+        return new WhenApplying<TEvent>(@event);
+    }
 
     internal void AppendsTheCorrectGebeurtenissen(params string[] appendedGebeurtenissen)
     {
@@ -45,7 +47,8 @@ public class WhenApplying<TEvent> where TEvent : notnull
                             Event.Initiator,
                             Event.Tijdstip.ToBelgianDateAndTime()))).ToList(),
                 Metadata = new Metadata(Event.Sequence, Event.Version),
-            }
+            },
+            options => options.WithStrictOrderingFor(doc => doc.Gebeurtenissen)
         );
     }
 }

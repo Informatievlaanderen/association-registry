@@ -57,7 +57,7 @@ public class VerenigingenHistoriekController : ApiController
                 vCode,
                 historiek.Gebeurtenissen.Select(
                     gebeurtenis => new HistoriekGebeurtenisResponse(
-                        gebeurtenis.Gebeurtenis,
+                        gebeurtenis.Beschrijving,
                         gebeurtenis.Initiator,
                         gebeurtenis.Tijdstip)).ToList()));
     }

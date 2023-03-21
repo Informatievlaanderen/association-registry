@@ -10,6 +10,6 @@ public record HistoriekResponse(
 
 [DataContract]
 public record HistoriekGebeurtenisResponse(
-    [property: DataMember(Name = "gebeurtenis")] string Gebeurtenis,
+    [property: DataMember(Name = "beschrijving")] string Beschrijving,
     [property: DataMember(Name = "initiator")] string Initiator,
     [property: DataMember(Name = "tijdstip")] string Tijdstip);
