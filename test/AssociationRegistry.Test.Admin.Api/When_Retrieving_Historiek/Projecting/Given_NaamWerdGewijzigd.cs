@@ -3,11 +3,19 @@
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
 using Xunit;
+using Xunit.Categories;
 
-public class Given_NaamWerdGewijzigd : WhenApplying<NaamWerdGewijzigd>
+[UnitTest]
+public class Given_NaamWerdGewijzigd
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
-        => AppendsTheCorrectGebeurtenissen(
-            $"Naam vereniging werd gewijzigd naar '{Event.Data.Naam}' door {Event.Initiator} op datum {Event.Tijdstip.ToBelgianDateAndTime()}.");
+    {
+        var projectEventOnHistoriekDocument =
+            WhenApplying<NaamWerdGewijzigd>
+                .ToHistoriekProjectie();
+
+        projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
+            $"Naam werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Naam}'.");
+    }
 }
