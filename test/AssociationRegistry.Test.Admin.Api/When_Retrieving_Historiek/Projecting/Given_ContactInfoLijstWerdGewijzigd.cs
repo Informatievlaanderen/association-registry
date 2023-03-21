@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
+using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AutoFixture;
 using Events;
 using Events.CommonEventDataTypes;
@@ -32,9 +33,9 @@ public class Given_ContactInfoLijstWerdGewijzigd
 
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[0].Contactnaam}' werd toegevoegd.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[1].Contactnaam}' werd toegevoegd.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[2].Contactnaam}' werd toegevoegd."
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[0].Contactnaam}' werd toegevoegd.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[1].Contactnaam}' werd toegevoegd.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[2].Contactnaam}' werd toegevoegd.", nameof(ContactInfoLijstWerdGewijzigd), i, t)
         );
     }
 
@@ -52,9 +53,9 @@ public class Given_ContactInfoLijstWerdGewijzigd
                     });
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[0].Contactnaam}' werd verwijderd.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[1].Contactnaam}' werd verwijderd.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[2].Contactnaam}' werd verwijderd."
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[0].Contactnaam}' werd verwijderd.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[1].Contactnaam}' werd verwijderd.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[2].Contactnaam}' werd verwijderd.", nameof(ContactInfoLijstWerdGewijzigd), i, t)
         );
     }
 
@@ -72,11 +73,11 @@ public class Given_ContactInfoLijstWerdGewijzigd
                     });
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Email}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Telefoon}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Website}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].SocialMedia}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd als primair aangeduid."
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Email}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Telefoon}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Website}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].SocialMedia}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd als primair aangeduid.", nameof(ContactInfoLijstWerdGewijzigd), i, t)
         );
     }
 
@@ -112,13 +113,13 @@ public class Given_ContactInfoLijstWerdGewijzigd
                     });
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[0].Contactnaam}' werd verwijderd.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Email}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Telefoon}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Website}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].SocialMedia}'.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd als primair aangeduid.",
-            $"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[0].Contactnaam}' werd toegevoegd."
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Verwijderingen[0].Contactnaam}' werd verwijderd.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Email}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Telefoon}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Website}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].SocialMedia}'.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Wijzigingen[0].Contactnaam}' werd als primair aangeduid.", nameof(ContactInfoLijstWerdGewijzigd), i, t),
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Contactinfo met naam '{projectEventOnHistoriekDocument.Event.Data.Toevoegingen[0].Contactnaam}' werd toegevoegd.", nameof(ContactInfoLijstWerdGewijzigd), i, t)
         );
     }
 }

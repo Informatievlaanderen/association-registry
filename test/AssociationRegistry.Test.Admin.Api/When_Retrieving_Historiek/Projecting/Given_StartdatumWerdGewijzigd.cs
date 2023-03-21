@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Projections.Historiek;
 using Events;
 using Xunit;
 using Xunit.Categories;
@@ -18,7 +19,7 @@ public class Given_StartdatumWerdGewijzigd
         var startdatumString = projectEventOnHistoriekDocument.Event.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly);
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Startdatum werd gewijzigd naar '{startdatumString}'.");
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Startdatum werd gewijzigd naar '{startdatumString}'.", nameof(StartdatumWerdGewijzigd), i, t));
     }
 }
 
@@ -30,9 +31,9 @@ public class Given_StartdatumWerdGewijzigd_With_Null
     {
         var projectEventOnHistoriekDocument =
             WhenApplying<StartdatumWerdGewijzigd>
-                .ToHistoriekProjectie(e=> e with { Startdatum = null });
+                .ToHistoriekProjectie(e => e with { Startdatum = null });
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            "Startdatum werd gewijzigd naar ''.");
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis("Startdatum werd gewijzigd naar ''.", nameof(StartdatumWerdGewijzigd), i, t));
     }
 }

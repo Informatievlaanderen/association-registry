@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Historiek;
 using Events;
 using Xunit;
 using Xunit.Categories;
@@ -16,6 +16,6 @@ public class Given_NaamWerdGewijzigd
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            $"Naam werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Naam}'.");
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Naam werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Naam}'.", nameof(NaamWerdGewijzigd), i, t));
     }
 }
