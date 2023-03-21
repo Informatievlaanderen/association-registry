@@ -1,3 +1,10 @@
+# [1.140.0](https://github.com/informatievlaanderen/association-registry/compare/v1.139.0...v1.140.0) (2023-03-21)
+
+
+### Features
+
+* or-1617 rework some test ([50179d0](https://github.com/informatievlaanderen/association-registry/commit/50179d0ce4908a0720443b3a4a5a1ac23095fb0a))
+
 # [1.139.0](https://github.com/informatievlaanderen/association-registry/compare/v1.138.1...v1.139.0) (2023-03-20)
 
 
