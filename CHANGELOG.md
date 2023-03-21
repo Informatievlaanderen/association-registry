@@ -1,3 +1,10 @@
+## [1.140.1](https://github.com/informatievlaanderen/association-registry/compare/v1.140.0...v1.140.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* or-1617 use geregistreerd io aangemaakt ([32b5b00](https://github.com/informatievlaanderen/association-registry/commit/32b5b00ddca9049b782870a4e90b5e806138d66c))
+
 # [1.140.0](https://github.com/informatievlaanderen/association-registry/compare/v1.139.0...v1.140.0) (2023-03-21)
 
 
