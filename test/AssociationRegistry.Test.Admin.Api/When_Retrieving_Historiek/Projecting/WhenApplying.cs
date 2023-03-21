@@ -7,28 +7,33 @@ using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.Helpers;
-using Xunit.Categories;
 
-[UnitTest]
-public abstract class GivenAnEventTestBase<TEvent> where TEvent : notnull
+public class WhenApplying<TEvent> where TEvent : notnull
 {
-    protected readonly TestEvent<TEvent> Event;
+    internal readonly TestEvent<TEvent> Event;
     private readonly BeheerVerenigingHistoriekDocument _document;
     private readonly BeheerVerenigingHistoriekDocument _documentAfterChanges;
 
-    protected GivenAnEventTestBase()
+    protected WhenApplying() : this(new Fixture().CustomizeAll().Create<TEvent>())
+    {
+    }
+
+    private WhenApplying(TEvent @event)
     {
         var fixture = new Fixture().CustomizeAll();
         _document = fixture.Create<BeheerVerenigingHistoriekDocument>();
         Event = fixture.Create<TestEvent<TEvent>>();
+        Event.Data = @event;
 
         _documentAfterChanges = _document.Copy();
+        new BeheerVerenigingHistoriekProjection().Apply((dynamic)Event, _documentAfterChanges);
     }
 
-    protected void AppendsTheCorrectGebeurtenissen(params string[] appendedGebeurtenissen)
-    {
-        new BeheerVerenigingHistoriekProjection().Apply((dynamic)Event, _documentAfterChanges);
+    internal static WhenApplying<TEvent> ToHistoriekProjectie(TEvent @event)
+        => new(@event);
 
+    internal void AppendsTheCorrectGebeurtenissen(params string[] appendedGebeurtenissen)
+    {
         _documentAfterChanges.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument
             {

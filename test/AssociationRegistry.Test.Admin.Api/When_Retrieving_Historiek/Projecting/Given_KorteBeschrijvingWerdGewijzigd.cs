@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Events;
 using Xunit;
 
-public class Given_KorteBeschrijvingWerdGewijzigd : GivenAnEventTestBase<KorteBeschrijvingWerdGewijzigd>
+public class Given_KorteBeschrijvingWerdGewijzigd : WhenApplying<KorteBeschrijvingWerdGewijzigd>
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
