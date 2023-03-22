@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
 using AssociationRegistry.Admin.Api.Projections.Historiek;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using Events;
 using Xunit;
 using Xunit.Categories;
@@ -16,6 +17,11 @@ public class Given_KorteBeschrijvingWerdGewijzigd
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (i, t) => new BeheerVerenigingHistoriekGebeurtenis($"Korte beschrijving werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving}'.", nameof(KorteBeschrijvingWerdGewijzigd), i, t));
+            (i, t) => new BeheerVerenigingHistoriekGebeurtenis(
+                $"Korte beschrijving werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving}'.",
+                nameof(KorteBeschrijvingWerdGewijzigd),
+                new KorteBeschrijvingWerdGewijzigdData(projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving),
+                i,
+                t));
     }
 }

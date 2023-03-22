@@ -11,7 +11,7 @@ using Infrastructure.Extensions;
 using JasperFx.Core;
 using Marten.Events;
 using Marten.Events.Aggregation;
-using Marten.Schema;
+using Schema;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
@@ -27,8 +27,9 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
         AddHistoriekEntry(
             verenigingWerdGeregistreerd,
+            beheerVerenigingHistoriekDocument,
             $"Vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}'.",
-            beheerVerenigingHistoriekDocument);
+            new VerenigingWerdgeregsitreerdData(verenigingWerdGeregistreerd.Data));
 
         return beheerVerenigingHistoriekDocument;
     }
@@ -36,27 +37,35 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             naamWerdGewijzigd,
+            document,
             $"Naam werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}'.",
-            document);
+            new NaamWerdGewijzigdData(naamWerdGewijzigd.Data.Naam));
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             korteNaamWerdGewijzigd,
+            document,
             $"Korte naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}'.",
-            document);
+            new KorteNaamWerdGewijzigdData(korteNaamWerdGewijzigd.Data.KorteNaam));
 
     public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             korteBeschrijvingWerdGewijzigd,
+            document,
             $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.",
-            document);
+            new KorteBeschrijvingWerdGewijzigdData(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving));
 
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
+    {
+        var startDatumString = (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum ? startdatum.ToString(WellknownFormats.DateOnly) : string.Empty);
+        AddHistoriekEntry(
             startdatumWerdGewijzigd,
-            $"Startdatum werd gewijzigd naar '{(startdatumWerdGewijzigd.Data.Startdatum is { } startdatum ? startdatum.ToString(WellknownFormats.DateOnly) : string.Empty)}'.",
-            document);
+            document,
+            $"Startdatum werd gewijzigd naar '{startDatumString}'.",
+            new StartdatumWerdGewijzigdData(startDatumString)
+        );
+    }
 
     public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
@@ -70,7 +79,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         document.Metadata = new Metadata(contactInfoLijstWerdGewijzigd.Sequence, contactInfoLijstWerdGewijzigd.Version);
     }
 
-    private static void AddHistoriekEntry(IEvent @event, string beschrijving, BeheerVerenigingHistoriekDocument document)
+    private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving, IHistoriekData data)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
         var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
@@ -79,6 +88,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             new BeheerVerenigingHistoriekGebeurtenis(
                 beschrijving,
                 @event.Data.GetType().Name,
+                data,
                 initiator,
                 tijdstip
             )).ToList();
@@ -89,8 +99,9 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     {
         AddHistoriekEntry(
             contactInfoLijstWerdGewijzigd,
+            document,
             $"Contactinfo met naam '{toevoeging.Contactnaam}' werd toegevoegd.",
-            document);
+            new ContactInfoWerdToegevoegdData(toevoeging));
     }
 
     private static void AddWijzigContactInfoHistoriekEntries(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo wijziging)
@@ -98,49 +109,41 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         if (wijziging.Email is not null)
             AddHistoriekEntry(
                 contactInfoLijstWerdGewijzigd,
+                document,
                 $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{wijziging.Email}'.",
-                document);
+                new EmailContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Email));
         if (wijziging.Telefoon is not null)
             AddHistoriekEntry(
                 contactInfoLijstWerdGewijzigd,
+                document,
                 $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{wijziging.Telefoon}'.",
-                document);
+                new TelefoonContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Telefoon));
         if (wijziging.Website is not null)
             AddHistoriekEntry(
                 contactInfoLijstWerdGewijzigd,
+                document,
                 $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{wijziging.Website}'.",
-                document);
+                new WebsiteContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Website));
         if (wijziging.SocialMedia is not null)
             AddHistoriekEntry(
                 contactInfoLijstWerdGewijzigd,
+                document,
                 $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{wijziging.SocialMedia}'.",
-                document);
+                new SocialMediaContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.SocialMedia));
         if (wijziging.PrimairContactInfo)
             AddHistoriekEntry(
                 contactInfoLijstWerdGewijzigd,
+                document,
                 $"Contactinfo met naam '{wijziging.Contactnaam}' werd als primair aangeduid.",
-                document);
+                new PrimairContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.PrimairContactInfo));
     }
 
-    private static void AddVerwijderingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo toevoeging)
+    private static void AddVerwijderingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo verwijdering)
     {
         AddHistoriekEntry(
             contactInfoLijstWerdGewijzigd,
-            $"Contactinfo met naam '{toevoeging.Contactnaam}' werd verwijderd.",
-            document);
+            document,
+            $"Contactinfo met naam '{verwijdering.Contactnaam}' werd verwijderd.",
+            new ContactInfoWerdVerwijderdData(verwijdering.Contactnaam));
     }
 }
-
-// TODO bekijken of Metadata weg kan?
-public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode
-{
-    [Identity] public string VCode { get; set; } = null!;
-    public List<BeheerVerenigingHistoriekGebeurtenis> Gebeurtenissen { get; set; } = null!;
-    public Metadata Metadata { get; set; } = null!;
-}
-
-public record BeheerVerenigingHistoriekGebeurtenis(
-    string Beschrijving,
-    string Gebeurtenis,
-    string Initiator,
-    string Tijdstip);
