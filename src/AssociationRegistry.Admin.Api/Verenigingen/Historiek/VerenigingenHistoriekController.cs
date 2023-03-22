@@ -9,7 +9,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Projections.Historiek;
+using Projections.Historiek.Schema;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -53,13 +53,18 @@ public class VerenigingenHistoriekController : ApiController
             return NotFound();
 
         return Ok(
-            new HistoriekResponse(
-                vCode,
-                historiek.Gebeurtenissen.Select(
-                    gebeurtenis => new HistoriekGebeurtenisResponse(
-                        gebeurtenis.Beschrijving,
-                        gebeurtenis.Gebeurtenis,
-                        gebeurtenis.Initiator,
-                        gebeurtenis.Tijdstip)).ToList()));
+            new HistoriekResponse
+            {
+                VCode = vCode,
+                Gebeurtenissen = historiek.Gebeurtenissen.Select(
+                    gebeurtenis => new HistoriekGebeurtenisResponse()
+                    {
+                        Beschrijving = gebeurtenis.Beschrijving,
+                        Gebeurtenis = gebeurtenis.Gebeurtenis,
+                        Data = IHistoriekDataResponse.From(gebeurtenis.Data),
+                        Initiator = gebeurtenis.Initiator,
+                        Tijdstip = gebeurtenis.Tijdstip,
+                    }).ToArray(),
+            });
     }
 }

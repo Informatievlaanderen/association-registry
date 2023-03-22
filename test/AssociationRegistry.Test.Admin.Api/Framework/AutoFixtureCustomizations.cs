@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using System.Collections.Immutable;
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using VCodes;
 using AutoFixture;
@@ -27,6 +28,11 @@ public static class AutoFixtureCustomizations
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
+
+        fixture.Customizations.Add(
+            new TypeRelay(
+                typeof(IHistoriekData),
+                typeof(HistoriekDataStub)));
 
         return fixture;
     }
@@ -135,6 +141,10 @@ public static class AutoFixtureCustomizations
                     false
                 )
             ).OmitAutoProperties());
+    }
+
+    public record HistoriekDataStub : IHistoriekData
+    {
     }
 }
 

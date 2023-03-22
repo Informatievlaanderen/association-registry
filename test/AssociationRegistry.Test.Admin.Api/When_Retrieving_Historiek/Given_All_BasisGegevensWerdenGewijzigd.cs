@@ -76,30 +76,45 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                     {{
                         ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
+                        ""data"":{{
+                            ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}""
+                        }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Naam werd gewijzigd naar '{_scenario.NaamWerdGewijzigd.Naam}'."",
                         ""gebeurtenis"":""NaamWerdGewijzigd"",
+                        ""data"":{{
+                            ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}""
+                        }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte naam werd gewijzigd naar '{_scenario.KorteNaamWerdGewijzigd.KorteNaam}'."",
                         ""gebeurtenis"":""KorteNaamWerdGewijzigd"",
+                        ""data"":{{
+                            ""korteNaam"":""{_scenario.KorteNaamWerdGewijzigd.KorteNaam}""
+                        }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte beschrijving werd gewijzigd naar '{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}'."",
                         ""gebeurtenis"":""KorteBeschrijvingWerdGewijzigd"",
+                        ""data"":{{
+                            ""korteBeschrijving"":""{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}""
+                        }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Startdatum werd gewijzigd naar '{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'."",
                         ""gebeurtenis"":""StartdatumWerdGewijzigd"",
+                        ""data"":{{
+                            ""startdatum"":""{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}""
+                        }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
@@ -107,6 +122,9 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         {{
                             ""beschrijving"": ""Contactinfo met naam '{v.Contactnaam}' werd verwijderd."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{v.Contactnaam}""
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }}
@@ -115,21 +133,37 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         {{
                             ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{w.Email}'."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{w.Contactnaam}"",
+                                ""email"":""{w.Email}""
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
                             ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{w.Telefoon}'."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{w.Contactnaam}"",
+                                ""telefoon"":""{w.Telefoon}""
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
                             ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{w.Website}'."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{w.Contactnaam}"",
+                                ""website"":""{w.Website}""
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }},{{
                             ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{w.SocialMedia}'."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{w.Contactnaam}"",
+                                ""socialMedia"":""{w.SocialMedia}""
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }}
@@ -137,6 +171,14 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         {{
                             ""beschrijving"": ""Contactinfo met naam '{t.Contactnaam}' werd toegevoegd."",
                             ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
+                            ""data"":{{
+                                ""contactnaam"":""{t.Contactnaam}"",
+                                ""email"":""{t.Email}"",
+                                ""telefoon"":""{t.Telefoon}"",
+                                ""website"":""{t.Website}"",
+                                ""socialMedia"":""{t.SocialMedia}"",
+                                ""primair"":{t.PrimairContactInfo.ToString().ToLower()}
+                            }},
                             ""initiator"":""{Metadata.Initiator}"",
                             ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                         }}

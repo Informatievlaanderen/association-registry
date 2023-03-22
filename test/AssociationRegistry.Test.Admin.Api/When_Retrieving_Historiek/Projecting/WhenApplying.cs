@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AutoFixture;
 using FluentAssertions;
 using Framework;

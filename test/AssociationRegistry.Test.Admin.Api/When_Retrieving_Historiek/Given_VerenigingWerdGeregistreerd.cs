@@ -24,37 +24,31 @@ public class Given_VerenigingWerdGeregistreerd
     private readonly CommandMetadata _metadata;
 
     private readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario _scenario;
-    private string VCode
-        => _scenario.VCode;
-
-    private CommandMetadata Metadata
-        => _scenario.Metadata;
-    private VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd
-        => _scenario.VerenigingWerdGeregistreerd;
 
 
     public Given_VerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario;
         _adminApiClient = fixture.DefaultClient;
-        _metadata = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Metadata;
-        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Result;
-        _response = fixture.DefaultClient.GetHistoriek(VCode).GetAwaiter().GetResult();
+
+        _metadata = _scenario.Metadata;
+        _result = _scenario.Result;
+        _response = _adminApiClient.GetHistoriek(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, _result.Sequence))
+        => (await _adminApiClient.GetHistoriek(_scenario.VCode, _result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
-        => (await _adminApiClient.GetHistoriek(VCode))
+        => (await _adminApiClient.GetHistoriek(_scenario.VCode))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, long.MaxValue))
+        => (await _adminApiClient.GetHistoriek(_scenario.VCode, long.MaxValue))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
@@ -66,11 +60,14 @@ public class Given_VerenigingWerdGeregistreerd
 
         var expected = $@"
             {{
-                ""vCode"": ""{VCode}"",
+                ""vCode"": ""{_scenario.VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""beschrijving"": ""Vereniging werd geregistreerd met naam '{VerenigingWerdGeregistreerd.Naam}'."",
+                        ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
+                        ""data"":{{
+                            ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}""
+                        }},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

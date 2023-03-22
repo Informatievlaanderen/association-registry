@@ -1,20 +1,26 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
-using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Filters;
 
 public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
 {
     public HistoriekResponse GetExamples()
-        => new(
-            "V0000123",
-            new List<HistoriekGebeurtenisResponse>
+        => new()
+        {
+            VCode = "V0000123",
+            Gebeurtenissen = new HistoriekGebeurtenisResponse[]
             {
-                new(
-                    "Vereniging werd aangemaakt met naam 'Eerste vereniging",
-                    "VerenigingWerdGeregistreerd",
-                    "OVO0000001",
-                    "11/30/2022 23:00:00"),
-            }
-        );
+                new()
+                {
+                    Beschrijving = "Vereniging werd aangemaakt met naam 'Eerste vereniging'",
+                    Gebeurtenis = "VerenigingWerdGeregistreerd",
+                    Data = new VerenigingWerdgeregsitreerdDataResponse()
+                    {
+                        Naam = "Eerste vereniging",
+                    },
+                    Initiator = "OVO0000001",
+                    Tijdstip = "11/30/2022 23:00:00",
+                },
+            },
+        };
 }
