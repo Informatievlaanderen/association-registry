@@ -52,8 +52,8 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         => AddHistoriekEntry(
             korteBeschrijvingWerdGewijzigd,
             document,
-            $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.");
-
+            $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.",
+            new KorteBeschrijvingWerdGewijzigdData(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving));
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
