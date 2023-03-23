@@ -104,7 +104,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""beschrijving"": ""Korte beschrijving werd gewijzigd naar '{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}'."",
                         ""gebeurtenis"":""KorteBeschrijvingWerdGewijzigd"",
                         ""data"":{{
-                            ""vCode"":""{VCode}"",
                             ""korteBeschrijving"":""{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}""
                         }},
                         ""initiator"":""{Metadata.Initiator}"",

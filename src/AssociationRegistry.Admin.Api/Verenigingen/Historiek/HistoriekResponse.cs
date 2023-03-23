@@ -29,12 +29,12 @@ public class HistoriekGebeurtenisResponse
 public interface IHistoriekDataResponse
 {
     static object? From(object? gebeurtenisData)
-    {
-        return gebeurtenisData switch
+        => gebeurtenisData switch
         {
-            VerenigingWerdgeregistreerdData data => new VerenigingWerdgeregsitreerdDataResponse { Naam = data.Vereniging.Naam },
+            VerenigingWerdgeregistreerdData data => new VerenigingWerdgeregistreerdDataResponse { Naam = data.Vereniging.Naam },
             NaamWerdGewijzigdData data => new NaamWerdGewijzigdDataResponse { Naam = data.Naam },
             KorteNaamWerdGewijzigdData data => new KorteNaamWerdGewijzigdDataResponse { KorteNaam = data.KorteNaam },
+            KorteBeschrijvingWerdGewijzigdData data => new KorteBeschrijvingWerdGewijzigdDataResponse { KorteBeschrijving = data.KorteBeschrijving },
             StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum },
             EmailContactInfoWerdGewijzigdHistoriekData data => new EmailContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Email = data.Email },
             TelefoonContactInfoWerdGewijzigdHistoriekData data => new TelefoonContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Telefoon = data.Telefoon },
@@ -45,7 +45,6 @@ public interface IHistoriekDataResponse
             ContactInfoWerdVerwijderdData data => new ContactInfoWerdVerwijderdDataResponse { Contactnaam = data.Contactnaam },
             _ => gebeurtenisData,
         };
-    }
 }
 
 [DataContract]
@@ -126,7 +125,7 @@ public class NaamWerdGewijzigdDataResponse : IHistoriekDataResponse
 }
 
 [DataContract]
-public class VerenigingWerdgeregsitreerdDataResponse : IHistoriekDataResponse
+public class VerenigingWerdgeregistreerdDataResponse : IHistoriekDataResponse
 {
     [DataMember(Name = "naam")] public string Naam { get; set; } = null!;
 }
