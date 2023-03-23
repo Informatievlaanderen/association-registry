@@ -25,4 +25,4 @@ public record NaamWerdGewijzigdData(string Naam) : IHistoriekData;
 
 public record StartdatumWerdGewijzigdData(string StartDatum) : IHistoriekData;
 
-public record VerenigingWerdgeregsitreerdData(VerenigingWerdGeregistreerd Vereniging) : IHistoriekData;
+public record VerenigingWerdgeregistreerdData(VerenigingWerdGeregistreerd Vereniging) : IHistoriekData;

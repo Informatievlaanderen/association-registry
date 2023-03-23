@@ -17,11 +17,11 @@ public class Given_NaamWerdGewijzigd
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (i, t) => new BeheerVerenigingHistoriekGebeurtenis(
+            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 $"Naam werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Naam}'.",
                 nameof(NaamWerdGewijzigd),
                 new NaamWerdGewijzigdData(projectEventOnHistoriekDocument.Event.Data.Naam),
-                i,
-                t));
+                initiator,
+                tijdstip));
     }
 }
