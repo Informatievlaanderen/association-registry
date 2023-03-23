@@ -17,11 +17,11 @@ public class Given_KorteBeschrijvingWerdGewijzigd
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (i, t) => new BeheerVerenigingHistoriekGebeurtenis(
+            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 $"Korte beschrijving werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving}'.",
                 nameof(KorteBeschrijvingWerdGewijzigd),
-                new KorteBeschrijvingWerdGewijzigdData(projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving),
-                i,
-                t));
+                projectEventOnHistoriekDocument.Event.Data,
+                initiator,
+                tijdstip));
     }
 }

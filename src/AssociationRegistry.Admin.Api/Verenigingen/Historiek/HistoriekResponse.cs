@@ -19,7 +19,7 @@ public class HistoriekGebeurtenisResponse
 
     [DataMember(Name = "gebeurtenis")] public string Gebeurtenis { get; set; } = null!;
 
-    [DataMember(Name = "data")] public IHistoriekDataResponse Data { get; set; } = null!;
+    [DataMember(Name = "data")] public object? Data { get; set; }
 
     [DataMember(Name = "initiator")] public string Initiator { get; set; } = null!;
 
@@ -28,14 +28,13 @@ public class HistoriekGebeurtenisResponse
 
 public interface IHistoriekDataResponse
 {
-    static IHistoriekDataResponse From(object? gebeurtenisData)
+    static object? From(object? gebeurtenisData)
     {
         return gebeurtenisData switch
         {
-            VerenigingWerdgeregsitreerdData data => new VerenigingWerdgeregsitreerdDataResponse { Naam = data.Vereniging.Naam },
+            VerenigingWerdgeregistreerdData data => new VerenigingWerdgeregsitreerdDataResponse { Naam = data.Vereniging.Naam },
             NaamWerdGewijzigdData data => new NaamWerdGewijzigdDataResponse { Naam = data.Naam },
             KorteNaamWerdGewijzigdData data => new KorteNaamWerdGewijzigdDataResponse { KorteNaam = data.KorteNaam },
-            KorteBeschrijvingWerdGewijzigdData data => new KorteBeschrijvingWerdGewijzigdDataResponse { KorteBeschrijving = data.KorteBeschrijving },
             StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum },
             EmailContactInfoWerdGewijzigdHistoriekData data => new EmailContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Email = data.Email },
             TelefoonContactInfoWerdGewijzigdHistoriekData data => new TelefoonContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Telefoon = data.Telefoon },
@@ -44,7 +43,7 @@ public interface IHistoriekDataResponse
             PrimairContactInfoWerdGewijzigdHistoriekData data => new PrimairContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Primair = data.Primair },
             ContactInfoWerdToegevoegdData data => new ContactInfoWerdToegevoegdDataResponse { Contactnaam = data.ContactInfo.Contactnaam, Email = data.ContactInfo.Email, Telefoon = data.ContactInfo.Telefoon, Website = data.ContactInfo.Website, SocialMedia = data.ContactInfo.SocialMedia, Primair = data.ContactInfo.PrimairContactInfo },
             ContactInfoWerdVerwijderdData data => new ContactInfoWerdVerwijderdDataResponse { Contactnaam = data.Contactnaam },
-            _ => throw new ArgumentOutOfRangeException(nameof(gebeurtenisData), gebeurtenisData, null),
+            _ => gebeurtenisData,
         };
     }
 }

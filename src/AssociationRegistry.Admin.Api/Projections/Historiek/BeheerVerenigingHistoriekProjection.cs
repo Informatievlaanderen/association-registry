@@ -29,7 +29,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             verenigingWerdGeregistreerd,
             beheerVerenigingHistoriekDocument,
             $"Vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}'.",
-            new VerenigingWerdgeregsitreerdData(verenigingWerdGeregistreerd.Data));
+            new VerenigingWerdgeregistreerdData(verenigingWerdGeregistreerd.Data));
 
         return beheerVerenigingHistoriekDocument;
     }
@@ -52,8 +52,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         => AddHistoriekEntry(
             korteBeschrijvingWerdGewijzigd,
             document,
-            $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.",
-            new KorteBeschrijvingWerdGewijzigdData(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving));
+            $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.");
 
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -89,6 +88,22 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 beschrijving,
                 @event.Data.GetType().Name,
                 data,
+                initiator,
+                tijdstip
+            )).ToList();
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
+
+    private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    {
+        var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+
+        document.Gebeurtenissen = document.Gebeurtenissen.Append(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                beschrijving,
+                @event.Data.GetType().Name,
+                @event.Data,
                 initiator,
                 tijdstip
             )).ToList();
