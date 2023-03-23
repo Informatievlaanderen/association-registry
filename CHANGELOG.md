@@ -1,3 +1,13 @@
+# [1.141.0](https://github.com/informatievlaanderen/association-registry/compare/v1.140.1...v1.141.0) (2023-03-23)
+
+
+### Features
+
+* or-1645 add data to historiek ([ccde734](https://github.com/informatievlaanderen/association-registry/commit/ccde734756aa0236346f76a2825802afb5814bab))
+* or-1645 add eventnaam to historiek ([532c5a7](https://github.com/informatievlaanderen/association-registry/commit/532c5a7e2d0bc72e7d120c8cae011e860a1e0fd6))
+* or-1645 make korte beschrijving historiek uniform with other events ([ce36524](https://github.com/informatievlaanderen/association-registry/commit/ce36524c1158e40274296469c1485cf1941ce1d6))
+* or-1645 update historiek messages ([d02948b](https://github.com/informatievlaanderen/association-registry/commit/d02948b7caedc8def8644733b1c201f6a27091a4))
+
 ## [1.140.1](https://github.com/informatievlaanderen/association-registry/compare/v1.140.0...v1.140.1) (2023-03-21)
 
 
