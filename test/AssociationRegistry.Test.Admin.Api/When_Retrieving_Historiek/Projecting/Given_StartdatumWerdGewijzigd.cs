@@ -33,7 +33,7 @@ public class Given_StartdatumWerdGewijzigd
 public class Given_StartdatumWerdGewijzigd_With_Null
 {
     [Fact]
-    public void Then_it_adds_a_new_gebeurtenis_with_empty_string()
+    public void Then_it_adds_a_new_gebeurtenis_with_null()
     {
         var projectEventOnHistoriekDocument =
             WhenApplying<StartdatumWerdGewijzigd>
@@ -41,9 +41,9 @@ public class Given_StartdatumWerdGewijzigd_With_Null
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                "Startdatum werd gewijzigd naar ''.",
+                "Startdatum werd verwijderd.",
                 nameof(StartdatumWerdGewijzigd),
-                new StartdatumWerdGewijzigdData(string.Empty),
+                new StartdatumWerdGewijzigdData(null),
                 initiator,
                 tijdstip));
     }
