@@ -1,3 +1,10 @@
+## [1.141.1](https://github.com/informatievlaanderen/association-registry/compare/v1.141.0...v1.141.1) (2023-03-28)
+
+
+### Bug Fixes
+
+* remove comma ([5ce0e11](https://github.com/informatievlaanderen/association-registry/commit/5ce0e11b1b18f4b8ab3f250e3771f7da580fa536))
+
 # [1.141.0](https://github.com/informatievlaanderen/association-registry/compare/v1.140.1...v1.141.0) (2023-03-23)
 
 
