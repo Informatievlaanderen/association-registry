@@ -57,13 +57,24 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
-        var startDatumString = (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum ? startdatum.ToString(WellknownFormats.DateOnly) : string.Empty);
-        AddHistoriekEntry(
-            startdatumWerdGewijzigd,
-            document,
-            $"Startdatum werd gewijzigd naar '{startDatumString}'.",
-            new StartdatumWerdGewijzigdData(startDatumString)
-        );
+        if (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum)
+        {
+            var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
+            AddHistoriekEntry(
+                startdatumWerdGewijzigd,
+                document,
+                $"Startdatum werd gewijzigd naar '{startDatumString}'.",
+                new StartdatumWerdGewijzigdData(startDatumString)
+            );
+        }
+        else
+            AddHistoriekEntry(
+                startdatumWerdGewijzigd,
+                document,
+                $"Startdatum werd verwijderd.",
+                new StartdatumWerdGewijzigdData(null)
+            );
+
     }
 
     public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
