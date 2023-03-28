@@ -1,3 +1,10 @@
+## [1.141.2](https://github.com/informatievlaanderen/association-registry/compare/v1.141.1...v1.141.2) (2023-03-28)
+
+
+### Bug Fixes
+
+* or-1645 startDatum verwijderen results in null data in historiek ([ea2a124](https://github.com/informatievlaanderen/association-registry/commit/ea2a12438bb8c81f5316aa75cf7527ad0a03eae4))
+
 ## [1.141.1](https://github.com/informatievlaanderen/association-registry/compare/v1.141.0...v1.141.1) (2023-03-28)
 
 
