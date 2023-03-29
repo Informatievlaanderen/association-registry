@@ -66,15 +66,6 @@ Target.create "Publish_Solution" (fun _ ->
     "AssociationRegistry.Admin.Api"
   ] |> List.iter publishSource)
 
-Target.create "Pack_Solution" (fun _ ->
-  [
-    // Don't pack for now, since we're not using these packages
-    // "AssociationRegistry.Acm.Api"
-    // "AssociationRegistry.Public.Api"
-    // "AssociationRegistry.Public.ProjectionHost"
-    // "AssociationRegistry.Admin.Api"
-  ] |> List.iter pack)
-
 Target.create "Containerize_AcmApi" (fun _ -> containerize "AssociationRegistry.Acm.Api" "acm-api")
 Target.create "PushContainer_AcmApi" (fun _ -> push "acm-api")
 
@@ -114,14 +105,6 @@ Target.create "Push" ignore
 "Publish"
   ==> "Pack_Solution"
   ==> "Pack"
-
-// "Pack"
-//   // ==> "Containerize_AcmApi"
-//   ==> "Containerize_PublicApi"
-//   ==> "Containerize_PublicProjections"
-//   ==> "Containerize_AdminApi"
-//   ==> "Containerize"
-// Possibly add more projects to containerize here
 
 "Containerize"
   ==> "DockerLogin"
