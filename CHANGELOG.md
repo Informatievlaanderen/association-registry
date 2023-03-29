@@ -1,3 +1,11 @@
+## [1.141.4](https://github.com/informatievlaanderen/association-registry/compare/v1.141.3...v1.141.4) (2023-03-29)
+
+
+### Bug Fixes
+
+* remove pack from build.fsx ([f14af1e](https://github.com/informatievlaanderen/association-registry/commit/f14af1e034c1901c0583472f22f17a42ff0ccdd5))
+* remove pack_solution dep ([b1bd237](https://github.com/informatievlaanderen/association-registry/commit/b1bd2373d9a3bb80a67e178accaec94769adbc95))
+
 ## [1.141.3](https://github.com/informatievlaanderen/association-registry/compare/v1.141.2...v1.141.3) (2023-03-29)
 
 
