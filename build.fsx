@@ -103,7 +103,6 @@ Target.create "Push" ignore
   ==> "Publish"
 
 "Publish"
-  ==> "Pack_Solution"
   ==> "Pack"
 
 "Containerize"
