@@ -1,3 +1,10 @@
+## [1.141.3](https://github.com/informatievlaanderen/association-registry/compare/v1.141.2...v1.141.3) (2023-03-29)
+
+
+### Bug Fixes
+
+* force build and deploy ([e04e3cb](https://github.com/informatievlaanderen/association-registry/commit/e04e3cbb00df9799b4a42ec5ba44cb1dded5d644))
+
 ## [1.141.2](https://github.com/informatievlaanderen/association-registry/compare/v1.141.1...v1.141.2) (2023-03-28)
 
 
