@@ -3,7 +3,7 @@
 using System;
 using Marten.Schema;
 
-public class PubliekVerenigingDetailDocument : IVCode
+public record PubliekVerenigingDetailDocument : IVCode
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -15,10 +15,20 @@ public class PubliekVerenigingDetailDocument : IVCode
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
+    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
 
-    public class ContactInfo
+    public record Contactgegeven
+    {
+        public int ContactgegevenId { get; set; }
+        public string Type { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
+        public string Omschrijving { get; set; } = null!;
+        public bool IsPrimair { get; set; }
+    }
+
+    public record ContactInfo
     {
         public string Contactnaam { get; set; } = null!;
         public string? Email { get; set; }
@@ -28,7 +38,7 @@ public class PubliekVerenigingDetailDocument : IVCode
         public bool PrimairContactInfo { get; set; }
     }
 
-    public class Locatie
+    public record Locatie
     {
         public string Locatietype { get; set; } = null!;
 
@@ -50,7 +60,7 @@ public class PubliekVerenigingDetailDocument : IVCode
         public string Land { get; set; } = null!;
     }
 
-    public class HoofdactiviteitVerenigingsloket
+    public record HoofdactiviteitVerenigingsloket
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;

@@ -120,6 +120,39 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
         => new("OVO000001", new Instant());
 }
 
+public class ContactgegevenWerdToegevoegdScenario : IScenario
+{
+    public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd = new(
+        "V0001005",
+        "Feesten Hulste",
+        null,
+        null,
+        null,
+        null,
+        Array.Empty<ContactInfo>(),
+        Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+        Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+        Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+
+    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(1, "Email", "test@example.org", "de email om naar te sturen", false);
+
+    public VCode VCode
+        => VCode.Create(VerenigingWerdGeregistreerd.VCode);
+
+    public IEvent[] GetEvents()
+    {
+        return new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            ContactgegevenWerdToegevoegd,
+        };
+    }
+
+    public CommandMetadata GetCommandMetadata()
+        => new("OVO000001", new DateTimeOffset(2023, 01, 25, 0, 0, 0, TimeSpan.Zero).ToInstant());
+
+}
+
 public class BasisgegevensWerdenGewijzigdScenario : IScenario
 {
     private const string ContactInfoDieGewijzigdZalWordenNaam = "ContactNaamDieGewijzigdZalWorden";
@@ -170,7 +203,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new ContactInfoLijstWerdGewijzigd(
                 VCode,
                 new[] { ToegevoegdeContactInfo },
-                new[] { VerwijderdeContactInfo},
+                new[] { VerwijderdeContactInfo },
                 new[] { VerenigingContactInfoDieGewijzigdIs }),
         };
     }

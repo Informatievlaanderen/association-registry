@@ -28,7 +28,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
-    private readonly ContactInfoLijstWerdGewijzigd _contactInfoLijstWerdGewijzigd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
@@ -38,7 +37,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
         _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
-        _contactInfoLijstWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.ContactInfoLijstWerdGewijzigd;
         _startdatumWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.StartdatumWerdGewijzigd;
         _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
         _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
