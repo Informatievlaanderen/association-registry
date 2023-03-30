@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 
+using System;
 using System.Runtime.Serialization;
 using Vereniging.AddContactgegevens;
 
@@ -12,18 +13,27 @@ public class VoegContactgegevenToeRequest
     [DataContract]
     public class RequestContactgegeven
     {
-        [DataMember(Name = "type")] public string Type { get; set; } = null!;
+        [DataMember(Name = "type")] public RequestContactgegevenTypes Type { get; set; }
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
         [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
-    }
 
+
+    }
+    public enum RequestContactgegevenTypes
+    {
+        Email,
+        Telefoon,
+        Website,
+        SocialMedia,
+    }
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             vCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                Contactgegeven.Type,
+                Enum.GetName(Contactgegeven.Type)!,
                 Contactgegeven.Waarde,
                 Contactgegeven.Omschrijving,
                 Contactgegeven.IsPrimair));

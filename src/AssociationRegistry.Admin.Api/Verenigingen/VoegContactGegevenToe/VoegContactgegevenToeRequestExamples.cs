@@ -12,7 +12,7 @@ public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContac
             {
                 Omschrijving = "Algemeen",
                 Waarde = "algemeen@example.com",
-                Type = "email",
+                Type = VoegContactgegevenToeRequest.RequestContactgegevenTypes.Email,
                 IsPrimair = true,
             },
         };

@@ -15,7 +15,7 @@ public class GivenEventsFixture : PublicApiFixture
             VerenigingWerdGeregistreerdWithMinimalFieldsScenario,
             BasisgegevensWerdenGewijzigdScenario,
             UnHandledEventAndVerenigingWerdGeregistreerdScenario,
-            ContactgegevenWerdToegevoegdScenario
+            ContactgegevenWerdToegevoegdScenario,
         };
 
     public override async Task InitializeAsync()

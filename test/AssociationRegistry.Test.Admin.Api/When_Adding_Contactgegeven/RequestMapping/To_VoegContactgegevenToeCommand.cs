@@ -24,7 +24,7 @@ public class To_VoegContactgegevenToeCommand
 
 
         command.VCode.Should().Be(vCode);
-        command.Contactgegeven.Type.Should().Be(request.Contactgegeven.Type);
+        command.Contactgegeven.Type.Should().Be(Enum.GetName(request.Contactgegeven.Type));
         command.Contactgegeven.Waarde.Should().Be(request.Contactgegeven.Waarde);
         command.Contactgegeven.Omschrijving.Should().Be(request.Contactgegeven.Omschrijving);
         command.Contactgegeven.IsPrimair.Should().Be(request.Contactgegeven.IsPrimair);

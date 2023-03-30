@@ -10,7 +10,6 @@ public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegev
         this.RequireNotNullOrEmpty(request => request.Initiator);
 
         RuleFor(request => request.Contactgegeven).NotNull();
-        When(request => request.Contactgegeven is not null, () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Type));
         When(request => request.Contactgegeven is not null, () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Waarde));
     }
 }
