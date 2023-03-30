@@ -1,3 +1,14 @@
+# [1.142.0](https://github.com/informatievlaanderen/association-registry/compare/v1.141.4...v1.142.0) (2023-03-30)
+
+
+### Features
+
+* or-1646 add publiek detail contactgegeven ([dfe8b1b](https://github.com/informatievlaanderen/association-registry/commit/dfe8b1b0e06f6688dd37c8e91d7faa29f97f7b96))
+* or-1646 fix docs and use enum in request ([7b89c37](https://github.com/informatievlaanderen/association-registry/commit/7b89c3754ba016cad27af91c26e8696be9c3e4df))
+* or-1646 put event in historiek data ([6b918ea](https://github.com/informatievlaanderen/association-registry/commit/6b918ea96fa57e3a8e2278ea0d291fe884600e18))
+* or-1646 rebase ([c482e2c](https://github.com/informatievlaanderen/association-registry/commit/c482e2c1acf2c9af775478b487c2db10106b9550))
+* or-1646 voeg contactgegeven toe ([5712f8f](https://github.com/informatievlaanderen/association-registry/commit/5712f8fb683df21cf932e3cb8d229268be1e3e3c))
+
 ## [1.141.4](https://github.com/informatievlaanderen/association-registry/compare/v1.141.3...v1.141.4) (2023-03-29)
 
 
