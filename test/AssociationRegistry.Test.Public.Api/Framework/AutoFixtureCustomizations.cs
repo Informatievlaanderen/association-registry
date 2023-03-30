@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Framework;
 
 using System.Collections.Immutable;
-using AssociationRegistry.Events;
-using AssociationRegistry.VCodes;
-using AssociationRegistry.Vereniging.CommonCommandDataTypes;
+using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
