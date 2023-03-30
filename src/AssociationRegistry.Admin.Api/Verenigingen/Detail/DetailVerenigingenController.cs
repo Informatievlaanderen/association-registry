@@ -33,6 +33,7 @@ public class DetailVerenigingenController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [SwaggerResponseHeader(StatusCodes.Status200OK, "ETag", "string", "De versie van de aangepaste vereniging.")]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,
