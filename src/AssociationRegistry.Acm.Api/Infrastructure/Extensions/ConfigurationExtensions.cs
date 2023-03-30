@@ -30,5 +30,5 @@ public static class ConfigurationExtensions
     }
 
     public static string GetBaseUrl(this IConfiguration configuration)
-        => configuration.GetValue<string>("BaseUrl").TrimEnd('/');
+        => configuration.GetValue<string>("BaseUrl").TrimEnd(trimChar: '/');
 }

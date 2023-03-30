@@ -18,22 +18,22 @@ using Xunit.Categories;
 [UnitTest]
 public class With_The_Same_ContactInfoLijst
 {
-    private readonly VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioBase _scenarioBase;
     private readonly Mock<IVerenigingsRepository> _verenigingRepositoryMock;
     private readonly CommandMetadata _commandMetadata;
     private readonly CommandResult _result;
 
     public With_The_Same_ContactInfoLijst()
     {
-        var scenarioFixture = new CommandHandlerScenarioFixture<VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_Scenario>();
-        _scenario = scenarioFixture.Scenario;
+        var scenarioFixture = new CommandHandlerScenarioFixture<VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioBase>();
+        _scenarioBase = scenarioFixture.Scenario;
 
         _verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
 
         var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(
-            _scenario.VCode,
-            ContactInfoLijst: _scenario.ContactInfoLijst
+            _scenarioBase.VCode,
+            ContactInfoLijst: _scenarioBase.ContactInfoLijst
                 .Select(MapperExtensions.ToCommandDataType)
                 .ToArray());
 
@@ -41,7 +41,7 @@ public class With_The_Same_ContactInfoLijst
         var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateTime(year: 2023, month: 3, day: 13)));
 
         _verenigingRepositoryMock
-            .Setup(r => r.Load(_scenario.VCode, _commandMetadata.ExpectedVersion))
+            .Setup(r => r.Load(_scenarioBase.VCode, _commandMetadata.ExpectedVersion))
             .ReturnsAsync(scenarioFixture.Vereniging);
 
         _verenigingRepositoryMock
@@ -56,7 +56,7 @@ public class With_The_Same_ContactInfoLijst
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.Verify(r => r.Load(VCode.Create(_scenario.VCode), _commandMetadata.ExpectedVersion), Times.Once);
+        _verenigingRepositoryMock.Verify(r => r.Load(VCode.Create(_scenarioBase.VCode), _commandMetadata.ExpectedVersion), Times.Once);
     }
 
     [Fact]

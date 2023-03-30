@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using ContactGegevens;
+using ContactGegevens.Exceptions;
 using ContactInfo;
 using Events;
 using Framework;
@@ -14,37 +13,11 @@ using Startdatums;
 using VCodes;
 using VerenigingsNamen;
 using Vertegenwoordigers;
+using ContactInfo = Events.CommonEventDataTypes.ContactInfo;
 
 public class Vereniging : IHasVersion
 {
-    public record State
-    {
-        public VCode VCode { get; set; }
-        public VerenigingsNaam Naam { get; set; } = null!;
-
-        public string? KorteNaam { get; set; }
-
-        public string? KorteBeschrijving { get; set; }
-        public Startdatum? Startdatum { get; set; }
-
-        public ContactLijst ContactInfoLijst { get; set; } = ContactLijst.Empty;
-
-        public State(string vCode)
-        {
-            VCode = VCode.Create(vCode);
-        }
-    }
-
-    public long Version { get; set; }
-
     private State _state = null!;
-
-    [Identity]
-    public string VCode
-    {
-        get => _state.VCode;
-        set => _state = _state with { VCode = VCodes.VCode.Create(value) };
-    }
 
     public Vereniging()
     {
@@ -69,7 +42,7 @@ public class Vereniging : IHasVersion
             korteBeschrijving,
             startdatum?.Value,
             kboNummer?.ToString(),
-            Events.CommonEventDataTypes.ContactInfo.FromContactInfoLijst(contactLijst),
+            ContactInfo.FromContactInfoLijst(contactLijst),
             ToLocatieLijst(locatieLijst),
             ToVertegenwoordigersLijst(vertegenwoordigersLijst),
             ToEventData(hoofdactiviteitenVerenigingsloketLijst));
@@ -78,11 +51,22 @@ public class Vereniging : IHasVersion
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
+    [Identity]
+    public string VCode
+    {
+        get => _state.VCode;
+        set => _state = _state with { VCode = VCodes.VCode.Create(value) };
+    }
+
+    public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
+
+    public long Version { get; set; }
+
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, ContactLijst contactLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, DateOnly datumLaatsteAanpassing)
         => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactLijst, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, DateOnly datumLaatsteAanpassing)
-        => new(vCode: vCode, naam: naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, contactLijst: ContactLijst.Empty, locatieLijst: LocatieLijst.Empty, vertegenwoordigersLijst: VertegenwoordigersLijst.Empty, hoofdactiviteitenVerenigingsloketLijst: HoofdactiviteitenVerenigingsloketLijst.Empty);
+        => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
 
     private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToEventData(HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(ToEventData).ToArray();
@@ -94,7 +78,7 @@ public class Vereniging : IHasVersion
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, Events.CommonEventDataTypes.ContactInfo.FromContactInfoLijst(vert.ContactInfoLijst));
+        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, ContactInfo.FromContactInfoLijst(vert.ContactInfoLijst));
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();
@@ -111,8 +95,6 @@ public class Vereniging : IHasVersion
             loc.IsHoofdlocatie,
             loc.Locatietype);
 
-    public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
-
     public void ClearEvents()
     {
         UncommittedEvents = new List<IEvent>();
@@ -123,8 +105,7 @@ public class Vereniging : IHasVersion
         if (naam.Equals(_state.Naam)) return;
 
         var @event = new NaamWerdGewijzigd(VCode, naam);
-        Apply(@event);
-        UncommittedEvents = UncommittedEvents.Append(@event);
+        AddEvent(@event);
     }
 
     public void WijzigKorteNaam(string korteNaam)
@@ -132,8 +113,7 @@ public class Vereniging : IHasVersion
         if (korteNaam.Equals(_state.KorteNaam)) return;
 
         var @event = new KorteNaamWerdGewijzigd(VCode, korteNaam);
-        Apply(@event);
-        UncommittedEvents = UncommittedEvents.Append(@event);
+        AddEvent(@event);
     }
 
     public void WijzigKorteBeschrijving(string korteBeschrijving)
@@ -141,8 +121,7 @@ public class Vereniging : IHasVersion
         if (korteBeschrijving.Equals(_state.KorteBeschrijving)) return;
 
         var @event = new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving);
-        Apply(@event);
-        UncommittedEvents = UncommittedEvents.Append(@event);
+        AddEvent(@event);
     }
 
     public void WijzigStartdatum(Startdatum? startdatum)
@@ -152,8 +131,7 @@ public class Vereniging : IHasVersion
 
 
         var @event = new StartdatumWerdGewijzigd(VCode, startdatum?.Value);
-        Apply(@event);
-        UncommittedEvents = UncommittedEvents.Append(@event);
+        AddEvent(@event);
     }
 
     public void WijzigContactInfoLijst(ContactLijst contactInfoLijst)
@@ -165,13 +143,19 @@ public class Vereniging : IHasVersion
 
         var @event = new ContactInfoLijstWerdGewijzigd(
             VCode,
-            diff.Toevoegingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
-            diff.Verwijderingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray(),
-            diff.Wijzigingen.Select(Events.CommonEventDataTypes.ContactInfo.FromDomain).ToArray()
+            diff.Toevoegingen.Select(ContactInfo.FromDomain).ToArray(),
+            diff.Verwijderingen.Select(ContactInfo.FromDomain).ToArray(),
+            diff.Wijzigingen.Select(ContactInfo.FromDomain).ToArray()
         );
 
-        Apply(@event);
-        UncommittedEvents = UncommittedEvents.Append(@event);
+        AddEvent(@event);
+    }
+
+    public void VoegContactgegevenToe(Contactgegeven contactgegeven)
+    {
+        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.Contains(contactgegeven), Enum.GetName(contactgegeven.Type));
+        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), Enum.GetName(contactgegeven.Type));
+        AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, Enum.GetName(contactgegeven.Type)!, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
     }
 
     public void Apply(VerenigingWerdGeregistreerd @event)
@@ -182,7 +166,7 @@ public class Vereniging : IHasVersion
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Create(@event.Startdatum),
             ContactInfoLijst = ContactLijst.Create(
-                @event.ContactInfoLijst.Select(ContactInfo.FromEvent)),
+                @event.ContactInfoLijst.Select(AssociationRegistry.ContactInfo.ContactInfo.FromEvent)),
         };
 
     public void Apply(NaamWerdGewijzigd @event)
@@ -207,5 +191,52 @@ public class Vereniging : IHasVersion
                 .MetToevoegingen(@event.Toevoegingen)
                 .MetWijzigingen(@event.Wijzigingen),
         };
+    }
+
+    public void Apply(ContactgegevenWerdToegevoegd @event)
+    {
+        _state = _state with
+        {
+            Contactgegevens = _state.Contactgegevens.Append(
+                new Contactgegeven(
+                    Enum.Parse<Contactgegeven.ContactgegevenType>(@event.Type, ignoreCase: true),
+                    @event.Waarde,
+                    @event.Omschrijving,
+                    @event.IsPrimair)),
+        };
+    }
+
+    private void AddEvent(IEvent @event)
+    {
+        try
+        {
+            Apply((dynamic)@event);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        UncommittedEvents = UncommittedEvents.Append(@event);
+    }
+
+    public record State
+    {
+        public State(string vCode)
+        {
+            VCode = VCode.Create(vCode);
+        }
+
+        public VCode VCode { get; set; }
+        public VerenigingsNaam Naam { get; set; } = null!;
+
+        public string? KorteNaam { get; set; }
+
+        public string? KorteBeschrijving { get; set; }
+        public Startdatum? Startdatum { get; set; }
+
+        public ContactLijst ContactInfoLijst { get; set; } = ContactLijst.Empty;
+
+        public Contactgegevens Contactgegevens { get; set; } = Contactgegevens.Empty;
     }
 }

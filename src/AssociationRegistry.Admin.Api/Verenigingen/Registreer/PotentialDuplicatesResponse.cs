@@ -10,14 +10,14 @@ using Vereniging.RegistreerVereniging;
 
 public class PotentialDuplicatesResponse
 {
-    public string BevestigingsToken { get; }
-    public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; }
-
     public PotentialDuplicatesResponse(string hashedRequest, PotentialDuplicatesFound potentialDuplicates, AppSettings appSettings)
     {
         BevestigingsToken = hashedRequest;
-        MogelijkeDuplicateVerenigingen = potentialDuplicates.Candidates.Select(c=>FromDuplicaatVereniging(c,appSettings)).ToArray();
+        MogelijkeDuplicateVerenigingen = potentialDuplicates.Candidates.Select(c => FromDuplicaatVereniging(c, appSettings)).ToArray();
     }
+
+    public string BevestigingsToken { get; }
+    public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; }
 
     private static DuplicaatVerenigingContract FromDuplicaatVereniging(DuplicaatVereniging document, AppSettings appSettings)
         => new(

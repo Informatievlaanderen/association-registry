@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Hoofdactiviteiten;
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using Exceptions;
 
 public class HoofdactiviteitVerenigingsloket
@@ -32,14 +30,14 @@ public class HoofdactiviteitVerenigingsloket
         new HoofdactiviteitVerenigingsloket("WESE", "Werk & Sociale economie"),
     };
 
-    public string Beschrijving { get; }
-    public string Code { get; }
-
     private HoofdactiviteitVerenigingsloket(string code, string beschrijving)
     {
         Code = code;
         Beschrijving = beschrijving;
     }
+
+    public string Beschrijving { get; }
+    public string Code { get; }
 
     public static HoofdactiviteitVerenigingsloket Create(string key)
     {

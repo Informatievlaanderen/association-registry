@@ -8,8 +8,8 @@ using Weasel.Postgresql;
 
 public class VCodeSequence : FeatureSchemaBase
 {
-    private readonly int _startFrom;
     private readonly string _schema;
+    private readonly int _startFrom;
 
     public VCodeSequence(StoreOptions options, int startFrom) : base(nameof(VCodeSequence), options.Advanced.Migrator)
     {

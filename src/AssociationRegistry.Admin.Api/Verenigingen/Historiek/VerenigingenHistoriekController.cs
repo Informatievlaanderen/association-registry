@@ -2,10 +2,10 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using System.Linq;
 using System.Threading.Tasks;
-using Constants;
-using Infrastructure.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Constants;
+using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 public class VerenigingenHistoriekController : ApiController
 {
     /// <summary>
-    /// Vraag de historiek van een vereniging op.
+    ///     Vraag de historiek van een vereniging op.
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
@@ -34,7 +34,7 @@ public class VerenigingenHistoriekController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [Produces(contentType: WellknownMediaTypes.Json)]
+    [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,
@@ -57,7 +57,7 @@ public class VerenigingenHistoriekController : ApiController
             {
                 VCode = vCode,
                 Gebeurtenissen = historiek.Gebeurtenissen.Select(
-                    gebeurtenis => new HistoriekGebeurtenisResponse()
+                    gebeurtenis => new HistoriekGebeurtenisResponse
                     {
                         Beschrijving = gebeurtenis.Beschrijving,
                         Gebeurtenis = gebeurtenis.Gebeurtenis,

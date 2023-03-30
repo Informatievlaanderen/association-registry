@@ -21,7 +21,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario>>
+public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase>>
 {
     private readonly Result _result;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -29,7 +29,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
     private readonly RegistreerVerenigingCommand _command;
     private readonly RegistreerVerenigingCommand.Locatie _locatie;
 
-    public With_A_PotentialDuplicate_And_Force(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario> classFixture)
+    public With_A_PotentialDuplicate_And_Force(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
     {
         var fixture = new Fixture().CustomizeAll();
 

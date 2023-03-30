@@ -25,8 +25,10 @@ public record DetailVerenigingResponse(
         string? KboNummer,
         [property: DataMember(Name = "Status")]
         string Status,
-        [property: DataMember(Name = "ContactInfoLijst")]
+        
         ImmutableArray<VerenigingDetail.ContactInfo> ContactInfoLijst,
+        [property: DataMember(Name = "Contactgegevens")]
+        ImmutableArray<VerenigingDetail.Contactgegeven> Contactgegevens,
         [property: DataMember(Name = "Locaties")]
         ImmutableArray<VerenigingDetail.Locatie> Locaties,
         [property: DataMember(Name = "Vertegenwoordigers")]
@@ -50,6 +52,15 @@ public record DetailVerenigingResponse(
         );
 
         [DataContract]
+        public record Contactgegeven(
+            [property: DataMember(Name = "ContactgegevenId")] int ContactgegevenId,
+            [property: DataMember(Name = "Type")] string Type,
+            [property: DataMember(Name = "Waarde")] string Waarde,
+            [property: DataMember(Name = "Omschrijving")] string? Omschrijving,
+            [property: DataMember(Name = "IsPrimair")] bool IsPrimair
+        );
+
+            [DataContract]
         public record Vertegenwoordiger(
             [property: DataMember(Name = "Insz")] string Insz,
             [property: DataMember(Name = "Voornaam")]
@@ -88,8 +99,9 @@ public record DetailVerenigingResponse(
 
         [DataContract]
         public record HoofdactiviteitVerenigingsloket(
-            [property: DataMember(Name = "Code")]string Code,
-            [property: DataMember(Name = "Beschrijving")]string Beschrijving);
+            [property: DataMember(Name = "Code")] string Code,
+            [property: DataMember(Name = "Beschrijving")]
+            string Beschrijving);
     }
 
     public record MetadataDetail(string DatumLaatsteAanpassing);

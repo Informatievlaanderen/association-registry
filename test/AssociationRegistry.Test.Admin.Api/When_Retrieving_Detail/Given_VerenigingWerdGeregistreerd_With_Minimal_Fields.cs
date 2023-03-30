@@ -62,7 +62,7 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
             ""kboNummer"": null,
             ""startdatum"": null,
             ""status"": ""Actief"",
-            ""contactInfoLijst"": [],
+            ""contactgegevens"": [],
             ""locaties"":[],
             ""vertegenwoordigers"":[],
             ""hoofdactiviteitenVerenigingsloket"":[]

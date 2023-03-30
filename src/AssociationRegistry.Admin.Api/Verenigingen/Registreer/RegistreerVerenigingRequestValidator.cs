@@ -6,8 +6,8 @@ using System;
 using System.Linq;
 using CommonRequestDataTypes;
 using Constants;
-using Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.Validation;
 
 public class RegistreerVerenigingRequestValidator : AbstractValidator<RegistreerVerenigingRequest>
 {
@@ -18,7 +18,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         this.RequireNotNullOrEmpty(request => request.Naam);
 
         RuleFor(request => request.KboNummer)
-            .Length(10, int.MaxValue)
+            .Length(min: 10, int.MaxValue)
             .WithMessage("KboNummer moet 10 cijfers bevatten.")
             .When(request => !string.IsNullOrEmpty(request.KboNummer));
 

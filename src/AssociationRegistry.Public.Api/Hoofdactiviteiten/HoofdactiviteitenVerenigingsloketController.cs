@@ -15,7 +15,7 @@ using Swashbuckle.AspNetCore.Filters;
 public class HoofdactiviteitenVerenigingsloketController : ApiController
 {
     /// <summary>
-    /// Vraag alle mogelijke waarden op voor de hoofdactiviteiten.
+    ///     Vraag alle mogelijke waarden op voor de hoofdactiviteiten.
     /// </summary>
     /// <response code="200">De gekende waarden voor hoofdactiviteit</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>

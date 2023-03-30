@@ -8,7 +8,7 @@ using Schema;
 
 public static class ElasticSearchExtensions
 {
-   public static IServiceCollection AddElasticSearch(
+    public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {

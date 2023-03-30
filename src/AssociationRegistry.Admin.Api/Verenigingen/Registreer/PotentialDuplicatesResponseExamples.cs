@@ -30,10 +30,10 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         ),
                         "Doelgroep",
                         ImmutableArray.Create(
-                            new DuplicaatVereniging.Locatie("LocatieType", true, "Adres", "Naam", "Postcode", "Gemeente")
+                            new DuplicaatVereniging.Locatie("LocatieType", Hoofdlocatie: true, "Adres", "Naam", "Postcode", "Gemeente")
                         ),
                         ImmutableArray.Create(
-                            new DuplicaatVereniging.Activiteit(1, "Categorie")
+                            new DuplicaatVereniging.Activiteit(Id: 1, "Categorie")
                         )),
                 }),
             _appSettings);

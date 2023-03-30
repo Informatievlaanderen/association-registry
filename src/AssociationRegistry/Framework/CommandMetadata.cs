@@ -1,3 +1,5 @@
 namespace AssociationRegistry.Framework;
 
-public record CommandMetadata(string Initiator, NodaTime.Instant Tijdstip, long? ExpectedVersion = null);
+using NodaTime;
+
+public record CommandMetadata(string Initiator, Instant Tijdstip, long? ExpectedVersion = null);

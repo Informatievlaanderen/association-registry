@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
+using Vereniging;
 
 public static class ControllerExtensions
 {

@@ -3,6 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using Events;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -65,11 +66,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var contactInfos = _verenigingWerdGeregistreerd.ContactInfoLijst
-            .Concat(_contactInfoLijstWerdGewijzigd.Toevoegingen)
-            .Except(_contactInfoLijstWerdGewijzigd.Verwijderingen)
-            .ExceptBy(_contactInfoLijstWerdGewijzigd.Wijzigingen.Select(x => x.Contactnaam), info => info.Contactnaam)
-            .Concat(_contactInfoLijstWerdGewijzigd.Wijzigingen);
+        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>();
 
         var expected = $@"
         {{
@@ -81,16 +78,13 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', contactInfos.Select(x => $@"{{
-                        ""contactnaam"": ""{x.Contactnaam}"",
-                        ""email"": ""{x.Email}"",
-                        ""telefoon"": ""{x.Telefoon}"",
-                        ""website"": ""{x.Website}"",
-                        ""socialMedia"": ""{x.SocialMedia}"",
-                        ""primairContactInfo"": {(x.PrimairContactInfo ? "true" : "false")},
-
-                    }}"))}
-                    ],
+                    ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
+                        ""contactgegevenId"": {y.ContactgegevenId},
+                        ""type"": ""{y.Type}"",
+                        ""waarde"": ""{y.Waarde}"",
+                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
+                    }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
@@ -111,7 +105,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
                             ""primairContactpersoon"": {(x.PrimairContactpersoon ? "true" : "false")},
-                    ""contactInfoLijst"": [{string.Join(',', x.ContactInfoLijst.Select(y => $@"{{
+                            ""contactInfoLijst"": [{string.Join(',', x.ContactInfoLijst.Select(y => $@"{{
                                 ""contactnaam"": ""{y.Contactnaam}"",
                                 ""email"": ""{y.Email}"",
                                 ""telefoon"": ""{y.Telefoon}"",

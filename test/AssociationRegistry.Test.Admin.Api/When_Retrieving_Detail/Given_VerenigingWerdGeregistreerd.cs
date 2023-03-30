@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using Events;
 using EventStore;
 using Fixtures;
@@ -54,6 +55,8 @@ public class Given_VerenigingWerdGeregistreerd
         var content = await _response.Content.ReadAsStringAsync();
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
+        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>();
+
         var expected = $@"
         {{
             ""vereniging"": {{
@@ -64,15 +67,13 @@ public class Given_VerenigingWerdGeregistreerd
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactInfoLijst"": [{string.Join(',', _verenigingWerdGeregistreerd.ContactInfoLijst.Select(x => $@"{{
-                        ""contactnaam"": ""{x.Contactnaam}"",
-                        ""email"": ""{x.Email}"",
-                        ""telefoon"": ""{x.Telefoon}"",
-                        ""website"": ""{x.Website}"",
-                        ""socialMedia"": ""{x.SocialMedia}"",
-                        ""primairContactInfo"": {(x.PrimairContactInfo ? "true" : "false")},
-                    }}"))}
-                    ],
+                    ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
+                        ""contactgegevenId"": {y.ContactgegevenId},
+                        ""type"": ""{y.Type}"",
+                        ""waarde"": ""{y.Waarde}"",
+                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
+                    }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}

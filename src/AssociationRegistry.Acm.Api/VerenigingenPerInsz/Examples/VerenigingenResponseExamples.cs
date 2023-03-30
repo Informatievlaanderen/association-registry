@@ -10,7 +10,7 @@ public class VerenigingenResponseExamples : IExamplesProvider<VerenigingenPerIns
         => new()
         {
             Insz = "12345678901",
-            Verenigingen = new List<Vereniging>()
+            Verenigingen = new List<Vereniging>
             {
                 new() { VCode = "V1234567", Naam = "FWA De vrolijke BA’s" },
                 new() { VCode = "V7654321", Naam = "FWA De Bron" },

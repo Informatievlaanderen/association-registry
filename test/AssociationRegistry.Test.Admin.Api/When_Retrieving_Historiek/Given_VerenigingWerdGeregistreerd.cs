@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
-using Events;
 using Fixtures;
 using Fixtures.Scenarios;
 using Framework;

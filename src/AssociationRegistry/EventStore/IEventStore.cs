@@ -1,8 +1,6 @@
 namespace AssociationRegistry.EventStore;
 
-using System.Threading.Tasks;
 using Framework;
-using IEvent = Framework.IEvent;
 
 public interface IEventStore
 {

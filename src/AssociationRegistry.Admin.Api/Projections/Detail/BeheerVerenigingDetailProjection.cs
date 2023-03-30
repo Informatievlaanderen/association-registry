@@ -26,7 +26,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
-                c => new BeheerVerenigingDetailDocument.ContactInfo()
+                c => new BeheerVerenigingDetailDocument.ContactInfo
                 {
                     Contactnaam = c.Contactnaam,
                     Email = c.Email,
@@ -48,7 +48,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     ContactInfoLijst = v.ContactInfoLijst.Select(ContactInfoFromEvent).ToArray(),
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket()
+                h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
                     Code = h.Code,
                     Beschrijving = h.Beschrijving,
@@ -110,6 +110,20 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
     }
 
+    public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.Append(
+            new BeheerVerenigingDetailDocument.Contactgegeven
+            {
+                ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                Type = contactgegevenWerdToegevoegd.Data.Type, Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
+                IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+            }).ToArray();
+        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdToegevoegd.Sequence, Version = contactgegevenWerdToegevoegd.Version };
+    }
+
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
@@ -128,8 +142,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
 
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
-    [Identity] public string VCode { get; init; } = null!;
-
     public string Naam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
@@ -139,9 +151,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Metadata Metadata { get; set; } = null!;
+    [Identity] public string VCode { get; init; } = null!;
 
     public record ContactInfo
     {
@@ -151,6 +165,15 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Website { get; set; }
         public string? SocialMedia { get; set; }
         public bool PrimairContactInfo { get; set; }
+    }
+
+    public record Contactgegeven
+    {
+        public int ContactgegevenId { get; set; }
+        public string Type { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
+        public string? Omschrijving { get; set; }
+        public bool IsPrimair { get; set; }
     }
 
     public record Locatie

@@ -10,8 +10,6 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using Infrastructure.Configuration;
-using OpenTelemetry.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -25,6 +23,7 @@ using Constants;
 using Destructurama;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +48,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 
@@ -83,7 +83,7 @@ public class Program
 
         app
             .ConfigureDevelopmentEnvironment()
-            .UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+            .UseCors(StartupConstants.AllowSpecificOrigin);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseMiddleware<ProblemDetailsMiddleware>();
@@ -173,7 +173,7 @@ public class Program
         app.UseExceptionHandler404Allowed(
             b =>
             {
-                b.UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+                b.UseCors(StartupConstants.AllowSpecificOrigin);
 
                 b.UseMiddleware<ProblemDetailsMiddleware>();
 
@@ -254,7 +254,7 @@ public class Program
 
         builder.Services
             .AddSingleton(
-                new StartupConfigureOptions()
+                new StartupConfigureOptions
                 {
                     Server =
                     {
@@ -266,10 +266,8 @@ public class Program
                 cfg =>
                 {
                     foreach (var header in StartupConstants.ExposedHeaders)
-                    {
                         if (!cfg.AllowedHeaderNames.Contains(header))
                             cfg.AllowedHeaderNames.Add(header);
-                    }
                 })
             .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
 
@@ -420,7 +418,7 @@ public class Program
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
-        => builder.WebHost.CaptureStartupErrors(true);
+        => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
     private static void ConfigureLogger(WebApplicationBuilder builder)
     {
@@ -460,10 +458,10 @@ public class Program
             {
                 options.AddServerHeader = false;
 
-                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(120);
+                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, 11002),
+                    new IPEndPoint(IPAddress.Any, port: 11002),
                     listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();

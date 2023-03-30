@@ -11,9 +11,9 @@ public class LocatieLijst : List<Locatie>
     {
     }
 
-    public static LocatieLijst CreateInstance(IEnumerable<Locatie>? locaties)
-        => locaties is null ? Empty : new LocatieLijst(locaties);
-
     public static LocatieLijst Empty
         => new();
+
+    public static LocatieLijst CreateInstance(IEnumerable<Locatie>? locaties)
+        => locaties is null ? Empty : new LocatieLijst(locaties);
 }

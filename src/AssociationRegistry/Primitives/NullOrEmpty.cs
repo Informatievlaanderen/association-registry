@@ -30,10 +30,10 @@ public readonly struct NullOrEmpty<T>
         => value is null ? Null : new NullOrEmpty<T>(value, NullOrEmptyType.HasValue);
 
     public static NullOrEmpty<T> Empty
-        => new(default, NullOrEmptyType.IsEmpty);
+        => new(value: default, NullOrEmptyType.IsEmpty);
 
     public static NullOrEmpty<T> Null
-        => new(default, NullOrEmptyType.IsNull);
+        => new(value: default, NullOrEmptyType.IsNull);
 
     private enum NullOrEmptyType
     {

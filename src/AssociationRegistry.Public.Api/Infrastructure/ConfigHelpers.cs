@@ -23,13 +23,13 @@ public static class ConfigHelpers
     {
         const string sectionName = nameof(PostgreSqlOptionsSection);
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Host,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Username,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Password,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+            .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
     public static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)

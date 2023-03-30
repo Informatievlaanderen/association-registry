@@ -26,8 +26,8 @@ public class KboNummer : StringValueObject<KboNummer>
     }
 
     /// <summary>
-    /// if kboNummer contains spaces or dots, the 5th and the 9th character are deleted
-    /// these are the only allowed positions for spaces or dots
+    ///     if kboNummer contains spaces or dots, the 5th and the 9th character are deleted
+    ///     these are the only allowed positions for spaces or dots
     /// </summary>
     /// <param name="kboNummer"></param>
     /// <returns></returns>

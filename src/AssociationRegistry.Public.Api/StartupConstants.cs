@@ -7,6 +7,13 @@ using Microsoft.Net.Http.Headers;
 
 public static class StartupConstants
 {
+    public const string AllowAnyOrigin = "AllowAnyOrigin";
+    public const string AllowSpecificOrigin = "AllowSpecificOrigin";
+
+    public const string DatabaseTag = "db";
+
+    public const string Culture = "en-GB";
+
     public static readonly string[] ExposedHeaders =
     {
         HeaderNames.Location, AddVersionHeaderMiddleware.HeaderName,
@@ -15,6 +22,15 @@ public static class StartupConstants
         AddHttpSecurityHeadersMiddleware.ContentTypeOptionsHeaderName,
         AddHttpSecurityHeadersMiddleware.FrameOptionsHeaderName,
         AddHttpSecurityHeadersMiddleware.XssProtectionHeaderName,
+    };
+
+    public static readonly string[] Headers =
+    {
+        HeaderNames.Accept,
+        HeaderNames.ContentType,
+        HeaderNames.Origin,
+        HeaderNames.Authorization,
+        HeaderNames.IfMatch,
     };
 
     public static string[] HttpMethodsAsString
@@ -28,20 +44,4 @@ public static class StartupConstants
             HttpMethod.Delete,
             HttpMethod.Options,
         }.Select(m => m.Method).ToArray();
-
-    public static readonly string[] Headers =
-    {
-        HeaderNames.Accept,
-        HeaderNames.ContentType,
-        HeaderNames.Origin,
-        HeaderNames.Authorization,
-        HeaderNames.IfMatch,
-    };
-
-    public const string AllowAnyOrigin = "AllowAnyOrigin";
-    public const string AllowSpecificOrigin = "AllowSpecificOrigin";
-
-    public const string DatabaseTag = "db";
-
-    public const string Culture = "en-GB";
 }

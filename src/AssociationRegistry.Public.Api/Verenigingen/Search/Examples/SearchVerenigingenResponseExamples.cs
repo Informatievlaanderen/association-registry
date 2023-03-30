@@ -28,15 +28,15 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     ImmutableArray.Create(
                         new Locatie(
                             "Correspondentie",
-                            true,
+                            Hoofdlocatie: true,
                             "kerkstraat 5, 1770 Liedekerke, Belgie",
-                            null,
+                            Naam: null,
                             "1770",
                             "Liedekerke")
                     ),
                     ImmutableArray.Create(
-                        new Activiteit(123, "Badminton")),
-                    new VerenigingLinks(new ($"{_appSettings.BaseUrl}/verenigingen/V0001001"))),
+                        new Activiteit(Id: 123, "Badminton")),
+                    new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}/verenigingen/V0001001"))),
                 new Vereniging(
                     "V0036651",
                     "FWA De Bron",
@@ -46,22 +46,22 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     ImmutableArray.Create(
                         new Locatie(
                             "Activiteiten",
-                            false,
+                            Hoofdlocatie: false,
                             "dorpstraat 91, 9000 Gent, Belgie",
                             "Cursuszaal",
                             "9000",
                             "Gent")),
                     ImmutableArray.Create(
-                        new Activiteit(456, "Tennis")),
+                        new Activiteit(Id: 456, "Tennis")),
                     new VerenigingLinks(new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"))
                 )),
             Facets = new Facets
             {
                 HoofdactiviteitenVerenigingsloket = ImmutableArray.Create(
-                    new HoofdactiviteitVerenigingsloketFacetItem("CULT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:CULT)"),
-                    new HoofdactiviteitVerenigingsloketFacetItem("SPRT", 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:SPRT)")
+                    new HoofdactiviteitVerenigingsloketFacetItem("CULT", Aantal: 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:CULT)"),
+                    new HoofdactiviteitVerenigingsloketFacetItem("SPRT", Aantal: 1, $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:SPRT)")
                 ),
             },
-            Metadata = new Metadata(new Pagination(2, 0, 50)),
+            Metadata = new Metadata(new Pagination(TotalCount: 2, Offset: 0, Limit: 50)),
         };
 }

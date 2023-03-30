@@ -3,7 +3,6 @@ namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 using System;
 using System.Globalization;
 using Newtonsoft.Json;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 public class NullableDateOnlyJsonConvertor : JsonConverter<DateOnly?>
 {

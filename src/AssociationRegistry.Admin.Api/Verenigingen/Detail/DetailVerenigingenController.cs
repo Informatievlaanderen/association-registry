@@ -3,9 +3,9 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
-using Infrastructure.Extensions;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ using Swashbuckle.AspNetCore.Filters;
 public class DetailVerenigingenController : ApiController
 {
     /// <summary>
-    /// Vraag het detail van een vereniging op.
+    ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
@@ -62,11 +62,15 @@ public class DetailVerenigingenController : ApiController
                     vereniging.KboNummer,
                     vereniging.Status,
                     vereniging.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray(),
+                    vereniging.Contactgegevens.Select(ToContactgegeven).ToImmutableArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
                     vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray(),
                     vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),
                 new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
     }
+
+    private static DetailVerenigingResponse.VerenigingDetail.Contactgegeven ToContactgegeven(BeheerVerenigingDetailDocument.Contactgegeven contactgegeven)
+        => new(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair);
 
     private static DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket ToHoofdactiviteit(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);

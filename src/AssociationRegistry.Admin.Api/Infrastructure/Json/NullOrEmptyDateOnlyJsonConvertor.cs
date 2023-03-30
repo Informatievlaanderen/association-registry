@@ -4,7 +4,6 @@ using System;
 using Constants;
 using Newtonsoft.Json;
 using Primitives;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 public class NullOrEmptyDateOnlyJsonConvertor : JsonConverter<NullOrEmpty<DateOnly>>
 {

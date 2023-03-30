@@ -9,10 +9,12 @@ public class BadHttpRequestExceptionHandler : DefaultExceptionHandler<BadHttpReq
     private readonly ProblemDetailsHelper _problemDetailsHelper;
 
     public BadHttpRequestExceptionHandler(ProblemDetailsHelper problemDetailsHelper)
-        => _problemDetailsHelper = problemDetailsHelper;
+    {
+        _problemDetailsHelper = problemDetailsHelper;
+    }
 
-    protected override ProblemDetails GetApiProblemFor(BadHttpRequestException exception) =>
-        new()
+    protected override ProblemDetails GetApiProblemFor(BadHttpRequestException exception)
+        => new()
         {
             HttpStatus = StatusCodes.Status400BadRequest,
             Title = ProblemDetails.DefaultTitle,

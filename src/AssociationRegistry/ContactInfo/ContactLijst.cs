@@ -6,19 +6,20 @@ using Framework;
 
 public class ContactLijst : ReadOnlyCollection<ContactInfo>
 {
-    private ContactLijst(IEnumerable<ContactInfo> listOfContactInfo): base(listOfContactInfo.ToList())
+    private ContactLijst(IEnumerable<ContactInfo> listOfContactInfo) : base(listOfContactInfo.ToList())
     {
-    }
-
-    public ContactInfo[] ExcludeByName(ContactLijst contactInfoLijst)
-    {
-        return contactInfoLijst.ExceptBy(this.Select(x => x.Contactnaam),
-                info => info.Contactnaam)
-            .ToArray();
     }
 
     public static ContactLijst Empty
         => new(Enumerable.Empty<ContactInfo>());
+
+    public ContactInfo[] ExcludeByName(ContactLijst contactInfoLijst)
+    {
+        return contactInfoLijst.ExceptBy(
+                this.Select(x => x.Contactnaam),
+                info => info.Contactnaam)
+            .ToArray();
+    }
 
     public static ContactLijst Create(IEnumerable<ContactInfo>? listOfContactInfo)
     {
@@ -42,7 +43,7 @@ public class ContactLijst : ReadOnlyCollection<ContactInfo>
         return totalItems != distinct;
     }
 
-    public static ContactLijst Create(IEnumerable<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>? listOfContactInfo)
+    public static ContactLijst Create(IEnumerable<Vereniging.CommonCommandDataTypes.ContactInfo>? listOfContactInfo)
         => listOfContactInfo is null
             ? Empty
             : Create(

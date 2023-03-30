@@ -16,14 +16,11 @@ public class JsonRequestFilter : IAsyncActionFilter
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+        context.HttpContext.Request.Body.Seek(offset: 0, SeekOrigin.Begin);
         var body = await context.HttpContext.Request.Body.ReadAllTextAsync();
-        if (!string.IsNullOrWhiteSpace(body))
-        {
-            ThrowifInvalidJson(body);
-        }
+        if (!string.IsNullOrWhiteSpace(body)) ThrowifInvalidJson(body);
 
-        context.HttpContext.Request.Body.Seek(0, SeekOrigin.Begin);
+        context.HttpContext.Request.Body.Seek(offset: 0, SeekOrigin.Begin);
         await next();
     }
 
@@ -38,7 +35,9 @@ public class JsonReaderExceptionHandler : DefaultExceptionHandler<JsonReaderExce
     private readonly ProblemDetailsHelper _problemDetailsHelper;
 
     public JsonReaderExceptionHandler(ProblemDetailsHelper problemDetailsHelper)
-        => _problemDetailsHelper = problemDetailsHelper;
+    {
+        _problemDetailsHelper = problemDetailsHelper;
+    }
 
     protected override ProblemDetails GetApiProblemFor(JsonReaderException exception)
         => new()

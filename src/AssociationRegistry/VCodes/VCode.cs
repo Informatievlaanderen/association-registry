@@ -1,15 +1,21 @@
 namespace AssociationRegistry.VCodes;
 
-using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
 
 public class VCode : ValueObject<VCode>
 {
+    public const int StartingVCode = 1001;
     private readonly int _code;
 
-    public const int StartingVCode = 1001;
+    private VCode(int code)
+    {
+        _code = code;
+    }
+
+    public string Value
+        => $"V{_code:0000000}";
 
     public static VCode Create(string vCode)
     {
@@ -29,14 +35,6 @@ public class VCode : ValueObject<VCode>
         return new VCode(vCode);
     }
 
-    private VCode(int code)
-    {
-        _code = code;
-    }
-
-    public string Value
-        => $"V{_code:0000000}";
-
     protected override IEnumerable<object> Reflect()
     {
         yield return _code;
@@ -49,7 +47,7 @@ public class VCode : ValueObject<VCode>
         => int.TryParse(vCode[1..], out _);
 
     private static bool VCodeStartsWith_V(string vCode)
-        => vCode.ToUpper().StartsWith('V');
+        => vCode.ToUpper().StartsWith(value: 'V');
 
     private static bool VCodeLessThanStartingVCode(int vCode)
         => vCode < StartingVCode;

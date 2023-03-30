@@ -34,7 +34,7 @@ public class RegistreerVerenigingRequest
     public NullOrEmpty<DateOnly> Startdatum { get; init; }
 
     /// <summary>
-    /// Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
+    ///     Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
     /// </summary>
     [DataMember]
     public string? KboNummer { get; init; }
@@ -55,45 +55,77 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
+    public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
+        => new(
+            Naam,
+            KorteNaam,
+            KorteBeschrijving,
+            Startdatum,
+            KboNummer,
+            ContactInfoLijst.Select(ContactInfo.ToCommandContactInfo),
+            Locaties.Select(ToLocatie),
+            Vertegenwoordigers.Select(ToVertegenwoordiger),
+            HoofdactiviteitenVerenigingsloket);
+
+    private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
+        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ContactInfo.ToCommandContactInfo));
+
+    private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
+        => new(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.Hoofdlocatie,
+            loc.Locatietype);
+
     [DataContract]
     public class Vertegenwoordiger
     {
         /// <summary>
-        /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
+        ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
         /// </summary>
-        [DataMember] public string? Insz { get; set; } = null!;
+        [DataMember]
+        public string? Insz { get; set; }
 
         /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
-        [DataMember] public string? Rol { get; set; }
+        [DataMember]
+        public string? Rol { get; set; }
 
         /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
-        [DataMember] public string? Roepnaam { get; set; }
+        [DataMember]
+        public string? Roepnaam { get; set; }
 
         /// <summary>
-        /// Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
+        ///     Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
         /// </summary>
-        [DataMember] public bool PrimairContactpersoon { get; set; } = false;
+        [DataMember]
+        public bool PrimairContactpersoon { get; set; }
 
         /// <summary>Dit zijn de contactgegevens van een vertegenwoordiger</summary>
-        [DataMember] public ContactInfo[]? ContactInfoLijst { get; set; }
+        [DataMember]
+        public ContactInfo[]? ContactInfoLijst { get; set; }
     }
 
     [DataContract]
     public class Locatie
     {
         /// <summary>
-        /// Het soort locatie dat beschreven word<br/>
-        /// <br/>
-        /// Mogelijke waarden:<br/>
-        ///   - Activiteiten<br/>
-        ///   - Correspondentie - Slecht één maal mogelijk<br/>
+        ///     Het soort locatie dat beschreven word<br />
+        ///     <br />
+        ///     Mogelijke waarden:<br />
+        ///     - Activiteiten<br />
+        ///     - Correspondentie - Slecht één maal mogelijk<br />
         /// </summary>
         [DataMember]
         public string Locatietype { get; set; } = null!;
 
         /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
         [DataMember]
-        public bool Hoofdlocatie { get; set; } = false;
+        public bool Hoofdlocatie { get; set; }
 
         /// <summary>Een beschrijvende naam voor de locatie</summary>
         [DataMember]
@@ -123,31 +155,4 @@ public class RegistreerVerenigingRequest
         [DataMember]
         public string Land { get; set; } = null!;
     }
-
-    public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
-        => new(
-            Naam,
-            KorteNaam,
-            KorteBeschrijving,
-            Startdatum,
-            KboNummer,
-            ContactInfoLijst.Select(ContactInfo.ToCommandContactInfo),
-            Locaties.Select(ToLocatie),
-            Vertegenwoordigers.Select(ToVertegenwoordiger),
-            HoofdactiviteitenVerenigingsloket);
-
-    private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ContactInfo.ToCommandContactInfo));
-
-    private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
-        => new(
-            loc.Naam,
-            loc.Straatnaam,
-            loc.Huisnummer,
-            loc.Busnummer,
-            loc.Postcode,
-            loc.Gemeente,
-            loc.Land,
-            loc.Hoofdlocatie,
-            loc.Locatietype);
 }

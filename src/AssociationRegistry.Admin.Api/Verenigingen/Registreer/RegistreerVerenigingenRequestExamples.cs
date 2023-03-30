@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
+using CommonRequestDataTypes;
 using Constants;
 using Primitives;
 using Swashbuckle.AspNetCore.Filters;
@@ -33,7 +34,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             },
             ContactInfoLijst = new[]
             {
-                new CommonRequestDataTypes.ContactInfo
+                new ContactInfo
                 {
                     Contactnaam = "Algemeen",
                     Email = "algemeen@example.com",
@@ -52,7 +53,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Rol = "Barbarian",
                     ContactInfoLijst = new[]
                     {
-                        new CommonRequestDataTypes.ContactInfo
+                        new ContactInfo
                         {
                             Contactnaam = "Persoonlijk",
                             Email = "conan@example.com",

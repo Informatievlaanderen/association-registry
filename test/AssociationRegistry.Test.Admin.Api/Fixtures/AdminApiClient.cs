@@ -39,6 +39,12 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> PostContactgegevens(string vCode, string content, long? version = null)
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/contactgegevens", content.AsJsonContent());
+    }
+
     public async Task<HttpResponseMessage> GetDocsJson()
         => await _httpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
 

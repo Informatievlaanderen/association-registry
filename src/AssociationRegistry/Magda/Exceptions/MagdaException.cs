@@ -3,8 +3,7 @@
 using System.Runtime.Serialization;
 
 [Serializable]
-
-public class MagdaException:Exception
+public class MagdaException : Exception
 {
     public MagdaException()
     {

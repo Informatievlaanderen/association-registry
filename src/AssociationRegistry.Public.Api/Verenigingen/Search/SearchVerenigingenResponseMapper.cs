@@ -6,8 +6,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using Constants;
 using Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Schema.Search;
 using Nest;
+using Schema.Search;
 
 public class SearchVerenigingenResponseMapper
 {
@@ -77,7 +77,7 @@ public class SearchVerenigingenResponseMapper
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
         => string.Join(
-            ',',
+            separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
     private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
@@ -91,7 +91,7 @@ public class SearchVerenigingenResponseMapper
                     x.Source.HoofdactiviteitenVerenigingsloket.Select(h => new HoofdactiviteitVerenigingsloket(h.Code, h.Naam)).ToImmutableArray(),
                     x.Source.Doelgroep,
                     x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
-                    x.Source.Activiteiten.Select(activiteit => new Activiteit(-1, activiteit)).ToImmutableArray(),
+                    x.Source.Activiteiten.Select(activiteit => new Activiteit(Id: -1, activiteit)).ToImmutableArray(),
                     new VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)x.Source.VCode}"))
                 );
             }).ToImmutableArray();

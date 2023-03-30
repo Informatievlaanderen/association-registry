@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System.Threading.Tasks;
-using Infrastructure;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
 using FluentValidation;
 using Framework;
+using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -23,8 +23,8 @@ using Wolverine;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class WijzigBasisgegevensController : ApiController
 {
-    private readonly IMessageBus _bus;
     private readonly AppSettings _appSettings;
+    private readonly IMessageBus _bus;
 
     public WijzigBasisgegevensController(IMessageBus bus, AppSettings appSettings)
     {
@@ -33,11 +33,11 @@ public class WijzigBasisgegevensController : ApiController
     }
 
     /// <summary>
-    /// Wijzig de basisgegevens van een vereniging.
+    ///     Wijzig de basisgegevens van een vereniging.
     /// </summary>
     /// <remarks>
-    /// Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
-    /// Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
+    ///     Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
+    ///     Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
     /// </remarks>
     /// <param name="request"></param>
     /// <param name="vCode">De VCode van de vereniging</param>
@@ -64,7 +64,7 @@ public class WijzigBasisgegevensController : ApiController
         [FromServices] IValidator<WijzigBasisgegevensRequest> validator,
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode,
-        [FromHeader(Name = "If-Match")] string? ifMatch)
+        [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         try
         {

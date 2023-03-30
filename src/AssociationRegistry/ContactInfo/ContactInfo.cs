@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.ContactInfo;
 
 using Emails;
-using Framework;
 using Exceptions;
+using Framework;
 using TelefoonNummers;
 using Urls;
 

@@ -32,7 +32,7 @@
         "a_very=Secr3t*Key"
       ],
       "allowedGrantTypes": "clientCredentials",
-      "allowedScopes":[
+      "allowedScopes": [
         "standardscopes.openid",
         "standardscopes.profile",
         "vo_info",
@@ -47,7 +47,7 @@
         "secret"
       ],
       "allowedGrantTypes": "clientCredentials",
-      "allowedScopes":[
+      "allowedScopes": [
         "vo_info",
         "dv_verenigingsregister_beheer"
       ],

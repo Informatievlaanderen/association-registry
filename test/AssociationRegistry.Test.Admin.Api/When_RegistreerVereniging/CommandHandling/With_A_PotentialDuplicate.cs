@@ -19,12 +19,12 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario>>
+public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase>>
 {
     private readonly Result _result;
     private readonly List<DuplicaatVereniging> _potentialDuplicates;
 
-    public With_A_PotentialDuplicate(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_Scenario> classFixture)
+    public With_A_PotentialDuplicate(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
     {
         var fixture = new Fixture().CustomizeAll();
 

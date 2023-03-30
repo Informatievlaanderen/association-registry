@@ -15,11 +15,11 @@ using Vertegenwoordigers;
 
 public class RegistreerVerenigingCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingsRepository;
-    private readonly IVCodeService _vCodeService;
-    private readonly IMagdaFacade _magdaFacade;
-    private readonly IDuplicateDetectionService _duplicateDetectionService;
     private readonly IClock _clock;
+    private readonly IDuplicateDetectionService _duplicateDetectionService;
+    private readonly IMagdaFacade _magdaFacade;
+    private readonly IVCodeService _vCodeService;
+    private readonly IVerenigingsRepository _verenigingsRepository;
 
     public RegistreerVerenigingCommandHandler(
         IVerenigingsRepository verenigingsRepository,

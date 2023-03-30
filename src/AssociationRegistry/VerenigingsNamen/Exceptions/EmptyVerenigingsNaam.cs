@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.VerenigingsNamen.Exceptions;
 
-using System;
 using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 

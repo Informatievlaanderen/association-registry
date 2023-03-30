@@ -19,7 +19,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_Scenario>>
+public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
 {
     private const string Naam = "naam1";
     private const string KorteNaam = "korte naam";
@@ -37,7 +37,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly MagdaPersoon _magdaPersoon;
 
-    public With_All_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_Scenario> classFixture)
+    public With_All_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _vCodeService = new InMemorySequentialVCodeService();

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using System;
-using Framework;
 using ConfigurationBindings;
+using Framework;
 using Microsoft.Extensions.Configuration;
 
 public static class ConfigurationExtensions
@@ -54,5 +54,5 @@ public static class ConfigurationExtensions
 
 
     public static string GetBaseUrl(this IConfiguration configuration)
-        => configuration.GetValue<string>("BaseUrl").TrimEnd('/');
+        => configuration.GetValue<string>("BaseUrl").TrimEnd(trimChar: '/');
 }
