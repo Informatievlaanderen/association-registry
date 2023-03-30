@@ -81,6 +81,23 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = contactInfoWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
+    public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+            .Append(
+                new PubliekVerenigingDetailDocument.Contactgegeven()
+                {
+                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                    Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
+                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                })
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()

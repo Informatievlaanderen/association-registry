@@ -8,32 +8,7 @@
     "startdatum": "2023-06-03",
     "kboNummer": null,
     "status": "Actief",
-    "contactInfoLijst": [
-      {
-        "contactnaam": "Initiële waarde",
-        "email": "email@example.org",
-        "telefoon": "9876543210",
-        "website": "http://example.org",
-        "socialMedia": "https://example.org/social",
-        "primairContactInfo": true
-      },
-      {
-        "contactnaam": "Toegevoegde waarde",
-        "email": "email2@example.org",
-        "telefoon": "0123456789",
-        "website": "http://example.org/2",
-        "socialMedia": "https://example.org/social/2",
-        "primairContactInfo": false
-      },
-      {
-        "contactnaam": "ContactNaamDieGewijzigdZalWorden",
-        "email": "email2@example.org",
-        "telefoon": "+9876543210",
-        "website": "http://example2.org",
-        "socialMedia": "https://example2.org/social",
-        "primairContactInfo": false
-      }
-    ],
+    "contactgegevens": [],
     "locaties": [],
     "hoofdactiviteitenVerenigingsloket": [
       {

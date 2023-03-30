@@ -48,8 +48,8 @@ public record VerenigingDetail(
     string? KboNummer,
     [property: DataMember(Name = "Status")]
     string Status,
-    [property: DataMember(Name = "ContactInfoLijst")]
-    ContactInfo[] ContactInfoLijst,
+    [property: DataMember(Name = "Contactgegevens")]
+    Contactgegeven[] Contactgegevens,
     [property: DataMember(Name = "Locaties")]
     ImmutableArray<Locatie> Locaties,
     [property: DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
@@ -58,18 +58,14 @@ public record VerenigingDetail(
 public record Metadata(string DatumLaatsteAanpassing);
 
 [DataContract]
-public record ContactInfo(
-    [property: DataMember(Name = "Contactnaam")]
-    string? Contactnaam,
-    [property: DataMember(Name = "Email")] string? Email,
-    [property: DataMember(Name = "Telefoon")]
-    string? Telefoon,
-    [property: DataMember(Name = "Website")]
-    string? Website,
-    [property: DataMember(Name = "SocialMedia")]
-    string? SocialMedia,
-    [property: DataMember(Name = "PrimairContactInfo")]
-    bool PrimairContactInfo
+public record Contactgegeven(
+    [property: DataMember(Name = "type")] string Type,
+    [property: DataMember(Name = "waarde")]
+    string Waarde,
+    [property: DataMember(Name = "omschrijving")]
+    string Omschrijving,
+    [property: DataMember(Name = "isPrimair")]
+    bool IsPrimair
 );
 
 [DataContract]

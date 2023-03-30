@@ -56,14 +56,12 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Startdatum,
                     vereniging.KboNummer,
                     vereniging.Status,
-                    vereniging.ContactInfoLijst.Select(
-                            info => new ContactInfo(
-                                info.Contactnaam,
-                                info.Email,
-                                info.Telefoon,
-                                info.Website,
-                                info.SocialMedia,
-                                info.PrimairContactInfo))
+                    vereniging.Contactgegevens.Select(
+                            info => new Contactgegeven(
+                                info.Type,
+                                info.Waarde,
+                                info.Omschrijving,
+                                info.IsPrimair))
                         .ToArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
                     vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),
