@@ -21,4 +21,5 @@ namespace System
         internal const System.String AssemblyProduct = "Basisregisters Vlaanderen";
         internal const System.String AssemblyCopyright = "Copyright (c) Vlaamse overheid";
         internal const System.String AssemblyCompany = "Vlaamse overheid";
+    }
 }

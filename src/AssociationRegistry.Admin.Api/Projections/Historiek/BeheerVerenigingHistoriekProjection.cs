@@ -94,14 +94,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             contactgegevenWerdToegevoegd,
             document,
-            $"{contactgegevenWerdToegevoegd.Data.Type} contactgegeven werd toegevoegd.",
-            new ContactgegevenWerdToegevoegdData(
-                contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                contactgegevenWerdToegevoegd.Data.Type,
-                contactgegevenWerdToegevoegd.Data.Waarde,
-                contactgegevenWerdToegevoegd.Data.Omschrijving,
-                contactgegevenWerdToegevoegd.Data.IsPrimair
-            )
+            $"{contactgegevenWerdToegevoegd.Data.Type} contactgegeven werd toegevoegd."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);

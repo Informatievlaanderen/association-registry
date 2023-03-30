@@ -25,6 +25,4 @@ public record NaamWerdGewijzigdData(string Naam) : IHistoriekData;
 
 public record StartdatumWerdGewijzigdData(string? StartDatum) : IHistoriekData;
 
-public record ContactgegevenWerdToegevoegdData(int ContactgegevenId, string Type, string Waarde, string Omschrijving, bool IsPrimair) : IHistoriekData;
-
 public record VerenigingWerdgeregistreerdData(VerenigingWerdGeregistreerd Vereniging) : IHistoriekData;
