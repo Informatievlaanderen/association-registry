@@ -143,9 +143,7 @@ public static class AutoFixtureCustomizations
             ).OmitAutoProperties());
     }
 
-    public record HistoriekDataStub : IHistoriekData
-    {
-    }
+    public record HistoriekDataStub : IHistoriekData;
 }
 
 public class ImmutableArraySpecimenBuilder : ISpecimenBuilder

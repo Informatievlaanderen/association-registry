@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Startdatums;
 
-using System;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;
@@ -34,7 +33,7 @@ public class Startdatum : ValueObject<Startdatum>
 
     public static Startdatum? Create(IClock clock, NullOrEmpty<DateOnly> commandStartdatum)
     {
-        if(!commandStartdatum.HasValue) return null;
+        if (!commandStartdatum.HasValue) return null;
 
         return Create(commandStartdatum.Value, datum => Validate(clock.Today, datum));
     }

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class InvalidInszLength:DomainException
+public class InvalidInszLength : DomainException
 {
     public InvalidInszLength() : base("INSZ moet 11 cijfers bevatten.")
     {

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using Events;
 using Xunit;

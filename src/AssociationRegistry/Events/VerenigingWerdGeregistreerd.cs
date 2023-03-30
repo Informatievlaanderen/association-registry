@@ -4,7 +4,6 @@ using CommonEventDataTypes;
 using Framework;
 
 /// <summary>
-///
 /// </summary>
 /// <param name="VCode"></param>
 /// <param name="Naam"></param>
@@ -27,8 +26,6 @@ public record VerenigingWerdGeregistreerd(
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
     VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
-
-
     public record Locatie(
         string? Naam,
         string Straatnaam,

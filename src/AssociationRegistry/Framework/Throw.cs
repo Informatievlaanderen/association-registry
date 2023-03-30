@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Framework;
 
-using System;
-
-public class Throw<TException> where TException : Exception, new()
+public class Throw<TException> where TException : Exception
 {
     public static void If(Func<bool> condition, string? message = null)
     {

@@ -10,11 +10,11 @@ public class ContactInfo
     public string Contactnaam { get; set; } = null!;
 
     /// <summary>
-    /// Een e-mailadres<br/>
-    /// <br/>
-    /// Hier verwachten we het volgende formaat (naam@domein.vlaanderen),<br/>
-    /// In naam worden de volgende tekens toegestaan '!#$%&'*+/=?^_`{|}~-',<br/>
-    /// in domein enkel '.' en '-'
+    ///     Een e-mailadres<br />
+    ///     <br />
+    ///     Hier verwachten we het volgende formaat (naam@domein.vlaanderen),<br />
+    ///     In naam worden de volgende tekens toegestaan '!#$%&'*+/=?^_`{|}~-',<br />
+    ///     in domein enkel '.' en '-'
     /// </summary>
     [DataMember]
     public string? Email { get; set; }
@@ -24,24 +24,24 @@ public class ContactInfo
     public string? Telefoon { get; set; }
 
     /// <summary>
-    /// Een website link<br/>
-    /// <br/>
-    /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
+    ///     Een website link<br />
+    ///     <br />
+    ///     hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
     /// </summary>
     [DataMember]
     public string? Website { get; set; }
 
     /// <summary>
-    /// Een socialmedia link<br/>
-    /// <br/>
-    /// hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
+    ///     Een socialmedia link<br />
+    ///     <br />
+    ///     hier verwachten we steeds een volwaardige HTTP hyperlink (https://example.com)
     /// </summary>
     [DataMember]
     public string? SocialMedia { get; set; }
 
     /// <summary>Dit duidt aan dat dit het unieke primaire contactgegeven is</summary>
     [DataMember]
-    public bool PrimairContactInfo { get; set; } = false;
+    public bool PrimairContactInfo { get; set; }
 
     public static Vereniging.CommonCommandDataTypes.ContactInfo ToCommandContactInfo(ContactInfo c)
         => new(c.Contactnaam, c.Email, c.Telefoon, c.Website, c.SocialMedia, c.PrimairContactInfo);

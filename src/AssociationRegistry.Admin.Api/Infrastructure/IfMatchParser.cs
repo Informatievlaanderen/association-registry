@@ -12,14 +12,14 @@ public static class IfMatchParser
         if (!tryParse)
             throw new EtagHeaderIsInvalidException();
 
-        var tryParseNumber = long.TryParse(parsedEtag.Tag.Value.Trim('"'), out var etagAsNumber);
+        var tryParseNumber = long.TryParse(parsedEtag.Tag.Value.Trim(trimChar: '"'), out var etagAsNumber);
         if (!tryParseNumber || etagAsNumber < 0 || !parsedEtag.IsWeak)
             throw new EtagHeaderIsInvalidException();
 
         return etagAsNumber;
     }
 
-    public class EtagHeaderIsInvalidException: BadHttpRequestException
+    public class EtagHeaderIsInvalidException : BadHttpRequestException
     {
         public EtagHeaderIsInvalidException() : base(
             "Etag header bevat een ongeldige waarde, gelieve formaat 'W/\"[0-9]*\"' te gebruiken",

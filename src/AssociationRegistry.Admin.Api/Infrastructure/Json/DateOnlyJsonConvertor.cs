@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 using System;
 using System.Globalization;
 using Newtonsoft.Json;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
 {
@@ -20,7 +19,5 @@ public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
     }
 
     public override DateOnly ReadJson(JsonReader reader, Type objectType, DateOnly existingValue, bool hasExistingValue, JsonSerializer serializer)
-        => reader.Value!.Equals(string.Empty) ?
-            DateOnly.MinValue :
-            DateOnlyHelpers.Parse((string)reader.Value!, _format);
+        => reader.Value!.Equals(string.Empty) ? DateOnly.MinValue : DateOnlyHelpers.Parse((string)reader.Value!, _format);
 }

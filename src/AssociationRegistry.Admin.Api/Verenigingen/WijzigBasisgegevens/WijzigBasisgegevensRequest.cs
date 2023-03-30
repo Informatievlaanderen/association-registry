@@ -39,9 +39,9 @@ public class WijzigBasisgegevensRequest
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(
             vCode,
-            Naam: Naam,
-            KorteNaam: KorteNaam,
-            KorteBeschrijving: KorteBeschrijving,
-            Startdatum: Startdatum,
+            Naam,
+            KorteNaam,
+            KorteBeschrijving,
+            Startdatum,
             ContactInfoLijst?.Select(ContactInfo.ToCommandContactInfo).ToArray());
 }

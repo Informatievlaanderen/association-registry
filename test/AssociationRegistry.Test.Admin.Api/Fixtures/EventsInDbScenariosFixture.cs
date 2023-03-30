@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
+using EventStore;
 using Scenarios;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
@@ -9,6 +10,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario = new();
     public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
     public readonly VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenario VerenigingWerdGeregistreerdForUseWithETagMatchingEventsInDbScenario = new();
+    public readonly ContactgegevenWerdToegevoegd_EventsInDbScenario ContactgegevenWerdToegevoegdEventsInDbScenario = new();
 
     protected override async Task Given()
     {
@@ -19,6 +21,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario,
             AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
             VerenigingWerdGeregistreerdForUseWithETagMatchingEventsInDbScenario,
+            ContactgegevenWerdToegevoegdEventsInDbScenario,
         };
 
         foreach (var scenario in scenarios)
@@ -26,4 +29,13 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
         }
     }
+}
+
+public class AdminApiScenarioFixture : AdminApiFixture
+{
+    protected override Task Given()
+        => Task.CompletedTask;
+
+    public async Task<StreamActionResult> Apply(IEventsInDbScenario scenario)
+        => await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
 }

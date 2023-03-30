@@ -2,7 +2,7 @@ name: Pre-merge (Coffee break)
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [ opened, reopened, synchronize ]
     branches:
       - main
 
@@ -113,124 +113,124 @@ jobs:
           ]
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Run es container
-      shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
-      run: |
-        docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+      - name: Run es container
+        shell: bash
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api'
+        run: |
+          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 
-    - name: Run ACM container
-      shell: bash
-      if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
-      run: |
-        docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+      - name: Run ACM container
+        shell: bash
+        if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
+        run: |
+          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
-    - name: Run db container
-      shell: bash
-      run: |
-        docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+      - name: Run db container
+        shell: bash
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
 
-    - name: Cache Paket
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-paket
-      with:
-        path: packages
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Cache Paket
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
 
-    - name: Cache Python
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-pip
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Cache Python
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pip
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
 
-    - name: Parse repository name
-      run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
-      shell: bash
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Node version
-      shell: bash
-      run: node --version
+      - name: Node version
+        shell: bash
+        run: node --version
 
-    - name: .NET version
-      shell: bash
-      run: dotnet --info
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
 
-    - name: Python version
-      shell: bash
-      run: python --version
+      - name: Python version
+        shell: bash
+        run: python --version
 
-    - name: Install NPM dependencies
-      shell: bash
-      run: npm install --legacy-peer-deps
+      - name: Install NPM dependencies
+        shell: bash
+        run: npm install --legacy-peer-deps
 
-    - name: Install Python dependencies
-      shell: bash
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests markdown argparse
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests markdown argparse
 
-    - name: Restore dotnet tools
-      shell: bash
-      run: |
-        dotnet tool restore
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
 
-    - name: Build
-      shell: bash
-      run: ./build.sh Build
+      - name: Build
+        shell: bash
+        run: ./build.sh Build
 
-    - name: Wait for db container
-      shell: bash
-      run: |
-        timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
+      - name: Wait for db container
+        shell: bash
+        run: |
+          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
-    - name: Run all tests
-      run: dotnet test ${{matrix.projects}}
+      - name: Run all tests
+        run: dotnet test ${{matrix.projects}}
 
-    - name: Shows logs ACM container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs acm
+      - name: Shows logs ACM container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs acm
 
-    - name: Shows logs elasticsearch container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs elasticsearch
+      - name: Shows logs elasticsearch container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs elasticsearch
 
-    - name: Shows logs db container
-      if: ${{ failure() }}
-      shell: bash
-      run: |
-        docker logs db
+      - name: Shows logs db container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs db
 
   notify:
     if: ${{ always() }}
     name: Notify slack
     runs-on: ubuntu-latest
 
-    needs: [build]
+    needs: [ build ]
 
     steps:
       - name: Post to a Slack channel

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class NoContactnaam: DomainException
+public class NoContactnaam : DomainException
 {
     public NoContactnaam() : base("Een contact moet eenn contactnaam bevatten.")
     {

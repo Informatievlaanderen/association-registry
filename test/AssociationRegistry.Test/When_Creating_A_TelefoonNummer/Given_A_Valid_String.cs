@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_TelefoonNummer;
 
-using ContactInfo.TelefoonNummers;
+using ContactGegevens.TelefoonNummers;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -14,6 +14,6 @@ public class Given_A_Valid_String
     public void Then_it_creates_a_new_TelefoonNummer(string telefoonNummerString)
     {
         var telefoonNummer = TelefoonNummer.Create(telefoonNummerString);
-        telefoonNummer.ToString().Should().BeEquivalentTo(telefoonNummerString);
+        telefoonNummer.Waarde.Should().BeEquivalentTo(telefoonNummerString);
     }
 }

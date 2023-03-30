@@ -40,19 +40,19 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
-    <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj" />
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj"/>
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Dockerfile" />
+    <None Remove="Dockerfile"/>
     <Content Include="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Remove="init.sh" />
+    <None Remove="init.sh"/>
     <Content Include="init.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>

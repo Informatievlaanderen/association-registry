@@ -3,8 +3,8 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Projections;
 using Marten;
+using Projections;
 
 // ReSharper disable once InconsistentNaming
 public static class IQueryableExtensions

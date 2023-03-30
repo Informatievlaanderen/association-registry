@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using Constants;
 using ConfigurationBindings;
+using Constants;
 using Json;
 using Marten;
 using Marten.Events;
@@ -18,14 +18,14 @@ public static class MartenExtentions
         var martenConfiguration = services
             .AddSingleton(postgreSqlOptions)
             .AddMarten(
-            opts =>
-            {
-                opts.Connection(postgreSqlOptions.GetConnectionString());
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-                opts.Serializer(CreateCustomMartenSerializer());
-                opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections();
-            });
+                opts =>
+                {
+                    opts.Connection(postgreSqlOptions.GetConnectionString());
+                    opts.Events.StreamIdentity = StreamIdentity.AsString;
+                    opts.Serializer(CreateCustomMartenSerializer());
+                    opts.Events.MetadataConfig.EnableAll();
+                    opts.AddPostgresProjections();
+                });
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 

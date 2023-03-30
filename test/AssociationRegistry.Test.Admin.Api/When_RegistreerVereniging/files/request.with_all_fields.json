@@ -8,5 +8,5 @@
   "contactInfoLijst": {{vereniging.contactInfoLijst}},
   "locaties": {{vereniging.locaties}},
   "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},
-  "hoofdactiviteitenVerenigingsloket" : {{vereniging.hoofdactiviteitenLijst}}
+  "hoofdactiviteitenVerenigingsloket": {{vereniging.hoofdactiviteitenLijst}}
 }

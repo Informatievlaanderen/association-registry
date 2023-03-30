@@ -214,3 +214,32 @@ public class VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenar
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
+
+public class ContactgegevenWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd;
+    public readonly CommandMetadata Metadata;
+
+    public ContactgegevenWerdToegevoegd_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        VCode = "V9999006";
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        ContactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(1, "Email", "something@example.org", "algemeen", false);
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            ContactgegevenWerdToegevoegd,
+        };
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}

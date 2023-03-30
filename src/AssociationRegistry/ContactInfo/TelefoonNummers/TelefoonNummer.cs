@@ -5,7 +5,8 @@ using Framework;
 
 public record TelefoonNummer(string Value)
 {
-    private static readonly string[] AllowedCharacters = {
+    private static readonly string[] AllowedCharacters =
+    {
         " ", ".", "(", ")", "/", "-", "+",
     };
 

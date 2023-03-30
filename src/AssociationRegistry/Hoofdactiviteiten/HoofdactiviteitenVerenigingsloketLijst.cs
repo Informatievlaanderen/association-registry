@@ -2,12 +2,12 @@
 
 using System.Collections;
 using System.Collections.Immutable;
-using Framework;
 using Exceptions;
+using Framework;
 
 public class HoofdactiviteitenVerenigingsloketLijst : IEnumerable<HoofdactiviteitVerenigingsloket>
 {
-    private ImmutableList<HoofdactiviteitVerenigingsloket> _hoofdactiviteiten;
+    private readonly ImmutableList<HoofdactiviteitVerenigingsloket> _hoofdactiviteiten;
 
     private HoofdactiviteitenVerenigingsloketLijst(IEnumerable<HoofdactiviteitVerenigingsloket> listOfHoofdactiviteiten)
     {
@@ -16,6 +16,13 @@ public class HoofdactiviteitenVerenigingsloketLijst : IEnumerable<Hoofdactivitei
 
     public static HoofdactiviteitenVerenigingsloketLijst Empty
         => new(Array.Empty<HoofdactiviteitVerenigingsloket>());
+
+
+    public IEnumerator<HoofdactiviteitVerenigingsloket> GetEnumerator()
+        => _hoofdactiviteiten.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+        => GetEnumerator();
 
     public static HoofdactiviteitenVerenigingsloketLijst Create(IEnumerable<HoofdactiviteitVerenigingsloket> listOfHoofdactiviteiten)
     {
@@ -28,11 +35,4 @@ public class HoofdactiviteitenVerenigingsloketLijst : IEnumerable<Hoofdactivitei
     {
         return list.DistinctBy(x => x.Code).Count() != list.Count();
     }
-
-
-    public IEnumerator<HoofdactiviteitVerenigingsloket> GetEnumerator()
-        => _hoofdactiviteiten.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator()
-        => GetEnumerator();
 }

@@ -28,8 +28,9 @@ public static class AtomFeedConfigurationBuilder
             configuration
                 .GetSection("Related")
                 .GetChildren()
-                .Select(c =>
-                    new SyndicationLink(new Uri(c.Value), AtomLinkTypes.Related))
+                .Select(
+                    c =>
+                        new SyndicationLink(new Uri(c.Value), AtomLinkTypes.Related))
                 .ToList()
         );
     }

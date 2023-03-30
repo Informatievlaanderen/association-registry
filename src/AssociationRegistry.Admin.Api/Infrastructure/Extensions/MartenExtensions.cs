@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Constants;
-using Infrastructure;
-using VCodes;
 using ConfigurationBindings;
+using Constants;
 using Json;
 using Marten;
 using Marten.Events;
@@ -13,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using VCodeGeneration;
+using VCodes;
 
 public static class MartenExtentions
 {

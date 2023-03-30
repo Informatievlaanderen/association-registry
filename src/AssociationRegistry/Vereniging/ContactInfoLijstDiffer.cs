@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
 using ContactInfo;
-using ContactInfo = ContactInfo.ContactInfo;
 
 public static class ContactInfoLijstDiffer
 {

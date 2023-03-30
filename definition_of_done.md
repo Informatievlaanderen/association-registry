@@ -1,4 +1,5 @@
 # Definition of Done (developer's part)
+
 - [ ] Code Review
 - [ ] Automated Tests are added/updated
 - [ ] `build.sh` was run

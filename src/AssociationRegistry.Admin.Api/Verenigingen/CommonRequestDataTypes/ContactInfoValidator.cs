@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes;
 
 using System.Linq;
-using Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.Validation;
 
 public class ContactInfoValidator : AbstractValidator<ContactInfo>
 {

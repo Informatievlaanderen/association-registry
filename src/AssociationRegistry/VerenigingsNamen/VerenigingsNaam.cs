@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.VerenigingsNamen;
 
-using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 using Framework;

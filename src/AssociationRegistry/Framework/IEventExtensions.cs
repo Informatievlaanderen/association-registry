@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Framework;
 
-using System.Collections.Generic;
 using System.Text.Json;
 using NodaTime;
 using NodaTime.Text;

@@ -10,13 +10,6 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using EventStore;
-using Constants;
-using Infrastructure.Configuration;
-using Infrastructure.Json;
-using Framework;
-using VCodes;
-using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -26,13 +19,18 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
+using Constants;
 using Destructurama;
 using DuplicateDetection;
+using EventStore;
 using FluentValidation;
+using Framework;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
+using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
+using Infrastructure.Json;
 using Magda;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -60,9 +58,10 @@ using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
+using VCodes;
+using Vereniging;
 using Vereniging.DuplicateDetection;
 using Wolverine;
-using Security = Constants.Security;
 
 public class Program
 {
@@ -101,7 +100,7 @@ public class Program
 
         app
             .ConfigureDevelopmentEnvironment()
-            .UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+            .UseCors(StartupConstants.AllowSpecificOrigin);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseMiddleware<ProblemDetailsMiddleware>();
@@ -197,7 +196,7 @@ public class Program
         app.UseExceptionHandler404Allowed(
             b =>
             {
-                b.UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+                b.UseCors(StartupConstants.AllowSpecificOrigin);
 
                 b.UseMiddleware<ProblemDetailsMiddleware>();
 
@@ -285,7 +284,7 @@ public class Program
 
         builder.Services
             .AddSingleton(
-                new StartupConfigureOptions()
+                new StartupConfigureOptions
                 {
                     Server =
                     {
@@ -297,10 +296,8 @@ public class Program
                 cfg =>
                 {
                     foreach (var header in StartupConstants.ExposedHeaders)
-                    {
                         if (!cfg.AllowedHeaderNames.Contains(header))
                             cfg.AllowedHeaderNames.Add(header);
-                    }
                 })
             .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
 
@@ -470,7 +467,7 @@ public class Program
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
-        => builder.WebHost.CaptureStartupErrors(true);
+        => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
     private static void ConfigureLogger(WebApplicationBuilder builder)
     {
@@ -510,10 +507,10 @@ public class Program
             {
                 options.AddServerHeader = false;
 
-                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(120);
+                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, 11004),
+                    new IPEndPoint(IPAddress.Any, port: 11004),
                     listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();

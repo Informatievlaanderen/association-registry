@@ -3,10 +3,10 @@ namespace AssociationRegistry.Admin.Api.Projections.Historiek;
 using System.Collections.Generic;
 using System.Linq;
 using Constants;
-using Framework;
 using Detail;
 using Events;
 using Events.CommonEventDataTypes;
+using Framework;
 using Infrastructure.Extensions;
 using JasperFx.Core;
 using Marten.Events;
@@ -22,7 +22,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
             Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(0, 0),
+            Metadata = new Metadata(Sequence: 0, Version: 0),
         };
 
         AddHistoriekEntry(
@@ -87,6 +87,24 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             toevoeging => AddToevoegingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
 
         document.Metadata = new Metadata(contactInfoLijstWerdGewijzigd.Sequence, contactInfoLijstWerdGewijzigd.Version);
+    }
+
+    public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdToegevoegd,
+            document,
+            $"{contactgegevenWerdToegevoegd.Data.Type} contactgegeven werd toegevoegd.",
+            new ContactgegevenWerdToegevoegdData(
+                contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                contactgegevenWerdToegevoegd.Data.Type,
+                contactgegevenWerdToegevoegd.Data.Waarde,
+                contactgegevenWerdToegevoegd.Data.Omschrijving,
+                contactgegevenWerdToegevoegd.Data.IsPrimair
+            )
+        );
+
+        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving, IHistoriekData data)

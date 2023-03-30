@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.ContactInfo.Urls;
 
-using Framework;
 using Exceptions;
+using Framework;
 
 public record Url(string Value)
 {
@@ -25,7 +25,7 @@ public record Url(string Value)
         => Value;
 
     private static bool UrlContainsAPeriod(string urlString)
-        => urlString.Contains('.');
+        => urlString.Contains(value: '.');
 
     private static bool UrlHasCorrectStartingCharacters(string urlString)
         => urlString.StartsWith("http://") || urlString.StartsWith("https://");

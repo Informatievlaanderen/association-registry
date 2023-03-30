@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.EventStore;
 
-using System.Linq;
-using System.Threading.Tasks;
 using Framework;
 using VCodes;
 using Vereniging;

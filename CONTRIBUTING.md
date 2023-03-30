@@ -1,6 +1,7 @@
 # Introduction
 
 Thank you for considering to contribute to assosciation-registry.
+
 ~~~~
 # Getting started
 

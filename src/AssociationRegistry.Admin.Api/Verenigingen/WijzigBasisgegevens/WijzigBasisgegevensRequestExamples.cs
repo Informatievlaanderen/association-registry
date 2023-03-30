@@ -13,7 +13,7 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
             Naam = "Naam van de vereniging",
             KorteNaam = "Korte naam van de vereniging",
             KorteBeschrijving = "Korte beschrijving van de vereniging",
-            Startdatum = NullOrEmpty<DateOnly>.Create(new DateOnly(2023, 1, 1)),
+            Startdatum = NullOrEmpty<DateOnly>.Create(new DateOnly(year: 2023, month: 1, day: 1)),
             ContactInfoLijst = new[]
             {
                 new ContactInfo

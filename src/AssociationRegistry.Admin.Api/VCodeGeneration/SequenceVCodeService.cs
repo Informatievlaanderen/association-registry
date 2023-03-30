@@ -3,8 +3,8 @@ namespace AssociationRegistry.Admin.Api.VCodeGeneration;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using VCodes;
 using Marten;
+using VCodes;
 using Weasel.Postgresql;
 
 public class SequenceVCodeService : IVCodeService

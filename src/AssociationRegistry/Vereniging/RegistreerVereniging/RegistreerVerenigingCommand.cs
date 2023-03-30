@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using System;
 using CommonCommandDataTypes;
 using Primitives;
 

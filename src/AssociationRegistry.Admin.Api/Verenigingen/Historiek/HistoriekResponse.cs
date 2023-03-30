@@ -43,6 +43,7 @@ public interface IHistoriekDataResponse
             PrimairContactInfoWerdGewijzigdHistoriekData data => new PrimairContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Primair = data.Primair },
             ContactInfoWerdToegevoegdData data => new ContactInfoWerdToegevoegdDataResponse { Contactnaam = data.ContactInfo.Contactnaam, Email = data.ContactInfo.Email, Telefoon = data.ContactInfo.Telefoon, Website = data.ContactInfo.Website, SocialMedia = data.ContactInfo.SocialMedia, Primair = data.ContactInfo.PrimairContactInfo },
             ContactInfoWerdVerwijderdData data => new ContactInfoWerdVerwijderdDataResponse { Contactnaam = data.Contactnaam },
+            ContactgegevenWerdToegevoegdData data => new ContactgegevenWerdToegevoegdDataResponse() { ContactId = data.ContactgegevenId, Type = data.Type, Omschrijving = data.Omschrijving, Waarde = data.Waarde, IsPrimair = data.IsPrimair },
             _ => gebeurtenisData,
         };
 }
@@ -128,4 +129,14 @@ public class NaamWerdGewijzigdDataResponse : IHistoriekDataResponse
 public class VerenigingWerdgeregistreerdDataResponse : IHistoriekDataResponse
 {
     [DataMember(Name = "naam")] public string Naam { get; set; } = null!;
+}
+
+[DataContract]
+public class ContactgegevenWerdToegevoegdDataResponse : IHistoriekDataResponse
+{
+    [DataMember(Name = "contactId")] public int ContactId { get; set; }
+    [DataMember(Name = "type")] public string Type { get; set; } = null!;
+    [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+    [DataMember(Name = "omschrijving")] public string Omschrijving { get; set; } = null!;
+    [DataMember(Name = "isPrimair")] public bool IsPrimair { get; set; }
 }

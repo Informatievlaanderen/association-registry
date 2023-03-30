@@ -12,12 +12,12 @@ public class CommandResult
         Version = version;
     }
 
-    public bool HasChanges()
-        => Sequence is not null;
-
     public VCode Vcode { get; }
     public long? Sequence { get; }
     public long? Version { get; }
+
+    public bool HasChanges()
+        => Sequence is not null;
 
     public static CommandResult Create(VCode vCode, StreamActionResult streamActionResult)
         => new(vCode, streamActionResult.Sequence, streamActionResult.Version);

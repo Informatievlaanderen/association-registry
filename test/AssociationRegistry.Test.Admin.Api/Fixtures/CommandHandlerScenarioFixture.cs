@@ -4,7 +4,7 @@ using Vereniging;
 using Scenarios;
 using VerenigingRepositoryMock = Fakes.VerenigingRepositoryMock;
 
-public class CommandHandlerScenarioFixture<TScenario> where TScenario: class, ICommandhandlerScenario, new()
+public class CommandHandlerScenarioFixture<TScenario> where TScenario: CommandhandlerScenarioBase, new()
 {
     public readonly Vereniging Vereniging;
     public readonly TScenario Scenario;

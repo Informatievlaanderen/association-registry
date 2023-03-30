@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
@@ -21,6 +20,6 @@ public static class ResponseExtensions
             return;
 
         var responseHeaders = source.GetTypedHeaders();
-        responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), true);
+        responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), isWeak: true);
     }
 }

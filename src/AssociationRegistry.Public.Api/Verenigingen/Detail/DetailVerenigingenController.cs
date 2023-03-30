@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.Filters;
 public class DetailVerenigingenController : ApiController
 {
     /// <summary>
-    /// Vraag het detail van een vereniging op.
+    ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
@@ -31,7 +31,7 @@ public class DetailVerenigingenController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [Produces(contentType: WellknownMediaTypes.JsonLd)]
+    [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
         [FromServices] AppSettings appsettings,
         [FromServices] IDocumentStore documentStore,

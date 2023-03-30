@@ -15,14 +15,14 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_Scenario>>
+public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
 {
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
-    public With_Required_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_Scenario> classFixture)
+    public With_Required_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _vCodeService = new InMemorySequentialVCodeService();

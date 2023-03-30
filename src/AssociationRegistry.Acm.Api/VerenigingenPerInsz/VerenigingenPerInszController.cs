@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.Filters;
 public class VerenigingenPerInszController : ApiController
 {
     /// <summary>
-    /// Vraag de lijst van verenigingen voor een rijksregisternummer op.
+    ///     Vraag de lijst van verenigingen voor een rijksregisternummer op.
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="insz"></param>

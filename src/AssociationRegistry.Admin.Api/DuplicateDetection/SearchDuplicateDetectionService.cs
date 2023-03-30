@@ -40,7 +40,8 @@ public class SearchDuplicateDetectionService : IDuplicateDetectionService
     }
 
     private static DuplicaatVereniging ToDuplicateVereniging(BeheerVerenigingDetailDocument document)
-        => new(document.VCode,
+        => new(
+            document.VCode,
             document.Naam,
             document.KorteNaam ?? string.Empty,
             document.HoofdactiviteitenVerenigingsloket.Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)).ToImmutableArray(),

@@ -14,10 +14,10 @@ jobs:
       matrix:
         services:
           [
-              'association-registry-acm-api',
-              'association-registry-public-api',
-              'association-registry-public-projections',
-              'association-registry-admin-api',
+            'association-registry-acm-api',
+            'association-registry-public-api',
+            'association-registry-public-projections',
+            'association-registry-admin-api',
           ]
     steps:
       - name: CD

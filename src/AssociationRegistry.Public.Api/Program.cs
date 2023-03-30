@@ -82,7 +82,7 @@ public class Program
 
         app
             .ConfigureDevelopmentEnvironment()
-            .UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+            .UseCors(StartupConstants.AllowSpecificOrigin);
 
         // Deze volgorde is belangrijk ! DKW
         app.UseMiddleware<ProblemDetailsMiddleware>();
@@ -169,7 +169,7 @@ public class Program
         app.UseExceptionHandler404Allowed(
             b =>
             {
-                b.UseCors(policyName: StartupConstants.AllowSpecificOrigin);
+                b.UseCors(StartupConstants.AllowSpecificOrigin);
 
                 b.UseMiddleware<ProblemDetailsMiddleware>();
 
@@ -254,7 +254,7 @@ public class Program
 
         builder.Services
             .AddSingleton(
-                new StartupConfigureOptions()
+                new StartupConfigureOptions
                 {
                     Server =
                     {
@@ -266,10 +266,8 @@ public class Program
                 cfg =>
                 {
                     foreach (var header in StartupConstants.ExposedHeaders)
-                    {
                         if (!cfg.AllowedHeaderNames.Contains(header))
                             cfg.AllowedHeaderNames.Add(header);
-                    }
                 })
             .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
 
@@ -399,7 +397,7 @@ public class Program
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
-        => builder.WebHost.CaptureStartupErrors(true);
+        => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
     private static void ConfigureLogger(WebApplicationBuilder builder)
     {
@@ -439,10 +437,10 @@ public class Program
             {
                 options.AddServerHeader = false;
 
-                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(120);
+                options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(value: 120);
 
                 options.Listen(
-                    new IPEndPoint(IPAddress.Any, 11003),
+                    new IPEndPoint(IPAddress.Any, port: 11003),
                     listenOptions =>
                     {
                         listenOptions.UseConnectionLogging();

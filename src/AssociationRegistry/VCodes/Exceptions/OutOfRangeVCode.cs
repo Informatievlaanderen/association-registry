@@ -1,6 +1,5 @@
 namespace AssociationRegistry.VCodes.Exceptions;
 
-using System;
 using System.Runtime.Serialization;
 
 [Serializable]

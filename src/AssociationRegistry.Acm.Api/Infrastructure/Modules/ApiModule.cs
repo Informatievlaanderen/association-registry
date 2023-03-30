@@ -15,7 +15,7 @@ public class ApiModule : Module
         //IConfiguration configuration,
         IServiceCollection services
         //, ILoggerFactory loggerFactory
-        )
+    )
     {
         //_configuration = configuration;
         _services = services;

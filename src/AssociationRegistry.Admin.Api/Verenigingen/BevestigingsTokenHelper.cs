@@ -8,12 +8,13 @@ using Newtonsoft.Json;
 
 public class BevestigingsTokenHelper
 {
-    private string _salt;
+    private readonly string _salt;
 
     public BevestigingsTokenHelper(AppSettings appSettings)
     {
         _salt = appSettings.Salt;
     }
+
     public bool IsValid(string? bevestigingsToken, object request)
     {
         if (bevestigingsToken is null) return false;

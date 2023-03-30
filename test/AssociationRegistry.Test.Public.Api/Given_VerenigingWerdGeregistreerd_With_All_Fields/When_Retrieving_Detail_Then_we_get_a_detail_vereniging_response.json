@@ -18,7 +18,7 @@
         "primairContactInfo": true
       }
     ],
-    "locaties":[
+    "locaties": [
       {
         "locatietype": "Correspondentie",
         "hoofdlocatie": true,
@@ -32,7 +32,7 @@
         "land": "België"
       }
     ],
-    "hoofdactiviteitenVerenigingsloket":[
+    "hoofdactiviteitenVerenigingsloket": [
       {
         "code": "BLA",
         "beschrijving": "Buitengewoon Leuke Afkortingen"

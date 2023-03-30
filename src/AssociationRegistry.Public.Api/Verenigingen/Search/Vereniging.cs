@@ -22,13 +22,12 @@ public record Vereniging(
 
 [DataContract]
 public record Locatie(
-    [property: DataMember(Name = "Locatietype")] string Locatietype,
-    [property: DataMember(Name = "Hoofdlocatie",EmitDefaultValue = false)]
+    [property: DataMember(Name = "Locatietype")]
+    string Locatietype,
+    [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
     bool Hoofdlocatie,
-    [property: DataMember(Name = "Adres")]
-    string Adres,
-    [property: DataMember(Name = "Naam")]
-    string? Naam,
+    [property: DataMember(Name = "Adres")] string Adres,
+    [property: DataMember(Name = "Naam")] string? Naam,
     [property: DataMember(Name = "Postcode")]
     string Postcode,
     [property: DataMember(Name = "Gemeente")]
@@ -44,7 +43,8 @@ public record Activiteit(
 [DataContract]
 public record HoofdactiviteitVerenigingsloket(
     [property: DataMember(Name = "Code")] string Code,
-    [property: DataMember(Name = "Beschrijving")] string Beschrijving);
+    [property: DataMember(Name = "Beschrijving")]
+    string Beschrijving);
 
 [DataContract]
 public record VerenigingLinks(
