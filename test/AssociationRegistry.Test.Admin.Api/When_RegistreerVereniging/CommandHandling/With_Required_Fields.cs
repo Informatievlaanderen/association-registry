@@ -8,7 +8,6 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Events.CommonEventDataTypes;
 using Moq;
 using Primitives;
 using Xunit;
@@ -38,7 +37,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
             null,
             NullOrEmpty<DateOnly>.Null,
             null,
-            Array.Empty<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>(),
+            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
             Array.Empty<RegistreerVerenigingCommand.Locatie>(),
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
             Array.Empty<string>());
@@ -62,7 +61,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
                 KorteBeschrijving: null,
                 Startdatum: null,
                 KboNummer: null,
-                ContactInfoLijst: Array.Empty<ContactInfo>(),
+                Contactgegevens: Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Vertegenwoordigers: Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 HoofdactiviteitenVerenigingsloket: Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));

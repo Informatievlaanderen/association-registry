@@ -62,7 +62,6 @@ public class DetailVerenigingenController : ApiController
                     vereniging.Startdatum,
                     vereniging.KboNummer,
                     vereniging.Status,
-                    vereniging.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray(),
                     vereniging.Contactgegevens.Select(ToContactgegeven).ToImmutableArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
                     vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray(),
@@ -76,15 +75,6 @@ public class DetailVerenigingenController : ApiController
     private static DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket ToHoofdactiviteit(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
 
-    private static DetailVerenigingResponse.VerenigingDetail.ContactInfo ToContactInfo(BeheerVerenigingDetailDocument.ContactInfo info)
-        => new(
-            info.Contactnaam,
-            info.Email,
-            info.Telefoon,
-            info.Website,
-            info.SocialMedia,
-            info.PrimairContactInfo);
-
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
         => new(
             ver.Insz,
@@ -93,7 +83,7 @@ public class DetailVerenigingenController : ApiController
             ver.Roepnaam,
             ver.Rol,
             ver.PrimairContactpersoon,
-            ver.ContactInfoLijst.Select(ToContactInfo).ToImmutableArray());
+            ver.Contactgegevens.Select(ToContactgegeven).ToArray());
 
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new(

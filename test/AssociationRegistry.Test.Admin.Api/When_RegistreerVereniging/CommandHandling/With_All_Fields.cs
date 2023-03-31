@@ -11,7 +11,7 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Events.CommonEventDataTypes;
+using ContactGegevens;
 using Hoofdactiviteiten;
 using Moq;
 using Primitives;
@@ -27,10 +27,10 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string KboNummber = "0123456749";
     private const string Hoofdactiviteit = "KECU";
 
-    private static readonly AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo ContactInfo = new("Algemeen", "info@dummy.com", "1234567890", "https://www.test-website.be", "http://te.st", true);
+    private static readonly RegistreerVerenigingCommand.Contactgegeven Contactgegeven = new("email", "info@dummy.com", "the email", true);
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo VertegenwoordigerContactInfo = new("History", "conan@barbarian.history.com", "0918372645", "https://www.conan-the-destroyer.history.com", "http://Conan.The.Barbarian", true);
-    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactInfo });
+    private static readonly RegistreerVerenigingCommand.Contactgegeven VertegenwoordigerContactgegeven = new("email", "conan@barbarian.history.com", "Historie", true);
+    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
@@ -57,7 +57,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             KorteBeschrijving,
             NullOrEmpty<DateOnly>.Create(_fromDateTime),
             KboNummber,
-            new[] { ContactInfo },
+            new[] { Contactgegeven },
             new[] { Locatie },
             vertegenwoordigers,
             new[] { Hoofdactiviteit });
@@ -95,13 +95,13 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 KboNummber,
                 new[]
                 {
-                    new ContactInfo(
-                        ContactInfo.Contactnaam,
-                        ContactInfo.Email,
-                        ContactInfo.Telefoon,
-                        ContactInfo.Website,
-                        ContactInfo.SocialMedia,
-                        ContactInfo.PrimairContactInfo),
+                    new VerenigingWerdGeregistreerd.Contactgegeven(
+                        1,
+                        ContactgegevenType.Email,
+                        Contactgegeven.Waarde,
+                        Contactgegeven.Omschrijving ?? string.Empty,
+                        Contactgegeven.IsPrimair
+                    ),
                 },
                 new[]
                 {
@@ -127,13 +127,12 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                         _magdaPersoon.Achternaam,
                         new[]
                         {
-                            new ContactInfo(
-                                VertegenwoordigerContactInfo.Contactnaam,
-                                VertegenwoordigerContactInfo.Email,
-                                VertegenwoordigerContactInfo.Telefoon,
-                                VertegenwoordigerContactInfo.Website,
-                                VertegenwoordigerContactInfo.SocialMedia,
-                                VertegenwoordigerContactInfo.PrimairContactInfo),
+                            new VerenigingWerdGeregistreerd.Contactgegeven(
+                                1,
+                                ContactgegevenType.Email,
+                                VertegenwoordigerContactgegeven.Waarde,
+                                VertegenwoordigerContactgegeven.Omschrijving ?? string.Empty,
+                                VertegenwoordigerContactgegeven.IsPrimair),
                         }),
                 },
                 new[]

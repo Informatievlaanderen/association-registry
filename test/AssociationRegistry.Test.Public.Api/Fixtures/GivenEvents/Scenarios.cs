@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Events;
 using AssociationRegistry.Framework;
-using Events.CommonEventDataTypes;
+using ContactGegevens;
 using VCodes;
 using NodaTime;
 using NodaTime.Extensions;
@@ -29,12 +29,11 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
 
-    private readonly ContactInfo _contactInfo = new(
-        "Algemeen",
+    private readonly VerenigingWerdGeregistreerd.Contactgegeven _contactgegeven = new(
+        1,
+        ContactgegevenType.Email,
         "info@FOud.be",
-        "1111.11.11.11",
-        "www.oudenaarde.be/feest",
-        "#FOudenaarde",
+        "Algemeen",
         true);
 
     private readonly VerenigingWerdGeregistreerd.Locatie _locatie = new(
@@ -59,12 +58,11 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         "Allfather",
         new[]
         {
-            new ContactInfo(
-                "Asgard",
+            new VerenigingWerdGeregistreerd.Contactgegeven(
+                1,
+                ContactgegevenType.Email,
                 "asgard@world.tree",
-                "0000000001",
-                "www.asgard.tree",
-                "#Asgard",
+                "Asgard",
                 false),
         });
 
@@ -80,7 +78,7 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
                 KorteBeschrijving,
                 _startdatum,
                 KboNummer,
-                new[] { _contactInfo },
+                new[] { _contactgegeven },
                 new[] { _locatie },
                 new[] { _vertegenwoordiger },
                 Hoofdactiviteiten),
@@ -109,7 +107,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
                 null,
                 null,
                 null,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
@@ -129,7 +127,7 @@ public class ContactgegevenWerdToegevoegdScenario : IScenario
         null,
         null,
         null,
-        Array.Empty<ContactInfo>(),
+        Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
         Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
         Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
@@ -150,13 +148,10 @@ public class ContactgegevenWerdToegevoegdScenario : IScenario
 
     public CommandMetadata GetCommandMetadata()
         => new("OVO000001", new DateTimeOffset(2023, 01, 25, 0, 0, 0, TimeSpan.Zero).ToInstant());
-
 }
 
 public class BasisgegevensWerdenGewijzigdScenario : IScenario
 {
-    private const string ContactInfoDieGewijzigdZalWordenNaam = "ContactNaamDieGewijzigdZalWorden";
-
     public VCode VCode
         => VCode.Create("V0001003");
 
@@ -170,11 +165,6 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
 
-    public readonly ContactInfo VerenigingContactInfo = new("Initiële waarde", "email@example.org", "9876543210", "http://example.org", "https://example.org/social", true);
-    public readonly ContactInfo VerenigingContactInfoDieGewijzigdZalWorden = new(ContactInfoDieGewijzigdZalWordenNaam, "email@example.org", "9876543210", "http://example.org", "https://example.org/social", false);
-    public readonly ContactInfo VerwijderdeContactInfo = new("Verwijderde waarde", "email3@example.org", "0246813579", "http://example.org/3", "https://example.org/social/3", false);
-    public readonly ContactInfo ToegevoegdeContactInfo = new("Toegevoegde waarde", "email2@example.org", "0123456789", "http://example.org/2", "https://example.org/social/2", false);
-    public readonly ContactInfo VerenigingContactInfoDieGewijzigdIs = new(ContactInfoDieGewijzigdZalWordenNaam, "email2@example.org", "+9876543210", "http://example2.org", "https://example2.org/social", false);
 
     public IEvent[] GetEvents()
     {
@@ -187,12 +177,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
                 null,
                 null,
                 null,
-                new[]
-                {
-                    VerenigingContactInfo,
-                    VerenigingContactInfoDieGewijzigdZalWorden,
-                    VerwijderdeContactInfo,
-                },
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Hoofdactiviteiten),
@@ -200,11 +185,6 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
             new StartdatumWerdGewijzigd(VCode, Startdatum),
-            new ContactInfoLijstWerdGewijzigd(
-                VCode,
-                new[] { ToegevoegdeContactInfo },
-                new[] { VerwijderdeContactInfo },
-                new[] { VerenigingContactInfoDieGewijzigdIs }),
         };
     }
 
@@ -248,7 +228,7 @@ public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
             null,
             null,
             null,
-            Array.Empty<ContactInfo>(),
+            Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             Hoofdactiviteiten);

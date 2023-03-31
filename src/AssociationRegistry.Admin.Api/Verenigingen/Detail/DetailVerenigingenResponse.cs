@@ -25,8 +25,7 @@ public record DetailVerenigingResponse(
         string? KboNummer,
         [property: DataMember(Name = "Status")]
         string Status,
-        
-        ImmutableArray<VerenigingDetail.ContactInfo> ContactInfoLijst,
+
         [property: DataMember(Name = "Contactgegevens")]
         ImmutableArray<VerenigingDetail.Contactgegeven> Contactgegevens,
         [property: DataMember(Name = "Locaties")]
@@ -36,21 +35,6 @@ public record DetailVerenigingResponse(
         [property: DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
         ImmutableArray<VerenigingDetail.HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket)
     {
-        [DataContract]
-        public record ContactInfo(
-            [property: DataMember(Name = "Contactnaam")]
-            string? Contactnaam,
-            [property: DataMember(Name = "Email")] string? Email,
-            [property: DataMember(Name = "Telefoon")]
-            string? Telefoon,
-            [property: DataMember(Name = "Website")]
-            string? Website,
-            [property: DataMember(Name = "SocialMedia")]
-            string? SocialMedia,
-            [property: DataMember(Name = "PrimairContactInfo")]
-            bool PrimairContactInfo
-        );
-
         [DataContract]
         public record Contactgegeven(
             [property: DataMember(Name = "ContactgegevenId")] int ContactgegevenId,
@@ -72,8 +56,8 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "Rol")] string? Rol,
             [property: DataMember(Name = "PrimairContactpersoon")]
             bool PrimairContactpersoon,
-            [property: DataMember(Name = "ContactInfoLijst")]
-            ImmutableArray<ContactInfo> ContactInfoLijst
+            [property: DataMember(Name = "Contactgegevens")]
+            Contactgegeven[] Contactgegevens
         );
 
         [DataContract]

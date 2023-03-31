@@ -10,6 +10,7 @@ using AssociationRegistry.Framework;
 using Fixtures;
 using Framework;
 using FluentAssertions;
+using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
 
@@ -64,8 +65,10 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>();
-
+        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
+            .Append(_verenigingWerdGeregistreerd.Contactgegevens.Select(c =>
+                new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
+                    c.ContactgegevenId, Enum.GetName(c.Type)!, c.Waarde, c.Omschrijving, c.IsPrimair)));
         var expected = $@"
         {{
             ""vereniging"": {{
@@ -103,15 +106,13 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
                             ""primairContactpersoon"": {(x.PrimairContactpersoon ? "true" : "false")},
-                            ""contactInfoLijst"": [{string.Join(',', x.ContactInfoLijst.Select(y => $@"{{
-                                ""contactnaam"": ""{y.Contactnaam}"",
-                                ""email"": ""{y.Email}"",
-                                ""telefoon"": ""{y.Telefoon}"",
-                                ""website"": ""{y.Website}"",
-                                ""socialMedia"": ""{y.SocialMedia}"",
-                                ""primairContactInfo"": {(y.PrimairContactInfo ? "true" : "false")},
-                            }}"))}
-                            ],
+                            ""contactgegevens"": [{string.Join(',', x.Contactgegevens.Select(y => $@"{{
+                                ""contactgegevenId"": {y.ContactgegevenId},
+                                ""type"": ""{y.Type}"",
+                                ""waarde"": ""{y.Waarde}"",
+                                ""omschrijving"": ""{y.Omschrijving}"",
+                                ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
+                            }}"))}],
                     }}"))}],
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",

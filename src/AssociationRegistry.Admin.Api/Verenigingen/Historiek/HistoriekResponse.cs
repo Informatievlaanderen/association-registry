@@ -36,67 +36,8 @@ public interface IHistoriekDataResponse
             KorteNaamWerdGewijzigdData data => new KorteNaamWerdGewijzigdDataResponse { KorteNaam = data.KorteNaam },
             KorteBeschrijvingWerdGewijzigdData data => new KorteBeschrijvingWerdGewijzigdDataResponse { KorteBeschrijving = data.KorteBeschrijving },
             StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum },
-            EmailContactInfoWerdGewijzigdHistoriekData data => new EmailContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Email = data.Email },
-            TelefoonContactInfoWerdGewijzigdHistoriekData data => new TelefoonContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Telefoon = data.Telefoon },
-            WebsiteContactInfoWerdGewijzigdHistoriekData data => new WebsiteContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Website = data.Website },
-            SocialMediaContactInfoWerdGewijzigdHistoriekData data => new SocialMediaContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, SocialMedia = data.SocialMedia },
-            PrimairContactInfoWerdGewijzigdHistoriekData data => new PrimairContactInfoWerdGewijzigdHistoriekDataResponse { Contactnaam = data.Contactnaam, Primair = data.Primair },
-            ContactInfoWerdToegevoegdData data => new ContactInfoWerdToegevoegdDataResponse { Contactnaam = data.ContactInfo.Contactnaam, Email = data.ContactInfo.Email, Telefoon = data.ContactInfo.Telefoon, Website = data.ContactInfo.Website, SocialMedia = data.ContactInfo.SocialMedia, Primair = data.ContactInfo.PrimairContactInfo },
-            ContactInfoWerdVerwijderdData data => new ContactInfoWerdVerwijderdDataResponse { Contactnaam = data.Contactnaam },
-            _ => gebeurtenisData,
+             _ => gebeurtenisData,
         };
-}
-
-[DataContract]
-public class ContactInfoWerdVerwijderdDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-}
-
-[DataContract]
-public class ContactInfoWerdToegevoegdDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "email")] public string? Email { get; set; }
-    [DataMember(Name = "telefoon")] public string? Telefoon { get; set; }
-    [DataMember(Name = "website")] public string? Website { get; set; }
-    [DataMember(Name = "socialMedia")] public string? SocialMedia { get; set; }
-    [DataMember(Name = "primair")] public bool Primair { get; set; }
-}
-
-[DataContract]
-public class PrimairContactInfoWerdGewijzigdHistoriekDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "primair")] public bool Primair { get; set; }
-}
-
-[DataContract]
-public class SocialMediaContactInfoWerdGewijzigdHistoriekDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "socialMedia")] public string SocialMedia { get; set; } = null!;
-}
-
-[DataContract]
-public class WebsiteContactInfoWerdGewijzigdHistoriekDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "website")] public string Website { get; set; } = null!;
-}
-
-[DataContract]
-public class TelefoonContactInfoWerdGewijzigdHistoriekDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "telefoon")] public string Telefoon { get; set; } = null!;
-}
-
-[DataContract]
-public class EmailContactInfoWerdGewijzigdHistoriekDataResponse : IHistoriekDataResponse
-{
-    [DataMember(Name = "contactnaam")] public string Contactnaam { get; set; } = null!;
-    [DataMember(Name = "email")] public string Email { get; set; } = null!;
 }
 
 [DataContract]

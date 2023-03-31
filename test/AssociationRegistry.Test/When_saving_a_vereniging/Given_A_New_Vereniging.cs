@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.When_saving_a_vereniging;
 
-using ContactInfo;
 using Events;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -10,6 +9,7 @@ using Vereniging;
 using VerenigingsNamen;
 using Vertegenwoordigers;
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
 using Framework;
 using Hoofdactiviteiten;
@@ -33,7 +33,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         _vCode = VCode.Create(1001);
         _naam = new VerenigingsNaam("Vereniging 1");
-        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, null, null, ContactLijst.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty, DateOnly.FromDateTime(DateTime.Today));
+        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, null, null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
     }
 
     public async Task InitializeAsync()

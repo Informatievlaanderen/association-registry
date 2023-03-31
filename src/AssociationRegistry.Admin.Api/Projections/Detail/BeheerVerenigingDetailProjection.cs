@@ -3,7 +3,6 @@
 using System;
 using System.Linq;
 using Events;
-using Events.CommonEventDataTypes;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -25,15 +24,14 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
-                c => new BeheerVerenigingDetailDocument.ContactInfo
+            Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
+                c => new BeheerVerenigingDetailDocument.Contactgegeven
                 {
-                    Contactnaam = c.Contactnaam,
-                    Email = c.Email,
-                    Telefoon = c.Telefoon,
-                    Website = c.Website,
-                    SocialMedia = c.SocialMedia,
-                    PrimairContactInfo = c.PrimairContactInfo,
+                    ContactgegevenId = c.ContactgegevenId,
+                    Type = c.Type.ToString(),
+                    Waarde = c.Waarde,
+                    Omschrijving = c.Omschrijving,
+                    IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
             Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
@@ -45,7 +43,15 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
-                    ContactInfoLijst = v.ContactInfoLijst.Select(ContactInfoFromEvent).ToArray(),
+                    Contactgegevens = v.Contactgegevens.Select(
+                        c => new BeheerVerenigingDetailDocument.Contactgegeven
+                        {
+                            ContactgegevenId = c.ContactgegevenId,
+                            Type = c.Type.ToString(),
+                            Waarde = c.Waarde,
+                            Omschrijving = c.Omschrijving,
+                            IsPrimair = c.IsPrimair,
+                        }).ToArray(),
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                 h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
@@ -54,17 +60,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Beschrijving = h.Beschrijving,
                 }).ToArray(),
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
-        };
-
-    private static BeheerVerenigingDetailDocument.ContactInfo ContactInfoFromEvent(ContactInfo c)
-        => new()
-        {
-            Contactnaam = c.Contactnaam,
-            Email = c.Email,
-            Telefoon = c.Telefoon,
-            Website = c.Website,
-            SocialMedia = c.SocialMedia,
-            PrimairContactInfo = c.PrimairContactInfo,
         };
 
     private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(VerenigingWerdGeregistreerd.Locatie[]? locaties)
@@ -96,18 +91,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum;
         document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
-    }
-
-    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingDetailDocument document)
-    {
-        document.ContactInfoLijst = document.ContactInfoLijst
-            .Concat(contactInfoLijstWerdGewijzigd.Data.Toevoegingen.Select(ContactInfoFromEvent))
-            .Except(contactInfoLijstWerdGewijzigd.Data.Verwijderingen.Select(ContactInfoFromEvent))
-            .ExceptBy(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(info => info.Contactnaam), info => info.Contactnaam)
-            .Concat(contactInfoLijstWerdGewijzigd.Data.Wijzigingen.Select(ContactInfoFromEvent))
-            .ToArray();
-        document.DatumLaatsteAanpassing = contactInfoLijstWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = contactInfoLijstWerdGewijzigd.Sequence, Version = contactInfoLijstWerdGewijzigd.Version };
     }
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
@@ -150,22 +133,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
-    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Metadata Metadata { get; set; } = null!;
     [Identity] public string VCode { get; init; } = null!;
-
-    public record ContactInfo
-    {
-        public string Contactnaam { get; set; } = null!;
-        public string? Email { get; set; }
-        public string? Telefoon { get; set; }
-        public string? Website { get; set; }
-        public string? SocialMedia { get; set; }
-        public bool PrimairContactInfo { get; set; }
-    }
 
     public record Contactgegeven
     {
@@ -206,7 +178,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Roepnaam { get; set; }
         public string? Rol { get; set; }
         public bool PrimairContactpersoon { get; set; }
-        public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+        public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     }
 
     public record HoofdactiviteitVerenigingsloket

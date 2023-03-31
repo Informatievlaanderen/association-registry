@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using ContactInfo;
+using ContactGegevens;
 using DuplicateDetection;
 using Framework;
 using Hoofdactiviteiten;
@@ -41,8 +41,9 @@ public class RegistreerVerenigingCommandHandler
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
-        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties!.Select(ToLocatie));
-        var contactInfoLijst = ContactLijst.Create(command.ContactInfoLijst);
+        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
+        var contactgegevens = command.Contactgegevens.Aggregate(Contactgegevens.Empty, (current, contactgegeven) => current.Append(Contactgegeven.Create(contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair)));
+
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
         if (!message.Command.SkipDuplicateDetection)
@@ -64,11 +65,10 @@ public class RegistreerVerenigingCommandHandler
             command.KorteBeschrijving,
             startdatum,
             kboNummer,
-            contactInfoLijst,
+            contactgegevens,
             locatieLijst,
             vertegenwoordigersLijst,
-            hoofdactiviteitenVerenigingsloketLijst,
-            _clock.Today);
+            hoofdactiviteitenVerenigingsloketLijst);
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return Result.Success(CommandResult.Create(vCode, result));

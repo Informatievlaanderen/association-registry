@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
-using ContactInfo;
+using ContactGegevens;
 using Framework;
 using INSZ;
 using Vertegenwoordigers;
@@ -23,7 +23,7 @@ public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
             fixture.Create<string>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            ContactLijst.Empty);
+            Contactgegevens.Empty);
         var vertegenwoordiger2 = Vertegenwoordiger.Create(
             Insz.Create(InszTestSet.Insz1),
             false,
@@ -31,7 +31,7 @@ public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
             fixture.Create<string>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            ContactLijst.Empty);
+            Contactgegevens.Empty);
         var listOfVertegenwoordigers = new List<Vertegenwoordiger>()
         {
             vertegenwoordiger1,

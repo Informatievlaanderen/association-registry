@@ -16,7 +16,6 @@ public record PubliekVerenigingDetailDocument : IVCode
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
-    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
 
     public record Contactgegeven
@@ -26,16 +25,6 @@ public record PubliekVerenigingDetailDocument : IVCode
         public string Waarde { get; set; } = null!;
         public string Omschrijving { get; set; } = null!;
         public bool IsPrimair { get; set; }
-    }
-
-    public record ContactInfo
-    {
-        public string Contactnaam { get; set; } = null!;
-        public string? Email { get; set; }
-        public string? Telefoon { get; set; }
-        public string? Website { get; set; }
-        public string? SocialMedia { get; set; }
-        public bool PrimairContactInfo { get; set; }
     }
 
     public record Locatie

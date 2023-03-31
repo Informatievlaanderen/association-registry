@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
-using Events.CommonEventDataTypes;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -21,21 +20,17 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            ContactInfoLijst = verenigingWerdGeregistreerd.Data.ContactInfoLijst.Select(
-                ToDetailContactInfo).ToArray(),
+            Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
+                c => new PubliekVerenigingDetailDocument.Contactgegeven()
+                {
+                    ContactgegevenId = c.ContactgegevenId,
+                    Type = c.Type.ToString(),
+                    Waarde = c.Waarde,
+                    Omschrijving = c.Omschrijving,
+                    IsPrimair = c.IsPrimair,
+                }).ToArray(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
-        };
-
-    private static PubliekVerenigingDetailDocument.ContactInfo ToDetailContactInfo(ContactInfo c)
-        => new()
-        {
-            Contactnaam = c.Contactnaam,
-            Email = c.Email,
-            Telefoon = c.Telefoon,
-            Website = c.Website,
-            SocialMedia = c.SocialMedia,
-            PrimairContactInfo = c.PrimairContactInfo,
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
@@ -69,17 +64,6 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
-    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoWerdGewijzigd, PubliekVerenigingDetailDocument document)
-    {
-        document.ContactInfoLijst = document.ContactInfoLijst
-            .Concat(contactInfoWerdGewijzigd.Data.Toevoegingen.Select(ToDetailContactInfo))
-            .ExceptBy(contactInfoWerdGewijzigd.Data.Verwijderingen.Select(info => info.Contactnaam), info => info.Contactnaam)
-            .ExceptBy(contactInfoWerdGewijzigd.Data.Wijzigingen.Select(info => info.Contactnaam), info => info.Contactnaam)
-            .Concat(contactInfoWerdGewijzigd.Data.Wijzigingen.Select(ToDetailContactInfo))
-            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactInfoWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-    }
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using CommonCommandDataTypes;
 using Primitives;
 
 public record RegistreerVerenigingCommand(
@@ -9,10 +8,10 @@ public record RegistreerVerenigingCommand(
     string? KorteBeschrijving,
     NullOrEmpty<DateOnly> Startdatum,
     string? KboNummber,
-    IEnumerable<ContactInfo>? ContactInfoLijst,
-    IEnumerable<RegistreerVerenigingCommand.Locatie>? Locaties,
-    IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? Vertegenwoordigers,
-    IEnumerable<string> HoofdactiviteitenVerenigingsloket,
+    RegistreerVerenigingCommand.Contactgegeven[] Contactgegevens,
+    RegistreerVerenigingCommand.Locatie[] Locaties,
+    RegistreerVerenigingCommand.Vertegenwoordiger[] Vertegenwoordigers,
+    string[] HoofdactiviteitenVerenigingsloket,
     bool SkipDuplicateDetection = false)
 {
     public record Locatie(
@@ -31,5 +30,11 @@ public record RegistreerVerenigingCommand(
         bool PrimairContactpersoon,
         string? Roepnaam,
         string? Rol,
-        IEnumerable<ContactInfo>? ContactInfoLijst);
+        Contactgegeven[] Contactgegevens);
+
+    public record Contactgegeven(
+        string Type,
+        string Waarde,
+        string? Omschrijving,
+        bool IsPrimair);
 }

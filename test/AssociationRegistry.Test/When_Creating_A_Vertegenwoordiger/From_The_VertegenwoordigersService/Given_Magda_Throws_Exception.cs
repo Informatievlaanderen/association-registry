@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Vertegenwoordiger.From_The_VertegenwoordigersService;
 
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
 using Framework;
 using INSZ;
 using Magda;
 using Magda.Exceptions;
 using Moq;
-using Vereniging.CommonCommandDataTypes;
 using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
@@ -34,9 +34,9 @@ public class Given_Magda_Throws_Exception
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new ContactInfo[]
+            new RegistreerVerenigingCommand.Contactgegeven[]
             {
-                new(fixture.Create<string>(), email, fixture.Create<int>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
+                new(ContactgegevenType.Email.ToString(), email, fixture.Create<int?>().ToString(), false),
             });
         var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 
