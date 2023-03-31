@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Events;
-using Events.CommonEventDataTypes;
 using AssociationRegistry.Framework;
 using Locaties;
 using Magda;
@@ -50,7 +49,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             null,
             NullOrEmpty<DateOnly>.Null,
             null,
-            Array.Empty<AssociationRegistry.Vereniging.CommonCommandDataTypes.ContactInfo>(),
+            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
             new[] { _locatie },
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
             Array.Empty<string>(),
@@ -88,7 +87,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.KorteBeschrijving,
                 null,
                 _command.KboNummber,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

@@ -4,7 +4,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.Linq;
-using CommonRequestDataTypes;
 using Constants;
 using FluentValidation;
 using Infrastructure.Validation;
@@ -34,15 +33,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
-        RuleFor(request => request.ContactInfoLijst)
-            .Must(ContactInfoValidator.NotHaveDuplicateContactnaam)
-            .WithMessage("Een contactnaam moet uniek zijn.");
-        RuleFor(request => request.ContactInfoLijst)
-            .Must(ContactInfoValidator.NotHaveMultiplePrimaryContactInfos)
-            .WithMessage("Er mag maximum één primair contactinfo opgegeven worden.");
-
-        RuleForEach(request => request.ContactInfoLijst)
-            .SetValidator(new ContactInfoValidator());
 
         RuleForEach(request => request.Locaties)
             .SetValidator(new LocatieValidator());
@@ -106,14 +96,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
                     vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
                                          ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
-
-            RuleFor(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst)
-                .Must(ContactInfoValidator.NotHaveMultiplePrimaryContactInfos!)
-                .When(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst is not null)
-                .WithMessage("Er mag maximum één primair contactinfo opgegeven worden.");
-
-            RuleForEach(vertegenwoordiger => vertegenwoordiger.ContactInfoLijst)
-                .SetValidator(new ContactInfoValidator());
         }
 
         private bool ContainOnlyNumbersDotsAndDashes(string? insz)

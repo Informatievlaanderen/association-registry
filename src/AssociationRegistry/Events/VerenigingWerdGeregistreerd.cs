@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-using CommonEventDataTypes;
 using Framework;
 
 /// <summary>
@@ -21,11 +20,18 @@ public record VerenigingWerdGeregistreerd(
     string? KorteBeschrijving,
     DateOnly? Startdatum,
     string? KboNummer,
-    ContactInfo[] ContactInfoLijst,
+    VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
     VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
+    public record Contactgegeven(
+        int ContactgegevenId,
+        ContactGegevens.ContactgegevenType Type,
+        string Waarde,
+        string Omschrijving,
+        bool IsPrimair);
+
     public record Locatie(
         string? Naam,
         string Straatnaam,
@@ -44,7 +50,7 @@ public record VerenigingWerdGeregistreerd(
         string? Rol,
         string Voornaam,
         string Achternaam,
-        ContactInfo[] ContactInfoLijst);
+        Contactgegeven[] Contactgegevens);
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,

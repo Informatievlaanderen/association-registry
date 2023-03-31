@@ -6,7 +6,6 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using EventStore;
 using AssociationRegistry.Framework;
-using Events;
 using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
@@ -32,9 +31,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 
     private StreamActionResult Result
         => _scenario.Result;
-
-    private ContactInfoLijstWerdGewijzigd ContactInfoLijstWerdGewijzigd
-        => _scenario.ContactInfoLijstWerdGewijzigd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
@@ -117,72 +113,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         }},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                    }},
-                    {string.Join(",", ContactInfoLijstWerdGewijzigd.Verwijderingen.Select(v => $@"
-                        {{
-                            ""beschrijving"": ""Contactinfo met naam '{v.Contactnaam}' werd verwijderd."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{v.Contactnaam}""
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }}
-                    "))},
-                    {string.Join(",", ContactInfoLijstWerdGewijzigd.Wijzigingen.Select(w => $@"
-                        {{
-                            ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{w.Email}'."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{w.Contactnaam}"",
-                                ""email"":""{w.Email}""
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }},{{
-                            ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{w.Telefoon}'."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{w.Contactnaam}"",
-                                ""telefoon"":""{w.Telefoon}""
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }},{{
-                            ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{w.Website}'."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{w.Contactnaam}"",
-                                ""website"":""{w.Website}""
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }},{{
-                            ""beschrijving"": ""Contactinfo met naam '{w.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{w.SocialMedia}'."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{w.Contactnaam}"",
-                                ""socialMedia"":""{w.SocialMedia}""
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }}
-                    "))},{string.Join(",", ContactInfoLijstWerdGewijzigd.Toevoegingen.Select(t => $@"
-                        {{
-                            ""beschrijving"": ""Contactinfo met naam '{t.Contactnaam}' werd toegevoegd."",
-                            ""gebeurtenis"":""ContactInfoLijstWerdGewijzigd"",
-                            ""data"":{{
-                                ""contactnaam"":""{t.Contactnaam}"",
-                                ""email"":""{t.Email}"",
-                                ""telefoon"":""{t.Telefoon}"",
-                                ""website"":""{t.Website}"",
-                                ""socialMedia"":""{t.SocialMedia}"",
-                                ""primair"":{t.PrimairContactInfo.ToString().ToLower()}
-                            }},
-                            ""initiator"":""{Metadata.Initiator}"",
-                            ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
-                        }}
-                    "))}
+                    }}
                 ]
             }}
         ";

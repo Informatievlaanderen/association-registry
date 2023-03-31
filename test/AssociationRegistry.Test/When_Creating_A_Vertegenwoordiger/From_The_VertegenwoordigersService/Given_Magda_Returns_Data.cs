@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Vertegenwoordiger.From_The_VertegenwoordigersService;
 
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
 using INSZ;
 using Magda;
 using Moq;
-using Vereniging.CommonCommandDataTypes;
 using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Xunit;
@@ -41,9 +41,9 @@ public class Given_Magda_Returns_Data
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new ContactInfo[]
+            new RegistreerVerenigingCommand.Contactgegeven[]
             {
-                new(fixture.Create<string>(), email, fixture.Create<int?>().ToString(), $"http://{fixture.Create<string?>()}.com", $"http://{fixture.Create<string?>()}.com", false),
+                new(ContactgegevenType.Email.ToString(), email, fixture.Create<int?>().ToString(), false),
             });
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 
@@ -55,14 +55,13 @@ public class Given_Magda_Returns_Data
             vertegenwoordigersLijst.Single().Roepnaam.Should().Be(vertegenwoordiger.Roepnaam);
             vertegenwoordigersLijst.Single().Rol.Should().Be(vertegenwoordiger.Rol);
             vertegenwoordigersLijst.Single().PrimairContactpersoon.Should().Be(vertegenwoordiger.PrimairContactpersoon);
-            foreach (var contactInfo in vertegenwoordigersLijst.Single().ContactInfoLijst)
+            foreach (var contactgegeven in vertegenwoordigersLijst.Single().Contactgegevens)
             {
-                contactInfo.PrimairContactInfo.Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().PrimairContactInfo);
-                contactInfo.Website?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Website);
-                contactInfo.Telefoon?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Telefoon);
-                contactInfo.Contactnaam.Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Contactnaam);
-                contactInfo.Email?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().Email);
-                contactInfo.SocialMedia?.ToString().Should().Be(vertegenwoordiger.ContactInfoLijst!.Single().SocialMedia);
+                contactgegeven.Type.ToString().Should().Be(vertegenwoordiger.Contactgegevens.Single().Type);
+                contactgegeven.Waarde.Should().Be(vertegenwoordiger.Contactgegevens.Single().Waarde);
+                contactgegeven.Omschrijving.Should().Be(vertegenwoordiger.Contactgegevens.Single().Omschrijving);
+                contactgegeven.ContactgegevenId.Should().Be(1);
+                contactgegeven.IsPrimair.Should().Be(vertegenwoordiger.Contactgegevens.Single().IsPrimair);
             }
         }
     }

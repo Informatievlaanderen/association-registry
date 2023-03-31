@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
-using Events.CommonEventDataTypes;
 using Fixtures;
 using Framework;
 using AutoFixture;
@@ -82,7 +81,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 _setup.Request.KorteBeschrijving,
                 _setup.Request.Startdatum.HasValue ? _setup.Request.Startdatum.Value : null,
                 _setup.Request.KboNummer,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

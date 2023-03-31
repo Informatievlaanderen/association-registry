@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
-using CommonRequestDataTypes;
 using Constants;
 using Primitives;
 using Swashbuckle.AspNetCore.Filters;
@@ -32,15 +31,14 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     Straatnaam = "Straatnaam",
                 },
             },
-            ContactInfoLijst = new[]
+            Contactgegevens = new[]
             {
-                new ContactInfo
+                new RegistreerVerenigingRequest.Contactgegeven()
                 {
-                    Contactnaam = "Algemeen",
-                    Email = "algemeen@example.com",
-                    Telefoon = "000000000",
-                    Website = "https://example.com",
-                    SocialMedia = "https://example.com/example",
+                    Omschrijving = "Algemeen",
+                    Waarde = "algemeen@example.com",
+                    Type = RequestContactgegevenTypes.Email,
+                    IsPrimair = true,
                 },
             },
             Vertegenwoordigers = new[]
@@ -51,16 +49,14 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     PrimairContactpersoon = true,
                     Roepnaam = "Conan",
                     Rol = "Barbarian",
-                    ContactInfoLijst = new[]
+                    Contactgegevens = new[]
                     {
-                        new ContactInfo
+                        new RegistreerVerenigingRequest.Contactgegeven()
                         {
-                            Contactnaam = "Persoonlijk",
-                            Email = "conan@example.com",
-                            Telefoon = "000000007",
-                            Website = "https://conan.com",
-                            SocialMedia = "https://example.com/conan",
-                            PrimairContactInfo = true,
+                            Omschrijving = "Persoonlijk",
+                            Waarde = "conan@example.com",
+                            Type = RequestContactgegevenTypes.Email,
+                            IsPrimair = true,
                         },
                     },
                 },

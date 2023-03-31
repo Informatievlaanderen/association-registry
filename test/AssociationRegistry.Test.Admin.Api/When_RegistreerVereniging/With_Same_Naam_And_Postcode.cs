@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
-using Events.CommonEventDataTypes;
 using Fixtures;
 using Framework;
 using AutoFixture;
@@ -157,7 +156,7 @@ public class With_Same_Naam_And_Postcode
                 Request.KorteBeschrijving,
                 Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
                 Request.KboNummer,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(

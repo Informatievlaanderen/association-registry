@@ -5,7 +5,7 @@
   "startdatum": "{{vereniging.startdatum}}",
   "kboNummer": "{{vereniging.kboNummer}}",
   "initiator": "{{vereniging.initiator}}",
-  "contactInfoLijst": {{vereniging.contactInfoLijst}},
+  "contactgegevens": {{vereniging.contactgegevens}},
   "locaties": {{vereniging.locaties}},
   "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},
   "hoofdactiviteitenVerenigingsloket": {{vereniging.hoofdactiviteitenLijst}}

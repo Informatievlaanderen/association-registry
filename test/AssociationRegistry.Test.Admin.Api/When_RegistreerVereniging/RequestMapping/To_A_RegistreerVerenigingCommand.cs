@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Vereniging.RegistreerVereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,7 +26,7 @@ public class To_A_RegistreerVerenigingCommand
             out var korteBeschrijving,
             out var startdatum,
             out var kboNummber,
-            out var contactInfoLijst,
+            out var contactgegevens,
             out var locaties,
             out var vertegenwoordigers,
             out var hoofdactiviteiten,
@@ -36,9 +37,30 @@ public class To_A_RegistreerVerenigingCommand
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         startdatum.Should().Be(request.Startdatum);
         kboNummber.Should().Be(request.KboNummer);
-        contactInfoLijst.Should().BeEquivalentTo(request.ContactInfoLijst);
+        contactgegevens[0].Should().BeEquivalentTo(
+            new RegistreerVerenigingCommand.Contactgegeven(
+                request.Contactgegevens[0].Type.ToString(),
+                request.Contactgegevens[0].Waarde,
+                request.Contactgegevens[0].Omschrijving,
+                request.Contactgegevens[0].IsPrimair));
         locaties.Should().BeEquivalentTo(request.Locaties);
-        vertegenwoordigers.Should().BeEquivalentTo(request.Vertegenwoordigers);
+        vertegenwoordigers.Should().BeEquivalentTo(
+            request.Vertegenwoordigers
+                .Select(
+                    v =>
+                        new RegistreerVerenigingCommand.Vertegenwoordiger(
+                            v.Insz!,
+                            v.PrimairContactpersoon,
+                            v.Roepnaam,
+                            v.Rol,
+                            v.Contactgegevens.Select(
+                                c =>
+                                    new RegistreerVerenigingCommand.Contactgegeven(
+                                        c.Type.ToString(),
+                                        c.Waarde,
+                                        c.Omschrijving,
+                                        c.IsPrimair)).ToArray())));
+
         hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
         skipDuplicateDetection.Should().BeFalse();
     }

@@ -2,6 +2,7 @@
 
 using System;
 using System.Runtime.Serialization;
+using Constants;
 using Vereniging.AddContactgegevens;
 
 [DataContract]
@@ -22,13 +23,7 @@ public class VoegContactgegevenToeRequest
 
 
     }
-    public enum RequestContactgegevenTypes
-    {
-        Email,
-        Telefoon,
-        Website,
-        SocialMedia,
-    }
+
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             vCode,

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 
+using Constants;
 using Swashbuckle.AspNetCore.Filters;
 
 public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContactgegevenToeRequest>
@@ -12,7 +13,7 @@ public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContac
             {
                 Omschrijving = "Algemeen",
                 Waarde = "algemeen@example.com",
-                Type = VoegContactgegevenToeRequest.RequestContactgegevenTypes.Email,
+                Type = RequestContactgegevenTypes.Email,
                 IsPrimair = true,
             },
         };

@@ -2,9 +2,8 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
-using CommonRequestDataTypes;
+using Constants;
 using Primitives;
 using Vereniging.WijzigBasisgegevens;
 
@@ -32,9 +31,15 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
-    /// <summary>Nieuwe contactgegevens van de vereniging</summary>
-    [DataMember]
-    public ContactInfo[]? ContactInfoLijst { get; set; }
+    public class Contactgegeven
+    {
+        [DataMember(Name = "type")] public RequestContactgegevenTypes Type { get; set; }
+        [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+
+        [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
+        public bool IsPrimair { get; set; }
+    }
 
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(
@@ -42,6 +47,6 @@ public class WijzigBasisgegevensRequest
             Naam,
             KorteNaam,
             KorteBeschrijving,
-            Startdatum,
-            ContactInfoLijst?.Select(ContactInfo.ToCommandContactInfo).ToArray());
+            Startdatum
+        );
 }

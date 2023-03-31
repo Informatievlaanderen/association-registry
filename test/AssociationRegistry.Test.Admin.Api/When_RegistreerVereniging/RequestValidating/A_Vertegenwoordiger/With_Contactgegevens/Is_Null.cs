@@ -1,11 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_A_ContactInfoLijst;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_Contactgegevens;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
-
 
 [UnitTest]
 public class Is_Null : ValidatorTest
@@ -20,12 +19,12 @@ public class Is_Null : ValidatorTest
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    ContactInfoLijst = null,
+                    Contactgegevens = null,
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor(nameof(request.Vertegenwoordigers) + "[0]." + nameof(RegistreerVerenigingRequest.Vertegenwoordiger.ContactInfoLijst));
+        result.ShouldNotHaveValidationErrorFor(nameof(request.Vertegenwoordigers) + "[0]." + nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Contactgegevens));
     }
 }

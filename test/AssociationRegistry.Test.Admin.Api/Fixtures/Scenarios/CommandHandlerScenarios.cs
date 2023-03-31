@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 using Events;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events.CommonEventDataTypes;
 using Framework;
 using VCodes;
 using Vereniging;
@@ -53,7 +52,7 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : Commandhandle
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
@@ -83,7 +82,7 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
@@ -92,7 +91,7 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
     }
 }
 
-public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
+public class VerenigingWerdGeregistreerdWithContactgegeven_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
@@ -102,12 +101,12 @@ public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioB
     public readonly string? KboNummer = null;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
-    public ContactInfo[] ContactInfoLijst { get; }
+    public VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
     public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
 
-    public VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioBase()
+    public VerenigingWerdGeregistreerdWithContactgegeven_Commandhandler_ScenarioBase()
     {
-        ContactInfoLijst = new Fixture().CustomizeAll().CreateMany<ContactInfo>().ToArray();
+        Contactgegevens = new Fixture().CustomizeAll().CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().ToArray();
     }
 
     public override IEnumerable<IEvent> Events()
@@ -119,7 +118,7 @@ public class VerenigingWerdGeregistreerdWithContactInfo_Commandhandler_ScenarioB
             KorteBeschrijving,
             Startdatum,
             KboNummer,
-            ContactInfoLijst,
+            Contactgegevens,
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
@@ -159,7 +158,7 @@ public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBa
                 KorteBeschrijving,
                 Startdatum,
                 KboNummer,
-                Array.Empty<ContactInfo>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[] { Locatie },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),

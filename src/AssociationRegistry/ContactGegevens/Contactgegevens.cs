@@ -14,11 +14,11 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     {
     }
 
-    public bool HasPrimairForType(Contactgegeven.ContactgegevenType type)
+    public bool HasPrimairForType(ContactgegevenType type)
         => this.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
 
     public Contactgegevens Append(Contactgegeven contactgegeven)
-        => new(((IEnumerable<Contactgegeven>)this).Append(contactgegeven).ToList());
+        => new(((IEnumerable<Contactgegeven>)this).Append(contactgegeven with { ContactgegevenId = NextId }).ToList());
 
     public new bool Contains(Contactgegeven contactgegeven)
         => this.Any(c => c.Type == contactgegeven.Type && c.Waarde == contactgegeven.Waarde);

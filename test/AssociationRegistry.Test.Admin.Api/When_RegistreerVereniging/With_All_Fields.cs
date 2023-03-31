@@ -32,15 +32,14 @@ public sealed class When_RegistreerVereniging_WithAllFields
             Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
-            ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
+            Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
             {
                 new()
                 {
-                    Contactnaam = "Algemeen",
-                    Email = "random@adress.be",
-                    Telefoon = "0123456789",
-                    Website = "https://www.website.be",
-                    SocialMedia = "http://so.cial",
+                    Type = RequestContactgegevenTypes.Email,
+                    Waarde = "random@example.org",
+                    Omschrijving = "Algemeen",
+                    IsPrimair = false,
                 },
             },
             Locaties = new[]
@@ -66,15 +65,14 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
-                    ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
+                    Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
                     {
                         new()
                         {
-                            Contactnaam = "Algemeen",
-                            Email = "qtpy@outlook.com",
-                            Telefoon = "0123456789",
-                            Website = "https://www.qt.py",
-                            SocialMedia = "http://QTP.y",
+                            Omschrijving = "Algemeen",
+                            Waarde = "qtpy@outlook.com",
+                            Type = RequestContactgegevenTypes.Email,
+                            IsPrimair = false,
                         },
                     },
                 },
@@ -84,16 +82,14 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
-                    ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
+                    Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
                     {
                         new()
                         {
-                            Contactnaam = "Scrum",
-                            Email = "master@outlook.com",
-                            Telefoon = "9876543210",
-                            Website = "https://www.master.lara",
-                            SocialMedia = "http://ScrumMaster.com",
-                            PrimairContactInfo = true,
+                            Omschrijving = "Scrum",
+                            Waarde = "master@outlook.com",
+                            Type = RequestContactgegevenTypes.Email,
+                            IsPrimair = true,
                         },
                     },
                 },
@@ -118,7 +114,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.startdatum}}", request.Startdatum.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.initiator}}", request.Initiator)
-            .Replace("{{vereniging.contactInfoLijst}}", JsonConvert.SerializeObject(request.ContactInfoLijst))
+            .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
             .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsloket));
@@ -150,15 +146,14 @@ public class With_All_Fields
                 Rol = "Voorzitter, Hoofdcoach",
                 Roepnaam = "QTPY",
                 PrimairContactpersoon = true,
-                ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
+                Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
                 {
                     new()
                     {
-                        Contactnaam = "Algemeen",
-                        Email = "qtpy@outlook.com",
-                        Telefoon = "0123456789",
-                        Website = "https://www.qt.py",
-                        SocialMedia = "http://QTP.y",
+                        Omschrijving = "Algemeen",
+                        Waarde = "qtpy@outlook.com",
+                        Type = RequestContactgegevenTypes.Email,
+                        IsPrimair = false,
                     },
                 },
             },
@@ -168,16 +163,14 @@ public class With_All_Fields
                 Rol = "Master",
                 Roepnaam = "Lara",
                 PrimairContactpersoon = false,
-                ContactInfoLijst = new AssociationRegistry.Admin.Api.Verenigingen.CommonRequestDataTypes.ContactInfo[]
+                Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
                 {
                     new()
                     {
-                        Contactnaam = "Scrum",
-                        Email = "master@outlook.com",
-                        Telefoon = "9876543210",
-                        Website = "https://www.master.lara",
-                        SocialMedia = "http://ScrumMaster.com",
-                        PrimairContactInfo = true,
+                        Omschrijving = "Scrum",
+                        Waarde = "master@outlook.com",
+                        Type = RequestContactgegevenTypes.Email,
+                        IsPrimair = true,
                     },
                 },
             },
@@ -198,8 +191,8 @@ public class With_All_Fields
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum.Value);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
-        savedEvent.ContactInfoLijst.Should().HaveCount(1);
-        savedEvent.ContactInfoLijst[0].Should().BeEquivalentTo(Request.ContactInfoLijst[0]);
+        savedEvent.Contactgegevens.Should().HaveCount(1);
+        savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0]);
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers);

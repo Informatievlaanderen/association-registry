@@ -5,10 +5,8 @@ using System.Linq;
 using Constants;
 using Detail;
 using Events;
-using Events.CommonEventDataTypes;
 using Framework;
 using Infrastructure.Extensions;
-using JasperFx.Core;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema;
@@ -74,19 +72,6 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 $"Startdatum werd verwijderd.",
                 new StartdatumWerdGewijzigdData(null)
             );
-
-    }
-
-    public void Apply(IEvent<ContactInfoLijstWerdGewijzigd> contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-    {
-        contactInfoLijstWerdGewijzigd.Data.Verwijderingen.ForEach(
-            toevoeging => AddVerwijderingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
-        contactInfoLijstWerdGewijzigd.Data.Wijzigingen.ForEach(
-            wijziging => AddWijzigContactInfoHistoriekEntries(contactInfoLijstWerdGewijzigd, document, wijziging));
-        contactInfoLijstWerdGewijzigd.Data.Toevoegingen.ForEach(
-            toevoeging => AddToevoegingContactInfoHistoriekEntry(contactInfoLijstWerdGewijzigd, document, toevoeging));
-
-        document.Metadata = new Metadata(contactInfoLijstWerdGewijzigd.Sequence, contactInfoLijstWerdGewijzigd.Version);
     }
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
@@ -130,57 +115,5 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 tijdstip
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
-    }
-
-    private static void AddToevoegingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo toevoeging)
-    {
-        AddHistoriekEntry(
-            contactInfoLijstWerdGewijzigd,
-            document,
-            $"Contactinfo met naam '{toevoeging.Contactnaam}' werd toegevoegd.",
-            new ContactInfoWerdToegevoegdData(toevoeging));
-    }
-
-    private static void AddWijzigContactInfoHistoriekEntries(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo wijziging)
-    {
-        if (wijziging.Email is not null)
-            AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                document,
-                $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Email' werd gewijzigd naar '{wijziging.Email}'.",
-                new EmailContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Email));
-        if (wijziging.Telefoon is not null)
-            AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                document,
-                $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Telefoon' werd gewijzigd naar '{wijziging.Telefoon}'.",
-                new TelefoonContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Telefoon));
-        if (wijziging.Website is not null)
-            AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                document,
-                $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'Website' werd gewijzigd naar '{wijziging.Website}'.",
-                new WebsiteContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.Website));
-        if (wijziging.SocialMedia is not null)
-            AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                document,
-                $"Contactinfo met naam '{wijziging.Contactnaam}' werd gewijzigd, 'SocialMedia' werd gewijzigd naar '{wijziging.SocialMedia}'.",
-                new SocialMediaContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.SocialMedia));
-        if (wijziging.PrimairContactInfo)
-            AddHistoriekEntry(
-                contactInfoLijstWerdGewijzigd,
-                document,
-                $"Contactinfo met naam '{wijziging.Contactnaam}' werd als primair aangeduid.",
-                new PrimairContactInfoWerdGewijzigdHistoriekData(wijziging.Contactnaam, wijziging.PrimairContactInfo));
-    }
-
-    private static void AddVerwijderingContactInfoHistoriekEntry(IEvent contactInfoLijstWerdGewijzigd, BeheerVerenigingHistoriekDocument document, ContactInfo verwijdering)
-    {
-        AddHistoriekEntry(
-            contactInfoLijstWerdGewijzigd,
-            document,
-            $"Contactinfo met naam '{verwijdering.Contactnaam}' werd verwijderd.",
-            new ContactInfoWerdVerwijderdData(verwijdering.Contactnaam));
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using CommonRequestDataTypes;
+using Constants;
 using Primitives;
 using Vereniging.RegistreerVereniging;
 
@@ -41,7 +41,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>De contact info van deze vereniging</summary>
     [DataMember]
-    public ContactInfo[] ContactInfoLijst { get; set; } = Array.Empty<ContactInfo>();
+    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember]
@@ -62,13 +62,18 @@ public class RegistreerVerenigingRequest
             KorteBeschrijving,
             Startdatum,
             KboNummer,
-            ContactInfoLijst.Select(ContactInfo.ToCommandContactInfo),
-            Locaties.Select(ToLocatie),
-            Vertegenwoordigers.Select(ToVertegenwoordiger),
+            Contactgegevens.Select(Contactgegeven.ToCommand).ToArray(),
+            Locaties.Select(ToLocatie).ToArray(),
+            Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
             HoofdactiviteitenVerenigingsloket);
 
     private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz!, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.ContactInfoLijst?.Select(ContactInfo.ToCommandContactInfo));
+        => new(
+            vert.Insz!,
+            vert.PrimairContactpersoon,
+            vert.Roepnaam,
+            vert.Rol,
+            vert.Contactgegevens.Select(Contactgegeven.ToCommand).ToArray());
 
     private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
         => new(
@@ -81,6 +86,24 @@ public class RegistreerVerenigingRequest
             loc.Land,
             loc.Hoofdlocatie,
             loc.Locatietype);
+
+    [DataContract]
+    public class Contactgegeven
+    {
+        [DataMember(Name = "type")] public RequestContactgegevenTypes Type { get; set; }
+        [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+
+        [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
+        public bool IsPrimair { get; set; }
+
+        public static RegistreerVerenigingCommand.Contactgegeven ToCommand(Contactgegeven contactgegeven)
+            => new(
+                Enum.GetName(contactgegeven.Type)!,
+                contactgegeven.Waarde,
+                contactgegeven.Omschrijving,
+                contactgegeven.IsPrimair);
+    }
 
     [DataContract]
     public class Vertegenwoordiger
@@ -107,7 +130,7 @@ public class RegistreerVerenigingRequest
 
         /// <summary>Dit zijn de contactgegevens van een vertegenwoordiger</summary>
         [DataMember]
-        public ContactInfo[]? ContactInfoLijst { get; set; }
+        public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     }
 
     [DataContract]
