@@ -1,3 +1,16 @@
+# [1.143.0](https://github.com/informatievlaanderen/association-registry/compare/v1.142.0...v1.143.0) (2023-04-03)
+
+
+### Bug Fixes
+
+* or-1653 revert more tests ([4df0ff4](https://github.com/informatievlaanderen/association-registry/commit/4df0ff4dcd6f8ddfd66fbd149581659b53b749d4))
+* or-1653 revert tests for voegContactgegevenToe ([5bcd93f](https://github.com/informatievlaanderen/association-registry/commit/5bcd93f3d142336de8cdaa390f7e0407a45e96cc))
+
+
+### Features
+
+* or-1653 use contactgegevens in registreer and remove contactInfo ([6f0d852](https://github.com/informatievlaanderen/association-registry/commit/6f0d8522269307a1dc1547f912f87ec1128fa2a0))
+
 # [1.142.0](https://github.com/informatievlaanderen/association-registry/compare/v1.141.4...v1.142.0) (2023-03-30)
 
 
