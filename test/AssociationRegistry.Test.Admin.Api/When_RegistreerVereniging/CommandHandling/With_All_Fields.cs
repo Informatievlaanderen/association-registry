@@ -27,9 +27,9 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string KboNummber = "0123456749";
     private const string Hoofdactiviteit = "KECU";
 
-    private static readonly RegistreerVerenigingCommand.Contactgegeven Contactgegeven = new("email", "info@dummy.com", "the email", true);
+    private static readonly RegistreerVerenigingCommand.Contactgegeven Contactgegeven = new(ContactgegevenType.Email, "info@dummy.com", "the email", true);
     private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.Contactgegeven VertegenwoordigerContactgegeven = new("email", "conan@barbarian.history.com", "Historie", true);
+    private static readonly RegistreerVerenigingCommand.Contactgegeven VertegenwoordigerContactgegeven = new(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
     private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using Events;
-using Fixtures;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

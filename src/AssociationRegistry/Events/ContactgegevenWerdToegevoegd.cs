@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
+using ContactGegevens;
 using Framework;
 
-public record ContactgegevenWerdToegevoegd(int ContactgegevenId, string Type, string Waarde, string Omschrijving, bool IsPrimair) : IEvent;
+public record ContactgegevenWerdToegevoegd(int ContactgegevenId, ContactgegevenType Type, string Waarde, string Omschrijving, bool IsPrimair) : IEvent;

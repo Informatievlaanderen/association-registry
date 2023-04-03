@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven;
 
 using System.Net;
+using ContactGegevens;
 using Fixtures;
 using Fixtures.Scenarios;
 using Events;
@@ -67,7 +68,7 @@ public class Given_A_New_Contactgegeven : IClassFixture<Post_A_New_Contactgegeve
             .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
-            .BeEquivalentTo(new ContactgegevenWerdToegevoegd(1, "Email", "test@example.org", "algemeen", false));
+            .BeEquivalentTo(new ContactgegevenWerdToegevoegd(1, ContactgegevenType.Email, "test@example.org", "algemeen", false));
     }
 
     [Fact]

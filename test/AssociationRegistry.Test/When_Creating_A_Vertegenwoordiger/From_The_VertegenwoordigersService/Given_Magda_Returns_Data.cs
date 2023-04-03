@@ -43,7 +43,7 @@ public class Given_Magda_Returns_Data
             fixture.Create<string>(),
             new RegistreerVerenigingCommand.Contactgegeven[]
             {
-                new(ContactgegevenType.Email.ToString(), email, fixture.Create<int?>().ToString(), false),
+                new(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
             });
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 
@@ -57,7 +57,7 @@ public class Given_Magda_Returns_Data
             vertegenwoordigersLijst.Single().PrimairContactpersoon.Should().Be(vertegenwoordiger.PrimairContactpersoon);
             foreach (var contactgegeven in vertegenwoordigersLijst.Single().Contactgegevens)
             {
-                contactgegeven.Type.ToString().Should().Be(vertegenwoordiger.Contactgegevens.Single().Type);
+                contactgegeven.Type.Should().Be(vertegenwoordiger.Contactgegevens.Single().Type);
                 contactgegeven.Waarde.Should().Be(vertegenwoordiger.Contactgegevens.Single().Waarde);
                 contactgegeven.Omschrijving.Should().Be(vertegenwoordiger.Contactgegevens.Single().Omschrijving);
                 contactgegeven.ContactgegevenId.Should().Be(1);

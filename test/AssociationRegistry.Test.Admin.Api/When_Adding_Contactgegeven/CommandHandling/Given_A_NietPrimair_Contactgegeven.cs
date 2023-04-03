@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using ContactGegevens;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
@@ -36,7 +37,7 @@ public class Given_A_NietPrimair_Contactgegeven
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                type,
+                Enum.Parse<ContactgegevenType>(type),
                 waarde,
                 _fixture.Create<string?>(),
                 false));

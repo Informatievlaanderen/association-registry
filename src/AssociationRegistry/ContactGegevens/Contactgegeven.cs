@@ -24,12 +24,11 @@ public record Contactgegeven
         IsPrimair = isPrimair;
     }
 
-    public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
+    public static Contactgegeven Create(ContactgegevenType type, string waarde, string? omschrijving, bool isPrimair)
     {
-        Throw<InvalidContactType>.IfNot(IsKnownType(type));
-
         omschrijving ??= string.Empty;
-        return Enum.Parse<ContactgegevenType>(type, true) switch
+
+        return type switch
         {
             ContactgegevenType.Email => Email.Create(waarde, omschrijving, isPrimair),
             ContactgegevenType.Telefoon => TelefoonNummer.Create(waarde, omschrijving, isPrimair),
@@ -37,6 +36,12 @@ public record Contactgegeven
             ContactgegevenType.SocialMedia => SocialMedia.Create(waarde, omschrijving, isPrimair),
             _ => throw new InvalidContactType(),
         };
+    }
+
+    public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
+    {
+        Throw<InvalidContactType>.IfNot(IsKnownType(type));
+        return Create(Enum.Parse<ContactgegevenType>(type, true), waarde, omschrijving, isPrimair);
     }
 
     private static bool IsKnownType(string type)

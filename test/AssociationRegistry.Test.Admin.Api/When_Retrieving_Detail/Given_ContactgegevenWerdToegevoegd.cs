@@ -71,7 +71,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             c.IsPrimair)))
             .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
                 _contactgegevenWerdToegevoegd.ContactgegevenId,
-                _contactgegevenWerdToegevoegd.Type,
+                Enum.GetName(_contactgegevenWerdToegevoegd.Type),
                 _contactgegevenWerdToegevoegd.Waarde,
                 _contactgegevenWerdToegevoegd.Omschrijving,
                 _contactgegevenWerdToegevoegd.IsPrimair));

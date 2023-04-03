@@ -36,7 +36,7 @@ public class Given_Magda_Throws_Exception
             fixture.Create<string>(),
             new RegistreerVerenigingCommand.Contactgegeven[]
             {
-                new(ContactgegevenType.Email.ToString(), email, fixture.Create<int?>().ToString(), false),
+                new(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
             });
         var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 

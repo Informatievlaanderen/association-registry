@@ -33,7 +33,7 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                "email",
+                ContactgegevenType.Email,
                 "test2@example.org",
                 _fixture.Create<string?>(),
                 true));

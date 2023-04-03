@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using ContactGegevens;
 using Events;
 using FluentAssertions;
 using Xunit;
@@ -14,7 +15,7 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         var contactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(
             ContactgegevenId: 666,
-            Type: "telefoon",
+            Type: ContactgegevenType.Telefoon,
             Waarde: "007",
             Omschrijving: "James Bond",
             IsPrimair: false);
@@ -28,7 +29,7 @@ public class Given_ContactgegevenWerdToegevoegd
             new BeheerVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Type,
+                Type = Enum.GetName(contactgegevenWerdToegevoegd.Type),
                 Waarde = contactgegevenWerdToegevoegd.Waarde,
                 Omschrijving = contactgegevenWerdToegevoegd.Omschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.IsPrimair,

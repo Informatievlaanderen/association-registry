@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 
-using System;
 using System.Runtime.Serialization;
 using Constants;
+using ContactGegevens;
 using Vereniging.VoegContactgegevenToe;
 
 [DataContract]
@@ -20,15 +20,13 @@ public class VoegContactgegevenToeRequest
 
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
-
-
     }
 
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             vCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                Enum.GetName(Contactgegeven.Type)!,
+                (ContactgegevenType)Contactgegeven.Type,
                 Contactgegeven.Waarde,
                 Contactgegeven.Omschrijving,
                 Contactgegeven.IsPrimair));

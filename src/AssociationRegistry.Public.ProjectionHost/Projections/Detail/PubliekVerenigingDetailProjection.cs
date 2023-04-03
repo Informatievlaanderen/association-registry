@@ -72,7 +72,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                 new PubliekVerenigingDetailDocument.Contactgegeven()
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Type = Enum.GetName(contactgegevenWerdToegevoegd.Data.Type),
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                     Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
