@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
+using ContactGegevens;
 using Primitives;
 
 public record RegistreerVerenigingCommand(
@@ -33,7 +34,7 @@ public record RegistreerVerenigingCommand(
         Contactgegeven[] Contactgegevens);
 
     public record Contactgegeven(
-        string Type,
+        ContactgegevenType Type,
         string Waarde,
         string? Omschrijving,
         bool IsPrimair);

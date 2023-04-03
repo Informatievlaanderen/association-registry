@@ -2,6 +2,7 @@
 
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
+using ContactGegevens;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -14,7 +15,7 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         var contactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(
             ContactgegevenId: 666,
-            Type: "telefoon",
+            Type: ContactgegevenType.Telefoon,
             Waarde: "007",
             Omschrijving: "James Bond",
             IsPrimair: false);
@@ -28,7 +29,7 @@ public class Given_ContactgegevenWerdToegevoegd
             new PubliekVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Type,
+                Type = Enum.GetName(contactgegevenWerdToegevoegd.Type),
                 Waarde = contactgegevenWerdToegevoegd.Waarde,
                 Omschrijving = contactgegevenWerdToegevoegd.Omschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.IsPrimair,

@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using ContactGegevens;
 
 public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
 {
@@ -17,7 +18,7 @@ public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999006";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        ContactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(1, "Email", "something@example.org", "algemeen", false);
+        ContactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(1, ContactgegevenType.Email, "something@example.org", "algemeen", false);
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

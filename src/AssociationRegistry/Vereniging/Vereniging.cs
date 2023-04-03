@@ -141,7 +141,21 @@ public class Vereniging : IHasVersion
     {
         Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.Contains(contactgegeven), Enum.GetName(contactgegeven.Type));
         Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), Enum.GetName(contactgegeven.Type));
-        AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, Enum.GetName(contactgegeven.Type)!, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
+        AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
+    }
+
+    public void VerwijderContactgegeven(int contactgegevenId)
+    {
+        Throw<UnknownContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId));
+
+        var contactgegeven = _state.Contactgegevens[contactgegevenId];
+        AddEvent(
+            new ContactgegevenWerdVerwijderd(
+                contactgegeven!.ContactgegevenId,
+                contactgegeven.Type,
+                contactgegeven.Waarde,
+                contactgegeven.Omschrijving,
+                contactgegeven.IsPrimair));
     }
 
     public void Apply(VerenigingWerdGeregistreerd @event)
@@ -183,7 +197,7 @@ public class Vereniging : IHasVersion
         {
             Contactgegevens = _state.Contactgegevens.Append(
                 new Contactgegeven(
-                    Enum.Parse<ContactgegevenType>(@event.Type, ignoreCase: true),
+                    @event.Type,
                     @event.Waarde,
                     @event.Omschrijving,
                     @event.IsPrimair)),

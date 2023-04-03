@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestMa
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
 using Vereniging.RegistreerVereniging;
 using Xunit;
@@ -39,7 +40,7 @@ public class To_A_RegistreerVerenigingCommand
         kboNummber.Should().Be(request.KboNummer);
         contactgegevens[0].Should().BeEquivalentTo(
             new RegistreerVerenigingCommand.Contactgegeven(
-                request.Contactgegevens[0].Type.ToString(),
+                (ContactgegevenType)request.Contactgegevens[0].Type,
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Omschrijving,
                 request.Contactgegevens[0].IsPrimair));
@@ -56,7 +57,7 @@ public class To_A_RegistreerVerenigingCommand
                             v.Contactgegevens.Select(
                                 c =>
                                     new RegistreerVerenigingCommand.Contactgegeven(
-                                        c.Type.ToString(),
+                                        (ContactgegevenType)c.Type,
                                         c.Waarde,
                                         c.Omschrijving,
                                         c.IsPrimair)).ToArray())));

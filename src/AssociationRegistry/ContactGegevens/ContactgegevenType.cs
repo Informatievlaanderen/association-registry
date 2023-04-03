@@ -2,8 +2,8 @@
 
 public enum ContactgegevenType
 {
-    Email,
-    Website,
-    SocialMedia,
-    Telefoon,
+    Email = 1,
+    Telefoon = 2,
+    Website = 3,
+    SocialMedia = 4,
 }

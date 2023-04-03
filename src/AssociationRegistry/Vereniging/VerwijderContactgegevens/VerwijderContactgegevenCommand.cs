@@ -1,3 +1,3 @@
 ﻿namespace AssociationRegistry.Vereniging.VerwijderContactgegevens;
 
-public record VerwijderContactgegevenCommand;
+public record VerwijderContactgegevenCommand(string VCode, int ContactgegevenId);

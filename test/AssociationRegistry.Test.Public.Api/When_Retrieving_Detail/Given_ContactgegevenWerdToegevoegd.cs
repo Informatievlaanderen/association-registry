@@ -54,7 +54,7 @@ public class Given_ContactgegevenWerdToegevoegd
         var contactgegevens = Array.Empty<Contactgegeven>()
             .Append(
                 new Contactgegeven(
-                    _contactgegevenWerdToegevoegd.Type,
+                    Enum.GetName(_contactgegevenWerdToegevoegd.Type),
                     _contactgegevenWerdToegevoegd.Waarde,
                     _contactgegevenWerdToegevoegd.Omschrijving,
                     _contactgegevenWerdToegevoegd.IsPrimair

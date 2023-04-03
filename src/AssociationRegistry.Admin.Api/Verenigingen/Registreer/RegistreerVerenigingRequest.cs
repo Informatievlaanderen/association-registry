@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using Constants;
+using ContactGegevens;
 using Primitives;
 using Vereniging.RegistreerVereniging;
 
@@ -99,7 +100,7 @@ public class RegistreerVerenigingRequest
 
         public static RegistreerVerenigingCommand.Contactgegeven ToCommand(Contactgegeven contactgegeven)
             => new(
-                Enum.GetName(contactgegeven.Type)!,
+                (ContactgegevenType)contactgegeven.Type,
                 contactgegeven.Waarde,
                 contactgegeven.Omschrijving,
                 contactgegeven.IsPrimair);

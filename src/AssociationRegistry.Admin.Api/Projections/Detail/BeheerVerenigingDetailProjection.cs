@@ -99,7 +99,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Data.Type, Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                Type = Enum.GetName(contactgegevenWerdToegevoegd.Data.Type)!,
+                Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
             }).ToArray();

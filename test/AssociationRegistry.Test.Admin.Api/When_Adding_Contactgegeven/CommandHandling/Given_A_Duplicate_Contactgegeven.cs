@@ -33,7 +33,7 @@ public class Given_A_Duplicate_Contactgegeven
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                "website",
+                ContactgegevenType.Website,
                 "https://example.org",
                 _fixture.Create<string?>(),
                 false));
@@ -43,6 +43,6 @@ public class Given_A_Duplicate_Contactgegeven
 
         await handleCall.Should()
             .ThrowAsync<DuplicateContactgegeven>()
-            .WithMessage(new DuplicateContactgegeven(ContactgegevenType.Website.ToString()).Message);
+            .WithMessage(new DuplicateContactgegeven(Enum.GetName(ContactgegevenType.Website)).Message);
     }
 }

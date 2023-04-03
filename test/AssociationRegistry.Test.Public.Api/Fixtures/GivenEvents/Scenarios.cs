@@ -132,7 +132,7 @@ public class ContactgegevenWerdToegevoegdScenario : IScenario
         Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
 
-    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(1, "Email", "test@example.org", "de email om naar te sturen", false);
+    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(1, ContactgegevenType.Email, "test@example.org", "de email om naar te sturen", false);
 
     public VCode VCode
         => VCode.Create(VerenigingWerdGeregistreerd.VCode);

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 using Events;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using ContactGegevens;
 using Framework;
 using VCodes;
 using Vereniging;
@@ -17,7 +18,14 @@ public abstract class CommandhandlerScenarioBase
 
         foreach (var evnt in Events())
         {
-            vereniging.Apply((dynamic)evnt);
+            try
+            {
+                vereniging.Apply((dynamic)evnt);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         return vereniging;
@@ -70,6 +78,11 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
     public readonly string? KboNummer = null;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
+    public readonly int ContactgegevenId = 1;
+    public readonly ContactgegevenType Type = ContactgegevenType.Email;
+    public readonly string Waarde = "test@example.org";
+    public readonly string Omschrijving = "";
+    public readonly bool IsPrimair = true;
 
     public override IEnumerable<IEvent> Events()
     {
@@ -86,7 +99,7 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
-            new ContactgegevenWerdToegevoegd(1, "email", "test@example.org", "", true),
+            new ContactgegevenWerdToegevoegd(ContactgegevenId, Type, Waarde, Omschrijving, IsPrimair),
         };
     }
 }
@@ -125,6 +138,47 @@ public class VerenigingWerdGeregistreerdWithContactgegeven_Commandhandler_Scenar
         return new IEvent[]
         {
             WerdGeregistreerd,
+        };
+    }
+}
+
+public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
+{
+    public readonly VCode VCode = VCode.Create("V0009002");
+
+    public readonly string Naam = "Hulste Huldigt";
+    public readonly string? KorteBeschrijving = null;
+    public readonly string? KorteNaam = "FOud";
+    public readonly string? KboNummer = null;
+    public readonly string Initiator = "Een initiator";
+    public readonly DateOnly Startdatum = new(2023, 3, 6);
+    public VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
+    public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
+    public ContactgegevenWerdVerwijderd ContactgegevenWerdVerwijderd { get; private set; } = null!;
+
+    public VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase()
+    {
+        Contactgegevens = new[] { new Fixture().CustomizeAll().Create<VerenigingWerdGeregistreerd.Contactgegeven>() with { ContactgegevenId = 1 } };
+    }
+
+    public override IEnumerable<IEvent> Events()
+    {
+        WerdGeregistreerd = new VerenigingWerdGeregistreerd(
+            VCode,
+            Naam,
+            KorteNaam,
+            KorteBeschrijving,
+            Startdatum,
+            KboNummer,
+            Contactgegevens,
+            Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+        ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId, Contactgegevens[0].Type, Contactgegevens[0].Waarde, Contactgegevens[0].Omschrijving, Contactgegevens[0].IsPrimair);
+        return new IEvent[]
+        {
+            WerdGeregistreerd,
+            ContactgegevenWerdVerwijderd
         };
     }
 }

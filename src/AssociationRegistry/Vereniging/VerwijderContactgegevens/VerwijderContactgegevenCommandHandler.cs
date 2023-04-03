@@ -1,19 +1,25 @@
 ﻿namespace AssociationRegistry.Vereniging.VerwijderContactgegevens;
 
 using Framework;
+using VCodes;
 
 public class VerwijderContactgegevenCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IVerenigingsRepository _repository;
 
-    public VerwijderContactgegevenCommandHandler(IVerenigingsRepository verenigingRepository)
+    public VerwijderContactgegevenCommandHandler(IVerenigingsRepository repository)
     {
-        _verenigingRepository = verenigingRepository;
+        _repository = repository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VerwijderContactgegevenCommand> envelope)
+    public async Task<CommandResult> Handle(CommandEnvelope<VerwijderContactgegevenCommand> message)
     {
-        throw new NotImplementedException();
+        var vereniging = await _repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+
+        vereniging.VerwijderContactgegeven(message.Command.ContactgegevenId);
+
+        var result = await _repository.Save(vereniging, message.Metadata);
+        return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
 }
