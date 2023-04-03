@@ -8,7 +8,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
-using Vereniging.AddContactgegevens;
+using Vereniging.VoegContactgegevenToe;
 using Xunit;
 
 public class Given_A_Duplicate_Contactgegeven

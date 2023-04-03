@@ -1,0 +1,3 @@
+﻿namespace AssociationRegistry.Vereniging.VerwijderContactgegevens;
+
+public record VerwijderContactgegevenCommand;

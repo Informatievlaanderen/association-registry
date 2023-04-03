@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.Serialization;
 using Constants;
-using Vereniging.AddContactgegevens;
+using Vereniging.VoegContactgegevenToe;
 
 [DataContract]
 public class VoegContactgegevenToeRequest
