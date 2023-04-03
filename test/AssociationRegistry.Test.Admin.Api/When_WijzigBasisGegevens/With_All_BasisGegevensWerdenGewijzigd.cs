@@ -36,7 +36,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd
             Initiator = initiator,
             Startdatum = NullOrEmpty<DateOnly>.Create(nieuweStartdatum),
         };
-        VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
+        VCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
 
         var jsonBody = $@"{{
             ""naam"":""{nieuweVerenigingsNaam}"",

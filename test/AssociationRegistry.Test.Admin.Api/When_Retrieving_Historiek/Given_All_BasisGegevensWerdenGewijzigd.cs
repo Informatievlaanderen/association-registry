@@ -19,7 +19,7 @@ using Xunit.Categories;
 public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario _scenario;
+    private readonly V004_AlleBasisGegevensWerdenGewijzigd _scenario;
 
     private HttpResponseMessage _response = null!;
 
@@ -34,7 +34,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario;
+        _scenario = fixture.V004AlleBasisGegevensWerdenGewijzigd;
         _adminApiClient = fixture.DefaultClient;
     }
 

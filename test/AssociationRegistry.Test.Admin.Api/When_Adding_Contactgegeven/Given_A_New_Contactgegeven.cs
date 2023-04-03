@@ -13,7 +13,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario Scenario { get; }
+    public V002_VerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -22,7 +22,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario;
+        Scenario = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = $@"{{

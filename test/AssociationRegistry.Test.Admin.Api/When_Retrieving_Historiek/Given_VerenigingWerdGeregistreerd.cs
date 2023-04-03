@@ -22,12 +22,12 @@ public class Given_VerenigingWerdGeregistreerd
     private readonly HttpResponseMessage _response;
     private readonly CommandMetadata _metadata;
 
-    private readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario _scenario;
+    private readonly V001_VerenigingWerdGeregistreerd_WithAllFields _scenario;
 
 
     public Given_VerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario;
+        _scenario = fixture.V001VerenigingWerdGeregistreerdWithAllFields;
         _adminApiClient = fixture.DefaultClient;
 
         _metadata = _scenario.Metadata;
