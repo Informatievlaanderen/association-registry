@@ -5,7 +5,6 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Framework;
 using Vereniging;
-using Vereniging.AddContactgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 
 [ApiVersion("1.0")]

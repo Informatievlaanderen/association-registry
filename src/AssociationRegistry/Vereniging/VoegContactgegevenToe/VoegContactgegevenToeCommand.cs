@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Vereniging.AddContactgegevens;
+﻿namespace AssociationRegistry.Vereniging.VoegContactgegevenToe;
 
 public record VoegContactgegevenToeCommand(string VCode, VoegContactgegevenToeCommand.CommandContactgegeven Contactgegeven)
 {

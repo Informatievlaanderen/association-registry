@@ -52,6 +52,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
@@ -348,6 +349,7 @@ public class Program
             .AddNewtonsoftJson(
                 opt =>
                 {
+                    opt.SerializerSettings.Converters.Add(new StringEnumConverter(new DefaultNamingStrategy(), false));
                     opt.SerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
                     opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                     opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));

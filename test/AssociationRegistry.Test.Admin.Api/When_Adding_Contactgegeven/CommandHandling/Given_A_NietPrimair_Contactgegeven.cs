@@ -6,7 +6,7 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.AddContactgegevens;
+using Vereniging.VoegContactgegevenToe;
 using Xunit;
 
 public class Given_A_NietPrimair_Contactgegeven

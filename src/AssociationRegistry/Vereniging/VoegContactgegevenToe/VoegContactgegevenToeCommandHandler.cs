@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Vereniging.AddContactgegevens;
+﻿namespace AssociationRegistry.Vereniging.VoegContactgegevenToe;
 
 using ContactGegevens;
 using Framework;

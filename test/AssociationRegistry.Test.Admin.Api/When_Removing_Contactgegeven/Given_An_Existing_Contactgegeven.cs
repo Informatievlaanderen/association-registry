@@ -6,7 +6,6 @@ using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Marten;
-using When_Adding_Contactgegeven;
 using Xunit;
 using Xunit.Categories;
 

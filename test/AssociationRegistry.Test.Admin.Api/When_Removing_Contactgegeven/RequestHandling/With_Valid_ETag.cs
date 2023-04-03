@@ -1,13 +1,14 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Removing_Contactgegeven.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+using AssociationRegistry.Admin.Api.Verenigingen.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
 using AutoFixture;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Vereniging;
+using Vereniging.VerwijderContactgegevens;
 using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 using Xunit;
@@ -17,7 +18,7 @@ using Xunit.Categories;
 public class With_Valid_ETag : IAsyncLifetime
 {
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly VoegContactgegevenToeController _toeController;
+    private readonly VerwijderContactgegevenController _toeController;
     private readonly Fixture _fixture;
     private const int ETagNumber = 1;
 
@@ -29,15 +30,15 @@ public class With_Valid_ETag : IAsyncLifetime
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegContactgegevenToeCommand>>(), default, null))
             .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
 
-        _toeController = new VoegContactgegevenToeController(_messageBusMock.Object, new VoegContactgegevenToeValidator())
+        _toeController = new VerwijderContactgegevenController(_messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
     public async Task InitializeAsync()
     {
-        await _toeController.Post(
+        await _toeController.Delete(
             _fixture.Create<string>(),
-            _fixture.Create<VoegContactgegevenToeRequest>(),
+            _fixture.Create<int>(),
             $"W/\"{ETagNumber}\"");
     }
 
@@ -47,7 +48,7 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock.Verify(
             messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
-                    It.Is<CommandEnvelope<VoegContactgegevenToeCommand>>(
+                    It.Is<CommandEnvelope<VerwijderContactgegevenCommand>>(
                         env =>
                             env.Metadata.ExpectedVersion == ETagNumber),
                     default,
