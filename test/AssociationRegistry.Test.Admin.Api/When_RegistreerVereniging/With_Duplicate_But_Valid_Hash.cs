@@ -32,10 +32,10 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             var autoFixture = new Fixture().CustomizeAll();
             RequestLocatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
 
-            RequestLocatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+            RequestLocatie.Gemeente = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
             Request = new RegistreerVerenigingRequest
             {
-                Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Naam,
+                Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Naam,
                 Locaties = new[]
                 {
                     RequestLocatie,

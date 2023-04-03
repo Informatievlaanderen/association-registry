@@ -33,22 +33,22 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
 
-        locatie.Gemeente = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+        locatie.Gemeente = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
         Request = new RegistreerVerenigingRequest()
         {
-            Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd.Naam,
+            Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
             {
                 locatie,
             },
             Initiator = "OVO000001",
         };
-        VCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
-        Naam = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Naam;
+        VCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
+        Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(
             Request);
-        VerenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
+        VerenigingWerdGeregistreerd = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
     }
 

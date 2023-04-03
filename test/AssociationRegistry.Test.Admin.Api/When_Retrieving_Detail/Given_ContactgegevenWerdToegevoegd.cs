@@ -30,11 +30,11 @@ public class Given_ContactgegevenWerdToegevoegd
     public Given_ContactgegevenWerdToegevoegd(EventsInDbScenariosFixture fixture)
     {
         _adminApiClient = fixture.DefaultClient;
-        _vCode = fixture.ContactgegevenWerdToegevoegdEventsInDbScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.ContactgegevenWerdToegevoegdEventsInDbScenario.VerenigingWerdGeregistreerd;
-        _contactgegevenWerdToegevoegd = fixture.ContactgegevenWerdToegevoegdEventsInDbScenario.ContactgegevenWerdToegevoegd;
-        _metadata = fixture.ContactgegevenWerdToegevoegdEventsInDbScenario.Metadata;
-        _result = fixture.ContactgegevenWerdToegevoegdEventsInDbScenario.Result;
+        _vCode = fixture.V006ContactgegevenWerdToegevoegd.VCode;
+        _verenigingWerdGeregistreerd = fixture.V006ContactgegevenWerdToegevoegd.VerenigingWerdGeregistreerd;
+        _contactgegevenWerdToegevoegd = fixture.V006ContactgegevenWerdToegevoegd.ContactgegevenWerdToegevoegd;
+        _metadata = fixture.V006ContactgegevenWerdToegevoegd.Metadata;
+        _result = fixture.V006ContactgegevenWerdToegevoegd.Result;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

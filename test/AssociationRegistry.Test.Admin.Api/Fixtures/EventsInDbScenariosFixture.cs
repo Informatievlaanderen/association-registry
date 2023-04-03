@@ -5,23 +5,25 @@ using Scenarios;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
-    public readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
-    public readonly VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario = new();
-    public readonly VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario = new();
-    public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
-    public readonly VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenario VerenigingWerdGeregistreerdForUseWithETagMatchingEventsInDbScenario = new();
-    public readonly ContactgegevenWerdToegevoegd_EventsInDbScenario ContactgegevenWerdToegevoegdEventsInDbScenario = new();
+    public readonly V001_VerenigingWerdGeregistreerd_WithAllFields V001VerenigingWerdGeregistreerdWithAllFields = new();
+    public readonly V002_VerenigingWerdGeregistreerd_WithMinimalFields V002VerenigingWerdGeregistreerdWithMinimalFields = new();
+    public readonly V003_VerenigingWerdGeregistreerd_ForUseWithNoChanges V003VerenigingWerdGeregistreerdForUseWithNoChanges = new();
+    public readonly V004_AlleBasisGegevensWerdenGewijzigd V004AlleBasisGegevensWerdenGewijzigd = new();
+    public readonly V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching V005VerenigingWerdGeregistreerdForUseWithETagMatching = new();
+    public readonly V006_ContactgegevenWerdToegevoegd V006ContactgegevenWerdToegevoegd = new();
+    public readonly V007_VerenigingWerdGeregistreerd_WithContactgegeven V007VerenigingWerdGeregistreerdWithContactgegeven = new();
 
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
         {
-            VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
-            VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario,
-            VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario,
-            AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
-            VerenigingWerdGeregistreerdForUseWithETagMatchingEventsInDbScenario,
-            ContactgegevenWerdToegevoegdEventsInDbScenario,
+            V001VerenigingWerdGeregistreerdWithAllFields,
+            V002VerenigingWerdGeregistreerdWithMinimalFields,
+            V003VerenigingWerdGeregistreerdForUseWithNoChanges,
+            V004AlleBasisGegevensWerdenGewijzigd,
+            V005VerenigingWerdGeregistreerdForUseWithETagMatching,
+            V006ContactgegevenWerdToegevoegd,
+            V007VerenigingWerdGeregistreerdWithContactgegeven,
         };
 
         foreach (var scenario in scenarios)

@@ -28,9 +28,9 @@ public class Given_VerenigingWerdGeregistreerd
     public Given_VerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _adminApiClient = fixture.DefaultClient;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
-        _result = fixture.VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario.Result;
+        _vCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
+        _verenigingWerdGeregistreerd = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd;
+        _result = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Result;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

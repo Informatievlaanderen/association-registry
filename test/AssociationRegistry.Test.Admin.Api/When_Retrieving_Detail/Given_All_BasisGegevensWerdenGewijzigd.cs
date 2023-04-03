@@ -32,15 +32,15 @@ public class Given_All_BasisGegevensWerdenGewijzigd
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VCode;
+        _vCode = fixture.V004AlleBasisGegevensWerdenGewijzigd.VCode;
         _adminApiClient = fixture.DefaultClient;
-        _verenigingWerdGeregistreerd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.VerenigingWerdGeregistreerd;
-        _naamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.NaamWerdGewijzigd;
-        _korteNaamWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteNaamWerdGewijzigd;
-        _korteBeschrijvingWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.KorteBeschrijvingWerdGewijzigd;
-        _startdatumWerdGewijzigd = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.StartdatumWerdGewijzigd;
-        _metadata = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Metadata;
-        _result = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario.Result;
+        _verenigingWerdGeregistreerd = fixture.V004AlleBasisGegevensWerdenGewijzigd.VerenigingWerdGeregistreerd;
+        _naamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.NaamWerdGewijzigd;
+        _korteNaamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteNaamWerdGewijzigd;
+        _korteBeschrijvingWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteBeschrijvingWerdGewijzigd;
+        _startdatumWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.StartdatumWerdGewijzigd;
+        _metadata = fixture.V004AlleBasisGegevensWerdenGewijzigd.Metadata;
+        _result = fixture.V004AlleBasisGegevensWerdenGewijzigd.Result;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

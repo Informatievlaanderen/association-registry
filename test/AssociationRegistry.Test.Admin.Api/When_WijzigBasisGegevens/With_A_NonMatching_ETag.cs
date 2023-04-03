@@ -22,11 +22,11 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
             Naam = "De nieuwe vereniging",
             Initiator = "OVO000001",
         };
-        VCode = fixture.VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario.VCode;
+        VCode = fixture.V003VerenigingWerdGeregistreerdForUseWithNoChanges.VCode;
 
         var jsonBody = $@"{{""naam"":""{Request.Naam}"", ""Initiator"": ""{Request.Initiator}""}}";
 
-        var saveVersionResult = fixture.VerenigingWerdGeregistreerdForUseWithNoChangesEventsInDbScenario.Result;
+        var saveVersionResult = fixture.V003VerenigingWerdGeregistreerdForUseWithNoChanges.Result;
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version-1).GetAwaiter().GetResult();
     }
 

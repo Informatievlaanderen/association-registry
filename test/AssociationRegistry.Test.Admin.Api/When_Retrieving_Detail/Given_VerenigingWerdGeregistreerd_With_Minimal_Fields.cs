@@ -24,15 +24,15 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
     public Given_VerenigingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        _vCode = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.VerenigingWerdGeregistreerd;
+        _vCode = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.VCode;
+        _verenigingWerdGeregistreerd = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.VerenigingWerdGeregistreerd;
         _adminApiClient = fixture.DefaultClient;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.VerenigingWerdGeregistreerdWithMinimalFieldsEventsInDbScenario.Result.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.Result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
