@@ -2,8 +2,8 @@
 
 public enum RequestContactgegevenTypes
 {
-    Email,
-    Telefoon,
-    Website,
-    SocialMedia,
+    Email = 1,
+    Telefoon = 2,
+    Website = 3,
+    SocialMedia = 4,
 }

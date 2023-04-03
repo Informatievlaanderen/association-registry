@@ -9,8 +9,6 @@ using Events;
 using AssociationRegistry.Framework;
 using Primitives;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
