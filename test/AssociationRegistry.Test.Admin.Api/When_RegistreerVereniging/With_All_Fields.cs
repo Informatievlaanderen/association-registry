@@ -192,7 +192,7 @@ public class With_All_Fields
         savedEvent.Startdatum.Should().Be(Request.Startdatum.Value);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
         savedEvent.Contactgegevens.Should().HaveCount(1);
-        savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0]);
+        savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers);
