@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidContactType : DomainException
 {
-    public InvalidContactType() : base("Het opgegeven contacttype werd niet herkent. ('email', 'website', 'socialmedia', 'telefoon')")
+    public InvalidContactType() : base("Het opgegeven contacttype werd niet herkend. ('email', 'website', 'socialmedia', 'telefoon')")
     {
     }
 
