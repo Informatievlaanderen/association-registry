@@ -1,3 +1,10 @@
+# [1.144.0](https://github.com/informatievlaanderen/association-registry/compare/v1.143.0...v1.144.0) (2023-04-04)
+
+
+### Features
+
+* or-1647 verwijder contactgegeven ([f988e3f](https://github.com/informatievlaanderen/association-registry/commit/f988e3f62d90e7ad7cf21d992c1055992f768e43))
+
 # [1.143.0](https://github.com/informatievlaanderen/association-registry/compare/v1.142.0...v1.143.0) (2023-04-03)
 
 
