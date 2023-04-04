@@ -33,9 +33,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         => this.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
 
     public Contactgegevens Append(Contactgegeven contactgegeven)
-    {
-        return new(((IEnumerable<Contactgegeven>)this).Append(contactgegeven with { ContactgegevenId = NextId }).ToList());
-    }
+        => new(((IEnumerable<Contactgegeven>)this).Append(contactgegeven with { ContactgegevenId = NextId }).ToList());
 
     public new bool Contains(Contactgegeven contactgegeven)
         => this.Any(c => c.Type == contactgegeven.Type && c.Waarde == contactgegeven.Waarde);

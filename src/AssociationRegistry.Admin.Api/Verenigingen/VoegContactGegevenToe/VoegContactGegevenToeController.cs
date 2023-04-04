@@ -62,7 +62,10 @@ public class VoegContactgegevenToeController : ApiController
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
-        await _messageBus.InvokeAsync<CommandResult>(envelope);
+        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
+
+        Response.AddSequenceHeader(commandResult.Sequence);
+        Response.AddETagHeader(commandResult.Version);
 
         return Accepted();
     }

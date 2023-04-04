@@ -37,7 +37,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             new[]
             {
                 new RegistreerVerenigingCommand.Contactgegeven("email", "test@example.org", fixture.Create<string>(), true),
-                new RegistreerVerenigingCommand.Contactgegeven("website", "http://example.org", fixture.Create<string>(), true)
+                new RegistreerVerenigingCommand.Contactgegeven("website", "http://example.org", fixture.Create<string>(), true),
             },
             Array.Empty<RegistreerVerenigingCommand.Locatie>(),
             Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),

@@ -86,7 +86,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.KorteNaam,
                 _command.KorteBeschrijving,
                 null,
-                _command.KboNummber,
+                _command.KboNumber,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {

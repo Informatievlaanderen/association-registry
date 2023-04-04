@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using AssociationRegistry.Framework;
-using Magda;
-using Primitives;
 using Fakes;
 using Framework;
 using Vereniging.DuplicateDetection;
@@ -10,40 +8,41 @@ using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using ContactGegevens.Exceptions;
 using FluentAssertions;
+using Framework.MagdaMocks;
 using Moq;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Two_Duplicate_Contactgegevens
+public class With_A_Vertegenwoordiger_With_Two_Duplicate_Contactgegevens
 {
     private readonly CommandEnvelope<RegistreerVerenigingCommand> _commandEnvelope;
     private readonly RegistreerVerenigingCommandHandler _commandHandler;
 
-    public With_Two_Duplicate_Contactgegevens()
+    public With_A_Vertegenwoordiger_With_Two_Duplicate_Contactgegevens()
     {
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateTime>();
 
-        var contactgegeven = new RegistreerVerenigingCommand.Contactgegeven("email", "test@example.org", fixture.Create<string>(), fixture.Create<bool>());
-        var command = new RegistreerVerenigingCommand(
-            fixture.Create<string>(),
-            null,
-            null,
-            NullOrEmpty<DateOnly>.Null,
-            null,
-            new[] { contactgegeven, contactgegeven },
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
-            true);
+        var contactgegeven = fixture.Create<RegistreerVerenigingCommand.Contactgegeven>();
+
+        var command = fixture.Create<RegistreerVerenigingCommand>() with
+        {
+            Vertegenwoordigers = new[]
+            {
+                fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger>() with
+                {
+                    Contactgegevens = new[] { contactgegeven, contactgegeven },
+                },
+            },
+        };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _commandHandler = new RegistreerVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            Mock.Of<IMagdaFacade>(),
+            new MagdaFacadeEchoMock(),
             Mock.Of<IDuplicateDetectionService>(),
             new ClockStub(today));
 

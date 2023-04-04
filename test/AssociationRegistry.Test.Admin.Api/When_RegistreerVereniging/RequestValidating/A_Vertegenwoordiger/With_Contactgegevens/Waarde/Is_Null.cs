@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_Contactgegevens.Waarde;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 
@@ -25,7 +25,7 @@ public class Is_Null : ValidatorTest
                         {
                             Waarde = null!,
                         },
-                    },}}
+                    } }},
             });
 
         result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Contactgegevens)}[0].{nameof(RegistreerVerenigingRequest.Contactgegeven.Waarde)}")

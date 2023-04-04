@@ -17,7 +17,7 @@ public class Given_ContactgegevenWerdToegevoegd
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                $"{projectEventOnHistoriekDocument.Event.Data.Type} contactgegeven werd toegevoegd.",
+                $"{projectEventOnHistoriekDocument.Event.Data.Type} {projectEventOnHistoriekDocument.Event.Data.Waarde} werd toegevoegd.",
                 nameof(ContactgegevenWerdToegevoegd),
                 projectEventOnHistoriekDocument.Event.Data,
                 initiator,

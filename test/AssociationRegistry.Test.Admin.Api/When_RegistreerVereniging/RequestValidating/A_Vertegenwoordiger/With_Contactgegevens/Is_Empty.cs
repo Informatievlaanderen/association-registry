@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_Contactgegevens;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 
@@ -18,7 +18,7 @@ public class Is_Empty : ValidatorTest
                 new[]
                 {
                     new RegistreerVerenigingRequest.Vertegenwoordiger(),
-                }
+                },
         };
         var result = validator.TestValidate(request);
 

@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;

@@ -33,13 +33,7 @@ public class VertegenwoordigerService
     private async Task<Vertegenwoordiger> GetVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vertegenwoordiger)
     {
         var insz = Insz.Create(vertegenwoordiger.Insz);
-        var contactgegevens = vertegenwoordiger.Contactgegevens.Aggregate(
-            Contactgegevens.Empty,
-            (lijst, c) =>
-                lijst.Append(
-                    Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)
-                )
-        );
+        var contactgegevens = Contactgegevens.FromArray(vertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
 
         var magdaPersoon = await TryGetMagdaPersoon(insz);
 

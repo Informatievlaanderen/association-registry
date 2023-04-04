@@ -7,7 +7,7 @@ public record RegistreerVerenigingCommand(
     string? KorteNaam,
     string? KorteBeschrijving,
     NullOrEmpty<DateOnly> Startdatum,
-    string? KboNummber,
+    string? KboNumber,
     RegistreerVerenigingCommand.Contactgegeven[] Contactgegevens,
     RegistreerVerenigingCommand.Locatie[] Locaties,
     RegistreerVerenigingCommand.Vertegenwoordiger[] Vertegenwoordigers,

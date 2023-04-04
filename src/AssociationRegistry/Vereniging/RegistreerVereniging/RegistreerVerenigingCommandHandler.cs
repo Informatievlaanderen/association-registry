@@ -39,10 +39,10 @@ public class RegistreerVerenigingCommandHandler
     {
         var command = message.Command;
         var naam = new VerenigingsNaam(command.Naam);
-        var kboNummer = KboNummer.Create(command.KboNummber);
+        var kboNummer = KboNummer.Create(command.KboNumber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
-
+        var contactgegevens = Contactgegevens.FromArray(command.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
         if (!message.Command.SkipDuplicateDetection)
@@ -64,7 +64,7 @@ public class RegistreerVerenigingCommandHandler
             command.KorteBeschrijving,
             startdatum,
             kboNummer,
-            command.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray(),
+            contactgegevens,
             locatieLijst,
             vertegenwoordigersLijst,
             hoofdactiviteitenVerenigingsloketLijst);
