@@ -8,9 +8,19 @@ using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
+using ContactGegevens;
+using ContactGegevens.Emails;
+using ContactGegevens.SocialMedias;
+using ContactGegevens.TelefoonNummers;
+using ContactGegevens.Websites;
 using Events;
+using Hoofdactiviteiten;
+using INSZ;
+using KboNummers;
 using Marten.Events;
 using NodaTime;
+using Primitives;
+using Vereniging.RegistreerVereniging;
 
 public static class AutoFixtureCustomizations
 {
@@ -21,6 +31,14 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeInstant();
         fixture.CustomizeRegistreerVerenigingRequestLocatie();
         fixture.CustomizeVerenigingWerdGeregistreerdLocatie();
+
+        fixture.CustomizeKboNummer();
+        fixture.CustomizeInsz();
+        fixture.CustomizeRegistreerVerenigingCommandVertegenwoordiger();
+        fixture.CustomizeHoofdactiviteitVerenigingsloket();
+        fixture.CustomizeHoofdactiviteitVerenigingsloketLijst();
+        fixture.CustomizeRegistreerVerenigingContactgegeven();
+        fixture.CustomizeRegistreerVerenigingCommand();
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
@@ -89,6 +107,138 @@ public static class AutoFixtureCustomizations
                         Gemeente: fixture.Create<string>(),
                         Land: fixture.Create<string>(),
                         Hoofdlocatie: false))
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeKboNummer(this IFixture fixture)
+    {
+        var validKboNummers = new[]
+        {
+            "0000000097",
+            "1111111145",
+            "1234.123.179",
+            "1234 123 179",
+            "0000 000.097",
+            "1111.111 145",
+            "123.1564.260",
+            "12.34.56.78.94",
+            ".0123456749",
+            "0123456749.",
+        };
+
+        fixture.Customize<KboNummer>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                    factory: value => KboNummer.Create(validKboNummers[value % validKboNummers.Length])!)
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeInsz(this IFixture fixture)
+    {
+        fixture.Customize<Insz>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var inszBase = new Random().Next(0, 999999999);
+                        var inszModulo = 97 - (inszBase % 97);
+                        return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
+                    })
+                .OmitAutoProperties()
+        );
+    }
+
+    public static void CustomizeHoofdactiviteitVerenigingsloket(this IFixture fixture)
+    {
+        fixture.Customize<HoofdactiviteitVerenigingsloket>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                    factory: value => HoofdactiviteitVerenigingsloket.All()[value % HoofdactiviteitVerenigingsloket.All().Count])
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeHoofdactiviteitVerenigingsloketLijst(this IFixture fixture)
+    {
+        fixture.Customize<HoofdactiviteitenVerenigingsloketLijst>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => HoofdactiviteitenVerenigingsloketLijst.Create(fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                        .Distinct()
+                        .ToArray()))
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeRegistreerVerenigingContactgegeven(this IFixture fixture)
+    {
+        fixture.Customize<Email>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+        fixture.Customize<SocialMedia>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+        fixture.Customize<Website>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory:  ()=> new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+        fixture.Customize<TelefoonNummer>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), false))
+                .OmitAutoProperties());
+
+        fixture.Customize<RegistreerVerenigingCommand.Contactgegeven>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                    factory: value =>
+                    {
+                        var contactTypes = Enum.GetNames<ContactgegevenType>();
+                        var contactType = contactTypes[value % contactTypes.Length];
+                        Contactgegeven waarde = Enum.Parse<ContactgegevenType>(contactType) switch
+                        {
+                            ContactgegevenType.Email => fixture.Create<Email>(),
+                            ContactgegevenType.Website => fixture.Create<Website>(),
+                            ContactgegevenType.SocialMedia => fixture.Create<SocialMedia>(),
+                            ContactgegevenType.Telefoon => fixture.Create<TelefoonNummer>(),
+                            _ => throw new ArgumentOutOfRangeException(),
+                        };
+                        return new RegistreerVerenigingCommand.Contactgegeven(
+                            Enum.Parse<ContactgegevenType>(contactType, true),
+                            waarde.Waarde,
+                            fixture.Create<string>(),
+                            false
+                        );
+                    })
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeRegistreerVerenigingCommandVertegenwoordiger(this IFixture fixture)
+    {
+        fixture.Customize<RegistreerVerenigingCommand.Vertegenwoordiger>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new RegistreerVerenigingCommand.Vertegenwoordiger(
+                        fixture.Create<Insz>(),
+                        false,
+                        fixture.Create<string>(),
+                        fixture.Create<string>(),
+                        fixture.CreateMany<RegistreerVerenigingCommand.Contactgegeven>().ToArray()
+                        ))
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeRegistreerVerenigingCommand(this IFixture fixture)
+        {
+            fixture.Customize<RegistreerVerenigingCommand>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new RegistreerVerenigingCommand(
+                        Naam: fixture.Create<string>(),
+                        KorteNaam: fixture.Create<string>(),
+                        KorteBeschrijving: fixture.Create<string>(),
+                        Startdatum: fixture.Create<NullOrEmpty<DateOnly>>(),
+                        KboNumber: fixture.Create<KboNummer>(),
+                        Contactgegevens: fixture.Create<RegistreerVerenigingCommand.Contactgegeven[]>(),
+                        Locaties: fixture.Create<RegistreerVerenigingCommand.Locatie[]>(),
+                        Vertegenwoordigers: fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger[]>(),
+                        HoofdactiviteitenVerenigingsloket: fixture.Create<HoofdactiviteitenVerenigingsloketLijst>()
+                            .Select(x => x.Code)
+                            .ToArray(),
+                        SkipDuplicateDetection: true)
+                )
                 .OmitAutoProperties());
     }
 
