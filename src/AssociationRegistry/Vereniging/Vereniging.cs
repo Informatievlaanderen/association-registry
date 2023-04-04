@@ -8,6 +8,7 @@ using Hoofdactiviteiten;
 using KboNummers;
 using Locaties;
 using Marten.Schema;
+using RegistreerVereniging;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;
@@ -65,8 +66,8 @@ public class Vereniging : IHasVersion
 
     public long Version { get; set; }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, Contactgegevens contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
-        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactgegevens, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, Contactgegeven[] contactgegevenLijst, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
+        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, Contactgegevens.FromArray(contactgegevenLijst), locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam)
         => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
