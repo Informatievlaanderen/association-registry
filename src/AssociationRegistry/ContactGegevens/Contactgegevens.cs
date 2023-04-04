@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.ContactGegevens;
 
 using System.Collections.ObjectModel;
+using Exceptions;
+using Framework;
 
 public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 {
@@ -9,6 +11,19 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     public static Contactgegevens Empty
         => new(Enumerable.Empty<Contactgegeven>().ToList(), InitialId);
+
+    public static Contactgegevens FromArray(Contactgegeven[] contactgegevenArray)
+    {
+        var contactgegevens = Empty;
+        foreach (var contactgegeven in contactgegevenArray)
+        {
+            Throw<DuplicateContactgegeven>.If(contactgegevens.Contains(contactgegeven), Enum.GetName(contactgegeven.Type));
+            Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && contactgegevens.HasPrimairForType(contactgegeven.Type), Enum.GetName(contactgegeven.Type));
+            contactgegevens = contactgegevens.Append(contactgegeven);
+        }
+
+        return contactgegevens;
+    }
 
     private Contactgegevens(IList<Contactgegeven> list, int nextId) : base(list)
     {
