@@ -42,7 +42,6 @@ public class RegistreerVerenigingCommandHandler
         var kboNummer = KboNummer.Create(command.KboNummber);
         var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
-        var contactgegevens = command.Contactgegevens.Aggregate(Contactgegevens.Empty, (current, contactgegeven) => current.Append(Contactgegeven.Create(contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair)));
 
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
 
@@ -65,7 +64,7 @@ public class RegistreerVerenigingCommandHandler
             command.KorteBeschrijving,
             startdatum,
             kboNummer,
-            contactgegevens,
+            command.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray(),
             locatieLijst,
             vertegenwoordigersLijst,
             hoofdactiviteitenVerenigingsloketLijst);

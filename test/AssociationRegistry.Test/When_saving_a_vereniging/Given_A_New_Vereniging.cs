@@ -33,7 +33,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         _vCode = VCode.Create(1001);
         _naam = new VerenigingsNaam("Vereniging 1");
-        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, null, null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
+        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, null, null, Array.Empty<Contactgegeven>(), LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
     }
 
     public async Task InitializeAsync()
