@@ -34,6 +34,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 
+        RuleForEach(request => request.Contactgegevens)
+            .SetValidator(new ContactgegevenValidator());
+
         RuleForEach(request => request.Locaties)
             .SetValidator(new LocatieValidator());
 
@@ -96,6 +99,9 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
                     vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
                                          ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
+
+            RuleForEach(vertegenwoordiger => vertegenwoordiger.Contactgegevens)
+                .SetValidator(new ContactgegevenValidator());
         }
 
         private bool ContainOnlyNumbersDotsAndDashes(string? insz)
@@ -108,6 +114,17 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         {
             insz = insz!.Replace(".", string.Empty).Replace("-", string.Empty);
             return insz.Length == 11;
+        }
+    }
+
+    private class ContactgegevenValidator : AbstractValidator<RegistreerVerenigingRequest.Contactgegeven>
+    {
+        public ContactgegevenValidator()
+        {
+            this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Waarde);
+            RuleFor(contactgegeven => contactgegeven.Type)
+                .Must(t => Enum.IsDefined(typeof(RequestContactgegevenTypes), t))
+                .WithMessage("'Type' is verplicht.");
         }
     }
 }
