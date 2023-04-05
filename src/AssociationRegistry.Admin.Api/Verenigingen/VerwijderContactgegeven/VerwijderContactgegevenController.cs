@@ -11,7 +11,6 @@ using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Vereniging.VerwijderContactgegevens;
-using VoegContactGegevenToe;
 using Wolverine;
 
 [ApiVersion("1.0")]
@@ -31,7 +30,7 @@ public class VerwijderContactgegevenController : ApiController
     /// Verwijder een contactgegeven.
     /// </summary>
     /// <remarks>
-    /// Na het uitvoeren van deze call wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    /// Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>

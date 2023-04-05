@@ -21,11 +21,11 @@ public class Given_ContactgegevenWerdToegevoegd
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
-            WhenApplying<ContactgegevenWerdToegevoegd>
-                .ToDetailProjectie(
-                    _ => contactgegevenWerdToegevoegd);
+            When<ContactgegevenWerdToegevoegd>
+                .Applying(_ => contactgegevenWerdToegevoegd)
+                .ToDetailProjectie();
 
-        projectEventOnDetailDocument.DocumentAfterChanges.Contactgegevens.Should().Contain(
+        projectEventOnDetailDocument.Contactgegevens.Should().Contain(
             new BeheerVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
