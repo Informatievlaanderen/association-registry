@@ -1,3 +1,21 @@
+# [1.145.0](https://github.com/informatievlaanderen/association-registry/compare/v1.144.0...v1.145.0) (2023-04-05)
+
+
+### Bug Fixes
+
+* add validation to contacgegevens ([fca7ff4](https://github.com/informatievlaanderen/association-registry/commit/fca7ff4cc715cafc52cefc59d416a1b25c219302))
+* or-1646 fix some issues with headers ([6654d24](https://github.com/informatievlaanderen/association-registry/commit/6654d24a30e771ca1d1fcdc447e1c4fad6a2da23))
+* or-1653 fix unit tests (does not work) ([d77e315](https://github.com/informatievlaanderen/association-registry/commit/d77e315e2fed37150b7f524f7ca7e5d80f2a9100))
+* or-1653 prevent duplicates in contactgegevens ([8d3fa3d](https://github.com/informatievlaanderen/association-registry/commit/8d3fa3d57840c32d219f1680984da759a4319c18))
+* or-1653 rebase fixes ([58655af](https://github.com/informatievlaanderen/association-registry/commit/58655aff8d19cc99d6cf282456f24bf1d3154042))
+
+
+### Features
+
+* or-1653 group contactgegevens controllers ([9249952](https://github.com/informatievlaanderen/association-registry/commit/9249952d9e134239fcc313dd478b42ebe16db424))
+* or-1653 group contactgegevens operations in openapi ([e58e986](https://github.com/informatievlaanderen/association-registry/commit/e58e986e19d494a4b51cffd690c339824bfbb2d1))
+* or-1653 wip convert enum to class ([ec18161](https://github.com/informatievlaanderen/association-registry/commit/ec1816148a70cd5a7aea970a0a3f93e3a6aebbbc))
+
 # [1.144.0](https://github.com/informatievlaanderen/association-registry/compare/v1.143.0...v1.144.0) (2023-04-04)
 
 
