@@ -35,7 +35,7 @@ public interface IHistoriekDataResponse
             NaamWerdGewijzigdData data => new NaamWerdGewijzigdDataResponse { Naam = data.Naam },
             KorteNaamWerdGewijzigdData data => new KorteNaamWerdGewijzigdDataResponse { KorteNaam = data.KorteNaam },
             KorteBeschrijvingWerdGewijzigdData data => new KorteBeschrijvingWerdGewijzigdDataResponse { KorteBeschrijving = data.KorteBeschrijving },
-            StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum },
+            StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum! },
              _ => gebeurtenisData,
         };
 }

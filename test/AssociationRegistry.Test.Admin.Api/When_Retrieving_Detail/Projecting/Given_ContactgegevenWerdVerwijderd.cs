@@ -30,18 +30,18 @@ public class Given_ContactgegevenWerdVerwijderd
                             new BeheerVerenigingDetailDocument.Contactgegeven()
                             {
                                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                                Type = Enum.GetName(contactgegevenWerdVerwijderd.Type)!,
+                                Type = contactgegevenWerdVerwijderd.Type,
                                 Waarde = contactgegevenWerdVerwijderd.Waarde,
                                 Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
                                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
-                            }).ToArray()
+                            }).ToArray(),
                     });
 
         projectEventOnDetailDocument.Contactgegevens.Should().NotContain(
             new BeheerVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                Type = Enum.GetName(contactgegevenWerdVerwijderd.Type),
+                Type = contactgegevenWerdVerwijderd.Type,
                 Waarde = contactgegevenWerdVerwijderd.Waarde,
                 Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,

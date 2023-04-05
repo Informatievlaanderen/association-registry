@@ -13,7 +13,7 @@ using Xunit.Categories;
 [IntegrationTest]
 public class When_Searching_By_Name
 {
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly V001_VerenigingWerdGeregistreerdScenario _scenario;
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
@@ -21,7 +21,7 @@ public class When_Searching_By_Name
 
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
-        _scenario = fixture.VerenigingWerdGeregistreerdScenario;
+        _scenario = fixture.V001VerenigingWerdGeregistreerdScenario;
         _publicApiClient = fixture.PublicApiClient;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");

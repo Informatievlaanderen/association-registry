@@ -27,10 +27,10 @@ public class Given_ContactgegevenWerdToegevoegd
     public Given_ContactgegevenWerdToegevoegd(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.ContactgegevenWerdToegevoegdScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.ContactgegevenWerdToegevoegdScenario.VerenigingWerdGeregistreerd;
-        _contactgegevenWerdToegevoegd = fixture.ContactgegevenWerdToegevoegdScenario.ContactgegevenWerdToegevoegd;
-        _metadata = fixture.ContactgegevenWerdToegevoegdScenario.GetCommandMetadata();
+        _vCode = fixture.V005ContactgegevenWerdToegevoegdScenario.VCode;
+        _verenigingWerdGeregistreerd = fixture.V005ContactgegevenWerdToegevoegdScenario.VerenigingWerdGeregistreerd;
+        _contactgegevenWerdToegevoegd = fixture.V005ContactgegevenWerdToegevoegdScenario.ContactgegevenWerdToegevoegd;
+        _metadata = fixture.V005ContactgegevenWerdToegevoegdScenario.GetCommandMetadata();
         _response = _publicApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

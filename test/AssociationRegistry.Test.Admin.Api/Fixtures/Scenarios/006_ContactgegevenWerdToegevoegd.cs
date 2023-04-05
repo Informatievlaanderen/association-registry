@@ -5,7 +5,6 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
-using ContactGegevens;
 
 public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
 {

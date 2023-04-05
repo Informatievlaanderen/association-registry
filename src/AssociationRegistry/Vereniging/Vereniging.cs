@@ -169,7 +169,7 @@ public class Vereniging : IHasVersion
                 Contactgegevens.Empty,
                 (lijst, c) => lijst.Append(
                     new Contactgegeven(
-                        c.Type,
+                        ContactgegevenType.Parse(c.Type),
                         c.Waarde,
                         c.Omschrijving,
                         c.IsPrimair)
@@ -196,7 +196,7 @@ public class Vereniging : IHasVersion
         {
             Contactgegevens = _state.Contactgegevens.Append(
                 new Contactgegeven(
-                    @event.Type,
+                    ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
                     @event.Omschrijving,
                     @event.IsPrimair)),

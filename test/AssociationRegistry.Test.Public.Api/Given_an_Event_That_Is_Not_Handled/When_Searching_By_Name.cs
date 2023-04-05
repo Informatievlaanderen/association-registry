@@ -16,7 +16,7 @@ public class When_Searching_By_Name
 {
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
-    private readonly UnHandledEventAndVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VCode _vCode;
 
     private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
@@ -24,7 +24,7 @@ public class When_Searching_By_Name
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _scenario = fixture.UnHandledEventAndVerenigingWerdGeregistreerdScenario;
+        _scenario = fixture.V004UnHandledEventAndVerenigingWerdGeregistreerdScenario;
         _vCode = _scenario.VCode;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");

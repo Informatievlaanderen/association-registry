@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.ContactGegevens;
-using AssociationRegistry.Events;
+using ContactGegevens;
+using Events;
 using AssociationRegistry.Public.Schema.Detail;
 using FluentAssertions;
-using Parlot.Fluent;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,18 +30,18 @@ public class Given_ContactgegevenWerdVerwijderd
                             new PubliekVerenigingDetailDocument.Contactgegeven()
                             {
                                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                                Type = Enum.GetName(contactgegevenWerdVerwijderd.Type)!,
+                                Type = contactgegevenWerdVerwijderd.Type,
                                 Waarde = contactgegevenWerdVerwijderd.Waarde,
                                 Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
                                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
-                            }).ToArray()
+                            }).ToArray(),
                     });
 
         projectEventOnDetailDocument.Contactgegevens.Should().NotContain(
             new PubliekVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                Type = Enum.GetName(contactgegevenWerdVerwijderd.Type),
+                Type = contactgegevenWerdVerwijderd.Type,
                 Waarde = contactgegevenWerdVerwijderd.Waarde,
                 Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,

@@ -14,7 +14,7 @@ public interface IScenario
     public CommandMetadata GetCommandMetadata();
 }
 
-public class VerenigingWerdGeregistreerdScenario : IScenario
+public class V001_VerenigingWerdGeregistreerdScenario : IScenario
 {
     public VCode VCode
         => VCode.Create("V0001001");
@@ -89,7 +89,7 @@ public class VerenigingWerdGeregistreerdScenario : IScenario
         => new("OVO000001", new Instant());
 }
 
-public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
+public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
     public VCode VCode
         => VCode.Create("V0001002");
@@ -118,7 +118,7 @@ public class VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
         => new("OVO000001", new Instant());
 }
 
-public class ContactgegevenWerdToegevoegdScenario : IScenario
+public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
 {
     public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd = new(
         "V0001005",
@@ -150,7 +150,7 @@ public class ContactgegevenWerdToegevoegdScenario : IScenario
         => new("OVO000001", new DateTimeOffset(2023, 01, 25, 0, 0, 0, TimeSpan.Zero).ToInstant());
 }
 
-public class BasisgegevensWerdenGewijzigdScenario : IScenario
+public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
 {
     public VCode VCode
         => VCode.Create("V0001003");
@@ -192,7 +192,7 @@ public class BasisgegevensWerdenGewijzigdScenario : IScenario
         => new("OVO000001", new DateTimeOffset(2023, 01, 25, 0, 0, 0, TimeSpan.Zero).ToInstant());
 }
 
-public class UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
+public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
 {
     public VCode VCode
         => VCode.Create("V0001004");
