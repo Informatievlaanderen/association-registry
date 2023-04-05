@@ -108,6 +108,18 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = contactgegevenWerdToegevoegd.Sequence, Version = contactgegevenWerdToegevoegd.Version };
     }
 
+
+    public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+            .Where(
+                c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdVerwijderd.Sequence, Version = contactgegevenWerdVerwijderd.Version };
+    }
+
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
