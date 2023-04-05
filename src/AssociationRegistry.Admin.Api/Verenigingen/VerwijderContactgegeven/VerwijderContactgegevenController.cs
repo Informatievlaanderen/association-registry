@@ -16,7 +16,7 @@ using Wolverine;
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Vereniging Contactgegevens")]
 public class VerwijderContactgegevenController : ApiController
 {
     private readonly IMessageBus _messageBus;
