@@ -1,16 +1,16 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VerwijderContactgegeven;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerwijderContactgegeven;
 
 using System.Threading.Tasks;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.VerwijderContactgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Framework;
-using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging;
-using Vereniging.VerwijderContactgegevens;
 using Wolverine;
 
 [ApiVersion("1.0")]

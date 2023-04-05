@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
-using ContactGegevens;
-using Infrastructure.Validation;
+using AssociationRegistry.Admin.Api.Infrastructure.Validation;
+using AssociationRegistry.ContactGegevens;
 using FluentValidation;
 
 public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegevenToeRequest>

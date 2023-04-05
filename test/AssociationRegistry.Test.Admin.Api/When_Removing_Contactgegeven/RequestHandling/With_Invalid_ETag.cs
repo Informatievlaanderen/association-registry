@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Removing_Contactgegeven.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen.VerwijderContactgegeven;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerwijderContactgegeven;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
