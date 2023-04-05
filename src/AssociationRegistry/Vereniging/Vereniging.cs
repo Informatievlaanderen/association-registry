@@ -151,7 +151,7 @@ public class Vereniging : IHasVersion
         var contactgegeven = _state.Contactgegevens[contactgegevenId];
         AddEvent(
             new ContactgegevenWerdVerwijderd(
-                contactgegeven!.ContactgegevenId,
+                contactgegeven.ContactgegevenId,
                 contactgegeven.Type,
                 contactgegeven.Waarde,
                 contactgegeven.Omschrijving,

@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
@@ -29,16 +30,19 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDateOnly();
         fixture.CustomizeVCode();
         fixture.CustomizeInstant();
-        fixture.CustomizeRegistreerVerenigingRequestLocatie();
-        fixture.CustomizeVerenigingWerdGeregistreerdLocatie();
-
         fixture.CustomizeKboNummer();
         fixture.CustomizeInsz();
-        fixture.CustomizeRegistreerVerenigingCommandVertegenwoordiger();
+        fixture.CustomizeContactgegeven();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
         fixture.CustomizeHoofdactiviteitVerenigingsloketLijst();
-        fixture.CustomizeRegistreerVerenigingContactgegeven();
+
+        fixture.CustomizeRegistreerVerenigingRequest();
+        fixture.CustomizeVoegContactgegevenToeRequest();
+
         fixture.CustomizeRegistreerVerenigingCommand();
+
+        fixture.CustomizeVerenigingWerdGeregistreerd();
+        fixture.CustomizeContactgegevenWerdToegevoegd();
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
@@ -75,7 +79,7 @@ public static class AutoFixtureCustomizations
                 generator => new Instant() + Duration.FromSeconds(generator.Next())));
     }
 
-    public static void CustomizeRegistreerVerenigingRequestLocatie(this IFixture fixture)
+    public static void CustomizeRegistreerVerenigingRequest(this IFixture fixture)
     {
         fixture.Customize<RegistreerVerenigingRequest.Locatie>(
             composer => composer.FromFactory<int>(
@@ -91,9 +95,24 @@ public static class AutoFixtureCustomizations
                     Land = fixture.Create<string>(),
                     Hoofdlocatie = false,
                 }).OmitAutoProperties());
+
+        fixture.Customize<RegistreerVerenigingRequest.Contactgegeven>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var contactgegeven = fixture.Create<Contactgegeven>();
+                        return new RegistreerVerenigingRequest.Contactgegeven
+                        {
+                            Type = contactgegeven.Type,
+                            Waarde = contactgegeven.Waarde,
+                            Omschrijving = fixture.Create<string>(),
+                            IsPrimair = false,
+                        };
+                    })
+                .OmitAutoProperties());
     }
 
-    public static void CustomizeVerenigingWerdGeregistreerdLocatie(this IFixture fixture)
+    public static void CustomizeVerenigingWerdGeregistreerd(this IFixture fixture)
     {
         fixture.Customize<VerenigingWerdGeregistreerd.Locatie>(
             composer => composer.FromFactory<int>(
@@ -107,6 +126,23 @@ public static class AutoFixtureCustomizations
                         Gemeente: fixture.Create<string>(),
                         Land: fixture.Create<string>(),
                         Hoofdlocatie: false))
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeContactgegevenWerdToegevoegd(this IFixture fixture)
+    {
+        fixture.Customize<ContactgegevenWerdToegevoegd>(
+            composer => composer.FromFactory(
+                    () =>
+                    {
+                        var contactgegeven = fixture.Create<Contactgegeven>();
+                        return new ContactgegevenWerdToegevoegd(
+                            contactgegeven.ContactgegevenId,
+                            contactgegeven.Type,
+                            contactgegeven.Waarde,
+                            contactgegeven.Omschrijving,
+                            contactgegeven.IsPrimair);
+                    })
                 .OmitAutoProperties());
     }
 
@@ -158,13 +194,14 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<HoofdactiviteitenVerenigingsloketLijst>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => HoofdactiviteitenVerenigingsloketLijst.Create(fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                        .Distinct()
-                        .ToArray()))
+                    factory: () => HoofdactiviteitenVerenigingsloketLijst.Create(
+                        fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                            .Distinct()
+                            .ToArray()))
                 .OmitAutoProperties());
     }
 
-    public static void CustomizeRegistreerVerenigingContactgegeven(this IFixture fixture)
+    public static void CustomizeContactgegeven(this IFixture fixture)
     {
         fixture.Customize<Email>(
             composerTransformation: composer => composer.FromFactory(
@@ -176,7 +213,7 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
         fixture.Customize<Website>(
             composerTransformation: composer => composer.FromFactory(
-                    factory:  ()=> new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                    factory: () => new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
                 .OmitAutoProperties());
         fixture.Customize<TelefoonNummer>(
             composerTransformation: composer => composer.FromFactory(
@@ -191,47 +228,22 @@ public static class AutoFixtureCustomizations
                     return contactTypes[value % contactTypes.Length];
                 }).OmitAutoProperties());
 
-        fixture.Customize<RegistreerVerenigingCommand.Contactgegeven>(
-            composerTransformation: composer => composer.FromFactory<int>(
-                    factory: value =>
+        fixture.Customize<Contactgegeven>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => (string)fixture.Create<ContactgegevenType>() switch
                     {
-                        var contactTypes = ContactgegevenType.All;
-                        var contactType = contactTypes[value % contactTypes.Length];
-                        Contactgegeven waarde = (string)contactType switch
-                        {
-                            nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
-                            nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
-                            nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
-                            nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
-                            _ => throw new ArgumentOutOfRangeException(),
-                        };
-                        return new RegistreerVerenigingCommand.Contactgegeven(
-                            contactType,
-                            waarde.Waarde,
-                            fixture.Create<string>(),
-                            false
-                        );
+                        nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
+                        nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
+                        nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
+                        nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
+                        _ => throw new ArgumentOutOfRangeException(),
                     })
                 .OmitAutoProperties());
     }
 
-    public static void CustomizeRegistreerVerenigingCommandVertegenwoordiger(this IFixture fixture)
-    {
-        fixture.Customize<RegistreerVerenigingCommand.Vertegenwoordiger>(
-            composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingCommand.Vertegenwoordiger(
-                        fixture.Create<Insz>(),
-                        false,
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.CreateMany<RegistreerVerenigingCommand.Contactgegeven>().ToArray()
-                        ))
-                .OmitAutoProperties());
-    }
-
     public static void CustomizeRegistreerVerenigingCommand(this IFixture fixture)
-        {
-            fixture.Customize<RegistreerVerenigingCommand>(
+    {
+        fixture.Customize<RegistreerVerenigingCommand>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new RegistreerVerenigingCommand(
                         Naam: fixture.Create<string>(),
@@ -247,6 +259,59 @@ public static class AutoFixtureCustomizations
                             .ToArray(),
                         SkipDuplicateDetection: true)
                 )
+                .OmitAutoProperties());
+
+        fixture.Customize<RegistreerVerenigingCommand.Vertegenwoordiger>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new RegistreerVerenigingCommand.Vertegenwoordiger(
+                        fixture.Create<Insz>(),
+                        false,
+                        fixture.Create<string>(),
+                        fixture.Create<string>(),
+                        fixture.CreateMany<RegistreerVerenigingCommand.Contactgegeven>().ToArray()
+                    ))
+                .OmitAutoProperties());
+
+        fixture.Customize<RegistreerVerenigingCommand.Contactgegeven>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var contactgegeven = fixture.Create<Contactgegeven>();
+                        return new RegistreerVerenigingCommand.Contactgegeven(
+                            contactgegeven.Type,
+                            contactgegeven.Waarde,
+                            contactgegeven.Omschrijving,
+                            contactgegeven.IsPrimair
+                        );
+                    })
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeVoegContactgegevenToeRequest(this IFixture fixture)
+    {
+        fixture.Customize<VoegContactgegevenToeRequest>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new VoegContactgegevenToeRequest
+                    {
+                        Contactgegeven = fixture.Create<VoegContactgegevenToeRequest.RequestContactgegeven>(),
+                        Initiator = fixture.Create<VCode>(),
+                    }
+                )
+                .OmitAutoProperties());
+
+        fixture.Customize<VoegContactgegevenToeRequest.RequestContactgegeven>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var contactgegeven = fixture.Create<Contactgegeven>();
+                        return new VoegContactgegevenToeRequest.RequestContactgegeven
+                        {
+                            Type = contactgegeven.Type,
+                            Waarde = contactgegeven.Waarde,
+                            Omschrijving = fixture.Create<string>(),
+                            IsPrimair = false,
+                        };
+                    })
                 .OmitAutoProperties());
     }
 

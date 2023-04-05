@@ -5,7 +5,9 @@ using ContactGegevens;
 using ContactGegevens.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Invalid_Type
 {
     [Fact]

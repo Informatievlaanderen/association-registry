@@ -10,7 +10,9 @@ using FluentAssertions;
 using Framework;
 using Vereniging.VoegContactgegevenToe;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Duplicate_Contactgegeven
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;

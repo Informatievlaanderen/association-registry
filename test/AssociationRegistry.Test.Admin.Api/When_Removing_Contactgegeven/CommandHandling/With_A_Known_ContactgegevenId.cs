@@ -4,12 +4,13 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using Vereniging.VerwijderContactgegevens;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Known_ContactgegevenId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

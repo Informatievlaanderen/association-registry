@@ -127,7 +127,8 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 
             RuleFor(contactgegeven => contactgegeven.Type)
                 .Must(ContactgegevenType.CanParse)
-                .WithMessage(contactgegeven => $"De waarde {contactgegeven.Type} is geen gekend contactgegeven type.");
+                .WithMessage(contactgegeven => $"De waarde {contactgegeven.Type} is geen gekend contactgegeven type.")
+                .When(contactgegeven => !string.IsNullOrEmpty(contactgegeven.Type));
         }
     }
 }

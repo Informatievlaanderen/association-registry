@@ -19,7 +19,7 @@ public class Is_Null : ValidatorTest
                     {
                         new RegistreerVerenigingRequest.Contactgegeven
                         {
-                            Type = null,
+                            Type = null!,
                         },
                     },
             });

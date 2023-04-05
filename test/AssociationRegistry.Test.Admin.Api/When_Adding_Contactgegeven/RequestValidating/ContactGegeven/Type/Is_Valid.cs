@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestValidating.ContactGegeven.Type;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 using ContactGegevens;
 using Framework;

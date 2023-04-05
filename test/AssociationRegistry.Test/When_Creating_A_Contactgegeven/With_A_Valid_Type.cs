@@ -8,7 +8,9 @@ using ContactGegevens.TelefoonNummers;
 using ContactGegevens.Websites;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Valid_Type
 {
     [Theory]

@@ -178,7 +178,7 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler
         return new IEvent[]
         {
             WerdGeregistreerd,
-            ContactgegevenWerdVerwijderd
+            ContactgegevenWerdVerwijderd,
         };
     }
 }

@@ -5,6 +5,7 @@ using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
+using ContactGegevens;
 using Marten.Events;
 using NodaTime;
 
@@ -15,6 +16,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDateOnly();
         fixture.CustomizeVCode();
         fixture.CustomizeInstant();
+        fixture.CustomizeContactgegevenType();
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
@@ -44,6 +46,17 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Instant>(
             composer => composer.FromFactory(
                 generator => new Instant() + Duration.FromSeconds(generator.Next())));
+    }
+
+    public static void CustomizeContactgegevenType(this IFixture fixture)
+    {
+        fixture.Customize<ContactgegevenType>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var contactTypes = ContactgegevenType.All;
+                    return contactTypes[value % contactTypes.Length];
+                }).OmitAutoProperties());
     }
 }
 

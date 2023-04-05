@@ -32,9 +32,9 @@ public class WijzigBasisgegevensRequest
 
     public class Contactgegeven
     {
-        [DataMember(Name = "type")] public string Type { get; set; }
+        [DataMember(Name = "type")] public string Type { get; set; } = null!;
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; }
 
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }

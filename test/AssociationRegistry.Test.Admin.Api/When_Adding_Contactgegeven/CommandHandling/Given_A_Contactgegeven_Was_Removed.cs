@@ -9,7 +9,9 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.VoegContactgegevenToe;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Contactgegeven_Was_Removed
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
