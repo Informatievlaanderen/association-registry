@@ -20,7 +20,7 @@ public class When_Retrieving_Detail
     public When_Retrieving_Detail(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.VerenigingWerdGeregistreerdScenario.VCode;
+        _vCode = fixture.V001VerenigingWerdGeregistreerdScenario.VCode;
     }
 
     [Fact]

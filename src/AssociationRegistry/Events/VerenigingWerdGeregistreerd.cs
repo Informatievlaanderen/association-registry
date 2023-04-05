@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-using ContactGegevens;
 using Framework;
 
 /// <summary>
@@ -28,7 +27,7 @@ public record VerenigingWerdGeregistreerd(
 {
     public record Contactgegeven(
         int ContactgegevenId,
-        ContactgegevenType Type,
+        string Type,
         string Waarde,
         string Omschrijving,
         bool IsPrimair);

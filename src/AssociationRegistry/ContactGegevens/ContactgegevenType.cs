@@ -40,7 +40,7 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         if (value is null)
             return false;
 
-        return Array.Find(All, candidate => candidate.Waarde == value) is not null;
+        return Array.Find(All, candidate => candidate == value) is not null;
     }
 
     public static bool TryParse(string? value, out ContactgegevenType parsed)
@@ -49,7 +49,7 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         if (value is null)
             return false;
 
-        parsed = Array.Find(All, candidate => string.Equals(candidate.Waarde, value, StringComparison.InvariantCultureIgnoreCase)) ?? null!;
+        parsed = Array.Find(All, candidate => candidate == value) ?? null!;
         return parsed is not null;
     }
 
@@ -69,7 +69,7 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
     }
 
     public bool Equals(ContactgegevenType? other)
-        => other is not null && other.Waarde == Waarde;
+        => other is not null && string.Equals(other.Waarde, Waarde, StringComparison.InvariantCultureIgnoreCase);
 
     public override bool Equals(object? obj)
         => obj is ContactgegevenType type && Equals(type);
@@ -87,5 +87,17 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         => Equals(left, right);
 
     public static bool operator !=(ContactgegevenType left, ContactgegevenType right)
-        => !Equals(left, right);
+        => !(left == right);
+
+    public static bool operator ==(ContactgegevenType left, string right)
+        => string.Equals(left.Waarde, right, StringComparison.InvariantCultureIgnoreCase);
+
+    public static bool operator !=(ContactgegevenType left, string right)
+        => !(left == right);
+
+    public static bool operator ==(string left, ContactgegevenType right)
+        => string.Equals(left, right.Waarde, StringComparison.InvariantCultureIgnoreCase);
+
+    public static bool operator !=(string left, ContactgegevenType right)
+        => !(left == right);
 }

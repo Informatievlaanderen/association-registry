@@ -45,7 +45,5 @@ public record Contactgegeven
     }
 
     private static bool IsKnownType(string type)
-        => ContactgegevenType.TryParse(type, out _);
-
-
+        => ContactgegevenType.CanParse(type);
 }

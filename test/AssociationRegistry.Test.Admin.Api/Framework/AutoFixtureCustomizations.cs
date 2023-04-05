@@ -127,6 +127,20 @@ public static class AutoFixtureCustomizations
                         Land: fixture.Create<string>(),
                         Hoofdlocatie: false))
                 .OmitAutoProperties());
+
+        fixture.Customize<VerenigingWerdGeregistreerd.Contactgegeven>(
+            composer => composer.FromFactory(
+                () =>
+                {
+                    var contactgegeven = fixture.Create<Contactgegeven>();
+                    return new VerenigingWerdGeregistreerd.Contactgegeven(
+                        contactgegeven.ContactgegevenId,
+                        contactgegeven.Type,
+                        contactgegeven.Waarde,
+                        contactgegeven.Omschrijving,
+                        contactgegeven.IsPrimair
+                    );
+                }).OmitAutoProperties());
     }
 
     public static void CustomizeContactgegevenWerdToegevoegd(this IFixture fixture)
