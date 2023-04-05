@@ -17,8 +17,8 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         var contactgegevens = Empty;
         foreach (var contactgegeven in contactgegevenArray)
         {
-            Throw<DuplicateContactgegeven>.If(contactgegevens.Contains(contactgegeven), Enum.GetName(contactgegeven.Type));
-            Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && contactgegevens.HasPrimairForType(contactgegeven.Type), Enum.GetName(contactgegeven.Type));
+            Throw<DuplicateContactgegeven>.If(contactgegevens.Contains(contactgegeven), contactgegeven.Type);
+            Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
             contactgegevens = contactgegevens.Append(contactgegeven);
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 
-using Constants;
+using ContactGegevens;
 using Infrastructure.Validation;
 using FluentValidation;
 using Enum = System.Enum;
@@ -18,7 +18,7 @@ public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegev
         );
         When(request => request.Contactgegeven is not null,
             () => RuleFor(request => request.Contactgegeven.Type)
-                .Must(t => Enum.IsDefined(typeof(RequestContactgegevenTypes), t))
+                .Must(ContactgegevenType.CanParse)
                 .WithMessage("'Type' is verplicht.")
         );
     }

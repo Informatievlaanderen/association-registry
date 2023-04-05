@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using Constants;
+using ContactGegevens;
 using Primitives;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -37,7 +38,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                 {
                     Omschrijving = "Algemeen",
                     Waarde = "algemeen@example.com",
-                    Type = RequestContactgegevenTypes.Email,
+                    Type = ContactgegevenType.Email,
                     IsPrimair = true,
                 },
             },
@@ -55,7 +56,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                         {
                             Omschrijving = "Persoonlijk",
                             Waarde = "conan@example.com",
-                            Type = RequestContactgegevenTypes.Email,
+                            Type = ContactgegevenType.Email,
                             IsPrimair = true,
                         },
                     },

@@ -16,7 +16,7 @@ public class Is_Null : ValidatorTest
             {
                 Contactgegeven = new VoegContactgegevenToeRequest.RequestContactgegeven
                     {
-                        Type = 0,
+                        Type = null,
                     },
             });
 

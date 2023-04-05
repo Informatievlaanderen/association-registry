@@ -9,6 +9,7 @@ using Events;
 using Fixtures;
 using Framework;
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -36,7 +37,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             {
                 new()
                 {
-                    Type = RequestContactgegevenTypes.Email,
+                    Type = ContactgegevenType.Email,
                     Waarde = "random@example.org",
                     Omschrijving = "Algemeen",
                     IsPrimair = false,
@@ -71,7 +72,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                         {
                             Omschrijving = "Algemeen",
                             Waarde = "qtpy@outlook.com",
-                            Type = RequestContactgegevenTypes.Email,
+                            Type = ContactgegevenType.Email,
                             IsPrimair = false,
                         },
                     },
@@ -88,7 +89,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                         {
                             Omschrijving = "Scrum",
                             Waarde = "master@outlook.com",
-                            Type = RequestContactgegevenTypes.Email,
+                            Type = ContactgegevenType.Email,
                             IsPrimair = true,
                         },
                     },
@@ -152,7 +153,7 @@ public class With_All_Fields
                     {
                         Omschrijving = "Algemeen",
                         Waarde = "qtpy@outlook.com",
-                        Type = RequestContactgegevenTypes.Email,
+                        Type = ContactgegevenType.Email,
                         IsPrimair = false,
                     },
                 },
@@ -169,7 +170,7 @@ public class With_All_Fields
                     {
                         Omschrijving = "Scrum",
                         Waarde = "master@outlook.com",
-                        Type = RequestContactgegevenTypes.Email,
+                        Type = ContactgegevenType.Email,
                         IsPrimair = true,
                     },
                 },

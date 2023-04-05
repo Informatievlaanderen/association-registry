@@ -43,6 +43,6 @@ public class Given_A_Duplicate_Contactgegeven
 
         await handleCall.Should()
             .ThrowAsync<DuplicateContactgegeven>()
-            .WithMessage(new DuplicateContactgegeven(Enum.GetName(ContactgegevenType.Website)).Message);
+            .WithMessage(new DuplicateContactgegeven(ContactgegevenType.Website).Message);
     }
 }

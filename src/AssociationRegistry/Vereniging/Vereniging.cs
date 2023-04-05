@@ -139,8 +139,8 @@ public class Vereniging : IHasVersion
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.Contains(contactgegeven), Enum.GetName(contactgegeven.Type));
-        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), Enum.GetName(contactgegeven.Type));
+        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.Contains(contactgegeven), contactgegeven.Type);
+        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
         AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
     }
 

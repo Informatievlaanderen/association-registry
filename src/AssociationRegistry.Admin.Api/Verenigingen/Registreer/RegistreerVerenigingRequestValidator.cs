@@ -5,6 +5,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using System;
 using System.Linq;
 using Constants;
+using ContactGegevens;
 using FluentValidation;
 using Infrastructure.Validation;
 
@@ -122,9 +123,11 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         public ContactgegevenValidator()
         {
             this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Waarde);
+            this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Type);
+
             RuleFor(contactgegeven => contactgegeven.Type)
-                .Must(t => Enum.IsDefined(typeof(RequestContactgegevenTypes), t))
-                .WithMessage("'Type' is verplicht.");
+                .Must(ContactgegevenType.CanParse)
+                .WithMessage(contactgegeven => $"De waarde {contactgegeven.Type} is geen gekend contactgegeven type.");
         }
     }
 }

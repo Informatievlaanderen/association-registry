@@ -68,7 +68,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
             .Append(_verenigingWerdGeregistreerd.Contactgegevens.Select(c =>
                 new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
-                    c.ContactgegevenId, Enum.GetName(c.Type)!, c.Waarde, c.Omschrijving, c.IsPrimair)));
+                    c.ContactgegevenId, c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)));
         var expected = $@"
         {{
             ""vereniging"": {{

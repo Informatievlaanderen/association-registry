@@ -40,7 +40,7 @@ public class To_A_RegistreerVerenigingCommand
         kboNummber.Should().Be(request.KboNummer);
         contactgegevens[0].Should().BeEquivalentTo(
             new RegistreerVerenigingCommand.Contactgegeven(
-                (ContactgegevenType)request.Contactgegevens[0].Type,
+                ContactgegevenType.Parse(request.Contactgegevens[0].Type),
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Omschrijving,
                 request.Contactgegevens[0].IsPrimair));
@@ -57,7 +57,7 @@ public class To_A_RegistreerVerenigingCommand
                             v.Contactgegevens.Select(
                                 c =>
                                     new RegistreerVerenigingCommand.Contactgegeven(
-                                        (ContactgegevenType)c.Type,
+                                        ContactgegevenType.Parse(c.Type),
                                         c.Waarde,
                                         c.Omschrijving,
                                         c.IsPrimair)).ToArray())));
