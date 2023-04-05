@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
 using System.Threading.Tasks;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Framework;
-using Vereniging;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.VoegContactgegevenToe;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 
 [ApiVersion("1.0")]

@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
 using System.Runtime.Serialization;
-using ContactGegevens;
-using Vereniging.VoegContactgegevenToe;
+using AssociationRegistry.ContactGegevens;
+using AssociationRegistry.Vereniging.VoegContactgegevenToe;
 
 [DataContract]
 public class VoegContactgegevenToeRequest

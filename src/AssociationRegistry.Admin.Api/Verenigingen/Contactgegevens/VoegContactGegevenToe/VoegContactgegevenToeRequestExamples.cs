@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
-using ContactGegevens;
+using AssociationRegistry.ContactGegevens;
 using Swashbuckle.AspNetCore.Filters;
 
 public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContactgegevenToeRequest>
