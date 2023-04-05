@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using ContactGegevens;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -25,7 +26,7 @@ public class Is_Valid : ValidatorTest
                                 {
                                     new RegistreerVerenigingRequest.Contactgegeven
                                     {
-                                        Type = RequestContactgegevenTypes.Email,
+                                        Type = ContactgegevenType.Email,
                                     },
                                 },
                         },

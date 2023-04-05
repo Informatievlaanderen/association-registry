@@ -91,7 +91,7 @@ public class RegistreerVerenigingRequest
     [DataContract]
     public class Contactgegeven
     {
-        [DataMember(Name = "type")] public RequestContactgegevenTypes Type { get; set; }
+        [DataMember(Name = "type")] public string Type { get; set; }
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
         [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
 
@@ -100,7 +100,7 @@ public class RegistreerVerenigingRequest
 
         public static RegistreerVerenigingCommand.Contactgegeven ToCommand(Contactgegeven contactgegeven)
             => new(
-                (ContactgegevenType)contactgegeven.Type,
+                ContactgegevenType.Parse(contactgegeven.Type),
                 contactgegeven.Waarde,
                 contactgegeven.Omschrijving,
                 contactgegeven.IsPrimair);

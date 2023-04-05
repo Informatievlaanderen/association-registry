@@ -37,7 +37,7 @@ public class Given_A_NietPrimair_Contactgegeven
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                Enum.Parse<ContactgegevenType>(type),
+                ContactgegevenType.Parse(type),
                 waarde,
                 _fixture.Create<string?>(),
                 false));

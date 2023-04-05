@@ -30,10 +30,10 @@ public record Contactgegeven
 
         return type switch
         {
-            ContactgegevenType.Email => Email.Create(waarde, omschrijving, isPrimair),
-            ContactgegevenType.Telefoon => TelefoonNummer.Create(waarde, omschrijving, isPrimair),
-            ContactgegevenType.Website => Website.Create(waarde, omschrijving, isPrimair),
-            ContactgegevenType.SocialMedia => SocialMedia.Create(waarde, omschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Email) } => Email.Create(waarde, omschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, omschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, omschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, omschrijving, isPrimair),
             _ => throw new InvalidContactType(),
         };
     }
@@ -41,11 +41,11 @@ public record Contactgegeven
     public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
-        return Create(Enum.Parse<ContactgegevenType>(type, true), waarde, omschrijving, isPrimair);
+        return Create(ContactgegevenType.Parse(type), waarde, omschrijving, isPrimair);
     }
 
     private static bool IsKnownType(string type)
-        => Enum.TryParse<ContactgegevenType>(type, true, out _);
+        => ContactgegevenType.TryParse(type, out _);
 
 
 }

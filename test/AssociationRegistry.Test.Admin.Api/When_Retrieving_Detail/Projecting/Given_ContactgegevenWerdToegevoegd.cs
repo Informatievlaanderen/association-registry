@@ -29,7 +29,7 @@ public class Given_ContactgegevenWerdToegevoegd
             new BeheerVerenigingDetailDocument.Contactgegeven()
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
-                Type = Enum.GetName(contactgegevenWerdToegevoegd.Type),
+                Type = contactgegevenWerdToegevoegd.Type,
                 Waarde = contactgegevenWerdToegevoegd.Waarde,
                 Omschrijving = contactgegevenWerdToegevoegd.Omschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.IsPrimair,

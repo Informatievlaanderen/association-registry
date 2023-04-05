@@ -14,7 +14,7 @@ public class VoegContactgegevenToeRequest
     [DataContract]
     public class RequestContactgegeven
     {
-        [DataMember(Name = "type")] public RequestContactgegevenTypes Type { get; set; }
+        [DataMember(Name = "type")] public string Type { get; set; }
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
         [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
 
@@ -26,7 +26,7 @@ public class VoegContactgegevenToeRequest
         => new(
             vCode,
             new VoegContactgegevenToeCommand.CommandContactgegeven(
-                (ContactgegevenType)Contactgegeven.Type,
+                ContactgegevenType.Parse(Contactgegeven.Type),
                 Contactgegeven.Waarde,
                 Contactgegeven.Omschrijving,
                 Contactgegeven.IsPrimair));

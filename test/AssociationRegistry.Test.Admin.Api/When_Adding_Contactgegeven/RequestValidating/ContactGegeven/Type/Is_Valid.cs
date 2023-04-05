@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
+using ContactGegevens;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -17,7 +18,7 @@ public class Is_Valid : ValidatorTest
             {
                 Contactgegeven = new VoegContactgegevenToeRequest.RequestContactgegeven
                     {
-                        Type = RequestContactgegevenTypes.Email,
+                        Type = ContactgegevenType.Email,
                     },
             });
 

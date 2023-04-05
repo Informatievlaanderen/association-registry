@@ -61,7 +61,7 @@ public class Given_VerenigingWerdGeregistreerd
                     c =>
                         new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
                             c.ContactgegevenId,
-                            Enum.GetName(c.Type)!,
+                            c.Type,
                             c.Waarde,
                             c.Omschrijving,
                             c.IsPrimair)));

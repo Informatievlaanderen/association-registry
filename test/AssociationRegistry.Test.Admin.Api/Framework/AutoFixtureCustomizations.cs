@@ -183,22 +183,30 @@ public static class AutoFixtureCustomizations
                     factory: () => new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), false))
                 .OmitAutoProperties());
 
+        fixture.Customize<ContactgegevenType>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var contactTypes = ContactgegevenType.All;
+                    return contactTypes[value % contactTypes.Length];
+                }).OmitAutoProperties());
+
         fixture.Customize<RegistreerVerenigingCommand.Contactgegeven>(
             composerTransformation: composer => composer.FromFactory<int>(
                     factory: value =>
                     {
-                        var contactTypes = Enum.GetNames<ContactgegevenType>();
+                        var contactTypes = ContactgegevenType.All;
                         var contactType = contactTypes[value % contactTypes.Length];
-                        Contactgegeven waarde = Enum.Parse<ContactgegevenType>(contactType) switch
+                        Contactgegeven waarde = (string)contactType switch
                         {
-                            ContactgegevenType.Email => fixture.Create<Email>(),
-                            ContactgegevenType.Website => fixture.Create<Website>(),
-                            ContactgegevenType.SocialMedia => fixture.Create<SocialMedia>(),
-                            ContactgegevenType.Telefoon => fixture.Create<TelefoonNummer>(),
+                            nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
+                            nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
+                            nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
+                            nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
                             _ => throw new ArgumentOutOfRangeException(),
                         };
                         return new RegistreerVerenigingCommand.Contactgegeven(
-                            Enum.Parse<ContactgegevenType>(contactType, true),
+                            contactType,
                             waarde.Waarde,
                             fixture.Create<string>(),
                             false

@@ -65,13 +65,13 @@ public class Given_ContactgegevenWerdToegevoegd
                     c =>
                         new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
                             c.ContactgegevenId,
-                            Enum.GetName(c.Type)!,
+                            c.Type,
                             c.Waarde,
                             c.Omschrijving,
                             c.IsPrimair)))
             .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
                 _contactgegevenWerdToegevoegd.ContactgegevenId,
-                Enum.GetName(_contactgegevenWerdToegevoegd.Type),
+                _contactgegevenWerdToegevoegd.Type,
                 _contactgegevenWerdToegevoegd.Waarde,
                 _contactgegevenWerdToegevoegd.Omschrijving,
                 _contactgegevenWerdToegevoegd.IsPrimair));
