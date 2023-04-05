@@ -9,7 +9,9 @@ using FluentAssertions;
 using Framework;
 using Vereniging.VerwijderContactgegevens;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_An_Unknown_ContactgegevenId
 {
     private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.VoegContactGegevenToe;
 
 using System.Runtime.Serialization;
-using Constants;
 using ContactGegevens;
 using Vereniging.VoegContactgegevenToe;
 
@@ -14,7 +13,7 @@ public class VoegContactgegevenToeRequest
     [DataContract]
     public class RequestContactgegeven
     {
-        [DataMember(Name = "type")] public string Type { get; set; }
+        [DataMember(Name = "type")] public string Type { get; set; } = null!;
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
         [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
 

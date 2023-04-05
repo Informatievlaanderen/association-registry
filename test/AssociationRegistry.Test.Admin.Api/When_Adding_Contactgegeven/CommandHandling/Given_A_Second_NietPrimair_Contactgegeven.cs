@@ -9,7 +9,9 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.VoegContactgegevenToe;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Second_NietPrimair_Contactgegeven
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

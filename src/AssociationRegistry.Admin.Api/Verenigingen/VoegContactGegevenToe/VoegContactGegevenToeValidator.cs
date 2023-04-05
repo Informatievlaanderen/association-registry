@@ -3,7 +3,6 @@
 using ContactGegevens;
 using Infrastructure.Validation;
 using FluentValidation;
-using Enum = System.Enum;
 
 public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegevenToeRequest>
 {

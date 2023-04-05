@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using Constants;
 using ContactGegevens;
 using Primitives;
 using Vereniging.RegistreerVereniging;
@@ -91,9 +90,9 @@ public class RegistreerVerenigingRequest
     [DataContract]
     public class Contactgegeven
     {
-        [DataMember(Name = "type")] public string Type { get; set; }
+        [DataMember(Name = "type")] public string Type { get; set; } = null!;
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; }
 
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }

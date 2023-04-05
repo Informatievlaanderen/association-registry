@@ -18,7 +18,7 @@ public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999006";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        ContactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(1, ContactgegevenType.Email, "something@example.org", "algemeen", false);
+        ContactgegevenWerdToegevoegd = fixture.Create<ContactgegevenWerdToegevoegd>() with {ContactgegevenId = 1};
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
