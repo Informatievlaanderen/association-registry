@@ -190,6 +190,7 @@ public class Program
             new IExceptionHandler[]
             {
                 new BadHttpRequestExceptionHandler(problemDetailsHelper),
+                new UnknownEntityExceptionHandler(problemDetailsHelper),
                 new CouldNotParseRequestExceptionHandler(problemDetailsHelper),
                 new JsonReaderExceptionHandler(problemDetailsHelper),
             },
