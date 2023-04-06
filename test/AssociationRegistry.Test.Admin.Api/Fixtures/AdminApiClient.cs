@@ -52,10 +52,16 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
     }
 
-    public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, long? version = null)
+    public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, string jsonBody, long? version = null)
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
-        return await _httpClient.DeleteAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}");
+        var request = new HttpRequestMessage
+        {
+            Content = jsonBody.AsJsonContent(),
+            Method = HttpMethod.Delete,
+            RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative)
+        };
+        return await _httpClient.SendAsync(request);
     }
 
     public async Task<HttpResponseMessage> GetDocsJson()

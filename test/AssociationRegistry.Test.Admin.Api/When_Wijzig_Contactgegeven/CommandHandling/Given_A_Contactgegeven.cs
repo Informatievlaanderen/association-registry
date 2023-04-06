@@ -8,7 +8,6 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.VoegContactgegevenToe;
 using Vereniging.WijzigContactgegeven;
 using Xunit;
 using Xunit.Categories;
@@ -48,7 +47,7 @@ public class Given_A_Contactgegeven
             new ContactgegevenWerdGewijzigd(
                 ContactgegevenId: _scenario.ContactgegevenId,
                 ContactgegevenType.Email,
-                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Waarde!,
                 command.Contactgegeven.Omschrijving ?? string.Empty,
                 IsPrimair: false)
         );

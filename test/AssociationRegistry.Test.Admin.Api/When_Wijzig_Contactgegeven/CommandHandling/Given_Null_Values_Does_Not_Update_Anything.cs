@@ -8,7 +8,6 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.VoegContactgegevenToe;
 using Vereniging.WijzigContactgegeven;
 using Xunit;
 using Xunit.Categories;
@@ -83,7 +82,7 @@ public class Given_Null_For_Omschrijving_Does_Not_Update_Omschrijving
             new ContactgegevenWerdGewijzigd(
                 ContactgegevenId: _scenario.ContactgegevenId,
                 ContactgegevenType.Email,
-                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Waarde!,
                 _scenario.Omschrijving, // <== this must stay the same
                 IsPrimair: true)
         );

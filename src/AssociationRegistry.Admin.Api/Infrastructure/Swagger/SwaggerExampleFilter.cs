@@ -7,7 +7,7 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true, Inherited = false)]
+[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true)]
 public class SwaggerParameterExampleAttribute : SwaggerParameterExampleBaseAttribute
 {
     public SwaggerParameterExampleAttribute(string name, string value)
@@ -25,40 +25,33 @@ public class SwaggerParameterExampleAttribute : SwaggerParameterExampleBaseAttri
     public string Name { get; }
     public string Value { get; }
 }
+
 public abstract class SwaggerParameterExampleBaseAttribute : Attribute
-{ }
+{
+}
 
 public class ExampleSchemaFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (context.Type.IsClass)
+        if (!context.Type.IsClass) return;
+        foreach (var pi in context.Type.GetProperties())
         {
-            foreach (var pi in context.Type.GetProperties())
+            var attribs = pi.GetCustomAttributes<SwaggerParameterExampleBaseAttribute>().ToArray();
+            if (attribs.Length <= 0) continue;
+
+            var prop = schema.Properties.FirstOrDefault(x => x.Key.Equals(pi.Name, StringComparison.OrdinalIgnoreCase));
+            if (prop.Equals(default(KeyValuePair<string, OpenApiSchema>))) continue;
+
+            var list = new List<string>();
+
+            list.AddRange(attribs.OfType<SwaggerParameterExampleAttribute>().Select(x => x.Value));
+            prop.Value.Example = new Microsoft.OpenApi.Any.OpenApiString(list.First());
+            if (list.Count > 1)
             {
-                var attribs = pi.GetCustomAttributes<SwaggerParameterExampleBaseAttribute>().ToArray();
-                if (attribs?.Length > 0)
-                {
-                    var prop = schema.Properties.FirstOrDefault(x => x.Key.Equals(pi.Name, System.StringComparison.OrdinalIgnoreCase));
-                    if (!prop.Equals(default(KeyValuePair<string, OpenApiSchema>)))
-                    {
-                        var list = new List<string>();
-
-                        list.AddRange(attribs.OfType<SwaggerParameterExampleAttribute>().Select(x => x.Value));
-                        // foreach (var attrib in attribs.OfType<SwaggerParameterExamplesFromEnumAttribute>().ToArray())
-                        // {
-                        //     list.AddRange(Enum.GetNames(attrib.EnumType));
-                        // }
-
-                        prop.Value.Example = new Microsoft.OpenApi.Any.OpenApiString(list.First());
-                        if (list.Count > 1)
-                        {
-                            prop.Value.Description += $"\r\n\r\n" +
-                                                      $"Toegestane waarden:\r\n" +
-                                                      $"- {string.Join("\r\n- ", list)}";
-                        }
-                    }
-                }
+                prop.Value.Description += $"\r\n\r\n" +
+                                          $"Toegestane waarden:\r\n" +
+                                          $"- {string.Join("\r\n- ", list)}";
             }
         }
     }

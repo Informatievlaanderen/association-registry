@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.VoegContactgegevenToe;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

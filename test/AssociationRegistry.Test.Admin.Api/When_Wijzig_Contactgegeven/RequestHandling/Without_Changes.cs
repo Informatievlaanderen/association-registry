@@ -1,14 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.VCodes;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.WijzigBasisgegevens;
+using VCodes;
+using Vereniging;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;

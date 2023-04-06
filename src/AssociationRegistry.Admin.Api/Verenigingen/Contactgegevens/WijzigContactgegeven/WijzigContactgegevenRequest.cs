@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Vereniging.VoegContactgegevenToe;
 using Vereniging.WijzigContactgegeven;
 
 [DataContract]

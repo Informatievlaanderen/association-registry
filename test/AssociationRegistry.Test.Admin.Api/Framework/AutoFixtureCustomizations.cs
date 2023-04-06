@@ -62,6 +62,7 @@ public static class AutoFixtureCustomizations
             nameof(ContactgegevenType.SocialMedia) => source.Create<SocialMedia>(),
             nameof(ContactgegevenType.Email) => source.Create<Email>(),
             nameof(ContactgegevenType.Website) => source.Create<Website>(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
     public static void CustomizeDateOnly(this IFixture fixture)

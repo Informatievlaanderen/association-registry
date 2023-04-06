@@ -107,33 +107,27 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
 public class VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
-
-    public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
     public readonly string Initiator = "Een initiator";
-    public readonly DateOnly Startdatum = new(2023, 3, 6);
-    public readonly ContactgegevenType Type = ContactgegevenType.Email;
-    public readonly string Waarde = "test@example.org";
-    public readonly string Omschrijving = "";
-    public readonly bool IsPrimair = true;
-    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd1 { get; private set; }
-    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd2 { get; private set; }
+    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd1 { get; }
+    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd2 { get; }
+
+    public VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario()
+    {
+        ContactgegevenWerdToegevoegd1 = new ContactgegevenWerdToegevoegd(1, ContactgegevenType.Email, "test1@example.org", "", true);
+        ContactgegevenWerdToegevoegd2 = new ContactgegevenWerdToegevoegd(2, ContactgegevenType.Email, "test2@example.org", "", false);
+    }
 
     public override IEnumerable<IEvent> Events()
     {
-        ContactgegevenWerdToegevoegd1 = new ContactgegevenWerdToegevoegd(1, Type, "test1@example.org", Omschrijving, true);
-        ContactgegevenWerdToegevoegd2 = new ContactgegevenWerdToegevoegd(2, Type, "test2@example.org", Omschrijving, false);
         return new IEvent[]
         {
             new VerenigingWerdGeregistreerd(
                 VCode,
-                Naam,
-                KorteNaam,
-                KorteBeschrijving,
-                Startdatum,
-                KboNummer,
+                "Hulste Huldigt",
+                "FOud",
+                null,
+                new DateOnly(2023, 3, 6),
+                null,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
