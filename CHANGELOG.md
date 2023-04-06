@@ -1,3 +1,10 @@
+## [1.145.2](https://github.com/informatievlaanderen/association-registry/compare/v1.145.1...v1.145.2) (2023-04-06)
+
+
+### Bug Fixes
+
+* or-1648 404 if entity not found ([ce84b1c](https://github.com/informatievlaanderen/association-registry/commit/ce84b1c0965187958295a339ceb8fdd384ad7326))
+
 ## [1.145.1](https://github.com/informatievlaanderen/association-registry/compare/v1.145.0...v1.145.1) (2023-04-06)
 
 
