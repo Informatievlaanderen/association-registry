@@ -25,10 +25,10 @@ public class VoegContactgegevenToeRequest
         /// <summary>
         /// Het type contactgegeven. Deze waarde moet 'email', 'telefoon', 'socialmedia', of 'website' zijn
         /// </summary>
-        [SwaggerParameterExample("email")]
-        [SwaggerParameterExample("socialmedia")]
-        [SwaggerParameterExample("telefoon")]
-        [SwaggerParameterExample("website")]
+        [SwaggerParameterExample("Email")]
+        [SwaggerParameterExample("Socialmedia")]
+        [SwaggerParameterExample("Telefoon")]
+        [SwaggerParameterExample("Website")]
         [DataMember(Name = "type")] public string Type { get; set; } = null!;
 
         /// <summary>
