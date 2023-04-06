@@ -9,6 +9,9 @@ public class WijzigContactgegevenRequest
     [DataMember(Name = "initiator")] public string Initiator { get; set; } = null!;
     [DataMember(Name = "contactgegeven")] public RequestContactgegeven Contactgegeven { get; set; } = null!;
 
+    /// <summary>
+    /// Het te wijzigen contactgegeven
+    /// </summary>
     [DataContract]
     public class RequestContactgegeven
     {

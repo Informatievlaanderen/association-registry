@@ -39,7 +39,7 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public string? KboNummer { get; init; }
 
-    /// <summary>De contact info van deze vereniging</summary>
+    /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember]
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
 
