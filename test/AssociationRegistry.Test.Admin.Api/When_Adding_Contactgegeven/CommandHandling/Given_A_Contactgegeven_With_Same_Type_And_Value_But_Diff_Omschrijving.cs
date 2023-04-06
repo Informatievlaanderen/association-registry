@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.CommandHandling;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -13,13 +13,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Duplicate_Contactgegeven
+public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Omschrijving
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
 
-    public Given_A_Duplicate_Contactgegeven()
+    public Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Omschrijving()
     {
         _scenario = new VerenigingWerdGeregistreerd_Commandhandler_Scenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
@@ -30,7 +30,7 @@ public class Given_A_Duplicate_Contactgegeven
     }
 
     [Fact]
-    public async Task Then_A_DuplicateContactgegeven_Is_Thrown()
+    public async Task Then_A_DuplicateContactgegeven_Is_Not_Thrown()
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
@@ -41,10 +41,23 @@ public class Given_A_Duplicate_Contactgegeven
                 false));
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
-        var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        await handleCall.Should()
-            .ThrowAsync<DuplicateContactgegeven>()
-            .WithMessage(new DuplicateContactgegeven(ContactgegevenType.Website).Message);
+        var secondVoegContactGegevenToeCall = async () =>
+        {
+            var sameCommandButWithDifferentOmschrijving = command with
+            {
+                Contactgegeven = command.Contactgegeven with
+                {
+                    Omschrijving = _fixture.Create<string>()
+                }
+            };
+            return await _commandHandler.Handle(
+                new CommandEnvelope<VoegContactgegevenToeCommand>(
+                    sameCommandButWithDifferentOmschrijving,
+                    _fixture.Create<CommandMetadata>()));
+        };
+
+        await secondVoegContactGegevenToeCall.Should()
+            .NotThrowAsync<DuplicateContactgegeven>();
     }
 }
