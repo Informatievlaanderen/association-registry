@@ -139,9 +139,32 @@ public class Vereniging : IHasVersion
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.Contains(contactgegeven), contactgegeven.Type);
+        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
         Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
         AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
+    }
+
+    public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? omschrijving, bool? isPrimair)
+    {
+        var contactgegeven = _state.Contactgegevens[contactgegevenId];
+        var updatedContactgegeven = contactgegeven.MetWaarden(waarde, omschrijving, isPrimair);
+
+        if (contactgegeven == updatedContactgegeven)
+            return;
+
+        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.ContainsOther(updatedContactgegeven), updatedContactgegeven.Type);
+        Throw<MultiplePrimaryContactgegevens>.If(
+            updatedContactgegeven.IsPrimair &&
+            _state.Contactgegevens.Without(updatedContactgegeven).HasPrimairForType(updatedContactgegeven.Type),
+            updatedContactgegeven.Type);
+
+        AddEvent(
+            new ContactgegevenWerdGewijzigd(
+                updatedContactgegeven.ContactgegevenId,
+                updatedContactgegeven.Type,
+                updatedContactgegeven.Waarde,
+                updatedContactgegeven.Omschrijving,
+                updatedContactgegeven.IsPrimair));
     }
 
     public void VerwijderContactgegeven(int contactgegevenId)
@@ -168,7 +191,8 @@ public class Vereniging : IHasVersion
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
                 (lijst, c) => lijst.Append(
-                    new Contactgegeven(
+                    Contactgegeven.FromEvent(
+                        c.ContactgegevenId,
                         ContactgegevenType.Parse(c.Type),
                         c.Waarde,
                         c.Omschrijving,
@@ -195,7 +219,8 @@ public class Vereniging : IHasVersion
         _state = _state with
         {
             Contactgegevens = _state.Contactgegevens.Append(
-                new Contactgegeven(
+                Contactgegeven.FromEvent(
+                    @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
                     @event.Omschrijving,

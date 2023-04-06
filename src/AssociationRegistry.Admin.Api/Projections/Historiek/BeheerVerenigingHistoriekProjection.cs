@@ -90,10 +90,21 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             contactgegevenWerdVerwijderd,
             document,
-            $"{contactgegevenWerdVerwijderd.Data.Type} {contactgegevenWerdVerwijderd.Data.Waarde} werd toegevoegd."
+            $"{contactgegevenWerdVerwijderd.Data.Type} {contactgegevenWerdVerwijderd.Data.Waarde} werd verwijderd."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
+    }
+
+    public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdGewijzigd,
+            document,
+            $"{contactgegevenWerdGewijzigd.Data.Type} {contactgegevenWerdGewijzigd.Data.Waarde} werd gewijzigd."
+        );
+
+        document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving, IHistoriekData data)

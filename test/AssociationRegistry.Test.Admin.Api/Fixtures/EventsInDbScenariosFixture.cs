@@ -12,6 +12,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching V005VerenigingWerdGeregistreerdForUseWithETagMatching = new();
     public readonly V006_ContactgegevenWerdToegevoegd V006ContactgegevenWerdToegevoegd = new();
     public readonly V007_VerenigingWerdGeregistreerd_WithContactgegeven V007VerenigingWerdGeregistreerdWithContactgegeven = new();
+    public readonly V008_VerenigingWerdGeregistreerd_WithContactgegeven V008VerenigingWerdGeregistreerdWithContactgegeven = new();
 
     protected override async Task Given()
     {
@@ -24,6 +25,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V005VerenigingWerdGeregistreerdForUseWithETagMatching,
             V006ContactgegevenWerdToegevoegd,
             V007VerenigingWerdGeregistreerdWithContactgegeven,
+            V008VerenigingWerdGeregistreerdWithContactgegeven
         };
 
         foreach (var scenario in scenarios)

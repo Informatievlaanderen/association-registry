@@ -64,7 +64,6 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
-
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
@@ -80,6 +79,24 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
+    public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+            .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigd.Data.ContactgegevenId)
+            .Append(
+                new PubliekVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdGewijzigd.Data.Type,
+                    Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
+                    Omschrijving = contactgegevenWerdGewijzigd.Data.Omschrijving,
+                    IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
+                })
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
     public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, PubliekVerenigingDetailDocument document)

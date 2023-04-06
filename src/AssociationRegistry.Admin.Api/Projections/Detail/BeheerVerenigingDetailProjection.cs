@@ -108,6 +108,25 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = document.Metadata with { Sequence = contactgegevenWerdToegevoegd.Sequence, Version = contactgegevenWerdToegevoegd.Version };
     }
 
+    public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+            .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigd.Data.ContactgegevenId)
+            .Append(
+                new BeheerVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdGewijzigd.Data.Type,
+                    Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
+                    Omschrijving = contactgegevenWerdGewijzigd.Data.Omschrijving,
+                    IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
+                })
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdGewijzigd.Sequence, Version = contactgegevenWerdGewijzigd.Version };
+    }
+
 
     public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingDetailDocument document)
     {
