@@ -1,3 +1,10 @@
+## [1.145.1](https://github.com/informatievlaanderen/association-registry/compare/v1.145.0...v1.145.1) (2023-04-06)
+
+
+### Bug Fixes
+
+* or-1648 process feedback ([52a1979](https://github.com/informatievlaanderen/association-registry/commit/52a1979ccdc8ff1f05a3a74684716c655ad97489))
+
 # [1.145.0](https://github.com/informatievlaanderen/association-registry/compare/v1.144.0...v1.145.0) (2023-04-05)
 
 
