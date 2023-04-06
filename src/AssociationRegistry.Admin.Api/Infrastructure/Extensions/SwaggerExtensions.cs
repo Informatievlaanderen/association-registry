@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Primitives;
+using Swagger;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -25,6 +26,7 @@ public static class SwaggerExtensions
                     options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
                     options.DescribeAllParametersInCamelCase();
                     options.SupportNonNullableReferenceTypes();
+                    options.SchemaFilter<ExampleSchemaFilter>();
                     options.MapType<DateOnly>(
                         () => new OpenApiSchema
                         {

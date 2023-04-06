@@ -83,6 +83,9 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
     public static implicit operator string(ContactgegevenType instance)
         => instance.ToString();
 
+    public static implicit operator ContactgegevenType(string instance)
+        => Parse(instance);
+
     public static bool operator ==(ContactgegevenType left, ContactgegevenType right)
         => Equals(left, right);
 
