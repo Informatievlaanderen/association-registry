@@ -55,6 +55,15 @@ public static class AutoFixtureCustomizations
         return fixture;
     }
 
+    public static Contactgegeven CreateContactgegevenVolgensType(this Fixture source, string type)
+        => type switch
+        {
+            nameof(ContactgegevenType.Telefoon) => source.Create<TelefoonNummer>(),
+            nameof(ContactgegevenType.SocialMedia) => source.Create<SocialMedia>(),
+            nameof(ContactgegevenType.Email) => source.Create<Email>(),
+            nameof(ContactgegevenType.Website) => source.Create<Website>(),
+        };
+
     public static void CustomizeDateOnly(this IFixture fixture)
     {
         fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
@@ -129,12 +138,12 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
 
         fixture.Customize<VerenigingWerdGeregistreerd.Contactgegeven>(
-            composer => composer.FromFactory(
-                () =>
+            composer => composer.FromFactory<int>(
+                i =>
                 {
                     var contactgegeven = fixture.Create<Contactgegeven>();
                     return new VerenigingWerdGeregistreerd.Contactgegeven(
-                        contactgegeven.ContactgegevenId,
+                        i,
                         contactgegeven.Type,
                         contactgegeven.Waarde,
                         contactgegeven.Omschrijving,
@@ -221,10 +230,12 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), false))
                 .OmitAutoProperties());
+
         fixture.Customize<SocialMedia>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
                 .OmitAutoProperties());
+
         fixture.Customize<Website>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))

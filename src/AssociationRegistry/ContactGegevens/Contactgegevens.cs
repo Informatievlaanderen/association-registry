@@ -17,9 +17,9 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         var contactgegevens = Empty;
         foreach (var contactgegeven in contactgegevenArray)
         {
-            Throw<DuplicateContactgegeven>.If(contactgegevens.Contains(contactgegeven), contactgegeven.Type);
+            Throw<DuplicateContactgegeven>.If(contactgegevens.ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
             Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
-            contactgegevens = contactgegevens.Append(contactgegeven);
+            contactgegevens = contactgegevens.Append(contactgegeven with { ContactgegevenId = contactgegevens.NextId });
         }
 
         return contactgegevens;
@@ -30,18 +30,36 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         NextId = nextId;
     }
 
-    public bool HasPrimairForType(ContactgegevenType type)
-        => this.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
-
     public Contactgegevens Append(Contactgegeven contactgegeven)
-        => new(((IEnumerable<Contactgegeven>)this).Append(contactgegeven with { ContactgegevenId = NextId }).ToList(), NextId + 1);
+    {
+        var nextId = Math.Max(contactgegeven.ContactgegevenId, NextId) + 1;
+        return new(Items.Append(contactgegeven).ToList(), nextId);
+    }
 
-    public new bool Contains(Contactgegeven contactgegeven)
-        => this.Any(c => c.Type == contactgegeven.Type && c.Waarde == contactgegeven.Waarde);
+    public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
+        => this.Any(contactgegeven.MetZelfdeWaarden);
 
     public new Contactgegeven this[int contactgegevenId]
         => this.Single(x => x.ContactgegevenId == contactgegevenId);
 
     public bool HasKey(int contactgegevenId)
         => this.Any(contactgegeven => contactgegeven.ContactgegevenId == contactgegevenId);
+
+    public bool ContainsOther(Contactgegeven contactgegeven)
+    {
+        return Items
+            .Without(contactgegeven)
+            .Any(contactgegeven.MetZelfdeWaarden);
+    }
+}
+
+public static class ContactgegevenEnumerableExtensions
+{
+    public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
+    {
+        return source.Where(c => c.ContactgegevenId != contactgegeven.ContactgegevenId);
+    }
+
+    public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)
+        => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
 }

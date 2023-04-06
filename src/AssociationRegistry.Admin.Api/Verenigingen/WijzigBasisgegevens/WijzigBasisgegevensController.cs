@@ -20,7 +20,7 @@ using Wolverine;
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen/{vCode}")]
-[ApiExplorerSettings(GroupName = "Vereniging Contactgegevens")]
+[ApiExplorerSettings(GroupName = "Verenigingen")]
 public class WijzigBasisgegevensController : ApiController
 {
     private readonly AppSettings _appSettings;

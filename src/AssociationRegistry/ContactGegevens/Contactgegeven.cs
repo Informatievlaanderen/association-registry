@@ -15,7 +15,7 @@ public record Contactgegeven
     public string Omschrijving { get; }
     public bool IsPrimair { get; }
 
-    internal Contactgegeven(ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+    protected Contactgegeven(ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
     {
         ContactgegevenId = 0;
         Type = type;
@@ -23,6 +23,18 @@ public record Contactgegeven
         Omschrijving = omschrijving;
         IsPrimair = isPrimair;
     }
+
+    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+    {
+        ContactgegevenId = contactgegevenId;
+        Type = type;
+        Waarde = waarde;
+        Omschrijving = omschrijving;
+        IsPrimair = isPrimair;
+    }
+
+    public static Contactgegeven FromEvent(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+        => new(contactgegevenId, type, waarde, omschrijving, isPrimair);
 
     public static Contactgegeven Create(ContactgegevenType type, string waarde, string? omschrijving, bool isPrimair)
     {
@@ -38,6 +50,11 @@ public record Contactgegeven
         };
     }
 
+    public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
+    {
+        return Type == contactgegeven.Type && Waarde == contactgegeven.Waarde;
+    }
+
     public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
@@ -46,4 +63,21 @@ public record Contactgegeven
 
     private static bool IsKnownType(string type)
         => ContactgegevenType.CanParse(type);
+
+    public Contactgegeven MetWaarden(string? waarde, string? omschrijving, bool? isPrimair)
+        => Create(Type, waarde ?? Waarde, omschrijving ?? Omschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
+
+    public virtual bool Equals(Contactgegeven? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return ContactgegevenId == other.ContactgegevenId &&
+               Type.Equals(other.Type) &&
+               Waarde == other.Waarde &&
+               Omschrijving == other.Omschrijving &&
+               IsPrimair == other.IsPrimair;
+    }
+
+    public override int GetHashCode()
+        => HashCode.Combine(ContactgegevenId, Type, Waarde, Omschrijving, IsPrimair);
 }

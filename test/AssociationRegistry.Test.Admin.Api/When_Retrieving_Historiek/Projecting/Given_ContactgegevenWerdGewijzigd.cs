@@ -6,19 +6,19 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_ContactgegevenWerdVerwijderd
+public class Given_ContactgegevenWerdGewijzigd
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var projectEventOnHistoriekDocument =
-            WhenApplying<ContactgegevenWerdVerwijderd>
+            WhenApplying<ContactgegevenWerdGewijzigd>
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                $"{projectEventOnHistoriekDocument.Event.Data.Type} {projectEventOnHistoriekDocument.Event.Data.Waarde} werd verwijderd.",
-                nameof(ContactgegevenWerdVerwijderd),
+                $"{projectEventOnHistoriekDocument.Event.Data.Type} {projectEventOnHistoriekDocument.Event.Data.Waarde} werd gewijzigd.",
+                nameof(ContactgegevenWerdGewijzigd),
                 projectEventOnHistoriekDocument.Event.Data,
                 initiator,
                 tijdstip));
