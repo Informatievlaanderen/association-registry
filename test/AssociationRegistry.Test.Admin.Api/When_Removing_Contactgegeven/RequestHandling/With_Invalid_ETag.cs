@@ -36,6 +36,7 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
+                new VerwijderContactgegevenRequest(),
                 eTagValue);
         };
 

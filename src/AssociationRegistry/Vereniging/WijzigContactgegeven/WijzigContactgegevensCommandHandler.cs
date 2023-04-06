@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigContactgegeven;
 
-using ContactGegevens;
 using Framework;
 using VCodes;
-using VoegContactgegevenToe;
 
 public class WijzigContactgegevenCommandHandler
 {

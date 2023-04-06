@@ -36,6 +36,12 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return new(Items.Append(contactgegeven).ToList(), nextId);
     }
 
+    public Contactgegevens Remove(int contectgegevenId)
+        => new(Items.Where(c => c.ContactgegevenId != contectgegevenId).ToList(), NextId);
+
+    public Contactgegevens Replace(Contactgegeven contactgegeven)
+        => Remove(contactgegeven.ContactgegevenId).Append(contactgegeven);
+
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.MetZelfdeWaarden);
 
@@ -46,11 +52,9 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         => this.Any(contactgegeven => contactgegeven.ContactgegevenId == contactgegevenId);
 
     public bool ContainsOther(Contactgegeven contactgegeven)
-    {
-        return Items
+        => Items
             .Without(contactgegeven)
             .Any(contactgegeven.MetZelfdeWaarden);
-    }
 }
 
 public static class ContactgegevenEnumerableExtensions

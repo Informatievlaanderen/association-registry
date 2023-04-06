@@ -2,9 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens;
-using ContactGegevens.Emails;
-using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
@@ -21,7 +18,7 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private CommandResult _commandResult;
+    private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Contactgegeven()
     {

@@ -27,7 +27,7 @@ public class With_Valid_ETag : IAsyncLifetime
         _fixture = new Fixture().CustomizeAll();
         _messageBusMock = new Mock<IMessageBus>();
         _messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegContactgegevenToeCommand>>(), default, null))
+            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VerwijderContactgegevenCommand>>(), default, null))
             .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
 
         _toeController = new VerwijderContactgegevenController(_messageBusMock.Object)
@@ -39,6 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _toeController.Delete(
             _fixture.Create<string>(),
             _fixture.Create<int>(),
+            new VerwijderContactgegevenRequest(),
             $"W/\"{ETagNumber}\"");
     }
 

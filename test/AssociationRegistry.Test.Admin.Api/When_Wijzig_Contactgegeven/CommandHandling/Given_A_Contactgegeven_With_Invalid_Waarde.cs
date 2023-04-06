@@ -2,10 +2,8 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens;
 using ContactGegevens.Emails.Exceptions;
 using ContactGegevens.Websites;
-using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
@@ -20,16 +18,15 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Contactgegeven_With_Invalid_Waarde()
     {
         _scenario = new VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(verenigingRepositoryMock);
     }
 
     [Fact]

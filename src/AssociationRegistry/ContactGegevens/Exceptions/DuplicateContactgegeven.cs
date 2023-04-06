@@ -14,15 +14,3 @@ public class DuplicateContactgegeven : DomainException
     {
     }
 }
-
-[Serializable]
-public class UnknownContactgegeven : DomainException
-{
-    public UnknownContactgegeven() : base($"Het opgegeven contactgegeven bestaat niet of is reeds verwijderd.")
-    {
-    }
-
-    protected UnknownContactgegeven(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
-}

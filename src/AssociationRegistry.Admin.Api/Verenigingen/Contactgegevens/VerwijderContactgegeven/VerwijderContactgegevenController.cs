@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerwijderContactgegeven;
 
 using System.Threading.Tasks;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.VerwijderContactgegevens;
+using Infrastructure;
+using Framework;
+using Vereniging;
+using Vereniging.VerwijderContactgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -48,13 +49,20 @@ public class VerwijderContactgegevenController : ApiController
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Delete(string vCode, int contactgegevenId, string? ifMatch = null)
+    public async Task<IActionResult> Delete(
+        [FromRoute] string vCode,
+        [FromRoute] int contactgegevenId,
+        [FromBody] VerwijderContactgegevenRequest request,
+        [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
-        var metaData = new CommandMetadata("", SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderContactgegevenCommand>(
             new VerwijderContactgegevenCommand(vCode, contactgegevenId),
             metaData);
-        await _messageBus.InvokeAsync<CommandResult>(envelope);
+        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
+
+        Response.AddSequenceHeader(commandResult.Sequence);
+        Response.AddETagHeader(commandResult.Version);
         return Accepted();
     }
 }

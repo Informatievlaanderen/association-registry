@@ -51,9 +51,7 @@ public record Contactgegeven
     }
 
     public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
-    {
-        return Type == contactgegeven.Type && Waarde == contactgegeven.Waarde;
-    }
+        => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde;
 
     public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
     {

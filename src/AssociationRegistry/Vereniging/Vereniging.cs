@@ -228,6 +228,28 @@ public class Vereniging : IHasVersion
         };
     }
 
+    public void Apply(ContactgegevenWerdVerwijderd @event)
+    {
+        _state = _state with
+        {
+            Contactgegevens = _state.Contactgegevens.Remove(@event.ContactgegevenId),
+        };
+    }
+
+    public void Apply(ContactgegevenWerdGewijzigd @event)
+    {
+        _state = _state with
+        {
+            Contactgegevens = _state.Contactgegevens.Replace(
+                Contactgegeven.FromEvent(
+                    @event.ContactgegevenId,
+                    ContactgegevenType.Parse(@event.Type),
+                    @event.Waarde,
+                    @event.Omschrijving,
+                    @event.IsPrimair)),
+        };
+    }
+
     private void AddEvent(IEvent @event)
     {
         try

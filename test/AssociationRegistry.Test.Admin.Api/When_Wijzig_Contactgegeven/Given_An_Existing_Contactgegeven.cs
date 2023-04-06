@@ -2,14 +2,12 @@ namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven;
 
 using System.Net;
 using AutoFixture;
-using ContactGegevens;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
 using Marten;
-using When_Adding_Contactgegeven;
 using Xunit;
 using Xunit.Categories;
 

@@ -25,7 +25,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V005VerenigingWerdGeregistreerdForUseWithETagMatching,
             V006ContactgegevenWerdToegevoegd,
             V007VerenigingWerdGeregistreerdWithContactgegeven,
-            V008VerenigingWerdGeregistreerdWithContactgegeven
+            V008VerenigingWerdGeregistreerdWithContactgegeven,
         };
 
         foreach (var scenario in scenarios)

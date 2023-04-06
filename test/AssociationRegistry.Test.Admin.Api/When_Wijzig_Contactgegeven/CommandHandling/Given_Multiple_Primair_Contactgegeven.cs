@@ -17,16 +17,15 @@ public class Given_Multiple_Primair_Contactgegeven
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_Multiple_Primair_Contactgegeven()
     {
         _scenario = new VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigContactgegevenCommandHandler(verenigingRepositoryMock);
     }
 
     [Fact]

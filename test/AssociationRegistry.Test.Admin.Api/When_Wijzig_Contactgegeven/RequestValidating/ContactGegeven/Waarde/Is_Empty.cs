@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.RequestValidating.ContactGegeven.Waarde;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 
