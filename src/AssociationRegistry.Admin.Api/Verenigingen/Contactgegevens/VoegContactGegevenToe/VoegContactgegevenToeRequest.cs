@@ -9,8 +9,16 @@ using Infrastructure.Swagger;
 public class VoegContactgegevenToeRequest
 {
     [DataMember(Name = "initiator")] public string Initiator { get; set; } = null!;
+
+    /// <summary>
+    /// Het toe te voegen contactgegeven
+    /// </summary>
     [DataMember(Name = "contactgegeven")] public RequestContactgegeven Contactgegeven { get; set; } = null!;
 
+
+    /// <summary>
+    /// Het toe te voegen contactgegeven
+    /// </summary>
     [DataContract]
     public class RequestContactgegeven
     {

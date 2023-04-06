@@ -59,6 +59,7 @@ public class VerwijderContactgegevenController : ApiController
         var envelope = new CommandEnvelope<VerwijderContactgegevenCommand>(
             new VerwijderContactgegevenCommand(vCode, contactgegevenId),
             metaData);
+
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);
