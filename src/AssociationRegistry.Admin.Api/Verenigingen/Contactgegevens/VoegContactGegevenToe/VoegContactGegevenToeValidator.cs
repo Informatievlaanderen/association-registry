@@ -24,7 +24,7 @@ public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegev
             request => request.Contactgegeven is not null && !string.IsNullOrEmpty(request.Contactgegeven.Type),
             () => RuleFor(request => request.Contactgegeven.Type)
                 .Must(ContactgegevenType.CanParse)
-                .WithMessage("'Type' is verplicht.")
+                .WithMessage(t => $"De waarde '{t.Contactgegeven.Type}' is geen gekend contactgegeven type.")
         );
     }
 }
