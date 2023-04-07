@@ -1,3 +1,10 @@
+## [1.145.3](https://github.com/informatievlaanderen/association-registry/compare/v1.145.2...v1.145.3) (2023-04-07)
+
+
+### Bug Fixes
+
+* or-1648 correctly validate patch request ([7bf2339](https://github.com/informatievlaanderen/association-registry/commit/7bf23392316c9e5f17859126d816eb95c60f065b))
+
 ## [1.145.2](https://github.com/informatievlaanderen/association-registry/compare/v1.145.1...v1.145.2) (2023-04-06)
 
 
