@@ -36,6 +36,6 @@ public class With_An_Unknown_ContactgegevenId
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<UnknownContactgegeven>();
+        await handle.Should().ThrowAsync<OnbekendContactgegeven>();
     }
 }

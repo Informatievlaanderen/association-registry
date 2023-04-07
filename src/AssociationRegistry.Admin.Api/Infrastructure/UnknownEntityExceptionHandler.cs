@@ -5,7 +5,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using ContactGegevens.Exceptions;
 using Microsoft.AspNetCore.Http;
 
-public class UnknownEntityExceptionHandler : DefaultExceptionHandler<UnknownContactgegeven>
+public class UnknownEntityExceptionHandler : DefaultExceptionHandler<OnbekendContactgegeven>
 {
     private readonly ProblemDetailsHelper _problemDetailsHelper;
 
@@ -14,7 +14,7 @@ public class UnknownEntityExceptionHandler : DefaultExceptionHandler<UnknownCont
         _problemDetailsHelper = problemDetailsHelper;
     }
 
-    protected override ProblemDetails GetApiProblemFor(UnknownContactgegeven exception)
+    protected override ProblemDetails GetApiProblemFor(OnbekendContactgegeven exception)
         => new()
         {
             HttpStatus = StatusCodes.Status404NotFound,

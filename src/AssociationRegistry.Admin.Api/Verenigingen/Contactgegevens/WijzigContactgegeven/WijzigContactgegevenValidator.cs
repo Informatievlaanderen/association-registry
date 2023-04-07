@@ -11,9 +11,16 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
 
         RuleFor(request => request.Contactgegeven).NotNull()
             .WithMessage("'Contactgegeven' is verplicht.");
-
-        When(request => request.Contactgegeven is not null,
-            () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Waarde)
+        When(
+            request => request.Contactgegeven is not null,
+            () => RuleFor(request => request.Contactgegeven)
+                .Must(HaveAtLeastOneValue)
+                .WithMessage("'Contactgegeven' moet ingevuld zijn.")
         );
     }
+
+    private static bool HaveAtLeastOneValue(WijzigContactgegevenRequest.RequestContactgegeven contactgegeven)
+        => contactgegeven.Waarde is not null ||
+           contactgegeven.Omschrijving is not null ||
+           contactgegeven.IsPrimair is not null;
 }

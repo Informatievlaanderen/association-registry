@@ -5,19 +5,16 @@ using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 
-public class Is_Empty : ValidatorTest
+public class Is_Null : ValidatorTest
 {
     [Fact]
-    public void Has_validation_error__contactgegeven_moet_een_waarde_bevatten()
+    public void Has_validation_error__contactgegeven_is_verplicht()
     {
         var validator = new WijzigContactgegevenValidator();
-        var request = new WijzigContactgegevenRequest()
-        {
-            Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven(),
-        };
+        var request = new WijzigContactgegevenRequest();
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Contactgegeven)
-            .WithErrorMessage("'Contactgegeven' moet ingevuld zijn.");
+            .WithErrorMessage("'Contactgegeven' is verplicht.");
     }
 }
