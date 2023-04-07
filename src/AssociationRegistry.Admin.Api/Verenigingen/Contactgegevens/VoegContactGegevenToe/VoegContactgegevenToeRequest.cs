@@ -23,7 +23,7 @@ public class VoegContactgegevenToeRequest
     public class RequestContactgegeven
     {
         /// <summary>
-        /// Het type contactgegeven. Deze waarde moet 'email', 'telefoon', 'socialmedia', of 'website' zijn
+        /// Het type contactgegeven.
         /// </summary>
         [SwaggerParameterExample("Email")]
         [SwaggerParameterExample("Socialmedia")]

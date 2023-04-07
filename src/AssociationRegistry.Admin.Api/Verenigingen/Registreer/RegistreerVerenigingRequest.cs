@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using ContactGegevens;
+using Infrastructure.Swagger;
 using Primitives;
 using Vereniging.RegistreerVereniging;
 
@@ -87,13 +88,34 @@ public class RegistreerVerenigingRequest
             loc.Hoofdlocatie,
             loc.Locatietype);
 
+    /// <summary>
+    /// Het toe te voegen contactgegeven
+    /// </summary>
     [DataContract]
     public class Contactgegeven
     {
+        /// <summary>
+        /// Het type contactgegeven.
+        /// </summary>
+        [SwaggerParameterExample("Email")]
+        [SwaggerParameterExample("Socialmedia")]
+        [SwaggerParameterExample("Telefoon")]
+        [SwaggerParameterExample("Website")]
         [DataMember(Name = "type")] public string Type { get; set; } = null!;
+
+        /// <summary>
+        /// De waarde van het contactgegeven
+        /// </summary>
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+
+        /// <summary>
+        /// Vrij veld die het het contactgegeven omschrijft (bijv: algemeen, administratie, ...)
+        /// </summary>
         [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; }
 
+        /// <summary>
+        /// Duidt het contactgegeven aan als primair contactgegeven
+        /// </summary>
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
 
