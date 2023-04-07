@@ -146,7 +146,7 @@ public class Vereniging : IHasVersion
 
     public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? omschrijving, bool? isPrimair)
     {
-        Throw<UnknownContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId));
+        Throw<OnbekendContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId),contactgegevenId.ToString());
 
         var contactgegeven = _state.Contactgegevens[contactgegevenId];
         var updatedContactgegeven = contactgegeven.MetWaarden(waarde, omschrijving, isPrimair);
@@ -171,7 +171,7 @@ public class Vereniging : IHasVersion
 
     public void VerwijderContactgegeven(int contactgegevenId)
     {
-        Throw<UnknownContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId));
+        Throw<OnbekendContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId),contactgegevenId.ToString());
 
         var contactgegeven = _state.Contactgegevens[contactgegevenId];
         AddEvent(
