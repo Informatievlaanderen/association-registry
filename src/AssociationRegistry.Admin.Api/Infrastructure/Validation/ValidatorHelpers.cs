@@ -17,4 +17,12 @@ public static class ValidatorHelpers
             .WithMessage($"'{expression.GetMember().Name}' mag niet leeg zijn.")
             .When(request => expression.Compile().Invoke(request) is { });
     }
+
+    public static void RequireNotEmpty<T>(this AbstractValidator<T> validator, Expression<Func<T, string?>> expression)
+    {
+        validator.RuleFor(expression)
+            .NotEmpty()
+            .WithMessage($"'{expression.GetMember().Name}' mag niet leeg zijn.")
+            .When(request => expression.Compile().Invoke(request) is { });
+    }
 }
