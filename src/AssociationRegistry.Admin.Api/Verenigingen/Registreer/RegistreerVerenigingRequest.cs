@@ -98,7 +98,7 @@ public class RegistreerVerenigingRequest
         /// Het type contactgegeven.
         /// </summary>
         [SwaggerParameterExample("Email")]
-        [SwaggerParameterExample("Socialmedia")]
+        [SwaggerParameterExample("SocialMedia")]
         [SwaggerParameterExample("Telefoon")]
         [SwaggerParameterExample("Website")]
         [DataMember(Name = "type")] public string Type { get; set; } = null!;
