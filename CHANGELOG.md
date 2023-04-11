@@ -1,3 +1,10 @@
+## [1.145.4](https://github.com/informatievlaanderen/association-registry/compare/v1.145.3...v1.145.4) (2023-04-11)
+
+
+### Bug Fixes
+
+* or-1647 onbekendContactgegeven to domainException ([0c6ef27](https://github.com/informatievlaanderen/association-registry/commit/0c6ef2740919518d99a3d93424827b58054fb3a7))
+
 ## [1.145.3](https://github.com/informatievlaanderen/association-registry/compare/v1.145.2...v1.145.3) (2023-04-07)
 
 
