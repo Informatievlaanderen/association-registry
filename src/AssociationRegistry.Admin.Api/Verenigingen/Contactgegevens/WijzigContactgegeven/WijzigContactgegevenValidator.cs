@@ -17,6 +17,10 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
                 .Must(HaveAtLeastOneValue)
                 .WithMessage("'Contactgegeven' moet ingevuld zijn.")
         );
+        When(
+            request => request.Contactgegeven is not null,
+            () => this.RequireNotEmpty(request => request.Contactgegeven.Waarde)
+        );
     }
 
     private static bool HaveAtLeastOneValue(WijzigContactgegevenRequest.RequestContactgegeven contactgegeven)
