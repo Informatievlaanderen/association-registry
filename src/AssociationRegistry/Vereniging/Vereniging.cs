@@ -28,7 +28,7 @@ public class Vereniging : IHasVersion
         string? korteBeschrijving,
         Startdatum? startdatum,
         KboNummer? kboNummer,
-        Contactgegevens contactgegevens,
+        Contactgegeven[] contactgegevens,
         LocatieLijst locatieLijst,
         VertegenwoordigersLijst vertegenwoordigersLijst,
         HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
@@ -49,7 +49,7 @@ public class Vereniging : IHasVersion
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    private static VerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegevens contactgegevens)
+    private static VerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
     {
         return contactgegevens.Select(c => new VerenigingWerdGeregistreerd.Contactgegeven(c.ContactgegevenId, c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray();
     }
@@ -65,11 +65,11 @@ public class Vereniging : IHasVersion
 
     public long Version { get; set; }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, Contactgegevens contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, Contactgegeven[] contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
         => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactgegevens, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam)
-        => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
+        => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, Contactgegevens.Empty.ToArray(), LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
 
     private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToEventData(HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(ToEventData).ToArray();
@@ -81,7 +81,7 @@ public class Vereniging : IHasVersion
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
-        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, ToEventContactgegevens(vert.Contactgegevens));
+        => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, ToEventContactgegevens(vert.Contactgegevens.ToArray()));
 
     private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();

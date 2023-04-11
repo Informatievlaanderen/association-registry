@@ -13,7 +13,7 @@ public class Given_A_Startdatum_Equal_To_Today
     [Fact]
     public void Then_it_returns_a_startdatum()
     {
-        var startdatum = Startdatum.Create(ClockStub, ClockStub.Today)!;
+        var startdatum = Startdatum.FromDateOnly(ClockStub.Today)!;
 
         startdatum.Value.Should().Be(ClockStub.Today);
     }

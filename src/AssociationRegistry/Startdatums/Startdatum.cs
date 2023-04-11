@@ -7,17 +7,21 @@ using Primitives;
 
 public class Startdatum : ValueObject<Startdatum>
 {
+    public static Startdatum? NietOpgegeven = Startdatum.Create(null);
+
     private Startdatum(DateOnly datum)
     {
         Value = datum;
     }
 
-    public DateOnly Value { get; }
+    public DateOnly? Value { get; }
 
-    internal static Startdatum? Create(DateOnly? maybeDatum, Action<DateOnly>? validate = null)
+    public bool HasValue
+        => Value != null;
+
+    internal static Startdatum? Create(DateOnly? maybeDatum)
     {
         if (maybeDatum is not { } datum) return null;
-        validate?.Invoke(datum);
         return new Startdatum(datum);
     }
 
@@ -31,15 +35,15 @@ public class Startdatum : ValueObject<Startdatum>
         yield return Value;
     }
 
-    public static Startdatum? Create(IClock clock, NullOrEmpty<DateOnly> commandStartdatum)
+    public static Startdatum? Create(NullOrEmpty<DateOnly> commandStartdatum)
     {
         if (!commandStartdatum.HasValue) return null;
 
-        return Create(commandStartdatum.Value, datum => Validate(clock.Today, datum));
+        return FromDateOnly(commandStartdatum.Value);
     }
 
-    public static Startdatum? Create(IClock clock, DateOnly commandStartdatum)
+    public static Startdatum? FromDateOnly(DateOnly commandStartdatum)
     {
-        return Create(commandStartdatum, datum => Validate(clock.Today, datum));
+        return Create(commandStartdatum);
     }
 }

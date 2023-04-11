@@ -5,9 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using ContactGegevens;
+using Hoofdactiviteiten;
 using Infrastructure.Swagger;
+using JasperFx.Core;
+using Locaties;
 using Primitives;
+using Startdatums;
 using Vereniging.RegistreerVereniging;
+using VerenigingsNamen;
 
 [DataContract]
 public class RegistreerVerenigingRequest
@@ -58,17 +63,17 @@ public class RegistreerVerenigingRequest
 
     public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
         => new(
-            Naam,
+            new VerenigingsNaam(Naam),
             KorteNaam,
             KorteBeschrijving,
-            Startdatum,
-            KboNummer,
+            Startdatums.Startdatum.Create(Startdatum),
+            KboNummers.KboNummer.Create(KboNummer),
             Contactgegevens.Select(Contactgegeven.ToCommand).ToArray(),
-            Locaties.Select(ToLocatie).ToArray(),
+            LocatieLijst.CreateInstance(Locaties.Select(ToLocatie).ToArray()),
             Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
-            HoofdactiviteitenVerenigingsloket);
+            HoofdactiviteitenVerenigingsloketLijst.Create(HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create)));
 
-    private static RegistreerVerenigingCommand.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
+    private static RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
         => new(
             vert.Insz!,
             vert.PrimairContactpersoon,
@@ -76,8 +81,8 @@ public class RegistreerVerenigingRequest
             vert.Rol,
             vert.Contactgegevens.Select(Contactgegeven.ToCommand).ToArray());
 
-    private static RegistreerVerenigingCommand.Locatie ToLocatie(Locatie loc)
-        => new(
+    private static AssociationRegistry.Locaties.Locatie ToLocatie(Locatie loc)
+        => AssociationRegistry.Locaties.Locatie.CreateInstance(
             loc.Naam,
             loc.Straatnaam,
             loc.Huisnummer,
@@ -119,8 +124,8 @@ public class RegistreerVerenigingRequest
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
 
-        public static RegistreerVerenigingCommand.Contactgegeven ToCommand(Contactgegeven contactgegeven)
-            => new(
+        public static AssociationRegistry.ContactGegevens.Contactgegeven ToCommand(Contactgegeven contactgegeven)
+            => AssociationRegistry.ContactGegevens.Contactgegeven.Create(
                 ContactgegevenType.Parse(contactgegeven.Type),
                 contactgegeven.Waarde,
                 contactgegeven.Omschrijving,

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
 using AssociationRegistry.Framework;
 using Locaties;
@@ -13,9 +14,12 @@ using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
+using Hoofdactiviteiten;
 using Moq;
 using ResultNet;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,7 +30,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly RegistreerVerenigingCommand _command;
-    private readonly RegistreerVerenigingCommand.Locatie _locatie;
+    private readonly Locatie _locatie;
 
     public With_A_PotentialDuplicate_And_Force(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
     {
@@ -41,18 +45,27 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                         It.IsAny<LocatieLijst>()))
             .ReturnsAsync(potentialDuplicates);
         var today = fixture.Create<DateTime>();
-        _locatie = fixture.Create<RegistreerVerenigingCommand.Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
+        _locatie = Locatie.CreateInstance(
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            classFixture.Scenario.Locatie.Postcode,
+            fixture.Create<string>(),
+            fixture.Create<string>(),
+            fixture.Create<bool>(),
+            fixture.Create<string>());
 
         _command = new RegistreerVerenigingCommand(
-            classFixture.Scenario.Naam,
+            new VerenigingsNaam(classFixture.Scenario.Naam),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.NietOpgegeven,
             null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            new[] { _locatie },
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
+            Array.Empty<Contactgegeven>(),
+            LocatieLijst.CreateInstance(new[] { _locatie}),
+            Array.Empty<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloketLijst.Empty,
             SkipDuplicateDetection: true);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -98,7 +111,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                         _locatie.Postcode,
                         _locatie.Gemeente,
                         _locatie.Land,
-                        _locatie.Hoofdlocatie,
+                        _locatie.IsHoofdlocatie,
                         _locatie.Locatietype),
                 },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),

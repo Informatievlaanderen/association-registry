@@ -13,8 +13,12 @@ using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using ContactGegevens;
 using Hoofdactiviteiten;
+using KboNummers;
+using Locaties;
 using Moq;
 using Primitives;
+using Startdatums;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,13 +28,13 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string Naam = "naam1";
     private const string KorteNaam = "korte naam";
     private const string KorteBeschrijving = "korte beschrijving";
-    private const string KboNummber = "0123456749";
+    private const string KboNumber = "0123456749";
     private const string Hoofdactiviteit = "KECU";
 
-    private static readonly RegistreerVerenigingCommand.Contactgegeven Contactgegeven = new(ContactgegevenType.Email, "info@dummy.com", "the email", true);
-    private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.Contactgegeven VertegenwoordigerContactgegeven = new(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
-    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
+    private static readonly Contactgegeven Contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "info@dummy.com", "the email", true);
+    private static readonly Locatie Locatie = Locatie.CreateInstance("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
+    private static readonly Contactgegeven VertegenwoordigerContactgegeven = ContactGegevens.Contactgegeven.Create(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
+    private static readonly RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger TeRegistrerenVertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _fromDateTime;
@@ -50,21 +54,25 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
 
         var clock = new ClockStub(today);
 
-        var vertegenwoordigers = new[] { Vertegenwoordiger };
+        var vertegenwoordigers = new[] { TeRegistrerenVertegenwoordiger };
         var command = new RegistreerVerenigingCommand(
-            Naam,
+            new VerenigingsNaam(Naam),
             KorteNaam,
             KorteBeschrijving,
-            NullOrEmpty<DateOnly>.Create(_fromDateTime),
-            KboNummber,
+            Startdatum.FromDateOnly(_fromDateTime),
+            KboNummer.Create(KboNumber),
             new[] { Contactgegeven },
-            new[] { Locatie },
+            LocatieLijst.CreateInstance(new[] { Locatie }),
             vertegenwoordigers,
-            new[] { Hoofdactiviteit });
+            HoofdactiviteitenVerenigingsloketLijst.Create(
+                new[]
+                {
+                    HoofdactiviteitVerenigingsloket.Create(Hoofdactiviteit)
+                }));
 
         _magdaPersoon = new MagdaPersoon
         {
-            Insz = Insz.Create(Vertegenwoordiger.Insz),
+            Insz = Insz.Create(TeRegistrerenVertegenwoordiger.Insz),
             Voornaam = "Thor",
             Achternaam = "Odinson",
             IsOverleden = false,
@@ -92,7 +100,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 KorteNaam,
                 KorteBeschrijving,
                 _fromDateTime,
-                KboNummber,
+                KboNumber,
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Contactgegeven(
@@ -113,16 +121,16 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                         Locatie.Postcode,
                         Locatie.Gemeente,
                         Locatie.Land,
-                        Locatie.Hoofdlocatie,
+                        Locatie.IsHoofdlocatie,
                         Locatie.Locatietype),
                 },
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Vertegenwoordiger(
                         InszTestSet.Insz1,
-                        Vertegenwoordiger.PrimairContactpersoon,
-                        Vertegenwoordiger.Roepnaam,
-                        Vertegenwoordiger.Rol,
+                        TeRegistrerenVertegenwoordiger.PrimairContactpersoon,
+                        TeRegistrerenVertegenwoordiger.Roepnaam,
+                        TeRegistrerenVertegenwoordiger.Rol,
                         _magdaPersoon.Voornaam,
                         _magdaPersoon.Achternaam,
                         new[]

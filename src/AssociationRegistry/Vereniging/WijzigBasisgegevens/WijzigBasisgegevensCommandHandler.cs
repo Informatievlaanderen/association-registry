@@ -31,7 +31,7 @@ public class WijzigBasisgegevensCommandHandler
     private void HandleStartdatum(Vereniging vereniging, NullOrEmpty<DateOnly> startdatum)
     {
         if (startdatum.IsNull) return;
-        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum));
+        vereniging.WijzigStartdatum(Startdatum.Create(startdatum));
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

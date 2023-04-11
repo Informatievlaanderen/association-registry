@@ -10,7 +10,11 @@ using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using ContactGegevens;
 using Events;
+using Hoofdactiviteiten;
+using Locaties;
 using Moq;
+using Startdatums;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,19 +33,19 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         var today = fixture.Create<DateTime>();
 
         var command = new RegistreerVerenigingCommand(
-            fixture.Create<string>(),
+            fixture.Create<VerenigingsNaam>(),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.NietOpgegeven,
             null,
-            new[]
-            {
-                new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
-                new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
+
+                new []{
+                Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
+                Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
             },
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
+            LocatieLijst.Empty,
+            Array.Empty<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloketLijst.Empty,
             true);
 
         var commandMetadata = fixture.Create<CommandMetadata>();

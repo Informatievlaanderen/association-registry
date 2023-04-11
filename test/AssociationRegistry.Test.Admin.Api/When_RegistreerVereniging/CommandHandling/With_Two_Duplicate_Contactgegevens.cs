@@ -11,7 +11,11 @@ using AutoFixture;
 using ContactGegevens;
 using ContactGegevens.Exceptions;
 using FluentAssertions;
+using Hoofdactiviteiten;
+using Locaties;
 using Moq;
+using Startdatums;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,17 +31,17 @@ public class With_Two_Duplicate_Contactgegevens
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateTime>();
 
-        var contactgegeven = new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), false);
+        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), false);
         var command = new RegistreerVerenigingCommand(
-            fixture.Create<string>(),
+            new VerenigingsNaam(fixture.Create<string>()),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.NietOpgegeven,
             null,
             new[] { contactgegeven, contactgegeven },
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
+            LocatieLijst.Empty,
+            Array.Empty<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloketLijst.Empty,
             true);
 
         var commandMetadata = fixture.Create<CommandMetadata>();

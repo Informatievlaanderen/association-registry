@@ -26,12 +26,12 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_The_Sa
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateTime>();
 
-        var contactgegeven = new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
+        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
             Vertegenwoordigers = new[]
             {
-                fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger>() with
+                fixture.Create<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>() with
                 {
                     Contactgegevens = new[] { contactgegeven, contactgegeven with { Waarde = $"2{contactgegeven.Waarde}" } },
                 },

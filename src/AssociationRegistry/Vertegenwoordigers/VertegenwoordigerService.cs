@@ -16,7 +16,7 @@ public class VertegenwoordigerService
         _magdaFacade = magdaFacade;
     }
 
-    public async Task<VertegenwoordigersLijst> GetVertegenwoordigersLijst(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers)
+    public async Task<VertegenwoordigersLijst> GetVertegenwoordigersLijst(IEnumerable<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>? vertegenwoordigers)
     {
         if (vertegenwoordigers is null) return VertegenwoordigersLijst.Empty;
 
@@ -30,18 +30,18 @@ public class VertegenwoordigerService
         return VertegenwoordigersLijst.Create(expandedVertegenwoordigers);
     }
 
-    private async Task<Vertegenwoordiger> GetVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vertegenwoordiger)
+    private async Task<Vertegenwoordiger> GetVertegenwoordiger(RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger teRegistrerenVertegenwoordiger)
     {
-        var insz = Insz.Create(vertegenwoordiger.Insz);
-        var contactgegevens = Contactgegevens.FromArray(vertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
+        var insz = Insz.Create(teRegistrerenVertegenwoordiger.Insz);
+        var contactgegevens = Contactgegevens.FromArray(teRegistrerenVertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
 
         var magdaPersoon = await TryGetMagdaPersoon(insz);
 
         return Vertegenwoordiger.Create(
             insz,
-            vertegenwoordiger.PrimairContactpersoon,
-            vertegenwoordiger.Roepnaam,
-            vertegenwoordiger.Rol,
+            teRegistrerenVertegenwoordiger.PrimairContactpersoon,
+            teRegistrerenVertegenwoordiger.Roepnaam,
+            teRegistrerenVertegenwoordiger.Rol,
             magdaPersoon.Voornaam,
             magdaPersoon.Achternaam,
             contactgegevens);

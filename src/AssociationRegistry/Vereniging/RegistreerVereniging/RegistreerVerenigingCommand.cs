@@ -1,18 +1,24 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
 using ContactGegevens;
+using Hoofdactiviteiten;
+using KboNummers;
+using Locaties;
 using Primitives;
+using Startdatums;
+using VerenigingsNamen;
+using Vertegenwoordigers;
 
 public record RegistreerVerenigingCommand(
-    string Naam,
+    VerenigingsNaam Naam,
     string? KorteNaam,
     string? KorteBeschrijving,
-    NullOrEmpty<DateOnly> Startdatum,
-    string? KboNumber,
-    RegistreerVerenigingCommand.Contactgegeven[] Contactgegevens,
-    RegistreerVerenigingCommand.Locatie[] Locaties,
-    RegistreerVerenigingCommand.Vertegenwoordiger[] Vertegenwoordigers,
-    string[] HoofdactiviteitenVerenigingsloket,
+    Startdatum? Startdatum,
+    KboNummer? KboNumber,
+    Contactgegeven[] Contactgegevens,
+    LocatieLijst Locaties,
+    RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger[] Vertegenwoordigers,
+    HoofdactiviteitenVerenigingsloketLijst HoofdactiviteitenVerenigingsloket,
     bool SkipDuplicateDetection = false)
 {
     public record Locatie(
@@ -26,12 +32,12 @@ public record RegistreerVerenigingCommand(
         bool Hoofdlocatie,
         string Locatietype);
 
-    public record Vertegenwoordiger(
+    public record TeRegistrerenVertegenwoordiger(
         string Insz,
         bool PrimairContactpersoon,
         string? Roepnaam,
         string? Rol,
-        Contactgegeven[] Contactgegevens);
+        ContactGegevens.Contactgegeven[] Contactgegevens);
 
     public record Contactgegeven(
         ContactgegevenType Type,

@@ -29,14 +29,14 @@ public class Given_Magda_Throws_Exception
         var service = new VertegenwoordigerService(magdaMock.Object);
 
         var email = "iemand@digitaal.vlaanderen";
-        var vertegenwoordiger = new RegistreerVerenigingCommand.Vertegenwoordiger(
+        var vertegenwoordiger = new RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger(
             insz,
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new RegistreerVerenigingCommand.Contactgegeven[]
+            new[]
             {
-                new(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
+                Contactgegeven.Create(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
             });
         var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 

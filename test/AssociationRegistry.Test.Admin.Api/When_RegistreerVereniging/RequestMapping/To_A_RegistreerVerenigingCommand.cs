@@ -49,14 +49,14 @@ public class To_A_RegistreerVerenigingCommand
             request.Vertegenwoordigers
                 .Select(
                     v =>
-                        new RegistreerVerenigingCommand.Vertegenwoordiger(
+                        new RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger(
                             v.Insz!,
                             v.PrimairContactpersoon,
                             v.Roepnaam,
                             v.Rol,
                             v.Contactgegevens.Select(
                                 c =>
-                                    new RegistreerVerenigingCommand.Contactgegeven(
+                                    Contactgegeven.Create(
                                         ContactgegevenType.Parse(c.Type),
                                         c.Waarde,
                                         c.Omschrijving,

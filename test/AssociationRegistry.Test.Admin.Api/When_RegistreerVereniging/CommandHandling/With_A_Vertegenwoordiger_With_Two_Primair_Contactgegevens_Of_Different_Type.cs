@@ -31,12 +31,12 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
         {
             Vertegenwoordigers = new[]
             {
-                fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger>() with
+                fixture.Create<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>() with
                 {
                     Contactgegevens = new[]
                     {
-                        new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
-                        new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
+                        Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
+                        Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
                     },
                 },
             },
@@ -86,7 +86,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                         l.Postcode,
                         l.Gemeente,
                         l.Land,
-                        l.Hoofdlocatie,
+                        l.IsHoofdlocatie,
                         l.Locatietype
                     )).ToArray(),
                 _commandEnvelope.Command.Vertegenwoordigers.Select(
@@ -108,8 +108,8 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                     )).ToArray(),
                 _commandEnvelope.Command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
-                        HoofdactiviteitVerenigingsloket.Create(h).Code,
-                        HoofdactiviteitVerenigingsloket.Create(h).Beschrijving
+                        h.Code,
+                        h.Beschrijving
                     )).ToArray()));
     }
 

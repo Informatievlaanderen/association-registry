@@ -12,9 +12,12 @@ using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
 using AutoFixture;
+using ContactGegevens;
 using FluentAssertions;
+using Hoofdactiviteiten;
 using Moq;
 using ResultNet;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -40,15 +43,15 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
         var locatie = fixture.Create<RegistreerVerenigingCommand.Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
 
         var command = new RegistreerVerenigingCommand(
-            classFixture.Scenario.Naam,
+            new VerenigingsNaam(classFixture.Scenario.Naam),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.NietOpgegeven,
             null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            new[] { locatie },
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>());
+            Array.Empty<Contactgegeven>(),
+            LocatieLijst.Empty,
+            Array.Empty<RegistreerVerenigingCommand.TeRegistrerenVertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloketLijst.Empty);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(

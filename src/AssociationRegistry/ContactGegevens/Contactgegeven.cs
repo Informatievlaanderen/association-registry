@@ -11,7 +11,7 @@ public record Contactgegeven
 {
     public int ContactgegevenId { get; init; }
     public ContactgegevenType Type { get; }
-    public string Waarde { get; }
+    public string Waarde { get; init; }
     public string Omschrijving { get; }
     public bool IsPrimair { get; }
 
