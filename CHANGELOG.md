@@ -1,3 +1,10 @@
+## [1.145.5](https://github.com/informatievlaanderen/association-registry/compare/v1.145.4...v1.145.5) (2023-04-11)
+
+
+### Bug Fixes
+
+* or-1648 add request validation on contactgegeven for Waarde which must not be empty ([c560564](https://github.com/informatievlaanderen/association-registry/commit/c560564f254f0b41ef07f6e1001482c73e2e1523))
+
 ## [1.145.4](https://github.com/informatievlaanderen/association-registry/compare/v1.145.3...v1.145.4) (2023-04-11)
 
 
