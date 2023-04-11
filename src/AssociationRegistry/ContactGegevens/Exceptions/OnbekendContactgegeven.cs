@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
-public class OnbekendContactgegeven : AggregateNotFoundException
+public class OnbekendContactgegeven : DomainException
 {
-    public OnbekendContactgegeven(string contactgegevenId) : base(contactgegevenId, typeof(Contactgegeven))
+    public OnbekendContactgegeven(string contactgegevenId) : base($"Het opgegeven contactgegevenId '{contactgegevenId}' werd niet teruggevonden.")
     {
     }
 
