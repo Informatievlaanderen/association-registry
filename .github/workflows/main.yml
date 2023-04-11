@@ -69,7 +69,7 @@ jobs:
 
       - name: Start sonar scanner
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: bash
         run: |
@@ -93,7 +93,7 @@ jobs:
 
       - name: Analyze with sonar scanner
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: bash
         run: |
@@ -125,7 +125,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
           GIT_AUTHOR_NAME: ${{ secrets.VBR_GIT_USER }}
@@ -449,9 +449,9 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
-          GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
+          GIT_USERNAME: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_AUTHOR_NAME: ${{ secrets.VBR_GIT_USER }}
           GIT_COMMITTER_NAME: ${{ secrets.VBR_GIT_USER }}
           GIT_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
@@ -764,4 +764,3 @@ jobs:
           echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
-
