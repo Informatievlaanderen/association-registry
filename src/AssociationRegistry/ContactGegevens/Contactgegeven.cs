@@ -62,7 +62,7 @@ public record Contactgegeven
     private static bool IsKnownType(string type)
         => ContactgegevenType.CanParse(type);
 
-    public Contactgegeven MetWaarden(string? waarde, string? omschrijving, bool? isPrimair)
+    public Contactgegeven CopyWithValuesIfNotNull(string? waarde, string? omschrijving, bool? isPrimair)
         => Create(Type, waarde ?? Waarde, omschrijving ?? Omschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
 
     public virtual bool Equals(Contactgegeven? other)
@@ -81,7 +81,7 @@ public record Contactgegeven
 
     public bool WouldBeEquivalent(string? waarde, string? omschrijving, bool? isPrimair, out Contactgegeven contactgegeven)
     {
-        contactgegeven = MetWaarden(waarde, omschrijving, isPrimair);
+        contactgegeven = CopyWithValuesIfNotNull(waarde, omschrijving, isPrimair);
         return this == contactgegeven;
     }
 }
