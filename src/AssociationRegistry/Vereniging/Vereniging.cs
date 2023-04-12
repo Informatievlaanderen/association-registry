@@ -138,15 +138,12 @@ public class Vereniging : IHasVersion
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
-        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
-        AddEvent(
-            new ContactgegevenWerdToegevoegd(
-                _state.Contactgegevens.NextId,
-                contactgegeven.Type,
-                contactgegeven.Waarde,
-                contactgegeven.Omschrijving,
-                contactgegeven.IsPrimair));
+        _state.Contactgegevens.MustNotHaveDuplicates(contactgegeven);
+        _state.Contactgegevens.MustNotHaveMultiplePrimaryOfTheSameType(contactgegeven);
+
+        contactgegeven = contactgegeven with { ContactgegevenId = _state.Contactgegevens.NextId };
+
+        AddEvent(ContactgegevenWerdToegevoegd.With(contactgegeven));
     }
 
     public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? omschrijving, bool? isPrimair)
