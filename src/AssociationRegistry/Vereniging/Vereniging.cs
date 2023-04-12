@@ -132,7 +132,6 @@ public class Vereniging : IHasVersion
         if (_state.Startdatum is null && startdatum is null) return;
         if (_state.Startdatum is not null && startdatum is not null && startdatum.Equals(_state.Startdatum)) return;
 
-
         var @event = new StartdatumWerdGewijzigd(VCode, startdatum?.Value);
         AddEvent(@event);
     }
@@ -165,16 +164,11 @@ public class Vereniging : IHasVersion
 
     public void VerwijderContactgegeven(int contactgegevenId)
     {
-        Throw<OnbekendContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId),contactgegevenId.ToString());
+        _state.Contactgegevens.MustContain(contactgegevenId);
 
         var contactgegeven = _state.Contactgegevens[contactgegevenId];
-        AddEvent(
-            new ContactgegevenWerdVerwijderd(
-                contactgegeven.ContactgegevenId,
-                contactgegeven.Type,
-                contactgegeven.Waarde,
-                contactgegeven.Omschrijving,
-                contactgegeven.IsPrimair));
+
+        AddEvent(ContactgegevenWerdVerwijderd.With(contactgegeven));
     }
 
     public void Apply(VerenigingWerdGeregistreerd @event)
