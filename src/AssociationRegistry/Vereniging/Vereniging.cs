@@ -141,32 +141,26 @@ public class Vereniging : IHasVersion
     {
         Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
         Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && _state.Contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
-        AddEvent(new ContactgegevenWerdToegevoegd(_state.Contactgegevens.NextId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair));
+        AddEvent(
+            new ContactgegevenWerdToegevoegd(
+                _state.Contactgegevens.NextId,
+                contactgegeven.Type,
+                contactgegeven.Waarde,
+                contactgegeven.Omschrijving,
+                contactgegeven.IsPrimair));
     }
 
     public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? omschrijving, bool? isPrimair)
     {
-        Throw<OnbekendContactgegeven>.If(!_state.Contactgegevens.HasKey(contactgegevenId),contactgegevenId.ToString());
+        _state.Contactgegevens.MustContain(contactgegevenId);
 
-        var contactgegeven = _state.Contactgegevens[contactgegevenId];
-        var updatedContactgegeven = contactgegeven.MetWaarden(waarde, omschrijving, isPrimair);
-
-        if (contactgegeven == updatedContactgegeven)
+        if (_state.Contactgegevens[contactgegevenId].WouldBeEquivalent(waarde, omschrijving, isPrimair, out var updatedContactgegeven))
             return;
 
-        Throw<DuplicateContactgegeven>.If(_state.Contactgegevens.ContainsOther(updatedContactgegeven), updatedContactgegeven.Type);
-        Throw<MultiplePrimaryContactgegevens>.If(
-            updatedContactgegeven.IsPrimair &&
-            _state.Contactgegevens.Without(updatedContactgegeven).HasPrimairForType(updatedContactgegeven.Type),
-            updatedContactgegeven.Type);
+        _state.Contactgegevens.MustNotHaveDuplicates(updatedContactgegeven);
+        _state.Contactgegevens.MustNotHaveMultiplePrimaryOfTheSameType(updatedContactgegeven);
 
-        AddEvent(
-            new ContactgegevenWerdGewijzigd(
-                updatedContactgegeven.ContactgegevenId,
-                updatedContactgegeven.Type,
-                updatedContactgegeven.Waarde,
-                updatedContactgegeven.Omschrijving,
-                updatedContactgegeven.IsPrimair));
+        AddEvent(ContactgegevenWerdGewijzigd.With(updatedContactgegeven));
     }
 
     public void VerwijderContactgegeven(int contactgegevenId)

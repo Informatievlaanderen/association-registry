@@ -55,6 +55,21 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         => Items
             .Without(contactgegeven)
             .Any(contactgegeven.MetZelfdeWaarden);
+
+    public void MustContain(int contactgegevenId)
+    {
+        Throw<OnbekendContactgegeven>.If(!HasKey(contactgegevenId), contactgegevenId.ToString());
+    }
+
+    public void MustNotHaveDuplicates(Contactgegeven updatedContactgegeven)
+    {
+        Throw<DuplicateContactgegeven>.If(ContainsOther(updatedContactgegeven), updatedContactgegeven.Type);
+    }
+
+    public void MustNotHaveMultiplePrimaryOfTheSameType(Contactgegeven updatedContactgegeven)
+    {
+        Throw<MultiplePrimaryContactgegevens>.If(updatedContactgegeven.IsPrimair && this.WouldGiveMultiplePrimaryOfType(updatedContactgegeven), updatedContactgegeven.Type);
+    }
 }
 
 public static class ContactgegevenEnumerableExtensions
@@ -66,4 +81,7 @@ public static class ContactgegevenEnumerableExtensions
 
     public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)
         => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
+
+    public static bool WouldGiveMultiplePrimaryOfType(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegevenToEvaluate)
+        => source.Without(contactgegevenToEvaluate).Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);
 }
