@@ -10,6 +10,7 @@ using KboNummers;
 using Locaties;
 using Marten.Schema;
 using Startdatums;
+using Startdatums.Exceptions;
 using VCodes;
 using VerenigingsNamen;
 using Vertegenwoordigers;
@@ -66,8 +67,25 @@ public class Vereniging : IHasVersion
 
     public long Version { get; set; }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum? startdatum, KboNummer? kboNummer, Contactgegevens contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
-        => new(vCode, naam, korteNaam, korteBeschrijving, startdatum, kboNummer, contactgegevens, locatieLijst, vertegenwoordigersLijst, hoofdactiviteitenVerenigingsloketLijst);
+    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum startdatum, KboNummer? kboNummer, Contactgegevens contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, IClock clock)
+    {
+        MustNotBeInFuture(startdatum, clock.Today);
+
+        return new Vereniging(
+            vCode,
+            naam,
+            korteNaam,
+            korteBeschrijving,
+            startdatum,
+            kboNummer,
+            contactgegevens,
+            locatieLijst,
+            vertegenwoordigersLijst,
+            hoofdactiviteitenVerenigingsloketLijst);
+    }
+
+    private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
+        => Throw<InvalidStartdatumFuture>.If(startdatum.IsInFuture(today));
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam)
         => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
@@ -174,7 +192,7 @@ public class Vereniging : IHasVersion
             Naam = new VerenigingsNaam(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Create(@event.Startdatum),
+            Startdatum = new Startdatum(@event.Startdatum),
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
                 (lijst, c) => lijst.Append(
@@ -198,7 +216,7 @@ public class Vereniging : IHasVersion
         => _state = _state with { KorteBeschrijving = @event.KorteBeschrijving };
 
     public void Apply(StartdatumWerdGewijzigd @event)
-        => _state = _state with { Startdatum = Startdatum.Create(@event.Startdatum) };
+        => _state = _state with { Startdatum = Startdatum.Hydrate(@event.Startdatum) };
 
 
     public void Apply(ContactgegevenWerdToegevoegd @event)

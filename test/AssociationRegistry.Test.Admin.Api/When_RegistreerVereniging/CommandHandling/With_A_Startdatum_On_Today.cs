@@ -16,28 +16,29 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
+public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
 {
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
+    private DateOnly _today;
 
-    public With_Required_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
+    public With_A_Startdatum_On_Today(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAll();
-        var today = fixture.Create<DateOnly>();
+        _today = fixture.Create<DateOnly>();
 
-        var clock = new ClockStub(today);
+        var clock = new ClockStub(_today);
 
         var command = new RegistreerVerenigingCommand(
             Naam,
             null,
             null,
-            Startdatum.Leeg,
+            Startdatum.Create(_today),
             null,
             Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
             Array.Empty<RegistreerVerenigingCommand.Locatie>(),
@@ -61,7 +62,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
                 Naam: Naam,
                 KorteNaam: null,
                 KorteBeschrijving: null,
-                Startdatum: null,
+                Startdatum: _today,
                 KboNummer: null,
                 Contactgegevens: Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),

@@ -28,10 +28,12 @@ public class WijzigBasisgegevensCommandHandler
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private void HandleStartdatum(Vereniging vereniging, NullOrEmpty<DateOnly> startdatum)
+    private void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum)
     {
-        if (startdatum.IsNull) return;
-        vereniging.WijzigStartdatum(Startdatum.Create(_clock, startdatum));
+        if (startdatum is null)
+            return;
+
+        vereniging.WijzigStartdatum(startdatum);
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

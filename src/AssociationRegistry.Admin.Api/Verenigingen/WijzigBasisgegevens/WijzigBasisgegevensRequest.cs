@@ -46,6 +46,6 @@ public class WijzigBasisgegevensRequest
             Naam,
             KorteNaam,
             KorteBeschrijving,
-            Startdatum
+            Startdatum.IsNull ? null : Startdatums.Startdatum.Create(Startdatum.Value)
         );
 }

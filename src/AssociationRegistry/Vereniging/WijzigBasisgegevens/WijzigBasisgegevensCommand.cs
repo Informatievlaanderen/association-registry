@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigBasisgegevens;
 
 using Primitives;
+using Startdatums;
 
 public record WijzigBasisgegevensCommand(
     string VCode,
     string? Naam = null,
     string? KorteNaam = null,
     string? KorteBeschrijving = null,
-    NullOrEmpty<DateOnly> Startdatum = default);
+    Startdatum? Startdatum = default);

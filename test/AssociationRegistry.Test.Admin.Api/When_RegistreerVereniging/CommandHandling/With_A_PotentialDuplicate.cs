@@ -15,6 +15,7 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using ResultNet;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,14 +37,14 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
                         It.IsAny<VerenigingsNaam>(),
                         It.IsAny<LocatieLijst>()))
             .ReturnsAsync(_potentialDuplicates);
-        var today = fixture.Create<DateTime>();
+        var today = fixture.Create<DateOnly>();
         var locatie = fixture.Create<RegistreerVerenigingCommand.Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
 
         var command = new RegistreerVerenigingCommand(
             classFixture.Scenario.Naam,
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.Leeg,
             null,
             Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
             new[] { locatie },

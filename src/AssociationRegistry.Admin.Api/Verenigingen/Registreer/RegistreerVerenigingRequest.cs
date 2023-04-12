@@ -32,7 +32,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember]
-    public NullOrEmpty<DateOnly> Startdatum { get; init; }
+    public DateOnly? Startdatum { get; init; }
 
     /// <summary>
     ///     Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
@@ -61,7 +61,7 @@ public class RegistreerVerenigingRequest
             Naam,
             KorteNaam,
             KorteBeschrijving,
-            Startdatum,
+            Startdatums.Startdatum.Create(Startdatum),
             KboNummer,
             Contactgegevens.Select(Contactgegeven.ToCommand).ToArray(),
             Locaties.Select(ToLocatie).ToArray(),
