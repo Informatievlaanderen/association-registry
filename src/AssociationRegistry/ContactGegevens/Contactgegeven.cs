@@ -78,4 +78,10 @@ public record Contactgegeven
 
     public override int GetHashCode()
         => HashCode.Combine(ContactgegevenId, Type, Waarde, Omschrijving, IsPrimair);
+
+    public bool WouldBeEquivalent(string? waarde, string? omschrijving, bool? isPrimair, out Contactgegeven contactgegeven)
+    {
+        contactgegeven = MetWaarden(waarde, omschrijving, isPrimair);
+        return this == contactgegeven;
+    }
 }
