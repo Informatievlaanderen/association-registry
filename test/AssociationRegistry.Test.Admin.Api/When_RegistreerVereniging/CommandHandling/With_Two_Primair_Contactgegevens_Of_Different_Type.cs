@@ -11,6 +11,7 @@ using AutoFixture;
 using ContactGegevens;
 using Events;
 using Moq;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,13 +27,13 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         var fixture = new Fixture().CustomizeAll();
         _repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateTime>();
+        var today = fixture.Create<DateOnly>();
 
         var command = new RegistreerVerenigingCommand(
             fixture.Create<string>(),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.Leeg,
             null,
             new[]
             {

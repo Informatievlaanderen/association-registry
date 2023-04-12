@@ -12,6 +12,7 @@ using ContactGegevens;
 using ContactGegevens.Exceptions;
 using FluentAssertions;
 using Moq;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,14 +26,14 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     {
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateTime>();
+        var today = fixture.Create<DateOnly>();
 
         var contactgegeven = new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
         var command = new RegistreerVerenigingCommand(
             fixture.Create<string>(),
             null,
             null,
-            NullOrEmpty<DateOnly>.Null,
+            Startdatum.Leeg,
             null,
             new[]
             {

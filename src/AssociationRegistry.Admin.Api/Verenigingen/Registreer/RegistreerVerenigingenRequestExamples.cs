@@ -16,7 +16,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             KorteNaam = "Korte naam",
             KorteBeschrijving = "Beschrijving",
             KboNummer = "BE0123456789",
-            Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
+            Startdatum = DateOnly.FromDateTime(DateTime.Today),
             Locaties = new[]
             {
                 new RegistreerVerenigingRequest.Locatie

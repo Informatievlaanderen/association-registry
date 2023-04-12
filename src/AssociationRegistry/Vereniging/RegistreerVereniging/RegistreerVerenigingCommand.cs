@@ -2,12 +2,13 @@
 
 using ContactGegevens;
 using Primitives;
+using Startdatums;
 
 public record RegistreerVerenigingCommand(
     string Naam,
     string? KorteNaam,
     string? KorteBeschrijving,
-    NullOrEmpty<DateOnly> Startdatum,
+    Startdatum Startdatum,
     string? KboNumber,
     RegistreerVerenigingCommand.Contactgegeven[] Contactgegevens,
     RegistreerVerenigingCommand.Locatie[] Locaties,

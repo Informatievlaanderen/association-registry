@@ -30,7 +30,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             Naam = autoFixture.Create<string>(),
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
-            Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
+            Startdatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
             Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]

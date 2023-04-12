@@ -26,7 +26,6 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
     {
         var fixture = new Fixture().CustomizeAll();
         _repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateTime>();
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
             Vertegenwoordigers = new[]
@@ -49,7 +48,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
             _vCodeService,
             new MagdaFacadeEchoMock(),
             Mock.Of<IDuplicateDetectionService>(),
-            new ClockStub(today));
+            new ClockStub((DateOnly)command.Startdatum!));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);
     }
@@ -67,11 +66,11 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                 _commandEnvelope.Command.Naam,
                 _commandEnvelope.Command.KorteNaam,
                 _commandEnvelope.Command.KorteBeschrijving,
-                _commandEnvelope.Command.Startdatum.HasValue ? _commandEnvelope.Command.Startdatum.Value : null,
+                _commandEnvelope.Command.Startdatum.IsLeeg ? null : _commandEnvelope.Command.Startdatum.Value,
                 _commandEnvelope.Command.KboNumber,
                 _commandEnvelope.Command.Contactgegevens.Select(
                     (c, i) => new VerenigingWerdGeregistreerd.Contactgegeven(
-                        i+1,
+                        i + 1,
                         c.Type,
                         c.Waarde,
                         c.Omschrijving ?? string.Empty,
@@ -99,7 +98,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                         v.Insz,
                         v.Contactgegevens.Select(
                             (c, i) => new VerenigingWerdGeregistreerd.Contactgegeven(
-                                i+1,
+                                i + 1,
                                 c.Type,
                                 c.Waarde,
                                 c.Omschrijving ?? string.Empty,

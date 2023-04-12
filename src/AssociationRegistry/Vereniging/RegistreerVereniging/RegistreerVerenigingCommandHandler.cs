@@ -40,7 +40,6 @@ public class RegistreerVerenigingCommandHandler
         var command = message.Command;
         var naam = new VerenigingsNaam(command.Naam);
         var kboNummer = KboNummer.Create(command.KboNumber);
-        var startdatum = Startdatum.Create(_clock, command.Startdatum);
         var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
         var contactgegevens = Contactgegevens.FromArray(command.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
         var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
@@ -62,12 +61,13 @@ public class RegistreerVerenigingCommandHandler
             naam,
             command.KorteNaam,
             command.KorteBeschrijving,
-            startdatum,
+            command.Startdatum,
             kboNummer,
             contactgegevens,
             locatieLijst,
             vertegenwoordigersLijst,
-            hoofdactiviteitenVerenigingsloketLijst);
+            hoofdactiviteitenVerenigingsloketLijst,
+            _clock);
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return Result.Success(CommandResult.Create(vCode, result));

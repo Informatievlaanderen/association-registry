@@ -21,6 +21,7 @@ using KboNummers;
 using Marten.Events;
 using NodaTime;
 using Primitives;
+using Startdatums;
 using Vereniging.RegistreerVereniging;
 
 public static class AutoFixtureCustomizations
@@ -275,7 +276,7 @@ public static class AutoFixtureCustomizations
                         Naam: fixture.Create<string>(),
                         KorteNaam: fixture.Create<string>(),
                         KorteBeschrijving: fixture.Create<string>(),
-                        Startdatum: fixture.Create<NullOrEmpty<DateOnly>>(),
+                        Startdatum: fixture.Create<Startdatum>(),
                         KboNumber: fixture.Create<KboNummer>(),
                         Contactgegevens: fixture.Create<RegistreerVerenigingCommand.Contactgegeven[]>(),
                         Locaties: fixture.Create<RegistreerVerenigingCommand.Locatie[]>(),

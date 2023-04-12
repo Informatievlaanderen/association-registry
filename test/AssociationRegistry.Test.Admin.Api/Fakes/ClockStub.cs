@@ -4,13 +4,10 @@ using AssociationRegistry.Framework;
 
 public class ClockStub : IClock
 {
-    private readonly DateTime _now;
-
-    public ClockStub(DateTime now)
+    public ClockStub(DateOnly now)
     {
-        _now = now;
+        Today = now;
     }
 
-    public DateOnly Today
-        => DateOnly.FromDateTime(_now);
+    public DateOnly Today { get; }
 }

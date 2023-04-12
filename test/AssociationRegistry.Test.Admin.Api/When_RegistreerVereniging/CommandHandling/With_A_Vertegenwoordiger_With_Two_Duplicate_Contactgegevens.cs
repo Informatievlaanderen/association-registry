@@ -23,7 +23,7 @@ public class With_A_Vertegenwoordiger_With_Two_Duplicate_Contactgegevens
     {
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateTime>();
+        var today = fixture.Create<DateOnly>();
 
         var contactgegeven = fixture.Create<RegistreerVerenigingCommand.Contactgegeven>();
 

@@ -28,6 +28,6 @@ public class To_A_WijzigBasisgegevensCommand
         naam.Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(request.Startdatum);
+        startdatum.Should().Be(request.Startdatum.IsNull ? null : Startdatums.Startdatum.Create(request.Startdatum.Value));
     }
 }

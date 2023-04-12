@@ -7,6 +7,7 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -20,9 +21,9 @@ public class With_A_Startdatum_Null : IClassFixture<CommandHandlerScenarioFixtur
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
 
         var fixture = new Fixture();
-        var command = new WijzigBasisgegevensCommand(classFixture.Scenario.VCode, Startdatum: NullOrEmpty<DateOnly>.Null);
+        var command = new WijzigBasisgegevensCommand(classFixture.Scenario.VCode, Startdatum: null);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateTime(2023, 3, 6)));
+        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateOnly(2023, 3, 6)));
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),

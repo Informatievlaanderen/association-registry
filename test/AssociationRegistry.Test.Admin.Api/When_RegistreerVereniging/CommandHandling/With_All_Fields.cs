@@ -15,6 +15,7 @@ using ContactGegevens;
 using Hoofdactiviteiten;
 using Moq;
 using Primitives;
+using Startdatums;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,7 +34,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly DateOnly _fromDateTime;
+    private readonly DateOnly _dateInThePast;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly MagdaPersoon _magdaPersoon;
 
@@ -43,10 +44,10 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
         _vCodeService = new InMemorySequentialVCodeService();
         Mock<IMagdaFacade> magdaFacade = new();
 
-        var fixture = new Fixture();
+        var fixture = new Fixture().CustomizeAll();
 
-        var today = fixture.Create<DateTime>();
-        _fromDateTime = DateOnly.FromDateTime(today.AddDays(-3));
+        var today = fixture.Create<DateOnly>();
+        _dateInThePast = today.AddDays(-3);
 
         var clock = new ClockStub(today);
 
@@ -55,7 +56,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             Naam,
             KorteNaam,
             KorteBeschrijving,
-            NullOrEmpty<DateOnly>.Create(_fromDateTime),
+            Startdatum.Create(_dateInThePast),
             KboNummber,
             new[] { Contactgegeven },
             new[] { Locatie },
@@ -91,7 +92,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 Naam,
                 KorteNaam,
                 KorteBeschrijving,
-                _fromDateTime,
+                _dateInThePast,
                 KboNummber,
                 new[]
                 {
