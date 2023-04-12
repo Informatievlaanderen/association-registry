@@ -42,4 +42,12 @@ public class Startdatum : ValueObject<Startdatum>
     {
         return Create(commandStartdatum, datum => Validate(clock.Today, datum));
     }
+
+    public static bool Equals(Startdatum? oldStartdatum, Startdatum? newStartdatum)
+    {
+        if (oldStartdatum is null && newStartdatum is null)
+            return true;
+
+        return oldStartdatum is not null && newStartdatum is not null && newStartdatum.Equals(oldStartdatum);
+    }
 }

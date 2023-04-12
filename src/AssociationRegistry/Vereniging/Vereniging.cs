@@ -5,6 +5,7 @@ using ContactGegevens.Exceptions;
 using Events;
 using Framework;
 using Hoofdactiviteiten;
+using JasperFx.Core;
 using KboNummers;
 using Locaties;
 using Marten.Schema;
@@ -105,35 +106,34 @@ public class Vereniging : IHasVersion
 
     public void WijzigNaam(VerenigingsNaam naam)
     {
-        if (naam.Equals(_state.Naam)) return;
+        if (naam.Equals(_state.Naam))
+            return;
 
-        var @event = new NaamWerdGewijzigd(VCode, naam);
-        AddEvent(@event);
+        AddEvent(new NaamWerdGewijzigd(VCode, naam));
     }
 
     public void WijzigKorteNaam(string korteNaam)
     {
-        if (korteNaam.Equals(_state.KorteNaam)) return;
+        if (korteNaam.Equals(_state.KorteNaam))
+            return;
 
-        var @event = new KorteNaamWerdGewijzigd(VCode, korteNaam);
-        AddEvent(@event);
+        AddEvent(new KorteNaamWerdGewijzigd(VCode, korteNaam));
     }
 
     public void WijzigKorteBeschrijving(string korteBeschrijving)
     {
-        if (korteBeschrijving.Equals(_state.KorteBeschrijving)) return;
+        if (korteBeschrijving.Equals(_state.KorteBeschrijving))
+            return;
 
-        var @event = new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving);
-        AddEvent(@event);
+        AddEvent(new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving));
     }
 
     public void WijzigStartdatum(Startdatum? startdatum)
     {
-        if (_state.Startdatum is null && startdatum is null) return;
-        if (_state.Startdatum is not null && startdatum is not null && startdatum.Equals(_state.Startdatum)) return;
+        if (Startdatum.Equals(_state.Startdatum, startdatum))
+            return;
 
-        var @event = new StartdatumWerdGewijzigd(VCode, startdatum?.Value);
-        AddEvent(@event);
+        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum?.Value));
     }
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
