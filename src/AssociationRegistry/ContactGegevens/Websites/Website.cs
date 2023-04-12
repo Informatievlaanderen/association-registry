@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens.Websites;
+﻿namespace AssociationRegistry.Contactgegevens.Websites;
 
 using Framework;
 using Exceptions;

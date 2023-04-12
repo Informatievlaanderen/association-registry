@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using ContactGegevens;
+using Contactgegevens;
 using DuplicateDetection;
 using Framework;
 using Hoofdactiviteiten;
 using KboNummers;
-using Locaties;
 using Magda;
 using ResultNet;
 using Startdatums;
@@ -38,15 +37,9 @@ public class RegistreerVerenigingCommandHandler
     public async Task<Result> Handle(CommandEnvelope<RegistreerVerenigingCommand> message, CancellationToken cancellationToken)
     {
         var command = message.Command;
-        var naam = new VerenigingsNaam(command.Naam);
-        var kboNummer = KboNummer.Create(command.KboNumber);
-        var locatieLijst = LocatieLijst.CreateInstance(command.Locaties.Select(ToLocatie));
-        var contactgegevens = Contactgegevens.FromArray(command.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
-        var hoofdactiviteitenVerenigingsloketLijst = HoofdactiviteitenVerenigingsloketLijst.Create(command.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create));
-
         if (!message.Command.SkipDuplicateDetection)
         {
-            var duplicates = (await _duplicateDetectionService.GetDuplicates(naam, locatieLijst)).ToList();
+            var duplicates = (await _duplicateDetectionService.GetDuplicates(command.Naam, command.Locaties)).ToList();
             if (duplicates.Any())
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
@@ -58,30 +51,18 @@ public class RegistreerVerenigingCommandHandler
 
         var vereniging = Vereniging.Registreer(
             vCode,
-            naam,
+            command.Naam,
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
-            kboNummer,
-            contactgegevens,
-            locatieLijst,
+            command.KboNummer,
+            command.Contactgegevens,
+            command.Locaties,
             vertegenwoordigersLijst,
-            hoofdactiviteitenVerenigingsloketLijst,
+            command.HoofdactiviteitenVerenigingsloket,
             _clock);
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return Result.Success(CommandResult.Create(vCode, result));
     }
-
-    private static Locatie ToLocatie(RegistreerVerenigingCommand.Locatie loc)
-        => Locatie.CreateInstance(
-            loc.Naam,
-            loc.Straatnaam,
-            loc.Huisnummer,
-            loc.Busnummer,
-            loc.Postcode,
-            loc.Gemeente,
-            loc.Land,
-            loc.Hoofdlocatie,
-            loc.Locatietype);
 }

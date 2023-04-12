@@ -9,7 +9,7 @@ using Events;
 using Fixtures;
 using Framework;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_Contactgegevens.Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using ContactGegevens;
+using AssociationRegistry.Contactgegevens;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;

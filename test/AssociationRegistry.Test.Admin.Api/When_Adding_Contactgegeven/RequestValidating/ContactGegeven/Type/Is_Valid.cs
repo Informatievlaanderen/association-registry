@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestValidating.ContactGegeven.Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
-using ContactGegevens;
+using Contactgegevens;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;

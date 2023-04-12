@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Website;
 
-using ContactGegevens.Websites;
+using Contactgegevens.Websites;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

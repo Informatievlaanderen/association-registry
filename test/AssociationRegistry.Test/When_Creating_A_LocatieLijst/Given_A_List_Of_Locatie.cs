@@ -14,7 +14,7 @@ public class Given_A_List_Of_Locatie
     {
         var listOfLocatie = new List<Locatie>
         {
-            Locatie.CreateInstance("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten),
+            Locatie.Create("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten),
         };
 
         var locatieLijst = LocatieLijst.CreateInstance(listOfLocatie);

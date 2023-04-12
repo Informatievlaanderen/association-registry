@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.Api.Projections.Detail;
-using ContactGegevens;
+using Contactgegevens;
 using Events;
 using FluentAssertions;
 using Xunit;

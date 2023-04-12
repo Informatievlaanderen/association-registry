@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens.Emails;
+﻿namespace AssociationRegistry.Contactgegevens.Emails;
 
 using System.Text.RegularExpressions;
 using Framework;

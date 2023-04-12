@@ -6,11 +6,12 @@ using Framework;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using Events;
 using Framework.MagdaMocks;
 using Hoofdactiviteiten;
 using Moq;
+using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,18 +27,16 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
     {
         var fixture = new Fixture().CustomizeAll();
         _repositoryMock = new VerenigingRepositoryMock();
+
+        var vertegenwoordiger = fixture.Create<Vertegenwoordiger>();
+        vertegenwoordiger.Contactgegevens[0] =  Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
+        vertegenwoordiger.Contactgegevens[1] =  Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true);
+
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
             Vertegenwoordigers = new[]
             {
-                fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger>() with
-                {
-                    Contactgegevens = new[]
-                    {
-                        new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
-                        new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
-                    },
-                },
+                vertegenwoordiger,
             },
         };
 
@@ -67,13 +66,13 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                 _commandEnvelope.Command.KorteNaam,
                 _commandEnvelope.Command.KorteBeschrijving,
                 _commandEnvelope.Command.Startdatum.IsLeeg ? null : _commandEnvelope.Command.Startdatum.Value,
-                _commandEnvelope.Command.KboNumber,
+                _commandEnvelope.Command.KboNummer,
                 _commandEnvelope.Command.Contactgegevens.Select(
                     (c, i) => new VerenigingWerdGeregistreerd.Contactgegeven(
                         i + 1,
                         c.Type,
                         c.Waarde,
-                        c.Omschrijving ?? string.Empty,
+                        c.Omschrijving,
                         c.IsPrimair
                     )).ToArray(),
                 _commandEnvelope.Command.Locaties.Select(
@@ -101,15 +100,12 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                                 i + 1,
                                 c.Type,
                                 c.Waarde,
-                                c.Omschrijving ?? string.Empty,
+                                c.Omschrijving,
                                 c.IsPrimair
                             )).ToArray()
                     )).ToArray(),
                 _commandEnvelope.Command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
-                        HoofdactiviteitVerenigingsloket.Create(h).Code,
-                        HoofdactiviteitVerenigingsloket.Create(h).Beschrijving
-                    )).ToArray()));
+                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)).ToArray()));
     }
 
     public Task DisposeAsync()

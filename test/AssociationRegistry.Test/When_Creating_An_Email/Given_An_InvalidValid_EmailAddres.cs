@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_An_Email;
 
-using ContactGegevens.Emails;
-using ContactGegevens.Emails.Exceptions;
+using Contactgegevens.Emails;
+using Contactgegevens.Emails.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

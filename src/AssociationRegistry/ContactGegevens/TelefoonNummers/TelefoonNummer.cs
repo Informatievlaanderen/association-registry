@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens.TelefoonNummers;
+﻿namespace AssociationRegistry.Contactgegevens.TelefoonNummers;
 
 using Framework;
 using Exceptions;

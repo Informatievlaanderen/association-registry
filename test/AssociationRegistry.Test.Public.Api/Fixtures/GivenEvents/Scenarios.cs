@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Events;
 using AssociationRegistry.Framework;
-using ContactGegevens;
+using Contactgegevens;
 using VCodes;
 using NodaTime;
 using NodaTime.Extensions;

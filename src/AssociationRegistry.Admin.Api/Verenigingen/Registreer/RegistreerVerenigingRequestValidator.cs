@@ -5,7 +5,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using System;
 using System.Linq;
 using Constants;
-using ContactGegevens;
+using AssociationRegistry.Contactgegevens;
 using FluentValidation;
 using Infrastructure.Validation;
 

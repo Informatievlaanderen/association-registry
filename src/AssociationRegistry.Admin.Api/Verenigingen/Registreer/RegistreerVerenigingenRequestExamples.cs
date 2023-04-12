@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using Constants;
-using ContactGegevens;
+using AssociationRegistry.Contactgegevens;
 using Primitives;
 using Swashbuckle.AspNetCore.Filters;
 

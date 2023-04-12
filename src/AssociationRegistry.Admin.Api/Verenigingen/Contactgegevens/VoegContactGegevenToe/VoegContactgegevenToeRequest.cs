@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
 using System.Runtime.Serialization;
-using ContactGegevens;
+using AssociationRegistry.Contactgegevens;
 using Vereniging.VoegContactgegevenToe;
 using Infrastructure.Swagger;
 

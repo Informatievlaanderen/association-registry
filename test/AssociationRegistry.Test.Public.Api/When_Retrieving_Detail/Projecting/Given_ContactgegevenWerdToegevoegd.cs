@@ -2,7 +2,7 @@
 
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

@@ -9,7 +9,7 @@ using Vereniging;
 using VerenigingsNamen;
 using Vertegenwoordigers;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
 using Framework;
 using Hoofdactiviteiten;
@@ -20,11 +20,11 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_New_Vereniging : IAsyncLifetime
 {
-    private EventStoreMock _eventStore;
-    private VerenigingsRepository _repo;
-    private VCode _vCode;
-    private Vereniging _vereniging;
-    private VerenigingsNaam _naam;
+    private readonly EventStoreMock _eventStore;
+    private readonly VerenigingsRepository _repo;
+    private readonly VCode _vCode;
+    private readonly Vereniging _vereniging;
+    private readonly VerenigingsNaam _naam;
 
     public Given_A_New_Vereniging()
     {
@@ -34,7 +34,18 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         _vCode = VCode.Create(1001);
         _naam = new VerenigingsNaam("Vereniging 1");
-        _vereniging = Vereniging.Registreer(_vCode, _naam, null, null, Startdatum.Leeg, null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty, new ClockStub(DateTime.Today));
+        _vereniging = Vereniging.Registreer(
+            _vCode,
+            _naam,
+            null,
+            null,
+            Startdatum.Leeg,
+            null,
+            Array.Empty<Contactgegeven>(),
+            Array.Empty<Locatie>(),
+            Array.Empty<Vertegenwoordiger>(),
+            Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            new ClockStub(DateTime.Today));
     }
 
     public async Task InitializeAsync()

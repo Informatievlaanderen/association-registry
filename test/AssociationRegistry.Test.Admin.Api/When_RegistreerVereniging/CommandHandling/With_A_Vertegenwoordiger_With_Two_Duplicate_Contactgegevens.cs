@@ -6,10 +6,12 @@ using Framework;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using ContactGegevens.Exceptions;
+using Contactgegevens;
+using Contactgegevens.Exceptions;
 using FluentAssertions;
 using Framework.MagdaMocks;
 using Moq;
+using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,16 +27,17 @@ public class With_A_Vertegenwoordiger_With_Two_Duplicate_Contactgegevens
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateOnly>();
 
-        var contactgegeven = fixture.Create<RegistreerVerenigingCommand.Contactgegeven>();
+        var contactgegeven = fixture.Create<Contactgegeven>();
+
+        var vertegenwoordiger = fixture.Create<Vertegenwoordiger>();
+        vertegenwoordiger.Contactgegevens[0] = contactgegeven;
+        vertegenwoordiger.Contactgegevens[1] = contactgegeven;
 
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
             Vertegenwoordigers = new[]
             {
-                fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger>() with
-                {
-                    Contactgegevens = new[] { contactgegeven, contactgegeven },
-                },
+                vertegenwoordiger,
             },
         };
 

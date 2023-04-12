@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens.SocialMedias;
+﻿namespace AssociationRegistry.Contactgegevens.SocialMedias;
 
 using Framework;
 using Exceptions;

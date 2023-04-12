@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using Framework;
 using INSZ;
 using Vertegenwoordigers;

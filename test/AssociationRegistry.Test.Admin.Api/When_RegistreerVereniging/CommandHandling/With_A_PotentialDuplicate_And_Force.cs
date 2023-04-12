@@ -14,6 +14,8 @@ using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
 using AutoFixture;
 using FluentAssertions;
+using Framework.MagdaMocks;
+using Marten;
 using Moq;
 using ResultNet;
 using Startdatums;
@@ -27,34 +29,28 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly RegistreerVerenigingCommand _command;
-    private readonly RegistreerVerenigingCommand.Locatie _locatie;
+    private readonly Locatie _locatie;
 
     public With_A_PotentialDuplicate_And_Force(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
     {
         var fixture = new Fixture().CustomizeAll();
+
+        _locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
+        _command = fixture.Create<RegistreerVerenigingCommand>() with
+        {
+            Naam = new VerenigingsNaam(classFixture.Scenario.Naam),
+            Locaties = new[] { _locatie },
+            SkipDuplicateDetection = true,
+        };
 
         var duplicateChecker = new Mock<IDuplicateDetectionService>();
         var potentialDuplicates = new[] { fixture.Create<DuplicaatVereniging>() };
         duplicateChecker.Setup(
                 d =>
                     d.GetDuplicates(
-                        It.IsAny<VerenigingsNaam>(),
-                        It.IsAny<LocatieLijst>()))
+                        _command.Naam,
+                        _command.Locaties))
             .ReturnsAsync(potentialDuplicates);
-        var today = fixture.Create<DateOnly>();
-        _locatie = fixture.Create<RegistreerVerenigingCommand.Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
-
-        _command = new RegistreerVerenigingCommand(
-            classFixture.Scenario.Naam,
-            null,
-            null,
-            Startdatum.Leeg,
-            null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            new[] { _locatie },
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
-            SkipDuplicateDetection: true);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
@@ -62,9 +58,9 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
         var commandHandler = new RegistreerVerenigingCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            Mock.Of<IMagdaFacade>(),
+            new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
-            new ClockStub(today));
+            new ClockStub(_command.Startdatum.Value!.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
             .GetAwaiter()
@@ -86,24 +82,25 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.Naam,
                 _command.KorteNaam,
                 _command.KorteBeschrijving,
-                null,
-                _command.KboNumber,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
+                _command.Startdatum,
+                _command.KboNummer,
+                _command.Contactgegevens.Select(
+                    (g, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(g) with
+                    {
+                        ContactgegevenId = index + 1,
+                    }).ToArray(),
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.Locatie(
-                        _locatie.Naam,
-                        _locatie.Straatnaam,
-                        _locatie.Huisnummer,
-                        _locatie.Busnummer,
-                        _locatie.Postcode,
-                        _locatie.Gemeente,
-                        _locatie.Land,
-                        _locatie.Hoofdlocatie,
-                        _locatie.Locatietype),
+                    VerenigingWerdGeregistreerd.Locatie.With(_locatie),
                 },
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+                _command.Vertegenwoordigers.Select(
+                    v => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    {
+                        Voornaam = v.Insz, Achternaam = v.Insz,
+                    }).ToArray(),
+                _command.HoofdactiviteitenVerenigingsloket.Select(
+                        h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                            h.Code, h.Beschrijving)).ToArray()
             ));
     }
 }

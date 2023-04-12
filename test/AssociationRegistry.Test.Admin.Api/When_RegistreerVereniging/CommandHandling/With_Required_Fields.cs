@@ -12,6 +12,7 @@ using Framework;
 using Moq;
 using Primitives;
 using Startdatums;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,16 +34,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
 
         var clock = new ClockStub(today);
 
-        var command = new RegistreerVerenigingCommand(
-            Naam,
-            null,
-            null,
-            Startdatum.Leeg,
-            null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>());
+        var command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), new NoDuplicateDetectionService(), clock);
 

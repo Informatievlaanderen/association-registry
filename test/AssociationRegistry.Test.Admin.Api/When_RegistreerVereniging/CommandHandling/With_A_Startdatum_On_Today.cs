@@ -9,9 +9,11 @@ using Fixtures.Scenarios;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Framework;
+using Framework.MagdaMocks;
 using Moq;
 using Primitives;
 using Startdatums;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +24,7 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
-    private DateOnly _today;
+    private readonly RegistreerVerenigingCommand _command;
 
     public With_A_Startdatum_On_Today(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
@@ -30,25 +32,18 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAll();
-        _today = fixture.Create<DateOnly>();
 
-        var clock = new ClockStub(_today);
-
-        var command = new RegistreerVerenigingCommand(
-            Naam,
-            null,
-            null,
-            Startdatum.Create(_today),
-            null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>());
+        _command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), new NoDuplicateDetectionService(), clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new MagdaFacadeEchoMock(),
+            new NoDuplicateDetectionService(),
+            new ClockStub(_command.Startdatum.Value!.Value));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
             .GetAwaiter()
             .GetResult();
     }
@@ -62,9 +57,13 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
                 Naam: Naam,
                 KorteNaam: null,
                 KorteBeschrijving: null,
-                Startdatum: _today,
+                Startdatum: _command.Startdatum,
                 KboNummer: null,
-                Contactgegevens: Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
+                Contactgegevens: _command.Contactgegevens.Select(
+                    (g, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(g) with
+                    {
+                        ContactgegevenId = index + 1,
+                    }).ToArray(),
                 Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Vertegenwoordigers: Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 HoofdactiviteitenVerenigingsloket: Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens;
+﻿namespace AssociationRegistry.Contactgegevens;
 
 using Emails;
 using Exceptions;

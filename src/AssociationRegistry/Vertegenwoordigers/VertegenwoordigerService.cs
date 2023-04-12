@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Vertegenwoordigers;
 
-using ContactGegevens;
+using Contactgegevens;
 using Exceptions;
 using INSZ;
 using Magda;
@@ -16,9 +16,9 @@ public class VertegenwoordigerService
         _magdaFacade = magdaFacade;
     }
 
-    public async Task<VertegenwoordigersLijst> GetVertegenwoordigersLijst(IEnumerable<RegistreerVerenigingCommand.Vertegenwoordiger>? vertegenwoordigers)
+    public async Task<Vertegenwoordiger[]> GetVertegenwoordigersLijst(Vertegenwoordiger[]? vertegenwoordigers)
     {
-        if (vertegenwoordigers is null) return VertegenwoordigersLijst.Empty;
+        if (vertegenwoordigers is null) return Array.Empty<Vertegenwoordiger>();
 
         var expandedVertegenwoordigers = new List<Vertegenwoordiger>();
 
@@ -27,10 +27,10 @@ public class VertegenwoordigerService
             expandedVertegenwoordigers.Add(await GetVertegenwoordiger(vert));
         }
 
-        return VertegenwoordigersLijst.Create(expandedVertegenwoordigers);
+        return expandedVertegenwoordigers.ToArray();
     }
 
-    private async Task<Vertegenwoordiger> GetVertegenwoordiger(RegistreerVerenigingCommand.Vertegenwoordiger vertegenwoordiger)
+    private async Task<Vertegenwoordiger> GetVertegenwoordiger(Vertegenwoordiger vertegenwoordiger)
     {
         var insz = Insz.Create(vertegenwoordiger.Insz);
         var contactgegevens = Contactgegevens.FromArray(vertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());

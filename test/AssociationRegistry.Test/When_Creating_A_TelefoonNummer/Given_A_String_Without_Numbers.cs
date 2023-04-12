@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_TelefoonNummer;
 
-using ContactGegevens.TelefoonNummers;
-using ContactGegevens.TelefoonNummers.Exceptions;
+using Contactgegevens.TelefoonNummers;
+using Contactgegevens.TelefoonNummers.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

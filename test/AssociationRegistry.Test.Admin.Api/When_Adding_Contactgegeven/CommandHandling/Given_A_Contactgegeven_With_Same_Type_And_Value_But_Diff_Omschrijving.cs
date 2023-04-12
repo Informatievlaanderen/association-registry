@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.CommandH
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens;
-using ContactGegevens.Exceptions;
+using Contactgegevens;
+using Contactgegevens.Exceptions;
 using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;

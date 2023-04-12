@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens;
-using ContactGegevens.Emails;
+using Contactgegevens;
+using Contactgegevens.Emails;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;

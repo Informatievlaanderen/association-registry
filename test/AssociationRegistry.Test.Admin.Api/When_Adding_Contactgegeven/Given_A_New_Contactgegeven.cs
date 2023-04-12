@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven;
 
 using System.Net;
-using ContactGegevens;
+using Contactgegevens;
 using Fixtures;
 using Fixtures.Scenarios;
 using Events;

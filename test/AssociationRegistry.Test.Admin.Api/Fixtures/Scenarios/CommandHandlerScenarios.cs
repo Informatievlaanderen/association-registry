@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 using Events;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using Framework;
 using VCodes;
 using Vereniging;
