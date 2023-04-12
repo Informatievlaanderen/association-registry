@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Contactgegeven;
 
 using AutoFixture;
-using ContactGegevens;
-using ContactGegevens.Emails;
-using ContactGegevens.SocialMedias;
-using ContactGegevens.TelefoonNummers;
-using ContactGegevens.Websites;
+using Contactgegevens;
+using Contactgegevens.Emails;
+using Contactgegevens.SocialMedias;
+using Contactgegevens.TelefoonNummers;
+using Contactgegevens.Websites;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

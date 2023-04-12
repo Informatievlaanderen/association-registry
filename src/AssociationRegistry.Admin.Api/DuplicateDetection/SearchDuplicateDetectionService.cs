@@ -20,7 +20,7 @@ public class SearchDuplicateDetectionService : IDuplicateDetectionService
         _session = session;
     }
 
-    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, LocatieLijst locaties)
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
     {
         var postcodes = locaties.Select(l => l.Postcode).ToArray();
         var gemeentes = locaties.Select(l => l.Gemeente).ToArray();

@@ -9,11 +9,11 @@ using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
-using ContactGegevens;
-using ContactGegevens.Emails;
-using ContactGegevens.SocialMedias;
-using ContactGegevens.TelefoonNummers;
-using ContactGegevens.Websites;
+using Contactgegevens;
+using Contactgegevens.Emails;
+using Contactgegevens.SocialMedias;
+using Contactgegevens.TelefoonNummers;
+using Contactgegevens.Websites;
 using Events;
 using Hoofdactiviteiten;
 using INSZ;
@@ -23,6 +23,8 @@ using NodaTime;
 using Primitives;
 using Startdatums;
 using Vereniging.RegistreerVereniging;
+using VerenigingsNamen;
+using Vertegenwoordigers;
 
 public static class AutoFixtureCustomizations
 {
@@ -92,6 +94,24 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeRegistreerVerenigingRequest(this IFixture fixture)
     {
+        fixture.Customize<RegistreerVerenigingRequest>(
+            composer => composer.FromFactory<int>(
+                value => new RegistreerVerenigingRequest
+                {
+                    Contactgegevens = fixture.CreateMany<RegistreerVerenigingRequest.Contactgegeven>().ToArray(),
+                    Initiator = fixture.Create<string>(),
+                    Locaties = fixture.CreateMany<RegistreerVerenigingRequest.Locatie>().ToArray(),
+                    Startdatum = fixture.Create<Startdatum>(),
+                    Naam = fixture.Create<string>(),
+                    Vertegenwoordigers = fixture.CreateMany<RegistreerVerenigingRequest.Vertegenwoordiger>().ToArray(),
+                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                        .Select(x => x.Code)
+                        .ToArray(),
+                    KorteBeschrijving = fixture.Create<string>(),
+                    KorteNaam = fixture.Create<string>(),
+                    KboNummer = fixture.Create<KboNummer>(),
+                }).OmitAutoProperties());
+
         fixture.Customize<RegistreerVerenigingRequest.Locatie>(
             composer => composer.FromFactory<int>(
                 value => new RegistreerVerenigingRequest.Locatie
@@ -119,6 +139,18 @@ public static class AutoFixtureCustomizations
                             Omschrijving = fixture.Create<string>(),
                             IsPrimair = false,
                         };
+                    })
+                .OmitAutoProperties());
+
+        fixture.Customize<RegistreerVerenigingRequest.Vertegenwoordiger>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new RegistreerVerenigingRequest.Vertegenwoordiger
+                    {
+                        Insz = fixture.Create<Insz>(),
+                        Roepnaam = fixture.Create<string>(),
+                        Rol = fixture.Create<string>(),
+                        PrimairContactpersoon = false,
+                        Contactgegevens = fixture.CreateMany<RegistreerVerenigingRequest.Contactgegeven>().ToArray(),
                     })
                 .OmitAutoProperties());
     }
@@ -273,44 +305,17 @@ public static class AutoFixtureCustomizations
         fixture.Customize<RegistreerVerenigingCommand>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new RegistreerVerenigingCommand(
-                        Naam: fixture.Create<string>(),
+                        Naam: fixture.Create<VerenigingsNaam>(),
                         KorteNaam: fixture.Create<string>(),
                         KorteBeschrijving: fixture.Create<string>(),
                         Startdatum: fixture.Create<Startdatum>(),
-                        KboNumber: fixture.Create<KboNummer>(),
-                        Contactgegevens: fixture.Create<RegistreerVerenigingCommand.Contactgegeven[]>(),
-                        Locaties: fixture.Create<RegistreerVerenigingCommand.Locatie[]>(),
-                        Vertegenwoordigers: fixture.Create<RegistreerVerenigingCommand.Vertegenwoordiger[]>(),
-                        HoofdactiviteitenVerenigingsloket: fixture.Create<HoofdactiviteitenVerenigingsloketLijst>()
-                            .Select(x => x.Code)
-                            .ToArray(),
+                        KboNummer: fixture.Create<KboNummer>(),
+                        Contactgegevens: fixture.CreateMany<Contactgegeven>().ToArray(),
+                        Locaties: fixture.CreateMany<Locaties.Locatie>().ToArray(),
+                        Vertegenwoordigers: fixture.CreateMany<Vertegenwoordiger>().ToArray(),
+                        HoofdactiviteitenVerenigingsloket: fixture.CreateMany<HoofdactiviteitVerenigingsloket>().ToArray(),
                         SkipDuplicateDetection: true)
                 )
-                .OmitAutoProperties());
-
-        fixture.Customize<RegistreerVerenigingCommand.Vertegenwoordiger>(
-            composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingCommand.Vertegenwoordiger(
-                        fixture.Create<Insz>(),
-                        false,
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.CreateMany<RegistreerVerenigingCommand.Contactgegeven>().ToArray()
-                    ))
-                .OmitAutoProperties());
-
-        fixture.Customize<RegistreerVerenigingCommand.Contactgegeven>(
-            composerTransformation: composer => composer.FromFactory(
-                    factory: () =>
-                    {
-                        var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new RegistreerVerenigingCommand.Contactgegeven(
-                            contactgegeven.Type,
-                            contactgegeven.Waarde,
-                            contactgegeven.Omschrijving,
-                            contactgegeven.IsPrimair
-                        );
-                    })
                 .OmitAutoProperties());
     }
 

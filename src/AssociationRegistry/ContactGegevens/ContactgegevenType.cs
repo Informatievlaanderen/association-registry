@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens;
+﻿namespace AssociationRegistry.Contactgegevens;
 
 public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
 {

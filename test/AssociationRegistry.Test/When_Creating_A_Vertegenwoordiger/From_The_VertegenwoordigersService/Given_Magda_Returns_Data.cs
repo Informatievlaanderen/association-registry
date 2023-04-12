@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Vertegenwoordiger.From_The_VertegenwoordigersService;
 
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
@@ -36,14 +36,14 @@ public class Given_Magda_Returns_Data
         var service = new VertegenwoordigerService(magdaMock.Object);
 
         const string email = "iemand@digitaal.vlaanderen";
-        var vertegenwoordiger = new RegistreerVerenigingCommand.Vertegenwoordiger(
+        var vertegenwoordiger = Vertegenwoordiger.Create(
             insz,
             fixture.Create<bool>(),
             fixture.Create<string>(),
             fixture.Create<string>(),
-            new RegistreerVerenigingCommand.Contactgegeven[]
+            new[]
             {
-                new(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
+                Contactgegeven.Create(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
             });
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
 

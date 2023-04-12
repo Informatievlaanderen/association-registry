@@ -3,6 +3,12 @@ namespace AssociationRegistry.Test.Framework;
 using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
+using Contactgegevens;
+using Contactgegevens.Emails;
+using Contactgegevens.SocialMedias;
+using Contactgegevens.TelefoonNummers;
+using Contactgegevens.Websites;
+using INSZ;
 using NodaTime;
 
 public static class AutoFixtureCustomizations
@@ -12,6 +18,8 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDateOnly();
         fixture.CustomizeVCode();
         fixture.CustomizeInstant();
+        fixture.CustomizeInsz();
+        fixture.CustomizeContactgegeven();
         return fixture;
     }
 
@@ -37,5 +45,61 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Instant>(
             composer => composer.FromFactory(
                 generator => new Instant() + Duration.FromSeconds(generator.Next())));
+    }
+
+    public static void CustomizeInsz(this IFixture fixture)
+    {
+        fixture.Customize<Insz>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var inszBase = new Random().Next(0, 999999999);
+                        var inszModulo = 97 - (inszBase % 97);
+                        return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
+                    })
+                .OmitAutoProperties()
+        );
+    }
+
+    public static void CustomizeContactgegeven(this IFixture fixture)
+    {
+        fixture.Customize<Email>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+
+        fixture.Customize<SocialMedia>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+
+        fixture.Customize<Website>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                .OmitAutoProperties());
+        fixture.Customize<TelefoonNummer>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), false))
+                .OmitAutoProperties());
+
+        fixture.Customize<ContactgegevenType>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var contactTypes = ContactgegevenType.All;
+                    return contactTypes[value % contactTypes.Length];
+                }).OmitAutoProperties());
+
+        fixture.Customize<Contactgegeven>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => (string)fixture.Create<ContactgegevenType>() switch
+                    {
+                        nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
+                        nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
+                        nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
+                        nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
+                        _ => throw new ArgumentOutOfRangeException(),
+                    })
+                .OmitAutoProperties());
     }
 }

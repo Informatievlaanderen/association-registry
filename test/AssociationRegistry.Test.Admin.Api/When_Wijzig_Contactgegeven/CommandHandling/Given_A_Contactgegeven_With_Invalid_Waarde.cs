@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using ContactGegevens.Emails.Exceptions;
-using ContactGegevens.Websites;
+using Contactgegevens.Emails.Exceptions;
+using Contactgegevens.Websites;
 using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;

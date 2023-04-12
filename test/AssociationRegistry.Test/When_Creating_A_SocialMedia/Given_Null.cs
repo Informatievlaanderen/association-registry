@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_SocialMedia;
 
-using ContactGegevens.SocialMedias;
+using Contactgegevens.SocialMedias;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

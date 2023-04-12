@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_SocialMedia;
 
-using ContactGegevens.SocialMedias;
-using ContactGegevens.SocialMedias.Exceptions;
+using Contactgegevens.SocialMedias;
+using Contactgegevens.SocialMedias.Exceptions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

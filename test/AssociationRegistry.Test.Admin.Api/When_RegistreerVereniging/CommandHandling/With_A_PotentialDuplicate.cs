@@ -13,6 +13,7 @@ using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
 using AutoFixture;
 using FluentAssertions;
+using Framework.MagdaMocks;
 using Moq;
 using ResultNet;
 using Startdatums;
@@ -29,35 +30,30 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
     {
         var fixture = new Fixture().CustomizeAll();
 
+        var locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
+        var command = fixture.Create<RegistreerVerenigingCommand>() with
+        {
+            Naam = new VerenigingsNaam(classFixture.Scenario.Naam),
+            Locaties = new[] { locatie },
+            SkipDuplicateDetection = false,
+        };
+
         var duplicateChecker = new Mock<IDuplicateDetectionService>();
         _potentialDuplicates = new List<DuplicaatVereniging> { fixture.Create<DuplicaatVereniging>() };
         duplicateChecker.Setup(
                 d =>
                     d.GetDuplicates(
-                        It.IsAny<VerenigingsNaam>(),
-                        It.IsAny<LocatieLijst>()))
+                        command.Naam,
+                        command.Locaties))
             .ReturnsAsync(_potentialDuplicates);
-        var today = fixture.Create<DateOnly>();
-        var locatie = fixture.Create<RegistreerVerenigingCommand.Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
-
-        var command = new RegistreerVerenigingCommand(
-            classFixture.Scenario.Naam,
-            null,
-            null,
-            Startdatum.Leeg,
-            null,
-            Array.Empty<RegistreerVerenigingCommand.Contactgegeven>(),
-            new[] { locatie },
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(
             classFixture.VerenigingRepositoryMock,
             new InMemorySequentialVCodeService(),
-            Mock.Of<IMagdaFacade>(),
+            new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
-            new ClockStub(today));
+            new ClockStub(command.Startdatum.Value!.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
             .GetAwaiter()

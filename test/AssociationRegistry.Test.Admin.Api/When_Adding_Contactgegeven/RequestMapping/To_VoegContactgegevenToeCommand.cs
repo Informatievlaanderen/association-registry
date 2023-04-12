@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGege
 using Framework;
 using VCodes;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

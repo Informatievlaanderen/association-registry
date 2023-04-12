@@ -1,4 +1,4 @@
-namespace AssociationRegistry.ContactGegevens.Exceptions;
+namespace AssociationRegistry.Contactgegevens.Exceptions;
 
 using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;

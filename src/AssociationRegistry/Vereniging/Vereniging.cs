@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
-using ContactGegevens;
-using ContactGegevens.Exceptions;
+using Contactgegevens;
+using Contactgegevens.Exceptions;
 using Events;
 using Framework;
 using Hoofdactiviteiten;
@@ -30,10 +30,10 @@ public class Vereniging : IHasVersion
         string? korteBeschrijving,
         Startdatum? startdatum,
         KboNummer? kboNummer,
-        Contactgegevens contactgegevens,
-        LocatieLijst locatieLijst,
-        VertegenwoordigersLijst vertegenwoordigersLijst,
-        HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
+        Contactgegeven[] contactgegevens,
+        Locatie[] locatieLijst,
+        Vertegenwoordiger[] vertegenwoordigersLijst,
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -42,7 +42,7 @@ public class Vereniging : IHasVersion
             korteBeschrijving,
             startdatum?.Value,
             kboNummer?.ToString(),
-            ToEventContactgegevens(contactgegevens),
+            ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
             ToLocatieLijst(locatieLijst),
             ToVertegenwoordigersLijst(vertegenwoordigersLijst),
             ToEventData(hoofdactiviteitenVerenigingsloketLijst));
@@ -51,10 +51,8 @@ public class Vereniging : IHasVersion
         UncommittedEvents = UncommittedEvents.Append(verenigingWerdGeregistreerdEvent);
     }
 
-    private static VerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegevens contactgegevens)
-    {
-        return contactgegevens.Select(c => new VerenigingWerdGeregistreerd.Contactgegeven(c.ContactgegevenId, c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray();
-    }
+    private static VerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
+        => contactgegevens.Select(VerenigingWerdGeregistreerd.Contactgegeven.With).ToArray();
 
     [Identity]
     public string VCode
@@ -67,7 +65,18 @@ public class Vereniging : IHasVersion
 
     public long Version { get; set; }
 
-    public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam, string? korteNaam, string? korteBeschrijving, Startdatum startdatum, KboNummer? kboNummer, Contactgegevens contactgegevens, LocatieLijst locatieLijst, VertegenwoordigersLijst vertegenwoordigersLijst, HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst, IClock clock)
+    public static Vereniging Registreer(
+        VCode vCode,
+        VerenigingsNaam naam,
+        string? korteNaam,
+        string? korteBeschrijving,
+        Startdatum startdatum,
+        KboNummer? kboNummer,
+        Contactgegeven[] contactgegevens,
+        Locatie[] locatieLijst,
+        Vertegenwoordiger[] vertegenwoordigersLijst,
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
+        IClock clock)
     {
         MustNotBeInFuture(startdatum, clock.Today);
 
@@ -88,21 +97,31 @@ public class Vereniging : IHasVersion
         => Throw<InvalidStartdatumFuture>.If(startdatum.IsInFuture(today));
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam)
-        => new(vCode, naam, korteNaam: null, korteBeschrijving: null, startdatum: null, kboNummer: null, Contactgegevens.Empty, LocatieLijst.Empty, VertegenwoordigersLijst.Empty, HoofdactiviteitenVerenigingsloketLijst.Empty);
+        => new(
+            vCode,
+            naam,
+            korteNaam: null,
+            korteBeschrijving: null,
+            startdatum: null,
+            kboNummer: null,
+            Array.Empty<Contactgegeven>(),
+            Array.Empty<Locatie>(),
+            Array.Empty<Vertegenwoordiger>(),
+            Array.Empty<HoofdactiviteitVerenigingsloket>());
 
-    private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToEventData(HoofdactiviteitenVerenigingsloketLijst hoofdactiviteitenVerenigingsloketLijst)
+    private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToEventData(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(ToEventData).ToArray();
 
     private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket ToEventData(HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
 
-    private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(VertegenwoordigersLijst vertegenwoordigersLijst)
+    private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
         => vertegenwoordigersLijst.Select(ToVertegenwoordiger).ToArray();
 
     private static VerenigingWerdGeregistreerd.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
         => new(vert.Insz, vert.PrimairContactpersoon, vert.Roepnaam, vert.Rol, vert.Voornaam, vert.Achternaam, ToEventContactgegevens(vert.Contactgegevens));
 
-    private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(LocatieLijst locatieLijst)
+    private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
         => locatieLijst.Select(ToLocatie).ToArray();
 
     private static VerenigingWerdGeregistreerd.Locatie ToLocatie(Locatie loc)
@@ -114,7 +133,7 @@ public class Vereniging : IHasVersion
             loc.Postcode,
             loc.Gemeente,
             loc.Land,
-            loc.IsHoofdlocatie,
+            loc.Hoofdlocatie,
             loc.Locatietype);
 
     public void ClearEvents()

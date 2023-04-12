@@ -5,7 +5,7 @@ using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
-using ContactGegevens;
+using Contactgegevens;
 using Marten.Events;
 using NodaTime;
 

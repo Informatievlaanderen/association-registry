@@ -30,7 +30,16 @@ public record VerenigingWerdGeregistreerd(
         string Type,
         string Waarde,
         string Omschrijving,
-        bool IsPrimair);
+        bool IsPrimair)
+    {
+        public static Contactgegeven With(Contactgegevens.Contactgegeven contactgegeven)
+            => new(
+                contactgegeven.ContactgegevenId,
+                contactgegeven.Type,
+                contactgegeven.Waarde,
+                contactgegeven.Omschrijving,
+                contactgegeven.IsPrimair);
+    }
 
     public record Locatie(
         string? Naam,
@@ -41,7 +50,20 @@ public record VerenigingWerdGeregistreerd(
         string Gemeente,
         string Land,
         bool Hoofdlocatie,
-        string Locatietype);
+        string Locatietype)
+    {
+        public static Locatie With(Locaties.Locatie locatie)
+            => new(
+                locatie.Naam,
+                locatie.Straatnaam,
+                locatie.Huisnummer,
+                locatie.Busnummer,
+                locatie.Postcode,
+                locatie.Gemeente,
+                locatie.Land,
+                locatie.Hoofdlocatie,
+                locatie.Locatietype);
+    }
 
     public record Vertegenwoordiger(
         string Insz,
@@ -50,7 +72,18 @@ public record VerenigingWerdGeregistreerd(
         string? Rol,
         string Voornaam,
         string Achternaam,
-        Contactgegeven[] Contactgegevens);
+        Contactgegeven[] Contactgegevens)
+    {
+        public static Vertegenwoordiger With(Vertegenwoordigers.Vertegenwoordiger vertegenwoordiger)
+            => new(
+                vertegenwoordiger.Insz,
+                vertegenwoordiger.PrimairContactpersoon,
+                vertegenwoordiger.Roepnaam,
+                vertegenwoordiger.Rol,
+                vertegenwoordiger.Voornaam,
+                vertegenwoordiger.Achternaam,
+                vertegenwoordiger.Contactgegevens.Select(Contactgegeven.With).ToArray());
+    }
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,

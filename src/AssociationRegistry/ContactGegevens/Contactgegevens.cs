@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ContactGegevens;
+﻿namespace AssociationRegistry.Contactgegevens;
 
 using System.Collections.ObjectModel;
 using Exceptions;

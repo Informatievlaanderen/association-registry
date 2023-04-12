@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using ContactGegevens;
+using Contactgegevens;
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
 using FluentAssertions;

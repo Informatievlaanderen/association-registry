@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging.VoegContactgegevenToe;
 
-using ContactGegevens;
+using Contactgegevens;
 using Framework;
 using VCodes;
 

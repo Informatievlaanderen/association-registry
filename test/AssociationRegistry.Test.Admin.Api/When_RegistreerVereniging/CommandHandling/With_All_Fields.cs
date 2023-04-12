@@ -11,11 +11,14 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using Hoofdactiviteiten;
+using Locaties;
 using Moq;
 using Primitives;
 using Startdatums;
+using VerenigingsNamen;
+using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,13 +28,13 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private const string Naam = "naam1";
     private const string KorteNaam = "korte naam";
     private const string KorteBeschrijving = "korte beschrijving";
-    private const string KboNummber = "0123456749";
-    private const string Hoofdactiviteit = "KECU";
+    private const string KboNummer = "0123456749";
+    private const string HoofdactiviteitCode = "KECU";
 
-    private static readonly RegistreerVerenigingCommand.Contactgegeven Contactgegeven = new(ContactgegevenType.Email, "info@dummy.com", "the email", true);
-    private static readonly RegistreerVerenigingCommand.Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly RegistreerVerenigingCommand.Contactgegeven VertegenwoordigerContactgegeven = new(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
-    private static readonly RegistreerVerenigingCommand.Vertegenwoordiger Vertegenwoordiger = new(InszTestSet.Insz1_WithCharacters, true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
+    private static readonly Contactgegeven Contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "info@dummy.com", "the email", true);
+    private static readonly Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
+    private static readonly Contactgegeven VertegenwoordigerContactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
+    private static readonly Vertegenwoordiger Vertegenwoordiger = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1_WithCharacters), true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly DateOnly _dateInThePast;
@@ -53,15 +56,15 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
 
         var vertegenwoordigers = new[] { Vertegenwoordiger };
         var command = new RegistreerVerenigingCommand(
-            Naam,
+            new VerenigingsNaam(Naam),
             KorteNaam,
             KorteBeschrijving,
             Startdatum.Create(_dateInThePast),
-            KboNummber,
+            KboNummers.KboNummer.Create(KboNummer),
             new[] { Contactgegeven },
             new[] { Locatie },
             vertegenwoordigers,
-            new[] { Hoofdactiviteit });
+            new[] { HoofdactiviteitVerenigingsloket.Create(HoofdactiviteitCode) });
 
         _magdaPersoon = new MagdaPersoon
         {
@@ -93,7 +96,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 KorteNaam,
                 KorteBeschrijving,
                 _dateInThePast,
-                KboNummber,
+                KboNummer,
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Contactgegeven(
@@ -138,7 +141,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 },
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(Hoofdactiviteit, HoofdactiviteitVerenigingsloket.All().Single(a => a.Code == Hoofdactiviteit).Beschrijving),
+                    new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(HoofdactiviteitCode, HoofdactiviteitVerenigingsloket.All().Single(a => a.Code == HoofdactiviteitCode).Beschrijving),
                 }));
     }
 }

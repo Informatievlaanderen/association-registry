@@ -3,9 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestMa
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using AutoFixture;
-using ContactGegevens;
+using Contactgegevens;
 using FluentAssertions;
+using INSZ;
 using Vereniging.RegistreerVereniging;
+using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,13 +35,13 @@ public class To_A_RegistreerVerenigingCommand
             out var hoofdactiviteiten,
             out var skipDuplicateDetection);
 
-        naam.Should().Be(request.Naam);
+        naam.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
-        kboNummber.Should().Be(request.KboNummer);
+        kboNummber.ToString().Should().Be(request.KboNummer);
         contactgegevens[0].Should().BeEquivalentTo(
-            new RegistreerVerenigingCommand.Contactgegeven(
+            Contactgegeven.Create(
                 ContactgegevenType.Parse(request.Contactgegevens[0].Type),
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Omschrijving,
@@ -49,20 +51,20 @@ public class To_A_RegistreerVerenigingCommand
             request.Vertegenwoordigers
                 .Select(
                     v =>
-                        new RegistreerVerenigingCommand.Vertegenwoordiger(
-                            v.Insz!,
+                        Vertegenwoordiger.Create(
+                            Insz.Create(v.Insz!),
                             v.PrimairContactpersoon,
                             v.Roepnaam,
                             v.Rol,
                             v.Contactgegevens.Select(
                                 c =>
-                                    new RegistreerVerenigingCommand.Contactgegeven(
+                                    Contactgegeven.Create(
                                         ContactgegevenType.Parse(c.Type),
                                         c.Waarde,
                                         c.Omschrijving,
                                         c.IsPrimair)).ToArray())));
 
-        hoofdactiviteiten.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
+        hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
         skipDuplicateDetection.Should().BeFalse();
     }
 }

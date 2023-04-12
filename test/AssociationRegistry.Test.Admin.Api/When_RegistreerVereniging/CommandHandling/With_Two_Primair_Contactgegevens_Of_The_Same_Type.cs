@@ -8,8 +8,8 @@ using Framework;
 using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using ContactGegevens;
-using ContactGegevens.Exceptions;
+using Contactgegevens;
+using Contactgegevens.Exceptions;
 using FluentAssertions;
 using Moq;
 using Startdatums;
@@ -28,29 +28,23 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateOnly>();
 
-        var contactgegeven = new RegistreerVerenigingCommand.Contactgegeven(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
-        var command = new RegistreerVerenigingCommand(
-            fixture.Create<string>(),
-            null,
-            null,
-            Startdatum.Leeg,
-            null,
-            new[]
+        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
+        var contactgegeven2 = Contactgegeven.Create(ContactgegevenType.Email, "test2@example.org", fixture.Create<string>(), true);
+        var command = fixture.Create<RegistreerVerenigingCommand>() with
+        {
+            Contactgegevens = new[]
             {
                 contactgegeven,
-                contactgegeven with { Waarde = $"2{contactgegeven.Waarde}" },
+                contactgegeven2,
             },
-            Array.Empty<RegistreerVerenigingCommand.Locatie>(),
-            Array.Empty<RegistreerVerenigingCommand.Vertegenwoordiger>(),
-            Array.Empty<string>(),
-            true);
+        };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _commandHandler = new RegistreerVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
             Mock.Of<IMagdaFacade>(),
-            Mock.Of<IDuplicateDetectionService>(),
+            new NoDuplicateDetectionService(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);
