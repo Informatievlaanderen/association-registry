@@ -1,29 +1,34 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Framework;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 
-public class KboNummer : StringValueObject<KboNummer>
+public record KboNummer
 {
-    private KboNummer(string kboNummer) : base(kboNummer)
+    public static readonly KboNummer Leeg = new((string?)null);
+    public string? Value { get; }
+
+    private KboNummer(string? value)
     {
+        Value = value;
     }
 
-    public override string ToString()
-        => Value;
-
-    public static KboNummer? Create(string? maybeKboNummer)
+    public static KboNummer Create(string? kboNummer)
     {
-        if (string.IsNullOrEmpty(maybeKboNummer))
-            return null;
+        if (string.IsNullOrEmpty(kboNummer))
+            return Leeg;
 
-        var value = Sanitize(maybeKboNummer);
-
+        var value = Sanitize(kboNummer);
         Validate(value);
 
         return new KboNummer(value);
     }
+
+    public override string? ToString()
+        => Value;
+
+    public static implicit operator string?(KboNummer kboNummer)
+        => kboNummer.ToString();
 
     /// <summary>
     ///     if kboNummer contains spaces or dots, the 5th and the 9th character are deleted

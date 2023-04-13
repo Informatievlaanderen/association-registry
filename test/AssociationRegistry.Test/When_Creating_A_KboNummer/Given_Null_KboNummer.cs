@@ -13,6 +13,6 @@ public class Given_Null_KboNummer
     {
         var kboNummer = KboNummer.Create(null);
 
-        kboNummer.Should().BeNull();
+        kboNummer.Value.Should().BeNull();
     }
 }
