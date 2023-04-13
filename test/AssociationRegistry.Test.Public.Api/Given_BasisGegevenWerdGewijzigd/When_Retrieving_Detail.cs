@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Public.Api.Given_BasisGegevenWerdGewijzigd;
 using AssociationRegistry.Public.Api.Constants;
 using Fixtures;
 using Framework;
-using VCodes;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

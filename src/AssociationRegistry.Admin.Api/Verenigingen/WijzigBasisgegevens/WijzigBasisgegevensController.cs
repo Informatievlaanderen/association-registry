@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System.Threading.Tasks;
+using Acties.WijzigBasisgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
@@ -14,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
-using Vereniging.WijzigBasisgegevens;
 using Wolverine;
 
 [ApiVersion("1.0")]

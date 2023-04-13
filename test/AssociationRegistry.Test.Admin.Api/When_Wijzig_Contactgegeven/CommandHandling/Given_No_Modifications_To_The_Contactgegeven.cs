@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.CommandHandling;
 
+using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Fakes;
@@ -7,7 +8,6 @@ using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
 using Vereniging;
-using Vereniging.WijzigContactgegeven;
 using Xunit;
 using Xunit.Categories;
 

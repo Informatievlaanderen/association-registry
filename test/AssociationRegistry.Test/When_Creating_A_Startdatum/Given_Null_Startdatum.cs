@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_Startdatum;
 
 using FluentAssertions;
-using Startdatums;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
 using EventStore;
-using VCodes;
 
 public class CommandResult
 {

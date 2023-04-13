@@ -1,13 +1,12 @@
 namespace AssociationRegistry.Test.Public.Api.Framework;
 
 using System.Collections.Immutable;
-using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
-using Contactgegevens;
 using Marten.Events;
 using NodaTime;
+using Vereniging;
 
 public static class AutoFixtureCustomizations
 {

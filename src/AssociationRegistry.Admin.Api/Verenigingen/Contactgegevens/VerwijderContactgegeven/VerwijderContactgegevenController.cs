@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerwijderContactgegeven;
 
 using System.Threading.Tasks;
+using Acties.VerwijderContactgegeven;
 using Infrastructure;
 using Framework;
 using Vereniging;
@@ -11,8 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
-using VCodes;
-using Vereniging.VerwijderContactgegeven;
 using Wolverine;
 
 [ApiVersion("1.0")]

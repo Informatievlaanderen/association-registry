@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 
 using System.Runtime.Serialization;
-using VCodes;
-using Vereniging.WijzigContactgegeven;
+using Acties.WijzigContactgegeven;
+using Vereniging;
 
 [DataContract]
 public class WijzigContactgegevenRequest

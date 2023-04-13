@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using FluentAssertions;
-using Vertegenwoordigers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

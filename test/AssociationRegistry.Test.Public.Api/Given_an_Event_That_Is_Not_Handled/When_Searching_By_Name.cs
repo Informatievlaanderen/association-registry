@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled
 using System.Text.RegularExpressions;
 using Fixtures;
 using Framework;
-using VCodes;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

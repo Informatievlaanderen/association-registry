@@ -6,8 +6,8 @@ using Framework;
 using Magda;
 using Magda.Exceptions;
 using Moq;
-using Vertegenwoordigers;
-using Vertegenwoordigers.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

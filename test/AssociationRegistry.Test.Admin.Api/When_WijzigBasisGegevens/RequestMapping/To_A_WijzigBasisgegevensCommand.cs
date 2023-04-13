@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.RequestMap
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using Framework;
-using VCodes;
 using AutoFixture;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -28,6 +28,6 @@ public class To_A_WijzigBasisgegevensCommand
         naam!.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(request.Startdatum.IsNull ? null : Startdatums.Startdatum.Create(request.Startdatum.Value));
+        startdatum.Should().Be(request.Startdatum.IsNull ? null : Startdatum.Create(request.Startdatum.Value));
     }
 }

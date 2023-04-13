@@ -3,10 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestMa
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
-using INSZ;
-using Vertegenwoordigers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

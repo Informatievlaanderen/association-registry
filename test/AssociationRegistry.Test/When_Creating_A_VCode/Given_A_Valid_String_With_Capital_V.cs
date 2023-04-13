@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_VCode;
 
 using FluentAssertions;
-using VCodes;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

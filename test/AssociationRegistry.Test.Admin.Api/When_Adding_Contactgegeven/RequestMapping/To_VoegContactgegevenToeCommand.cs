@@ -2,10 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using Framework;
-using VCodes;
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

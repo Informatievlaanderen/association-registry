@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_KboNummer;
 
 using FluentAssertions;
-using KboNummers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

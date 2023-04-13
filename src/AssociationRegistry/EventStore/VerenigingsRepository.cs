@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.EventStore;
 
 using Framework;
-using VCodes;
 using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository

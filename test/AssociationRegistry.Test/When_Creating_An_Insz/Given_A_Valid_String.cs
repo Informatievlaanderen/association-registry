@@ -2,7 +2,7 @@
 
 using FluentAssertions;
 using Framework;
-using INSZ;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

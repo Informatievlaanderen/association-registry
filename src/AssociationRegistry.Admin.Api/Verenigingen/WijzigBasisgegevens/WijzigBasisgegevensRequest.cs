@@ -3,10 +3,9 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Acties.WijzigBasisgegevens;
 using Primitives;
-using VCodes;
-using Vereniging.WijzigBasisgegevens;
-using VerenigingsNamen;
+using Vereniging;
 
 [DataContract]
 public class WijzigBasisgegevensRequest
@@ -48,6 +47,6 @@ public class WijzigBasisgegevensRequest
             Naam is null ? null : new VerenigingsNaam(Naam),
             KorteNaam,
             KorteBeschrijving,
-            Startdatum.IsNull ? null : Startdatums.Startdatum.Create(Startdatum.Value)
+            Startdatum.IsNull ? null : AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value)
         );
 }

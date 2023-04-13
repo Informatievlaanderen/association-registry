@@ -5,9 +5,9 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using System;
 using System.Linq;
 using Constants;
-using AssociationRegistry.Contactgegevens;
 using FluentValidation;
 using Infrastructure.Validation;
+using Vereniging;
 
 public class RegistreerVerenigingRequestValidator : AbstractValidator<RegistreerVerenigingRequest>
 {

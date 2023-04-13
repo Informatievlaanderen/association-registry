@@ -9,10 +9,10 @@ using Events;
 using Fixtures;
 using Framework;
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

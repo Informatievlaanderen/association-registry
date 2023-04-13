@@ -1,17 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Vereniging.DuplicateDetection;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Contactgegevens;
-using Contactgegevens.Exceptions;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.MagdaMocks;
 using Moq;
-using Vertegenwoordigers;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
@@ -43,7 +42,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_The_Sa
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new MagdaFacadeEchoMock(),
-            Mock.Of<IDuplicateDetectionService>(),
+            Mock.Of<IDuplicateVerenigingDetectionService>(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);

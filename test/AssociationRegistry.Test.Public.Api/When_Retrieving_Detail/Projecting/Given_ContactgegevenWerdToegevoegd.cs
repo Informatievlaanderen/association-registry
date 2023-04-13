@@ -2,8 +2,8 @@
 
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
-using Contactgegevens;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

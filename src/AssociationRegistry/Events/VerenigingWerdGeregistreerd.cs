@@ -32,7 +32,7 @@ public record VerenigingWerdGeregistreerd(
         string Omschrijving,
         bool IsPrimair)
     {
-        public static Contactgegeven With(Contactgegevens.Contactgegeven contactgegeven)
+        public static Contactgegeven With(Vereniging.Contactgegeven contactgegeven)
             => new(
                 contactgegeven.ContactgegevenId,
                 contactgegeven.Type,
@@ -52,7 +52,7 @@ public record VerenigingWerdGeregistreerd(
         bool Hoofdlocatie,
         string Locatietype)
     {
-        public static Locatie With(Locaties.Locatie locatie)
+        public static Locatie With(Vereniging.Locatie locatie)
             => new(
                 locatie.Naam,
                 locatie.Straatnaam,
@@ -74,7 +74,7 @@ public record VerenigingWerdGeregistreerd(
         string Achternaam,
         Contactgegeven[] Contactgegevens)
     {
-        public static Vertegenwoordiger With(Vertegenwoordigers.Vertegenwoordiger vertegenwoordiger)
+        public static Vertegenwoordiger With(Vereniging.Vertegenwoordiger vertegenwoordiger)
             => new(
                 vertegenwoordiger.Insz,
                 vertegenwoordiger.PrimairContactpersoon,

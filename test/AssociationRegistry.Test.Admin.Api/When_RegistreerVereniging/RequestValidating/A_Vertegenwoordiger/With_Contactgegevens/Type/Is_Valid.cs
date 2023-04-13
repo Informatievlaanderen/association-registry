@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_Contactgegevens.Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Contactgegevens;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 
 public class Is_Valid : ValidatorTest

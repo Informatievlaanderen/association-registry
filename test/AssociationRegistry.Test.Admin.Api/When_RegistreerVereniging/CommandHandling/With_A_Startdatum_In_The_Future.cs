@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework.MagdaMocks;
-using Startdatums;
-using Startdatums.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,7 +34,7 @@ public class With_A_Startdatum_In_The_Future
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new MagdaFacadeEchoMock(),
-            new NoDuplicateDetectionService(),
+            new NoDuplicateVerenigingDetectionService(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);

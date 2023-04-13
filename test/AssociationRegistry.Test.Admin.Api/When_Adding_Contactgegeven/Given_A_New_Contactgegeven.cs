@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven;
 
 using System.Net;
-using Contactgegevens;
 using Fixtures;
 using Fixtures.Scenarios;
 using Events;
 using FluentAssertions;
 using Marten;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

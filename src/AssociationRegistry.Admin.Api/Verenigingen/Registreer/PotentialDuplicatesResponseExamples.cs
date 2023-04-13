@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System.Collections.Immutable;
+using Acties.RegistreerVereniging;
+using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.DuplicateDetection;
-using Vereniging.RegistreerVereniging;
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
 {

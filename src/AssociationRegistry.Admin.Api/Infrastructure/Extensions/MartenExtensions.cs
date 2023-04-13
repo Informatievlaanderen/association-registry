@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using VCodeGeneration;
-using VCodes;
+using Vereniging;
 
 public static class MartenExtentions
 {

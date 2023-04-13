@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.MagdaMocks;
 
-using INSZ;
 using Magda;
+using Vereniging;
 
 public class MagdaFacadeFixedMock: IMagdaFacade
 {

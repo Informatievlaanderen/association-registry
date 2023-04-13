@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Test.Acm.Api.Framework;
 
-using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
-using Contactgegevens;
 using NodaTime;
+using Vereniging;
 
 public static class AutoFixtureCustomizations
 {

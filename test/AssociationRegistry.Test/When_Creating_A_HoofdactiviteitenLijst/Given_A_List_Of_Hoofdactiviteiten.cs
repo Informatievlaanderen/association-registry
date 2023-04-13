@@ -2,7 +2,7 @@
 
 using AutoFixture;
 using FluentAssertions;
-using Hoofdactiviteiten;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

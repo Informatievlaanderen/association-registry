@@ -22,6 +22,7 @@ using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
 using DuplicateDetection;
+using DuplicateVerenigingDetection;
 using EventStore;
 using FluentValidation;
 using Framework;
@@ -59,9 +60,7 @@ using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
-using VCodes;
 using Vereniging;
-using Vereniging.DuplicateDetection;
 using Wolverine;
 
 public class Program
@@ -276,7 +275,7 @@ public class Program
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddTransient<IMagdaFacade, StaticMagdaFacade>()
-            .AddTransient<IDuplicateDetectionService, SearchDuplicateDetectionService>()
+            .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()

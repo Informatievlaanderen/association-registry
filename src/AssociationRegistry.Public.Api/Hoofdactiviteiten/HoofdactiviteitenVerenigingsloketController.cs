@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Public.Api.Hoofdactiviteiten;
 
 using System.Linq;
-using AssociationRegistry.Hoofdactiviteiten;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

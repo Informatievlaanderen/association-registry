@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 
 using System.Runtime.Serialization;
-using AssociationRegistry.Contactgegevens;
-using Vereniging.VoegContactgegevenToe;
+using Acties.VoegContactgegevenToe;
 using Infrastructure.Swagger;
-using VCodes;
+using Vereniging;
 
 [DataContract]
 public class VoegContactgegevenToeRequest
@@ -56,7 +55,7 @@ public class VoegContactgegevenToeRequest
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Contactgegevens.Contactgegeven.Create(
+            AssociationRegistry.Vereniging.Contactgegeven.Create(
                 ContactgegevenType.Parse(Contactgegeven.Type),
                 Contactgegeven.Waarde,
                 Contactgegeven.Omschrijving,

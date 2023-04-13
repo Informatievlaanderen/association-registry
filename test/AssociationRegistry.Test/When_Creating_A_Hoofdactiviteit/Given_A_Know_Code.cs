@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Hoofdactiviteit;
 
 using FluentAssertions;
-using Hoofdactiviteiten;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
