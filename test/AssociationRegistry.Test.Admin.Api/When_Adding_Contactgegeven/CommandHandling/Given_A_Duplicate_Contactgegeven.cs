@@ -39,6 +39,6 @@ public class Given_A_Duplicate_Contactgegeven
 
         await handleCall.Should()
             .ThrowAsync<DuplicateContactgegeven>()
-            .WithMessage(new DuplicateContactgegeven(ContactgegevenType.Website).Message);
+            .WithMessage(new DuplicateContactgegeven(command.Contactgegeven.Type).Message);
     }
 }

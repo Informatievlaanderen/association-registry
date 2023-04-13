@@ -4,7 +4,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Primitives;
+using VCodes;
 using Vereniging.WijzigBasisgegevens;
+using VerenigingsNamen;
 
 [DataContract]
 public class WijzigBasisgegevensRequest
@@ -42,8 +44,8 @@ public class WijzigBasisgegevensRequest
 
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(
-            vCode,
-            Naam,
+            VCode.Create(vCode),
+            Naam is null ? null : new VerenigingsNaam(Naam),
             KorteNaam,
             KorteBeschrijving,
             Startdatum.IsNull ? null : Startdatums.Startdatum.Create(Startdatum.Value)

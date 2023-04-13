@@ -10,6 +10,7 @@ using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
+using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,7 +28,9 @@ public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<Ve
         _classfixure = classFixture;
 
         var fixture = new Fixture();
-        var command = new WijzigBasisgegevensCommand(_classfixure.Scenario.VCode, Naam: _classfixure.Scenario.Naam);
+        var command = new WijzigBasisgegevensCommand(
+            _classfixure.Scenario.VCode,
+            new VerenigingsNaam(_classfixure.Scenario.Naam));
         _commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler(Mock.Of<IClock>());
 

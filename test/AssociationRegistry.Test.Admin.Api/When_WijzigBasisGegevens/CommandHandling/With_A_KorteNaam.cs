@@ -40,7 +40,7 @@ public class With_A_KorteNaam: IClassFixture<CommandHandlerScenarioFixture<Veren
     }
 
     [Fact]
-    public void Then_A_NaamWerdGewijzigd_Event_Is_Saved()
+    public void Then_A_KorteNaamWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new KorteNaamWerdGewijzigd(_scenario.VCode, NieuweKorteNaam)
