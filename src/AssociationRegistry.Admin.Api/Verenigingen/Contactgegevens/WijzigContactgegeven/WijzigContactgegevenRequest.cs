@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 
 using System.Runtime.Serialization;
+using VCodes;
 using Vereniging.WijzigContactgegeven;
 
 [DataContract]
@@ -34,7 +35,7 @@ public class WijzigContactgegevenRequest
 
     public WijzigContactgegevenCommand ToCommand(string vCode, int contactgegevenId)
         => new(
-            vCode,
+            VCode.Create(vCode),
             new WijzigContactgegevenCommand.CommandContactgegeven(
                 contactgegevenId,
                 Contactgegeven.Waarde,
