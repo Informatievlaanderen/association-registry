@@ -7,7 +7,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
-using Vereniging.VerwijderContactgegevens;
+using Vereniging.VerwijderContactgegeven;
 using Xunit;
 using Xunit.Categories;
 

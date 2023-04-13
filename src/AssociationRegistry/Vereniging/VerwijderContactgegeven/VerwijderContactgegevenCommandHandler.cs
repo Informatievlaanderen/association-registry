@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Vereniging.VerwijderContactgegevens;
+﻿namespace AssociationRegistry.Vereniging.VerwijderContactgegeven;
 
-using Framework;
-using VCodes;
+using AssociationRegistry.Framework;
+using AssociationRegistry.VCodes;
 
 public class VerwijderContactgegevenCommandHandler
 {
