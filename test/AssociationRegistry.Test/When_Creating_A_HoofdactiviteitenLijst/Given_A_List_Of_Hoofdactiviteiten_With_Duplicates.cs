@@ -14,13 +14,13 @@ public class Given_A_List_Of_Hoofdactiviteiten_With_Duplicates
     public void Then_It_Throws_A_DuplicateHoofdactiviteitException()
     {
         var fixture = new Fixture();
-        var listOfHoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
+        var hoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
             .OrderBy(_ => fixture.Create<int>())
             .Take(1)
             .Repeat(2)
-            .ToList();
+            .ToArray();
 
-        var ctor = () => HoofdactiviteitenVerenigingsloketLijst.Create(listOfHoofdactiviteiten);
+        var ctor = () => HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteiten);
 
         ctor.Should().Throw<DuplicateHoofdactiviteit>();
     }
