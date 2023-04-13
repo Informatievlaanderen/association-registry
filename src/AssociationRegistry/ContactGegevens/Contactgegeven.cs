@@ -12,7 +12,7 @@ public record Contactgegeven
     public int ContactgegevenId { get; init; }
     public ContactgegevenType Type { get; }
     public string Waarde { get; }
-    public string Omschrijving { get; }
+    public string Omschrijving { get; init; }
     public bool IsPrimair { get; }
 
     protected Contactgegeven(ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)

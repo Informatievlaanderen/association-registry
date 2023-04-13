@@ -32,13 +32,7 @@ public class Given_A_Duplicate_Contactgegeven
     [Fact]
     public async Task Then_A_DuplicateContactgegeven_Is_Thrown()
     {
-        var command = new VoegContactgegevenToeCommand(
-            _scenario.VCode,
-            new VoegContactgegevenToeCommand.CommandContactgegeven(
-                ContactgegevenType.Website,
-                "https://example.org",
-                _fixture.Create<string?>(),
-                false));
+        var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
         var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));

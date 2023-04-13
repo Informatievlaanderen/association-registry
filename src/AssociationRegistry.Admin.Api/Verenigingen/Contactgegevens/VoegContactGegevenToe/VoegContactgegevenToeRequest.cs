@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using AssociationRegistry.Contactgegevens;
 using Vereniging.VoegContactgegevenToe;
 using Infrastructure.Swagger;
+using VCodes;
 
 [DataContract]
 public class VoegContactgegevenToeRequest
@@ -13,7 +14,8 @@ public class VoegContactgegevenToeRequest
     /// <summary>
     /// Het toe te voegen contactgegeven
     /// </summary>
-    [DataMember(Name = "contactgegeven")] public RequestContactgegeven Contactgegeven { get; set; } = null!;
+    [DataMember(Name = "contactgegeven")]
+    public RequestContactgegeven Contactgegeven { get; set; } = null!;
 
 
     /// <summary>
@@ -29,17 +31,20 @@ public class VoegContactgegevenToeRequest
         [SwaggerParameterExample("Socialmedia")]
         [SwaggerParameterExample("Telefoon")]
         [SwaggerParameterExample("Website")]
-        [DataMember(Name = "type")] public string Type { get; set; } = null!;
+        [DataMember(Name = "type")]
+        public string Type { get; set; } = null!;
 
         /// <summary>
         /// De waarde van het contactgegeven
         /// </summary>
-        [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+        [DataMember(Name = "waarde")]
+        public string Waarde { get; set; } = null!;
 
         /// <summary>
         /// Vrij veld die het het contactgegeven omschrijft (bijv: algemeen, administratie, ...)
         /// </summary>
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+        [DataMember(Name = "omschrijving")]
+        public string? Omschrijving { get; set; } = null;
 
         /// <summary>
         /// Duidt het contactgegeven aan als primair contactgegeven
@@ -50,8 +55,8 @@ public class VoegContactgegevenToeRequest
 
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
-            vCode,
-            new VoegContactgegevenToeCommand.CommandContactgegeven(
+            VCode.Create(vCode),
+            AssociationRegistry.Contactgegevens.Contactgegeven.Create(
                 ContactgegevenType.Parse(Contactgegeven.Type),
                 Contactgegeven.Waarde,
                 Contactgegeven.Omschrijving,

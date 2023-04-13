@@ -36,13 +36,7 @@ public class Given_A_NietPrimair_Contactgegeven
     [InlineData("Telefoon", "0000112233")]
     public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
-        var command = new VoegContactgegevenToeCommand(
-            _scenario.VCode,
-            new VoegContactgegevenToeCommand.CommandContactgegeven(
-                ContactgegevenType.Parse(type),
-                waarde,
-                _fixture.Create<string?>(),
-                false));
+        var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
