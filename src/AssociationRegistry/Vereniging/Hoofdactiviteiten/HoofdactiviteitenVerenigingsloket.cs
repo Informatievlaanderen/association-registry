@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using System.Collections.ObjectModel;
 using Framework;
 using Exceptions;
 
-public class HoofdactiviteitenVerenigingsloket : List<HoofdactiviteitVerenigingsloket>
+public class HoofdactiviteitenVerenigingsloket : ReadOnlyCollection<HoofdactiviteitVerenigingsloket>
 {
-    private HoofdactiviteitenVerenigingsloket(IEnumerable<HoofdactiviteitVerenigingsloket> hoofdactiviteiten)
+    private HoofdactiviteitenVerenigingsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteiten) : base(hoofdactiviteiten)
     {
-        AddRange(hoofdactiviteiten);
     }
 
     public static HoofdactiviteitenVerenigingsloket Empty
@@ -15,14 +15,13 @@ public class HoofdactiviteitenVerenigingsloket : List<HoofdactiviteitVerenigings
 
     public static HoofdactiviteitenVerenigingsloket FromArray(HoofdactiviteitVerenigingsloket[] hoofdactiviteiten)
     {
-        var list = hoofdactiviteiten.ToList();
-        Throw<DuplicateHoofdactiviteit>.If(HasDuplicateHoofdactiviteit(list));
+        Throw<DuplicateHoofdactiviteit>.If(HasDuplicateHoofdactiviteit(hoofdactiviteiten));
 
-        return new HoofdactiviteitenVerenigingsloket(list);
+        return new HoofdactiviteitenVerenigingsloket(hoofdactiviteiten);
     }
 
-    private static bool HasDuplicateHoofdactiviteit(IReadOnlyCollection<HoofdactiviteitVerenigingsloket> hoofdactiviteiten)
+    private static bool HasDuplicateHoofdactiviteit(HoofdactiviteitVerenigingsloket[] hoofdactiviteiten)
     {
-        return hoofdactiviteiten.DistinctBy(x => x.Code).Count() != hoofdactiviteiten.Count;
+        return hoofdactiviteiten.DistinctBy(x => x.Code).Count() != hoofdactiviteiten.Length;
     }
 }

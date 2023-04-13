@@ -53,7 +53,7 @@ public record Contactgegeven
     public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
         => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde && Omschrijving == contactgegeven.Omschrijving;
 
-    public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
+   public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
         return Create(ContactgegevenType.Parse(type), waarde, omschrijving, isPrimair);

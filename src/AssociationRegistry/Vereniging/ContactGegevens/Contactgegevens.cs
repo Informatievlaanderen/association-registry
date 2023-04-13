@@ -9,8 +9,14 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     private const int InitialId = 1;
     public int NextId { get; }
 
+
+    private Contactgegevens(Contactgegeven[] contactgegevens, int nextId) : base(contactgegevens)
+    {
+        NextId = nextId;
+    }
+
     public static Contactgegevens Empty
-        => new(Enumerable.Empty<Contactgegeven>().ToList(), InitialId);
+        => new(Array.Empty<Contactgegeven>(), InitialId);
 
     public static Contactgegevens FromArray(Contactgegeven[] contactgegevenArray)
     {
@@ -25,19 +31,14 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return contactgegevens;
     }
 
-    private Contactgegevens(IList<Contactgegeven> list, int nextId) : base(list)
-    {
-        NextId = nextId;
-    }
-
     public Contactgegevens Append(Contactgegeven contactgegeven)
     {
         var nextId = Math.Max(contactgegeven.ContactgegevenId, NextId) + 1;
-        return new(Items.Append(contactgegeven).ToList(), nextId);
+        return new(Items.Append(contactgegeven).ToArray(), nextId);
     }
 
     public Contactgegevens Remove(int contectgegevenId)
-        => new(Items.Where(c => c.ContactgegevenId != contectgegevenId).ToList(), NextId);
+        => new(Items.Where(c => c.ContactgegevenId != contectgegevenId).ToArray(), NextId);
 
     public Contactgegevens Replace(Contactgegeven contactgegeven)
         => Remove(contactgegeven.ContactgegevenId).Append(contactgegeven);
