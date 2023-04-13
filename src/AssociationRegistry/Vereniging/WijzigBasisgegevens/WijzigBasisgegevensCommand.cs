@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigBasisgegevens;
 
-using Primitives;
 using Startdatums;
 
 public record WijzigBasisgegevensCommand(

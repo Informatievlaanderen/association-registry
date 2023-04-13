@@ -8,7 +8,6 @@ using Framework;
 using INSZ;
 using Magda;
 using Moq;
-using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;

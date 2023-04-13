@@ -13,7 +13,6 @@ using Contactgegevens;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Primitives;
 using Xunit;
 using Xunit.Categories;
 

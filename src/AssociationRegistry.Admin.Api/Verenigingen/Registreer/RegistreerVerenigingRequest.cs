@@ -7,8 +7,6 @@ using System.Runtime.Serialization;
 using AssociationRegistry.Contactgegevens;
 using Infrastructure.Swagger;
 using INSZ;
-using KboNummers;
-using Primitives;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;
 

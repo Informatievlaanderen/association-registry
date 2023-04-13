@@ -1,15 +1,10 @@
 ﻿namespace AssociationRegistry.Vereniging.RegistreerVereniging;
 
-using Contactgegevens;
 using DuplicateDetection;
 using Framework;
-using Hoofdactiviteiten;
-using KboNummers;
 using Magda;
 using ResultNet;
-using Startdatums;
 using VCodes;
-using VerenigingsNamen;
 using Vertegenwoordigers;
 
 public class RegistreerVerenigingCommandHandler

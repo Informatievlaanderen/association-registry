@@ -15,7 +15,6 @@ using Contactgegevens;
 using Hoofdactiviteiten;
 using Locaties;
 using Moq;
-using Primitives;
 using Startdatums;
 using VerenigingsNamen;
 using Vertegenwoordigers;
