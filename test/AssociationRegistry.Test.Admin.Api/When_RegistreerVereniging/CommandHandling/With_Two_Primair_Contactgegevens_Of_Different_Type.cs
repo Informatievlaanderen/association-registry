@@ -68,14 +68,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         1,
                         ContactgegevenType.Email,
                         _command.Contactgegevens[0].Waarde,
-                        _command.Contactgegevens[0].Omschrijving ?? string.Empty,
+                        _command.Contactgegevens[0].Omschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
                     new VerenigingWerdGeregistreerd.Contactgegeven(
                         2,
                         ContactgegevenType.Website,
                         _command.Contactgegevens[1].Waarde,
-                        _command.Contactgegevens[1].Omschrijving ?? string.Empty,
+                        _command.Contactgegevens[1].Omschrijving,
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },

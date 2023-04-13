@@ -12,6 +12,8 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public record SaveInvocation(Vereniging Vereniging);
 
+    // ReSharper disable once NotAccessedPositionalProperty.Local
+    // Anders kan er niet gecompared worden.
     private record InvocationLoad(VCode VCode);
 
     public List<SaveInvocation> SaveInvocations { get; } = new();

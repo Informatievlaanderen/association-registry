@@ -69,28 +69,28 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
         document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = naamWerdGewijzigd.Sequence, Version = naamWerdGewijzigd.Version };
+        document.Metadata = new Metadata(Sequence: naamWerdGewijzigd.Sequence, Version: naamWerdGewijzigd.Version);
     }
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
         document.DatumLaatsteAanpassing = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = korteNaamWerdGewijzigd.Sequence, Version = korteNaamWerdGewijzigd.Version };
+        document.Metadata = new Metadata(Sequence: korteNaamWerdGewijzigd.Sequence, Version: korteNaamWerdGewijzigd.Version);
     }
 
     public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = korteBeschrijvingWerdGewijzigd.Sequence, Version = korteBeschrijvingWerdGewijzigd.Version };
+        document.Metadata = new Metadata(Sequence: korteBeschrijvingWerdGewijzigd.Sequence, Version: korteBeschrijvingWerdGewijzigd.Version);
     }
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum;
         document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = startdatumWerdGewijzigd.Sequence, Version = startdatumWerdGewijzigd.Version };
+        document.Metadata = new Metadata(Sequence: startdatumWerdGewijzigd.Sequence, Version: startdatumWerdGewijzigd.Version);
     }
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
@@ -105,7 +105,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
             }).ToArray();
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdToegevoegd.Sequence, Version = contactgegevenWerdToegevoegd.Version };
+        document.Metadata = new Metadata(Sequence: contactgegevenWerdToegevoegd.Sequence, Version: contactgegevenWerdToegevoegd.Version);
     }
 
     public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -124,7 +124,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdGewijzigd.Sequence, Version = contactgegevenWerdGewijzigd.Version };
+        document.Metadata = new Metadata(Sequence: contactgegevenWerdGewijzigd.Sequence, Version: contactgegevenWerdGewijzigd.Version);
     }
 
 
@@ -136,7 +136,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = document.Metadata with { Sequence = contactgegevenWerdVerwijderd.Sequence, Version = contactgegevenWerdVerwijderd.Version };
+        document.Metadata = new Metadata(Sequence: contactgegevenWerdVerwijderd.Sequence, Version: contactgegevenWerdVerwijderd.Version);
     }
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)

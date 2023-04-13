@@ -30,7 +30,7 @@ public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<Ve
             _classfixure.Scenario.VCode,
             new VerenigingsNaam(_classfixure.Scenario.Naam));
         _commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Mock.Of<IClock>());
+        var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         _verenigingRepositoryMock
             .Setup(r => r.Load(_classfixure.Scenario.VCode, _commandMetadata.ExpectedVersion))

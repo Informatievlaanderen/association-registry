@@ -88,7 +88,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<RegistreerVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                value => new RegistreerVerenigingRequest
+                _ => new RegistreerVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<RegistreerVerenigingRequest.Contactgegeven>().ToArray(),
                     Initiator = fixture.Create<string>(),

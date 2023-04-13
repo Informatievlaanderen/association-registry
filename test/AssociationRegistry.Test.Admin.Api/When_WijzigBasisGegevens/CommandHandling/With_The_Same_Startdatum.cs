@@ -3,7 +3,6 @@
 using Acties.WijzigBasisgegevens;
 using EventStore;
 using AssociationRegistry.Framework;
-using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging;
@@ -29,7 +28,7 @@ public class With_The_Same_Startdatum : IClassFixture<CommandHandlerScenarioFixt
         var fixture = new Fixture();
         var command = new WijzigBasisgegevensCommand(_classfixure.Scenario.VCode, Startdatum: Startdatum.Create(_classfixure.Scenario.Startdatum));
         _commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(_classfixure.Scenario.Startdatum.AddYears(1)));
+        var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         _verenigingRepositoryMock
             .Setup(r => r.Load(_classfixure.Scenario.VCode, _commandMetadata.ExpectedVersion))

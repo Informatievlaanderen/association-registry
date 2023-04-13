@@ -43,13 +43,13 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         return Array.Find(All, candidate => candidate == value) is not null;
     }
 
-    public static bool TryParse(string? value, out ContactgegevenType parsed)
+    public static bool TryParse(string? value, out ContactgegevenType? parsed)
     {
-        parsed = null!;
+        parsed = null;
         if (value is null)
             return false;
 
-        parsed = Array.Find(All, candidate => candidate == value) ?? null!;
+        parsed = Array.Find(All, candidate => candidate == value) ?? null;
         return parsed is not null;
     }
 
@@ -65,7 +65,7 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
             throw new FormatException($"De waarde {value} is geen gekend contactgegeven type.");
         }
 
-        return parsed;
+        return parsed!;
     }
 
     public bool Equals(ContactgegevenType? other)
