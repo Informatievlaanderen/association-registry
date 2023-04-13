@@ -12,4 +12,14 @@ Thank you for considering to contribute to assosciation-registry.
     * Run `build.sh` to make sure everything still compiles and all tests are still passing.
     * Be sure your commits follow the style for the project. You can run `npm run commit` to use [commitizen](https://commitizen-tools.github.io/commitizen/#integrating-with-pre-commit), which standardises our commit messages. 
     * Send a pull request.
+~~~~
 
+## Conventions
+
+### Commands
+
+- we use value objects within the boundaries of our domain (between request and event)
+
+### Automated testing
+
+- we use autofixture to generate random valid values for value objects
