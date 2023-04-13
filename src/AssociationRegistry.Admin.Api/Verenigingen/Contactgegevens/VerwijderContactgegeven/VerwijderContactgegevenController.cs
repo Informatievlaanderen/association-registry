@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Infrastructure;
 using Framework;
 using Vereniging;
-using Vereniging.VerwijderContactgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Infrastructure.Extensions;
@@ -12,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
+using VCodes;
+using Vereniging.VerwijderContactgegeven;
 using Wolverine;
 
 [ApiVersion("1.0")]
@@ -57,7 +58,7 @@ public class VerwijderContactgegevenController : ApiController
     {
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderContactgegevenCommand>(
-            new VerwijderContactgegevenCommand(vCode, contactgegevenId),
+            new VerwijderContactgegevenCommand(VCode.Create(vCode), contactgegevenId),
             metaData);
 
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);

@@ -13,8 +13,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using VCodes;
 using Vereniging;
-using Vereniging.VerwijderContactgegevens;
+using Vereniging.VerwijderContactgegeven;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -42,7 +43,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_an_assceptedResponse()
     {
         var response = await _controller.Delete(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             new VerwijderContactgegevenRequest());
 
@@ -57,7 +58,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_a_sequence_header()
     {
         await _controller.Delete(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             new VerwijderContactgegevenRequest());
 
@@ -71,7 +72,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_a_etag_header()
     {
         await _controller.Delete(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             new VerwijderContactgegevenRequest());
 

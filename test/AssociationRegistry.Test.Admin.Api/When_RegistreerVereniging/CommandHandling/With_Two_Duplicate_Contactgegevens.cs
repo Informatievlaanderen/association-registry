@@ -27,9 +27,8 @@ public class With_Two_Duplicate_Contactgegevens
     {
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateOnly>();
 
-        var contactgegeven =  Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
+        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
 
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
@@ -43,7 +42,7 @@ public class With_Two_Duplicate_Contactgegevens
             new InMemorySequentialVCodeService(),
             new MagdaFacadeEchoMock(),
             new NoDuplicateDetectionService(),
-            new ClockStub(today));
+            new ClockStub(command.Startdatum.Datum!.Value));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);
     }

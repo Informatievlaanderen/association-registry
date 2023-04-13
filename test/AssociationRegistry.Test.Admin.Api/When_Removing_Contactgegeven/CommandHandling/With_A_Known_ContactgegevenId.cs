@@ -6,7 +6,7 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.VerwijderContactgegevens;
+using Vereniging.VerwijderContactgegeven;
 using Xunit;
 using Xunit.Categories;
 
