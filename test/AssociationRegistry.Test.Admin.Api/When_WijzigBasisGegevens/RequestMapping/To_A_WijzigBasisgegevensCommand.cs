@@ -25,7 +25,7 @@ public class To_A_WijzigBasisgegevensCommand
         actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startdatum);
 
         vCode.Should().Be(actualVCode);
-        naam.Should().Be(request.Naam);
+        naam!.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         startdatum.Should().Be(request.Startdatum.IsNull ? null : Startdatums.Startdatum.Create(request.Startdatum.Value));

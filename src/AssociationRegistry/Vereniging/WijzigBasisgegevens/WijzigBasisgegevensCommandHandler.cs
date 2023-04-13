@@ -41,10 +41,10 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigKorteBeschrijving(korteBeschrijving);
     }
 
-    private static void HandleNaam(Vereniging vereniging, string? naam)
+    private static void HandleNaam(Vereniging vereniging, VerenigingsNaam? naam)
     {
         if (naam is null) return;
-        vereniging.WijzigNaam(new VerenigingsNaam(naam));
+        vereniging.WijzigNaam(naam);
     }
 
     private static void HandleKorteNaam(Vereniging vereniging, string? korteNaam)
