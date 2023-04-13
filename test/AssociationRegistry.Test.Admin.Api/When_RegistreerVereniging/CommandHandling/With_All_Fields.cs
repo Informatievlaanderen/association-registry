@@ -96,7 +96,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                         1,
                         ContactgegevenType.Email,
                         Contactgegeven.Waarde,
-                        Contactgegeven.Omschrijving ?? string.Empty,
+                        Contactgegeven.Omschrijving,
                         Contactgegeven.IsPrimair
                     ),
                 },
@@ -128,7 +128,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                                 1,
                                 ContactgegevenType.Email,
                                 VertegenwoordigerContactgegeven.Waarde,
-                                VertegenwoordigerContactgegeven.Omschrijving ?? string.Empty,
+                                VertegenwoordigerContactgegeven.Omschrijving,
                                 VertegenwoordigerContactgegeven.IsPrimair),
                         }),
                 },

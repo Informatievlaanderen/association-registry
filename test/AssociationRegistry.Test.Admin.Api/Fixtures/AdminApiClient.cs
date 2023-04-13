@@ -59,7 +59,7 @@ public class AdminApiClient : IDisposable
         {
             Content = jsonBody.AsJsonContent(),
             Method = HttpMethod.Delete,
-            RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative)
+            RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative),
         };
         return await _httpClient.SendAsync(request);
     }

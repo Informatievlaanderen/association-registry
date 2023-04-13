@@ -5,13 +5,6 @@ using Vereniging;
 
 public class WijzigBasisgegevensCommandHandler
 {
-    private readonly IClock _clock;
-
-    public WijzigBasisgegevensCommandHandler(IClock clock)
-    {
-        _clock = clock;
-    }
-
     public async Task<CommandResult> Handle(CommandEnvelope<WijzigBasisgegevensCommand> message, IVerenigingsRepository repository)
     {
         var vereniging = await repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);

@@ -20,27 +20,25 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly InMemorySequentialVCodeService _vCodeService;
-    private readonly RegistreerVerenigingCommand _command;
 
     public With_A_Startdatum_On_Today(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
-        _vCodeService = new InMemorySequentialVCodeService();
+        var vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAll();
 
-        _command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
+        var command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(
             _verenigingRepositoryMock,
-            _vCodeService,
+            vCodeService,
             new MagdaFacadeEchoMock(),
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(_command.Startdatum.Datum!.Value));
+            new ClockStub(command.Startdatum.Datum!.Value));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
+            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
             .GetAwaiter()
             .GetResult();
     }

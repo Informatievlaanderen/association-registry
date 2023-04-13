@@ -7,7 +7,6 @@ using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
-using Moq;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -29,7 +28,7 @@ public class With_A_Naam : IClassFixture<CommandHandlerScenarioFixture<Verenigin
             _scenario.VCode,
             new VerenigingsNaam(NieuweNaam));
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(Mock.Of<IClock>());
+        var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),

@@ -2,6 +2,4 @@
 
 using Vereniging;
 
-public record VoegContactgegevenToeCommand(VCode VCode, Contactgegeven Contactgegeven)
-{
-}
+public record VoegContactgegevenToeCommand(VCode VCode, Contactgegeven Contactgegeven);

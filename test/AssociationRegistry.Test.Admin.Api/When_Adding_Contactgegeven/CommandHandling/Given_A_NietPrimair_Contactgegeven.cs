@@ -7,6 +7,7 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,12 +36,18 @@ public class Given_A_NietPrimair_Contactgegeven
     [InlineData("Telefoon", "0000112233")]
     public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
-        var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
+        var command = new VoegContactgegevenToeCommand(
+            _scenario.VCode,
+            Contactgegeven.Create(
+                type,
+                waarde,
+                _fixture.Create<string>(),
+                false));
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(1, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Omschrijving ?? string.Empty, false)
+            new ContactgegevenWerdToegevoegd(1, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Omschrijving, false)
         );
     }
 }

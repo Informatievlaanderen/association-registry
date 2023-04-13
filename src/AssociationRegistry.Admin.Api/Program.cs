@@ -296,9 +296,7 @@ public class Program
             .Configure<ProblemDetailsOptions>(
                 cfg =>
                 {
-                    foreach (var header in StartupConstants.ExposedHeaders)
-                        if (!cfg.AllowedHeaderNames.Contains(header))
-                            cfg.AllowedHeaderNames.Add(header);
+                    foreach (var header in StartupConstants.ExposedHeaders) cfg.AllowedHeaderNames.Add(header);
                 })
             .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
 

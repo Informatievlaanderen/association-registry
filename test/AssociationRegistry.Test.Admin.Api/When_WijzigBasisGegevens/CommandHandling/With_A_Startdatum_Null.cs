@@ -21,7 +21,7 @@ public class With_A_Startdatum_Null : IClassFixture<CommandHandlerScenarioFixtur
         var fixture = new Fixture();
         var command = new WijzigBasisgegevensCommand(classFixture.Scenario.VCode, Startdatum: null);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new WijzigBasisgegevensCommandHandler(new ClockStub(new DateOnly(2023, 3, 6)));
+        var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
