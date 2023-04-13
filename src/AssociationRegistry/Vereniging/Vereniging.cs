@@ -83,7 +83,7 @@ public class Vereniging : IHasVersion
     }
 
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<InvalidStartdatumFuture>.If(startdatum.IsInFuture(today));
+        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
 
     public static Vereniging Registreer(VCode vCode, VerenigingsNaam naam)
         => new(
