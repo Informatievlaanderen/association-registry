@@ -235,9 +235,9 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeHoofdactiviteitVerenigingsloketLijst(this IFixture fixture)
     {
-        fixture.Customize<HoofdactiviteitenVerenigingsloketLijst>(
+        fixture.Customize<HoofdactiviteitenVerenigingsloket>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => HoofdactiviteitenVerenigingsloketLijst.Create(
+                    factory: () => HoofdactiviteitenVerenigingsloket.FromArray(
                         fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                             .Distinct()
                             .ToArray()))

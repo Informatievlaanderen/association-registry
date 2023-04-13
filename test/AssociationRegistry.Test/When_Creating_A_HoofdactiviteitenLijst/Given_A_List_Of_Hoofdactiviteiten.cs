@@ -13,13 +13,13 @@ public class Given_A_List_Of_Hoofdactiviteiten
     public void Then_It_Returns_A_Filled_HoofdactiviteitenLijst()
     {
         var fixture = new Fixture();
-        var listOfHoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
+        var hoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
             .OrderBy(_ => fixture.Create<int>())
             .Take(2)
-            .ToList();
+            .ToArray();
 
-        var hoofdactiviteitenLijst = HoofdactiviteitenVerenigingsloketLijst.Create(listOfHoofdactiviteiten);
+        var hoofdactiviteitenLijst = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteiten);
 
-        hoofdactiviteitenLijst.Should().BeEquivalentTo(listOfHoofdactiviteiten);
+        hoofdactiviteitenLijst.Should().BeEquivalentTo(hoofdactiviteiten);
     }
 }
