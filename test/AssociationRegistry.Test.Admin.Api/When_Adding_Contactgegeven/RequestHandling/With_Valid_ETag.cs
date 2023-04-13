@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestHandling;
 
+using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Framework;
 using Framework;
@@ -8,8 +9,6 @@ using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using VCodes;
-using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

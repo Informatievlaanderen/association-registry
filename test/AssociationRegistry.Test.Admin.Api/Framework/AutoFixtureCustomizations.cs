@@ -1,29 +1,22 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using System.Collections.Immutable;
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
-using Contactgegevens;
-using Contactgegevens.Emails;
-using Contactgegevens.SocialMedias;
-using Contactgegevens.TelefoonNummers;
-using Contactgegevens.Websites;
 using Events;
-using Hoofdactiviteiten;
-using INSZ;
-using KboNummers;
 using Marten.Events;
 using NodaTime;
-using Startdatums;
-using Vereniging.RegistreerVereniging;
-using VerenigingsNamen;
-using Vertegenwoordigers;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
+using Vereniging.Websites;
 
 public static class AutoFixtureCustomizations
 {
@@ -310,7 +303,7 @@ public static class AutoFixtureCustomizations
                         Startdatum: fixture.Create<Startdatum>(),
                         KboNummer: fixture.Create<KboNummer>(),
                         Contactgegevens: fixture.CreateMany<Contactgegeven>().ToArray(),
-                        Locaties: fixture.CreateMany<Locaties.Locatie>().ToArray(),
+                        Locaties: fixture.CreateMany<Locatie>().ToArray(),
                         Vertegenwoordigers: fixture.CreateMany<Vertegenwoordiger>().ToArray(),
                         HoofdactiviteitenVerenigingsloket: fixture.CreateMany<HoofdactiviteitVerenigingsloket>().ToArray(),
                         SkipDuplicateDetection: true)

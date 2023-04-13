@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.MagdaMocks;
-using VerenigingsNamen;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,7 +36,7 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
             _verenigingRepositoryMock,
             _vCodeService,
             new MagdaFacadeEchoMock(),
-            new NoDuplicateDetectionService(),
+            new NoDuplicateVerenigingDetectionService(),
             new ClockStub(_command.Startdatum.Datum!.Value));
 
         commandHandler

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.Threading.Tasks;
+using Acties.RegistreerVereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -15,7 +16,6 @@ using NodaTime;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
-using Vereniging.RegistreerVereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;

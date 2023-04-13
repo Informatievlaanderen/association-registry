@@ -2,8 +2,8 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using Constants;
-using AssociationRegistry.Contactgegevens;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 public class RegistreerVerenigingenRequestExamples : IExamplesProvider<RegistreerVerenigingRequest>
 {

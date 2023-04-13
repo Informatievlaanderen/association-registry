@@ -1,23 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using Events;
 using AssociationRegistry.Framework;
-using INSZ;
 using Magda;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Contactgegevens;
-using Hoofdactiviteiten;
-using Locaties;
 using Moq;
-using Startdatums;
-using VerenigingsNamen;
-using Vertegenwoordigers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -59,7 +53,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             KorteNaam,
             KorteBeschrijving,
             Startdatum.Create(_dateInThePast),
-            KboNummers.KboNummer.Create(KboNummer),
+            AssociationRegistry.Vereniging.KboNummer.Create(KboNummer),
             new[] { Contactgegeven },
             new[] { Locatie },
             vertegenwoordigers,
@@ -77,7 +71,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             .ReturnsAsync(_magdaPersoon);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, new NoDuplicateDetectionService(), clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)

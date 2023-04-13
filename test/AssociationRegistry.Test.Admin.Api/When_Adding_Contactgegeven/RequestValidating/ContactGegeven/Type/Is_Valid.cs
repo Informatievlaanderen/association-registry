@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestValidating.ContactGegeven.Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
-using Contactgegevens;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 
 public class Is_Valid : ValidatorTest

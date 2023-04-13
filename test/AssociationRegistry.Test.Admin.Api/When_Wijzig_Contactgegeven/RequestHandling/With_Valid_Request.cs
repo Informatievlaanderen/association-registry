@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.RequestHandling;
 
+using Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.Framework;
@@ -14,8 +15,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
-using VCodes;
-using Vereniging.WijzigContactgegeven;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

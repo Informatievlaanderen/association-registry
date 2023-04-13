@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Fakes;
 using Framework;
-using VCodes;
 using AutoFixture;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

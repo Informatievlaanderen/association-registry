@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
 using Framework;
-using INSZ;
-using Vertegenwoordigers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

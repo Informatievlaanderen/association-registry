@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Marten;
-using VCodes;
+using Vereniging;
 using Weasel.Postgresql;
 
 public class SequenceVCodeService : IVCodeService

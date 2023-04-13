@@ -2,10 +2,9 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Events;
 using AssociationRegistry.Framework;
-using Contactgegevens;
-using VCodes;
 using NodaTime;
 using NodaTime.Extensions;
+using Vereniging;
 
 public interface IScenario
 {

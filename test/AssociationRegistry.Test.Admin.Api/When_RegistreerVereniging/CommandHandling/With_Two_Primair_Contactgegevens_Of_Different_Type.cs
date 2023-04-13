@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Contactgegevens;
 using Events;
 using Framework.MagdaMocks;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -38,7 +38,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             _repositoryMock,
             _vCodeService,
             new MagdaFacadeEchoMock(),
-            new NoDuplicateDetectionService(),
+            new NoDuplicateVerenigingDetectionService(),
             new ClockStub(_command.Startdatum.Datum!.Value));
 
 

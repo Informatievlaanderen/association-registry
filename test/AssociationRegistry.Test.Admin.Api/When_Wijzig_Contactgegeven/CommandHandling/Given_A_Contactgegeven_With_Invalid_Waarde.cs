@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Contactgegeven.CommandHandling;
 
+using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Contactgegevens.Emails.Exceptions;
-using Contactgegevens.Websites;
 using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
-using Vereniging.WijzigContactgegeven;
+using Vereniging.Emails.Exceptions;
+using Vereniging.Websites;
 using Xunit;
 using Xunit.Categories;
 

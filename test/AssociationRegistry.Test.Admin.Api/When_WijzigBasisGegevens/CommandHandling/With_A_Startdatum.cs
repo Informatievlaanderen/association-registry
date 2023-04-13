@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.CommandHandling;
 
+using Acties.WijzigBasisgegevens;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
-using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
-using Startdatums;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

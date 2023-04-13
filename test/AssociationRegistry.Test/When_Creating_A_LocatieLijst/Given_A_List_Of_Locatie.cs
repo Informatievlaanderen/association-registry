@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.When_Creating_A_LocatieLijst;
 
 using Admin.Api.Constants;
 using FluentAssertions;
-using Locaties;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

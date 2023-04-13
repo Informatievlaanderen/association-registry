@@ -1,17 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
-using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Framework;
 using Framework.MagdaMocks;
-using Hoofdactiviteiten;
-using Startdatums;
-using VerenigingsNamen;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -39,13 +37,13 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
             null,
             Startdatum.Leeg,
             null,
-            Array.Empty<Contactgegevens.Contactgegeven>(),
-            Array.Empty<Locaties.Locatie>(),
-            Array.Empty<Vertegenwoordigers.Vertegenwoordiger>(),
+            Array.Empty<Contactgegeven>(),
+            Array.Empty<Locatie>(),
+            Array.Empty<Vertegenwoordiger>(),
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaFacadeEchoMock(), new NoDuplicateDetectionService(), clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaFacadeEchoMock(), new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)

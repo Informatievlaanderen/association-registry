@@ -1,19 +1,18 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
+using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
-using Locaties;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.DuplicateDetection;
-using Vereniging.RegistreerVereniging;
-using VerenigingsNamen;
 using AutoFixture;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.MagdaMocks;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,7 +34,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
             SkipDuplicateDetection = false,
         };
 
-        var duplicateChecker = new Mock<IDuplicateDetectionService>();
+        var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
         _potentialDuplicates = new List<DuplicaatVereniging> { fixture.Create<DuplicaatVereniging>() };
         duplicateChecker.Setup(
                 d =>

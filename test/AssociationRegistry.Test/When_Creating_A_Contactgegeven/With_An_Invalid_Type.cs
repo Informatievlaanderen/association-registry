@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Contactgegeven;
 
 using AutoFixture;
-using Contactgegevens;
-using Contactgegevens.Exceptions;
 using FluentAssertions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

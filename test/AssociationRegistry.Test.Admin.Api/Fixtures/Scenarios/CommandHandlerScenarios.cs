@@ -3,9 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 using Events;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Contactgegevens;
 using Framework;
-using VCodes;
 using Vereniging;
 
 public abstract class CommandhandlerScenarioBase

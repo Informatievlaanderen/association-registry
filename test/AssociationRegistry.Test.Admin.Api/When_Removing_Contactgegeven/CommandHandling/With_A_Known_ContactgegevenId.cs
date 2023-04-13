@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Removing_Contactgegeven.CommandHandling;
 
+using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.VerwijderContactgegeven;
 using Xunit;
 using Xunit.Categories;
 

@@ -3,17 +3,10 @@ namespace AssociationRegistry.Test.When_saving_a_vereniging;
 using Events;
 using EventStore;
 using AssociationRegistry.Framework;
-using Locaties;
-using VCodes;
 using Vereniging;
-using VerenigingsNamen;
-using Vertegenwoordigers;
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
 using Framework;
-using Hoofdactiviteiten;
-using Startdatums;
 using Xunit;
 using Xunit.Categories;
 

@@ -2,8 +2,8 @@ namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Contactgegevens.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Vereniging.Exceptions;
 
 public class UnknownEntityExceptionHandler : DefaultExceptionHandler<OnbekendContactgegeven>
 {

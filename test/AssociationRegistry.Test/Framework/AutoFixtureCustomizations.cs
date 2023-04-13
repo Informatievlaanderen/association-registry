@@ -1,15 +1,13 @@
 namespace AssociationRegistry.Test.Framework;
 
-using VCodes;
 using AutoFixture;
 using AutoFixture.Dsl;
-using Contactgegevens;
-using Contactgegevens.Emails;
-using Contactgegevens.SocialMedias;
-using Contactgegevens.TelefoonNummers;
-using Contactgegevens.Websites;
-using INSZ;
 using NodaTime;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
+using Vereniging.Websites;
 
 public static class AutoFixtureCustomizations
 {

@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.CommandHandling;
 
+using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
-using Vereniging.VoegContactgegevenToe;
 using Xunit;
 using Xunit.Categories;
 

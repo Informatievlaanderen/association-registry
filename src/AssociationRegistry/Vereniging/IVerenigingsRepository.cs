@@ -2,7 +2,6 @@
 
 using EventStore;
 using Framework;
-using VCodes;
 
 public interface IVerenigingsRepository
 {

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.RequestHandling;
 
+using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using Framework;
 using Vereniging;
-using Vereniging.WijzigBasisgegevens;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

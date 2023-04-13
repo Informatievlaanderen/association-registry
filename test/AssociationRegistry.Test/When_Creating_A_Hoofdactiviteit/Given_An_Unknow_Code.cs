@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Hoofdactiviteit;
 
 using FluentAssertions;
-using Hoofdactiviteiten;
-using Hoofdactiviteiten.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

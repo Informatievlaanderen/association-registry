@@ -4,9 +4,9 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.Serialization;
+using Acties.RegistreerVereniging;
+using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
-using Vereniging.DuplicateDetection;
-using Vereniging.RegistreerVereniging;
 
 public class PotentialDuplicatesResponse
 {

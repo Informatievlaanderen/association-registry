@@ -2,7 +2,6 @@
 
 using EventStore;
 using AssociationRegistry.Framework;
-using VCodes;
 using Vereniging;
 using FluentAssertions;
 using IEvent = AssociationRegistry.Framework.IEvent;

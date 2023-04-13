@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Removing_Contactgegeven.RequestHandling;
 
+using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -7,9 +8,7 @@ using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using VCodes;
 using Vereniging;
-using Vereniging.VerwijderContactgegeven;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_VerenigingsNaam;
 
-using VerenigingsNamen;
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

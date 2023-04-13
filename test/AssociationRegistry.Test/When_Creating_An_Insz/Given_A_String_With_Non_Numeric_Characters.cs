@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_An_Insz;
 
 using FluentAssertions;
-using INSZ;
-using INSZ.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

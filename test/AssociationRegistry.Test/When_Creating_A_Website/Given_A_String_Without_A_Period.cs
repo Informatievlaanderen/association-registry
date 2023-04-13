@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Website;
 
-using Contactgegevens.Websites;
-using Contactgegevens.Websites.Exceptions;
 using FluentAssertions;
+using Vereniging.Websites;
+using Vereniging.Websites.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

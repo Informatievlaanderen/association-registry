@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Events;
 
-using Contactgegevens;
 using Framework;
+using Vereniging;
 
 public record ContactgegevenWerdVerwijderd(int ContactgegevenId, string Type, string Waarde, string Omschrijving, bool IsPrimair) : IEvent
 {

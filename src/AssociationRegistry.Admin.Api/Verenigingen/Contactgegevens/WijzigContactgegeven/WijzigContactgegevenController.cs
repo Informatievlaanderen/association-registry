@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.WijzigContactgegeven;
 
 using System.Threading.Tasks;
+using Acties.WijzigContactgegeven;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Framework;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.WijzigContactgegeven;
 using Wolverine;
 
 [ApiVersion("1.0")]

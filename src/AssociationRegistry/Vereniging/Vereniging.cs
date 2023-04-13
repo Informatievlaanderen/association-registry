@@ -1,17 +1,9 @@
 namespace AssociationRegistry.Vereniging;
 
-using Contactgegevens;
 using Events;
+using Exceptions;
 using Framework;
-using Hoofdactiviteiten;
-using KboNummers;
-using Locaties;
 using Marten.Schema;
-using Startdatums;
-using Startdatums.Exceptions;
-using VCodes;
-using VerenigingsNamen;
-using Vertegenwoordigers;
 
 public class Vereniging : IHasVersion
 {
@@ -56,7 +48,7 @@ public class Vereniging : IHasVersion
     public string VCode
     {
         get => _state.VCode;
-        set => _state = _state with { VCode = VCodes.VCode.Create(value) };
+        set => _state = _state with { VCode = AssociationRegistry.Vereniging.VCode.Create(value) };
     }
 
     public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();

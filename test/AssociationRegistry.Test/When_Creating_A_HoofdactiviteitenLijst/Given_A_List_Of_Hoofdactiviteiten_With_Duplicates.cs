@@ -2,8 +2,8 @@
 
 using AutoFixture;
 using FluentAssertions;
-using Hoofdactiviteiten;
-using Hoofdactiviteiten.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
