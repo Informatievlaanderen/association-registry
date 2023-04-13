@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-public class Locaties : List<Locatie>
+using System.Collections.ObjectModel;
+
+public class Locaties : ReadOnlyCollection<Locatie>
 {
-    private Locaties(IEnumerable<Locatie> locaties)
+    private Locaties(Locatie[] locaties):base(locaties)
     {
-        AddRange(locaties);
     }
 
     public static Locaties Empty
-        => new(Enumerable.Empty<Locatie>().ToList());
+        => new(Array.Empty<Locatie>());
 
     public static Locaties FromArray(Locatie[] locaties)
         => new(locaties);

@@ -1,19 +1,19 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using System.Collections.ObjectModel;
 using Framework;
 using Exceptions;
 
-public class Vertegenwoordigers : List<Vertegenwoordiger>
+public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
-    private Vertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigers)
+    private Vertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers) : base(vertegenwoordigers)
     {
-        AddRange(vertegenwoordigers);
     }
-    public static Vertegenwoordigers Empty
-        => new(Enumerable.Empty<Vertegenwoordiger>().ToList());
 
-    public static Vertegenwoordigers FromArray(
-        Vertegenwoordiger[] vertegenwoordigers)
+    public static Vertegenwoordigers Empty
+        => new(Array.Empty<Vertegenwoordiger>());
+
+    public static Vertegenwoordigers FromArray(Vertegenwoordiger[] vertegenwoordigers)
     {
         Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigers));
         Throw<MultiplePrimaryContacts>.If(HasMultiplePrimaryContacts(vertegenwoordigers));
@@ -21,11 +21,9 @@ public class Vertegenwoordigers : List<Vertegenwoordiger>
         return new Vertegenwoordigers(vertegenwoordigers);
     }
 
-    private static bool HasMultiplePrimaryContacts(IEnumerable<Vertegenwoordiger> vertegenwoordigersArray)
+    private static bool HasMultiplePrimaryContacts(Vertegenwoordiger[] vertegenwoordigersArray)
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.PrimairContactpersoon) > 1;
 
-    private static bool HasDuplicateInsz(IReadOnlyCollection<Vertegenwoordiger> vertegenwoordigers)
-        => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Count;
-
-
+    private static bool HasDuplicateInsz(Vertegenwoordiger[] vertegenwoordigers)
+        => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
 }
