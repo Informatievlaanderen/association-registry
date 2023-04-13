@@ -15,7 +15,7 @@ public class Given_A_Naam
     [InlineData("123456789")]
     public void Then_It_Returns_A_New_VerenigingsNaam(string naam)
     {
-        var verenigingsNaam = new VerenigingsNaam(naam);
+        var verenigingsNaam = VerenigingsNaam.Create(naam);
         verenigingsNaam.ToString().Should().Be(naam);
     }
 }

@@ -26,7 +26,7 @@ public class With_A_Naam : IClassFixture<CommandHandlerScenarioFixture<Verenigin
         _scenario = classFixture.Scenario;
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
-            new VerenigingsNaam(NieuweNaam));
+            VerenigingsNaam.Create(NieuweNaam));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

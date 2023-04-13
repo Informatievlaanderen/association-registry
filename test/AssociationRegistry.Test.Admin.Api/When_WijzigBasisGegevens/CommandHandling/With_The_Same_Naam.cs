@@ -28,7 +28,7 @@ public class With_The_Same_Naam : IClassFixture<CommandHandlerScenarioFixture<Ve
         var fixture = new Fixture();
         var command = new WijzigBasisgegevensCommand(
             _classfixure.Scenario.VCode,
-            new VerenigingsNaam(_classfixure.Scenario.Naam));
+            VerenigingsNaam.Create(_classfixure.Scenario.Naam));
         _commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

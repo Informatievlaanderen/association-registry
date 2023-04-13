@@ -26,6 +26,9 @@ public class VCode : ValueObject<VCode>
         return Create(int.Parse(vCode[1..]));
     }
 
+    internal static VCode Hydrate(string vCode)
+        => new(int.Parse(vCode[1..]));
+
     private static bool VCodeHasLengthEight(string vCode)
         => vCode.Length == 8;
 

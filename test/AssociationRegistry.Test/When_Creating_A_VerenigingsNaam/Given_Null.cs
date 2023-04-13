@@ -12,7 +12,7 @@ public class Given_Null
     [Fact]
     public void Then_It_Throws_An_EmptyVerenigingsNaam_Exception()
     {
-        var ctor = () => new VerenigingsNaam(null!);
+        var ctor = () => VerenigingsNaam.Create(null!);
         ctor.Should().Throw<EmptyVerenigingsNaam>();
     }
 }

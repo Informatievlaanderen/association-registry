@@ -49,7 +49,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
 
         var vertegenwoordigers = new[] { Vertegenwoordiger };
         var command = new RegistreerVerenigingCommand(
-            new VerenigingsNaam(Naam),
+            VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
             Startdatum.Create(_dateInThePast),

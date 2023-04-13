@@ -18,15 +18,15 @@ public record VerenigingState
     public VerenigingState Apply(VerenigingWerdGeregistreerd @event)
         => new()
         {
-            VCode = VCode.Create(@event.VCode),
-            Naam = new VerenigingsNaam(@event.Naam),
+            VCode = VCode.Hydrate(@event.VCode),
+            Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = new Startdatum(@event.Startdatum),
+            Startdatum = Startdatum.Hydrate(@event.Startdatum),
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
                 (lijst, c) => lijst.Append(
-                    Contactgegeven.FromEvent(
+                    Contactgegeven.Hydrate(
                         c.ContactgegevenId,
                         ContactgegevenType.Parse(c.Type),
                         c.Waarde,
@@ -37,7 +37,7 @@ public record VerenigingState
         };
 
     public VerenigingState Apply(NaamWerdGewijzigd @event)
-        => this with { Naam = new VerenigingsNaam(@event.Naam) };
+        => this with { Naam = VerenigingsNaam.Hydrate(@event.Naam) };
 
     public VerenigingState Apply(KorteNaamWerdGewijzigd @event)
         => this with { KorteNaam = @event.KorteNaam };
@@ -52,7 +52,7 @@ public record VerenigingState
         => this with
         {
             Contactgegevens = Contactgegevens.Append(
-                Contactgegeven.FromEvent(
+                Contactgegeven.Hydrate(
                     @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
@@ -70,7 +70,7 @@ public record VerenigingState
         => this with
         {
             Contactgegevens = Contactgegevens.Replace(
-                Contactgegeven.FromEvent(
+                Contactgegeven.Hydrate(
                     @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
