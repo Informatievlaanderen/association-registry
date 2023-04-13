@@ -30,12 +30,12 @@ public class Given_A_List_Of_Vertegenwoordiger_With_Multiple_PrimaryContact_True
             fixture.Create<string>(),
             fixture.Create<string>(),
             Contactgegevens.Empty);
-        var listOfVertegenwoordigers = new List<Vertegenwoordiger>()
+        var listOfVertegenwoordigers = new []
         {
             vertegenwoordiger1,
             vertegenwoordiger2,
         };
 
-        Assert.Throws<MultiplePrimaryContacts>(() => VertegenwoordigersLijst.Create(listOfVertegenwoordigers));
+        Assert.Throws<MultiplePrimaryContacts>(() => Vertegenwoordigers.FromArray(listOfVertegenwoordigers));
     }
 }

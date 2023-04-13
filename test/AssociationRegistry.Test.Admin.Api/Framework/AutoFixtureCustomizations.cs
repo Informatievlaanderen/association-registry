@@ -28,6 +28,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeKboNummer();
         fixture.CustomizeInsz();
         fixture.CustomizeContactgegeven();
+        //fixture.CustomizeVertegenwoordiger();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
         fixture.CustomizeHoofdactiviteitVerenigingsloketLijst();
 
@@ -241,6 +242,21 @@ public static class AutoFixtureCustomizations
                             .ToArray()))
                 .OmitAutoProperties());
     }
+
+    // public static void CustomizeVertegenwoordiger(this IFixture fixture)
+    // {
+    //     fixture.Customize<Vertegenwoordiger>(
+    //         composer => composer.FromFactory(
+    //             () => Vertegenwoordiger.Create(
+    //                 fixture.Create<Insz>(),
+    //                 false,
+    //                 fixture.Create<string>(),
+    //                 fixture.Create<string>(),
+    //                 fixture.Create<string>(),
+    //                 fixture.Create<string>(),
+    //                 fixture.Create<Contactgegevens>()
+    //             )).OmitAutoProperties());
+    // }
 
     public static void CustomizeContactgegeven(this IFixture fixture)
     {
