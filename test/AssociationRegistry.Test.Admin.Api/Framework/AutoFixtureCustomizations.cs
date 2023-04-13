@@ -197,24 +197,16 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeKboNummer(this IFixture fixture)
     {
-        var validKboNummers = new[]
-        {
-            "0000000097",
-            "1111111145",
-            "1234.123.179",
-            "1234 123 179",
-            "0000 000.097",
-            "1111.111 145",
-            "123.1564.260",
-            "12.34.56.78.94",
-            ".0123456749",
-            "0123456749.",
-        };
-
         fixture.Customize<KboNummer>(
-            composerTransformation: composer => composer.FromFactory<int>(
-                    factory: value => KboNummer.Create(validKboNummers[value % validKboNummers.Length])!)
-                .OmitAutoProperties());
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var kboBase = new Random().Next(0, 99999999);
+                        var kboModulo = 97 - (kboBase % 97);
+                        return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
+                    })
+                .OmitAutoProperties()
+        );
     }
 
     public static void CustomizeInsz(this IFixture fixture)
