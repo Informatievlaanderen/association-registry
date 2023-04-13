@@ -1,11 +1,18 @@
 namespace AssociationRegistry.Vereniging;
 
-public record Startdatum(DateOnly? Datum)
+public record Startdatum
 {
     public static readonly Startdatum Leeg = new((DateOnly?)null);
 
+    private Startdatum(DateOnly? datum)
+    {
+        Datum = datum;
+    }
+
     public bool IsLeeg
         => Equals(Leeg);
+
+    public DateOnly? Datum { get; init; }
 
     public static Startdatum Create(DateOnly? startdatum)
         => new(startdatum);
@@ -26,4 +33,5 @@ public record Startdatum(DateOnly? Datum)
 
     public bool IsInFuture(DateOnly clockToday)
         => Datum > clockToday;
+
 }

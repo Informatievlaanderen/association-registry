@@ -32,7 +32,7 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
         var clock = new ClockStub(today);
 
         var command = new RegistreerVerenigingCommand(
-            new VerenigingsNaam(Naam),
+            VerenigingsNaam.Create(Naam),
             null,
             null,
             Startdatum.Leeg,

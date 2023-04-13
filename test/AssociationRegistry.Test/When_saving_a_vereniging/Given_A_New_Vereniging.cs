@@ -26,7 +26,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         _repo = new VerenigingsRepository(_eventStore);
 
         _vCode = VCode.Create(1001);
-        _naam = new VerenigingsNaam("Vereniging 1");
+        _naam = VerenigingsNaam.Create("Vereniging 1");
         _vereniging = Vereniging.Registreer(
             _vCode,
             _naam,

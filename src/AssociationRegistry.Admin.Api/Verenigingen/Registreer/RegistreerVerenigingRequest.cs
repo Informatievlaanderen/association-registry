@@ -57,7 +57,7 @@ public class RegistreerVerenigingRequest
 
     public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
         => new(
-            new VerenigingsNaam(Naam),
+            VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),

@@ -44,7 +44,7 @@ public class WijzigBasisgegevensRequest
     public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            Naam is null ? null : new VerenigingsNaam(Naam),
+            Naam is null ? null : VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
             Startdatum.IsNull ? null : AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value)

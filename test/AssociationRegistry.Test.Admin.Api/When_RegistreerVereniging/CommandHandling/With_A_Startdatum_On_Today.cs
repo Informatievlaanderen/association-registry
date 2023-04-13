@@ -28,7 +28,7 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
 
         var fixture = new Fixture().CustomizeAll();
 
-        var command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
+        var command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(
             _verenigingRepositoryMock,

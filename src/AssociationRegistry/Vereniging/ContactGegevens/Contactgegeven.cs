@@ -33,7 +33,7 @@ public record Contactgegeven
         IsPrimair = isPrimair;
     }
 
-    public static Contactgegeven FromEvent(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+    public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
         => new(contactgegevenId, type, waarde, omschrijving, isPrimair);
 
     public static Contactgegeven Create(ContactgegevenType type, string waarde, string? omschrijving, bool isPrimair)

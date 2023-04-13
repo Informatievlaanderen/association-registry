@@ -33,7 +33,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
         _locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
         _command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Naam = new VerenigingsNaam(classFixture.Scenario.Naam),
+            Naam = VerenigingsNaam.Create(classFixture.Scenario.Naam),
             Locaties = new[] { _locatie },
             SkipDuplicateDetection = true,
         };

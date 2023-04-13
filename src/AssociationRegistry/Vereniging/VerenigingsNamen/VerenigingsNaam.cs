@@ -1,18 +1,25 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Framework;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 
-public class VerenigingsNaam : ValueObject<VerenigingsNaam>, IEquatable<string>
+public record VerenigingsNaam : IEquatable<string>
 {
     private readonly string _naam;
 
-    public VerenigingsNaam(string naam)
+    private VerenigingsNaam(string naam)
     {
-        Throw<EmptyVerenigingsNaam>.IfNullOrWhiteSpace(naam);
         _naam = naam;
     }
+
+    public static VerenigingsNaam Create(string naam)
+    {
+        Throw<EmptyVerenigingsNaam>.IfNullOrWhiteSpace(naam);
+        return new VerenigingsNaam(naam);
+    }
+
+    internal static VerenigingsNaam Hydrate(string naam)
+        => new(naam);
 
     public bool Equals(string? other)
         => _naam.Equals(other);
@@ -20,8 +27,6 @@ public class VerenigingsNaam : ValueObject<VerenigingsNaam>, IEquatable<string>
     public override string ToString()
         => _naam;
 
-    protected override IEnumerable<object> Reflect()
-    {
-        yield return _naam;
-    }
+    public static implicit operator string(VerenigingsNaam naam)
+        => naam.ToString();
 }

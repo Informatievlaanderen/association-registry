@@ -1,13 +1,15 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Framework;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
 
-public class Insz : StringValueObject<Insz>
+public record Insz
 {
-    private Insz(string @string) : base(@string)
+    public string Value { get; }
+
+    private Insz(string value)
     {
+        Value = value;
     }
 
     public static Insz Create(string insz)
@@ -17,8 +19,17 @@ public class Insz : StringValueObject<Insz>
         return new Insz(sanitezedInsz);
     }
 
+    internal static Insz Hydrate(string insz)
+        => new(insz);
+
     public override string ToString()
         => Value;
+
+    public static implicit operator string(Insz insz)
+        => insz.Value;
+
+    private static string Sanitize(string insz)
+        => insz.Replace(".", string.Empty).Replace("-", string.Empty);
 
     private static void Validate(string sanitezedInsz)
     {
@@ -26,9 +37,6 @@ public class Insz : StringValueObject<Insz>
         Throw<InvalidInszChars>.IfNot(ulong.TryParse(sanitezedInsz, out _));
         Throw<InvalidInszMod97>.IfNot(Modulo97Correct(sanitezedInsz) ^ Modulo97Correct($"2{sanitezedInsz}"));
     }
-
-    private static string Sanitize(string insz)
-        => insz.Replace(".", string.Empty).Replace("-", string.Empty);
 
     private static bool Modulo97Correct(string value)
     {
