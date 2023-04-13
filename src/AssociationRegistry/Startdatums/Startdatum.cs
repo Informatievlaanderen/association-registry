@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Startdatums;
 
-public record Startdatum(DateOnly? Value)
+public record Startdatum(DateOnly? Datum)
 {
     public static readonly Startdatum Leeg = new((DateOnly?)null);
 
@@ -22,8 +22,8 @@ public record Startdatum(DateOnly? Value)
     }
 
     public static implicit operator DateOnly?(Startdatum startdatum)
-        => startdatum.Value;
+        => startdatum.Datum;
 
     public bool IsInFuture(DateOnly clockToday)
-        => Value > clockToday;
+        => Datum > clockToday;
 }

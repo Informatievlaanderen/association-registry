@@ -16,6 +16,6 @@ public class Given_Null_Startdatum
     public void Then_it_returns_null()
     {
         var startdatum = Startdatum.Create(null);
-        startdatum.Value.Should().BeNull();
+        startdatum.Datum.Should().BeNull();
     }
 }

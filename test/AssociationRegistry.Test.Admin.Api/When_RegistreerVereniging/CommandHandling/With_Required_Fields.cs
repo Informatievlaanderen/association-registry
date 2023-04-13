@@ -8,9 +8,11 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using FluentAssertions;
 using Framework;
+using Framework.MagdaMocks;
+using Hoofdactiviteiten;
 using Moq;
-using Primitives;
 using Startdatums;
 using VerenigingsNamen;
 using Xunit;
@@ -34,9 +36,19 @@ public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<
 
         var clock = new ClockStub(today);
 
-        var command = fixture.Create<RegistreerVerenigingCommand>() with { Naam = new VerenigingsNaam(Naam) };
+        var command = new RegistreerVerenigingCommand(
+            new VerenigingsNaam(Naam),
+            null,
+            null,
+            Startdatum.Leeg,
+            null,
+            Array.Empty<Contactgegevens.Contactgegeven>(),
+            Array.Empty<Locaties.Locatie>(),
+            Array.Empty<Vertegenwoordigers.Vertegenwoordiger>(),
+            Array.Empty<HoofdactiviteitVerenigingsloket>());
+
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, Mock.Of<IMagdaFacade>(), new NoDuplicateDetectionService(), clock);
+        var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaFacadeEchoMock(), new NoDuplicateDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)

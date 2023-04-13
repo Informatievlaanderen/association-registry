@@ -10,6 +10,7 @@ using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Contactgegevens;
 using Events;
+using Framework.MagdaMocks;
 using Moq;
 using Startdatums;
 using Xunit;
@@ -18,40 +19,41 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
-    private readonly CommandEnvelope<RegistreerVerenigingCommand> _commandEnvelope;
     private readonly RegistreerVerenigingCommandHandler _commandHandler;
-    private VerenigingRepositoryMock _repositoryMock;
-    private InMemorySequentialVCodeService _vCodeService;
+    private readonly VerenigingRepositoryMock _repositoryMock;
+    private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly RegistreerVerenigingCommand _command;
+    private readonly Fixture _fixture;
 
     public With_Two_Primair_Contactgegevens_Of_Different_Type()
     {
-        var fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAll();
         _repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateOnly>();
-
-        var command = fixture.Create<RegistreerVerenigingCommand>() with
+        _command = _fixture.Create<RegistreerVerenigingCommand>() with
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true),
-                Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", fixture.Create<string>(), true),
+                Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", _fixture.Create<string>(), true),
+                Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", _fixture.Create<string>(), true),
             },
         };
 
-        var commandMetadata = fixture.Create<CommandMetadata>();
         _vCodeService = new InMemorySequentialVCodeService();
         _commandHandler = new RegistreerVerenigingCommandHandler(
             _repositoryMock,
             _vCodeService,
-            Mock.Of<IMagdaFacade>(),
+            new MagdaFacadeEchoMock(),
             new NoDuplicateDetectionService(),
-            new ClockStub(today));
+            new ClockStub(_command.Startdatum.Datum!.Value));
 
-        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);
+
     }
 
     public async Task InitializeAsync()
-        => await _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
+    {
+        var commandMetadata = _fixture.Create<CommandMetadata>();
+        await _commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None);
+    }
 
 
     [Fact]
@@ -60,31 +62,43 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         _repositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
-                _commandEnvelope.Command.Naam,
-                null,
-                null,
-                null,
-                null,
+                _command.Naam,
+                _command.KorteNaam,
+                _command.KorteBeschrijving,
+                _command.Startdatum,
+                _command.KboNummer!,
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Contactgegeven(
                         1,
                         ContactgegevenType.Email,
-                        _commandEnvelope.Command.Contactgegevens[0].Waarde,
-                        _commandEnvelope.Command.Contactgegevens[0].Omschrijving ?? string.Empty,
-                        _commandEnvelope.Command.Contactgegevens[0].IsPrimair
+                        _command.Contactgegevens[0].Waarde,
+                        _command.Contactgegevens[0].Omschrijving ?? string.Empty,
+                        _command.Contactgegevens[0].IsPrimair
                     ),
                     new VerenigingWerdGeregistreerd.Contactgegeven(
                         2,
                         ContactgegevenType.Website,
-                        _commandEnvelope.Command.Contactgegevens[1].Waarde,
-                        _commandEnvelope.Command.Contactgegevens[1].Omschrijving ?? string.Empty,
-                        _commandEnvelope.Command.Contactgegevens[1].IsPrimair
+                        _command.Contactgegevens[1].Waarde,
+                        _command.Contactgegevens[1].Omschrijving ?? string.Empty,
+                        _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+                _command.Locaties.Select(VerenigingWerdGeregistreerd.Locatie.With).ToArray(),
+                _command.Vertegenwoordigers.Select(
+                    v => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    {
+                        Contactgegevens = v.Contactgegevens.Select(
+                            (c, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(c) with
+                            {
+                                ContactgegevenId = index + 1,
+                            }).ToArray(),
+                        Voornaam = v.Insz, Achternaam = v.Insz,
+                    }).ToArray(),
+                _command.HoofdactiviteitenVerenigingsloket.Select(
+                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                        h.Code,
+                        h.Beschrijving)).ToArray()));
     }
 
     public Task DisposeAsync()

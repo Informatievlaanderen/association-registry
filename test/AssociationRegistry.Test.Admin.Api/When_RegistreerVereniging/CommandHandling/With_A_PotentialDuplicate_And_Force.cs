@@ -60,7 +60,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             _vCodeService,
             new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
-            new ClockStub(_command.Startdatum.Value!.Value));
+            new ClockStub(_command.Startdatum.Datum!.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
             .GetAwaiter()
@@ -96,6 +96,10 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.Vertegenwoordigers.Select(
                     v => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
+                        Contactgegevens = v.Contactgegevens.Select((c, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(c) with
+                        {
+                            ContactgegevenId = index + 1,
+                        }).ToArray(),
                         Voornaam = v.Insz, Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(

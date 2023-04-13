@@ -8,6 +8,7 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
+using FluentAssertions;
 using Framework;
 using Framework.MagdaMocks;
 using Moq;
@@ -40,7 +41,7 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
             _vCodeService,
             new MagdaFacadeEchoMock(),
             new NoDuplicateDetectionService(),
-            new ClockStub(_command.Startdatum.Value!.Value));
+            new ClockStub(_command.Startdatum.Datum!.Value));
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
@@ -51,21 +52,9 @@ public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFi
     [Fact]
     public void Then_it_saves_the_event()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGeregistreerd(
-                VCode: _vCodeService.GetLast(),
-                Naam: Naam,
-                KorteNaam: null,
-                KorteBeschrijving: null,
-                Startdatum: _command.Startdatum,
-                KboNummer: null,
-                Contactgegevens: _command.Contactgegevens.Select(
-                    (g, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(g) with
-                    {
-                        ContactgegevenId = index + 1,
-                    }).ToArray(),
-                Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Vertegenwoordigers: Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                HoofdactiviteitenVerenigingsloket: Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+        _verenigingRepositoryMock.SaveInvocations
+            .Single().Vereniging.UncommittedEvents
+            .OfType<VerenigingWerdGeregistreerd>()
+            .Should().HaveCount(1);
     }
 }

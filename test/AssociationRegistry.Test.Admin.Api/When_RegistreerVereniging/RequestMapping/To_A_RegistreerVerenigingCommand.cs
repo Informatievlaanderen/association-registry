@@ -28,7 +28,7 @@ public class To_A_RegistreerVerenigingCommand
             out var korteNaam,
             out var korteBeschrijving,
             out var startdatum,
-            out var kboNummber,
+            out var kboNummer,
             out var contactgegevens,
             out var locaties,
             out var vertegenwoordigers,
@@ -39,7 +39,7 @@ public class To_A_RegistreerVerenigingCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
-        kboNummber.ToString().Should().Be(request.KboNummer);
+        kboNummer.ToString().Should().Be(request.KboNummer);
         contactgegevens[0].Should().BeEquivalentTo(
             Contactgegeven.Create(
                 ContactgegevenType.Parse(request.Contactgegevens[0].Type),
