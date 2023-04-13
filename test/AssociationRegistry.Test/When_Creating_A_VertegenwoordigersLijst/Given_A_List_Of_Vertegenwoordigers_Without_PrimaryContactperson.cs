@@ -30,13 +30,13 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
             fixture.Create<string>(),
             fixture.Create<string>(),
             Contactgegevens.Empty);
-        var listOfVertegenwoordigers = new List<Vertegenwoordiger>()
+        var listOfVertegenwoordigers = new []
         {
             vertegenwoordiger1,
             vertegenwoordiger2,
         };
 
-        var vertegenwoordigersLijst = VertegenwoordigersLijst.Create(listOfVertegenwoordigers);
+        var vertegenwoordigersLijst = Vertegenwoordigers.FromArray(listOfVertegenwoordigers);
 
         vertegenwoordigersLijst.Should().HaveCount(2);
         vertegenwoordigersLijst[0].Should().BeEquivalentTo(vertegenwoordiger1);

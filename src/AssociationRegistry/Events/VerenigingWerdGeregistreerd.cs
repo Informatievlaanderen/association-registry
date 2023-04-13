@@ -87,5 +87,9 @@ public record VerenigingWerdGeregistreerd(
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,
-        string Beschrijving);
+        string Beschrijving)
+    {
+        public static HoofdactiviteitVerenigingsloket With(Vereniging.HoofdactiviteitVerenigingsloket activiteit)
+            => new(activiteit.Code, activiteit.Beschrijving);
+    }
 }

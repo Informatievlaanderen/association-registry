@@ -2,7 +2,7 @@ namespace AssociationRegistry.Vereniging;
 
 using Magda;
 
-public class Vertegenwoordiger
+public record Vertegenwoordiger
 {
     public Insz Insz { get; }
     public bool PrimairContactpersoon { get; }
@@ -10,7 +10,7 @@ public class Vertegenwoordiger
     public string? Rol { get; }
     public string Voornaam { get; }
     public string Achternaam { get; }
-    public Contactgegeven[] Contactgegevens { get; }
+    public Contactgegeven[] Contactgegevens { get; init; }
 
     public static Vertegenwoordiger Create(
         Insz insz,
@@ -19,8 +19,8 @@ public class Vertegenwoordiger
         string? rol,
         string voornaam,
         string achternaam,
-        Contactgegevens contactLijst)
-        => new(insz, primairContactpersoon, roepnaam, rol, voornaam, achternaam,contactLijst.ToArray());
+        Contactgegevens contactgegevens)
+        => new(insz, primairContactpersoon, roepnaam, rol, voornaam, achternaam, contactgegevens.ToArray());
 
     public static Vertegenwoordiger Create(
         Insz insz,

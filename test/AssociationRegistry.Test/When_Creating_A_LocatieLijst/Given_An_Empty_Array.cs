@@ -11,7 +11,7 @@ public class Given_An_Empty_Array
     [Fact]
     public void Then_It_Returns_Empty()
     {
-        var locaties = LocatieLijst.CreateInstance(Array.Empty<Locatie>());
+        var locaties = Locaties.FromArray(Array.Empty<Locatie>());
         locaties.Should().BeEmpty();
     }
 }

@@ -12,12 +12,12 @@ public class Given_A_List_Of_Locatie
     [Fact]
     public void Then_It_Returns_A_Filled_LocatieLijst()
     {
-        var listOfLocatie = new List<Locatie>
+        var listOfLocatie = new []
         {
             Locatie.Create("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten),
         };
 
-        var locatieLijst = LocatieLijst.CreateInstance(listOfLocatie);
+        var locatieLijst = Locaties.FromArray(listOfLocatie);
 
         locatieLijst.Should().HaveCount(1);
         locatieLijst[0].Should().BeEquivalentTo(listOfLocatie[0]);
