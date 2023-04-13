@@ -8,6 +8,7 @@ using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using VCodes;
 using Vereniging.WijzigContactgegeven;
 using Wolverine;
 using Xunit;
@@ -36,7 +37,7 @@ public class With_Valid_ETag : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _toeController.Patch(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigContactgegevenRequest>(),
             $"W/\"{ETagNumber}\"");
