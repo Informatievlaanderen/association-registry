@@ -5,7 +5,6 @@ using Exceptions;
 using INSZ;
 using Magda;
 using Magda.Exceptions;
-using Vereniging.RegistreerVereniging;
 
 public class VertegenwoordigerService
 {

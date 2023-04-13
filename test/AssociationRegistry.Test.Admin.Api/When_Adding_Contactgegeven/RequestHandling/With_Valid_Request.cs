@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using VCodes;
 using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 using Xunit;
@@ -43,7 +44,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_an_acceptedResponse()
     {
         var response = await _controller.Post(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>());
 
         using (new AssertionScope())
@@ -57,7 +58,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_a_sequence_header()
     {
         await _controller.Post(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>());
 
         using (new AssertionScope())
@@ -70,7 +71,7 @@ public class With_Valid_Request
     public async Task Then_it_returns_a_etag_header()
     {
         await _controller.Post(
-            _fixture.Create<string>(),
+            _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>());
 
         using (new AssertionScope())

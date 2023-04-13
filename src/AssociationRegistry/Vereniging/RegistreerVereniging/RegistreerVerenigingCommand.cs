@@ -4,7 +4,6 @@ using Contactgegevens;
 using Hoofdactiviteiten;
 using KboNummers;
 using Locaties;
-using Primitives;
 using Startdatums;
 using VerenigingsNamen;
 using Vertegenwoordigers;

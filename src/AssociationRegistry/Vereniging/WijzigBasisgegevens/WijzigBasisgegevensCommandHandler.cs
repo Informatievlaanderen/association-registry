@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging.WijzigBasisgegevens;
 
 using Framework;
-using Primitives;
 using Startdatums;
 using VCodes;
 using VerenigingsNamen;

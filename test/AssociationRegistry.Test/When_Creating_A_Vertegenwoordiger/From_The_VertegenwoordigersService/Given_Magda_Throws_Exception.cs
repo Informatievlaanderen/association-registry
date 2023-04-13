@@ -1,14 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Vertegenwoordiger.From_The_VertegenwoordigersService;
 
 using AutoFixture;
-using Contactgegevens;
 using FluentAssertions;
 using Framework;
-using INSZ;
 using Magda;
 using Magda.Exceptions;
 using Moq;
-using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Vertegenwoordigers.Exceptions;
 using Xunit;

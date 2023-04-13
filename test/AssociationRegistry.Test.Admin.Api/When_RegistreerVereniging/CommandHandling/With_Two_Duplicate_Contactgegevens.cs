@@ -1,19 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using AssociationRegistry.Framework;
-using Magda;
-using Primitives;
 using Fakes;
 using Framework;
-using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
 using Contactgegevens;
 using Contactgegevens.Exceptions;
 using FluentAssertions;
 using Framework.MagdaMocks;
-using Moq;
-using Startdatums;
 using Xunit;
 using Xunit.Categories;
 

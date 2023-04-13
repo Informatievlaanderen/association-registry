@@ -20,7 +20,6 @@ using INSZ;
 using KboNummers;
 using Marten.Events;
 using NodaTime;
-using Primitives;
 using Startdatums;
 using Vereniging.RegistreerVereniging;
 using VerenigingsNamen;

@@ -6,7 +6,6 @@ using AutoFixture;
 using Contactgegevens;
 using FluentAssertions;
 using INSZ;
-using Vereniging.RegistreerVereniging;
 using Vertegenwoordigers;
 using Xunit;
 using Xunit.Categories;

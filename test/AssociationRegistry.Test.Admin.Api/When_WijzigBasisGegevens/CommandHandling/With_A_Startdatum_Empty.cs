@@ -2,7 +2,6 @@
 
 using Events;
 using AssociationRegistry.Framework;
-using Primitives;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;

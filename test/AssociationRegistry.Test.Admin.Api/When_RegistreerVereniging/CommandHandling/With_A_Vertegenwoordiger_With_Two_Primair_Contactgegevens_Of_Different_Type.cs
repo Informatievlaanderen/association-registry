@@ -9,7 +9,6 @@ using AutoFixture;
 using Contactgegevens;
 using Events;
 using Framework.MagdaMocks;
-using Hoofdactiviteiten;
 using Moq;
 using Vertegenwoordigers;
 using Xunit;

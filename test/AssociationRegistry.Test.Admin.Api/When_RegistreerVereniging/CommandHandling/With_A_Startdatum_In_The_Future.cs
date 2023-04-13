@@ -3,14 +3,10 @@
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Vereniging.DuplicateDetection;
 using Vereniging.RegistreerVereniging;
 using AutoFixture;
-using Contactgegevens;
-using Contactgegevens.Exceptions;
 using FluentAssertions;
 using Framework.MagdaMocks;
-using Moq;
 using Startdatums;
 using Startdatums.Exceptions;
 using Xunit;

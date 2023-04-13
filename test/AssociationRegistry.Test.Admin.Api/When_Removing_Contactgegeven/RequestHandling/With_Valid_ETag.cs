@@ -10,7 +10,6 @@ using Moq;
 using VCodes;
 using Vereniging;
 using Vereniging.VerwijderContactgegeven;
-using Vereniging.VoegContactgegevenToe;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Vereniging;
 
 using Contactgegevens;
-using Contactgegevens.Exceptions;
 using Events;
 using Framework;
 using Hoofdactiviteiten;
-using JasperFx.Core;
 using KboNummers;
 using Locaties;
 using Marten.Schema;

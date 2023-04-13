@@ -2,7 +2,6 @@
 
 using Events;
 using AssociationRegistry.Framework;
-using Magda;
 using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
@@ -11,9 +10,6 @@ using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.MagdaMocks;
-using Moq;
-using Primitives;
-using Startdatums;
 using VerenigingsNamen;
 using Xunit;
 using Xunit.Categories;
