@@ -29,16 +29,10 @@ public class Given_A_Contactgegeven_Was_Removed
         _commandHandler = new VoegContactgegevenToeCommandHandler(_verenigingRepositoryMock);
     }
 
-[Fact]
+    [Fact]
     public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
     {
-        var command = new VoegContactgegevenToeCommand(
-            _scenario.VCode,
-            new VoegContactgegevenToeCommand.CommandContactgegeven(
-                ContactgegevenType.Email,
-                "dummy@example.org",
-                _fixture.Create<string?>(),
-                false));
+        var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging.VoegContactgegevenToe;
 
-using Contactgegevens;
 using Framework;
 using VCodes;
 
@@ -17,8 +16,7 @@ public class VoegContactgegevenToeCommandHandler
     {
         var vereniging = await _verenigingRepository.Load(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
-        var contactgegeven = Contactgegeven.Create(envelope.Command.Contactgegeven.Type, envelope.Command.Contactgegeven.Waarde, envelope.Command.Contactgegeven.Omschrijving, envelope.Command.Contactgegeven.IsPrimair);
-        vereniging.VoegContactgegevenToe(contactgegeven);
+        vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata);
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
