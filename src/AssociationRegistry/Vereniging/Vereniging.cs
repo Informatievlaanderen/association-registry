@@ -40,7 +40,7 @@ public class Vereniging : IHasVersion
             naam,
             korteNaam,
             korteBeschrijving,
-            startdatum?.Value,
+            startdatum?.Datum,
             kboNummer?.ToString(),
             ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
             ToLocatieLijst(locatieLijst),
@@ -170,7 +170,7 @@ public class Vereniging : IHasVersion
         if (Startdatum.Equals(_state.Startdatum, startdatum))
             return;
 
-        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum?.Value));
+        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum?.Datum));
     }
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)

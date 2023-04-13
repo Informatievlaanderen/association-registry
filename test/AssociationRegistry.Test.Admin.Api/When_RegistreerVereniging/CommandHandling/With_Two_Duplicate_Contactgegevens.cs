@@ -11,6 +11,7 @@ using AutoFixture;
 using Contactgegevens;
 using Contactgegevens.Exceptions;
 using FluentAssertions;
+using Framework.MagdaMocks;
 using Moq;
 using Startdatums;
 using Xunit;
@@ -40,8 +41,8 @@ public class With_Two_Duplicate_Contactgegevens
         _commandHandler = new RegistreerVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            Mock.Of<IMagdaFacade>(),
-            Mock.Of<IDuplicateDetectionService>(),
+            new MagdaFacadeEchoMock(),
+            new NoDuplicateDetectionService(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);

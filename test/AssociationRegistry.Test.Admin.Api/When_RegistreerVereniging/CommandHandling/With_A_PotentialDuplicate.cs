@@ -53,7 +53,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
             new InMemorySequentialVCodeService(),
             new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
-            new ClockStub(command.Startdatum.Value!.Value));
+            new ClockStub(command.Startdatum.Datum!.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
             .GetAwaiter()

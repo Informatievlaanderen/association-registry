@@ -11,6 +11,7 @@ using AutoFixture;
 using Contactgegevens;
 using Contactgegevens.Exceptions;
 using FluentAssertions;
+using Framework.MagdaMocks;
 using Moq;
 using Startdatums;
 using Xunit;
@@ -26,7 +27,6 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     {
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
-        var today = fixture.Create<DateOnly>();
 
         var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
         var contactgegeven2 = Contactgegeven.Create(ContactgegevenType.Email, "test2@example.org", fixture.Create<string>(), true);
@@ -43,9 +43,9 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
         _commandHandler = new RegistreerVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            Mock.Of<IMagdaFacade>(),
+            new MagdaFacadeEchoMock(),
             new NoDuplicateDetectionService(),
-            new ClockStub(today));
+            new ClockStub(command.Startdatum.Datum!.Value));
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata);
     }

@@ -5,16 +5,17 @@ using AssociationRegistry.Framework;
 using VCodes;
 using Vereniging;
 using FluentAssertions;
+using IEvent = AssociationRegistry.Framework.IEvent;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private readonly Vereniging? _verenigingToLoad;
 
-    private record InvocationSave(Vereniging Vereniging);
+    public record SaveInvocation(Vereniging Vereniging);
 
     private record InvocationLoad(VCode VCode);
 
-    private readonly List<InvocationSave> _invocationsSave = new();
+    public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
     public VerenigingRepositoryMock(Vereniging? verenigingToLoad = null)
@@ -24,7 +25,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata)
     {
-        _invocationsSave.Add(new InvocationSave(vereniging));
+        SaveInvocations.Add(new SaveInvocation(vereniging));
         return await Task.FromResult(StreamActionResult.Empty);
     }
 
@@ -43,13 +44,13 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public void ShouldHaveSaved(params IEvent[] events)
     {
-        _invocationsSave.Should().HaveCount(1);
-        _invocationsSave[0].Vereniging.UncommittedEvents.Should()
+        SaveInvocations.Should().HaveCount(1);
+        SaveInvocations[0].Vereniging.UncommittedEvents.Should()
             .BeEquivalentTo(events, options => options.RespectingRuntimeTypes().WithStrictOrdering());
     }
 
     public void ShouldNotHaveAnySaves()
     {
-        _invocationsSave[0].Vereniging.UncommittedEvents.Should().BeEmpty();
+        SaveInvocations[0].Vereniging.UncommittedEvents.Should().BeEmpty();
     }
 }
