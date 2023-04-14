@@ -26,17 +26,16 @@ public class VCode : ValueObject<VCode>
         return Create(int.Parse(vCode[1..]));
     }
 
-    internal static VCode Hydrate(string vCode)
-        => new(int.Parse(vCode[1..]));
-
-    private static bool VCodeHasLengthEight(string vCode)
-        => vCode.Length == 8;
-
     public static VCode Create(int vCode)
     {
         Throw<OutOfRangeVCode>.If(VCodeLessThanStartingVCode(vCode));
         return new VCode(vCode);
     }
+    internal static VCode Hydrate(string vCode)
+        => new(int.Parse(vCode[1..]));
+
+    private static bool VCodeHasLengthEight(string vCode)
+        => vCode.Length == 8;
 
     protected override IEnumerable<object> Reflect()
     {
