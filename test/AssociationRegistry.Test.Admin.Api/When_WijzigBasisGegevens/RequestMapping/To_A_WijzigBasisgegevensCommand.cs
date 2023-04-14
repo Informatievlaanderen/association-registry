@@ -20,7 +20,7 @@ public class To_A_WijzigBasisgegevensCommand
         var request = fixture.Create<WijzigBasisgegevensRequest>();
 
         var actualVCode = fixture.Create<VCode>();
-        var actual = request.ToWijzigBasisgegevensCommand(actualVCode);
+        var actual = request.ToCommand(actualVCode);
 
         actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startdatum);
 

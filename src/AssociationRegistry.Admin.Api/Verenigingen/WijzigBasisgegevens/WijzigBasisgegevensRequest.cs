@@ -41,7 +41,7 @@ public class WijzigBasisgegevensRequest
         public bool IsPrimair { get; set; }
     }
 
-    public WijzigBasisgegevensCommand ToWijzigBasisgegevensCommand(string vCode)
+    public WijzigBasisgegevensCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
             Naam is null ? null : VerenigingsNaam.Create(Naam),
