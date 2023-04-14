@@ -18,7 +18,7 @@ public class To_A_RegistreerVerenigingCommand
 
         var request = fixture.Create<RegistreerVerenigingRequest>();
 
-        var actual = request.ToRegistreerVerenigingCommand();
+        var actual = request.ToCommand();
 
         actual.Deconstruct(
             out var naam,

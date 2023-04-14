@@ -55,7 +55,7 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
-    public RegistreerVerenigingCommand ToRegistreerVerenigingCommand()
+    public RegistreerVerenigingCommand ToCommand()
         => new(
             VerenigingsNaam.Create(Naam),
             KorteNaam,

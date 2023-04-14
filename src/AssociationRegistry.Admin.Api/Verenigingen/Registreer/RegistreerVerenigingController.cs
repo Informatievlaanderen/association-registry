@@ -79,7 +79,7 @@ public class RegistreerVerenigingController : ApiController
         var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
         Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
 
-        var command = request.ToRegistreerVerenigingCommand()
+        var command = request.ToCommand()
             with
             {
                 SkipDuplicateDetection = skipDuplicateDetection,
