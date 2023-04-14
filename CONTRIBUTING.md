@@ -16,6 +16,11 @@ Thank you for considering to contribute to assosciation-registry.
 
 ## Conventions
 
+### Git
+
+- we use the [angular commit message conventions](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format)
+- we use [semantic release](https://semantic-release.gitbook.io/) 
+
 ### Commands
 
 - we use value objects within the boundaries of our domain (between request and event)
