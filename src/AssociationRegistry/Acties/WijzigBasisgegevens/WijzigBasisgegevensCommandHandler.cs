@@ -18,7 +18,7 @@ public class WijzigBasisgegevensCommandHandler
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum)
+    private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum)
     {
         if (startdatum is null)
             return;
