@@ -62,20 +62,20 @@ public class RegistreerVerenigingRequest
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
             AssociationRegistry.Vereniging.KboNummer.Create(KboNummer),
-            Contactgegevens.Select(Contactgegeven.ToValueObject).ToArray(),
-            Locaties.Select(ToValueObject).ToArray(),
-            Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
+            Contactgegevens.Select(Map).ToArray(),
+            Locaties.Select(Map).ToArray(),
+            Vertegenwoordigers.Select(Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray());
 
-    private static AssociationRegistry.Vereniging.Vertegenwoordiger ToVertegenwoordiger(Vertegenwoordiger vert)
+    private static AssociationRegistry.Vereniging.Vertegenwoordiger Map(Vertegenwoordiger vert)
         => AssociationRegistry.Vereniging.Vertegenwoordiger.Create(
             Insz.Create(vert.Insz!),
             vert.PrimairContactpersoon,
             vert.Roepnaam,
             vert.Rol,
-            vert.Contactgegevens.Select(Contactgegeven.ToValueObject).ToArray());
+            vert.Contactgegevens.Select(Map).ToArray());
 
-    private static AssociationRegistry.Vereniging.Locatie ToValueObject(Locatie loc)
+    private static AssociationRegistry.Vereniging.Locatie Map(Locatie loc)
         => AssociationRegistry.Vereniging.Locatie.Create(
             loc.Naam,
             loc.Straatnaam,
@@ -86,6 +86,13 @@ public class RegistreerVerenigingRequest
             loc.Land,
             loc.Hoofdlocatie,
             loc.Locatietype);
+
+    public static AssociationRegistry.Vereniging.Contactgegeven Map(Contactgegeven contactgegeven)
+        => AssociationRegistry.Vereniging.Contactgegeven.Create(
+            ContactgegevenType.Parse(contactgegeven.Type),
+            contactgegeven.Waarde,
+            contactgegeven.Omschrijving,
+            contactgegeven.IsPrimair);
 
     /// <summary>
     /// Het toe te voegen contactgegeven
@@ -117,13 +124,6 @@ public class RegistreerVerenigingRequest
         /// </summary>
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
-
-        public static AssociationRegistry.Vereniging.Contactgegeven ToValueObject(Contactgegeven contactgegeven)
-            => AssociationRegistry.Vereniging.Contactgegeven.Create(
-                ContactgegevenType.Parse(contactgegeven.Type),
-                contactgegeven.Waarde,
-                contactgegeven.Omschrijving,
-                contactgegeven.IsPrimair);
     }
 
     [DataContract]
