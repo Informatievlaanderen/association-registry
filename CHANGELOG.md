@@ -1,3 +1,15 @@
+# [1.146.0](https://github.com/informatievlaanderen/association-registry/compare/v1.145.5...v1.146.0) (2023-04-14)
+
+
+### Bug Fixes
+
+* or-1682 revert solutionInfo.cs ([8581c8b](https://github.com/informatievlaanderen/association-registry/commit/8581c8b5f0cc048f58106280b6cbd36f1beebbdf))
+
+
+### Features
+
+* or-1682 startdatum to be internaly nullable ([35215a5](https://github.com/informatievlaanderen/association-registry/commit/35215a5818663a8ce9fc38f46c36352144d27c58))
+
 ## [1.145.5](https://github.com/informatievlaanderen/association-registry/compare/v1.145.4...v1.145.5) (2023-04-11)
 
 
