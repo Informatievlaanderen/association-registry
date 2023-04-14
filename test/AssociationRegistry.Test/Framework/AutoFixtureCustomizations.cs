@@ -96,7 +96,7 @@ public static class AutoFixtureCustomizations
                         nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
                         nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
                         nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
-                        _ => throw new ArgumentOutOfRangeException(),
+                        _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
                     })
                 .OmitAutoProperties());
     }
