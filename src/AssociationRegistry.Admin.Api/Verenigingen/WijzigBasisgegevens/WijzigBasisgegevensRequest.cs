@@ -35,7 +35,7 @@ public class WijzigBasisgegevensRequest
     {
         [DataMember(Name = "type")] public string Type { get; set; } = null!;
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; }
+        [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; }
 
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }

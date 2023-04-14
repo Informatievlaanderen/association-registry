@@ -17,7 +17,7 @@ public class Given_ContactgegevenWerdGewijzigd
             ContactgegevenId: 666,
             Type: ContactgegevenType.Telefoon,
             Waarde: "007",
-            Omschrijving: "James Bond",
+            Beschrijving: "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
@@ -32,7 +32,7 @@ public class Given_ContactgegevenWerdGewijzigd
                                 ContactgegevenId = contactgegevenWerdGewijzigd.ContactgegevenId,
                                 Type = contactgegevenWerdGewijzigd.Type,
                                 Waarde = "006",
-                                Omschrijving = "Alec Trevelyan",
+                                Beschrijving = "Alec Trevelyan",
                                 IsPrimair = true,
                             }).ToArray(),
                     });
@@ -43,7 +43,7 @@ public class Given_ContactgegevenWerdGewijzigd
                 ContactgegevenId = contactgegevenWerdGewijzigd.ContactgegevenId,
                 Type = contactgegevenWerdGewijzigd.Type,
                 Waarde = contactgegevenWerdGewijzigd.Waarde,
-                Omschrijving = contactgegevenWerdGewijzigd.Omschrijving,
+                Beschrijving = contactgegevenWerdGewijzigd.Beschrijving,
                 IsPrimair = contactgegevenWerdGewijzigd.IsPrimair,
             });
     }

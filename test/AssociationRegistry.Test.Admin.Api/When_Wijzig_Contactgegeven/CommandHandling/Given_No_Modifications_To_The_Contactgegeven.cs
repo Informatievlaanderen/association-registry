@@ -37,7 +37,7 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
             new WijzigContactgegevenCommand.CommandContactgegeven(
                 _scenario.ContactgegevenId,
                 _scenario.Waarde,
-                _scenario.Omschrijving,
+                _scenario.Beschrijving,
                 _scenario.IsPrimair));
 
         _commandResult = await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));

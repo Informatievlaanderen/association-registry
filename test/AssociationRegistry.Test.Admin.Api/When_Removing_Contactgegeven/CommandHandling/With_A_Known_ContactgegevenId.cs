@@ -45,7 +45,7 @@ public class With_A_Known_ContactgegevenId
                 _scenario.ContactgegevenId,
                 _scenario.Type,
                 _scenario.Waarde,
-                _scenario.Omschrijving,
+                _scenario.Beschrijving,
                 _scenario.IsPrimair)
         );
     }

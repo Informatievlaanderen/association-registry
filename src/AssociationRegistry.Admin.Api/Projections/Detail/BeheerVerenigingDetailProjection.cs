@@ -30,7 +30,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     ContactgegevenId = c.ContactgegevenId,
                     Type = c.Type.ToString(),
                     Waarde = c.Waarde,
-                    Omschrijving = c.Omschrijving,
+                    Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
@@ -49,7 +49,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type.ToString(),
                             Waarde = c.Waarde,
-                            Omschrijving = c.Omschrijving,
+                            Beschrijving = c.Beschrijving,
                             IsPrimair = c.IsPrimair,
                         }).ToArray(),
                 }).ToArray(),
@@ -101,7 +101,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                 Type = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
+                Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
             }).ToArray();
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -118,7 +118,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                     Type = contactgegevenWerdGewijzigd.Data.Type,
                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
-                    Omschrijving = contactgegevenWerdGewijzigd.Data.Omschrijving,
+                    Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 })
             .ToArray();
@@ -176,7 +176,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public int ContactgegevenId { get; set; }
         public string Type { get; set; } = null!;
         public string Waarde { get; set; } = null!;
-        public string? Omschrijving { get; set; }
+        public string? Beschrijving { get; set; }
         public bool IsPrimair { get; set; }
     }
 

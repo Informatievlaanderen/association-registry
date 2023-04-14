@@ -62,8 +62,8 @@ public record Contactgegeven(
     [property: DataMember(Name = "type")] string Type,
     [property: DataMember(Name = "waarde")]
     string Waarde,
-    [property: DataMember(Name = "omschrijving")]
-    string Omschrijving,
+    [property: DataMember(Name = "beschrijving")]
+    string Beschrijving,
     [property: DataMember(Name = "isPrimair")]
     bool IsPrimair
 );

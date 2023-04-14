@@ -23,7 +23,7 @@ public record PubliekVerenigingDetailDocument : IVCode
         public int ContactgegevenId { get; set; }
         public string Type { get; set; } = null!;
         public string Waarde { get; set; } = null!;
-        public string Omschrijving { get; set; } = null!;
+        public string Beschrijving { get; set; } = null!;
         public bool IsPrimair { get; set; }
     }
 

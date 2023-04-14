@@ -16,8 +16,8 @@ public class WijzigContactgegevenCommandHandler
     {
         var vereniging = await _verenigingRepository.Load(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
-        var (contacgegevenId, waarde, omschrijving, isPrimair) = envelope.Command.Contactgegeven;
-        vereniging.WijzigContactgegeven(contacgegevenId, waarde, omschrijving, isPrimair);
+        var (contacgegevenId, waarde, beschrijving, isPrimair) = envelope.Command.Contactgegeven;
+        vereniging.WijzigContactgegeven(contacgegevenId, waarde, beschrijving, isPrimair);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata);
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);

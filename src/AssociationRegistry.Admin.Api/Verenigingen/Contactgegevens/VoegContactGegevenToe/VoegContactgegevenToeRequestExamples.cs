@@ -11,7 +11,7 @@ public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContac
             Initiator = "OVO000001",
             Contactgegeven = new VoegContactgegevenToeRequest.RequestContactgegeven
             {
-                Omschrijving = "Algemeen",
+                Beschrijving = "Algemeen",
                 Waarde = "algemeen@example.com",
                 Type = ContactgegevenType.Email,
                 IsPrimair = true,

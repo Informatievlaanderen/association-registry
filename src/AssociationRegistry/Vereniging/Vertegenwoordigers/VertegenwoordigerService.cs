@@ -30,7 +30,7 @@ public class VertegenwoordigerService
     private async Task<Vertegenwoordiger> GetVertegenwoordiger(Vertegenwoordiger vertegenwoordiger)
     {
         var insz = Insz.Create(vertegenwoordiger.Insz);
-        var contactgegevens = Contactgegevens.FromArray(vertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)).ToArray());
+        var contactgegevens = Contactgegevens.FromArray(vertegenwoordiger.Contactgegevens.Select(c => Contactgegeven.Create(c.Type, c.Waarde, c.Beschrijving, c.IsPrimair)).ToArray());
 
         var magdaPersoon = await TryGetMagdaPersoon(insz);
 

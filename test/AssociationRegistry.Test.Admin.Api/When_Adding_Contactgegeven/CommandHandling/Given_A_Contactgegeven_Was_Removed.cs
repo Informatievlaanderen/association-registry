@@ -36,7 +36,7 @@ public class Given_A_Contactgegeven_Was_Removed
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(2, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Omschrijving, false)
+            new ContactgegevenWerdToegevoegd(2, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
         );
     }
 }

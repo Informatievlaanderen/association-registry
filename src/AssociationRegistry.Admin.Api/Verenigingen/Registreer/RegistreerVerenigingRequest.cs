@@ -91,7 +91,7 @@ public class RegistreerVerenigingRequest
         => AssociationRegistry.Vereniging.Contactgegeven.Create(
             ContactgegevenType.Parse(contactgegeven.Type),
             contactgegeven.Waarde,
-            contactgegeven.Omschrijving,
+            contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);
 
     /// <summary>
@@ -115,9 +115,9 @@ public class RegistreerVerenigingRequest
         [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
 
         /// <summary>
-        /// Vrij veld die het het contactgegeven omschrijft (bijv: algemeen, administratie, ...)
+        /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
         /// </summary>
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; }
+        [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; }
 
         /// <summary>
         /// Duidt het contactgegeven aan als primair contactgegeven

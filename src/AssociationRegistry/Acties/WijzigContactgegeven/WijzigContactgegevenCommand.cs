@@ -4,5 +4,5 @@ using Vereniging;
 
 public record WijzigContactgegevenCommand(VCode VCode, WijzigContactgegevenCommand.CommandContactgegeven Contactgegeven)
 {
-    public record CommandContactgegeven(int ContacgegevenId, string? Waarde, string? Omschrijving, bool? IsPrimair);
+    public record CommandContactgegeven(int ContacgegevenId, string? Waarde, string? Beschrijving, bool? IsPrimair);
 }

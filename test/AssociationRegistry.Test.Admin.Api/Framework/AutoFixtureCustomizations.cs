@@ -130,7 +130,7 @@ public static class AutoFixtureCustomizations
                         {
                             Type = contactgegeven.Type,
                             Waarde = contactgegeven.Waarde,
-                            Omschrijving = fixture.Create<string>(),
+                            Beschrijving = fixture.Create<string>(),
                             IsPrimair = false,
                         };
                     })
@@ -174,7 +174,7 @@ public static class AutoFixtureCustomizations
                         i,
                         contactgegeven.Type,
                         contactgegeven.Waarde,
-                        contactgegeven.Omschrijving,
+                        contactgegeven.Beschrijving,
                         contactgegeven.IsPrimair
                     );
                 }).OmitAutoProperties());
@@ -191,7 +191,7 @@ public static class AutoFixtureCustomizations
                             contactgegeven.ContactgegevenId,
                             contactgegeven.Type,
                             contactgegeven.Waarde,
-                            contactgegeven.Omschrijving,
+                            contactgegeven.Beschrijving,
                             contactgegeven.IsPrimair);
                     })
                 .OmitAutoProperties());
@@ -349,7 +349,7 @@ public static class AutoFixtureCustomizations
                         {
                             Type = contactgegeven.Type,
                             Waarde = contactgegeven.Waarde,
-                            Omschrijving = fixture.Create<string>(),
+                            Beschrijving = fixture.Create<string>(),
                             IsPrimair = false,
                         };
                     })

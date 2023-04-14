@@ -70,7 +70,7 @@ public class DetailVerenigingenController : ApiController
     }
 
     private static DetailVerenigingResponse.VerenigingDetail.Contactgegeven ToContactgegeven(BeheerVerenigingDetailDocument.Contactgegeven contactgegeven)
-        => new(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Omschrijving, contactgegeven.IsPrimair);
+        => new(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Beschrijving, contactgegeven.IsPrimair);
 
     private static DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket ToHoofdactiviteit(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);

@@ -70,7 +70,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                         i + 1,
                         c.Type,
                         c.Waarde,
-                        c.Omschrijving,
+                        c.Beschrijving,
                         c.IsPrimair
                     )).ToArray(),
                 _commandEnvelope.Command.Locaties.Select(
@@ -98,7 +98,7 @@ public class With_A_Vertegenwoordiger_With_Two_Primair_Contactgegevens_Of_Differ
                                 i + 1,
                                 c.Type,
                                 c.Waarde,
-                                c.Omschrijving,
+                                c.Beschrijving,
                                 c.IsPrimair
                             )).ToArray()
                     )).ToArray(),

@@ -141,11 +141,11 @@ public class Vereniging : IHasVersion
         AddEvent(ContactgegevenWerdToegevoegd.With(contactgegeven));
     }
 
-    public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? omschrijving, bool? isPrimair)
+    public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)
     {
         _state.Contactgegevens.MustContain(contactgegevenId);
 
-        if (_state.Contactgegevens[contactgegevenId].WouldBeEquivalent(waarde, omschrijving, isPrimair, out var updatedContactgegeven))
+        if (_state.Contactgegevens[contactgegevenId].WouldBeEquivalent(waarde, beschrijving, isPrimair, out var updatedContactgegeven))
             return;
 
         _state.Contactgegevens.MustNotHaveDuplicates(updatedContactgegeven);

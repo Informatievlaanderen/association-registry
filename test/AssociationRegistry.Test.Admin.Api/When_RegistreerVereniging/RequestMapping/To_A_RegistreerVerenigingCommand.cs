@@ -41,7 +41,7 @@ public class To_A_RegistreerVerenigingCommand
             Contactgegeven.Create(
                 ContactgegevenType.Parse(request.Contactgegevens[0].Type),
                 request.Contactgegevens[0].Waarde,
-                request.Contactgegevens[0].Omschrijving,
+                request.Contactgegevens[0].Beschrijving,
                 request.Contactgegevens[0].IsPrimair));
         locaties.Should().BeEquivalentTo(request.Locaties);
         vertegenwoordigers.Should().BeEquivalentTo(
@@ -58,7 +58,7 @@ public class To_A_RegistreerVerenigingCommand
                                     Contactgegeven.Create(
                                         ContactgegevenType.Parse(c.Type),
                                         c.Waarde,
-                                        c.Omschrijving,
+                                        c.Beschrijving,
                                         c.IsPrimair)).ToArray())));
 
         hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);

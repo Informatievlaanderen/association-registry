@@ -68,7 +68,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
             .Append(_verenigingWerdGeregistreerd.Contactgegevens.Select(c =>
                 new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
-                    c.ContactgegevenId, c.Type, c.Waarde, c.Omschrijving, c.IsPrimair)));
+                    c.ContactgegevenId, c.Type, c.Waarde, c.Beschrijving, c.IsPrimair)));
         var expected = $@"
         {{
             ""vereniging"": {{
@@ -83,7 +83,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
-                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
@@ -110,7 +110,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                                 ""contactgegevenId"": {y.ContactgegevenId},
                                 ""type"": ""{y.Type}"",
                                 ""waarde"": ""{y.Waarde}"",
-                                ""omschrijving"": ""{y.Omschrijving}"",
+                                ""beschrijving"": ""{y.Beschrijving}"",
                                 ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                             }}"))}],
                     }}"))}],

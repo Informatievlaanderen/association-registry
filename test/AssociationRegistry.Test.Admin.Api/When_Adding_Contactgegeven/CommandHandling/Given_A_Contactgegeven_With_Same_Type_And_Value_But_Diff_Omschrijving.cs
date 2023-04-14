@@ -12,13 +12,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Omschrijving
+public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijving
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
 
-    public Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Omschrijving()
+    public Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijving()
     {
         _scenario = new VerenigingWerdGeregistreerd_Commandhandler_Scenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
@@ -39,7 +39,7 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Omschrijvi
         {
             Contactgegeven = command.Contactgegeven with
             {
-                Omschrijving = _fixture.Create<string>(),
+                Beschrijving = _fixture.Create<string>(),
             },
         };
 

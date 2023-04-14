@@ -63,7 +63,7 @@ public class Given_VerenigingWerdGeregistreerd
                             c.ContactgegevenId,
                             c.Type,
                             c.Waarde,
-                            c.Omschrijving,
+                            c.Beschrijving,
                             c.IsPrimair)));
         var expected = $@"
         {{
@@ -79,7 +79,7 @@ public class Given_VerenigingWerdGeregistreerd
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
-                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
@@ -106,7 +106,7 @@ public class Given_VerenigingWerdGeregistreerd
                                 ""contactgegevenId"": {y.ContactgegevenId},
                                 ""type"": ""{y.Type}"",
                                 ""waarde"": ""{y.Waarde}"",
-                                ""omschrijving"": ""{y.Omschrijving}"",
+                                ""beschrijving"": ""{y.Beschrijving}"",
                                 ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                             }}"))}],
                         }}"))}],

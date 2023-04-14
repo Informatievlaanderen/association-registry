@@ -37,7 +37,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
             ""contactgegeven"":
                 {{
                     ""waarde"": ""{WaardeVolgensType}"",
-                    ""omschrijving"": ""algemeen"",
+                    ""beschrijving"": ""algemeen"",
                     ""isPrimair"": false
                 }},
             ""initiator"": ""OVO000001""

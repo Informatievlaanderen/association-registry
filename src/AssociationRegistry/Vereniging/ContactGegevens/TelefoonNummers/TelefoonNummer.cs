@@ -3,8 +3,8 @@
 using Framework;
 using Exceptions;
 
-public record TelefoonNummer(string Waarde, string Omschrijving, bool IsPrimair)
-    : Contactgegeven(ContactgegevenType.Telefoon, Waarde, Omschrijving, IsPrimair)
+public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
+    : Contactgegeven(ContactgegevenType.Telefoon, Waarde, Beschrijving, IsPrimair)
 {
     private static readonly string[] AllowedCharacters = {
         " ", ".", "(", ")", "/", "-", "+",
@@ -13,13 +13,13 @@ public record TelefoonNummer(string Waarde, string Omschrijving, bool IsPrimair)
     public static TelefoonNummer Create(string? telefoonNummer)
         => Create(telefoonNummer, string.Empty,false);
 
-    public static TelefoonNummer Create(string? telefoonNummer, string omschrijving, bool isPrimair)
+    public static TelefoonNummer Create(string? telefoonNummer, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(telefoonNummer))
             return null!;
         Throw<InvalidTelefoonNummerCharacter>.IfNot(IsNumber(Sanitize(telefoonNummer)));
         Throw<NoNumbersInTelefoonNummer>.IfNot(HasNumber(telefoonNummer));
-        return new TelefoonNummer(telefoonNummer, omschrijving, isPrimair);
+        return new TelefoonNummer(telefoonNummer, beschrijving, isPrimair);
     }
 
     private static bool HasNumber(string telefoonNummer)

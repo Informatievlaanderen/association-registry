@@ -17,7 +17,7 @@ public class Given_ContactgegevenWerdToegevoegd
             ContactgegevenId: 666,
             Type: ContactgegevenType.Telefoon,
             Waarde: "007",
-            Omschrijving: "James Bond",
+            Beschrijving: "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
@@ -31,7 +31,7 @@ public class Given_ContactgegevenWerdToegevoegd
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
                 Type = contactgegevenWerdToegevoegd.Type,
                 Waarde = contactgegevenWerdToegevoegd.Waarde,
-                Omschrijving = contactgegevenWerdToegevoegd.Omschrijving,
+                Beschrijving = contactgegevenWerdToegevoegd.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.IsPrimair,
             });
     }

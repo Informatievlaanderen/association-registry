@@ -3,20 +3,20 @@
 using Framework;
 using Exceptions;
 
-public record Website(string Waarde, string Omschrijving, bool IsPrimair)
-    : Contactgegeven(ContactgegevenType.Website, Waarde, Omschrijving, IsPrimair)
+public record Website(string Waarde, string Beschrijving, bool IsPrimair)
+    : Contactgegeven(ContactgegevenType.Website, Waarde, Beschrijving, IsPrimair)
 {
     public static Website Create(string? website)
         => Create(website, string.Empty,false);
 
-    public static Website Create(string? website, string omschrijving,bool isPrimair)
+    public static Website Create(string? website, string beschrijving,bool isPrimair)
     {
         if (string.IsNullOrEmpty(website))
             return null!;
 
         Throw<InvalidWebsiteStart>.IfNot(UrlHasCorrectStartingCharacters(website));
         Throw<WebsiteMissingPeriod>.IfNot(UrlContainsAPeriod(website));
-        return new Website(website, omschrijving, isPrimair);
+        return new Website(website, beschrijving, isPrimair);
     }
 
     private static bool UrlContainsAPeriod(string urlString)
