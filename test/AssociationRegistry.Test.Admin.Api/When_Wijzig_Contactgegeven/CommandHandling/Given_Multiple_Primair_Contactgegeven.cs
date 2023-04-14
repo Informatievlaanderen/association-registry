@@ -36,7 +36,7 @@ public class Given_Multiple_Primair_Contactgegeven
             new WijzigContactgegevenCommand.CommandContactgegeven(
                 _scenario.ContactgegevenWerdToegevoegd2.ContactgegevenId,
                 _scenario.ContactgegevenWerdToegevoegd2.Waarde,
-                _scenario.ContactgegevenWerdToegevoegd2.Omschrijving,
+                _scenario.ContactgegevenWerdToegevoegd2.Beschrijving,
                 true)); // <== changed value
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));

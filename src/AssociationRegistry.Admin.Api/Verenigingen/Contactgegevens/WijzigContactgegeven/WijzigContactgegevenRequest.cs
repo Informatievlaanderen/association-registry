@@ -22,9 +22,9 @@ public class WijzigContactgegevenRequest
         [DataMember(Name = "waarde")] public string? Waarde { get; set; } = null!;
 
         /// <summary>
-        /// Vrij veld die het het contactgegeven omschrijft (bijv: algemeen, administratie, ...)
+        /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
         /// </summary>
-        [DataMember(Name = "omschrijving")] public string? Omschrijving { get; set; } = null;
+        [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; } = null;
 
         /// <summary>
         /// Duidt het contactgegeven aan als primair contactgegeven
@@ -39,6 +39,6 @@ public class WijzigContactgegevenRequest
             new WijzigContactgegevenCommand.CommandContactgegeven(
                 contactgegevenId,
                 Contactgegeven.Waarde,
-                Contactgegeven.Omschrijving,
+                Contactgegeven.Beschrijving,
                 Contactgegeven.IsPrimair));
 }

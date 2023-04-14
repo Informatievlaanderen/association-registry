@@ -9,10 +9,10 @@ public class Is_Valid : ValidatorTest
 {
     [Theory]
     [InlineData("waarde1", null, null)]
-    [InlineData(null, "omschrijving2", null)]
+    [InlineData(null, "beschrijving2", null)]
     [InlineData(null, null, true)]
-    [InlineData("waarde4", "omschrijving4", true)]
-    public void Has_not_validation_error(string? waarde, string? omschrijving, bool? isPrimair)
+    [InlineData("waarde4", "beschrijving4", true)]
+    public void Has_not_validation_error(string? waarde, string? beschrijving, bool? isPrimair)
     {
         var validator = new WijzigContactgegevenValidator();
         var request = new WijzigContactgegevenRequest
@@ -20,7 +20,7 @@ public class Is_Valid : ValidatorTest
             Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven
             {
                 Waarde = waarde,
-                Omschrijving = omschrijving,
+                Beschrijving = beschrijving,
                 IsPrimair = isPrimair,
             },
         };

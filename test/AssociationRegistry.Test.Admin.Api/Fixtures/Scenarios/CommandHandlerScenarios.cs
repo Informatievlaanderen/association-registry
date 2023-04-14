@@ -79,7 +79,7 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
     public readonly int ContactgegevenId = 1;
     public readonly ContactgegevenType Type = ContactgegevenType.Email;
     public readonly string Waarde = "test@example.org";
-    public readonly string Omschrijving = "";
+    public readonly string Beschrijving = "";
     public readonly bool IsPrimair = true;
 
     public override IEnumerable<IEvent> Events()
@@ -97,7 +97,7 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
-            new ContactgegevenWerdToegevoegd(ContactgegevenId, Type, Waarde, Omschrijving, IsPrimair),
+            new ContactgegevenWerdToegevoegd(ContactgegevenId, Type, Waarde, Beschrijving, IsPrimair),
         };
     }
 }
@@ -206,7 +206,7 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
-        ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId, Contactgegevens[0].Type, Contactgegevens[0].Waarde, Contactgegevens[0].Omschrijving, Contactgegevens[0].IsPrimair);
+        ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId, Contactgegevens[0].Type, Contactgegevens[0].Waarde, Contactgegevens[0].Beschrijving, Contactgegevens[0].IsPrimair);
         return new IEvent[]
         {
             WerdGeregistreerd,

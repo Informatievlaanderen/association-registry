@@ -60,7 +60,7 @@ public class DetailVerenigingenController : ApiController
                             info => new Contactgegeven(
                                 info.Type,
                                 info.Waarde,
-                                info.Omschrijving,
+                                info.Beschrijving,
                                 info.IsPrimair))
                         .ToArray(),
                     vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),

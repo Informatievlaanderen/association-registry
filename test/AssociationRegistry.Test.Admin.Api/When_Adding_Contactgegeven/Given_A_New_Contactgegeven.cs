@@ -31,7 +31,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
                 {{
                     ""type"":""email"",
                     ""waarde"": ""test@example.org"",
-                    ""omschrijving"": ""algemeen"",
+                    ""beschrijving"": ""algemeen"",
                     ""isPrimair"": false
                 }},
             ""initiator"": ""OVO000001""

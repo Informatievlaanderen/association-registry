@@ -64,7 +64,7 @@ public class Given_An_Existing_Contactgegeven : IClassFixture<Delete_An_Existing
                     _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
                         .Waarde,
                     _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
-                        .Omschrijving,
+                        .Beschrijving,
                     _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
                         .IsPrimair));
     }

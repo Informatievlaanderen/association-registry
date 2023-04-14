@@ -26,7 +26,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     ContactgegevenId = c.ContactgegevenId,
                     Type = c.Type.ToString(),
                     Waarde = c.Waarde,
-                    Omschrijving = c.Omschrijving,
+                    Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
@@ -73,7 +73,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                     Type = contactgegevenWerdToegevoegd.Data.Type,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                    Omschrijving = contactgegevenWerdToegevoegd.Data.Omschrijving,
+                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 })
             .ToArray();
@@ -91,7 +91,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                     Type = contactgegevenWerdGewijzigd.Data.Type,
                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
-                    Omschrijving = contactgegevenWerdGewijzigd.Data.Omschrijving,
+                    Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 })
             .ToArray();

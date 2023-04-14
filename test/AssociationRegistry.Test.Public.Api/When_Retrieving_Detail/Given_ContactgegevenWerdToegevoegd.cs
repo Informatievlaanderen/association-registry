@@ -56,7 +56,7 @@ public class Given_ContactgegevenWerdToegevoegd
                 new Contactgegeven(
                     _contactgegevenWerdToegevoegd.Type,
                     _contactgegevenWerdToegevoegd.Waarde,
-                    _contactgegevenWerdToegevoegd.Omschrijving,
+                    _contactgegevenWerdToegevoegd.Beschrijving,
                     _contactgegevenWerdToegevoegd.IsPrimair
                 ));
 
@@ -74,7 +74,7 @@ public class Given_ContactgegevenWerdToegevoegd
                     ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
-                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{

@@ -38,7 +38,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                 {
                     Type = ContactgegevenType.Email,
                     Waarde = "random@example.org",
-                    Omschrijving = "Algemeen",
+                    Beschrijving = "Algemeen",
                     IsPrimair = false,
                 },
             },
@@ -69,7 +69,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     {
                         new()
                         {
-                            Omschrijving = "Algemeen",
+                            Beschrijving = "Algemeen",
                             Waarde = "qtpy@outlook.com",
                             Type = ContactgegevenType.Email,
                             IsPrimair = false,
@@ -86,7 +86,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     {
                         new()
                         {
-                            Omschrijving = "Scrum",
+                            Beschrijving = "Scrum",
                             Waarde = "master@outlook.com",
                             Type = ContactgegevenType.Email,
                             IsPrimair = true,
@@ -150,7 +150,7 @@ public class With_All_Fields
                 {
                     new()
                     {
-                        Omschrijving = "Algemeen",
+                        Beschrijving = "Algemeen",
                         Waarde = "qtpy@outlook.com",
                         Type = ContactgegevenType.Email,
                         IsPrimair = false,
@@ -167,7 +167,7 @@ public class With_All_Fields
                 {
                     new()
                     {
-                        Omschrijving = "Scrum",
+                        Beschrijving = "Scrum",
                         Waarde = "master@outlook.com",
                         Type = ContactgegevenType.Email,
                         IsPrimair = true,

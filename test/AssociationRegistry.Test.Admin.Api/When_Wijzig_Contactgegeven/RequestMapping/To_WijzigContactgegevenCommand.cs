@@ -26,7 +26,7 @@ public class To_WijzigContactgegevenCommand
         command.VCode.Should().Be(vCode);
         command.Contactgegeven.ContacgegevenId.Should().Be(contactgegevenId);
         command.Contactgegeven.Waarde.Should().Be(request.Contactgegeven.Waarde);
-        command.Contactgegeven.Omschrijving.Should().Be(request.Contactgegeven.Omschrijving);
+        command.Contactgegeven.Beschrijving.Should().Be(request.Contactgegeven.Beschrijving);
         command.Contactgegeven.IsPrimair.Should().Be(request.Contactgegeven.IsPrimair);
     }
 }

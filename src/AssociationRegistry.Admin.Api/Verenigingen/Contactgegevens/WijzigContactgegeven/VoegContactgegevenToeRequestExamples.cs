@@ -10,7 +10,7 @@ public class WijzigContactgegevenRequestExamples : IExamplesProvider<WijzigConta
             Initiator = "OVO000001",
             Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven
             {
-                Omschrijving = "Algemeen",
+                Beschrijving = "Algemeen",
                 Waarde = "algemeen@example.com",
                 IsPrimair = true,
             },

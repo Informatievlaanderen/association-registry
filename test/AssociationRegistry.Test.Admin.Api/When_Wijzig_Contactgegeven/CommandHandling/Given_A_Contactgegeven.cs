@@ -48,7 +48,7 @@ public class Given_A_Contactgegeven
                 ContactgegevenId: _scenario.ContactgegevenId,
                 ContactgegevenType.Email,
                 command.Contactgegeven.Waarde!,
-                command.Contactgegeven.Omschrijving ?? string.Empty,
+                command.Contactgegeven.Beschrijving ?? string.Empty,
                 IsPrimair: false)
         );
     }

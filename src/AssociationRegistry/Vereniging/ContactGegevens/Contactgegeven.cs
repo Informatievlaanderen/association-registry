@@ -12,58 +12,58 @@ public record Contactgegeven
     public int ContactgegevenId { get; init; }
     public ContactgegevenType Type { get; }
     public string Waarde { get; }
-    public string Omschrijving { get; init; }
+    public string Beschrijving { get; init; }
     public bool IsPrimair { get; }
 
-    protected Contactgegeven(ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+    protected Contactgegeven(ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
     {
         ContactgegevenId = 0;
         Type = type;
         Waarde = waarde;
-        Omschrijving = omschrijving;
+        Beschrijving = beschrijving;
         IsPrimair = isPrimair;
     }
 
-    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
+    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
     {
         ContactgegevenId = contactgegevenId;
         Type = type;
         Waarde = waarde;
-        Omschrijving = omschrijving;
+        Beschrijving = beschrijving;
         IsPrimair = isPrimair;
     }
 
-    public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string omschrijving, bool isPrimair)
-        => new(contactgegevenId, type, waarde, omschrijving, isPrimair);
+    public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
+        => new(contactgegevenId, type, waarde, beschrijving, isPrimair);
 
-    public static Contactgegeven Create(ContactgegevenType type, string waarde, string? omschrijving, bool isPrimair)
+    public static Contactgegeven Create(ContactgegevenType type, string waarde, string? beschrijving, bool isPrimair)
     {
-        omschrijving ??= string.Empty;
+        beschrijving ??= string.Empty;
 
         return type switch
         {
-            { Waarde: nameof(ContactgegevenType.Email) } => Email.Create(waarde, omschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, omschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, omschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, omschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Email) } => Email.Create(waarde, beschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, beschrijving, isPrimair),
+            { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, beschrijving, isPrimair),
             _ => throw new InvalidContactType(),
         };
     }
 
-    public static Contactgegeven Create(string type, string waarde, string? omschrijving, bool isPrimair)
+    public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
-        return Create(ContactgegevenType.Parse(type), waarde, omschrijving, isPrimair);
+        return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
     public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
-        => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde && Omschrijving == contactgegeven.Omschrijving;
+        => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde && Beschrijving == contactgegeven.Beschrijving;
 
 
     private static bool IsKnownType(string type)
         => ContactgegevenType.CanParse(type);
 
-    public Contactgegeven CopyWithValuesIfNotNull(string? waarde, string? omschrijving, bool? isPrimair)
-        => Create(Type, waarde ?? Waarde, omschrijving ?? Omschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
+    public Contactgegeven CopyWithValuesIfNotNull(string? waarde, string? beschrijving, bool? isPrimair)
+        => Create(Type, waarde ?? Waarde, beschrijving ?? Beschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
 
     public virtual bool Equals(Contactgegeven? other)
     {
@@ -72,16 +72,16 @@ public record Contactgegeven
         return ContactgegevenId == other.ContactgegevenId &&
                Type.Equals(other.Type) &&
                Waarde == other.Waarde &&
-               Omschrijving == other.Omschrijving &&
+               Beschrijving == other.Beschrijving &&
                IsPrimair == other.IsPrimair;
     }
 
     public override int GetHashCode()
-        => HashCode.Combine(ContactgegevenId, Type, Waarde, Omschrijving, IsPrimair);
+        => HashCode.Combine(ContactgegevenId, Type, Waarde, Beschrijving, IsPrimair);
 
-    public bool WouldBeEquivalent(string? waarde, string? omschrijving, bool? isPrimair, out Contactgegeven contactgegeven)
+    public bool WouldBeEquivalent(string? waarde, string? beschrijving, bool? isPrimair, out Contactgegeven contactgegeven)
     {
-        contactgegeven = CopyWithValuesIfNotNull(waarde, omschrijving, isPrimair);
+        contactgegeven = CopyWithValuesIfNotNull(waarde, beschrijving, isPrimair);
         return this == contactgegeven;
     }
 }

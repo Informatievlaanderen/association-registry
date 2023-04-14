@@ -56,7 +56,7 @@ public class Given_Magda_Returns_Data
             {
                 contactgegeven.Type.Should().Be(vertegenwoordiger.Contactgegevens.Single().Type);
                 contactgegeven.Waarde.Should().Be(vertegenwoordiger.Contactgegevens.Single().Waarde);
-                contactgegeven.Omschrijving.Should().Be(vertegenwoordiger.Contactgegevens.Single().Omschrijving);
+                contactgegeven.Beschrijving.Should().Be(vertegenwoordiger.Contactgegevens.Single().Beschrijving);
                 contactgegeven.ContactgegevenId.Should().Be(1);
                 contactgegeven.IsPrimair.Should().Be(vertegenwoordiger.Contactgegevens.Single().IsPrimair);
             }

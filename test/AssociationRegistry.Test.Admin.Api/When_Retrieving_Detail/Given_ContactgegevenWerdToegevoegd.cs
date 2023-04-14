@@ -67,13 +67,13 @@ public class Given_ContactgegevenWerdToegevoegd
                             c.ContactgegevenId,
                             c.Type,
                             c.Waarde,
-                            c.Omschrijving,
+                            c.Beschrijving,
                             c.IsPrimair)))
             .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
                 _contactgegevenWerdToegevoegd.ContactgegevenId,
                 _contactgegevenWerdToegevoegd.Type,
                 _contactgegevenWerdToegevoegd.Waarde,
-                _contactgegevenWerdToegevoegd.Omschrijving,
+                _contactgegevenWerdToegevoegd.Beschrijving,
                 _contactgegevenWerdToegevoegd.IsPrimair));
 
 
@@ -91,7 +91,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
-                        ""omschrijving"": ""{y.Omschrijving}"",
+                        ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
@@ -118,7 +118,7 @@ public class Given_ContactgegevenWerdToegevoegd
                                 ""contactgegevenId"": {y.ContactgegevenId},
                                 ""type"": ""{y.Type}"",
                                 ""waarde"": ""{y.Waarde}"",
-                                ""omschrijving"": ""{y.Omschrijving}"",
+                                ""beschrijving"": ""{y.Beschrijving}"",
                                 ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                             }}"))}],
                     }}"))}],

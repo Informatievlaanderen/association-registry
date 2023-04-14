@@ -35,7 +35,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             {
                 new RegistreerVerenigingRequest.Contactgegeven()
                 {
-                    Omschrijving = "Algemeen",
+                    Beschrijving = "Algemeen",
                     Waarde = "algemeen@example.com",
                     Type = ContactgegevenType.Email,
                     IsPrimair = true,
@@ -53,7 +53,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     {
                         new RegistreerVerenigingRequest.Contactgegeven()
                         {
-                            Omschrijving = "Persoonlijk",
+                            Beschrijving = "Persoonlijk",
                             Waarde = "conan@example.com",
                             Type = ContactgegevenType.Email,
                             IsPrimair = true,

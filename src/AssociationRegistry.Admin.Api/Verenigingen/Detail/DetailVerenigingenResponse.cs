@@ -40,7 +40,7 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "ContactgegevenId")] int ContactgegevenId,
             [property: DataMember(Name = "Type")] string Type,
             [property: DataMember(Name = "Waarde")] string Waarde,
-            [property: DataMember(Name = "Omschrijving")] string? Omschrijving,
+            [property: DataMember(Name = "Beschrijving")] string? Beschrijving,
             [property: DataMember(Name = "IsPrimair")] bool IsPrimair
         );
 

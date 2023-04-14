@@ -30,7 +30,7 @@ public record VerenigingState
                         c.ContactgegevenId,
                         ContactgegevenType.Parse(c.Type),
                         c.Waarde,
-                        c.Omschrijving,
+                        c.Beschrijving,
                         c.IsPrimair)
                 )
             ),
@@ -56,7 +56,7 @@ public record VerenigingState
                     @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
-                    @event.Omschrijving,
+                    @event.Beschrijving,
                     @event.IsPrimair)),
         };
 
@@ -74,7 +74,7 @@ public record VerenigingState
                     @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
                     @event.Waarde,
-                    @event.Omschrijving,
+                    @event.Beschrijving,
                     @event.IsPrimair)),
         };
 }

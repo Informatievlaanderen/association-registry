@@ -29,7 +29,7 @@ public record VerenigingWerdGeregistreerd(
         int ContactgegevenId,
         string Type,
         string Waarde,
-        string Omschrijving,
+        string Beschrijving,
         bool IsPrimair)
     {
         public static Contactgegeven With(Vereniging.Contactgegeven contactgegeven)
@@ -37,7 +37,7 @@ public record VerenigingWerdGeregistreerd(
                 contactgegeven.ContactgegevenId,
                 contactgegeven.Type,
                 contactgegeven.Waarde,
-                contactgegeven.Omschrijving,
+                contactgegeven.Beschrijving,
                 contactgegeven.IsPrimair);
     }
 

@@ -17,7 +17,7 @@ public class Given_ContactgegevenWerdVerwijderd
             ContactgegevenId: 666,
             Type: ContactgegevenType.Telefoon,
             Waarde: "007",
-            Omschrijving: "James Bond",
+            Beschrijving: "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
@@ -32,7 +32,7 @@ public class Given_ContactgegevenWerdVerwijderd
                                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
                                 Type = contactgegevenWerdVerwijderd.Type,
                                 Waarde = contactgegevenWerdVerwijderd.Waarde,
-                                Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
+                                Beschrijving = contactgegevenWerdVerwijderd.Beschrijving,
                                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
                             }).ToArray(),
                     });
@@ -43,7 +43,7 @@ public class Given_ContactgegevenWerdVerwijderd
                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
                 Type = contactgegevenWerdVerwijderd.Type,
                 Waarde = contactgegevenWerdVerwijderd.Waarde,
-                Omschrijving = contactgegevenWerdVerwijderd.Omschrijving,
+                Beschrijving = contactgegevenWerdVerwijderd.Beschrijving,
                 IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
             });
     }
