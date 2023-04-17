@@ -15,10 +15,15 @@ public class NullOrEmptyDateOnlyJsonConvertor : JsonConverter<NullOrEmpty<DateOn
     }
 
 
-    public override NullOrEmpty<DateOnly> ReadJson(JsonReader reader, Type objectType, NullOrEmpty<DateOnly> existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override NullOrEmpty<DateOnly> ReadJson(
+        JsonReader reader,
+        Type objectType,
+        NullOrEmpty<DateOnly> existingValue,
+        bool hasExistingValue,
+        JsonSerializer serializer)
     {
         if (reader.Value! is not string readerValue) return NullOrEmpty<DateOnly>.Null;
-        if (string.IsNullOrEmpty(readerValue)) return NullOrEmpty<DateOnly>.Empty;
+        if (string.IsNullOrWhiteSpace(readerValue)) return NullOrEmpty<DateOnly>.Empty;
         return NullOrEmpty<DateOnly>.Create(DateOnlyHelpers.Parse(readerValue, WellknownFormats.DateOnly));
     }
 }
