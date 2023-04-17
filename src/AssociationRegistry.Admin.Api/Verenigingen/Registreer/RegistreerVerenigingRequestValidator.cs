@@ -100,9 +100,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
                     vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz) &&
                                          ContainOnlyNumbersDotsAndDashes(vertegenwoordiger.Insz))
                 .WithMessage("Insz moet 11 cijfers bevatten");
-
-            RuleForEach(vertegenwoordiger => vertegenwoordiger.Contactgegevens)
-                .SetValidator(new ContactgegevenValidator());
         }
 
         private bool ContainOnlyNumbersDotsAndDashes(string? insz)

@@ -44,15 +44,10 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
-                    Contactgegevens = v.Contactgegevens.Select(
-                        c => new BeheerVerenigingDetailDocument.Contactgegeven
-                        {
-                            ContactgegevenId = c.ContactgegevenId,
-                            Type = c.Type.ToString(),
-                            Waarde = c.Waarde,
-                            Beschrijving = c.Beschrijving,
-                            IsPrimair = c.IsPrimair,
-                        }).ToArray(),
+                    Email = v.Email,
+                    Telefoon = v.Telefoon,
+                    Mobiel = v.Mobiel,
+                    SocialMedia = v.SocialMedia,
                 }).ToArray(),
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                 h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
@@ -211,7 +206,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string? Roepnaam { get; set; }
         public string? Rol { get; set; }
         public bool PrimairContactpersoon { get; set; }
-        public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
+        public string Email { get; set; } = null!;
+        public string Telefoon { get; set; } = null!;
+        public string Mobiel { get; set; } = null!;
+        public string SocialMedia { get; set; } = null!;
     }
 
     public record HoofdactiviteitVerenigingsloket

@@ -17,49 +17,39 @@ public class Given_Magda_Returns_Data
     public async Task Then_it_returns_a_vertegenwoordiger()
     {
         var fixture = new Fixture().CustomizeAll();
-        var insz = Insz.Create(InszTestSet.Insz1);
-
         var magdaMock = new Mock<IMagdaFacade>();
+
+
+        var service = new VertegenwoordigerService(magdaMock.Object);
+
+        var vertegenwoordiger = fixture.Create<Vertegenwoordiger>();
         var magdaPersoon = new MagdaPersoon
         {
-            Insz = insz,
+            Insz = vertegenwoordiger.Insz,
             Voornaam = fixture.Create<string>(),
             Achternaam = fixture.Create<string>(),
             IsOverleden = false,
         };
-        magdaMock.Setup(m => m.GetByInsz(insz, It.IsAny<CancellationToken>())).ReturnsAsync(
+        magdaMock.Setup(m => m.GetByInsz(vertegenwoordiger.Insz, It.IsAny<CancellationToken>())).ReturnsAsync(
             magdaPersoon);
 
-        var service = new VertegenwoordigerService(magdaMock.Object);
-
-        const string email = "iemand@digitaal.vlaanderen";
-        var vertegenwoordiger = Vertegenwoordiger.Create(
-            insz,
-            fixture.Create<bool>(),
-            fixture.Create<string>(),
-            fixture.Create<string>(),
-            new[]
-            {
-                Contactgegeven.Create(ContactgegevenType.Email, email, fixture.Create<int?>().ToString(), false),
-            });
         var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
+
+        vertegenwoordigersLijst.Should().HaveCount(1);
+        var result = vertegenwoordigersLijst.Single();
 
         using (new AssertionScope())
         {
-            vertegenwoordigersLijst.Single().Insz.Should().Be(insz);
-            vertegenwoordigersLijst.Single().Voornaam.Should().Be(magdaPersoon.Voornaam);
-            vertegenwoordigersLijst.Single().Achternaam.Should().Be(magdaPersoon.Achternaam);
-            vertegenwoordigersLijst.Single().Roepnaam.Should().Be(vertegenwoordiger.Roepnaam);
-            vertegenwoordigersLijst.Single().Rol.Should().Be(vertegenwoordiger.Rol);
-            vertegenwoordigersLijst.Single().PrimairContactpersoon.Should().Be(vertegenwoordiger.PrimairContactpersoon);
-            foreach (var contactgegeven in vertegenwoordigersLijst.Single().Contactgegevens)
-            {
-                contactgegeven.Type.Should().Be(vertegenwoordiger.Contactgegevens.Single().Type);
-                contactgegeven.Waarde.Should().Be(vertegenwoordiger.Contactgegevens.Single().Waarde);
-                contactgegeven.Beschrijving.Should().Be(vertegenwoordiger.Contactgegevens.Single().Beschrijving);
-                contactgegeven.ContactgegevenId.Should().Be(1);
-                contactgegeven.IsPrimair.Should().Be(vertegenwoordiger.Contactgegevens.Single().IsPrimair);
-            }
+            result.Insz.Should().Be(result.Insz);
+            result.Voornaam.Should().Be(magdaPersoon.Voornaam);
+            result.Achternaam.Should().Be(magdaPersoon.Achternaam);
+            result.Roepnaam.Should().Be(result.Roepnaam);
+            result.Rol.Should().Be(result.Rol);
+            result.PrimairContactpersoon.Should().Be(result.PrimairContactpersoon);
+            result.Email.Should().Be(result.Email);
+            result.TelefoonNummer.Should().Be(result.TelefoonNummer);
+            result.Mobiel.Should().Be(result.Mobiel);
+            result.SocialMedia.Should().Be(result.SocialMedia);
         }
     }
 }

@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 using Acties.RegistreerVereniging;
 using Infrastructure.Swagger;
 using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 
 [DataContract]
 public class RegistreerVerenigingRequest
@@ -73,7 +76,11 @@ public class RegistreerVerenigingRequest
             vert.PrimairContactpersoon,
             vert.Roepnaam,
             vert.Rol,
-            vert.Contactgegevens.Select(Map).ToArray());
+            Email.Create(vert.Email),
+            TelefoonNummer.Create(vert.Telefoon),
+            TelefoonNummer.Create(vert.Mobiel),
+            SocialMedia.Create(vert.SocialMedia)
+        );
 
     private static AssociationRegistry.Vereniging.Locatie Map(Locatie loc)
         => AssociationRegistry.Vereniging.Locatie.Create(
@@ -107,17 +114,20 @@ public class RegistreerVerenigingRequest
         [SwaggerParameterExample("SocialMedia")]
         [SwaggerParameterExample("Telefoon")]
         [SwaggerParameterExample("Website")]
-        [DataMember(Name = "type")] public string Type { get; set; } = null!;
+        [DataMember(Name = "type")]
+        public string Type { get; set; } = null!;
 
         /// <summary>
         /// De waarde van het contactgegeven
         /// </summary>
-        [DataMember(Name = "waarde")] public string Waarde { get; set; } = null!;
+        [DataMember(Name = "waarde")]
+        public string Waarde { get; set; } = null!;
 
         /// <summary>
         /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
         /// </summary>
-        [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; }
+        [DataMember(Name = "beschrijving")]
+        public string? Beschrijving { get; set; }
 
         /// <summary>
         /// Duidt het contactgegeven aan als primair contactgegeven
@@ -149,9 +159,21 @@ public class RegistreerVerenigingRequest
         [DataMember]
         public bool PrimairContactpersoon { get; set; }
 
-        /// <summary>Dit zijn de contactgegevens van een vertegenwoordiger</summary>
+        /// <summary>Het emailadres van de vertegenwoordiger</summary>
         [DataMember]
-        public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
+        public string? Email { get; set; }
+
+        /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>
+        [DataMember]
+        public string? Telefoon { get; set; }
+
+        /// <summary>Het mobiel nummer van de vertegenwoordiger</summary>
+        [DataMember]
+        public string? Mobiel { get; set; }
+
+        /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
+        [DataMember]
+        public string? SocialMedia { get; set; }
     }
 
     [DataContract]

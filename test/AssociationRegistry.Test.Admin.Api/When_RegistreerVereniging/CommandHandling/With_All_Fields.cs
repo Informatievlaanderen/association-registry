@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Acties.RegistreerVereniging;
-using AssociationRegistry.Admin.Api.Constants;
 using Events;
 using AssociationRegistry.Framework;
 using Magda;
@@ -18,21 +17,11 @@ using Xunit.Categories;
 [UnitTest]
 public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
 {
-    private const string Naam = "naam1";
-    private const string KorteNaam = "korte naam";
-    private const string KorteBeschrijving = "korte beschrijving";
-    private const string KboNummer = "0123456749";
-    private const string HoofdactiviteitCode = "KECU";
-
-    private static readonly Contactgegeven Contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "info@dummy.com", "the email", true);
-    private static readonly Locatie Locatie = new("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten);
-    private static readonly Contactgegeven VertegenwoordigerContactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "conan@barbarian.history.com", "Historie", true);
-    private static readonly Vertegenwoordiger Vertegenwoordiger = Vertegenwoordiger.Create(Insz.Create(InszTestSet.Insz1_WithCharacters), true, "Conan", "Barbarian, Destroyer", new[] { VertegenwoordigerContactgegeven });
-
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly DateOnly _dateInThePast;
     private readonly InMemorySequentialVCodeService _vCodeService;
-    private readonly MagdaPersoon _magdaPersoon;
+    private readonly RegistreerVerenigingCommand _command;
+    private readonly string _magdaVoornaam;
+    private readonly string _magdaAchternaam;
 
     public With_All_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
     {
@@ -42,39 +31,27 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
 
         var fixture = new Fixture().CustomizeAll();
 
-        var today = fixture.Create<DateOnly>();
-        _dateInThePast = today.AddDays(-3);
+        _command = fixture.Create<RegistreerVerenigingCommand>();
+        var clock = new ClockStub(_command.Startdatum.Datum!.Value);
 
-        var clock = new ClockStub(today);
-
-        var vertegenwoordigers = new[] { Vertegenwoordiger };
-        var command = new RegistreerVerenigingCommand(
-            VerenigingsNaam.Create(Naam),
-            KorteNaam,
-            KorteBeschrijving,
-            Startdatum.Create(_dateInThePast),
-            AssociationRegistry.Vereniging.KboNummer.Create(KboNummer),
-            new[] { Contactgegeven },
-            new[] { Locatie },
-            vertegenwoordigers,
-            new[] { HoofdactiviteitVerenigingsloket.Create(HoofdactiviteitCode) });
-
-        _magdaPersoon = new MagdaPersoon
-        {
-            Insz = Insz.Create(Vertegenwoordiger.Insz),
-            Voornaam = "Thor",
-            Achternaam = "Odinson",
-            IsOverleden = false,
-        };
+        _magdaVoornaam = fixture.Create<string>();
+        _magdaAchternaam = fixture.Create<string>();
         magdaFacade
-            .Setup(facade => facade.GetByInsz(It.Is<Insz>(insz => string.Equals(insz.ToString(), InszTestSet.Insz1)), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(_magdaPersoon);
+            .Setup(facade => facade.GetByInsz(It.IsAny<Insz>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(
+                (Insz insz, CancellationToken _) => new MagdaPersoon
+                {
+                    Insz = insz,
+                    Voornaam = _magdaVoornaam,
+                    Achternaam = _magdaAchternaam,
+                    IsOverleden = false,
+                });
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+            .Handle(new CommandEnvelope<RegistreerVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
             .GetAwaiter()
             .GetResult();
     }
@@ -85,56 +62,50 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
-                Naam,
-                KorteNaam,
-                KorteBeschrijving,
-                _dateInThePast,
-                KboNummer,
-                new[]
-                {
-                    new VerenigingWerdGeregistreerd.Contactgegeven(
-                        1,
-                        ContactgegevenType.Email,
-                        Contactgegeven.Waarde,
-                        Contactgegeven.Beschrijving,
-                        Contactgegeven.IsPrimair
-                    ),
-                },
-                new[]
-                {
-                    new VerenigingWerdGeregistreerd.Locatie(
-                        Locatie.Naam,
-                        Locatie.Straatnaam,
-                        Locatie.Huisnummer,
-                        Locatie.Busnummer,
-                        Locatie.Postcode,
-                        Locatie.Gemeente,
-                        Locatie.Land,
-                        Locatie.Hoofdlocatie,
-                        Locatie.Locatietype),
-                },
-                new[]
-                {
-                    new VerenigingWerdGeregistreerd.Vertegenwoordiger(
-                        InszTestSet.Insz1,
-                        Vertegenwoordiger.PrimairContactpersoon,
-                        Vertegenwoordiger.Roepnaam,
-                        Vertegenwoordiger.Rol,
-                        _magdaPersoon.Voornaam,
-                        _magdaPersoon.Achternaam,
-                        new[]
-                        {
-                            new VerenigingWerdGeregistreerd.Contactgegeven(
-                                1,
-                                ContactgegevenType.Email,
-                                VertegenwoordigerContactgegeven.Waarde,
-                                VertegenwoordigerContactgegeven.Beschrijving,
-                                VertegenwoordigerContactgegeven.IsPrimair),
-                        }),
-                },
-                new[]
-                {
-                    new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(HoofdactiviteitCode, HoofdactiviteitVerenigingsloket.All().Single(a => a.Code == HoofdactiviteitCode).Beschrijving),
-                }));
+                _command.Naam,
+                _command.KorteNaam,
+                _command.KorteBeschrijving,
+                _command.Startdatum,
+                _command.KboNummer!,
+                _command.Contactgegevens.Select(
+                    (c, i) =>
+                        new VerenigingWerdGeregistreerd.Contactgegeven(
+                            i+1,
+                            c.Type,
+                            c.Waarde,
+                            c.Beschrijving,
+                            c.IsPrimair
+                        )).ToArray(),
+                _command.Locaties.Select(
+                    l =>
+                        new VerenigingWerdGeregistreerd.Locatie(
+                            l.Naam,
+                            l.Straatnaam,
+                            l.Huisnummer,
+                            l.Busnummer,
+                            l.Postcode,
+                            l.Gemeente,
+                            l.Land,
+                            l.Hoofdlocatie,
+                            l.Locatietype)
+                ).ToArray(),
+                _command.Vertegenwoordigers.Select(
+                    v =>
+                        new VerenigingWerdGeregistreerd.Vertegenwoordiger(
+                            v.Insz,
+                            v.PrimairContactpersoon,
+                            v.Roepnaam,
+                            v.Rol,
+                            _magdaVoornaam,
+                            _magdaAchternaam,
+                            v.Email.Waarde,
+                            v.TelefoonNummer.Waarde,
+                            v.Mobiel.Waarde,
+                            v.SocialMedia.Waarde
+                        )).ToArray(),
+                _command.HoofdactiviteitenVerenigingsloket.Select(
+                    h =>
+                        new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)
+                ).ToArray()));
     }
 }

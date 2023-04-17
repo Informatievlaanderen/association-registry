@@ -49,16 +49,10 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
                     PrimairContactpersoon = true,
                     Roepnaam = "Conan",
                     Rol = "Barbarian",
-                    Contactgegevens = new[]
-                    {
-                        new RegistreerVerenigingRequest.Contactgegeven()
-                        {
-                            Beschrijving = "Persoonlijk",
-                            Waarde = "conan@example.com",
-                            Type = ContactgegevenType.Email,
-                            IsPrimair = true,
-                        },
-                    },
+                    Email = "conan@example.com",
+                    Telefoon = "0000112233",
+                    Mobiel = "9999887766",
+                    SocialMedia = "http://example.org",
                 },
             },
         };

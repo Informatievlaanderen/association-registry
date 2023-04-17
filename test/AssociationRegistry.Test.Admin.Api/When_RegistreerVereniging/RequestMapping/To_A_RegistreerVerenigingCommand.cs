@@ -5,6 +5,9 @@ using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 
@@ -53,13 +56,11 @@ public class To_A_RegistreerVerenigingCommand
                             v.PrimairContactpersoon,
                             v.Roepnaam,
                             v.Rol,
-                            v.Contactgegevens.Select(
-                                c =>
-                                    Contactgegeven.Create(
-                                        ContactgegevenType.Parse(c.Type),
-                                        c.Waarde,
-                                        c.Beschrijving,
-                                        c.IsPrimair)).ToArray())));
+                            Email.Create(v.Email),
+                            TelefoonNummer.Create(v.Telefoon),
+                            TelefoonNummer.Create(v.Mobiel),
+                            SocialMedia.Create(v.SocialMedia)
+                        )));
 
         hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
         skipDuplicateDetection.Should().BeFalse();

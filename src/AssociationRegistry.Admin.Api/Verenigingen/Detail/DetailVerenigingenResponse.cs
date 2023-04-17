@@ -24,7 +24,6 @@ public record DetailVerenigingResponse(
         string? KboNummer,
         [property: DataMember(Name = "Status")]
         string Status,
-
         [property: DataMember(Name = "Contactgegevens")]
         ImmutableArray<VerenigingDetail.Contactgegeven> Contactgegevens,
         [property: DataMember(Name = "Locaties")]
@@ -36,14 +35,18 @@ public record DetailVerenigingResponse(
     {
         [DataContract]
         public record Contactgegeven(
-            [property: DataMember(Name = "ContactgegevenId")] int ContactgegevenId,
+            [property: DataMember(Name = "ContactgegevenId")]
+            int ContactgegevenId,
             [property: DataMember(Name = "Type")] string Type,
-            [property: DataMember(Name = "Waarde")] string Waarde,
-            [property: DataMember(Name = "Beschrijving")] string? Beschrijving,
-            [property: DataMember(Name = "IsPrimair")] bool IsPrimair
+            [property: DataMember(Name = "Waarde")]
+            string Waarde,
+            [property: DataMember(Name = "Beschrijving")]
+            string? Beschrijving,
+            [property: DataMember(Name = "IsPrimair")]
+            bool IsPrimair
         );
 
-            [DataContract]
+        [DataContract]
         public record Vertegenwoordiger(
             [property: DataMember(Name = "Insz")] string Insz,
             [property: DataMember(Name = "Voornaam")]
@@ -55,8 +58,13 @@ public record DetailVerenigingResponse(
             [property: DataMember(Name = "Rol")] string? Rol,
             [property: DataMember(Name = "PrimairContactpersoon")]
             bool PrimairContactpersoon,
-            [property: DataMember(Name = "Contactgegevens")]
-            Contactgegeven[] Contactgegevens
+            [property: DataMember(Name = "Email")] string Email,
+            [property: DataMember(Name = "Telefoon")]
+            string Telefoon,
+            [property: DataMember(Name = "Mobiel")]
+            string Mobiel,
+            [property: DataMember(Name = "SocialMedia")]
+            string SocialMedia
         );
 
         [DataContract]
