@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/informatievlaanderen/association-registry/compare/v2.0.0...v2.0.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* or-1682 add StartdatumMustNotBeInFuture rule to wijzigStartdatum ([637371d](https://github.com/informatievlaanderen/association-registry/commit/637371d1eabcb5e6f0ccb2807d5ebc92377aad82))
+* or-1682 modify Startdatum to empty results in empty Startdatum in beheer detail ([1f7ed10](https://github.com/informatievlaanderen/association-registry/commit/1f7ed10accf359f10f94e561dd90ae542fc5dc1e))
+* or-1682 replace publishAsync with InvokeAsync to remove versioning issue when applying changes to the search projection ([7f18545](https://github.com/informatievlaanderen/association-registry/commit/7f18545b1c8d293a8f2df1da2a887e3feac57f98))
+
 # [2.0.0](https://github.com/informatievlaanderen/association-registry/compare/v1.146.0...v2.0.0) (2023-04-17)
 
 
