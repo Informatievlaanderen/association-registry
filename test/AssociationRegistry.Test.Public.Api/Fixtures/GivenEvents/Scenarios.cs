@@ -55,15 +55,10 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
         "Leader",
         "Odin",
         "Allfather",
-        new[]
-        {
-            new VerenigingWerdGeregistreerd.Contactgegeven(
-                1,
-                ContactgegevenType.Email,
-                "asgard@world.tree",
-                "Asgard",
-                false),
-        });
+        "asgard@world.tree",
+        "",
+        "",
+        "");
 
 
     public IEvent[] GetEvents()

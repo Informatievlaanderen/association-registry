@@ -91,15 +91,13 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.Vertegenwoordigers.Select(
                     v => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
-                        Contactgegevens = v.Contactgegevens.Select((c, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(c) with
-                        {
-                            ContactgegevenId = index + 1,
-                        }).ToArray(),
-                        Voornaam = v.Insz, Achternaam = v.Insz,
+                        Voornaam = v.Insz,
+                        Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
-                        h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
-                            h.Code, h.Beschrijving)).ToArray()
+                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                        h.Code,
+                        h.Beschrijving)).ToArray()
             ));
     }
 }

@@ -23,7 +23,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
 
     private When_RegistreerVereniging_WithAllFields(AdminApiFixture fixture)
     {
-        var autoFixture = new Fixture();
+        var autoFixture = new Fixture().CustomizeAll();
         Request = new RegistreerVerenigingRequest
         {
             Naam = autoFixture.Create<string>(),
@@ -61,37 +61,25 @@ public sealed class When_RegistreerVereniging_WithAllFields
             {
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = InszTestSet.Insz1_WithCharacters,
+                    Insz = autoFixture.Create<Insz>(),
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     PrimairContactpersoon = true,
-                    Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
-                    {
-                        new()
-                        {
-                            Beschrijving = "Algemeen",
-                            Waarde = "qtpy@outlook.com",
-                            Type = ContactgegevenType.Email,
-                            IsPrimair = false,
-                        },
-                    },
+                    Email = "qtpy@example.org",
+                    Telefoon = "0123456789",
+                    Mobiel = "987654321",
+                    SocialMedia = "http://example.com",
                 },
                 new RegistreerVerenigingRequest.Vertegenwoordiger
                 {
-                    Insz = InszTestSet.Insz2_WithCharacters,
+                    Insz = autoFixture.Create<Insz>(),
                     Rol = "Master",
                     Roepnaam = "Lara",
                     PrimairContactpersoon = false,
-                    Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
-                    {
-                        new()
-                        {
-                            Beschrijving = "Scrum",
-                            Waarde = "master@outlook.com",
-                            Type = ContactgegevenType.Email,
-                            IsPrimair = true,
-                        },
-                    },
+                    Email = "master@example.org",
+                    Telefoon = "0000000000",
+                    Mobiel = "6666666666",
+                    SocialMedia = "http://example.com/scrum",
                 },
             },
             HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
@@ -126,7 +114,6 @@ public sealed class When_RegistreerVereniging_WithAllFields
 public class With_All_Fields
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    private readonly RegistreerVerenigingRequest.Vertegenwoordiger[] _vertegenwoordigers;
 
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_WithAllFields.Called(_fixture).Request;
@@ -137,44 +124,6 @@ public class With_All_Fields
     public With_All_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-
-        _vertegenwoordigers = new[]
-        {
-            new RegistreerVerenigingRequest.Vertegenwoordiger
-            {
-                Insz = InszTestSet.Insz1,
-                Rol = "Voorzitter, Hoofdcoach",
-                Roepnaam = "QTPY",
-                PrimairContactpersoon = true,
-                Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
-                {
-                    new()
-                    {
-                        Beschrijving = "Algemeen",
-                        Waarde = "qtpy@outlook.com",
-                        Type = ContactgegevenType.Email,
-                        IsPrimair = false,
-                    },
-                },
-            },
-            new RegistreerVerenigingRequest.Vertegenwoordiger
-            {
-                Insz = InszTestSet.Insz2,
-                Rol = "Master",
-                Roepnaam = "Lara",
-                PrimairContactpersoon = false,
-                Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
-                {
-                    new()
-                    {
-                        Beschrijving = "Scrum",
-                        Waarde = "master@outlook.com",
-                        Type = ContactgegevenType.Email,
-                        IsPrimair = true,
-                    },
-                },
-            },
-        };
     }
 
     [Fact]
@@ -195,7 +144,7 @@ public class With_All_Fields
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
-        savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(_vertegenwoordigers, options => options.ComparingEnumsByName());
+        savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());
         savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {

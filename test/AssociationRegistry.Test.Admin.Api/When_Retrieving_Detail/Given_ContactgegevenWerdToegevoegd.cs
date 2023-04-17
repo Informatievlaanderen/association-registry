@@ -114,13 +114,10 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
                             ""primairContactpersoon"": {(x.PrimairContactpersoon ? "true" : "false")},
-                            ""contactgegevens"": [{string.Join(',', x.Contactgegevens.Select(y => $@"{{
-                                ""contactgegevenId"": {y.ContactgegevenId},
-                                ""type"": ""{y.Type}"",
-                                ""waarde"": ""{y.Waarde}"",
-                                ""beschrijving"": ""{y.Beschrijving}"",
-                                ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
-                            }}"))}],
+                            ""email"":""{x.Email}"",
+                            ""telefoon"":""{x.Telefoon}"",
+                            ""mobiel"":""{x.Mobiel}"",
+                            ""socialMedia"":""{x.SocialMedia}""
                     }}"))}],
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",

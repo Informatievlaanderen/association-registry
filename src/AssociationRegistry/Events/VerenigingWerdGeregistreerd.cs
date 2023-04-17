@@ -72,7 +72,10 @@ public record VerenigingWerdGeregistreerd(
         string? Rol,
         string Voornaam,
         string Achternaam,
-        Contactgegeven[] Contactgegevens)
+        string Email,
+        string Telefoon,
+        string Mobiel,
+        string SocialMedia)
     {
         public static Vertegenwoordiger With(Vereniging.Vertegenwoordiger vertegenwoordiger)
             => new(
@@ -82,7 +85,10 @@ public record VerenigingWerdGeregistreerd(
                 vertegenwoordiger.Rol,
                 vertegenwoordiger.Voornaam,
                 vertegenwoordiger.Achternaam,
-                vertegenwoordiger.Contactgegevens.Select(Contactgegeven.With).ToArray());
+                vertegenwoordiger.Email.Waarde,
+                vertegenwoordiger.TelefoonNummer.Waarde,
+                vertegenwoordiger.Mobiel.Waarde,
+                vertegenwoordiger.SocialMedia.Waarde);
     }
 
     public record HoofdactiviteitVerenigingsloket(

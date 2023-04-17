@@ -144,7 +144,10 @@ public static class AutoFixtureCustomizations
                         Roepnaam = fixture.Create<string>(),
                         Rol = fixture.Create<string>(),
                         PrimairContactpersoon = false,
-                        Contactgegevens = fixture.CreateMany<RegistreerVerenigingRequest.Contactgegeven>().ToArray(),
+                        Email = fixture.Create<Email>().Waarde,
+                        Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                        Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                        SocialMedia = fixture.Create<SocialMedia>().Waarde,
                     })
                 .OmitAutoProperties());
     }
@@ -255,7 +258,10 @@ public static class AutoFixtureCustomizations
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),
-                    fixture.Create<Contactgegevens>()
+                    fixture.Create<Email>(),
+                    fixture.Create<TelefoonNummer>(),
+                    fixture.Create<TelefoonNummer>(),
+                    fixture.Create<SocialMedia>()
                 )).OmitAutoProperties());
     }
 

@@ -83,7 +83,11 @@ public class DetailVerenigingenController : ApiController
             ver.Roepnaam,
             ver.Rol,
             ver.PrimairContactpersoon,
-            ver.Contactgegevens.Select(ToContactgegeven).ToArray());
+            ver.Email,
+            ver.Telefoon,
+            ver.Mobiel,
+            ver.SocialMedia
+        );
 
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new(

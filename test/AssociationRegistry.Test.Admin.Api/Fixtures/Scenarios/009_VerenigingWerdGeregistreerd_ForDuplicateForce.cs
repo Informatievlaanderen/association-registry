@@ -30,11 +30,6 @@ public class V009_VerenigingWerdGeregistreerd_ForDuplicateForce : IEventsInDbSce
                 (vertegenwoordiger, i) => vertegenwoordiger with
                 {
                     PrimairContactpersoon = i == 0,
-                    Contactgegevens = fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().Select(
-                        (contactgegeven, p) => contactgegeven with
-                        {
-                            IsPrimair = p == 0,
-                        }).ToArray(),
                 }).ToArray(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
