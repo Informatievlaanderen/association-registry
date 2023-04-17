@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using System;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
@@ -20,7 +19,7 @@ public record DetailVerenigingResponse(
         [property: DataMember(Name = "KorteBeschrijving")]
         string? KorteBeschrijving,
         [property: DataMember(Name = "Startdatum")]
-        DateOnly? Startdatum,
+        string? Startdatum,
         [property: DataMember(Name = "KboNummer")]
         string? KboNummer,
         [property: DataMember(Name = "Status")]

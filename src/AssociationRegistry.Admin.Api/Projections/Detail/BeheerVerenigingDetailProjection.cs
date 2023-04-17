@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -20,7 +21,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             Naam = verenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
+            Startdatum = verenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
@@ -88,7 +89,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
 
     public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
-        document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum;
+        document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
         document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(Sequence: startdatumWerdGewijzigd.Sequence, Version: startdatumWerdGewijzigd.Version);
     }
@@ -160,7 +161,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string Naam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
-    public DateOnly? Startdatum { get; set; }
+    public string? Startdatum { get; set; }
     public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;

@@ -47,6 +47,8 @@ public class WijzigBasisgegevensRequest
             Naam is null ? null : VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
-            Startdatum.IsNull ? null : AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value)
+            Startdatum.IsNull ? null :
+            Startdatum.IsEmpty ? AssociationRegistry.Vereniging.Startdatum.Leeg :
+            AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value)
         );
 }

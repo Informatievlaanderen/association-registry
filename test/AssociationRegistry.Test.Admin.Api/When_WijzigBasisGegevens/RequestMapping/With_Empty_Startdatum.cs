@@ -4,32 +4,28 @@ using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Primitives;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 [Category("Mapping")]
-public class To_A_WijzigBasisgegevensCommand
+public class With_Empty_Startdatum
 {
     [Fact]
-    public void Then_We_Get_A_WijzigBasisgegevensCommand()
+    public void Then_We_Get_An_Empty_Startdatum()
     {
         var fixture = new Fixture().CustomizeAll();
 
         var request = fixture.Create<WijzigBasisgegevensRequest>();
+        request.Startdatum = NullOrEmpty<DateOnly>.Empty;
 
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
         actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startdatum);
 
-        vCode.Should().Be(actualVCode);
-        naam!.ToString().Should().Be(request.Naam);
-        korteNaam.Should().Be(request.KorteNaam);
-        korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(
-            request.Startdatum.IsNull ? null :
-            request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
+        startdatum.Should().Be(Startdatum.Leeg);
     }
 }
