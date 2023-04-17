@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/informatievlaanderen/association-registry/compare/v1.146.0...v2.0.0) (2023-04-17)
+
+
+### Bug Fixes
+
+* **beheer, publiek:** or-1685 rename omschrijving to beschrijving ([6276b5c](https://github.com/informatievlaanderen/association-registry/commit/6276b5ceb05d3c83e3fa8a17899c4cfaeb6bed27))
+
+
+### BREAKING CHANGES
+
+* **beheer, publiek:** Contactgegevens - Omschrijving was renamed to Beschrijving.
+
 # [1.146.0](https://github.com/informatievlaanderen/association-registry/compare/v1.145.5...v1.146.0) (2023-04-14)
 
 
