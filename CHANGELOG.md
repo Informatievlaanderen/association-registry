@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/informatievlaanderen/association-registry/compare/v2.0.1...v2.1.0) (2023-04-17)
+
+
+### Features
+
+* or-1680 rework contactgegevens for vertegenwoordigers ([7262012](https://github.com/informatievlaanderen/association-registry/commit/72620120f8b428101eceec57b19dee90d41aaf9a))
+
 ## [2.0.1](https://github.com/informatievlaanderen/association-registry/compare/v2.0.0...v2.0.1) (2023-04-17)
 
 
