@@ -7,7 +7,9 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Vereniging;
 using AutoFixture;
+using Fakes;
 using FluentAssertions;
+using Framework;
 using Moq;
 using Xunit;
 using Xunit.Categories;
@@ -25,7 +27,7 @@ public class With_The_Same_Startdatum : IClassFixture<CommandHandlerScenarioFixt
         _verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
         _classfixure = classFixture;
 
-        var fixture = new Fixture();
+        var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(_classfixure.Scenario.VCode, Startdatum: Startdatum.Create(_classfixure.Scenario.Startdatum));
         _commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
@@ -40,7 +42,8 @@ public class With_The_Same_Startdatum : IClassFixture<CommandHandlerScenarioFixt
 
         _result = commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, _commandMetadata),
-            _verenigingRepositoryMock.Object).GetAwaiter().GetResult();
+            _verenigingRepositoryMock.Object,
+            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
     }
 
     [Fact]

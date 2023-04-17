@@ -123,12 +123,14 @@ public class Vereniging : IHasVersion
         AddEvent(new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving));
     }
 
-    public void WijzigStartdatum(Startdatum? startdatum)
+    public void WijzigStartdatum(Startdatum startdatum, IClock clock)
     {
         if (Startdatum.Equals(_state.Startdatum, startdatum))
             return;
 
-        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum?.Datum));
+        MustNotBeInFuture(startdatum, clock.Today);
+
+        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum.Datum));
     }
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)

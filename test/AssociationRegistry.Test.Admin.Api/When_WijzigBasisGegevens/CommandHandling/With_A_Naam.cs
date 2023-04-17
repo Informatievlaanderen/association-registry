@@ -7,6 +7,7 @@ using Fakes;
 using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -22,7 +23,7 @@ public class With_A_Naam : IClassFixture<CommandHandlerScenarioFixture<Verenigin
     {
         _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
 
-        var fixture = new Fixture();
+        var fixture = new Fixture().CustomizeAll();
         _scenario = classFixture.Scenario;
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
@@ -32,7 +33,8 @@ public class With_A_Naam : IClassFixture<CommandHandlerScenarioFixture<Verenigin
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            _verenigingRepositoryMock,
+            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
     }
 
     [Fact]
