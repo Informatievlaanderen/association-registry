@@ -24,7 +24,7 @@ public class With_Empty_Startdatum
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startdatum);
+        actual.Deconstruct(out _, out _, out _, out _, out var startdatum);
 
         startdatum.Should().Be(Startdatum.Leeg);
     }

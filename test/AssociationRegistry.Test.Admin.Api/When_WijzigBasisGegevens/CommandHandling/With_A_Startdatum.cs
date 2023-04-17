@@ -31,7 +31,7 @@ public class With_A_Startdatum : IClassFixture<CommandHandlerScenarioFixture<Ver
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock).GetAwaiter().GetResult();
+            _verenigingRepositoryMock, new ClockStub(_nieuweStartdatum)).GetAwaiter().GetResult();
     }
 
     [Fact]

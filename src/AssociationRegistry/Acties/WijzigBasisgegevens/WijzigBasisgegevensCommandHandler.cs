@@ -5,25 +5,28 @@ using Vereniging;
 
 public class WijzigBasisgegevensCommandHandler
 {
-    public async Task<CommandResult> Handle(CommandEnvelope<WijzigBasisgegevensCommand> message, IVerenigingsRepository repository)
+    public async Task<CommandResult> Handle(
+        CommandEnvelope<WijzigBasisgegevensCommand> message,
+        IVerenigingsRepository repository,
+        IClock clock)
     {
         var vereniging = await repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
         HandleNaam(vereniging, message.Command.Naam);
         HandleKorteNaam(vereniging, message.Command.KorteNaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
-        HandleStartdatum(vereniging, message.Command.Startdatum);
+        HandleStartdatum(vereniging, message.Command.Startdatum, clock);
 
         var result = await repository.Save(vereniging, message.Metadata);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum)
+    private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum, IClock clock)
     {
         if (startdatum is null)
             return;
 
-        vereniging.WijzigStartdatum(startdatum);
+        vereniging.WijzigStartdatum(startdatum, clock);
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

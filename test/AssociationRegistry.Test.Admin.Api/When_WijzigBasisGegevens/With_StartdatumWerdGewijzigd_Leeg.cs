@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using Events;
-using AssociationRegistry.Framework;
 using Primitives;
 using Fixtures;
 using FluentAssertions;
@@ -19,7 +17,6 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
     public readonly string VCode;
     public readonly WijzigBasisgegevensRequest Request;
 
-
     private When_WijzigBasisGegevens_WithStartdatumLeeg(EventsInDbScenariosFixture fixture)
     {
         const string initiator = "OVO000001";
@@ -29,7 +26,7 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
             Initiator = initiator,
             Startdatum = NullOrEmpty<DateOnly>.Empty,
         };
-        VCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
+        VCode = fixture.V010VerenigingWerdGeregistreerdWithAllFields.VCode;
 
         const string jsonBody = $@"{{
             ""startdatum"":"""",
@@ -50,7 +47,7 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_StartdatumWerdGewijdigd_Leeg
+public class With_StartdatumWerdGewijzigd_Leeg
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
@@ -60,7 +57,7 @@ public class With_StartdatumWerdGewijdigd_Leeg
     private string VCode
         => When_WijzigBasisGegevens_WithStartdatumLeeg.Called(_fixture).VCode;
 
-    public With_StartdatumWerdGewijdigd_Leeg(EventsInDbScenariosFixture fixture)
+    public With_StartdatumWerdGewijzigd_Leeg(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }
