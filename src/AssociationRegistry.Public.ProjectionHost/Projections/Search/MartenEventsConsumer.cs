@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Marten.Events;
 using Wolverine;
+using Wolverine.Runtime.Routing;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {
@@ -22,7 +23,14 @@ public class MartenEventsConsumer : IMartenEventsConsumer
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
             var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<> ).MakeGenericType(@event.EventType), @event)!;
-            await _bus.PublishAsync(eventEnvelope);
+            try
+            {
+                await _bus.InvokeAsync(eventEnvelope);
+            }
+            catch (IndeterminateRoutesException)
+            {
+                //ignore
+            }
         }
     }
 }
