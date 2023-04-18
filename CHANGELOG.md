@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/informatievlaanderen/association-registry/compare/v2.1.0...v2.1.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* or-1681 modify all projections to return empty string when there is no value instead of null ([abe84b2](https://github.com/informatievlaanderen/association-registry/commit/abe84b2c9396e9de85870e5c2e807023104b1b39))
+
 # [2.1.0](https://github.com/informatievlaanderen/association-registry/compare/v2.0.1...v2.1.0) (2023-04-17)
 
 
