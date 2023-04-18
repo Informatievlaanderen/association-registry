@@ -236,13 +236,14 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
 
+        var appSettings = new AppSettings
+        {
+            BaseUrl = builder.Configuration.GetBaseUrl(),
+            ApiKeyRequestFormUrl = builder.Configuration["ApiKeyRequestFormUrl"]
+        };
         builder.Services
             .AddSingleton(postgreSqlOptionsSection)
-            .AddSingleton(
-                new AppSettings
-                {
-                    BaseUrl = builder.Configuration.GetBaseUrl(),
-                })
+            .AddSingleton(appSettings)
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddSingleton<SearchVerenigingenResponseMapper>()
@@ -390,7 +391,7 @@ public class Program
             .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
             .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
-        builder.Services.AddPublicApiSwagger();
+        builder.Services.AddPublicApiSwagger(appSettings);
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

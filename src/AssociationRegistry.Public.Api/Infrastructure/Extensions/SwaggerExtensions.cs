@@ -6,6 +6,7 @@ using System.Reflection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
+using ConfigurationBindings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 public static class SwaggerExtensions
 {
-    public static IServiceCollection AddPublicApiSwagger(this IServiceCollection services)
+    public static IServiceCollection AddPublicApiSwagger(this IServiceCollection services, AppSettings appSettings)
         => services
             .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
             .AddSwaggerGen(
@@ -38,11 +39,7 @@ public static class SwaggerExtensions
                         {
                             Version = "v1",
                             Title = "Basisregisters Vlaanderen Verenigingsregister Publieke API",
-                            Description = "</br>" +
-                                          "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister Publieke API. " +
-                                          "</br></br>" +
-                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
-                                          "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
+                            Description = Documentation.Documentation.GetApiLeadingText(appSettings),
                             Contact = new OpenApiContact
                             {
                                 Name = "Digitaal Vlaanderen",
@@ -78,7 +75,15 @@ public static class SwaggerExtensions
                 ApiVersionDescriptionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
                 DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Publieke API {groupName}",
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
-                CSharpClient =
+                 HeadContentFunc = _ => @"
+                             <style>
+
+                                 li[data-item-id=""section/Toegang-tot-het-register""]
+                                 {
+                                     border-bottom: 1px solid rgb(225, 225, 225);
+                                 }
+                             </style>",
+                 CSharpClient =
                 {
                     ClassName = "Verenigingsregister",
                     Namespace = "Be.Vlaanderen.Basisregisters",
