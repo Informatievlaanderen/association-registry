@@ -3,7 +3,6 @@
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
 using Framework;
@@ -11,15 +10,15 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_The_Same_KorteBeschrijving : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
+public class With_The_Same_KorteBeschrijving
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
 
-    public With_The_Same_KorteBeschrijving(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
+    public With_The_Same_KorteBeschrijving()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
-        _scenario = classFixture.Scenario;
+        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteBeschrijving: _scenario.KorteBeschrijving);

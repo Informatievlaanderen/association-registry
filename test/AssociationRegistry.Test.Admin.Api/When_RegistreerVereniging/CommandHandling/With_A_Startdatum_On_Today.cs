@@ -4,8 +4,6 @@ using Acties.RegistreerVereniging;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
-using Fixtures.Scenarios;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
@@ -15,15 +13,15 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Startdatum_On_Today : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
+public class With_A_Startdatum_On_Today
 {
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public With_A_Startdatum_On_Today(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
+    public With_A_Startdatum_On_Today()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _verenigingRepositoryMock = new VerenigingRepositoryMock();
         var vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAll();

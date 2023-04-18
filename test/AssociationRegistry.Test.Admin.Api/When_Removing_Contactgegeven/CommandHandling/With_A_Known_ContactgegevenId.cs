@@ -14,16 +14,16 @@ using Xunit.Categories;
 public class With_A_Known_ContactgegevenId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public With_A_Known_ContactgegevenId()
     {
-        _scenario = new VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId);
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode, VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderContactgegevenCommandHandler(_verenigingRepositoryMock);
 
@@ -42,11 +42,11 @@ public class With_A_Known_ContactgegevenId
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdVerwijderd(
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _scenario.Type,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Waarde,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Beschrijving,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.IsPrimair)
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair)
         );
     }
 }

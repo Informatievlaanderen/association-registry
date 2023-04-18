@@ -17,11 +17,11 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type()
     {
-        _scenario = new VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

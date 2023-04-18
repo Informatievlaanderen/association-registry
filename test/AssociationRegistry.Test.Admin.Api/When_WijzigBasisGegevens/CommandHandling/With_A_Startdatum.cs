@@ -4,7 +4,6 @@ using Acties.WijzigBasisgegevens;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
 using Vereniging;
@@ -12,18 +11,19 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Startdatum : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
+public class With_A_Startdatum
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
     private readonly DateOnly _nieuweStartdatum;
 
-    public With_A_Startdatum(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
+    public With_A_Startdatum()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _scenario = new VerenigingWerdGeregistreerdScenario();
+
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture();
-        _scenario = classFixture.Scenario;
         _nieuweStartdatum = _scenario.Startdatum.AddDays(-1);
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Create(_nieuweStartdatum));
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -31,7 +31,8 @@ public class With_A_Startdatum : IClassFixture<CommandHandlerScenarioFixture<Ver
 
         commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            _verenigingRepositoryMock, new ClockStub(_nieuweStartdatum)).GetAwaiter().GetResult();
+            _verenigingRepositoryMock,
+            new ClockStub(_nieuweStartdatum)).GetAwaiter().GetResult();
     }
 
     [Fact]

@@ -16,11 +16,11 @@ public class Given_A_Contactgegeven_Was_Removed
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase _scenario;
+    private readonly VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario _scenario;
 
     public Given_A_Contactgegeven_Was_Removed()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase();
+        _scenario = new VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

@@ -3,7 +3,6 @@
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
@@ -17,19 +16,20 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase>>
+public class With_A_PotentialDuplicate
 {
     private readonly Result _result;
     private readonly List<DuplicaatVereniging> _potentialDuplicates;
 
-    public With_A_PotentialDuplicate(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
+    public With_A_PotentialDuplicate()
     {
+        var scenario = new VerenigingWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAll();
 
-        var locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
+        var locatie = fixture.Create<Locatie>() with { Postcode = scenario.Locatie.Postcode };
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase.Naam),
+            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
             SkipDuplicateDetection = false,
         };
@@ -45,7 +45,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerVerenigingCommandHandler(
-            classFixture.VerenigingRepositoryMock,
+            new VerenigingRepositoryMock(scenario.GetVereniging()),
             new InMemorySequentialVCodeService(),
             new MagdaFacadeEchoMock(),
             duplicateChecker.Object,

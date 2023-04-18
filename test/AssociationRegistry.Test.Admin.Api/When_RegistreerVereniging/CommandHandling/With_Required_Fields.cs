@@ -4,8 +4,6 @@ using Acties.RegistreerVereniging;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
-using Fixtures.Scenarios;
 using AutoFixture;
 using Framework;
 using Framework.MagdaMocks;
@@ -14,16 +12,16 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Required_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
+public class With_Required_Fields
 {
     private const string Naam = "naam1";
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
-    public With_Required_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
+    public With_Required_Fields()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAll();

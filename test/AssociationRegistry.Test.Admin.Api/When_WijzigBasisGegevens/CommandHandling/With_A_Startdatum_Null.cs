@@ -3,7 +3,6 @@
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
 using Framework;
@@ -11,16 +10,17 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Startdatum_Null : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
+public class With_A_Startdatum_Null
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public With_A_Startdatum_Null(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
+    public With_A_Startdatum_Null()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        var scenario = new VerenigingWerdGeregistreerdScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new WijzigBasisgegevensCommand(classFixture.Scenario.VCode, Startdatum: null);
+        var command = new WijzigBasisgegevensCommand(scenario.VCode, Startdatum: null);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

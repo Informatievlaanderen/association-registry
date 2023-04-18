@@ -16,13 +16,13 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
@@ -35,10 +35,10 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Waarde,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Beschrijving,
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.IsPrimair));
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair));
 
         _commandResult = await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
     }

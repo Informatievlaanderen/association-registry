@@ -16,11 +16,11 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
 
     public Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijving()
     {
-        _scenario = new VerenigingWerdGeregistreerd_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

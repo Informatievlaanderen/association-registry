@@ -16,11 +16,11 @@ public class Given_A_Duplicate_Contactgegeven
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
 
     public Given_A_Duplicate_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerd_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

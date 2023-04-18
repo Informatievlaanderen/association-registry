@@ -17,11 +17,11 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public Given_A_Contactgegeven_With_Invalid_Waarde()
     {
-        _scenario = new VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario();
+        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
@@ -35,7 +35,7 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
+                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _fixture.Create<Website>().Waarde,
                 _fixture.Create<string?>(),
                 IsPrimair: false));
