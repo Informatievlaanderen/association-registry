@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/informatievlaanderen/association-registry/compare/v2.1.2...v2.1.3) (2023-04-18)
+
+
+### Bug Fixes
+
+* or-1689 fix typos in descriptions of Hoofdactiviteiten ([538837b](https://github.com/informatievlaanderen/association-registry/commit/538837bd44a734d8267d2421afcd6b10e22ad4d2))
+
 ## [2.1.2](https://github.com/informatievlaanderen/association-registry/compare/v2.1.1...v2.1.2) (2023-04-18)
 
 
