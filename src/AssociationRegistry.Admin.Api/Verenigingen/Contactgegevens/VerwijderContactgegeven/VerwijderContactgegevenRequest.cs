@@ -5,5 +5,7 @@ using System.Runtime.Serialization;
 [DataContract]
 public class VerwijderContactgegevenRequest
 {
-    [DataMember(Name = "initiator")] public string Initiator { get; set; } = "";
+    /// <summary>Instantie die de wijziging uitvoert</summary>
+    [DataMember(Name = "initiator")]
+    public string Initiator { get; set; } = string.Empty;
 }

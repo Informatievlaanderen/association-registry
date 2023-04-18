@@ -31,63 +31,134 @@ public class PotentialDuplicatesResponse
             new DuplicaatVerenigingContract.VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)document.VCode}")));
 
     [DataContract]
-    public record DuplicaatVerenigingContract(
-        [property: DataMember(Name = "VCode")] string VCode,
-        [property: DataMember(Name = "Naam")] string Naam,
-        [property: DataMember(Name = "KorteNaam")]
-        string KorteNaam,
-        [property: DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-        ImmutableArray<DuplicaatVerenigingContract.HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket,
-        [property: DataMember(Name = "Doelgroep")]
-        string Doelgroep,
-        [property: DataMember(Name = "Locaties")]
-        ImmutableArray<DuplicaatVerenigingContract.Locatie> Locaties,
-        [property: DataMember(Name = "Activiteiten")]
-        ImmutableArray<DuplicaatVerenigingContract.Activiteit> Activiteiten,
-        [property: DataMember(Name = "Links")] DuplicaatVerenigingContract.VerenigingLinks Links)
+    public class DuplicaatVerenigingContract
     {
-        [DataContract]
-        public record Locatie(
-            [property: DataMember(Name = "Locatietype")]
-            string Locatietype,
-            [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
-            bool Hoofdlocatie,
-            [property: DataMember(Name = "Adres")] string Adres,
-            [property: DataMember(Name = "Naam")] string? Naam,
-            [property: DataMember(Name = "Postcode")]
-            string Postcode,
-            [property: DataMember(Name = "Gemeente")]
-            string Gemeente
-        )
+        public DuplicaatVerenigingContract(string vCode,
+            string naam,
+            string korteNaam,
+            ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
+            string doelgroep,
+            ImmutableArray<Locatie> locaties,
+            ImmutableArray<Activiteit> activiteiten,
+            VerenigingLinks links)
         {
+            VCode = vCode;
+            Naam = naam;
+            KorteNaam = korteNaam;
+            HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
+            Doelgroep = doelgroep;
+            Locaties = locaties;
+            Activiteiten = activiteiten;
+            Links = links;
+        }
+
+        [DataMember(Name = "VCode")]
+        public string VCode { get; init; }
+        [DataMember(Name = "Naam")]
+        public string Naam { get; init; }
+
+        [DataMember(Name = "KorteNaam")]
+        public string KorteNaam { get; init; }
+
+        [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
+        public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
+
+        [DataMember(Name = "Doelgroep")]
+        public string Doelgroep { get; init; }
+
+        [DataMember(Name = "Locaties")]
+        public ImmutableArray<Locatie> Locaties { get; init; }
+
+        [DataMember(Name = "Activiteiten")]
+        public ImmutableArray<Activiteit> Activiteiten { get; init; }
+
+        [DataMember(Name = "Links")] public VerenigingLinks Links { get; init; }
+
+        [DataContract]
+        public class Locatie
+        {
+            public Locatie(string locatietype,
+                bool hoofdlocatie,
+                string adres,
+                string? naam,
+                string postcode,
+                string gemeente)
+            {
+                Locatietype = locatietype;
+                Hoofdlocatie = hoofdlocatie;
+                Adres = adres;
+                Naam = naam;
+                Postcode = postcode;
+                Gemeente = gemeente;
+            }
+
             public static Locatie FromDuplicaatVereniging(DuplicaatVereniging.Locatie locatie)
                 => new(locatie.Locatietype, locatie.Hoofdlocatie, locatie.Adres, locatie.Naam, locatie.Postcode, locatie.Gemeente);
+
+            [DataMember(Name = "Locatietype")]
+            public string Locatietype { get; init; }
+
+            [DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
+            public bool Hoofdlocatie { get; init; }
+
+            [DataMember(Name = "Adres")] public string Adres { get; init; }
+            [DataMember(Name = "Naam")] public string? Naam { get; init; }
+
+            [DataMember(Name = "Postcode")]
+            public string Postcode { get; init; }
+
+            [DataMember(Name = "Gemeente")]
+            public string Gemeente { get; init; }
         }
 
         [DataContract]
-        public record Activiteit(
-            [property: DataMember(Name = "Id")] int Id,
-            [property: DataMember(Name = "Categorie")]
-            string Categorie)
+        public class Activiteit
         {
+            public Activiteit(int id,
+                string categorie)
+            {
+                Id = id;
+                Categorie = categorie;
+            }
+
             public static Activiteit FromDuplicaatVereniging(DuplicaatVereniging.Activiteit locatie)
                 => new(locatie.Id, locatie.Categorie);
+
+            [DataMember(Name = "Id")] public int Id { get; init; }
+
+            [DataMember(Name = "Categorie")]
+            public string Categorie { get; init; }
         }
 
         [DataContract]
-        public record HoofdactiviteitVerenigingsloket(
-            [property: DataMember(Name = "Code")] string Code,
-            [property: DataMember(Name = "Beschrijving")]
-            string Beschrijving)
+        public class HoofdactiviteitVerenigingsloket
         {
+            public HoofdactiviteitVerenigingsloket(string code,
+                string beschrijving)
+            {
+                Code = code;
+                Beschrijving = beschrijving;
+            }
+
             public static HoofdactiviteitVerenigingsloket FromDuplicaatVereniging(DuplicaatVereniging.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
                 => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
+
+            [DataMember(Name = "Code")] public string Code { get; init; }
+
+            [DataMember(Name = "Beschrijving")]
+            public string Beschrijving { get; init; }
         }
 
         [DataContract]
-        public record VerenigingLinks(
-            [property: DataMember(Name = "Detail")]
-            Uri Detail
-        );
+        public class VerenigingLinks
+        {
+            public VerenigingLinks(Uri detail)
+            {
+                Detail = detail;
+            }
+
+            [DataMember(Name = "Detail")]
+            public Uri Detail { get; init; }
+        }
     }
 }

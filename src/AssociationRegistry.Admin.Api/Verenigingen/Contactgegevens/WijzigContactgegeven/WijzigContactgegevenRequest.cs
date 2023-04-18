@@ -7,18 +7,19 @@ using Vereniging;
 [DataContract]
 public class WijzigContactgegevenRequest
 {
-    [DataMember(Name = "initiator")] public string Initiator { get; set; } = null!;
-    [DataMember(Name = "contactgegeven")] public RequestContactgegeven Contactgegeven { get; set; } = null!;
+    /// <summary>Instantie die de wijziging uitvoert</summary>
+    [DataMember(Name = "initiator")]
+    public string Initiator { get; set; } = null!;
 
-    /// <summary>
-    /// Het te wijzigen contactgegeven
-    /// </summary>
+    /// <summary>Het te wijzigen contactgegeven</summary>
+    [DataMember(Name = "contactgegeven")]
+    public RequestContactgegeven Contactgegeven { get; set; } = null!;
+
+    /// <summary>Het te wijzigen contactgegeven</summary>
     [DataContract]
     public class RequestContactgegeven
     {
-        /// <summary>
-        /// De waarde van het contactgegeven
-        /// </summary>
+        /// <summary>De waarde van het contactgegeven</summary>
         [DataMember(Name = "waarde")] public string? Waarde { get; set; } = null!;
 
         /// <summary>
@@ -26,9 +27,7 @@ public class WijzigContactgegevenRequest
         /// </summary>
         [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; } = null;
 
-        /// <summary>
-        /// Duidt het contactgegeven aan als primair contactgegeven
-        /// </summary>
+        /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool? IsPrimair { get; set; }
     }
