@@ -6,6 +6,8 @@ using Exceptions;
 public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
     : Contactgegeven(ContactgegevenType.Telefoon, Waarde, Beschrijving, IsPrimair)
 {
+    public static readonly TelefoonNummer Leeg = new(string.Empty, string.Empty, false);
+
     private static readonly string[] AllowedCharacters = {
         " ", ".", "(", ")", "/", "-", "+",
     };
@@ -16,7 +18,7 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
     public static TelefoonNummer Create(string? telefoonNummer, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(telefoonNummer))
-            return null!;
+            return Leeg;
         Throw<InvalidTelefoonNummerCharacter>.IfNot(IsNumber(Sanitize(telefoonNummer)));
         Throw<NoNumbersInTelefoonNummer>.IfNot(HasNumber(telefoonNummer));
         return new TelefoonNummer(telefoonNummer, beschrijving, isPrimair);

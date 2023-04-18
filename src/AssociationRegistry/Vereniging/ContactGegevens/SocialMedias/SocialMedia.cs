@@ -6,13 +6,15 @@ using Exceptions;
 public record SocialMedia(string Waarde, string Beschrijving, bool IsPrimair)
     : Contactgegeven(ContactgegevenType.SocialMedia, Waarde, Beschrijving, IsPrimair)
 {
+    public static readonly SocialMedia Leeg = new(string.Empty, string.Empty, false);
+
     public static SocialMedia Create(string? socialMedia)
         => Create(socialMedia, string.Empty, false);
 
     public static SocialMedia Create(string? socialMedia, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(socialMedia))
-            return null!;
+            return Leeg;
 
         Throw<InvalidSocialMediaStart>.IfNot(UrlHasCorrectStartingCharacters(socialMedia));
         Throw<SocialMediaMissingPeriod>.IfNot(UrlContainsAPeriod(socialMedia));

@@ -9,9 +9,9 @@ using Xunit.Categories;
 public class Given_Null
 {
     [Fact]
-    public void Then_it_returns_Null()
+    public void Then_it_returns_Leeg()
     {
-        var website = SocialMedia.Create(null!);
-        website.Should().BeNull();
+        var socialMedia = SocialMedia.Create(null!);
+        socialMedia.Should().Be(SocialMedia.Leeg);
     }
 }
