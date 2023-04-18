@@ -53,52 +53,71 @@ public class DetailVerenigingenController : ApiController
         Response.AddETagHeader(vereniging.Metadata.Version);
 
         return Ok(
-            new DetailVerenigingResponse(
-                new DetailVerenigingResponse.VerenigingDetail(
-                    vereniging.VCode,
-                    vereniging.Naam,
-                    vereniging.KorteNaam,
-                    vereniging.KorteBeschrijving,
-                    vereniging.Startdatum,
-                    vereniging.KboNummer,
-                    vereniging.Status,
-                    vereniging.Contactgegevens.Select(ToContactgegeven).ToImmutableArray(),
-                    vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
-                    vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray(),
-                    vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),
-                new DetailVerenigingResponse.MetadataDetail(vereniging.DatumLaatsteAanpassing)));
+            new DetailVerenigingResponse
+            {
+                Vereniging =
+                    new DetailVerenigingResponse.VerenigingDetail
+                    {
+                        VCode = vereniging.VCode,
+                        Naam = vereniging.Naam,
+                        KorteNaam = vereniging.KorteNaam,
+                        KorteBeschrijving = vereniging.KorteBeschrijving,
+                        Startdatum = vereniging.Startdatum,
+                        KboNummer = vereniging.KboNummer,
+                        Status = vereniging.Status,
+                        Contactgegevens = vereniging.Contactgegevens.Select(ToContactgegeven).ToImmutableArray(),
+                        Locaties = vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
+                        Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToImmutableArray(),
+                        HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray(),
+                    },
+                Metadata = new DetailVerenigingResponse.MetadataDetail { DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing },
+            });
     }
 
     private static DetailVerenigingResponse.VerenigingDetail.Contactgegeven ToContactgegeven(BeheerVerenigingDetailDocument.Contactgegeven contactgegeven)
-        => new(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Beschrijving, contactgegeven.IsPrimair);
+        => new()
+        {
+            ContactgegevenId = contactgegeven.ContactgegevenId,
+            Type = contactgegeven.Type,
+            Waarde = contactgegeven.Waarde,
+            Beschrijving = contactgegeven.Beschrijving,
+            IsPrimair = contactgegeven.IsPrimair,
+        };
 
     private static DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket ToHoofdactiviteit(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
-        => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
+        => new()
+        {
+            Code = hoofdactiviteitVerenigingsloket.Code,
+            Beschrijving = hoofdactiviteitVerenigingsloket.Beschrijving,
+        };
 
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
-        => new(
-            ver.Insz,
-            ver.Voornaam,
-            ver.Achternaam,
-            ver.Roepnaam,
-            ver.Rol,
-            ver.PrimairContactpersoon,
-            ver.Email,
-            ver.Telefoon,
-            ver.Mobiel,
-            ver.SocialMedia
-        );
+        => new()
+        {
+            Insz = ver.Insz,
+            Voornaam = ver.Voornaam,
+            Achternaam = ver.Achternaam,
+            Roepnaam = ver.Roepnaam,
+            Rol = ver.Rol,
+            PrimairContactpersoon = ver.PrimairContactpersoon,
+            Email = ver.Email,
+            Telefoon = ver.Telefoon,
+            Mobiel = ver.Mobiel,
+            SocialMedia = ver.SocialMedia,
+        };
 
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
-        => new(
-            loc.Locatietype,
-            loc.Hoofdlocatie,
-            loc.Adres,
-            loc.Naam,
-            loc.Straatnaam,
-            loc.Huisnummer,
-            loc.Busnummer,
-            loc.Postcode,
-            loc.Gemeente,
-            loc.Land);
+        => new()
+        {
+            Locatietype = loc.Locatietype,
+            Hoofdlocatie = loc.Hoofdlocatie,
+            Adres = loc.Adres,
+            Naam = loc.Naam,
+            Straatnaam = loc.Straatnaam,
+            Huisnummer = loc.Huisnummer,
+            Busnummer = loc.Busnummer,
+            Postcode = loc.Postcode,
+            Gemeente = loc.Gemeente,
+            Land = loc.Land,
+        };
 }

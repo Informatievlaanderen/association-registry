@@ -66,7 +66,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
-                _command.KboNummer!,
+                _command.KboNummer,
                 _command.Contactgegevens.Select(
                     (c, i) =>
                         new VerenigingWerdGeregistreerd.Contactgegeven(
