@@ -12,6 +12,6 @@ public class Given_An_Empty_String
     public void Then_it_returns_Null()
     {
         var website = Website.Create(string.Empty);
-        website.Should().BeNull();
+        website.Should().Be(Website.Leeg);
     }
 }

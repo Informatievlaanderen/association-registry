@@ -12,6 +12,6 @@ public class Given_Null
     public void Then_it_returns_Null()
     {
         var telefoonNummer = TelefoonNummer.Create(null!);
-        telefoonNummer.Should().BeNull();
+        telefoonNummer.Should().Be(TelefoonNummer.Leeg);
     }
 }

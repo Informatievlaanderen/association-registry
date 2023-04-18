@@ -12,6 +12,6 @@ public class Given_An_Empty_String
     public void Then_it_returns_Null()
     {
         var telefoonNummer = TelefoonNummer.Create(string.Empty);
-        telefoonNummer.Should().BeNull();
+        telefoonNummer.Should().Be(TelefoonNummer.Leeg);
     }
 }

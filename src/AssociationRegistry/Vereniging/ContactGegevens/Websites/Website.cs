@@ -6,13 +6,15 @@ using Exceptions;
 public record Website(string Waarde, string Beschrijving, bool IsPrimair)
     : Contactgegeven(ContactgegevenType.Website, Waarde, Beschrijving, IsPrimair)
 {
-    public static Website Create(string? website)
-        => Create(website, string.Empty,false);
+    public static readonly Website Leeg = new(string.Empty, string.Empty, false);
 
-    public static Website Create(string? website, string beschrijving,bool isPrimair)
+    public static Website Create(string? website)
+        => Create(website, string.Empty, false);
+
+    public static Website Create(string? website, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(website))
-            return null!;
+            return Leeg;
 
         Throw<InvalidWebsiteStart>.IfNot(UrlHasCorrectStartingCharacters(website));
         Throw<WebsiteMissingPeriod>.IfNot(UrlContainsAPeriod(website));
