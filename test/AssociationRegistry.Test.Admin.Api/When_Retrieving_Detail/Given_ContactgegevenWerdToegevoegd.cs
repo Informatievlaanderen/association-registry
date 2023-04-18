@@ -63,18 +63,20 @@ public class Given_ContactgegevenWerdToegevoegd
             .Append(
                 _verenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
-                            c.ContactgegevenId,
-                            c.Type,
-                            c.Waarde,
-                            c.Beschrijving,
-                            c.IsPrimair)))
-            .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
-                _contactgegevenWerdToegevoegd.ContactgegevenId,
-                _contactgegevenWerdToegevoegd.Type,
-                _contactgegevenWerdToegevoegd.Waarde,
-                _contactgegevenWerdToegevoegd.Beschrijving,
-                _contactgegevenWerdToegevoegd.IsPrimair));
+                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
+                        {
+                            ContactgegevenId = c.ContactgegevenId,
+                            Type = c.Type,
+                            Waarde = c.Waarde,
+                            Beschrijving = c.Beschrijving,
+                            IsPrimair = c.IsPrimair,
+                        }))
+            .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(){
+                ContactgegevenId = _contactgegevenWerdToegevoegd.ContactgegevenId,
+                Type = _contactgegevenWerdToegevoegd.Type,
+                Waarde = _contactgegevenWerdToegevoegd.Waarde,
+                Beschrijving = _contactgegevenWerdToegevoegd.Beschrijving,
+                IsPrimair = _contactgegevenWerdToegevoegd.IsPrimair});
 
 
         var expected = $@"

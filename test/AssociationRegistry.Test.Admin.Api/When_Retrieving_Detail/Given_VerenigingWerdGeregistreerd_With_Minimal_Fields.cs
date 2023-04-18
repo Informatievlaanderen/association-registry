@@ -57,9 +57,9 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
     ""vereniging"": {{
             ""vCode"": ""{_verenigingWerdGeregistreerd.VCode}"",
             ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
-            ""korteNaam"": null,
-            ""korteBeschrijving"": null,
-            ""kboNummer"": null,
+            ""korteNaam"": """",
+            ""korteBeschrijving"": """",
+            ""kboNummer"": """",
             ""startdatum"": null,
             ""status"": ""Actief"",
             ""contactgegevens"": [],

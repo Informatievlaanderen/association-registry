@@ -4,47 +4,22 @@ using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
-public record DetailVerenigingResponse(
-    [property: DataMember(Name = "Vereniging")]
-    DetailVerenigingResponse.VerenigingDetail Vereniging,
-    [property: DataMember(Name = "Metadata")]
-    DetailVerenigingResponse.MetadataDetail Metadata)
+public class DetailVerenigingResponse
 {
+    [DataMember(Name = "Vereniging")] public VerenigingDetail Vereniging { get; init; } = null!;
+
+    [DataMember(Name = "Metadata")] public MetadataDetail Metadata { get; init; }= null!;
+
     [DataContract]
     public class VerenigingDetail
     {
-        public VerenigingDetail(string vCode,
-            string naam,
-            string? korteNaam,
-            string? korteBeschrijving,
-            string? startdatum,
-            string? kboNummer,
-            string status,
-            ImmutableArray<Contactgegeven> contactgegevens,
-            ImmutableArray<Locatie> locaties,
-            ImmutableArray<Vertegenwoordiger> vertegenwoordigers,
-            ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
-        {
-            VCode = vCode;
-            Naam = naam;
-            KorteNaam = korteNaam;
-            KorteBeschrijving = korteBeschrijving;
-            Startdatum = startdatum;
-            KboNummer = kboNummer;
-            Status = status;
-            Contactgegevens = contactgegevens;
-            Locaties = locaties;
-            Vertegenwoordigers = vertegenwoordigers;
-            HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
-        }
-
         /// <summary>De unieke identificatie code van deze vereniging</summary>
         [DataMember(Name = "VCode")]
-        public string VCode { get; init; }
+        public string VCode { get; init; }= null!;
 
         /// <summary>Naam van de vereniging</summary>
         [DataMember(Name = "Naam")]
-        public string Naam { get; init; }
+        public string Naam { get; init; }= null!;
 
         /// <summary>Korte naam van de vereniging</summary>
         [DataMember(Name = "KorteNaam")]
@@ -66,7 +41,7 @@ public record DetailVerenigingResponse(
 
         /// <summary>Status van de vereniging</summary>
         [DataMember(Name = "Status")]
-        public string Status { get; init; }
+        public string Status { get; init; }= null!;
 
         /// <summary>De contactgegevens van deze vereniging</summary>
         [DataMember(Name = "Contactgegevens")]
@@ -88,30 +63,17 @@ public record DetailVerenigingResponse(
         [DataContract]
         public class Contactgegeven
         {
-            public Contactgegeven(int contactgegevenId,
-                string type,
-                string waarde,
-                string? beschrijving,
-                bool isPrimair)
-            {
-                ContactgegevenId = contactgegevenId;
-                Type = type;
-                Waarde = waarde;
-                Beschrijving = beschrijving;
-                IsPrimair = isPrimair;
-            }
-
             /// <summary>De unieke identificatie code van dit contactgegevens binnen de vereniging</summary>
             [DataMember(Name = "ContactgegevenId")]
             public int ContactgegevenId { get; init; }
 
             /// <summary>Het type contactgegeven</summary>
             [DataMember(Name = "Type")]
-            public string Type { get; init; }
+            public string Type { get; init; }= null!;
 
             /// <summary>De waarde van het contactgegeven</summary>
             [DataMember(Name = "Waarde")]
-            public string Waarde { get; init; }
+            public string Waarde { get; init; }= null!;
 
             /// <summary>
             /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
@@ -128,42 +90,19 @@ public record DetailVerenigingResponse(
         [DataContract]
         public class Vertegenwoordiger
         {
-            public Vertegenwoordiger(string insz,
-                string voornaam,
-                string achternaam,
-                string? roepnaam,
-                string? rol,
-                bool primairContactpersoon,
-                string email,
-                string telefoon,
-                string mobiel,
-                string socialMedia)
-            {
-                Insz = insz;
-                Voornaam = voornaam;
-                Achternaam = achternaam;
-                Roepnaam = roepnaam;
-                Rol = rol;
-                PrimairContactpersoon = primairContactpersoon;
-                Email = email;
-                Telefoon = telefoon;
-                Mobiel = mobiel;
-                SocialMedia = socialMedia;
-            }
-
             /// <summary>
             ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
             /// </summary>
             [DataMember(Name = "Insz")]
-            public string Insz { get; init; }
+            public string Insz { get; init; }= null!;
 
             /// <summary>Dit is de voornaam van de vertegenwoordiger volgens het rijksregister</summary>
             [DataMember(Name = "Voornaam")]
-            public string Voornaam { get; init; }
+            public string Voornaam { get; init; }= null!;
 
             /// <summary>Dit is de achternaam van de vertegenwoordiger volgens het rijksregister</summary>
             [DataMember(Name = "Achternaam")]
-            public string Achternaam { get; init; }
+            public string Achternaam { get; init; }= null!;
 
             /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
             [DataMember(Name = "Roepnaam")]
@@ -181,48 +120,25 @@ public record DetailVerenigingResponse(
 
             /// <summary>Het emailadres van de vertegenwoordiger</summary>
             [DataMember(Name = "Email")]
-            public string Email { get; init; }
+            public string Email { get; init; }= null!;
 
             /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>
             [DataMember(Name = "Telefoon")]
-            public string Telefoon { get; init; }
+            public string Telefoon { get; init; }= null!;
 
             /// <summary>Het mobiel nummer van de vertegenwoordiger</summary>
             [DataMember(Name = "Mobiel")]
-            public string Mobiel { get; init; }
+            public string Mobiel { get; init; }= null!;
 
             /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
             [DataMember(Name = "SocialMedia")]
-            public string SocialMedia { get; init; }
+            public string SocialMedia { get; init; }= null!;
         }
 
         /// <summary>Een locatie van een vereniging</summary>
         [DataContract]
         public class Locatie
         {
-            public Locatie(string locatietype,
-                bool hoofdlocatie,
-                string adres,
-                string? naam,
-                string straatnaam,
-                string huisnummer,
-                string? busnummer,
-                string postcode,
-                string gemeente,
-                string land)
-            {
-                Locatietype = locatietype;
-                Hoofdlocatie = hoofdlocatie;
-                Adres = adres;
-                Naam = naam;
-                Straatnaam = straatnaam;
-                Huisnummer = huisnummer;
-                Busnummer = busnummer;
-                Postcode = postcode;
-                Gemeente = gemeente;
-                Land = land;
-            }
-
             /// <summary>
             ///     Het soort locatie dat beschreven word<br />
             ///     <br />
@@ -231,7 +147,7 @@ public record DetailVerenigingResponse(
             ///     - Correspondentie - Slecht één maal mogelijk<br />
             /// </summary>
             [DataMember(Name = "Locatietype")]
-            public string Locatietype { get; init; }
+            public string Locatietype { get; init; }= null!;
 
             /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
             [DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
@@ -239,7 +155,7 @@ public record DetailVerenigingResponse(
 
             /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
             [DataMember(Name = "Adres")]
-            public string Adres { get; init; }
+            public string Adres { get; init; }= null!;
 
             /// <summary>Een beschrijvende naam voor de locatie</summary>
             [DataMember(Name = "Naam")]
@@ -247,11 +163,11 @@ public record DetailVerenigingResponse(
 
             /// <summary>De straat van de locatie</summary>
             [DataMember(Name = "Straatnaam")]
-            public string Straatnaam { get; init; }
+            public string Straatnaam { get; init; }= null!;
 
             /// <summary>Het huisnummer van de locatie</summary>
             [DataMember(Name = "Huisnummer")]
-            public string Huisnummer { get; init; }
+            public string Huisnummer { get; init; }= null!;
 
             /// <summary>Het busnummer van de locatie</summary>
             [DataMember(Name = "Busnummer")]
@@ -259,35 +175,28 @@ public record DetailVerenigingResponse(
 
             /// <summary>De postcode van de locatie</summary>
             [DataMember(Name = "Postcode")]
-            public string Postcode { get; init; }
+            public string Postcode { get; init; }= null!;
 
             /// <summary>De gemeente van de locatie</summary>
             [DataMember(Name = "Gemeente")]
-            public string Gemeente { get; init; }
+            public string Gemeente { get; init; }= null!;
 
             /// <summary>Het land van de locatie</summary>
             [DataMember(Name = "Land")]
-            public string Land { get; init; }
+            public string Land { get; init; }= null!;
         }
 
         /// <summary>De hoofdactivititeit van een vereniging volgens het verenigingsloket</summary>
         [DataContract]
         public class HoofdactiviteitVerenigingsloket
         {
-            public HoofdactiviteitVerenigingsloket(string code,
-                string beschrijving)
-            {
-                Code = code;
-                Beschrijving = beschrijving;
-            }
-
             /// <summary>De code van de hoofdactivititeit</summary>
             [DataMember(Name = "Code")]
-            public string Code { get; init; }
+            public string Code { get; init; }= null!;
 
             /// <summary>De beschrijving van de hoofdactivititeit</summary>
             [DataMember(Name = "Beschrijving")]
-            public string Beschrijving { get; init; }
+            public string Beschrijving { get; init; }= null!;
         }
     }
 
@@ -295,12 +204,6 @@ public record DetailVerenigingResponse(
     public class MetadataDetail
     {
         /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
-        /// <param name="datumLaatsteAanpassing"></param>
-        public MetadataDetail(string datumLaatsteAanpassing)
-        {
-            DatumLaatsteAanpassing = datumLaatsteAanpassing;
-        }
-
-        public string DatumLaatsteAanpassing { get; init; }
+        public string DatumLaatsteAanpassing { get; init; }= null!;
     }
 }

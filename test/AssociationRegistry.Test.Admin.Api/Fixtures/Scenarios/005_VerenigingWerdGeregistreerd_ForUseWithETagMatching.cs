@@ -19,10 +19,10 @@ public class V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching : IEventsIn
         {
             VCode = VCode,
             Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            KorteNaam = null,
-            KboNummer = null,
+            KorteNaam = string.Empty,
+            KboNummer = string.Empty,
             Startdatum = null,
-            KorteBeschrijving = null,
+            KorteBeschrijving = string.Empty,
             Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };

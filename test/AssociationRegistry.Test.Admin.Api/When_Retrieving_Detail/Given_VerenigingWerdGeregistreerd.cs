@@ -60,12 +60,14 @@ public class Given_VerenigingWerdGeregistreerd
             .Append(
                 _verenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(
-                            c.ContactgegevenId,
-                            c.Type,
-                            c.Waarde,
-                            c.Beschrijving,
-                            c.IsPrimair)));
+                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
+                        {
+                            ContactgegevenId = c.ContactgegevenId,
+                            Type = c.Type,
+                            Waarde = c.Waarde,
+                            Beschrijving = c.Beschrijving,
+                            IsPrimair = c.IsPrimair,
+                        }));
         var expected = $@"
         {{
             ""vereniging"": {{

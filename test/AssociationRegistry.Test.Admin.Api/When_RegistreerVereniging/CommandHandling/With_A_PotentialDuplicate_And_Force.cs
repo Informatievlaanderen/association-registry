@@ -78,7 +78,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
-                _command.KboNummer!,
+                _command.KboNummer,
                 _command.Contactgegevens.Select(
                     (g, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(g) with
                     {
