@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/informatievlaanderen/association-registry/compare/v2.1.3...v2.2.0) (2023-04-18)
+
+
+### Bug Fixes
+
+* or-1683 use classes for response in favor of records ([440cee9](https://github.com/informatievlaanderen/association-registry/commit/440cee9451e48f1b328bc4264aa0981b52eba9bd))
+
+
+### Features
+
+* or-1683 add documentation to all endpoint requests and responses where it was missing ([fa727b2](https://github.com/informatievlaanderen/association-registry/commit/fa727b213cc5a38b106fe963a650784d520b270d))
+
 ## [2.1.3](https://github.com/informatievlaanderen/association-registry/compare/v2.1.2...v2.1.3) (2023-04-18)
 
 
