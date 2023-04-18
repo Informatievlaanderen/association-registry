@@ -33,7 +33,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             null,
             null,
             Startdatum.Leeg,
-            null,
+            KboNummer.Leeg,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
@@ -56,9 +56,9 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         theEvent.VCode.Should().Be(_vCode);
         theEvent.Naam.Should().Be(_naam);
-        theEvent.KorteNaam.Should().BeNull();
-        theEvent.KorteBeschrijving.Should().BeNull();
-        theEvent.KboNummer.Should().BeNull();
+        theEvent.KorteNaam.Should().BeEmpty();
+        theEvent.KorteBeschrijving.Should().BeEmpty();
+        theEvent.KboNummer.Should().BeEmpty();
         theEvent.Startdatum.Should().BeNull();
     }
 

@@ -158,18 +158,18 @@ public class With_Same_Naam_And_Gemeente
             new VerenigingWerdGeregistreerd(
                 string.Empty,
                 Request.Naam,
-                Request.KorteNaam,
-                Request.KorteBeschrijving,
-                Request.Startdatum.HasValue ? Request.Startdatum.Value : null,
-                Request.KboNummer,
+                Request.KorteNaam ?? string.Empty,
+                Request.KorteBeschrijving ?? string.Empty,
+                Request.Startdatum,
+                Request.KboNummer ?? string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(
-                        Request.Locaties.First().Naam,
+                        Request.Locaties.First().Naam ?? string.Empty,
                         Request.Locaties.First().Straatnaam,
                         Request.Locaties.First().Huisnummer,
-                        Request.Locaties.First().Busnummer,
+                        Request.Locaties.First().Busnummer ?? string.Empty,
                         Request.Locaties.First().Postcode,
                         Request.Locaties.First().Gemeente,
                         Request.Locaties.First().Land,

@@ -16,7 +16,6 @@ public class When_Searching_By_Name
 {
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
-    private readonly V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VCode _vCode;
 
     private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
@@ -24,8 +23,8 @@ public class When_Searching_By_Name
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _scenario = fixture.V004UnHandledEventAndVerenigingWerdGeregistreerdScenario;
-        _vCode = _scenario.VCode;
+        var scenario = fixture.V004UnHandledEventAndVerenigingWerdGeregistreerdScenario;
+        _vCode = scenario.VCode;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
@@ -33,15 +32,15 @@ public class When_Searching_By_Name
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(_scenario.Naam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(_scenario.Naam);
+        var response = await _publicApiClient.Search(V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.Naam);
+            .Replace("{{originalQuery}}", V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 

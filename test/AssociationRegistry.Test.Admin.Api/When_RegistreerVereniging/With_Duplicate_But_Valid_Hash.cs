@@ -77,18 +77,18 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             new VerenigingWerdGeregistreerd(
                 string.Empty,
                 _setup.Request.Naam,
-                _setup.Request.KorteNaam,
-                _setup.Request.KorteBeschrijving,
-                _setup.Request.Startdatum.HasValue ? _setup.Request.Startdatum.Value : null,
-                _setup.Request.KboNummer,
+                _setup.Request.KorteNaam ?? string.Empty,
+                _setup.Request.KorteBeschrijving ?? string.Empty,
+                _setup.Request.Startdatum,
+                _setup.Request.KboNummer ?? string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Locatie(
-                        _setup.RequestLocatie.Naam,
+                        _setup.RequestLocatie.Naam ?? string.Empty,
                         _setup.RequestLocatie.Straatnaam,
                         _setup.RequestLocatie.Huisnummer,
-                        _setup.RequestLocatie.Busnummer,
+                        _setup.RequestLocatie.Busnummer ?? string.Empty,
                         _setup.RequestLocatie.Postcode,
                         _setup.RequestLocatie.Gemeente,
                         _setup.RequestLocatie.Land,

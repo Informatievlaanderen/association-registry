@@ -66,9 +66,9 @@ public class Given_ContactgegevenWerdToegevoegd
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
                     ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
-                    ""korteNaam"": null,
-                    ""korteBeschrijving"": null,
-                    ""kboNummer"": null,
+                    ""korteNaam"": """",
+                    ""korteBeschrijving"": """",
+                    ""kboNummer"": """",
                     ""startdatum"": null,
                     ""status"": ""Actief"",
                     ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{

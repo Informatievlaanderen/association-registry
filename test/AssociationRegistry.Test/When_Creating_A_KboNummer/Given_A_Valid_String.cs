@@ -26,7 +26,7 @@ public class Given_A_Valid_String
     [InlineData("0746889508", "0746889508")]
     public void Then_it_returns_a_kboNummer(string kboNummerString, string expectedKboNummer)
     {
-        string kboNummer = KboNummer.Create(kboNummerString)!;
+        string kboNummer = KboNummer.Create(kboNummerString);
 
         kboNummer.Should().Be(expectedKboNummer);
     }

@@ -16,10 +16,10 @@ using Framework;
 public record VerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
-    string? KorteNaam,
-    string? KorteBeschrijving,
+    string KorteNaam,
+    string KorteBeschrijving,
     DateOnly? Startdatum,
-    string? KboNummer,
+    string KboNummer,
     VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
@@ -42,10 +42,10 @@ public record VerenigingWerdGeregistreerd(
     }
 
     public record Locatie(
-        string? Naam,
+        string Naam,
         string Straatnaam,
         string Huisnummer,
-        string? Busnummer,
+        string Busnummer,
         string Postcode,
         string Gemeente,
         string Land,
@@ -54,10 +54,10 @@ public record VerenigingWerdGeregistreerd(
     {
         public static Locatie With(Vereniging.Locatie locatie)
             => new(
-                locatie.Naam,
+                locatie.Naam ?? string.Empty,
                 locatie.Straatnaam,
                 locatie.Huisnummer,
-                locatie.Busnummer,
+                locatie.Busnummer ?? string.Empty,
                 locatie.Postcode,
                 locatie.Gemeente,
                 locatie.Land,
@@ -68,8 +68,8 @@ public record VerenigingWerdGeregistreerd(
     public record Vertegenwoordiger(
         string Insz,
         bool PrimairContactpersoon,
-        string? Roepnaam,
-        string? Rol,
+        string Roepnaam,
+        string Rol,
         string Voornaam,
         string Achternaam,
         string Email,
@@ -81,8 +81,8 @@ public record VerenigingWerdGeregistreerd(
             => new(
                 vertegenwoordiger.Insz,
                 vertegenwoordiger.PrimairContactpersoon,
-                vertegenwoordiger.Roepnaam,
-                vertegenwoordiger.Rol,
+                vertegenwoordiger.Roepnaam ?? string.Empty,
+                vertegenwoordiger.Rol ?? string.Empty,
                 vertegenwoordiger.Voornaam,
                 vertegenwoordiger.Achternaam,
                 vertegenwoordiger.Email.Waarde,

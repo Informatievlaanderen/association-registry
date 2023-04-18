@@ -7,7 +7,7 @@ public record RegistreerVerenigingCommand(
     string? KorteNaam,
     string? KorteBeschrijving,
     Startdatum Startdatum,
-    KboNummer? KboNummer,
+    KboNummer KboNummer,
     Contactgegeven[] Contactgegevens,
     Locatie[] Locaties,
     Vertegenwoordiger[] Vertegenwoordigers,

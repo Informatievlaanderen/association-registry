@@ -3,10 +3,10 @@
   "vereniging": {
     "vCode": "V0001002",
     "naam": "Feesten Hulste",
-    "korteNaam": null,
-    "korteBeschrijving": null,
+    "korteNaam": "",
+    "korteBeschrijving": "",
     "startdatum": null,
-    "kboNummer": null,
+    "kboNummer": "",
     "status": "Actief",
     "contactgegevens": [],
     "locaties": [],

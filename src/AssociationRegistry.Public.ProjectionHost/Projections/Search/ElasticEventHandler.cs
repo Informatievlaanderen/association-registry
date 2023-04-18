@@ -23,7 +23,7 @@ public class ElasticEventHandler
             {
                 VCode = message.Data.VCode,
                 Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
+                KorteNaam = message.Data.KorteNaam ?? string.Empty,
                 Locaties = message.Data.Locaties.Select(ToDocument).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket.Select(ToDocument).ToArray(),
                 Doelgroep = _brolFeeder.Doelgroep,

@@ -29,7 +29,7 @@ public class With_A_PotentialDuplicate : IClassFixture<CommandHandlerScenarioFix
         var locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Naam = VerenigingsNaam.Create(classFixture.Scenario.Naam),
+            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase.Naam),
             Locaties = new[] { locatie },
             SkipDuplicateDetection = false,
         };

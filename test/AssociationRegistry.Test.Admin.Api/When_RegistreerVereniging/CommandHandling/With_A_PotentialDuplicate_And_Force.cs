@@ -33,7 +33,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
         _locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
         _command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Naam = VerenigingsNaam.Create(classFixture.Scenario.Naam),
+            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase.Naam),
             Locaties = new[] { _locatie },
             SkipDuplicateDetection = true,
         };
@@ -75,8 +75,8 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
-                _command.KorteNaam,
-                _command.KorteBeschrijving,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
                 _command.KboNummer!,
                 _command.Contactgegevens.Select(
