@@ -61,7 +61,7 @@ public class VerenigingenHistoriekController : ApiController
                     {
                         Beschrijving = gebeurtenis.Beschrijving,
                         Gebeurtenis = gebeurtenis.Gebeurtenis,
-                        Data = IHistoriekDataResponse.From(gebeurtenis.Data),
+                        Data = gebeurtenis.Data,
                         Initiator = gebeurtenis.Initiator,
                         Tijdstip = gebeurtenis.Tijdstip,
                     }).ToArray(),

@@ -10,6 +10,7 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
@@ -72,45 +73,35 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                     {{
                         ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
-                        ""data"":{{
-                            ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdGeregistreerd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Naam werd gewijzigd naar '{_scenario.NaamWerdGewijzigd.Naam}'."",
                         ""gebeurtenis"":""NaamWerdGewijzigd"",
-                        ""data"":{{
-                            ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.NaamWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte naam werd gewijzigd naar '{_scenario.KorteNaamWerdGewijzigd.KorteNaam}'."",
                         ""gebeurtenis"":""KorteNaamWerdGewijzigd"",
-                        ""data"":{{
-                            ""korteNaam"":""{_scenario.KorteNaamWerdGewijzigd.KorteNaam}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.KorteNaamWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte beschrijving werd gewijzigd naar '{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}'."",
                         ""gebeurtenis"":""KorteBeschrijvingWerdGewijzigd"",
-                        ""data"":{{
-                            ""korteBeschrijving"":""{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.KorteBeschrijvingWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Startdatum werd gewijzigd naar '{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'."",
                         ""gebeurtenis"":""StartdatumWerdGewijzigd"",
-                        ""data"":{{
-                            ""startdatum"":""{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.StartdatumWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

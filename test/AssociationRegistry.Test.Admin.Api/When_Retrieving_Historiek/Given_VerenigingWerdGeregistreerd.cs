@@ -9,6 +9,7 @@ using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
@@ -64,9 +65,7 @@ public class Given_VerenigingWerdGeregistreerd
                     {{
                         ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
-                        ""data"":{{
-                            ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}""
-                        }},
+                        ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

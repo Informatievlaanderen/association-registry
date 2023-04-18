@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using System;
 using System.Runtime.Serialization;
-using Projections.Historiek.Schema;
 
 /// <summary>Alle gebeurtenissen van deze vereniging</summary>
 [DataContract]
@@ -42,61 +41,3 @@ public class HistoriekGebeurtenisResponse
     public string Tijdstip { get; set; } = null!;
 }
 
-public interface IHistoriekDataResponse
-{
-    static object? From(object? gebeurtenisData)
-        => gebeurtenisData switch
-        {
-            VerenigingWerdgeregistreerdData data => new VerenigingWerdgeregistreerdDataResponse { Naam = data.Vereniging.Naam },
-            NaamWerdGewijzigdData data => new NaamWerdGewijzigdDataResponse { Naam = data.Naam },
-            KorteNaamWerdGewijzigdData data => new KorteNaamWerdGewijzigdDataResponse { KorteNaam = data.KorteNaam },
-            KorteBeschrijvingWerdGewijzigdData data => new KorteBeschrijvingWerdGewijzigdDataResponse { KorteBeschrijving = data.KorteBeschrijving },
-            StartdatumWerdGewijzigdData data => new StartdatumWerdGewijzigdDataResponse { Startdatum = data.StartDatum! },
-             _ => gebeurtenisData,
-        };
-}
-
-/// <summary>De relevante data voor het type gebeurtenis StartdatumWerdGewijzigd</summary>
-[DataContract]
-public class StartdatumWerdGewijzigdDataResponse : IHistoriekDataResponse
-{
-    /// <summary>Datum waarop de vereniging gestart is</summary>
-    [DataMember(Name = "startdatum")]
-    public string Startdatum { get; set; } = null!;
-}
-
-/// <summary>De relevante data voor het type gebeurtenis KorteBeschrijvingWerdGewijzigd</summary>
-[DataContract]
-public class KorteBeschrijvingWerdGewijzigdDataResponse : IHistoriekDataResponse
-{
-    /// <summary>Korte beschrijving van de vereniging</summary>
-    [DataMember(Name = "korteBeschrijving")]
-    public string KorteBeschrijving { get; set; } = null!;
-}
-
-/// <summary>De relevante data voor het type gebeurtenis KorteNaamWerdGewijzigd</summary>
-[DataContract]
-public class KorteNaamWerdGewijzigdDataResponse : IHistoriekDataResponse
-{
-    /// <summary>Korte naam van de vereniging</summary>
-    [DataMember(Name = "korteNaam")]
-    public string KorteNaam { get; set; } = null!;
-}
-
-/// <summary>De relevante data voor het type gebeurtenis NaamWerdGewijzigd</summary>
-[DataContract]
-public class NaamWerdGewijzigdDataResponse : IHistoriekDataResponse
-{
-    /// <summary>Naam van de vereniging</summary>
-    [DataMember(Name = "naam")]
-    public string Naam { get; set; } = null!;
-}
-
-/// <summary>De relevante data voor het type gebeurtenis VerenigingWerdgeregistreerd</summary>
-[DataContract]
-public class VerenigingWerdgeregistreerdDataResponse : IHistoriekDataResponse
-{
-    /// <summary>Naam van de vereniging</summary>
-    [DataMember(Name = "naam")]
-    public string Naam { get; set; } = null!;
-}

@@ -44,11 +44,6 @@ public static class AutoFixtureCustomizations
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
 
-        fixture.Customizations.Add(
-            new TypeRelay(
-                typeof(IHistoriekData),
-                typeof(HistoriekDataStub)));
-
         return fixture;
     }
 
@@ -361,8 +356,6 @@ public static class AutoFixtureCustomizations
                     })
                 .OmitAutoProperties());
     }
-
-    public record HistoriekDataStub : IHistoriekData;
 }
 
 public class ImmutableArraySpecimenBuilder : ISpecimenBuilder

@@ -38,7 +38,7 @@ public class Given_VerenigingWerdGeregistreerd
                     new(
                         $"Vereniging werd geregistreerd met naam '{_verenigingWerdGeregistreerd.Data.Naam}'.",
                         nameof(VerenigingWerdGeregistreerd),
-                        new VerenigingWerdgeregistreerdData(_verenigingWerdGeregistreerd.Data),
+                        _verenigingWerdGeregistreerd.Data,
                         _verenigingWerdGeregistreerd.Initiator,
                         _verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
                 },
