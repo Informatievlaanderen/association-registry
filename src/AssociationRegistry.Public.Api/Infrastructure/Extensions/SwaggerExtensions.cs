@@ -75,14 +75,27 @@ public static class SwaggerExtensions
                 ApiVersionDescriptionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
                 DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Publieke API {groupName}",
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
-                 HeadContentFunc = _ => @"
+                HeadContentFunc = _ => $@"
                              <style>
-
+                                 div:has(> h1)
+                                 {{
+                                     padding-bottom: 0px !important;
+                                 }}
+                                 div:has(> h2)
+                                 {{
+                                     padding-top: 0px !important;
+                                     padding-bottom: 0px !important;
+                                 }}
+                                 h3
+                                 {{
+                                     margin-top: 2em !important;
+                                 }}
                                  li[data-item-id=""section/Toegang-tot-het-register""]
-                                 {
+                                 {{
                                      border-bottom: 1px solid rgb(225, 225, 225);
-                                 }
+                                 }}
                              </style>",
+
                  CSharpClient =
                 {
                     ClassName = "Verenigingsregister",
