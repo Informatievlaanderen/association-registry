@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/informatievlaanderen/association-registry/compare/v2.1.1...v2.1.2) (2023-04-18)
+
+
+### Bug Fixes
+
+* or-1681 no error on create ([07f16a7](https://github.com/informatievlaanderen/association-registry/commit/07f16a7fac5134297267f545f77b5e9fbee9f821))
+
 ## [2.1.1](https://github.com/informatievlaanderen/association-registry/compare/v2.1.0...v2.1.1) (2023-04-18)
 
 
