@@ -107,9 +107,7 @@ public class RegistreerVerenigingRequest
     [DataContract]
     public class Contactgegeven
     {
-        /// <summary>
-        /// Het type contactgegeven.
-        /// </summary>
+        /// <summary>Het type contactgegeven</summary>
         [SwaggerParameterExample("Email")]
         [SwaggerParameterExample("SocialMedia")]
         [SwaggerParameterExample("Telefoon")]
@@ -117,9 +115,7 @@ public class RegistreerVerenigingRequest
         [DataMember(Name = "type")]
         public string Type { get; set; } = null!;
 
-        /// <summary>
-        /// De waarde van het contactgegeven
-        /// </summary>
+        /// <summary>De waarde van het contactgegeven</summary>
         [DataMember(Name = "waarde")]
         public string Waarde { get; set; } = null!;
 
@@ -129,13 +125,12 @@ public class RegistreerVerenigingRequest
         [DataMember(Name = "beschrijving")]
         public string? Beschrijving { get; set; }
 
-        /// <summary>
-        /// Duidt het contactgegeven aan als primair contactgegeven
-        /// </summary>
+        /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
         [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
         public bool IsPrimair { get; set; }
     }
 
+    /// <summary>Een vertegenwoordiger van een vereniging</summary>
     [DataContract]
     public class Vertegenwoordiger
     {
@@ -176,6 +171,7 @@ public class RegistreerVerenigingRequest
         public string? SocialMedia { get; set; }
     }
 
+    /// <summary>Een locatie van een vereniging</summary>
     [DataContract]
     public class Locatie
     {
