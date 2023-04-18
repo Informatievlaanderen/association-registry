@@ -63,8 +63,8 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
-                _command.KorteNaam,
-                _command.KorteBeschrijving,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
                 _command.KboNummer!,
                 _command.Contactgegevens.Select(
@@ -79,10 +79,10 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 _command.Locaties.Select(
                     l =>
                         new VerenigingWerdGeregistreerd.Locatie(
-                            l.Naam,
+                            l.Naam ?? string.Empty,
                             l.Straatnaam,
                             l.Huisnummer,
-                            l.Busnummer,
+                            l.Busnummer ?? string.Empty,
                             l.Postcode,
                             l.Gemeente,
                             l.Land,
@@ -94,8 +94,8 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                         new VerenigingWerdGeregistreerd.Vertegenwoordiger(
                             v.Insz,
                             v.PrimairContactpersoon,
-                            v.Roepnaam,
-                            v.Rol,
+                            v.Roepnaam ?? string.Empty,
+                            v.Rol ?? string.Empty,
                             _magdaVoornaam,
                             _magdaAchternaam,
                             v.Email.Waarde,

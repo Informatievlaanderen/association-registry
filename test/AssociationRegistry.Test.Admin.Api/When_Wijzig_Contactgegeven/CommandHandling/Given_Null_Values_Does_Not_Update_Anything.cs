@@ -36,7 +36,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                ContacgegevenId: _scenario.ContactgegevenId,
+                ContacgegevenId: VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 Waarde: null,
                 Beschrijving: null,
                 IsPrimair: null));
@@ -71,7 +71,7 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                ContacgegevenId: _scenario.ContactgegevenId,
+                ContacgegevenId: VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 Waarde: _fixture.Create<Email>().Waarde,
                 Beschrijving: null,
                 IsPrimair: true));
@@ -80,10 +80,10 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
 
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdGewijzigd(
-                ContactgegevenId: _scenario.ContactgegevenId,
+                ContactgegevenId: VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 ContactgegevenType.Email,
                 command.Contactgegeven.Waarde!,
-                _scenario.Beschrijving, // <== this must stay the same
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Beschrijving, // <== this must stay the same
                 IsPrimair: true)
         );
     }

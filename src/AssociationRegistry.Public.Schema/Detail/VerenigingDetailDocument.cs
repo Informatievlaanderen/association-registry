@@ -8,10 +8,10 @@ public record PubliekVerenigingDetailDocument : IVCode
     [Identity] public string VCode { get; set; } = null!;
 
     public string Naam { get; set; } = null!;
-    public string? KorteNaam { get; set; }
-    public string? KorteBeschrijving { get; set; }
+    public string KorteNaam { get; set; } = null!;
+    public string KorteBeschrijving { get; set; } = null!;
     public DateOnly? Startdatum { get; set; }
-    public string? KboNummer { get; set; }
+    public string KboNummer { get; set; } = null!;
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
@@ -34,13 +34,13 @@ public record PubliekVerenigingDetailDocument : IVCode
         public bool Hoofdlocatie { get; set; }
 
         public string Adres { get; set; } = null!;
-        public string? Naam { get; set; }
+        public string Naam { get; set; } = null!;
 
         public string Straatnaam { get; set; } = null!;
 
         public string Huisnummer { get; set; } = null!;
 
-        public string? Busnummer { get; set; }
+        public string Busnummer { get; set; } = null!;
 
         public string Postcode { get; set; } = null!;
 

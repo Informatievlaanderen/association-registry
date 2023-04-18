@@ -16,7 +16,7 @@ public class VerenigingDocument
 
     public string VCode { get; set; } = null!;
     public string Naam { get; set; } = null!;
-    public string? KorteNaam { get; set; }
+    public string KorteNaam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public string Doelgroep { get; set; } = null!;

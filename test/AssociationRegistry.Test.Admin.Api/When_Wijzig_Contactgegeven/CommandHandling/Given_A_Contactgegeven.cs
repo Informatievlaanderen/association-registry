@@ -36,7 +36,7 @@ public class Given_A_Contactgegeven
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                _scenario.ContactgegevenId,
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 _fixture.Create<Email>().Waarde,
                 _fixture.Create<string?>(),
                 IsPrimair: false));
@@ -45,7 +45,7 @@ public class Given_A_Contactgegeven
 
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdGewijzigd(
-                ContactgegevenId: _scenario.ContactgegevenId,
+                ContactgegevenId: VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 ContactgegevenType.Email,
                 command.Contactgegeven.Waarde!,
                 command.Contactgegeven.Beschrijving ?? string.Empty,

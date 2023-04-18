@@ -23,7 +23,7 @@ public class With_A_Known_ContactgegevenId
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, _scenario.ContactgegevenId);
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode, VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderContactgegevenCommandHandler(_verenigingRepositoryMock);
 
@@ -42,11 +42,11 @@ public class With_A_Known_ContactgegevenId
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdVerwijderd(
-                _scenario.ContactgegevenId,
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 _scenario.Type,
-                _scenario.Waarde,
-                _scenario.Beschrijving,
-                _scenario.IsPrimair)
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Waarde,
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.Beschrijving,
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.IsPrimair)
         );
     }
 }

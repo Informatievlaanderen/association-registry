@@ -161,7 +161,7 @@ public static class AutoFixtureCustomizations
                         Naam: fixture.Create<string>(),
                         Straatnaam: fixture.Create<string>(),
                         Huisnummer: fixture.Create<int>().ToString(),
-                        Busnummer: fixture.Create<string?>(),
+                        Busnummer: fixture.Create<string>(),
                         Postcode: (fixture.Create<int>() % 10000).ToString(),
                         Gemeente: fixture.Create<string>(),
                         Land: fixture.Create<string>(),

@@ -68,10 +68,10 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
             new VerenigingWerdGeregistreerd(
                 VCode,
                 Naam,
-                KorteNaam,
-                KorteBeschrijving,
+                KorteNaam ?? string.Empty,
+                KorteBeschrijving ?? string.Empty,
                 _startdatum,
-                KboNummer,
+                KboNummer ?? string.Empty,
                 new[] { _contactgegeven },
                 new[] { _locatie },
                 new[] { _vertegenwoordiger },
@@ -97,10 +97,10 @@ public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenar
             new VerenigingWerdGeregistreerd(
                 VCode,
                 Naam,
+                string.Empty,
+                string.Empty,
                 null,
-                null,
-                null,
-                null,
+                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -114,19 +114,19 @@ public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenar
 
 public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
 {
-    public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd = new(
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd = new(
         "V0001005",
         "Feesten Hulste",
+        string.Empty,
+        string.Empty,
         null,
-        null,
-        null,
-        null,
+        string.Empty,
         Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
         Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
         Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
 
-    public ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(1, ContactgegevenType.Email, "test@example.org", "de email om naar te sturen", false);
+    public readonly ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(1, ContactgegevenType.Email, "test@example.org", "de email om naar te sturen", false);
 
     public VCode VCode
         => VCode.Create(VerenigingWerdGeregistreerd.VCode);
@@ -149,9 +149,9 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
     public VCode VCode
         => VCode.Create("V0001003");
 
-    public readonly string KorteBeschrijving = "Harelbeke";
-    public readonly string KorteNaam = "OW";
-    public readonly string Naam = "Oarelbeke Weireldstad";
+    public const string KorteBeschrijving = "Harelbeke";
+    public const string KorteNaam = "OW";
+    public const string Naam = "Oarelbeke Weireldstad";
     public readonly DateOnly Startdatum = new(2023, 6, 3);
 
     public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
@@ -167,10 +167,10 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
             new VerenigingWerdGeregistreerd(
                 VCode,
                 "Foudenaarder feest",
+                string.Empty,
+                string.Empty,
                 null,
-                null,
-                null,
-                null,
+                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -191,8 +191,8 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
     public VCode VCode
         => VCode.Create("V0001004");
 
-    public readonly string Naam = "Oostende voor anker";
-    private readonly string KorteNaam = "OVA";
+    public const string Naam = "Oostende voor anker";
+    private const string KorteNaam = "OVA";
 
     public static readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
@@ -214,14 +214,14 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
     public CommandMetadata GetCommandMetadata()
         => new("OVO000001", new Instant());
 
-    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string? korteNaam)
+    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
         => new(
             vCode,
             naam,
-            korteNaam,
+            korteNaam ,
+            string.Empty,
             null,
-            null,
-            null,
+            string.Empty,
             Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),

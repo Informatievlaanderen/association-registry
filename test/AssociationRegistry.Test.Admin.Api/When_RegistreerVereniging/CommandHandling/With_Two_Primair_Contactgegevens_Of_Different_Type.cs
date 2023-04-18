@@ -58,8 +58,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
-                _command.KorteNaam,
-                _command.KorteBeschrijving,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
                 _command.KboNummer!,
                 new[]

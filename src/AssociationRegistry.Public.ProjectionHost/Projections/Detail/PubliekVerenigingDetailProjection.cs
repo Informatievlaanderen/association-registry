@@ -14,10 +14,10 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
             Naam = verenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
+            KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam ?? string.Empty,
+            KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving ?? string.Empty,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
-            KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
+            KboNummer = verenigingWerdGeregistreerd.Data.KboNummer ?? string.Empty,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
@@ -114,11 +114,11 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         => new()
         {
             Hoofdlocatie = loc.Hoofdlocatie,
-            Naam = loc.Naam,
+            Naam = loc.Naam ?? string.Empty,
             Locatietype = loc.Locatietype,
             Straatnaam = loc.Straatnaam,
             Huisnummer = loc.Huisnummer,
-            Busnummer = loc.Busnummer,
+            Busnummer = loc.Busnummer ?? string.Empty,
             Postcode = loc.Postcode,
             Gemeente = loc.Gemeente,
             Land = loc.Land,

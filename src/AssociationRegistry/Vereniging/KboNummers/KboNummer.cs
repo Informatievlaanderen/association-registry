@@ -27,10 +27,10 @@ public record KboNummer
     internal static KboNummer Hydrate(string? kboNummer)
         => new(kboNummer);
 
-    public override string? ToString()
-        => Value;
+    public override string ToString()
+        => Value ?? string.Empty;
 
-    public static implicit operator string?(KboNummer kboNummer)
+    public static implicit operator string(KboNummer kboNummer)
         => kboNummer.ToString();
 
     /// <summary>

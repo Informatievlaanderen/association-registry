@@ -35,7 +35,7 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                _scenario.ContactgegevenId,
+                VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario.ContactgegevenId,
                 _fixture.Create<Website>().Waarde,
                 _fixture.Create<string?>(),
                 IsPrimair: false));

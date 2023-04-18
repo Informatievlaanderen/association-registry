@@ -41,9 +41,9 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : Commandhandle
     public readonly VCode VCode = VCode.Create("V0009002");
 
     public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
+    public readonly string KorteBeschrijving =  string.Empty;
+    public readonly string KorteNaam = "FOud";
+    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
 
@@ -71,16 +71,16 @@ public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Command
     public readonly VCode VCode = VCode.Create("V0009002");
 
     public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
+    public readonly string KorteBeschrijving = string.Empty;
+    public readonly string KorteNaam = "FOud";
+    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
-    public readonly int ContactgegevenId = 1;
+    public const int ContactgegevenId = 1;
     public readonly ContactgegevenType Type = ContactgegevenType.Email;
-    public readonly string Waarde = "test@example.org";
-    public readonly string Beschrijving = "";
-    public readonly bool IsPrimair = true;
+    public const string Waarde = "test@example.org";
+    public const string Beschrijving = "";
+    public const bool IsPrimair = true;
 
     public override IEnumerable<IEvent> Events()
     {
@@ -123,9 +123,9 @@ public class VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhand
                 VCode,
                 "Hulste Huldigt",
                 "FOud",
-                null,
+                string.Empty,
                 new DateOnly(2023, 3, 6),
-                null,
+                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -140,10 +140,10 @@ public class VerenigingWerdGeregistreerdWithContactgegeven_Commandhandler_Scenar
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
-    public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
+    public const string Naam = "Hulste Huldigt";
+    public readonly string KorteBeschrijving = string.Empty;
+    public const string KorteNaam = "FOud";
+    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
@@ -178,10 +178,10 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
-    public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
+    public const string Naam = "Hulste Huldigt";
+    public readonly string KorteBeschrijving = string.Empty;
+    public const string KorteNaam = "FOud";
+    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
@@ -219,10 +219,10 @@ public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBa
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
-    public readonly string Naam = "Hulste Huldigt";
-    public readonly string? KorteBeschrijving = null;
-    public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = null;
+    public const string Naam = "Hulste Huldigt";
+    public readonly string KorteBeschrijving = string.Empty;
+    public const string KorteNaam = "FOud";
+    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly? Startdatum = null;
     public readonly VerenigingWerdGeregistreerd.Locatie Locatie;
