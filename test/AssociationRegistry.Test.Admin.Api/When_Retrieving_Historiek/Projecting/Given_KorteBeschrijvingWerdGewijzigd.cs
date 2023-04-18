@@ -19,7 +19,7 @@ public class Given_KorteBeschrijvingWerdGewijzigd
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 $"Korte beschrijving werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving}'.",
                 nameof(KorteBeschrijvingWerdGewijzigd),
-                new KorteBeschrijvingWerdGewijzigdData(projectEventOnHistoriekDocument.Event.Data.KorteBeschrijving),
+                projectEventOnHistoriekDocument.Event.Data,
                 initiator,
                 tijdstip));
     }

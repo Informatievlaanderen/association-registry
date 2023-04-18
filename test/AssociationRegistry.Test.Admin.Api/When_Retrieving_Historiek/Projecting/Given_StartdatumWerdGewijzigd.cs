@@ -22,7 +22,7 @@ public class Given_StartdatumWerdGewijzigd
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 $"Startdatum werd gewijzigd naar '{startdatumString}'.",
                 nameof(StartdatumWerdGewijzigd),
-                new StartdatumWerdGewijzigdData(startdatumString),
+                projectEventOnHistoriekDocument.Event.Data,
                 initiator,
                 tijdstip));
     }
@@ -42,7 +42,7 @@ public class Given_StartdatumWerdGewijzigd_With_Null
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 "Startdatum werd verwijderd.",
                 nameof(StartdatumWerdGewijzigd),
-                new StartdatumWerdGewijzigdData(null),
+                projectEventOnHistoriekDocument.Event.Data,
                 initiator,
                 tijdstip));
     }
