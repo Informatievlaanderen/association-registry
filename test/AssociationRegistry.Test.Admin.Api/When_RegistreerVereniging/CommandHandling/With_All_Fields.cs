@@ -5,8 +5,6 @@ using Events;
 using AssociationRegistry.Framework;
 using Magda;
 using Fakes;
-using Fixtures;
-using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
 using Moq;
@@ -15,7 +13,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase>>
+public class With_All_Fields
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
@@ -23,9 +21,9 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
     private readonly string _magdaVoornaam;
     private readonly string _magdaAchternaam;
 
-    public With_All_Fields(CommandHandlerScenarioFixture<Empty_Commandhandler_ScenarioBase> classFixture)
+    public With_All_Fields()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
         Mock<IMagdaFacade> magdaFacade = new();
 
@@ -70,7 +68,7 @@ public class With_All_Fields : IClassFixture<CommandHandlerScenarioFixture<Empty
                 _command.Contactgegevens.Select(
                     (c, i) =>
                         new VerenigingWerdGeregistreerd.Contactgegeven(
-                            i+1,
+                            i + 1,
                             c.Type,
                             c.Waarde,
                             c.Beschrijving,

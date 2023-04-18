@@ -4,7 +4,6 @@ using Acties.WijzigBasisgegevens;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using AutoFixture;
 using Framework;
@@ -13,18 +12,18 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Naam : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario>>
+public class With_A_Naam
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerd_Commandhandler_Scenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
     private const string NieuweNaam = "De nieuwe naam";
 
-    public With_A_Naam(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_Commandhandler_Scenario> classFixture)
+    public With_A_Naam()
     {
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        _scenario = classFixture.Scenario;
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
             VerenigingsNaam.Create(NieuweNaam));

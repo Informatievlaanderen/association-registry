@@ -4,7 +4,6 @@ using Acties.RegistreerVereniging;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures;
 using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
@@ -18,7 +17,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase>>
+public class With_A_PotentialDuplicate_And_Force
 {
     private readonly Result _result;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -26,14 +25,15 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
     private readonly RegistreerVerenigingCommand _command;
     private readonly Locatie _locatie;
 
-    public With_A_PotentialDuplicate_And_Force(CommandHandlerScenarioFixture<VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase> classFixture)
+    public With_A_PotentialDuplicate_And_Force()
     {
+        var scenario = new VerenigingWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAll();
 
-        _locatie = fixture.Create<Locatie>() with { Postcode = classFixture.Scenario.Locatie.Postcode };
+        _locatie = fixture.Create<Locatie>() with { Postcode = scenario.Locatie.Postcode };
         _command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase.Naam),
+            Naam = VerenigingsNaam.Create(VerenigingWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { _locatie },
             SkipDuplicateDetection = true,
         };
@@ -48,7 +48,7 @@ public class With_A_PotentialDuplicate_And_Force : IClassFixture<CommandHandlerS
             .ReturnsAsync(potentialDuplicates);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        _verenigingRepositoryMock = classFixture.VerenigingRepositoryMock;
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
         _vCodeService = new InMemorySequentialVCodeService();
         var commandHandler = new RegistreerVerenigingCommandHandler(
             _verenigingRepositoryMock,

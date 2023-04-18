@@ -36,7 +36,7 @@ public class Empty_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
         => Array.Empty<IEvent>();
 }
 
-public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : CommandhandlerScenarioBase
+public class VerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
@@ -66,7 +66,7 @@ public class VerenigingWerdGeregistreerd_Commandhandler_Scenario : Commandhandle
     }
 }
 
-public class VerenigingWerdGeregistreerd_WithAPrimairEmailContactgegeven_Commandhandler_Scenario : CommandhandlerScenarioBase
+public class VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
@@ -174,7 +174,7 @@ public class VerenigingWerdGeregistreerdWithContactgegeven_Commandhandler_Scenar
     }
 }
 
-public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
+public class VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
@@ -188,7 +188,7 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler
     public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
     public ContactgegevenWerdVerwijderd ContactgegevenWerdVerwijderd { get; private set; } = null!;
 
-    public VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler_ScenarioBase()
+    public VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario()
     {
         Contactgegevens = new[] { new Fixture().CustomizeAll().Create<VerenigingWerdGeregistreerd.Contactgegeven>() with { ContactgegevenId = 1 } };
     }
@@ -215,7 +215,7 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegeven_Commandhandler
     }
 }
 
-public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase : CommandhandlerScenarioBase
+public class VerenigingWerdGeregistreerdWithLocationScenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
@@ -227,7 +227,7 @@ public class VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBa
     public readonly DateOnly? Startdatum = null;
     public readonly VerenigingWerdGeregistreerd.Locatie Locatie;
 
-    public VerenigingWerdGeregistreerd_With_Location_Commandhandler_ScenarioBase()
+    public VerenigingWerdGeregistreerdWithLocationScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         Locatie = fixture.Create<VerenigingWerdGeregistreerd.Locatie>();
