@@ -77,20 +77,7 @@ public static class SwaggerExtensions
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
                 HeadContentFunc = _ => $@"
                              <style>
-                                 div:has(> h1)
-                                 {{
-                                     padding-bottom: 0px !important;
-                                 }}
-                                 div:has(> h2)
-                                 {{
-                                     padding-top: 0px !important;
-                                     padding-bottom: 0px !important;
-                                 }}
-                                 h3
-                                 {{
-                                     margin-top: 2em !important;
-                                 }}
-                                 li[data-item-id=""section/Toegang-tot-het-register""]
+                                 li[data-item-id=""section/Foutmeldingen""]
                                  {{
                                      border-bottom: 1px solid rgb(225, 225, 225);
                                  }}
