@@ -14,13 +14,13 @@ using Xunit.Categories;
 [UnitTest]
 public class With_An_Unknown_ContactgegevenId
 {
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly VerenigingWerdGeregistreerdScenario _scenario;
     private readonly VerwijderContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
 
     public With_An_Unknown_ContactgegevenId()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new VerenigingWerdGeregistreerdScenario();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
