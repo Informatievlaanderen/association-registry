@@ -1,3 +1,21 @@
+# [2.3.0](https://github.com/informatievlaanderen/association-registry/compare/v2.2.0...v2.3.0) (2023-04-19)
+
+
+### Bug Fixes
+
+* or-1676 reduce huge margins in public api docs ([14be45b](https://github.com/informatievlaanderen/association-registry/commit/14be45b82e93a47e353342b47b0d13189c08f86a))
+
+
+### Features
+
+* OR-1266 add list of possible exceptions ([043f049](https://github.com/informatievlaanderen/association-registry/commit/043f04911f15f988abefd2dff0a94a22fed61e8b))
+* OR-1266 roll back margins fix; add break after Foutmeldingen ([310b742](https://github.com/informatievlaanderen/association-registry/commit/310b74275bb8deed3f7be9fde94d4100b3ba49f6))
+* or-1676 add apiDocs config to ACM api ([0f2af52](https://github.com/informatievlaanderen/association-registry/commit/0f2af523377fafcff58530900edf5d266b923179))
+* or-1676 add info around api keys to public api docs ([58cf20b](https://github.com/informatievlaanderen/association-registry/commit/58cf20b4036eb06a240386c4e68d49c4edfd5559))
+* OR-1676 add license to public api docs ([223749e](https://github.com/informatievlaanderen/association-registry/commit/223749e9f4bbd9b35261b6e714f2f33def81de0a))
+* OR-1676 add settings to test projects ([6c1c3c7](https://github.com/informatievlaanderen/association-registry/commit/6c1c3c7db86b22c40fd5ffe44bc186e1b18ebeb1))
+* or-1676 add swagger config to appsettings ([3dfc522](https://github.com/informatievlaanderen/association-registry/commit/3dfc522a23e7301f4e05a2095c285af4c1d07925))
+
 # [2.2.0](https://github.com/informatievlaanderen/association-registry/compare/v2.1.3...v2.2.0) (2023-04-18)
 
 
