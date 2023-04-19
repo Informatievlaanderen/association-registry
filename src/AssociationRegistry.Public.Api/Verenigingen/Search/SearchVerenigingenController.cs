@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nest;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
+using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -21,6 +22,15 @@ using Swashbuckle.AspNetCore.Filters;
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
+    private readonly ElasticClient _elasticClient;
+    private readonly SearchVerenigingenResponseMapper _responseMapper;
+
+    public SearchVerenigingenController(ElasticClient elasticClient, SearchVerenigingenResponseMapper responseMapper)
+    {
+        _elasticClient = elasticClient;
+        _responseMapper = responseMapper;
+    }
+
     /// <summary>
     ///     Zoek verenigingen op.
     /// </summary>
@@ -43,6 +53,9 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=...&amp;offset=50`
     ///     - `q=...&amp;offset=30&amp;limit=30`
     /// </remarks>
+    /// <param name="q">De querystring</param>
+    /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
+    /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("zoeken")]
@@ -52,8 +65,6 @@ public class SearchVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
-        [FromServices] ElasticClient elasticClient,
-        [FromServices] SearchVerenigingenResponseMapper responseMapper,
         [FromQuery] string? q,
         [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
         string? hoofdactiviteitenVerenigingsloket,
@@ -62,9 +73,9 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-        var searchResponse = await Search(elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
+        var searchResponse = await Search(_elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
 
-        var response = responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
     }
