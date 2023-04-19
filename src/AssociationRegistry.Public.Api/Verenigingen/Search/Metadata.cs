@@ -1,9 +1,41 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
-using Constants;
+public class Metadata
+{
+    /// <summary>
+    /// De paginatie metaData.
+    /// </summary>
+    public Pagination Pagination { get; init; }= null!;
+}
 
-public record Metadata(Pagination Pagination);
+public class Pagination
+{
+    /// <summary>
+    /// het totaal aantal pagina's met de huidige limit.
+    /// </summary>
+    public long TotalCount { get; init; }
+    /// <summary>
+    /// Het aantal overgeslagen resultaten.
+    /// </summary>
+    public int Offset { get; init; }
+    /// <summary>
+    /// Het maximum aantal teruggegeven resultaten.
+    /// </summary>
+    public int Limit { get; init; }
+}
 
-public record Pagination(long TotalCount, int Offset, int Limit);
+public class PaginationQueryParams
+{
+    /// <summary>
+    /// Het aantal items dat overgeslagen zal worden
+    /// </summary>
+    public int Offset { get; set; }
 
-public record PaginationQueryParams(int Offset = PagingConstants.DefaultOffset, int Limit = PagingConstants.DefaultLimit);
+    /// <summary>
+    /// Het aantal items dat (maximaal) zal worden opgehaald.
+    /// </summary>
+    /// <remarks>
+    /// De laatste pagina kan minder items bevatten.
+    /// </remarks>
+    public int Limit { get; set; }
+}

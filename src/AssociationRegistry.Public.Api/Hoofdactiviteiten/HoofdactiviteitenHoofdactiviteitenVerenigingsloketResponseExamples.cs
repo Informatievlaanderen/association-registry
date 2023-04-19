@@ -5,9 +5,16 @@ using Swashbuckle.AspNetCore.Filters;
 public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples : IExamplesProvider<HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse>
 {
     public HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse GetExamples()
-        => new(
-            new[]
-            {
-                new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket("BLA", "Bijzonder Lange Afkortingen"),
-            });
+        => new()
+        {
+            HoofdactiviteitenVerenigingsloket =
+                new[]
+                {
+                    new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket()
+                    {
+                        Code = "BLA",
+                        Beschrijving = "Bijzonder Lange Afkortingen",
+                    },
+                },
+        };
 }

@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Constants;
 using Infrastructure.ConfigurationBindings;
@@ -34,15 +33,17 @@ public class SearchVerenigingenResponseMapper
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingDocument> searchResponse, PaginationQueryParams paginationRequest)
-        => new(
-            new Pagination(
-                searchResponse.Total,
-                paginationRequest.Offset,
-                paginationRequest.Limit
-            )
-        );
+        => new()
+        {
+            Pagination = new Pagination
+            {
+                TotalCount = searchResponse.Total,
+                Offset = paginationRequest.Offset,
+                Limit = paginationRequest.Limit,
+            },
+        };
 
-    private static ImmutableArray<HoofdactiviteitVerenigingsloketFacetItem> GetHoofdActiviteitFacets(
+    private static HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
         AppSettings appSettings,
         ISearchResponse<VerenigingDocument> searchResponse,
         string originalQuery,
@@ -54,7 +55,7 @@ public class SearchVerenigingenResponseMapper
             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
             .Buckets
             .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-            .ToImmutableArray();
+            .ToArray();
     }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
@@ -62,14 +63,16 @@ public class SearchVerenigingenResponseMapper
         KeyedBucket<string> bucket,
         string originalQuery,
         string[] originalHoofdactiviteiten)
-        => new(
-            bucket.Key,
-            bucket.DocCount ?? 0,
-            AddHoofdactiviteitToQuery(
+        => new()
+        {
+            Code = bucket.Key,
+            Aantal = bucket.DocCount ?? 0,
+            Query = AddHoofdactiviteitToQuery(
                 appSettings,
                 bucket.Key,
                 originalQuery,
-                originalHoofdactiviteiten));
+                originalHoofdactiviteiten),
+        };
 
     // public for testing
     public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
@@ -80,22 +83,37 @@ public class SearchVerenigingenResponseMapper
             separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
-    private static ImmutableArray<Vereniging> GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
+    private static Vereniging[] GetVerenigingenFromResponse(AppSettings appSettings, ISearchResponse<VerenigingDocument> searchResponse)
         => searchResponse.Hits.Select(
             x =>
             {
-                return new Vereniging(
-                    x.Source.VCode,
-                    x.Source.Naam,
-                    x.Source.KorteNaam,
-                    x.Source.HoofdactiviteitenVerenigingsloket.Select(h => new HoofdactiviteitVerenigingsloket(h.Code, h.Naam)).ToImmutableArray(),
-                    x.Source.Doelgroep,
-                    x.Source.Locaties.Select(ToLocatieResponse).ToImmutableArray(),
-                    x.Source.Activiteiten.Select(activiteit => new Activiteit(Id: -1, activiteit)).ToImmutableArray(),
-                    new VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)x.Source.VCode}"))
-                );
-            }).ToImmutableArray();
+                return new Vereniging()
+                {
+                    VCode = x.Source.VCode,
+                    Naam = x.Source.Naam,
+                    KorteNaam = x.Source.KorteNaam,
+                    HoofdactiviteitenVerenigingsloket = x.Source.HoofdactiviteitenVerenigingsloket
+                        .Select(h => new HoofdactiviteitVerenigingsloket() { Code = h.Code, Beschrijving = h.Naam })
+                        .ToArray(),
+                    Doelgroep = x.Source.Doelgroep,
+                    Locaties = x.Source.Locaties
+                        .Select(ToLocatieResponse)
+                        .ToArray(),
+                    Activiteiten = x.Source.Activiteiten
+                        .Select(activiteit => new Activiteit() { Id = -1, Categorie = activiteit })
+                        .ToArray(),
+                    Links = new VerenigingLinks() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)x.Source.VCode}") },
+                };
+            }).ToArray();
 
     private static Locatie ToLocatieResponse(VerenigingDocument.Locatie loc)
-        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
+        => new()
+        {
+            Locatietype = loc.Locatietype,
+            Hoofdlocatie = loc.Hoofdlocatie,
+            Adres = loc.Adres,
+            Naam = loc.Naam,
+            Postcode = loc.Postcode,
+            Gemeente = loc.Gemeente,
+        };
 }
