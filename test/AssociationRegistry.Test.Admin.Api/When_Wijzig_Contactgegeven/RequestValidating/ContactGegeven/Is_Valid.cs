@@ -17,7 +17,7 @@ public class Is_Valid : ValidatorTest
         var validator = new WijzigContactgegevenValidator();
         var request = new WijzigContactgegevenRequest
         {
-            Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven
+            Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven
             {
                 Waarde = waarde,
                 Beschrijving = beschrijving,

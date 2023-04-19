@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.Contactgegevens.Type;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -17,14 +18,14 @@ public class Is_Null : ValidatorTest
                 Contactgegevens =
                     new[]
                     {
-                        new RegistreerVerenigingRequest.Contactgegeven
+                        new ToeTeVoegenContactgegeven
                         {
                             Type = null!,
                         },
                     },
             });
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Contactgegevens)}[0].{nameof(RegistreerVerenigingRequest.Contactgegeven.Type)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}")
             .WithErrorMessage("'Type' is verplicht.")
             .Only();
     }

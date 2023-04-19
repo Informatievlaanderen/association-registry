@@ -10,6 +10,7 @@ using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
+using Contactgegeven = Vereniging.Contactgegeven;
 
 [UnitTest]
 public class To_A_RegistreerVerenigingCommand

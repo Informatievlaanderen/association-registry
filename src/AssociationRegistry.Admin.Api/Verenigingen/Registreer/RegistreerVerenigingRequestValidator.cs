@@ -4,6 +4,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
 using System.Linq;
+using Common;
 using Constants;
 using FluentValidation;
 using Infrastructure.Validation;
@@ -115,7 +116,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         }
     }
 
-    private class ContactgegevenValidator : AbstractValidator<RegistreerVerenigingRequest.Contactgegeven>
+    private class ContactgegevenValidator : AbstractValidator<ToeTeVoegenContactgegeven>
     {
         public ContactgegevenValidator()
         {

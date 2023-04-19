@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using System;
+using Common;
 using Constants;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
@@ -33,7 +34,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             },
             Contactgegevens = new[]
             {
-                new RegistreerVerenigingRequest.Contactgegeven()
+                new ToeTeVoegenContactgegeven()
                 {
                     Beschrijving = "Algemeen",
                     Waarde = "algemeen@example.com",

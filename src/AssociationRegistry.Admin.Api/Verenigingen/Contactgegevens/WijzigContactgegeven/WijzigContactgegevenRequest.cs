@@ -13,11 +13,11 @@ public class WijzigContactgegevenRequest
 
     /// <summary>Het te wijzigen contactgegeven</summary>
     [DataMember(Name = "contactgegeven")]
-    public RequestContactgegeven Contactgegeven { get; set; } = null!;
+    public TeWijzigenContactgegeven Contactgegeven { get; set; } = null!;
 
     /// <summary>Het te wijzigen contactgegeven</summary>
     [DataContract]
-    public class RequestContactgegeven
+    public class TeWijzigenContactgegeven
     {
         /// <summary>De waarde van het contactgegeven</summary>
         [DataMember(Name = "waarde")] public string? Waarde { get; set; } = null!;

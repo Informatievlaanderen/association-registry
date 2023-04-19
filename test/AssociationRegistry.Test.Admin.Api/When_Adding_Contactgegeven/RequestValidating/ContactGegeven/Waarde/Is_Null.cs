@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Contactgegeven.RequestValidating.Contactgegeven.Waarde;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using Framework;
 using FluentValidation.TestHelper;
@@ -14,13 +15,13 @@ public class Is_Null : ValidatorTest
         var result = validator.TestValidate(
             new VoegContactgegevenToeRequest
             {
-                Contactgegeven = new VoegContactgegevenToeRequest.RequestContactgegeven
+                Contactgegeven = new ToeTeVoegenContactgegeven
                     {
                         Waarde = null!,
                     },
             });
 
-        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(VoegContactgegevenToeRequest.RequestContactgegeven.Waarde))
+        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Waarde))
             .WithErrorMessage("'Waarde' is verplicht.")
             .Only();
     }

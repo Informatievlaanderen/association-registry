@@ -24,7 +24,7 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
         );
     }
 
-    private static bool HaveAtLeastOneValue(WijzigContactgegevenRequest.RequestContactgegeven contactgegeven)
+    private static bool HaveAtLeastOneValue(WijzigContactgegevenRequest.TeWijzigenContactgegeven contactgegeven)
         => contactgegeven.Waarde is not null ||
            contactgegeven.Beschrijving is not null ||
            contactgegeven.IsPrimair is not null;

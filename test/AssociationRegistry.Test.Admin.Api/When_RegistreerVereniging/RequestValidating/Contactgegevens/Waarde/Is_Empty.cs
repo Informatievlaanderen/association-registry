@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.Contactgegevens.Waarde;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -17,14 +18,14 @@ public class Is_Empty : ValidatorTest
                 Contactgegevens =
                     new[]
                     {
-                        new RegistreerVerenigingRequest.Contactgegeven
+                        new ToeTeVoegenContactgegeven
                         {
                             Waarde = "",
                         },
                     },
             });
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Contactgegevens)}[0].{nameof(RegistreerVerenigingRequest.Contactgegeven.Waarde)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Waarde)}")
             .WithErrorMessage("'Waarde' mag niet leeg zijn.")
             .Only();
     }
