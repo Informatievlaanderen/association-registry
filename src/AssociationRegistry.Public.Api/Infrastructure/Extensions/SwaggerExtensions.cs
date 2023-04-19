@@ -38,18 +38,18 @@ public static class SwaggerExtensions
                         new OpenApiInfo
                         {
                             Version = "v1",
-                            Title = "Basisregisters Vlaanderen Verenigingsregister Publieke API",
+                            Title = appSettings.ApiDocs.Title,
                             License = new OpenApiLicense
                             {
-                                Name = "Modellicentie Gratis Hergebruik - v1.0",
-                                Url = new Uri("https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html")
+                                Name = appSettings.ApiDocs.License.Name,
+                                Url = new Uri(appSettings.ApiDocs.License.Url),
                             },
                             Description = Documentation.Documentation.GetApiLeadingText(appSettings),
                             Contact = new OpenApiContact
                             {
-                                Name = "Digitaal Vlaanderen",
-                                Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://beheer.verenigingen.vlaanderen.be"),
+                                Name = appSettings.ApiDocs.Contact.Name,
+                                Email = appSettings.ApiDocs.Contact.Email,
+                                Url = new Uri(appSettings.ApiDocs.Contact.Url),
                             },
                         });
                     options.ExampleFilters();
@@ -88,7 +88,7 @@ public static class SwaggerExtensions
                                  }}
                              </style>",
 
-                 CSharpClient =
+                CSharpClient =
                 {
                     ClassName = "Verenigingsregister",
                     Namespace = "Be.Vlaanderen.Basisregisters",

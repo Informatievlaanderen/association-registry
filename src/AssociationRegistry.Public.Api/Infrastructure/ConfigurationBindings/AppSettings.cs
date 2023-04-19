@@ -2,7 +2,7 @@
 
 public class AppSettings
 {
-    private string? _baseUrl = null!;
+    private string? _baseUrl;
     public string OrganisationRegistryUri { get; set; } = null!;
 
     public string BaseUrl

@@ -262,16 +262,13 @@ public class Program
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
+        var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
             .AddSingleton(postgreSqlOptionsSection)
+            .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
             .AddSingleton<IClock, Clock>()
-            .AddSingleton(
-                new AppSettings
-                {
-                    BaseUrl = builder.Configuration.GetBaseUrl(),
-                })
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddTransient<IMagdaFacade, StaticMagdaFacade>()
@@ -462,7 +459,7 @@ public class Program
             .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
             .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
-        builder.Services.AddAdminApiSwagger();
+        builder.Services.AddAdminApiSwagger(appSettings);
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }
 
