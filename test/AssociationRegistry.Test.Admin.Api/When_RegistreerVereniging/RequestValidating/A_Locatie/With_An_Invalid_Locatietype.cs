@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locatie;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using AutoFixture;
@@ -20,7 +21,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
         {
             Locaties = new[]
             {
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Locatietype = new Fixture().Create<string>(),
                 },
@@ -28,7 +29,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Locatietype)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Locatietype)}")
             .WithErrorMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietypes.Correspondentie}, {Locatietypes.Activiteiten}");
     }
 }

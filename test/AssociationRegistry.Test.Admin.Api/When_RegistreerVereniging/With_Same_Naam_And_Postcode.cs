@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
 using Fixtures;
@@ -28,7 +29,7 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
     private When_RegistreerVereniging_With_Same_Naam_And_Postcode(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAll();
-        var locatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
+        var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Postcode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Postcode;
         Request = new RegistreerVerenigingRequest()

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -18,12 +19,12 @@ public class With_Multiple_Hoofdlocaties : ValidatorTest
         {
             Locaties = new[]
             {
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
                     Hoofdlocatie = true,
                 },
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
                     Hoofdlocatie = true,

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locatie;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -20,7 +21,7 @@ public class With_A_Valid_Locatietype : ValidatorTest
         {
             Locaties = new[]
             {
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Locatietype = locationType,
                     Straatnaam = "dezeStraat",
@@ -33,6 +34,6 @@ public class With_A_Valid_Locatietype : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(RegistreerVerenigingRequest.Locatie.Gemeente)}");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}");
     }
 }

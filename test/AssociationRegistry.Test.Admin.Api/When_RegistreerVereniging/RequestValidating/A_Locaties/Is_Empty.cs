@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locaties;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -15,7 +16,7 @@ public class Is_Empty : ValidatorTest
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Locaties = Array.Empty<RegistreerVerenigingRequest.Locatie>(),
+            Locaties = Array.Empty<ToeTeVoegenLocatie>(),
         };
         var result = validator.TestValidate(request);
 

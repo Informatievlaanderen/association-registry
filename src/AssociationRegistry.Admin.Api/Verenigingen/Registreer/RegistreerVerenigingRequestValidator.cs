@@ -50,7 +50,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         => values.Length == values.DistinctBy(v => v.ToLower()).Count();
 
 
-    private class LocatieValidator : AbstractValidator<RegistreerVerenigingRequest.Locatie>
+    private class LocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
     {
         public LocatieValidator()
         {
@@ -71,16 +71,16 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
         private static bool BeAValidLocationTypeValue(string locatieType)
             => Locatietypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
 
-        internal static bool NotHaveMultipleHoofdlocaties(RegistreerVerenigingRequest.Locatie[] locaties)
+        internal static bool NotHaveMultipleHoofdlocaties(ToeTeVoegenLocatie[] locaties)
             => locaties.Count(l => l.Hoofdlocatie) <= 1;
 
-        internal static bool NotHaveMultipleCorresporentieLocaties(RegistreerVerenigingRequest.Locatie[] locaties)
+        internal static bool NotHaveMultipleCorresporentieLocaties(ToeTeVoegenLocatie[] locaties)
             => locaties.Count(l => string.Equals(l.Locatietype, Locatietypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
 
-        internal static bool NotHaveDuplicates(RegistreerVerenigingRequest.Locatie[] locaties)
+        internal static bool NotHaveDuplicates(ToeTeVoegenLocatie[] locaties)
             => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
-        private static object ToAnonymousObject(RegistreerVerenigingRequest.Locatie l)
+        private static object ToAnonymousObject(ToeTeVoegenLocatie l)
             => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
     }
 

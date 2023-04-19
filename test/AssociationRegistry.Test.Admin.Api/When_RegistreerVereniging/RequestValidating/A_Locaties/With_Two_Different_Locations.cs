@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -14,7 +15,7 @@ public class With_Two_Different_Locations : ValidatorTest
     public void Has_no_validation_error()
     {
         var validator = new RegistreerVerenigingRequestValidator();
-        var eersteLocatie = new RegistreerVerenigingRequest.Locatie
+        var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
             Huisnummer = "23",
@@ -23,7 +24,7 @@ public class With_Two_Different_Locations : ValidatorTest
             Straatnaam = "Kerkstraat",
             Land = "Belgie",
         };
-        var andereLocatie = new RegistreerVerenigingRequest.Locatie
+        var andereLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
             Huisnummer = "23",

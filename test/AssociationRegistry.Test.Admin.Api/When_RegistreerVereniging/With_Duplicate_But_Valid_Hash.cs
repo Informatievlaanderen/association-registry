@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging;
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
 using Fixtures;
@@ -25,12 +26,12 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
     {
         public readonly RegistreerVerenigingRequest Request;
         public readonly HttpResponseMessage Response;
-        public RegistreerVerenigingRequest.Locatie RequestLocatie { get; }
+        public ToeTeVoegenLocatie RequestLocatie { get; }
 
         public Setup(EventsInDbScenariosFixture fixture)
         {
             var autoFixture = new Fixture().CustomizeAll();
-            RequestLocatie = autoFixture.Create<RegistreerVerenigingRequest.Locatie>();
+            RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
             RequestLocatie.Gemeente = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
             Request = new RegistreerVerenigingRequest

@@ -48,7 +48,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember]
-    public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
+    public ToeTeVoegenLocatie[] Locaties { get; set; } = Array.Empty<ToeTeVoegenLocatie>();
 
     /// <summary>De vertegenwoordigers van deze vereniging</summary>
     [DataMember]
@@ -82,8 +82,8 @@ public class RegistreerVerenigingRequest
             SocialMedia.Create(vert.SocialMedia)
         );
 
-    private static AssociationRegistry.Vereniging.Locatie Map(Locatie loc)
-        => AssociationRegistry.Vereniging.Locatie.Create(
+    private static Locatie Map(ToeTeVoegenLocatie loc)
+        => Locatie.Create(
             loc.Naam,
             loc.Straatnaam,
             loc.Huisnummer,
@@ -100,51 +100,4 @@ public class RegistreerVerenigingRequest
             toeTeVoegenContactgegeven.Waarde,
             toeTeVoegenContactgegeven.Beschrijving,
             toeTeVoegenContactgegeven.IsPrimair);
-
-    /// <summary>Een locatie van een vereniging</summary>
-    [DataContract]
-    public class Locatie
-    {
-        /// <summary>
-        ///     Het soort locatie dat beschreven word<br />
-        ///     <br />
-        ///     Mogelijke waarden:<br />
-        ///     - Activiteiten<br />
-        ///     - Correspondentie - Slecht één maal mogelijk<br />
-        /// </summary>
-        [DataMember]
-        public string Locatietype { get; set; } = null!;
-
-        /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
-        [DataMember]
-        public bool Hoofdlocatie { get; set; }
-
-        /// <summary>Een beschrijvende naam voor de locatie</summary>
-        [DataMember]
-        public string? Naam { get; set; }
-
-        /// <summary>De straat van de locatie</summary>
-        [DataMember]
-        public string Straatnaam { get; set; } = null!;
-
-        /// <summary>Het huisnummer van de locatie</summary>
-        [DataMember]
-        public string Huisnummer { get; set; } = null!;
-
-        /// <summary>Het busnummer van de locatie</summary>
-        [DataMember]
-        public string? Busnummer { get; set; }
-
-        /// <summary>De postcode van de locatie</summary>
-        [DataMember]
-        public string Postcode { get; set; } = null!;
-
-        /// <summary>De gemeente van de locatie</summary>
-        [DataMember]
-        public string Gemeente { get; set; } = null!;
-
-        /// <summary>Het land van de locatie</summary>
-        [DataMember]
-        public string Land { get; set; } = null!;
-    }
 }
