@@ -60,7 +60,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             },
             Vertegenwoordigers = new[]
             {
-                new RegistreerVerenigingRequest.Vertegenwoordiger
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = autoFixture.Create<Insz>(),
                     Rol = "Voorzitter, Hoofdcoach",
@@ -71,7 +71,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
                     Mobiel = "987654321",
                     SocialMedia = "http://example.com",
                 },
-                new RegistreerVerenigingRequest.Vertegenwoordiger
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = autoFixture.Create<Insz>(),
                     Rol = "Master",

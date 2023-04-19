@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_An_Insz;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -18,7 +19,7 @@ public class With_Invalid_Length
         {
             Vertegenwoordigers = new[]
             {
-                new RegistreerVerenigingRequest.Vertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger()
                 {
                     Insz = insz,
                 },
@@ -26,7 +27,7 @@ public class With_Invalid_Length
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(request.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(request.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
             .WithErrorMessage("Insz moet 11 cijfers bevatten");
     }
 }

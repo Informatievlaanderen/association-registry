@@ -84,7 +84,7 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
             => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
     }
 
-    private class VertegenwoordigerValidator : AbstractValidator<RegistreerVerenigingRequest.Vertegenwoordiger>
+    private class VertegenwoordigerValidator : AbstractValidator<ToeTeVoegenVertegenwoordiger>
     {
         public VertegenwoordigerValidator()
         {

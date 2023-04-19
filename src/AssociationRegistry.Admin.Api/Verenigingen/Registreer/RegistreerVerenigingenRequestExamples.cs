@@ -44,7 +44,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             },
             Vertegenwoordigers = new[]
             {
-                new RegistreerVerenigingRequest.Vertegenwoordiger
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = "yymmddxxxcc",
                     PrimairContactpersoon = true,
