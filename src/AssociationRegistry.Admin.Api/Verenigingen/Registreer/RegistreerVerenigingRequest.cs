@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using Acties.RegistreerVereniging;
-using Infrastructure.Swagger;
+using Common;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -44,7 +44,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember]
-    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
+    public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = Array.Empty<ToeTeVoegenContactgegeven>();
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember]
@@ -94,41 +94,12 @@ public class RegistreerVerenigingRequest
             loc.Hoofdlocatie,
             loc.Locatietype);
 
-    public static AssociationRegistry.Vereniging.Contactgegeven Map(Contactgegeven contactgegeven)
-        => AssociationRegistry.Vereniging.Contactgegeven.Create(
-            ContactgegevenType.Parse(contactgegeven.Type),
-            contactgegeven.Waarde,
-            contactgegeven.Beschrijving,
-            contactgegeven.IsPrimair);
-
-    /// <summary>
-    /// Het toe te voegen contactgegeven
-    /// </summary>
-    [DataContract]
-    public class Contactgegeven
-    {
-        /// <summary>Het type contactgegeven</summary>
-        [SwaggerParameterExample("Email")]
-        [SwaggerParameterExample("SocialMedia")]
-        [SwaggerParameterExample("Telefoon")]
-        [SwaggerParameterExample("Website")]
-        [DataMember(Name = "type")]
-        public string Type { get; set; } = null!;
-
-        /// <summary>De waarde van het contactgegeven</summary>
-        [DataMember(Name = "waarde")]
-        public string Waarde { get; set; } = null!;
-
-        /// <summary>
-        /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
-        /// </summary>
-        [DataMember(Name = "beschrijving")]
-        public string? Beschrijving { get; set; }
-
-        /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
-        [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
-        public bool IsPrimair { get; set; }
-    }
+    public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
+        => Contactgegeven.Create(
+            ContactgegevenType.Parse(toeTeVoegenContactgegeven.Type),
+            toeTeVoegenContactgegeven.Waarde,
+            toeTeVoegenContactgegeven.Beschrijving,
+            toeTeVoegenContactgegeven.IsPrimair);
 
     /// <summary>Een vertegenwoordiger van een vereniging</summary>
     [DataContract]

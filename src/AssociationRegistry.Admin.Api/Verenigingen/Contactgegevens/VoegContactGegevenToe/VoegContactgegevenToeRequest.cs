@@ -2,7 +2,7 @@
 
 using System.Runtime.Serialization;
 using Acties.VoegContactgegevenToe;
-using Infrastructure.Swagger;
+using Common;
 using Vereniging;
 
 [DataContract]
@@ -14,35 +14,7 @@ public class VoegContactgegevenToeRequest
 
     /// <summary>Het toe te voegen contactgegeven</summary>
     [DataMember(Name = "contactgegeven")]
-    public RequestContactgegeven Contactgegeven { get; set; } = null!;
-
-
-    /// <summary>Het toe te voegen contactgegeven</summary>
-    [DataContract]
-    public class RequestContactgegeven
-    {
-        /// <summary>Het type contactgegeven.</summary>
-        [SwaggerParameterExample("Email")]
-        [SwaggerParameterExample("Socialmedia")]
-        [SwaggerParameterExample("Telefoon")]
-        [SwaggerParameterExample("Website")]
-        [DataMember(Name = "type")]
-        public string Type { get; set; } = null!;
-
-        /// <summary>De waarde van het contactgegeven</summary>
-        [DataMember(Name = "waarde")]
-        public string Waarde { get; set; } = null!;
-
-        /// <summary>
-        /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
-        /// </summary>
-        [DataMember(Name = "beschrijving")]
-        public string? Beschrijving { get; set; }
-
-        /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
-        [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
-        public bool IsPrimair { get; set; }
-    }
+    public ToeTeVoegenContactgegeven Contactgegeven { get; set; } = null!;
 
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(

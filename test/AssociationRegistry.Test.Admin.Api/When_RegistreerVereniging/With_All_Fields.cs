@@ -4,6 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Events;
 using Fixtures;
@@ -32,7 +33,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
             Initiator = "OVO000001",
-            Contactgegevens = new RegistreerVerenigingRequest.Contactgegeven[]
+            Contactgegevens = new ToeTeVoegenContactgegeven[]
             {
                 new()
                 {

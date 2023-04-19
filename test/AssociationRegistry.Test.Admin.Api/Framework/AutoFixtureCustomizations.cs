@@ -17,6 +17,8 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
+using Contactgegeven = Vereniging.Contactgegeven;
+using ToeTeVoegenContactgegeven = AssociationRegistry.Admin.Api.Verenigingen.Common.ToeTeVoegenContactgegeven;
 
 public static class AutoFixtureCustomizations
 {
@@ -92,7 +94,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                 _ => new RegistreerVerenigingRequest
                 {
-                    Contactgegevens = fixture.CreateMany<RegistreerVerenigingRequest.Contactgegeven>().ToArray(),
+                    Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Initiator = fixture.Create<string>(),
                     Locaties = fixture.CreateMany<RegistreerVerenigingRequest.Locatie>().ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
@@ -121,12 +123,12 @@ public static class AutoFixtureCustomizations
                     Hoofdlocatie = false,
                 }).OmitAutoProperties());
 
-        fixture.Customize<RegistreerVerenigingRequest.Contactgegeven>(
+        fixture.Customize<ToeTeVoegenContactgegeven>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () =>
                     {
                         var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new RegistreerVerenigingRequest.Contactgegeven
+                        return new ToeTeVoegenContactgegeven
                         {
                             Type = contactgegeven.Type,
                             Waarde = contactgegeven.Waarde,
@@ -340,18 +342,18 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new VoegContactgegevenToeRequest
                     {
-                        Contactgegeven = fixture.Create<VoegContactgegevenToeRequest.RequestContactgegeven>(),
+                        Contactgegeven = fixture.Create<ToeTeVoegenContactgegeven>(),
                         Initiator = fixture.Create<VCode>(),
                     }
                 )
                 .OmitAutoProperties());
 
-        fixture.Customize<VoegContactgegevenToeRequest.RequestContactgegeven>(
+        fixture.Customize<ToeTeVoegenContactgegeven>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () =>
                     {
                         var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new VoegContactgegevenToeRequest.RequestContactgegeven
+                        return new ToeTeVoegenContactgegeven
                         {
                             Type = contactgegeven.Type,
                             Waarde = contactgegeven.Waarde,

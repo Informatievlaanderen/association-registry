@@ -37,7 +37,7 @@ public class Without_Changes : IAsyncLifetime
         _result = await _controller.Patch(
             "V0001001",
             1,
-            new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven() },
+            new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven() },
             "W/\"1\"");
     }
 

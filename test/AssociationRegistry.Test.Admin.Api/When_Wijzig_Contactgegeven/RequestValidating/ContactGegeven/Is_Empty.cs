@@ -13,7 +13,7 @@ public class Is_Empty : ValidatorTest
         var validator = new WijzigContactgegevenValidator();
         var request = new WijzigContactgegevenRequest()
         {
-            Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven(),
+            Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven(),
         };
         var result = validator.TestValidate(request);
 

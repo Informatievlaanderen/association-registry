@@ -12,7 +12,7 @@ public class With_Empty_Waarde : ValidatorTest
         var validator = new WijzigContactgegevenValidator();
         var request = new WijzigContactgegevenRequest()
         {
-            Contactgegeven = new WijzigContactgegevenRequest.RequestContactgegeven
+            Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven
             {
                 Waarde = string.Empty,
             },
