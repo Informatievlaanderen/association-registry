@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/informatievlaanderen/association-registry/compare/v2.3.1...v2.3.2) (2023-04-19)
+
+
+### Bug Fixes
+
+* or-1631 error responses now all use the same types in beheer API ([585f027](https://github.com/informatievlaanderen/association-registry/commit/585f0277e61ca628c3f4cf6cf72c711a476e95c6))
+
 ## [2.3.1](https://github.com/informatievlaanderen/association-registry/compare/v2.3.0...v2.3.1) (2023-04-19)
 
 
