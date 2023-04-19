@@ -39,6 +39,11 @@ public static class SwaggerExtensions
                         {
                             Version = "v1",
                             Title = "Basisregisters Vlaanderen Verenigingsregister Publieke API",
+                            License = new OpenApiLicense
+                            {
+                                Name = "Modellicentie Gratis Hergebruik - v1.0",
+                                Url = new Uri("https://overheid.vlaanderen.be/sites/default/files/documenten/ict-egov/licenties/hergebruik/modellicentie_gratis_hergebruik_v1_0.html")
+                            },
                             Description = Documentation.Documentation.GetApiLeadingText(appSettings),
                             Contact = new OpenApiContact
                             {
