@@ -236,11 +236,8 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
 
-        var appSettings = new AppSettings
-        {
-            BaseUrl = builder.Configuration.GetBaseUrl(),
-            ApiKeyRequestFormUrl = builder.Configuration["ApiKeyRequestFormUrl"]
-        };
+        var appSettings = builder.Configuration.Get<AppSettings>();
+
         builder.Services
             .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton(appSettings)
