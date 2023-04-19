@@ -1,3 +1,11 @@
+## [2.3.1](https://github.com/informatievlaanderen/association-registry/compare/v2.3.0...v2.3.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* or-1641 replace historiek data objects with events ([32bda32](https://github.com/informatievlaanderen/association-registry/commit/32bda32979049b764e05316d0eb1e66b9356ffa3))
+* or-1641 use scenario without contactgegevens to test verwijderContactgegevenWithUnknownId ([204a5c7](https://github.com/informatievlaanderen/association-registry/commit/204a5c73b29c1ff8efea4dee952321f4d7fa645a))
+
 # [2.3.0](https://github.com/informatievlaanderen/association-registry/compare/v2.2.0...v2.3.0) (2023-04-19)
 
 
