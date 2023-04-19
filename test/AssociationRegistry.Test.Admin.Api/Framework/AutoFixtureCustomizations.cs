@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
@@ -99,7 +100,7 @@ public static class AutoFixtureCustomizations
                     Locaties = fixture.CreateMany<RegistreerVerenigingRequest.Locatie>().ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
-                    Vertegenwoordigers = fixture.CreateMany<RegistreerVerenigingRequest.Vertegenwoordiger>().ToArray(),
+                    Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                         .Select(x => x.Code)
                         .ToArray(),
@@ -138,9 +139,9 @@ public static class AutoFixtureCustomizations
                     })
                 .OmitAutoProperties());
 
-        fixture.Customize<RegistreerVerenigingRequest.Vertegenwoordiger>(
+        fixture.Customize<ToeTeVoegenVertegenwoordiger>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingRequest.Vertegenwoordiger
+                    factory: () => new ToeTeVoegenVertegenwoordiger
                     {
                         Insz = fixture.Create<Insz>(),
                         Roepnaam = fixture.Create<string>(),

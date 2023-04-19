@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Vertegenwoordiger.With_An_Insz;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -17,7 +18,7 @@ public class Is_Null
         {
             Vertegenwoordigers = new[]
             {
-                new RegistreerVerenigingRequest.Vertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger()
                 {
                     Insz = null,
                 },
@@ -25,7 +26,7 @@ public class Is_Null
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(RegistreerVerenigingRequest.Vertegenwoordiger.Insz)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
             .WithErrorMessage("'Insz' is verplicht.");
     }
 }

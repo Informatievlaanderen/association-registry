@@ -52,7 +52,7 @@ public class RegistreerVerenigingRequest
 
     /// <summary>De vertegenwoordigers van deze vereniging</summary>
     [DataMember]
-    public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
+    public ToeTeVoegenVertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<ToeTeVoegenVertegenwoordiger>();
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember]
@@ -70,8 +70,8 @@ public class RegistreerVerenigingRequest
             Vertegenwoordigers.Select(Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray());
 
-    private static AssociationRegistry.Vereniging.Vertegenwoordiger Map(Vertegenwoordiger vert)
-        => AssociationRegistry.Vereniging.Vertegenwoordiger.Create(
+    private static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
+        => Vertegenwoordiger.Create(
             Insz.Create(vert.Insz!),
             vert.PrimairContactpersoon,
             vert.Roepnaam,
@@ -100,47 +100,6 @@ public class RegistreerVerenigingRequest
             toeTeVoegenContactgegeven.Waarde,
             toeTeVoegenContactgegeven.Beschrijving,
             toeTeVoegenContactgegeven.IsPrimair);
-
-    /// <summary>Een vertegenwoordiger van een vereniging</summary>
-    [DataContract]
-    public class Vertegenwoordiger
-    {
-        /// <summary>
-        ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
-        /// </summary>
-        [DataMember]
-        public string? Insz { get; set; }
-
-        /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
-        [DataMember]
-        public string? Rol { get; set; }
-
-        /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
-        [DataMember]
-        public string? Roepnaam { get; set; }
-
-        /// <summary>
-        ///     Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
-        /// </summary>
-        [DataMember]
-        public bool PrimairContactpersoon { get; set; }
-
-        /// <summary>Het emailadres van de vertegenwoordiger</summary>
-        [DataMember]
-        public string? Email { get; set; }
-
-        /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>
-        [DataMember]
-        public string? Telefoon { get; set; }
-
-        /// <summary>Het mobiel nummer van de vertegenwoordiger</summary>
-        [DataMember]
-        public string? Mobiel { get; set; }
-
-        /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
-        [DataMember]
-        public string? SocialMedia { get; set; }
-    }
 
     /// <summary>Een locatie van een vereniging</summary>
     [DataContract]
