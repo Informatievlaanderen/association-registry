@@ -238,13 +238,10 @@ public class Program
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
+        var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
-            .AddSingleton(
-                new AppSettings
-                {
-                    BaseUrl = builder.Configuration.GetBaseUrl(),
-                })
+            .AddSingleton(appSettings)
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()
@@ -411,7 +408,7 @@ public class Program
             .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
             .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
-        builder.Services.AddAcmApiSwagger();
+        builder.Services.AddAcmApiSwagger(appSettings);
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

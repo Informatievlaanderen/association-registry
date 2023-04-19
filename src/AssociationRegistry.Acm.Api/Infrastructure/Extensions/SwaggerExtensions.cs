@@ -6,6 +6,7 @@ using System.Reflection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
+using ConfigurationBindings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 public static class SwaggerExtensions
 {
-    public static IServiceCollection AddAcmApiSwagger(this IServiceCollection services)
+    public static IServiceCollection AddAcmApiSwagger(this IServiceCollection services, AppSettings appSettings)
         => services
             .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
             .AddSwaggerGen(
@@ -37,7 +38,7 @@ public static class SwaggerExtensions
                         new OpenApiInfo
                         {
                             Version = "v1",
-                            Title = "Basisregisters Vlaanderen Verenigingsregister ACM API",
+                            Title = appSettings.ApiDocs.Title,
                             Description = "</br>" +
                                           "Momenteel leest u de documentatie voor versie v1 van de Basisregisters Vlaanderen Verenigingsregister ACM API. " +
                                           "</br></br>" +
@@ -45,9 +46,9 @@ public static class SwaggerExtensions
                                           "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
                             Contact = new OpenApiContact
                             {
-                                Name = "Digitaal Vlaanderen",
-                                Email = "digitaal.vlaanderen@vlaanderen.be",
-                                Url = new Uri("https://beheer.verenigingen.vlaanderen.be"),
+                                Name = appSettings.ApiDocs.Contact.Name,
+                                Email = appSettings.ApiDocs.Contact.Email,
+                                Url = new Uri(appSettings.ApiDocs.Contact.Url),
                             },
                         });
                     options.ExampleFilters();
