@@ -19,7 +19,7 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             Locaties = new[]
             {
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Naam = "Naam locatie",
                     Busnummer = "12",

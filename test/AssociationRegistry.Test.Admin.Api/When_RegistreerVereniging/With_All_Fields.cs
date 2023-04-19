@@ -45,7 +45,7 @@ public sealed class When_RegistreerVereniging_WithAllFields
             },
             Locaties = new[]
             {
-                new RegistreerVerenigingRequest.Locatie
+                new ToeTeVoegenLocatie
                 {
                     Naam = "Kantoor",
                     Straatnaam = "dorpstraat",

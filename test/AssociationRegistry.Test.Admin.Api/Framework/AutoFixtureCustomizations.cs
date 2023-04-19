@@ -97,7 +97,7 @@ public static class AutoFixtureCustomizations
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Initiator = fixture.Create<string>(),
-                    Locaties = fixture.CreateMany<RegistreerVerenigingRequest.Locatie>().ToArray(),
+                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
@@ -109,9 +109,9 @@ public static class AutoFixtureCustomizations
                     KboNummer = fixture.Create<KboNummer>(),
                 }).OmitAutoProperties());
 
-        fixture.Customize<RegistreerVerenigingRequest.Locatie>(
+        fixture.Customize<ToeTeVoegenLocatie>(
             composer => composer.FromFactory<int>(
-                value => new RegistreerVerenigingRequest.Locatie
+                value => new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.All[value % Locatietypes.All.Length],
                     Naam = fixture.Create<string>(),

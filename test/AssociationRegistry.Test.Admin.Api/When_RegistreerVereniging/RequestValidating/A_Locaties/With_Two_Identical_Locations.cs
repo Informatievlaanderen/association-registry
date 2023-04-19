@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using Framework;
 using FluentValidation.TestHelper;
@@ -15,7 +16,7 @@ public class With_Two_Identical_Locations : ValidatorTest
     public void Has_validation_error__idenitiek_locaties_verboden()
     {
         var validator = new RegistreerVerenigingRequestValidator();
-        var identiekLocatie = new RegistreerVerenigingRequest.Locatie
+        var identiekLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
             Huisnummer = "23",
