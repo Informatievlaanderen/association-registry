@@ -96,7 +96,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     }}"))}],
                     ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
-                        {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
+                        ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
                         ""straatnaam"": ""{x.Straatnaam}"",

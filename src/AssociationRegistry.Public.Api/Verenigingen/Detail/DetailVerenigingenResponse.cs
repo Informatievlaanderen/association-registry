@@ -149,7 +149,7 @@ public class Locatie
     public string Locatietype { get; init; }
 
     /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
-    [DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
+    [DataMember(Name = "Hoofdlocatie")]
     public bool Hoofdlocatie { get; init; }
 
     /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>

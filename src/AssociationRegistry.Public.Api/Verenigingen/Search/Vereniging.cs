@@ -24,7 +24,7 @@ public record Vereniging(
 public record Locatie(
     [property: DataMember(Name = "Locatietype")]
     string Locatietype,
-    [property: DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
+    [property: DataMember(Name = "Hoofdlocatie")]
     bool Hoofdlocatie,
     [property: DataMember(Name = "Adres")] string Adres,
     [property: DataMember(Name = "Naam")] string? Naam,
