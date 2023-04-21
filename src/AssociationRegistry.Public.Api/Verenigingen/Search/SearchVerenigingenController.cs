@@ -34,7 +34,7 @@ public class SearchVerenigingenController : ApiController
     ///     Om te zoeken binnen een bepaald veld, gebruik je de naam van het veld.
     ///     - `q=hoofdlocatie:Liedekerke`
     ///     - `q=korteNaam:DV*`
-    ///     Om te zoeken op een genest veld, beschrijf je het pad anar het veld.
+    ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`
     ///     Standaard gebruiken we een paginatie limiet van 50 verenigingen.
     ///     Om een andere limiet te gebruiken, geef je de parameter `limit` mee.

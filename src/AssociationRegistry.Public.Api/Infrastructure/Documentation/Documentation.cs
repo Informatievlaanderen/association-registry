@@ -65,7 +65,7 @@ De Basisregisters Vlaanderen API gebruikt [Problem Details for HTTP APIs (RFC780
 
 ## Mogelijke foutmeldingen
 
-Binnen de aangeboden endpoints zijn er een aantal foutmeldingen die kunnen voorkomen. U moet naar het veld ‘Detail’ kijken voor meer informatie.
+Binnen de aangeboden endpoints zijn er een aantal foutmeldingen die kunnen voorkomen. U moet naar het veld ‘Detail’ binnen de response body kijken voor meer informatie.
 
 Foutmelding | Wanneer                                                           |
 ----------- | ----------------------------------------------------------------- |
