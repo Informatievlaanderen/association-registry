@@ -70,6 +70,26 @@ Foutmelding | Wanneer                                                           
 403    |Wanneer er geen API key wordt meegegeven. <br> Wanneer de opgegeven API key niet correct is. |
 404    |Wanneer de resource niet gevonden kan worden. |
 500    |Wanneer er een interne fout is gebeurd. |
+
+                <script>
+      Redoc.init(
+        '/docs/v1/docs.json',
+        {{
+            'noAutoAuth': true,
+    'hideDownloadButton': true,
+    'theme': {{
+                'spacing': {{
+                'sectionVertical': '35'
+            }},
+            'typography': {{
+        'headings': {{
+            'lineHeight': '1.2em'
+        }}
+    }}
+}}
+}},        document.getElementById('redoc-container')
+)
+</script>
 ";
 
     public static string GetApiLeadingText(AppSettings appSettings)
@@ -80,5 +100,39 @@ Foutmelding | Wanneer                                                           
         text.AppendLine(ToegangTotHetRegisterText(appSettings));
         text.AppendLine(FoutmeldingenText);
         return text.ToString();
+    }
+
+    public static string GetHeadContent()
+    {
+        var borderAfterFoutmeldingenSection = @"
+<style>
+li[data-item-id=""section/Foutmeldingen""]
+{
+    border-bottom: 1px solid rgb(225, 225, 225);
+}
+</style>";
+
+        var lessSpaceBetweenSections = @"
+<script src=""https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js""> </script>
+<script>
+window.addEventListener('load', () => {
+Redoc.init(
+        '/docs/v1/docs.json',
+    {
+        'theme': {
+            'spacing': {
+                'sectionVertical': '0'
+            },
+        }
+    },
+    document.getElementById('redoc-container')
+)
+});
+</script>";
+
+        return $@"
+{borderAfterFoutmeldingenSection}
+{lessSpaceBetweenSections}
+";
     }
 }
