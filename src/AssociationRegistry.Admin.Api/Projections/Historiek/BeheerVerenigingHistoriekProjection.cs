@@ -10,7 +10,6 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema;
-using Vereniging;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>

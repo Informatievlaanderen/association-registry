@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using System.Collections.Immutable;
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
@@ -98,7 +97,11 @@ public static class AutoFixtureCustomizations
                     KorteBeschrijving = fixture.Create<string>(),
                     Initiator = fixture.Create<string>(),
                     Startdatum = NullOrEmpty<DateOnly>.Create(fixture.Create<DateOnly>()),
-                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Select(h => h.Code).ToArray(),
+                    HoofdactiviteitenVerenigingsloket = fixture
+                        .CreateMany<HoofdactiviteitVerenigingsloket>()
+                        .Distinct()
+                        .Select(h => h.Code)
+                        .ToArray(),
                 }).OmitAutoProperties());
     }
 

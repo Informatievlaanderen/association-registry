@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
 {
     [Fact]

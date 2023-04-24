@@ -20,7 +20,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
             .Must(naam => naam?.Trim() is null or not "")
             .WithMessage("'Naam' mag niet leeg zijn.");
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
-            .Must(NotHaveDuplicates)
+            .Must(NotHaveDuplicates!)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.")
             .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
     }

@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using Events;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
