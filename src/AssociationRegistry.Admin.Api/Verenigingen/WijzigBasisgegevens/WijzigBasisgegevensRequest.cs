@@ -33,7 +33,7 @@ public class WijzigBasisgegevensRequest
     public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
     /// <summary>
-    /// De nieuwe hoofdactiviteiten volgens het verenigingsloket
+    /// De codes van de nieuwe hoofdactiviteiten volgens het verenigingsloket
     /// </summary>
     [DataMember]
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
