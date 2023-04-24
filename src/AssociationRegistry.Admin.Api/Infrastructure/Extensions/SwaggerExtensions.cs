@@ -55,7 +55,7 @@ public static class SwaggerExtensions
                                 Name = appSettings.ApiDocs.License.Name,
                                 Url = new Uri(appSettings.ApiDocs.License.Url),
                             },
-                            Description = "</br>" +
+                            Description = "---\n" +
                                           "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
                                           "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
                             Contact = new OpenApiContact
@@ -92,6 +92,7 @@ public static class SwaggerExtensions
             {
                 ApiVersionDescriptionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
                 DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister Beheer API {groupName}",
+                HeadContentFunc = _ => Documentation.Documentation.GetHeadContent(),
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
                 CSharpClient =
                 {
