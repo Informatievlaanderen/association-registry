@@ -4,6 +4,7 @@ using Events;
 using Exceptions;
 using Framework;
 using Marten.Schema;
+using Microsoft.CSharp.RuntimeBinder;
 
 public class Vereniging : IHasVersion
 {
@@ -34,7 +35,7 @@ public class Vereniging : IHasVersion
         Contactgegevens contactgegevens,
         Locaties locaties,
         Vertegenwoordigers vertegenwoordigers,
-        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+        HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloketLijst)
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
@@ -46,7 +47,7 @@ public class Vereniging : IHasVersion
             ToEventContactgegevens(contactgegevens.ToArray()),
             ToLocatieLijst(locaties.ToArray()),
             ToVertegenwoordigersLijst(vertegenwoordigers.ToArray()),
-            ToHoofdactiviteitenLijst(hoofdactiviteitenVerenigingsloketLijst));
+            ToHoofdactiviteitenLijst(hoofdactiviteitenVerenigingsloketLijst.ToArray()));
 
         AddEvent(verenigingWerdGeregistreerdEvent);
     }
@@ -76,7 +77,7 @@ public class Vereniging : IHasVersion
             Contactgegevens.FromArray(contactgegevens),
             Locaties.FromArray(locaties),
             Vertegenwoordigers.FromArray(vertegenwoordigers),
-            hoofdactiviteitenVerenigingsloketLijst);
+            HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst));
     }
 
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
@@ -165,6 +166,15 @@ public class Vereniging : IHasVersion
         AddEvent(ContactgegevenWerdVerwijderd.With(contactgegeven));
     }
 
+    public void WijzigHoofdactiviteitenVerenigigsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitVerenigingsloket)
+    {
+        if (HoofdactiviteitenVerenigingsloket.Equals(hoofdactiviteitVerenigingsloket, _state.HoofdactiviteitenVerenigingsloket))
+            return;
+
+        var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitVerenigingsloket);
+        AddEvent(HoofactiviteitenVerenigingloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
+    }
+
     private void AddEvent(IEvent @event)
     {
         Apply(@event);
@@ -173,6 +183,13 @@ public class Vereniging : IHasVersion
 
     public void Apply(dynamic @event)
     {
-        _state = _state.Apply(@event);
+        try
+        {
+            _state = _state.Apply(@event);
+        }
+        catch (RuntimeBinderException)
+        {
+            //ignored
+        }
     }
 }

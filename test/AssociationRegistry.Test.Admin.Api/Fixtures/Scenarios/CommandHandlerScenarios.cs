@@ -16,14 +16,7 @@ public abstract class CommandhandlerScenarioBase
 
         foreach (var evnt in Events())
         {
-            try
-            {
-                vereniging.Apply((dynamic)evnt);
-            }
-            catch
-            {
-                // ignored
-            }
+            vereniging.Apply((dynamic)evnt);
         }
 
         return vereniging;
@@ -40,30 +33,19 @@ public class VerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
 
-    public readonly string Naam = "Hulste Huldigt";
-    public readonly string KorteBeschrijving =  string.Empty;
-    public readonly string KorteNaam = "FOud";
-    public readonly string KboNummer = string.Empty;
-    public readonly string Initiator = "Een initiator";
-    public readonly DateOnly Startdatum = new(2023, 3, 6);
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+
+    public VerenigingWerdGeregistreerdScenario()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+    }
 
     public override IEnumerable<IEvent> Events()
-    {
-        return new IEvent[]
+        => new IEvent[]
         {
-            new VerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                KorteNaam,
-                KorteBeschrijving,
-                Startdatum,
-                KboNummer,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
+            VerenigingWerdGeregistreerd,
         };
-    }
 }
 
 public class VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase

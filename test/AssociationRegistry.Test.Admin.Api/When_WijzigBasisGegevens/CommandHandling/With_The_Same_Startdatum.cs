@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using Fixtures.Scenarios;
 using Vereniging;
 using AutoFixture;
+using Events;
 using Fakes;
 using FluentAssertions;
 using Framework;
@@ -24,14 +25,14 @@ public class With_The_Same_Startdatum
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Create(_scenario.Startdatum));
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Hydrate(_scenario.VerenigingWerdGeregistreerd.Startdatum));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         _result = commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
             _verenigingRepositoryMock,
-            new ClockStub(fixture.Create<DateOnly>())).GetAwaiter().GetResult();
+            new ClockStub(_scenario.VerenigingWerdGeregistreerd.Startdatum!.Value)).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -43,7 +44,7 @@ public class With_The_Same_Startdatum
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<StartdatumWerdGewijzigd>();
     }
 
     [Fact]

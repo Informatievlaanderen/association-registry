@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
 using System.Collections.Immutable;
+using Events;
 using Exceptions;
 
 public class HoofdactiviteitVerenigingsloket
@@ -47,4 +48,6 @@ public class HoofdactiviteitVerenigingsloket
 
     public static IImmutableList<HoofdactiviteitVerenigingsloket> All()
         => HoofdactiviteitenVerenigingsloket.ToImmutableList();
+
+
 }

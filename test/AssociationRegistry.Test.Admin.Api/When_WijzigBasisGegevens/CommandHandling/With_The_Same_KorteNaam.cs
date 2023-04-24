@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Events;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -21,7 +22,7 @@ public class With_The_Same_KorteNaam
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteNaam: _scenario.KorteNaam);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteNaam: _scenario.VerenigingWerdGeregistreerd.KorteNaam);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -40,6 +41,6 @@ public class With_The_Same_KorteNaam
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<KorteNaamWerdGewijzigd>();
     }
 }

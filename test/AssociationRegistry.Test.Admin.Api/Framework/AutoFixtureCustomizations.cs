@@ -7,12 +7,14 @@ using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
 using Events;
 using Marten.Events;
 using NodaTime;
+using Primitives;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -34,9 +36,10 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeVertegenwoordiger();
         fixture.CustomizeContactgegevens();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
-        fixture.CustomizeHoofdactiviteitVerenigingsloketLijst();
+        fixture.CustomizeHoofdactiviteitenVerenigingsloket();
 
         fixture.CustomizeRegistreerVerenigingRequest();
+        fixture.CustominzeWijzigBasisgegevensRequest();
         fixture.CustomizeVoegContactgegevenToeRequest();
 
         fixture.CustomizeRegistreerVerenigingCommand();
@@ -82,6 +85,21 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Instant>(
             composer => composer.FromFactory(
                 generator => new Instant() + Duration.FromSeconds(generator.Next())));
+    }
+
+    public static void CustominzeWijzigBasisgegevensRequest(this IFixture fixture)
+    {
+        fixture.Customize<WijzigBasisgegevensRequest>(
+            composer => composer.FromFactory(
+                () => new WijzigBasisgegevensRequest
+                {
+                    Naam = fixture.Create<string>(),
+                    KorteNaam = fixture.Create<string>(),
+                    KorteBeschrijving = fixture.Create<string>(),
+                    Initiator = fixture.Create<string>(),
+                    Startdatum = NullOrEmpty<DateOnly>.Create(fixture.Create<DateOnly>()),
+                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Select(h => h.Code).ToArray(),
+                }).OmitAutoProperties());
     }
 
     public static void CustomizeRegistreerVerenigingRequest(this IFixture fixture)
@@ -166,6 +184,14 @@ public static class AutoFixtureCustomizations
                         Hoofdlocatie: false))
                 .OmitAutoProperties());
 
+        fixture.Customize<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(
+            composer => composer.FromFactory(
+                () =>
+                {
+                    var h = fixture.Create<HoofdactiviteitVerenigingsloket>();
+                    return new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving);
+                }).OmitAutoProperties());
+
         fixture.Customize<VerenigingWerdGeregistreerd.Contactgegeven>(
             composer => composer.FromFactory<int>(
                 i =>
@@ -234,7 +260,7 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 
-    public static void CustomizeHoofdactiviteitVerenigingsloketLijst(this IFixture fixture)
+    public static void CustomizeHoofdactiviteitenVerenigingsloket(this IFixture fixture)
     {
         fixture.Customize<HoofdactiviteitenVerenigingsloket>(
             composerTransformation: composer => composer.FromFactory(
@@ -326,7 +352,7 @@ public static class AutoFixtureCustomizations
                         Contactgegevens: fixture.CreateMany<Contactgegeven>().ToArray(),
                         Locaties: fixture.CreateMany<Locatie>().ToArray(),
                         Vertegenwoordigers: fixture.CreateMany<Vertegenwoordiger>().ToArray(),
-                        HoofdactiviteitenVerenigingsloket: fixture.CreateMany<HoofdactiviteitVerenigingsloket>().ToArray(),
+                        HoofdactiviteitenVerenigingsloket: fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray(),
                         SkipDuplicateDetection: true)
                 )
                 .OmitAutoProperties());

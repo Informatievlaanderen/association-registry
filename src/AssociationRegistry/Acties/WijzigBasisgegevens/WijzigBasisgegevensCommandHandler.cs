@@ -16,9 +16,18 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteNaam(vereniging, message.Command.KorteNaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleStartdatum(vereniging, message.Command.Startdatum, clock);
+        HandleHoofdactiviteitenVerenigigsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
 
         var result = await repository.Save(vereniging, message.Metadata);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
+    }
+
+    private static void HandleHoofdactiviteitenVerenigigsloket(Vereniging vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
+    {
+        if (hoofdactiviteitenVerenigingsloket is null)
+            return;
+
+        vereniging.WijzigHoofdactiviteitenVerenigigsloket(hoofdactiviteitenVerenigingsloket);
     }
 
     private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum, IClock clock)

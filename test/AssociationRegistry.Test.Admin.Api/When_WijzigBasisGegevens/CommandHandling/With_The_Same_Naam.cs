@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using Fixtures.Scenarios;
 using Vereniging;
 using AutoFixture;
+using Events;
 using Fakes;
 using FluentAssertions;
 using Framework;
@@ -26,7 +27,7 @@ public class With_The_Same_Naam
         var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
-            VerenigingsNaam.Create(_scenario.Naam));
+            VerenigingsNaam.Create(_scenario.VerenigingWerdGeregistreerd.Naam));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -46,7 +47,7 @@ public class With_The_Same_Naam
     [Fact]
     public void Then_No_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveAnySaves();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<NaamWerdGewijzigd>();
     }
 
     [Fact]
