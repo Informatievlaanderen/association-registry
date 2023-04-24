@@ -7,51 +7,35 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Vereniging
 {
-    /// <summary>
-    /// De vCode van de vereniging
-    /// </summary>
+    /// <summary>De vCode van de vereniging</summary>
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;
 
-    /// <summary>
-    /// De naam van de vereniging
-    /// </summary>
+    /// <summary>De naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 
-    /// <summary>
-    /// De korte naam van de vereniging
-    /// </summary>
+    /// <summary>De korte naam van de vereniging</summary>
     [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; } = null!;
 
-    /// <summary>
-    /// De lijst van hoofdactiviteiten erkend door het vereninginsloket
-    /// </summary>
+    /// <summary>De lijst van hoofdactiviteiten erkend door het vereninginsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
-    /// <summary>
-    /// De doelgroep waarop de vereniging zich richt
-    /// </summary>
+    /// <summary>De doelgroep waarop de vereniging zich richt</summary>
     [DataMember(Name = "Doelgroep")]
     public string Doelgroep { get; init; } = null!;
 
-    /// <summary>
-    /// De locaties waar de vereniging actief is.
-    /// </summary>
+    /// <summary>De locaties waar de vereniging actief is</summary>
     [DataMember(Name = "Locaties")]
     public Locatie[] Locaties { get; init; } = null!;
 
-    /// <summary>
-    /// De activiteiten die de vereniging uitvoert.
-    /// </summary>
+    /// <summary>De activiteiten die de vereniging uitvoert</summary>
     [DataMember(Name = "Activiteiten")]
     public Activiteit[] Activiteiten { get; init; } = null!;
 
-    /// <summary>
-    /// weblinks i.v.m. deze vereniging
-    /// </summary>
+    /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]
     public VerenigingLinks Links { get; init; } = null!;
 }

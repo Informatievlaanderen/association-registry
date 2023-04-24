@@ -23,7 +23,7 @@ public class DetailVerenigingenController : ApiController
     ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>

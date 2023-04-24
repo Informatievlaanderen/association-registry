@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -23,6 +24,7 @@ public class DetailVerenigingenController : ApiController
     /// <summary>
     ///     Vraag het detail van een vereniging op.
     /// </summary>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>

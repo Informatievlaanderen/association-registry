@@ -6,9 +6,11 @@ using System.Runtime.Serialization;
 [DataContract]
 public class DetailVerenigingResponse
 {
-    [DataMember(Name = "Vereniging")] public VerenigingDetail Vereniging { get; init; } = null!;
+    [DataMember(Name = "Vereniging")]
+    public VerenigingDetail Vereniging { get; init; } = null!;
 
-    [DataMember(Name = "Metadata")] public MetadataDetail Metadata { get; init; }= null!;
+    [DataMember(Name = "Metadata")]
+    public MetadataDetail Metadata { get; init; }= null!;
 
     [DataContract]
     public class VerenigingDetail
@@ -63,7 +65,7 @@ public class DetailVerenigingResponse
         [DataContract]
         public class Contactgegeven
         {
-            /// <summary>De unieke identificatie code van dit contactgegevens binnen de vereniging</summary>
+            /// <summary>De unieke identificatie code van dit contactgegeven binnen de vereniging</summary>
             [DataMember(Name = "ContactgegevenId")]
             public int ContactgegevenId { get; init; }
 
@@ -140,7 +142,7 @@ public class DetailVerenigingResponse
         public class Locatie
         {
             /// <summary>
-            ///     Het soort locatie dat beschreven word<br />
+            ///     Het soort locatie dat beschreven wordt<br />
             ///     <br />
             ///     Mogelijke waarden:<br />
             ///     - Activiteiten<br />
@@ -149,7 +151,7 @@ public class DetailVerenigingResponse
             [DataMember(Name = "Locatietype")]
             public string Locatietype { get; init; }= null!;
 
-            /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
+            /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
             [DataMember(Name = "Hoofdlocatie")]
             public bool Hoofdlocatie { get; init; }
 

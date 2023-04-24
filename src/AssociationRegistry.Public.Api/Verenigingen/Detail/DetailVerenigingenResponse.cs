@@ -20,7 +20,7 @@ public class DetailVerenigingResponse
     [DataMember(Name = "@context")]
     public string Context { get; init; }
 
-    /// <summary>De vereniging</summary>
+    /// <summary> De vereniging waarvan het detail opgevraagd werd</summary>
     [DataMember(Name = "Vereniging")]
     public VerenigingDetail VerenigingDetail { get; init; }
 
@@ -29,6 +29,7 @@ public class DetailVerenigingResponse
     public Metadata Metadata { get; init; }
 }
 
+/// <summary> De vereniging waarvan het detail opgevraagd werd</summary>
 [DataContract]
 public class VerenigingDetail
 {
@@ -101,13 +102,13 @@ public class VerenigingDetail
 /// <summary>De metadata van de vereniging, deze bevat bv de datum van laatste aanpassing</summary>
 public class Metadata
 {
-    /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
     /// <param name="datumLaatsteAanpassing"></param>
     public Metadata(string datumLaatsteAanpassing)
     {
         DatumLaatsteAanpassing = datumLaatsteAanpassing;
     }
 
+    /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
     public string DatumLaatsteAanpassing { get; init; }
 }
 
@@ -139,7 +140,7 @@ public class Locatie
     }
 
     /// <summary>
-    ///     Het soort locatie dat beschreven word<br />
+    ///     Het soort locatie dat beschreven wordt<br />
     ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Activiteiten<br />
@@ -148,7 +149,7 @@ public class Locatie
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; }
 
-    /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
+    /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
     [DataMember(Name = "Hoofdlocatie")]
     public bool Hoofdlocatie { get; init; }
 

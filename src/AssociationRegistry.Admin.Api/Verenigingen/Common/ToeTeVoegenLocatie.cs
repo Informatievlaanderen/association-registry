@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 public class ToeTeVoegenLocatie
 {
     /// <summary>
-    ///     Het soort locatie dat beschreven word<br />
+    ///     Het soort locatie dat beschreven wordt<br />
     ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Activiteiten<br />
@@ -16,7 +16,7 @@ public class ToeTeVoegenLocatie
     [DataMember]
     public string Locatietype { get; set; } = null!;
 
-    /// <summary>Duidt aan dat dit de uniek hoofdlocatie is</summary>
+    /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
     [DataMember]
     public bool Hoofdlocatie { get; set; }
 
