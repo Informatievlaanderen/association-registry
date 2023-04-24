@@ -24,4 +24,14 @@ public class HoofdactiviteitenVerenigingsloket : ReadOnlyCollection<Hoofdactivit
     {
         return hoofdactiviteiten.DistinctBy(x => x.Code).Count() != hoofdactiviteiten.Length;
     }
+
+    public static HoofdactiviteitenVerenigingsloket Hydrate(HoofdactiviteitVerenigingsloket[] hoofdactiviteiten)
+        => new(hoofdactiviteiten);
+
+    public static implicit operator HoofdactiviteitVerenigingsloket[](HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloket)
+        => hoofdactiviteitenVerenigingsloket.ToArray();
+
+    public static bool Equals(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket1, HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket2)
+        => hoofdactiviteitenVerenigingsloket1.Length == hoofdactiviteitenVerenigingsloket2.Length &&
+           hoofdactiviteitenVerenigingsloket1.All(hoofdactiviteitenVerenigingsloket2.Contains);
 }

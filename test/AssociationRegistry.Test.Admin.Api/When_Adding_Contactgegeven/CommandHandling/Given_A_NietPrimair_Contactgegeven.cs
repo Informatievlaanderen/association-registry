@@ -14,21 +14,6 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_NietPrimair_Contactgegeven
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VoegContactgegevenToeCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
-
-    public Given_A_NietPrimair_Contactgegeven()
-    {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
-
-        _fixture = new Fixture().CustomizeAll();
-
-        _commandHandler = new VoegContactgegevenToeCommandHandler(_verenigingRepositoryMock);
-    }
-
     [Theory]
     [InlineData("Email", "email@example.org")]
     [InlineData("Website", "https://www.example.org")]
@@ -36,18 +21,24 @@ public class Given_A_NietPrimair_Contactgegeven
     [InlineData("Telefoon", "0000112233")]
     public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
+        var scenario = new VerenigingWerdGeregistreerdScenario();
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
+
+        var fixture = new Fixture().CustomizeAll();
+
+        var commandHandler = new VoegContactgegevenToeCommandHandler(verenigingRepositoryMock);
         var command = new VoegContactgegevenToeCommand(
-            _scenario.VCode,
+            scenario.VCode,
             Contactgegeven.Create(
                 type,
                 waarde,
-                _fixture.Create<string>(),
+                fixture.Create<string>(),
                 false));
 
-        await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(1, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
+        verenigingRepositoryMock.ShouldHaveSaved(
+            new ContactgegevenWerdToegevoegd(scenario.VerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
         );
     }
 }

@@ -14,6 +14,7 @@ public record VerenigingState
     public string? KorteBeschrijving { get; private init; }
     public Startdatum? Startdatum { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
+    public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
 
     public VerenigingState Apply(VerenigingWerdGeregistreerd @event)
         => new()
@@ -34,6 +35,10 @@ public record VerenigingState
                         c.IsPrimair)
                 )
             ),
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                @event.HoofdactiviteitenVerenigingsloket.Select(
+                        h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                    .ToArray()),
         };
 
     public VerenigingState Apply(NaamWerdGewijzigd @event)
@@ -76,5 +81,14 @@ public record VerenigingState
                     @event.Waarde,
                     @event.Beschrijving,
                     @event.IsPrimair)),
+        };
+
+    public VerenigingState Apply(HoofactiviteitenVerenigingloketWerdenGewijzigd @event)
+        => this with
+        {
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                @event.HoofdactiviteitenVerenigingsloket.Select(
+                        h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                    .ToArray()),
         };
 }

@@ -33,7 +33,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     public Contactgegevens Append(Contactgegeven contactgegeven)
     {
-        var nextId = Math.Max(contactgegeven.ContactgegevenId, NextId) + 1;
+        var nextId = Math.Max(contactgegeven.ContactgegevenId + 1, NextId);
         return new(Items.Append(contactgegeven).ToArray(), nextId);
     }
 

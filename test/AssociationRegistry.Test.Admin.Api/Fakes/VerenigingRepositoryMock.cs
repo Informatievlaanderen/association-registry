@@ -50,6 +50,11 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
             .BeEquivalentTo(events, options => options.RespectingRuntimeTypes().WithStrictOrdering());
     }
 
+    public void ShouldNotHaveSaved<TEvent>() where TEvent : IEvent
+    {
+        SaveInvocations[0].Vereniging.UncommittedEvents.Should().NotContain(e => e.GetType() == typeof(TEvent));
+    }
+
     public void ShouldNotHaveAnySaves()
     {
         SaveInvocations[0].Vereniging.UncommittedEvents.Should().BeEmpty();
