@@ -2,7 +2,7 @@
 
 using Framework;
 
-public record HoofactiviteitenVerenigingloketWerdenGewijzigd(HoofactiviteitenVerenigingloketWerdenGewijzigd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+public record HoofdactiviteitenVerenigingsloketWerdenGewijzigd(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     public record HoofdactiviteitVerenigingsloket(
         string Code,
@@ -12,6 +12,6 @@ public record HoofactiviteitenVerenigingloketWerdenGewijzigd(HoofactiviteitenVer
             => new(activiteit.Code, activiteit.Beschrijving);
     }
 
-    public static HoofactiviteitenVerenigingloketWerdenGewijzigd With(Vereniging.HoofdactiviteitVerenigingsloket[] hoofdactiviteitVerenigingslokets)
+    public static HoofdactiviteitenVerenigingsloketWerdenGewijzigd With(Vereniging.HoofdactiviteitVerenigingsloket[] hoofdactiviteitVerenigingslokets)
         => new(hoofdactiviteitVerenigingslokets.Select(HoofdactiviteitVerenigingsloket.With).ToArray());
 }

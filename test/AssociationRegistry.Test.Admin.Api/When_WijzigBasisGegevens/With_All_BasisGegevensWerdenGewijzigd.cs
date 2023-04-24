@@ -86,7 +86,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
             .Single(@event => @event.VCode == _vCode);
         var hoofactiviteitenVerenigingloketWerdenGewijzigd = session.Events
             .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(HoofactiviteitenVerenigingloketWerdenGewijzigd));
+            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
 
 
         naamWerdGewijzigd.Naam.Should().Be(_request.Naam);
@@ -94,7 +94,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(_request.KorteBeschrijving);
         startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum.Value);
         hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            HoofactiviteitenVerenigingloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
+            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
     }
 
     [Fact]

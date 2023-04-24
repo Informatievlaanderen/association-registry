@@ -68,6 +68,18 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = new Metadata(Sequence: naamWerdGewijzigd.Sequence, Version: naamWerdGewijzigd.Version);
     }
 
+    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(
+            h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+            {
+                Code = h.Code,
+                Beschrijving = h.Beschrijving,
+            }).ToArray();
+        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(Sequence: hoofactiviteitenVerenigingloketWerdenGewijzigd.Sequence, Version: hoofactiviteitenVerenigingloketWerdenGewijzigd.Version);
+    }
+
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;

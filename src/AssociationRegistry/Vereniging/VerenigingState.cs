@@ -83,7 +83,7 @@ public record VerenigingState
                     @event.IsPrimair)),
         };
 
-    public VerenigingState Apply(HoofactiviteitenVerenigingloketWerdenGewijzigd @event)
+    public VerenigingState Apply(HoofdactiviteitenVerenigingsloketWerdenGewijzigd @event)
         => this with
         {
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(

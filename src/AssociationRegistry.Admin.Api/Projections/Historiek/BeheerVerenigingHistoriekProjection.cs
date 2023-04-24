@@ -10,6 +10,7 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema;
+using Vereniging;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
@@ -36,6 +37,12 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             naamWerdGewijzigd,
             document,
             $"Naam werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}'.");
+
+    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
+            document,
+            $"HoofdactiviteitenVerenigingsloket werd gewijzigd.");
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
