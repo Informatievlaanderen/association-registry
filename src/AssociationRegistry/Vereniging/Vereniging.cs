@@ -4,7 +4,6 @@ using Events;
 using Exceptions;
 using Framework;
 using Marten.Schema;
-using Microsoft.CSharp.RuntimeBinder;
 
 public class Vereniging : IHasVersion
 {
@@ -183,13 +182,6 @@ public class Vereniging : IHasVersion
 
     public void Apply(dynamic @event)
     {
-        try
-        {
-            _state = _state.Apply(@event);
-        }
-        catch (RuntimeBinderException)
-        {
-            //ignored
-        }
+        _state = _state.Apply(@event);
     }
 }

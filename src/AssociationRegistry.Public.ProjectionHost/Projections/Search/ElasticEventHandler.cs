@@ -59,7 +59,7 @@ public class ElasticEventHandler
             {
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(hoofdactiviteitVerenigingsloket => new VerenigingDocument.HoofdactiviteitVerenigingsloket(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving))
-                    .ToArray()
+                    .ToArray(),
             });
     }
 
