@@ -1,3 +1,16 @@
+## [2.5.3](https://github.com/informatievlaanderen/association-registry/compare/v2.5.2...v2.5.3) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1683 add clarification of the codes van de hoofdactiviteitenVerenigingsloket ([fd10fc1](https://github.com/informatievlaanderen/association-registry/commit/fd10fc1525ac1d51736175bbae1f6f6ef41d3420))
+* or-1683 add default pargination params ([f210eca](https://github.com/informatievlaanderen/association-registry/commit/f210eca57ffef0b622b95a14a77504420c0d2207))
+* or-1683 add documentation to ACM an Publiek zoeken/hoofdactiviteiten ([cff230a](https://github.com/informatievlaanderen/association-registry/commit/cff230a10d5a0d4f9396bb51af251870f12e8cc4))
+* or-1683 Add the clarification that we expect a list of codes for the HoofdactiviteitenVerenigingsloket ([b70f272](https://github.com/informatievlaanderen/association-registry/commit/b70f272177b14468f3b5473dc643d232992a176e))
+* or-1683 make all necessary changes to the API documentation of publiek and beheer ([77151eb](https://github.com/informatievlaanderen/association-registry/commit/77151eb79d860fa4aa049dc4b5c2968bab7c2ae4))
+* or-1683 modify description of property MogelijkeDuplicateVerenigingen ([970d9d4](https://github.com/informatievlaanderen/association-registry/commit/970d9d4323464405f745b7fe186bb84c47407c76))
+* or-1683 readded problemdetails usings ([209dbad](https://github.com/informatievlaanderen/association-registry/commit/209dbad812b429321b603842abbb6d8fbec62f0c))
+
 ## [2.5.2](https://github.com/informatievlaanderen/association-registry/compare/v2.5.1...v2.5.2) (2023-04-24)
 
 
