@@ -22,8 +22,8 @@ public class PotentialDuplicatesResponse
     [DataMember(Name = "BevestigingsToken")]
     public string BevestigingsToken { get; }
 
-    /// <summary>Een gelimiteerde lijst van bestaande verenigingen die mogelijks een duplicaat
-    /// zouden kunnen zijn van de te registreren vereniging</summary>
+    /// <summary>Een lijst van verenigingen die mogelijks een duplicaat zijn
+    /// van de vereniging uit de registreer aanvraag</summary>
     [DataMember(Name = "MogelijkeDuplicateVerenigingen")]
     public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; }
 
