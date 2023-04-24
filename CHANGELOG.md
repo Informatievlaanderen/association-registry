@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/informatievlaanderen/association-registry/compare/v2.5.1...v2.5.2) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1676 remove script from api documentation ([609ea9c](https://github.com/informatievlaanderen/association-registry/commit/609ea9c13f08abb3d1b1ba604546fcc33846e33c))
+
 ## [2.5.1](https://github.com/informatievlaanderen/association-registry/compare/v2.5.0...v2.5.1) (2023-04-24)
 
 
