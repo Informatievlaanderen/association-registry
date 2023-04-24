@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/informatievlaanderen/association-registry/compare/v2.5.0...v2.5.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1694 modify request validation to allow for updating only hoofdactiviteiten ([240fe77](https://github.com/informatievlaanderen/association-registry/commit/240fe774ec976f2bf57d343ebab281df8dcd581a))
+
 # [2.5.0](https://github.com/informatievlaanderen/association-registry/compare/v2.4.1...v2.5.0) (2023-04-24)
 
 
