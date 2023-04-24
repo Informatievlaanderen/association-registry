@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/informatievlaanderen/association-registry/compare/v2.4.0...v2.4.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1692 add hoofdlocatie property also when the value is false ([c365fb8](https://github.com/informatievlaanderen/association-registry/commit/c365fb8eb9b2bb2e514860def187e01056ed3448))
+
 # [2.4.0](https://github.com/informatievlaanderen/association-registry/compare/v2.3.2...v2.4.0) (2023-04-24)
 
 
