@@ -12,7 +12,7 @@ public static class Documentation
 Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze <a href=""https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie"">publieke confluence pagina</a>.
 
 # Introductie
-Het Verenigingsregister stelt u in staat om informatie te verkrijgen over:
+Het Verenigingsregister stelt je in staat om informatie te verkrijgen over:
 * verenigingen die in interactie treden met een overheid (in het kader van digitale dienstverlening)
 * verenigingen zonder winstoogmerk
 * verenigingen zonder rechtspersoon, met name:
@@ -67,7 +67,7 @@ Binnen de aangeboden endpoints zijn er een aantal foutmeldingen die kunnen voork
 
 Foutmelding | Wanneer                                                           |
 ----------- | ----------------------------------------------------------------- |
-403    |Wanneer er geen API key wordt meegegeven. <br> Wanneer u een API key meegeeft die niet correct is. |
+403    |Wanneer er geen API key wordt meegegeven. <br> Wanneer de opgegeven API key niet correct is. |
 404    |Wanneer de resource niet gevonden kan worden. |
 500    |Wanneer er een interne fout is gebeurd. |
 ";
