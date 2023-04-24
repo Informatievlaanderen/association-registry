@@ -42,6 +42,6 @@ public class With_HoofdactiviteitenVerenigingsloket_Null
     [Fact]
     public void Then_A_No_HoofactiviteitenVerenigingloketWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveSaved<HoofactiviteitenVerenigingloketWerdenGewijzigd>();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
     }
 }

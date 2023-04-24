@@ -109,6 +109,16 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
+    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(
+            h => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+            {
+                Code = h.Code,
+                Beschrijving = h.Beschrijving,
+            }).ToArray();
+        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()

@@ -19,10 +19,9 @@ public class MartenEventsConsumer : IMartenEventsConsumer
 
     public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
     {
-
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
-            var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<> ).MakeGenericType(@event.EventType), @event)!;
+            var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
             try
             {
                 await _bus.InvokeAsync(eventEnvelope);
@@ -35,9 +34,13 @@ public class MartenEventsConsumer : IMartenEventsConsumer
     }
 }
 
-public class EventEnvelope<T>: IEventEnvelope
+public class EventEnvelope<T> : IEventEnvelope
 {
-    public T Data => (T)Event.Data;
+    public string VCode
+        => Event.StreamKey!;
+
+    public T Data
+        => (T)Event.Data;
 
     public Dictionary<string, object>? Headers
         => Event.Headers;
@@ -48,5 +51,6 @@ public class EventEnvelope<T>: IEventEnvelope
     private IEvent Event { get; }
 }
 
-public interface IEventEnvelope {
+public interface IEventEnvelope
+{
 }

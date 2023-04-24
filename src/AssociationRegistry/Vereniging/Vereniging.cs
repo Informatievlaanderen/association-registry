@@ -172,7 +172,7 @@ public class Vereniging : IHasVersion
             return;
 
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitVerenigingsloket);
-        AddEvent(HoofactiviteitenVerenigingloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
+        AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 
     private void AddEvent(IEvent @event)

@@ -46,7 +46,7 @@ public class With_HoofdactiviteitenVerenigingsloket
     public void Then_A_HoofactiviteitenVerenigingloketWerdenGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            HoofactiviteitenVerenigingloketWerdenGewijzigd.With(_hoofdactiviteitenVerenigingsloket)
+            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_hoofdactiviteitenVerenigingsloket)
         );
     }
 }
