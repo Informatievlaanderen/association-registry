@@ -70,26 +70,6 @@ Foutmelding | Wanneer                                                           
 403    |Wanneer er geen API key wordt meegegeven. <br> Wanneer de opgegeven API key niet correct is. |
 404    |Wanneer de resource niet gevonden kan worden. |
 500    |Wanneer er een interne fout is gebeurd. |
-
-                <script>
-      Redoc.init(
-        '/docs/v1/docs.json',
-        {{
-            'noAutoAuth': true,
-    'hideDownloadButton': true,
-    'theme': {{
-                'spacing': {{
-                'sectionVertical': '35'
-            }},
-            'typography': {{
-        'headings': {{
-            'lineHeight': '1.2em'
-        }}
-    }}
-}}
-}},        document.getElementById('redoc-container')
-)
-</script>
 ";
 
     public static string GetApiLeadingText(AppSettings appSettings)
