@@ -1,3 +1,17 @@
+# [2.5.0](https://github.com/informatievlaanderen/association-registry/compare/v2.4.1...v2.5.0) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1694 fix typos ([70eae35](https://github.com/informatievlaanderen/association-registry/commit/70eae3598c2b6432e3cb46a22137b93fa8c092a3))
+
+
+### Features
+
+* or-1694 allow PUT hoofdactiviteitVerenigingsloket ([d173528](https://github.com/informatievlaanderen/association-registry/commit/d173528ebc23015cf619242ccc9754cd90eb8eb7))
+* or-1694 remove tryCatch and fix test ([df443fa](https://github.com/informatievlaanderen/association-registry/commit/df443fa4d31b300c601a5ea56798cab3d6c3877e))
+* or-1694 update projecties ([dcf72a6](https://github.com/informatievlaanderen/association-registry/commit/dcf72a62d6716a0fd0bf6727cff6dd9f56e8e3af))
+
 ## [2.4.1](https://github.com/informatievlaanderen/association-registry/compare/v2.4.0...v2.4.1) (2023-04-24)
 
 
