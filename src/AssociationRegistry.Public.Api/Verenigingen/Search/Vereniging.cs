@@ -17,19 +17,19 @@ public class Vereniging
     /// De naam van de vereniging
     /// </summary>
     [DataMember(Name = "Naam")]
-    public string Naam { get; init; }= null!;
+    public string Naam { get; init; } = null!;
 
     /// <summary>
     /// De korte naam van de vereniging
     /// </summary>
     [DataMember(Name = "KorteNaam")]
-    public string KorteNaam { get; init; }= null!;
+    public string KorteNaam { get; init; } = null!;
 
     /// <summary>
     /// De lijst van hoofdactiviteiten erkend door het vereninginsloket
     /// </summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; }= null!;
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
     /// <summary>
     /// De doelgroep waarop de vereniging zich richt
@@ -41,19 +41,19 @@ public class Vereniging
     /// De locaties waar de vereniging actief is.
     /// </summary>
     [DataMember(Name = "Locaties")]
-    public Locatie[] Locaties { get; init; }= null!;
+    public Locatie[] Locaties { get; init; } = null!;
 
     /// <summary>
     /// De activiteiten die de vereniging uitvoert.
     /// </summary>
     [DataMember(Name = "Activiteiten")]
-    public Activiteit[] Activiteiten { get; init; }= null!;
+    public Activiteit[] Activiteiten { get; init; } = null!;
 
     /// <summary>
     /// weblinks i.v.m. deze vereniging
     /// </summary>
     [DataMember(Name = "Links")]
-    public VerenigingLinks Links { get; init; }= null!;
+    public VerenigingLinks Links { get; init; } = null!;
 }
 
 [DataContract]
@@ -63,7 +63,7 @@ public class Locatie
     /// Waarvoor deze locatie gebruikt wordt.
     /// </summary>
     [DataMember(Name = "Locatietype")]
-    public string Locatietype { get; init; }= null!;
+    public string Locatietype { get; init; } = null!;
 
     /// <summary>
     /// Is dit de hoofdlocatie van deze vereniging.
@@ -75,7 +75,7 @@ public class Locatie
     /// Het volledige adres van de vereniging
     /// </summary>
     [DataMember(Name = "Adres")]
-    public string Adres { get; init; }= null!;
+    public string Adres { get; init; } = null!;
 
     ///<summary>
     /// De naam waarmee deze vereniging deze locatie herkent"
@@ -87,13 +87,13 @@ public class Locatie
     /// De postcode van de locatie.
     /// </summary>
     [DataMember(Name = "Postcode")]
-    public string Postcode { get; init; }= null!;
+    public string Postcode { get; init; } = null!;
 
     /// <summary>
     /// De gemeente waarin de locatie ligt.
     /// </summary>
     [DataMember(Name = "Gemeente")]
-    public string Gemeente { get; init; }= null!;
+    public string Gemeente { get; init; } = null!;
 }
 
 [DataContract]
@@ -118,11 +118,13 @@ public class HoofdactiviteitVerenigingsloket
     /// <summary>
     /// De verkorte code van de hoofdactiviteit
     /// </summary>
+    [DataMember]
     public string Code { get; set; } = null!;
 
     /// <summary>
     /// De volledige beschrijving van de hoofdactiviteit
     /// </summary>
+    [DataMember]
     public string Beschrijving { get; set; } = null!;
 }
 
