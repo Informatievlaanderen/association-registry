@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.RequestValidating.A_HoofdActiviteitenLijst;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_WijzigBasisGegevens.RequestValidating.HoofdActiviteitenLijst;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
-using Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
