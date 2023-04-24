@@ -54,7 +54,7 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public ToeTeVoegenVertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<ToeTeVoegenVertegenwoordiger>();
 
-    /// <summary>De codes van de hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
+    /// <summary>De codes van de hoofdactivititeiten volgens het verenigingsloket</summary>
     [DataMember]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
