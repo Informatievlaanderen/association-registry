@@ -1,3 +1,18 @@
+# [2.4.0](https://github.com/informatievlaanderen/association-registry/compare/v2.3.2...v2.4.0) (2023-04-24)
+
+
+### Bug Fixes
+
+* or-1676 clarify and correct documentation ([a3e284b](https://github.com/informatievlaanderen/association-registry/commit/a3e284b4d623205ef012c745ab38fad0cf1d8928))
+
+
+### Features
+
+* OR-1676 fix huge spacing between documentation sections ([84d2bf4](https://github.com/informatievlaanderen/association-registry/commit/84d2bf46cb8b3244810f0575628589cdf615fd38))
+* OR-1676 remove redundant sentence ([4c65e10](https://github.com/informatievlaanderen/association-registry/commit/4c65e106b117e02b4dc073c8ebb22595409a8f1e))
+* OR-1676 replace moet ([03e3d1c](https://github.com/informatievlaanderen/association-registry/commit/03e3d1cc7ed70d34f18b3a8a481bf0eaa0f37b79))
+* OR-1676 replace u by je ([c12a406](https://github.com/informatievlaanderen/association-registry/commit/c12a4069465ba20ef33c76df3a0574c8622d3478))
+
 ## [2.3.2](https://github.com/informatievlaanderen/association-registry/compare/v2.3.1...v2.3.2) (2023-04-19)
 
 
