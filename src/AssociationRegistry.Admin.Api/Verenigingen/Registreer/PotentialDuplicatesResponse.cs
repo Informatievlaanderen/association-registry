@@ -8,6 +8,7 @@ using Acties.RegistreerVereniging;
 using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
 
+[DataContract]
 public class PotentialDuplicatesResponse
 {
     public PotentialDuplicatesResponse(string hashedRequest, PotentialDuplicatesFound potentialDuplicates, AppSettings appSettings)
@@ -16,7 +17,14 @@ public class PotentialDuplicatesResponse
         MogelijkeDuplicateVerenigingen = potentialDuplicates.Candidates.Select(c => FromDuplicaatVereniging(c, appSettings)).ToArray();
     }
 
+    /// <summary>Dit token wordt gebruikt als bevestiging dat de vereniging uniek is en geregistreerd mag worden,
+    /// ondanks de voorgestelde duplicaten.</summary>
+    [DataMember(Name = "BevestigingsToken")]
     public string BevestigingsToken { get; }
+
+    /// <summary>Een gelimiteerde lijst van bestaande verenigingen die mogelijks een duplicaat
+    /// zouden kunnen zijn van de te registreren vereniging</summary>
+    [DataMember(Name = "MogelijkeDuplicateVerenigingen")]
     public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; }
 
     private static DuplicaatVerenigingContract FromDuplicaatVereniging(DuplicaatVereniging document, AppSettings appSettings)
@@ -30,6 +38,7 @@ public class PotentialDuplicatesResponse
             document.Activiteiten.Select(DuplicaatVerenigingContract.Activiteit.FromDuplicaatVereniging).ToImmutableArray(),
             new DuplicaatVerenigingContract.VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)document.VCode}")));
 
+    /// <summary>Een mogelijke duplicaat van de te registreren vereniging</summary>
     [DataContract]
     public class DuplicaatVerenigingContract
     {
@@ -52,27 +61,37 @@ public class PotentialDuplicatesResponse
             Links = links;
         }
 
+        /// <summary>De unieke identificatie code van deze vereniging</summary>
         [DataMember(Name = "VCode")]
         public string VCode { get; init; }
+
+        /// <summary>Naam van de vereniging</summary>
         [DataMember(Name = "Naam")]
         public string Naam { get; init; }
 
+        /// <summary>Korte naam van de vereniging</summary>
         [DataMember(Name = "KorteNaam")]
         public string KorteNaam { get; init; }
 
+        /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
         [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
         public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
 
+        /// <summary>De doelgroep waarop de vereniging zich richt</summary>
         [DataMember(Name = "Doelgroep")]
         public string Doelgroep { get; init; }
 
+        /// <summary>Alle locaties waar deze vereniging actief is</summary>
         [DataMember(Name = "Locaties")]
         public ImmutableArray<Locatie> Locaties { get; init; }
 
+        /// <summary>De activiteiten die de vereniging uitvoert</summary>
         [DataMember(Name = "Activiteiten")]
         public ImmutableArray<Activiteit> Activiteiten { get; init; }
 
-        [DataMember(Name = "Links")] public VerenigingLinks Links { get; init; }
+        /// <summary>Weblinks i.v.m. deze vereniging</summary>
+        [DataMember(Name = "Links")]
+        public VerenigingLinks Links { get; init; }
 
         [DataContract]
         public class Locatie
@@ -149,6 +168,7 @@ public class PotentialDuplicatesResponse
             public string Beschrijving { get; init; }
         }
 
+        /// <summary>Weblinks i.v.m. deze vereniging</summary>
         [DataContract]
         public class VerenigingLinks
         {

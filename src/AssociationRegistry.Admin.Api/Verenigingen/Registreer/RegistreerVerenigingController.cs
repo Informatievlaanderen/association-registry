@@ -50,6 +50,9 @@ public class RegistreerVerenigingController : ApiController
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
+    /// <param name="request">De gegevens van de te registreren vereniging</param>
+    /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de vereniging uniek is,
+    /// ondanks de voorgestelde duplicaten.</param>
     /// <response code="202">De vereniging is geregistreerd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
     /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>

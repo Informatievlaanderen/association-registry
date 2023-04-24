@@ -42,7 +42,7 @@ public class WijzigBasisgegevensController : ApiController
     ///     Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
     /// </remarks>
     /// <param name="request"></param>
-    /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="validator"></param>
     /// <response code="200">Er waren geen wijzigingen</response>

@@ -20,11 +20,11 @@ public class HistoriekResponse
 [DataContract]
 public class HistoriekGebeurtenisResponse
 {
-    /// <summary>De beschrijving de gebeurtenis</summary>
+    /// <summary>De beschrijving van de gebeurtenis</summary>
     [DataMember(Name = "beschrijving")]
     public string Beschrijving { get; set; } = null!;
 
-    /// <summary>Het type de gebeurtenis</summary>
+    /// <summary>Het type van de gebeurtenis</summary>
     [DataMember(Name = "gebeurtenis")]
     public string Gebeurtenis { get; set; } = null!;
 
@@ -32,7 +32,7 @@ public class HistoriekGebeurtenisResponse
     [DataMember(Name = "data")]
     public object? Data { get; set; }
 
-    /// <summary>Instantie die de vereniging aanmaakt</summary>
+    /// <summary>Instantie die de vereniging heeft geregistreerd of gewijzigd</summary>
     [DataMember(Name = "initiator")]
     public string Initiator { get; set; } = null!;
 
