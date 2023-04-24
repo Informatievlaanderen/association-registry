@@ -165,12 +165,12 @@ public class Vereniging : IHasVersion
         AddEvent(ContactgegevenWerdVerwijderd.With(contactgegeven));
     }
 
-    public void WijzigHoofdactiviteitenVerenigigsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitVerenigingsloket)
+    public void WijzigHoofdactiviteitenVerenigingsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
     {
-        if (HoofdactiviteitenVerenigingsloket.Equals(hoofdactiviteitVerenigingsloket, _state.HoofdactiviteitenVerenigingsloket))
+        if (HoofdactiviteitenVerenigingsloket.Equals(hoofdactiviteitenVerenigingsloket, _state.HoofdactiviteitenVerenigingsloket))
             return;
 
-        var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitVerenigingsloket);
+        var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 

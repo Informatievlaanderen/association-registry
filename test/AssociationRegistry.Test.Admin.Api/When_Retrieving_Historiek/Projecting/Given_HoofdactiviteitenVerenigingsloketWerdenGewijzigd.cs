@@ -17,7 +17,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                "HoofdactiviteitenVerenigingsloket werd gewijzigd.",
+                "Hoofdactiviteiten verenigingsloket werden gewijzigd.",
                 nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
                 projectEventOnHistoriekDocument.Event.Data,
                 initiator,

@@ -41,7 +41,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         => AddHistoriekEntry(
             hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
             document,
-            $"HoofdactiviteitenVerenigingsloket werd gewijzigd.");
+            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
