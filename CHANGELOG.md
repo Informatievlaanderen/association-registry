@@ -1,3 +1,10 @@
+## [2.5.4](https://github.com/informatievlaanderen/association-registry/compare/v2.5.3...v2.5.4) (2023-04-25)
+
+
+### Bug Fixes
+
+* or-1676 add more indents in intro ([14f8351](https://github.com/informatievlaanderen/association-registry/commit/14f835153bb2d75db0b4ced1bfe8ca633093d2a4))
+
 ## [2.5.3](https://github.com/informatievlaanderen/association-registry/compare/v2.5.2...v2.5.3) (2023-04-24)
 
 
