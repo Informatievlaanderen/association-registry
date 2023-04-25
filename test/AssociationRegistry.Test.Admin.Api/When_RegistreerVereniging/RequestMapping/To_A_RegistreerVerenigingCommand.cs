@@ -1,16 +1,15 @@
 namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
-using Contactgegeven = Vereniging.Contactgegeven;
 
 [UnitTest]
 public class To_A_RegistreerVerenigingCommand

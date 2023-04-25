@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AutoFixture;
 using Fakes;
 using Framework;
-using AutoFixture;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -13,15 +13,15 @@ using Xunit.Categories;
 public class With_Invalid_Bevestigingstoken
 {
     private readonly RegistreerVerenigingController _controller;
-    private readonly RegistreerVerenigingRequest _request;
     private readonly Fixture _fixture;
+    private readonly RegistreerVerenigingRequest _request;
 
     public With_Invalid_Bevestigingstoken()
     {
         _fixture = new Fixture().CustomizeAll();
-        _request = new RegistreerVerenigingRequest { Initiator = _fixture.Create<VCode>(), Naam = _fixture.Create<string>()};
+        _request = new RegistreerVerenigingRequest { Initiator = _fixture.Create<VCode>(), Naam = _fixture.Create<string>() };
         var messageBusMock = new MessageBusMock();
-        _controller = new RegistreerVerenigingController(messageBusMock, new RegistreerVerenigingRequestValidator(),new AppSettings(){Salt = "RandomS@lt"});
+        _controller = new RegistreerVerenigingController(messageBusMock, new RegistreerVerenigingRequestValidator(), new AppSettings { Salt = "RandomS@lt" });
     }
 
     [Fact]

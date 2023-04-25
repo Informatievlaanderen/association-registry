@@ -5,51 +5,22 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
-
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
 public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Valid_Hash.Setup>
 {
-    public sealed class Setup
-    {
-        public readonly RegistreerVerenigingRequest Request;
-        public readonly HttpResponseMessage Response;
-        public ToeTeVoegenLocatie RequestLocatie { get; }
-
-        public Setup(EventsInDbScenariosFixture fixture)
-        {
-            var autoFixture = new Fixture().CustomizeAll();
-            RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
-
-            RequestLocatie.Gemeente = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-            Request = new RegistreerVerenigingRequest
-            {
-                Naam = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Naam,
-                Locaties = new[]
-                {
-                    RequestLocatie,
-                },
-                Initiator = "OVO000001",
-            };
-            var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
-
-            var requestAsJson = JsonConvert.SerializeObject(Request);
-            Response = fixture.DefaultClient.RegistreerVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
-        }
-    }
-
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly Setup _setup;
 
@@ -100,5 +71,34 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
             ),
             options => options.Excluding(e => e.VCode));
+    }
+
+    public sealed class Setup
+    {
+        public readonly RegistreerVerenigingRequest Request;
+        public readonly HttpResponseMessage Response;
+
+        public Setup(EventsInDbScenariosFixture fixture)
+        {
+            var autoFixture = new Fixture().CustomizeAll();
+            RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
+
+            RequestLocatie.Gemeente = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+            Request = new RegistreerVerenigingRequest
+            {
+                Naam = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Naam,
+                Locaties = new[]
+                {
+                    RequestLocatie,
+                },
+                Initiator = "OVO000001",
+            };
+            var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
+
+            var requestAsJson = JsonConvert.SerializeObject(Request);
+            Response = fixture.DefaultClient.RegistreerVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
+        }
+
+        public ToeTeVoegenLocatie RequestLocatie { get; }
     }
 }

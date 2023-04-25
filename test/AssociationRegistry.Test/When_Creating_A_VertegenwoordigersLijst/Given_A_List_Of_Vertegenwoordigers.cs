@@ -18,6 +18,9 @@ public class Given_A_List_Of_Vertegenwoordigers
 
         var vertegenwoordigersLijst = Vertegenwoordigers.FromArray(listOfVertegenwoordigers);
 
-        vertegenwoordigersLijst.Should().BeEquivalentTo(listOfVertegenwoordigers);
+        vertegenwoordigersLijst.Should()
+            .BeEquivalentTo(
+                listOfVertegenwoordigers,
+                options => options.Excluding(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId));
     }
 }

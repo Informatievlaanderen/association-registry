@@ -8,8 +8,8 @@ using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using Events;
 using EventStore;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
@@ -20,10 +20,10 @@ using Xunit.Categories;
 public class Given_VerenigingWerdGeregistreerd
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly string _vCode;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
     private readonly HttpResponseMessage _response;
     private readonly StreamActionResult _result;
+    private readonly string _vCode;
+    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
 
     public Given_VerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
@@ -60,7 +60,7 @@ public class Given_VerenigingWerdGeregistreerd
             .Append(
                 _verenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
+                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
@@ -78,14 +78,14 @@ public class Given_VerenigingWerdGeregistreerd
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
+                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
@@ -98,7 +98,8 @@ public class Given_VerenigingWerdGeregistreerd
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-                    ""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                    ""vertegenwoordigers"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                            ""vertegenwoordigerId"": {x.VertegenwoordigerId},
                             ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",
@@ -110,7 +111,7 @@ public class Given_VerenigingWerdGeregistreerd
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}""
                         }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}

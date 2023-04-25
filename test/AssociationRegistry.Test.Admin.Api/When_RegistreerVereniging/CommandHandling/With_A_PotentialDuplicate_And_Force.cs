@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Acties.RegistreerVereniging;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using Fixtures.Scenarios;
-using Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
+using Events;
+using Fakes;
+using Fixtures.Scenarios;
 using FluentAssertions;
+using Framework;
 using Framework.MagdaMocks;
 using Moq;
 using ResultNet;
@@ -19,11 +19,11 @@ using Xunit.Categories;
 [UnitTest]
 public class With_A_PotentialDuplicate_And_Force
 {
-    private readonly Result _result;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly RegistreerVerenigingCommand _command;
     private readonly Locatie _locatie;
+    private readonly Result _result;
+    private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public With_A_PotentialDuplicate_And_Force()
     {
@@ -89,8 +89,9 @@ public class With_A_PotentialDuplicate_And_Force
                     VerenigingWerdGeregistreerd.Locatie.With(_locatie),
                 },
                 _command.Vertegenwoordigers.Select(
-                    v => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    (v, index) => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
+                        VertegenwoordigerId = index + 1,
                         Voornaam = v.Insz,
                         Achternaam = v.Insz,
                     }).ToArray(),

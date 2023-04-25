@@ -2,11 +2,10 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
-
 
 [UnitTest]
 public class Is_Valid
@@ -19,9 +18,9 @@ public class Is_Valid
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Vertegenwoordigers = new []
+            Vertegenwoordigers = new[]
             {
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = insz,
                 },

@@ -15,8 +15,8 @@ public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
     {
         var fixture = new Fixture().CustomizeAll();
         var vertegenwoordiger1 = fixture.Create<Vertegenwoordiger>();
-        var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with {Insz = vertegenwoordiger1.Insz};
-        var listOfVertegenwoordigers = new []
+        var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with { Insz = vertegenwoordiger1.Insz };
+        var listOfVertegenwoordigers = new[]
         {
             vertegenwoordiger1,
             vertegenwoordiger2,

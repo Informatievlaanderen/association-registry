@@ -2,12 +2,12 @@
 
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
-using Fakes;
-using Fixtures.Scenarios;
-using Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
+using Fakes;
+using Fixtures.Scenarios;
 using FluentAssertions;
+using Framework;
 using Framework.MagdaMocks;
 using Moq;
 using ResultNet;
@@ -18,8 +18,8 @@ using Xunit.Categories;
 [UnitTest]
 public class With_A_PotentialDuplicate
 {
-    private readonly Result _result;
     private readonly List<DuplicaatVereniging> _potentialDuplicates;
+    private readonly Result _result;
 
     public With_A_PotentialDuplicate()
     {

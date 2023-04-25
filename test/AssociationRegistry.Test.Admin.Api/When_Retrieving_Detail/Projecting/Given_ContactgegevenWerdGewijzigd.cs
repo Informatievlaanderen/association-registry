@@ -15,9 +15,9 @@ public class Given_ContactgegevenWerdGewijzigd
     {
         var contactgegevenWerdGewijzigd = new ContactgegevenWerdGewijzigd(
             ContactgegevenId: 666,
-            Type: ContactgegevenType.Telefoon,
-            Waarde: "007",
-            Beschrijving: "James Bond",
+            ContactgegevenType.Telefoon,
+            "007",
+            "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =

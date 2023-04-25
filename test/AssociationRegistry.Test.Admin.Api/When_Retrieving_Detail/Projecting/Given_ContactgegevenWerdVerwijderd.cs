@@ -15,9 +15,9 @@ public class Given_ContactgegevenWerdVerwijderd
     {
         var contactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(
             ContactgegevenId: 666,
-            Type: ContactgegevenType.Telefoon,
-            Waarde: "007",
-            Beschrijving: "James Bond",
+            ContactgegevenType.Telefoon,
+            "007",
+            "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
@@ -27,7 +27,7 @@ public class Given_ContactgegevenWerdVerwijderd
                     d => d with
                     {
                         Contactgegevens = d.Contactgegevens.Append(
-                            new BeheerVerenigingDetailDocument.Contactgegeven()
+                            new BeheerVerenigingDetailDocument.Contactgegeven
                             {
                                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
                                 Type = contactgegevenWerdVerwijderd.Type,
@@ -38,7 +38,7 @@ public class Given_ContactgegevenWerdVerwijderd
                     });
 
         projectEventOnDetailDocument.Contactgegevens.Should().NotContain(
-            new BeheerVerenigingDetailDocument.Contactgegeven()
+            new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
                 Type = contactgegevenWerdVerwijderd.Type,

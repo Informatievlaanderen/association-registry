@@ -7,6 +7,31 @@ using TelefoonNummers;
 
 public record Vertegenwoordiger
 {
+    private Vertegenwoordiger(
+        Insz insz,
+        bool primairContactpersoon,
+        string? roepnaam,
+        string? rol,
+        string voornaam,
+        string achternaam,
+        Email email,
+        TelefoonNummer telefoonNummer,
+        TelefoonNummer mobiel,
+        SocialMedia socialMedia)
+    {
+        Insz = insz;
+        PrimairContactpersoon = primairContactpersoon;
+        Roepnaam = roepnaam;
+        Rol = rol;
+        Voornaam = voornaam;
+        Achternaam = achternaam;
+        Email = email;
+        TelefoonNummer = telefoonNummer;
+        Mobiel = mobiel;
+        SocialMedia = socialMedia;
+    }
+
+    public int VertegenwoordigerId { get; set; }
     public Insz Insz { get; init; }
     public bool PrimairContactpersoon { get; init; }
     public string? Roepnaam { get; }
@@ -41,30 +66,6 @@ public record Vertegenwoordiger
         TelefoonNummer mobiel,
         SocialMedia socialMedia)
         => new(insz, primairContactpersoon, roepnaam, rol, string.Empty, string.Empty, email, telefoonNummer, mobiel, socialMedia);
-
-    private Vertegenwoordiger(
-        Insz insz,
-        bool primairContactpersoon,
-        string? roepnaam,
-        string? rol,
-        string voornaam,
-        string achternaam,
-        Email email,
-        TelefoonNummer telefoonNummer,
-        TelefoonNummer mobiel,
-        SocialMedia socialMedia)
-    {
-        Insz = insz;
-        PrimairContactpersoon = primairContactpersoon;
-        Roepnaam = roepnaam;
-        Rol = rol;
-        Voornaam = voornaam;
-        Achternaam = achternaam;
-        Email = email;
-        TelefoonNummer = telefoonNummer;
-        Mobiel = mobiel;
-        SocialMedia = socialMedia;
-    }
 
     internal static Vertegenwoordiger Enrich(Vertegenwoordiger vertegenwoordiger, MagdaPersoon persoon)
         => new(

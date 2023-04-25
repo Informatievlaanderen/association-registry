@@ -15,9 +15,9 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         var contactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(
             ContactgegevenId: 666,
-            Type: ContactgegevenType.Telefoon,
-            Waarde: "007",
-            Beschrijving: "James Bond",
+            ContactgegevenType.Telefoon,
+            "007",
+            "James Bond",
             IsPrimair: false);
 
         var projectEventOnDetailDocument =
@@ -26,7 +26,7 @@ public class Given_ContactgegevenWerdToegevoegd
                 .ToDetailProjectie();
 
         projectEventOnDetailDocument.Contactgegevens.Should().Contain(
-            new BeheerVerenigingDetailDocument.Contactgegeven()
+            new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
                 Type = contactgegevenWerdToegevoegd.Type,

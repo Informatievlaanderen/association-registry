@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Acties.RegistreerVereniging;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
 using AutoFixture;
+using Events;
+using Fakes;
 using Framework;
 using Framework.MagdaMocks;
 using Vereniging;
@@ -15,9 +15,9 @@ using Xunit.Categories;
 public class With_Required_Fields
 {
     private const string Naam = "naam1";
+    private readonly InMemorySequentialVCodeService _vCodeService;
 
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_Required_Fields()
     {
@@ -31,8 +31,8 @@ public class With_Required_Fields
 
         var command = new RegistreerVerenigingCommand(
             VerenigingsNaam.Create(Naam),
-            null,
-            null,
+            KorteNaam: null,
+            KorteBeschrijving: null,
             Startdatum.Leeg,
             KboNummer.Leeg,
             Array.Empty<Contactgegeven>(),
@@ -54,15 +54,15 @@ public class With_Required_Fields
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
-                VCode: _vCodeService.GetLast(),
-                Naam: Naam,
-                KorteNaam: string.Empty,
-                KorteBeschrijving: string.Empty,
+                _vCodeService.GetLast(),
+                Naam,
+                string.Empty,
+                string.Empty,
                 Startdatum: null,
-                KboNummer: string.Empty,
-                Contactgegevens: Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-                Locaties: Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Vertegenwoordigers: Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                HoofdactiviteitenVerenigingsloket: Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+                string.Empty,
+                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
     }
 }

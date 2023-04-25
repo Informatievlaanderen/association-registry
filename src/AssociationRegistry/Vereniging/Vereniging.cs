@@ -9,17 +9,6 @@ public class Vereniging : IHasVersion
 {
     private VerenigingState _state = new();
 
-    [Identity]
-    public string VCode
-    {
-        get => _state.VCode;
-        set => _state = _state with { VCode = AssociationRegistry.Vereniging.VCode.Create(value) };
-    }
-
-    public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
-
-    public long Version { get; set; }
-
     public Vereniging()
     {
     }
@@ -50,6 +39,17 @@ public class Vereniging : IHasVersion
 
         AddEvent(verenigingWerdGeregistreerdEvent);
     }
+
+    [Identity]
+    public string VCode
+    {
+        get => _state.VCode;
+        set => _state = _state with { VCode = AssociationRegistry.Vereniging.VCode.Create(value) };
+    }
+
+    public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
+
+    public long Version { get; set; }
 
     public static Vereniging Registreer(
         VCode vCode,

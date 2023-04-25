@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Acties.RegistreerVereniging;
-using Events;
 using AssociationRegistry.Framework;
-using Magda;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
-using AutoFixture;
+using Magda;
 using Moq;
 using Vereniging;
 using Xunit;
@@ -15,11 +15,11 @@ using Xunit.Categories;
 [UnitTest]
 public class With_All_Fields
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly RegistreerVerenigingCommand _command;
-    private readonly string _magdaVoornaam;
     private readonly string _magdaAchternaam;
+    private readonly string _magdaVoornaam;
+    private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public With_All_Fields()
     {
@@ -88,8 +88,9 @@ public class With_All_Fields
                             l.Locatietype)
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(
-                    v =>
+                    (v, i) =>
                         new VerenigingWerdGeregistreerd.Vertegenwoordiger(
+                            i + 1,
                             v.Insz,
                             v.PrimairContactpersoon,
                             v.Roepnaam ?? string.Empty,

@@ -7,26 +7,27 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
 {
-    public readonly string VCode;
+    private static When_RegistreerVereniging_With_Same_Naam_And_Gemeente? called;
+    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public readonly string Naam;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
+    public readonly string VCode;
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
-    public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
-    public string RequestAsJson { get; }
 
 
     private When_RegistreerVereniging_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
@@ -35,7 +36,7 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Gemeente = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-        Request = new RegistreerVerenigingRequest()
+        Request = new RegistreerVerenigingRequest
         {
             Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
@@ -53,7 +54,7 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
     }
 
-    private static When_RegistreerVereniging_With_Same_Naam_And_Gemeente? called;
+    public string RequestAsJson { get; }
 
     public static When_RegistreerVereniging_With_Same_Naam_And_Gemeente Called(EventsInDbScenariosFixture fixture)
         => called ??= new When_RegistreerVereniging_With_Same_Naam_And_Gemeente(fixture);
@@ -66,6 +67,11 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
 public class With_Same_Naam_And_Gemeente
 {
     private readonly EventsInDbScenariosFixture _fixture;
+
+    public With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
+    {
+        _fixture = fixture;
+    }
 
     private HttpResponseMessage Response
         => When_RegistreerVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
@@ -116,11 +122,6 @@ public class With_Same_Naam_And_Gemeente
   ]
 }}";
 
-    public With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
-    {
-        _fixture = fixture;
-    }
-
     [Fact]
     public void Then_it_returns_a_conflict_response()
     {
@@ -143,7 +144,7 @@ public class With_Same_Naam_And_Gemeente
     [Fact]
     public void Then_it_returns_no_location_header()
     {
-        Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
     [Fact]

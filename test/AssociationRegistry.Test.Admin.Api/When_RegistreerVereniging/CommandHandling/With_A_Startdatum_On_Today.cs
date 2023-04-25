@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.CommandHandling;
 
 using Acties.RegistreerVereniging;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
 using AutoFixture;
+using Events;
+using Fakes;
 using FluentAssertions;
 using Framework;
 using Framework.MagdaMocks;
@@ -47,6 +47,6 @@ public class With_A_Startdatum_On_Today
         _verenigingRepositoryMock.SaveInvocations
             .Single().Vereniging.UncommittedEvents
             .OfType<VerenigingWerdGeregistreerd>()
-            .Should().HaveCount(1);
+            .Should().HaveCount(expected: 1);
     }
 }

@@ -4,8 +4,8 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Events;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Categories;
@@ -15,11 +15,11 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
 {
+    private readonly AdminApiClient _adminApiClient;
+    private readonly EventsInDbScenariosFixture _fixture;
+    private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
-    private readonly EventsInDbScenariosFixture _fixture;
-    private readonly AdminApiClient _adminApiClient;
-    private readonly HttpResponseMessage _response;
 
     public Given_VerenigingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
@@ -81,8 +81,8 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
     {
         _response.Headers.ETag.Should().NotBeNull();
         var etagValues = _response.Headers.GetValues(HeaderNames.ETag).ToList();
-        etagValues.Should().HaveCount(1);
-        var etag = etagValues[0];
+        etagValues.Should().HaveCount(expected: 1);
+        var etag = etagValues[index: 0];
         etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
 }

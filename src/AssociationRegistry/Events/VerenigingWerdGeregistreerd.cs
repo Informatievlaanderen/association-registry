@@ -66,6 +66,7 @@ public record VerenigingWerdGeregistreerd(
     }
 
     public record Vertegenwoordiger(
+        int VertegenwoordigerId,
         string Insz,
         bool PrimairContactpersoon,
         string Roepnaam,
@@ -79,6 +80,7 @@ public record VerenigingWerdGeregistreerd(
     {
         public static Vertegenwoordiger With(Vereniging.Vertegenwoordiger vertegenwoordiger)
             => new(
+                vertegenwoordiger.VertegenwoordigerId,
                 vertegenwoordiger.Insz,
                 vertegenwoordiger.PrimairContactpersoon,
                 vertegenwoordiger.Roepnaam ?? string.Empty,

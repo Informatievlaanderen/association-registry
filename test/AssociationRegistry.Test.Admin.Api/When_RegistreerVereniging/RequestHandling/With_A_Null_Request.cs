@@ -22,6 +22,6 @@ public class With_A_Null_Request
     public async Task Then_it_throws_a_CouldNotParseRequestException()
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
-            async () => await _controller.Post(null));
+            async () => await _controller.Post(request: null));
     }
 }

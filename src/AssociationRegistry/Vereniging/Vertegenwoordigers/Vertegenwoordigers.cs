@@ -1,25 +1,40 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
-using Framework;
 using Exceptions;
+using Framework;
 
 public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
-    private Vertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers) : base(vertegenwoordigers)
+    private const int InitialId = 1;
+
+    private Vertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers, int nextId) : base(vertegenwoordigers)
     {
+        NextId = nextId;
     }
+
+    public int NextId { get; }
 
     public static Vertegenwoordigers Empty
-        => new(Array.Empty<Vertegenwoordiger>());
+        => new(Array.Empty<Vertegenwoordiger>(), InitialId);
 
-    public static Vertegenwoordigers FromArray(Vertegenwoordiger[] vertegenwoordigers)
+    public static Vertegenwoordigers FromArray(Vertegenwoordiger[] vertegenwoordigerArray)
     {
-        Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigers));
-        Throw<MultiplePrimaryContacts>.If(HasMultiplePrimaryContacts(vertegenwoordigers));
+        Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigerArray));
+        Throw<MultiplePrimaryContacts>.If(HasMultiplePrimaryContacts(vertegenwoordigerArray));
 
-        return new Vertegenwoordigers(vertegenwoordigers);
+        return vertegenwoordigerArray.Aggregate(
+            Empty,
+            (current, vertegenwoordiger) =>
+                current.Append(vertegenwoordiger with { VertegenwoordigerId = current.NextId }));
     }
+
+    public Vertegenwoordigers Append(Vertegenwoordiger vertegenwoordiger)
+    {
+        var nextId = Math.Max(vertegenwoordiger.VertegenwoordigerId + 1, NextId);
+        return new Vertegenwoordigers(Items.Append(vertegenwoordiger).ToArray(), nextId);
+    }
+
 
     private static bool HasMultiplePrimaryContacts(Vertegenwoordiger[] vertegenwoordigersArray)
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.PrimairContactpersoon) > 1;
