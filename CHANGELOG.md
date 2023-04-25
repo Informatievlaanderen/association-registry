@@ -1,3 +1,10 @@
+## [2.5.5](https://github.com/informatievlaanderen/association-registry/compare/v2.5.4...v2.5.5) (2023-04-25)
+
+
+### Bug Fixes
+
+* or-1683 add documentation for metadata fields in zoeken ([271c2da](https://github.com/informatievlaanderen/association-registry/commit/271c2da9c35a2f5623dbcf57e4528f8dcbb3bb98))
+
 ## [2.5.4](https://github.com/informatievlaanderen/association-registry/compare/v2.5.3...v2.5.4) (2023-04-25)
 
 
