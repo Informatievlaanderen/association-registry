@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using System;
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
