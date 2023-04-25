@@ -24,6 +24,9 @@ public class SearchVerenigingenResponse
     public Metadata? Metadata { get; set; }
 }
 
+/// <summary>
+/// Facets bevatten extra contextuele informatie over de zoekresultaten wat kan gebruikt worden voor verdere verfijning van de zoekopdracht.
+/// </summary>
 [DataContract]
 public class Facets
 {

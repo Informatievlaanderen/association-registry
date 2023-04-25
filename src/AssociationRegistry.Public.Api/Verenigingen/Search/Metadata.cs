@@ -3,6 +3,9 @@
 using System.Runtime.Serialization;
 using Constants;
 
+/// <summary>
+/// In deze metadata plaatsen we alle relevante metadata voor de zoekopdracht, de paginering informatie.
+/// </summary>
 [DataContract]
 public class Metadata
 {
@@ -13,11 +16,14 @@ public class Metadata
     public Pagination Pagination { get; init; } = null!;
 }
 
+/// <summary>
+/// De paginatie metaData.
+/// </summary>
 [DataContract]
 public class Pagination
 {
     /// <summary>
-    /// het totaal aantal pagina's met de huidige limit.
+    /// het totaal aantal verenigingen met de huidige limit.
     /// </summary>
     [DataMember]
     public long TotalCount { get; init; }
@@ -35,6 +41,9 @@ public class Pagination
     public int Limit { get; init; }
 }
 
+/// <summary>
+/// De paginatie parameters
+/// </summary>
 [DataContract]
 public class PaginationQueryParams
 {
