@@ -38,13 +38,16 @@ public class AdminApiClient : IDisposable
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
-
+    public async Task<HttpResponseMessage> PostVertegenwoordiger(string vCode, string content, long? version = null)
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers", content.AsJsonContent());
+    }
     public async Task<HttpResponseMessage> PostContactgegevens(string vCode, string content, long? version = null)
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/contactgegevens", content.AsJsonContent());
     }
-
 
     public async Task<HttpResponseMessage> PatchContactgegevens(string vCode, int contactgegevenId, string jsonBody, long? version = null)
     {
