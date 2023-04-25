@@ -28,7 +28,7 @@ public class WijzigContactgegevenRequest
         [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; } = null;
 
         /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
-        [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
+        [DataMember(Name = "isPrimair")]
         public bool? IsPrimair { get; set; }
     }
 

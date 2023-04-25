@@ -28,6 +28,6 @@ public class ToeTeVoegenContactgegeven
     public string? Beschrijving { get; set; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
-    [DataMember(Name = "isPrimair", EmitDefaultValue = false)]
+    [DataMember(Name = "isPrimair")]
     public bool IsPrimair { get; set; }
 }

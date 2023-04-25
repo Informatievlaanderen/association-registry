@@ -108,6 +108,7 @@ public class With_Same_Naam_And_Gemeente
           VerenigingWerdGeregistreerd.Locaties
               .Select(locatie => $@"{{
           ""locatietype"": ""{locatie.Locatietype}"",
+          ""hoofdlocatie"": {(locatie.Hoofdlocatie ? "true" : "false")},
           ""adres"": ""{locatie.ToAdresString()}"",
           ""naam"": ""{locatie.Naam}"",
           ""postcode"": ""{locatie.Postcode}"",

@@ -52,7 +52,7 @@ public class Locatie
     /// <summary>
     /// Is dit de hoofdlocatie van deze vereniging.
     /// </summary>
-    [DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
+    [DataMember(Name = "Hoofdlocatie")]
     public bool Hoofdlocatie { get; init; }
 
     /// <summary>

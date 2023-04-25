@@ -117,7 +117,7 @@ public class PotentialDuplicatesResponse
             [DataMember(Name = "Locatietype")]
             public string Locatietype { get; init; }
 
-            [DataMember(Name = "Hoofdlocatie", EmitDefaultValue = false)]
+            [DataMember(Name = "Hoofdlocatie")]
             public bool Hoofdlocatie { get; init; }
 
             [DataMember(Name = "Adres")] public string Adres { get; init; }
