@@ -72,8 +72,8 @@ public class RegistreerVerenigingRequest
 
     private static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
         => Vertegenwoordiger.Create(
-            Insz.Create(vert.Insz!),
-            vert.PrimairContactpersoon,
+            Insz.Create(vert.Insz),
+            vert.IsPrimair,
             vert.Roepnaam,
             vert.Rol,
             Email.Create(vert.Email),

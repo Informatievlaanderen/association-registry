@@ -21,6 +21,15 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
+    private readonly AppSettings _appsettings;
+    private readonly IDocumentStore _documentStore;
+
+    public DetailVerenigingenController(AppSettings appsettings, IDocumentStore documentStore)
+    {
+        _appsettings = appsettings;
+        _documentStore = documentStore;
+    }
+
     /// <summary>
     ///     Vraag het detail van een vereniging op.
     /// </summary>
@@ -35,11 +44,9 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
-        [FromServices] AppSettings appsettings,
-        [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode)
     {
-        await using var session = documentStore.LightweightSession();
+        await using var session = _documentStore.LightweightSession();
         var maybeVereniging = await session.Query<PubliekVerenigingDetailDocument>()
             .WithVCode(vCode)
             .SingleOrDefaultAsync();
@@ -49,7 +56,7 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(
             new DetailVerenigingResponse(
-                $"{appsettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+                $"{_appsettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 new VerenigingDetail(
                     vereniging.VCode,
                     vereniging.Naam,

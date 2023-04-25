@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VoegVertegenwoordigerToe;
 
 using System.Threading.Tasks;
-using Acties.VoegContactgegevenToe;
+using Acties.VoegVertegenwoordigerToe;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Framework;
@@ -40,7 +40,7 @@ public class VoegVertegenwoordigerToeController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <response code="202">De vertegenwoordiger werd goedgekeurd.</response>
+    /// <response code="202">De vertegenwoordiger werd toegevoegd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPost("{vCode}/vertegenwoordigers")]
@@ -63,7 +63,7 @@ public class VoegVertegenwoordigerToeController : ApiController
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
+        var envelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);

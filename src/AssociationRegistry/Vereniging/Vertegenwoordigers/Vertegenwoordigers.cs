@@ -21,7 +21,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
     public static Vertegenwoordigers FromArray(Vertegenwoordiger[] vertegenwoordigerArray)
     {
         Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigerArray));
-        Throw<MultiplePrimaryContacts>.If(HasMultiplePrimaryContacts(vertegenwoordigerArray));
+        Throw<MultiplePrimaryVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigerArray));
 
         return vertegenwoordigerArray.Aggregate(
             Empty,
@@ -35,9 +35,21 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         return new Vertegenwoordigers(Items.Append(vertegenwoordiger).ToArray(), nextId);
     }
 
-    private static bool HasMultiplePrimaryContacts(Vertegenwoordiger[] vertegenwoordigersArray)
-        => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.PrimairContactpersoon) > 1;
+    private static bool HasMultiplePrimaryVertegenwoordigers(Vertegenwoordiger[] vertegenwoordigersArray)
+        => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.IsPrimair) > 1;
 
     private static bool HasDuplicateInsz(Vertegenwoordiger[] vertegenwoordigers)
         => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
+
+    public void MustNotHaveDuplicateOf(Vertegenwoordiger vertegenwoordiger)
+        => Throw<DuplicateInszProvided>.If(HasDuplicateInsz(Items.Append(vertegenwoordiger).ToArray()));
+
+    public void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
+    {
+        Throw<MultiplePrimaryVertegenwoordigers>.If(
+            vertegenwoordiger.IsPrimair &&
+            HasMultiplePrimaryVertegenwoordigers(
+                Items.Append(vertegenwoordiger)
+                    .ToArray()));
+    }
 }

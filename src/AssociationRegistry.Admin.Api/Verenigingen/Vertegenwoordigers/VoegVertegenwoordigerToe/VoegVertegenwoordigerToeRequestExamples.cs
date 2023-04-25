@@ -12,7 +12,7 @@ public class VoegVertegenwoordigerToeRequestExamples : IExamplesProvider<VoegVer
             Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger
             {
                 Insz = "yymmddxxxcc",
-                PrimairContactpersoon = true,
+                IsPrimair = true,
                 Roepnaam = "Conan",
                 Rol = "Barbarian",
                 Email = "conan@example.com",

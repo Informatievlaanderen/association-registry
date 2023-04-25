@@ -19,7 +19,7 @@ public class Is_Null
             {
                 new ToeTeVoegenVertegenwoordiger
                 {
-                    Insz = null,
+                    Insz = null!,
                 },
             },
         };

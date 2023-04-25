@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
 using Marten;
+using Marten.Events;
 using Marten.Events.Projections;
 using Schema.VerenigingenPerInsz;
 
@@ -17,7 +19,6 @@ public class VerenigingenPerInszProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd
         Options.BatchSize = 1;
     }
-
 
     public void Project(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
@@ -50,5 +51,25 @@ public class VerenigingenPerInszProjection : EventProjection
             verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == e.VCode).Naam = e.Naam;
             ops.Store(verenigingenPerInszDocument);
         }
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+    {
+        var document = await ops.Query<VerenigingenPerInszDocument>()
+            .SingleOrDefaultAsync(document => document.Insz.Equals(vertegenwoordigerWerdToegevoegd.Data.Insz)) ??
+                   new VerenigingenPerInszDocument
+                        {
+                            Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
+                            Verenigingen = new List<Vereniging>(),
+                        };
+
+        document.Verenigingen.Add(
+            new Vereniging
+            {
+                VCode = vertegenwoordigerWerdToegevoegd.StreamKey!,
+                Naam = string.Empty, //todo: where to find the naam?
+            });
+
+        ops.Store(document);
     }
 }

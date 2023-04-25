@@ -52,8 +52,8 @@ public class To_A_RegistreerVerenigingCommand
                 .Select(
                     v =>
                         Vertegenwoordiger.Create(
-                            Insz.Create(v.Insz!),
-                            v.PrimairContactpersoon,
+                            Insz.Create(v.Insz),
+                            v.IsPrimair,
                             v.Roepnaam,
                             v.Rol,
                             Email.Create(v.Email),

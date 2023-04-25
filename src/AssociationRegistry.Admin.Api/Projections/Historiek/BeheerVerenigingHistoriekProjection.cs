@@ -37,12 +37,6 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             document,
             $"Naam werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}'.");
 
-    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
-            hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
-            document,
-            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
-
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             korteNaamWerdGewijzigd,
@@ -73,6 +67,12 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
                 $"Startdatum werd verwijderd."
             );
     }
+
+    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
+            document,
+            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
     {
@@ -105,6 +105,18 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         );
 
         document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
+    }
+
+    public void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            vertegenwoordigerWerdToegevoegd,
+            document,
+            $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} " +
+            $"{vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger."
+        );
+
+        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)

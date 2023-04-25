@@ -92,13 +92,13 @@ public class With_All_Fields
                         new VerenigingWerdGeregistreerd.Vertegenwoordiger(
                             i + 1,
                             v.Insz,
-                            v.PrimairContactpersoon,
+                            v.IsPrimair,
                             v.Roepnaam ?? string.Empty,
                             v.Rol ?? string.Empty,
                             _magdaVoornaam,
                             _magdaAchternaam,
                             v.Email.Waarde,
-                            v.TelefoonNummer.Waarde,
+                            v.Telefoon.Waarde,
                             v.Mobiel.Waarde,
                             v.SocialMedia.Waarde
                         )).ToArray(),

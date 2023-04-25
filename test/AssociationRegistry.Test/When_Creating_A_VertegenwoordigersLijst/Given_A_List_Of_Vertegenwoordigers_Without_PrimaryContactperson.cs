@@ -14,8 +14,8 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
     public void Then_It_Returns_A_Filled_VertegenwoordigersLijst()
     {
         var fixture = new Fixture().CustomizeAll();
-        var vertegenwoordiger1 = fixture.Create<Vertegenwoordiger>() with { PrimairContactpersoon = false };
-        var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with { PrimairContactpersoon = false };
+        var vertegenwoordiger1 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
+        var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
         var listOfVertegenwoordigers = new[]
         {
             vertegenwoordiger1,

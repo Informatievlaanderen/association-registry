@@ -21,6 +21,9 @@ public record SocialMedia(string Waarde, string Beschrijving, bool IsPrimair)
         return new SocialMedia(socialMedia, beschrijving, isPrimair);
     }
 
+    public static SocialMedia Hydrate(string socialMedia)
+        => new(socialMedia, string.Empty, false);
+
     private static bool UrlContainsAPeriod(string urlString)
         => urlString.Contains('.');
 

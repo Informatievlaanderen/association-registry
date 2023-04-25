@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Framework;
+using Vereniging;
 
 public interface IEventsInDbScenario
 {
@@ -22,7 +23,7 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     public VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001001";
+        VCode = "V0003001";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -41,15 +42,16 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
         => Metadata;
 }
 
-public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : IEventsInDbScenario
+public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario()
+    public VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001002";
+        VCode = "V0003002";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -61,49 +63,21 @@ public class VerenigingWerdGeregistreerd_WithMinimalFields_EventsInDbScenario : 
             Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        Insz = VertegenwoordigerWerdToegevoegd.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }
+    public string Insz { get; set; }
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
-
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
-}
-
-public class VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario : IEventsInDbScenario
-{
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
-    public readonly CommandMetadata Metadata;
-
-    public VerenigingWerdGeregistreerd_ForUseWithNoChanges_EventsInDbScenario()
-    {
-        var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001003";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
-            VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            KorteNaam = string.Empty,
-            KboNummer = string.Empty,
-            Startdatum = null,
-            KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            VerenigingWerdGeregistreerd,
+            VertegenwoordigerWerdToegevoegd,
         };
-        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
-    }
-
-    public string VCode { get; set; }
-    public StreamActionResult Result { get; set; } = null!;
-
-    public IEvent[] GetEvents()
-        => new IEvent[]
-            { VerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
@@ -120,7 +94,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001004";
+        VCode = "V0003004";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
         VerenigingWerdGeregistreerd = VerenigingWerdGeregistreerd with { Vertegenwoordigers = VerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
@@ -136,41 +110,13 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         => VerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
 
     public IEvent[] GetEvents()
-        => new IEvent[] { VerenigingWerdGeregistreerd, NaamWerdGewijzigd, KorteNaamWerdGewijzigd, KorteBeschrijvingWerdGewijzigd };
-
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
-}
-
-public class VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenario : IEventsInDbScenario
-{
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
-    public readonly CommandMetadata Metadata;
-
-    public VerenigingWerdGeregistreerd_ForUseWithETagMatching_EventsInDbScenario()
-    {
-        var fixture = new Fixture().CustomizeAll();
-        VCode = "V0001005";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
-        {
-            VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            KorteNaam = string.Empty,
-            KboNummer = string.Empty,
-            Startdatum = null,
-            KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-        };
-        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
-    }
-
-    public string VCode { get; set; }
-    public StreamActionResult Result { get; set; } = null!;
-
-    public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+        {
+            VerenigingWerdGeregistreerd,
+            NaamWerdGewijzigd,
+            KorteNaamWerdGewijzigd,
+            KorteBeschrijvingWerdGewijzigd,
+        };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

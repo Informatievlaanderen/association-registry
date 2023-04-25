@@ -45,9 +45,9 @@ public class Given_Magda_Returns_Data
             result.Achternaam.Should().Be(magdaPersoon.Achternaam);
             result.Roepnaam.Should().Be(result.Roepnaam);
             result.Rol.Should().Be(result.Rol);
-            result.PrimairContactpersoon.Should().Be(result.PrimairContactpersoon);
+            result.IsPrimair.Should().Be(result.IsPrimair);
             result.Email.Should().Be(result.Email);
-            result.TelefoonNummer.Should().Be(result.TelefoonNummer);
+            result.Telefoon.Should().Be(result.Telefoon);
             result.Mobiel.Should().Be(result.Mobiel);
             result.SocialMedia.Should().Be(result.SocialMedia);
         }

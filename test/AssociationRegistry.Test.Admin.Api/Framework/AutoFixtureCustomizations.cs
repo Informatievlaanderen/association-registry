@@ -162,7 +162,7 @@ public static class AutoFixtureCustomizations
                         Insz = fixture.Create<Insz>(),
                         Roepnaam = fixture.Create<string>(),
                         Rol = fixture.Create<string>(),
-                        PrimairContactpersoon = false,
+                        IsPrimair = false,
                         Email = fixture.Create<Email>().Waarde,
                         Telefoon = fixture.Create<TelefoonNummer>().Waarde,
                         Mobiel = fixture.Create<TelefoonNummer>().Waarde,

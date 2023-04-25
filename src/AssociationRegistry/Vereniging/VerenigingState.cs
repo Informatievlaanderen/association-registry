@@ -1,6 +1,9 @@
 namespace AssociationRegistry.Vereniging;
 
+using Emails;
 using Events;
+using SocialMedias;
+using TelefoonNummers;
 
 public record VerenigingState
 {
@@ -14,6 +17,7 @@ public record VerenigingState
     public string? KorteBeschrijving { get; private init; }
     public Startdatum? Startdatum { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
+    public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
 
     public VerenigingState Apply(VerenigingWerdGeregistreerd @event)
@@ -35,6 +39,22 @@ public record VerenigingState
                         c.IsPrimair)
                 )
             ),
+            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
+                Vertegenwoordigers.Empty,
+                (lijst, v) => lijst.Append(
+                    Vertegenwoordiger.Hydrate(
+                        v.VertegenwoordigerId,
+                        Insz.Hydrate(v.Insz),
+                        v.Rol,
+                        v.Roepnaam,
+                        v.Voornaam,
+                        v.Achternaam,
+                        v.IsPrimair,
+                        Email.Hydrate(v.Email),
+                        TelefoonNummer.Hydrate(v.Telefoon),
+                        TelefoonNummer.Hydrate(v.Mobiel),
+                        SocialMedia.Hydrate(v.SocialMedia)
+                    ))),
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                         h => HoofdactiviteitVerenigingsloket.Create(h.Code))
@@ -90,5 +110,24 @@ public record VerenigingState
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                         h => HoofdactiviteitVerenigingsloket.Create(h.Code))
                     .ToArray()),
+        };
+
+    public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Append(
+                Vertegenwoordiger.Hydrate(
+                    @event.VertegenwoordigerId,
+                    Insz.Hydrate(@event.Insz),
+                    @event.Rol,
+                    @event.Roepnaam,
+                    @event.Voornaam,
+                    @event.Achternaam,
+                    @event.IsPrimair,
+                    Email.Hydrate(@event.Email),
+                    TelefoonNummer.Hydrate(@event.Telefoon),
+                    TelefoonNummer.Hydrate(@event.Mobiel),
+                    SocialMedia.Hydrate(@event.SocialMedia)
+                )),
         };
 }
