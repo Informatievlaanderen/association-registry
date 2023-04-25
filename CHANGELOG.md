@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/informatievlaanderen/association-registry/compare/v2.6.0...v2.6.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* or-1692 modified publiek zoeken to also always show hoofdlocatie field and also always show isPrimair field for contactgegevens ([15a25e1](https://github.com/informatievlaanderen/association-registry/commit/15a25e1adc5b398b88163d897f561017b0c9a677))
+
 # [2.6.0](https://github.com/informatievlaanderen/association-registry/compare/v2.5.5...v2.6.0) (2023-04-25)
 
 
