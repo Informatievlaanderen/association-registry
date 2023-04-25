@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/informatievlaanderen/association-registry/compare/v2.5.5...v2.6.0) (2023-04-25)
+
+
+### Features
+
+* or-1695 use local identifier i/o insz to identify vertegenwoordigers ([fa36d7b](https://github.com/informatievlaanderen/association-registry/commit/fa36d7b99e0d120bbc41bf621b68453284d06b14))
+
 ## [2.5.5](https://github.com/informatievlaanderen/association-registry/compare/v2.5.4...v2.5.5) (2023-04-25)
 
 
