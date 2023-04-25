@@ -35,7 +35,6 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         return new Vertegenwoordigers(Items.Append(vertegenwoordiger).ToArray(), nextId);
     }
 
-
     private static bool HasMultiplePrimaryContacts(Vertegenwoordiger[] vertegenwoordigersArray)
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.PrimairContactpersoon) > 1;
 
