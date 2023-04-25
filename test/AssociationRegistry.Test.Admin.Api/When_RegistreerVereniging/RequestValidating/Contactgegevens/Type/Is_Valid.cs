@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Vereniging;
 using Xunit;
 

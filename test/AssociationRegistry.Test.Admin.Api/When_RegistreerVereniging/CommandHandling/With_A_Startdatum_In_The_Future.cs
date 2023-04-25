@@ -2,10 +2,10 @@
 
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
-using Fakes;
-using Framework;
 using AutoFixture;
+using Fakes;
 using FluentAssertions;
+using Framework;
 using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -26,7 +26,7 @@ public class With_A_Startdatum_In_The_Future
 
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {
-            Startdatum = Startdatum.Create(today.AddDays(1)),
+            Startdatum = Startdatum.Create(today.AddDays(value: 1)),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();

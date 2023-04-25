@@ -49,6 +49,7 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(2022, 11, 9));
 
     private readonly VerenigingWerdGeregistreerd.Vertegenwoordiger _vertegenwoordiger = new(
+        1,
         "01234567890",
         true,
         "father",

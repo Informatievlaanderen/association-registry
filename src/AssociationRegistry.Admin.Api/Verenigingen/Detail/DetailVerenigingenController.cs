@@ -95,6 +95,7 @@ public class DetailVerenigingenController : ApiController
     private static DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger ToVertegenwoordiger(BeheerVerenigingDetailDocument.Vertegenwoordiger ver)
         => new()
         {
+            VertegenwoordigerId = ver.VertegenwoordigerId,
             Insz = ver.Insz,
             Voornaam = ver.Voornaam,
             Achternaam = ver.Achternaam,

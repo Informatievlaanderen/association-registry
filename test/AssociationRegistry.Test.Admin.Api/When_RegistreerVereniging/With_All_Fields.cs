@@ -6,12 +6,14 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
+using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
@@ -19,6 +21,7 @@ using Xunit.Categories;
 
 public sealed class When_RegistreerVereniging_WithAllFields
 {
+    private static When_RegistreerVereniging_WithAllFields? called;
     public readonly RegistreerVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
 
@@ -89,14 +92,12 @@ public sealed class When_RegistreerVereniging_WithAllFields
         Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
     }
 
-    private static When_RegistreerVereniging_WithAllFields? called;
-
     public static When_RegistreerVereniging_WithAllFields Called(AdminApiFixture fixture)
         => called ??= new When_RegistreerVereniging_WithAllFields(fixture);
 
     private string GetJsonBody(RegistreerVerenigingRequest request)
         => GetType()
-            .GetAssociatedResourceJson($"files.request.with_all_fields")
+            .GetAssociatedResourceJson("files.request.with_all_fields")
             .Replace("{{vereniging.naam}}", request.Naam)
             .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
@@ -116,16 +117,16 @@ public class With_All_Fields
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
+    public With_All_Fields(EventsInDbScenariosFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
     private RegistreerVerenigingRequest Request
         => When_RegistreerVereniging_WithAllFields.Called(_fixture).Request;
 
     private HttpResponseMessage Response
         => When_RegistreerVereniging_WithAllFields.Called(_fixture).Response;
-
-    public With_All_Fields(EventsInDbScenariosFixture fixture)
-    {
-        _fixture = fixture;
-    }
 
     [Fact]
     public void Then_it_saves_the_events()
@@ -141,11 +142,13 @@ public class With_All_Fields
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
         savedEvent.KboNummer.Should().Be(Request.KboNummer);
-        savedEvent.Contactgegevens.Should().HaveCount(1);
+        savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
-        savedEvent.Locaties.Should().HaveCount(1);
+        savedEvent.Locaties.Should().HaveCount(expected: 1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());
+        savedEvent.Vertegenwoordigers.ForEach(x => x.VertegenwoordigerId.Should().BePositive());
+        savedEvent.Vertegenwoordigers.Select(x => x.VertegenwoordigerId).ToList().Should().OnlyHaveUniqueItems();
         savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {
@@ -163,7 +166,7 @@ public class With_All_Fields
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        Response.Headers.Should().ContainKey(HeaderNames.Location);
         Response.Headers.Location!.OriginalString.Should()
             .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
@@ -173,8 +176,8 @@ public class With_All_Fields
     {
         Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
         var sequenceValues = Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
-        sequenceValues.Should().HaveCount(1);
+        sequenceValues.Should().HaveCount(expected: 1);
         var sequence = Convert.ToInt64(sequenceValues.Single());
-        sequence.Should().BeGreaterThan(0);
+        sequence.Should().BeGreaterThan(expected: 0);
     }
 }

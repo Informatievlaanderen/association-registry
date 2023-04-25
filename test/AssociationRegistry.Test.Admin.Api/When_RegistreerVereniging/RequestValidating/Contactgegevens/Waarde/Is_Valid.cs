@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Valid : ValidatorTest
@@ -13,7 +13,7 @@ public class Is_Valid : ValidatorTest
     {
         var validator = new RegistreerVerenigingRequestValidator();
         var result = validator.TestValidate(
-            new RegistreerVerenigingRequest()
+            new RegistreerVerenigingRequest
             {
                 Contactgegevens =
                     new[]

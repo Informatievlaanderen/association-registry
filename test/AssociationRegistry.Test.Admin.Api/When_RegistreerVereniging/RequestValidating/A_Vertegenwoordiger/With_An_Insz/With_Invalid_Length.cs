@@ -19,7 +19,7 @@ public class With_Invalid_Length
         {
             Vertegenwoordigers = new[]
             {
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = insz,
                 },

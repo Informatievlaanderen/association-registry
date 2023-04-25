@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerVereniging;
 
+using DuplicateVerenigingDetection;
 using Framework;
 using Magda;
-using DuplicateVerenigingDetection;
 using ResultNet;
 using Vereniging;
 

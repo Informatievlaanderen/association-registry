@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.Contactgegevens;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -11,7 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__contactgegeven_is_verplicht()
     {
         var validator = new RegistreerVerenigingRequestValidator();
-        var request = new RegistreerVerenigingRequest()
+        var request = new RegistreerVerenigingRequest
         {
             Initiator = "OVO000001",
         };

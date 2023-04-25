@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerVereniging.RequestValidating.A_Naam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 

@@ -6,7 +6,6 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class With_Invalid_Characters
 {
@@ -20,7 +19,7 @@ public class With_Invalid_Characters
         {
             Vertegenwoordigers = new[]
             {
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = insz,
                 },

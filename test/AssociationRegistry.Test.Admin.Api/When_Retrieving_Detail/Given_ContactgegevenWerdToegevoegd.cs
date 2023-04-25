@@ -4,12 +4,12 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
+using AssociationRegistry.Framework;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
@@ -19,13 +19,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_ContactgegevenWerdToegevoegd
 {
-    private readonly string _vCode;
     private readonly AdminApiClient _adminApiClient;
-    private readonly StreamActionResult _result;
-    private readonly HttpResponseMessage _response;
-    private readonly CommandMetadata _metadata;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
     private readonly ContactgegevenWerdToegevoegd _contactgegevenWerdToegevoegd;
+    private readonly CommandMetadata _metadata;
+    private readonly HttpResponseMessage _response;
+    private readonly StreamActionResult _result;
+    private readonly string _vCode;
+    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
 
     public Given_ContactgegevenWerdToegevoegd(EventsInDbScenariosFixture fixture)
     {
@@ -63,7 +63,7 @@ public class Given_ContactgegevenWerdToegevoegd
             .Append(
                 _verenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
+                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
@@ -71,12 +71,15 @@ public class Given_ContactgegevenWerdToegevoegd
                             Beschrijving = c.Beschrijving,
                             IsPrimair = c.IsPrimair,
                         }))
-            .Append(new DetailVerenigingResponse.VerenigingDetail.Contactgegeven(){
-                ContactgegevenId = _contactgegevenWerdToegevoegd.ContactgegevenId,
-                Type = _contactgegevenWerdToegevoegd.Type,
-                Waarde = _contactgegevenWerdToegevoegd.Waarde,
-                Beschrijving = _contactgegevenWerdToegevoegd.Beschrijving,
-                IsPrimair = _contactgegevenWerdToegevoegd.IsPrimair});
+            .Append(
+                new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                {
+                    ContactgegevenId = _contactgegevenWerdToegevoegd.ContactgegevenId,
+                    Type = _contactgegevenWerdToegevoegd.Type,
+                    Waarde = _contactgegevenWerdToegevoegd.Waarde,
+                    Beschrijving = _contactgegevenWerdToegevoegd.Beschrijving,
+                    IsPrimair = _contactgegevenWerdToegevoegd.IsPrimair,
+                });
 
 
         var expected = $@"
@@ -89,14 +92,14 @@ public class Given_ContactgegevenWerdToegevoegd
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
+                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
@@ -109,7 +112,8 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-                    ""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                    ""vertegenwoordigers"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                            ""vertegenwoordigerId"": {x.VertegenwoordigerId},
                             ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",
@@ -121,7 +125,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}""
                     }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}]

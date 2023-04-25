@@ -4,12 +4,12 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
+using AssociationRegistry.Framework;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
@@ -19,16 +19,16 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_All_BasisGegevensWerdenGewijzigd
 {
-    private readonly string _vCode;
     private readonly AdminApiClient _adminApiClient;
-    private readonly StreamActionResult _result;
-    private readonly HttpResponseMessage _response;
-    private readonly CommandMetadata _metadata;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
-    private readonly NaamWerdGewijzigd _naamWerdGewijzigd;
-    private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
     private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
+    private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
+    private readonly CommandMetadata _metadata;
+    private readonly NaamWerdGewijzigd _naamWerdGewijzigd;
+    private readonly HttpResponseMessage _response;
+    private readonly StreamActionResult _result;
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
+    private readonly string _vCode;
+    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
@@ -69,7 +69,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
             .Append(
                 _verenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
+                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
@@ -87,14 +87,14 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
-                    ""contactgegevens"": [{string.Join(',', contactgegevens.Select(y => $@"{{
+                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
@@ -107,7 +107,8 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-                    ""vertegenwoordigers"":[{string.Join(',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                    ""vertegenwoordigers"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                            ""vertegenwoordigerId"": {x.VertegenwoordigerId},
                             ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",
@@ -119,7 +120,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}""
                     }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}]

@@ -3,12 +3,11 @@
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
-
 
 [UnitTest]
 public class With_An_Invalid_Locatietype : ValidatorTest

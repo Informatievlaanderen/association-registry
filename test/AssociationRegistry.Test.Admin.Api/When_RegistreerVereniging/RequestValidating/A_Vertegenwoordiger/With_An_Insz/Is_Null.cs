@@ -6,7 +6,6 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class Is_Null
 {
@@ -18,7 +17,7 @@ public class Is_Null
         {
             Vertegenwoordigers = new[]
             {
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = null,
                 },

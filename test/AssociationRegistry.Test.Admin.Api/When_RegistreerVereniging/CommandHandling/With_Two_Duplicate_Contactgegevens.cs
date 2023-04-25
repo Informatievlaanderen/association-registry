@@ -2,10 +2,10 @@
 
 using Acties.RegistreerVereniging;
 using AssociationRegistry.Framework;
-using Fakes;
-using Framework;
 using AutoFixture;
+using Fakes;
 using FluentAssertions;
+using Framework;
 using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -23,7 +23,7 @@ public class With_Two_Duplicate_Contactgegevens
         var fixture = new Fixture().CustomizeAll();
         var repositoryMock = new VerenigingRepositoryMock();
 
-        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), true);
+        var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), isPrimair: true);
 
         var command = fixture.Create<RegistreerVerenigingCommand>() with
         {

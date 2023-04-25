@@ -6,7 +6,6 @@ using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
 
-
 [UnitTest]
 public class Is_Empty
 {
@@ -16,9 +15,9 @@ public class Is_Empty
         var validator = new RegistreerVerenigingRequestValidator();
         var request = new RegistreerVerenigingRequest
         {
-            Vertegenwoordigers = new []
+            Vertegenwoordigers = new[]
             {
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = string.Empty,
                 },

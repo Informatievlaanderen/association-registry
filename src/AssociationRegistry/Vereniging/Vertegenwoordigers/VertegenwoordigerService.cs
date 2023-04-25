@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Magda;
-using AssociationRegistry.Magda.Exceptions;
 using Exceptions;
+using Magda;
+using Magda.Exceptions;
 
 public class VertegenwoordigerService
 {
@@ -19,10 +19,7 @@ public class VertegenwoordigerService
 
         var expandedVertegenwoordigers = new List<Vertegenwoordiger>();
 
-        foreach (var vert in vertegenwoordigers)
-        {
-            expandedVertegenwoordigers.Add(await GetVertegenwoordiger(vert));
-        }
+        foreach (var vert in vertegenwoordigers) expandedVertegenwoordigers.Add(await GetVertegenwoordiger(vert));
 
         return expandedVertegenwoordigers.ToArray();
     }

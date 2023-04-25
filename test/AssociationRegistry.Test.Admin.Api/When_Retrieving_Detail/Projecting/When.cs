@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AutoFixture;
 using Framework;
 using Framework.Helpers;
-using AutoFixture;
 
 public class When<TEvent> where TEvent : notnull
 {
-    private readonly Fixture _fixture;
     private readonly TestEvent<TEvent> _event;
+    private readonly Fixture _fixture;
 
     private When(TEvent @event)
     {
