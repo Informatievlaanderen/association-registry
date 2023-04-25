@@ -1,49 +1,44 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Vertegenwoordiger;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VoegVertegenwoordigerToe;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;
+using Framework;
 using Marten;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
 public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
 {
-    private readonly EventsInDbScenariosFixture _fixture;
+    private readonly EventsInDbScenariosFixture _classFixture;
     private readonly string _jsonBody;
+
     public V002_VerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
+    public readonly VoegVertegenwoordigerToeRequest Request;
 
-
-    public Post_A_New_Vertegenwoordiger(EventsInDbScenariosFixture fixture)
+    public Post_A_New_Vertegenwoordiger(EventsInDbScenariosFixture classFixture)
     {
-        _fixture = fixture;
+        _classFixture = classFixture;
 
-        Scenario = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields;
-        DocumentStore = _fixture.DocumentStore;
+        Scenario = classFixture.V002VerenigingWerdGeregistreerdWithMinimalFields;
+        DocumentStore = _classFixture.DocumentStore;
 
-        _jsonBody = $@"{{
-            ""vertegenwoordiger"":
-                {{
-                    ""insz"":""96123119307"",
-                    ""rol"": ""tester"",
-                    ""roepnaam"": ""frank"",
-                    ""primairContactpersoon"": false
-                    ""email"": ""frankdetester@example.org""
-                    ""telefoon"": ""0000111222""
-                    ""mobiel"": ""9999887766""
-                    ""socialmedia"": ""http://frank.de.tester@example.org""
-                }},
-            ""initiator"": ""OVO000001""
-        }}";
+        var fixture = new Fixture().CustomizeAll();
+        Request = fixture.Create<VoegVertegenwoordigerToeRequest>();
+
+        _jsonBody = JsonConvert.SerializeObject(Request);
     }
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.PostVertegenwoordiger(Scenario.VCode, _jsonBody);
+        Response = await _classFixture.AdminApiClient.PostVertegenwoordiger(Scenario.VCode, _jsonBody);
     }
 
     public Task DisposeAsync()
@@ -70,8 +65,21 @@ public class Given_A_New_Vertegenwoordiger:IClassFixture<Post_A_New_Vertegenwoor
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
             .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdToegevoegd));
 
+        var toeTeVoegenVertegenwoordiger = _classFixture.Request.Vertegenwoordiger;
+
         contactgegevenWerdToegevoegd.Data.Should()
-            .BeEquivalentTo(new VertegenwoordigerWerdToegevoegd());
+            .BeEquivalentTo(new VertegenwoordigerWerdToegevoegd(
+                1,
+                toeTeVoegenVertegenwoordiger.Insz,
+                toeTeVoegenVertegenwoordiger.IsPrimair,
+                toeTeVoegenVertegenwoordiger.Roepnaam ?? string.Empty,
+                toeTeVoegenVertegenwoordiger.Rol ?? string.Empty,
+                string.Empty,
+                string.Empty,
+                toeTeVoegenVertegenwoordiger.Email ?? string.Empty,
+                toeTeVoegenVertegenwoordiger.Telefoon ?? string.Empty,
+                toeTeVoegenVertegenwoordiger.Mobiel ?? string.Empty,
+                toeTeVoegenVertegenwoordiger.SocialMedia ?? string.Empty));
     }
 
     [Fact]

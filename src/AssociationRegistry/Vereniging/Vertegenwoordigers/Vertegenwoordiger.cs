@@ -9,37 +9,37 @@ public record Vertegenwoordiger
 {
     private Vertegenwoordiger(
         Insz insz,
-        bool primairContactpersoon,
+        bool isPrimair,
         string? roepnaam,
         string? rol,
         string voornaam,
         string achternaam,
         Email email,
-        TelefoonNummer telefoonNummer,
+        TelefoonNummer telefoon,
         TelefoonNummer mobiel,
         SocialMedia socialMedia)
     {
         Insz = insz;
-        PrimairContactpersoon = primairContactpersoon;
+        IsPrimair = isPrimair;
         Roepnaam = roepnaam;
         Rol = rol;
         Voornaam = voornaam;
         Achternaam = achternaam;
         Email = email;
-        TelefoonNummer = telefoonNummer;
+        Telefoon = telefoon;
         Mobiel = mobiel;
         SocialMedia = socialMedia;
     }
 
     public int VertegenwoordigerId { get; set; }
     public Insz Insz { get; init; }
-    public bool PrimairContactpersoon { get; init; }
+    public bool IsPrimair { get; init; }
     public string? Roepnaam { get; }
     public string? Rol { get; }
     public string Voornaam { get; }
     public string Achternaam { get; }
     public Email Email { get; }
-    public TelefoonNummer TelefoonNummer { get; }
+    public TelefoonNummer Telefoon { get; }
     public TelefoonNummer Mobiel { get; }
     public SocialMedia SocialMedia { get; }
 
@@ -70,13 +70,40 @@ public record Vertegenwoordiger
     internal static Vertegenwoordiger Enrich(Vertegenwoordiger vertegenwoordiger, MagdaPersoon persoon)
         => new(
             vertegenwoordiger.Insz,
-            vertegenwoordiger.PrimairContactpersoon,
+            vertegenwoordiger.IsPrimair,
             vertegenwoordiger.Roepnaam,
             vertegenwoordiger.Rol,
             persoon.Voornaam,
             persoon.Achternaam,
             vertegenwoordiger.Email,
-            vertegenwoordiger.TelefoonNummer,
+            vertegenwoordiger.Telefoon,
             vertegenwoordiger.Mobiel,
             vertegenwoordiger.SocialMedia);
+
+    public static Vertegenwoordiger Hydrate(
+        int vertegenwoordigerId,
+        Insz insz,
+        string? rol,
+        string? roepnaam,
+        string voornaam,
+        string achternaam,
+        bool isPrimair,
+        Email email,
+        TelefoonNummer telefoon,
+        TelefoonNummer mobiel,
+        SocialMedia socialMedia)
+        => new(
+            insz,
+            isPrimair,
+            roepnaam,
+            rol,
+            voornaam,
+            achternaam,
+            email,
+            telefoon,
+            mobiel,
+            socialMedia)
+        {
+            VertegenwoordigerId = vertegenwoordigerId,
+        };
 }

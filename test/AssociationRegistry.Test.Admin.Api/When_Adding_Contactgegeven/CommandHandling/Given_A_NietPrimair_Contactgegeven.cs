@@ -38,7 +38,12 @@ public class Given_A_NietPrimair_Contactgegeven
         await commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, fixture.Create<CommandMetadata>()));
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(scenario.VerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
+            new ContactgegevenWerdToegevoegd(
+                scenario.VerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1,
+                command.Contactgegeven.Type,
+                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Beschrijving,
+                false)
         );
     }
 }

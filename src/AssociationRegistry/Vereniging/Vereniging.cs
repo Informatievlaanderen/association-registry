@@ -174,6 +174,15 @@ public class Vereniging : IHasVersion
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 
+    public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
+    {
+        _state.Vertegenwoordigers.MustNotHaveDuplicateOf(vertegenwoordiger);
+        _state.Vertegenwoordigers.MustNotHaveMultiplePrimary(vertegenwoordiger);
+
+        vertegenwoordiger = vertegenwoordiger with { VertegenwoordigerId = _state.Vertegenwoordigers.NextId };
+        AddEvent(VertegenwoordigerWerdToegevoegd.With(vertegenwoordiger));
+    }
+
     private void AddEvent(IEvent @event)
     {
         Apply(@event);

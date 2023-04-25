@@ -119,7 +119,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""achternaam"": ""{x.Achternaam}"",
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
-                            ""primairContactpersoon"": {(x.PrimairContactpersoon ? "true" : "false")},
+                            ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
                             ""email"":""{x.Email}"",
                             ""telefoon"":""{x.Telefoon}"",
                             ""mobiel"":""{x.Mobiel}"",

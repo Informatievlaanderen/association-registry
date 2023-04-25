@@ -101,7 +101,7 @@ public class DetailVerenigingenController : ApiController
             Achternaam = ver.Achternaam,
             Roepnaam = ver.Roepnaam,
             Rol = ver.Rol,
-            PrimairContactpersoon = ver.PrimairContactpersoon,
+            PrimairContactpersoon = ver.IsPrimair,
             Email = ver.Email,
             Telefoon = ver.Telefoon,
             Mobiel = ver.Mobiel,

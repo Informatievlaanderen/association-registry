@@ -68,7 +68,7 @@ public record VerenigingWerdGeregistreerd(
     public record Vertegenwoordiger(
         int VertegenwoordigerId,
         string Insz,
-        bool PrimairContactpersoon,
+        bool IsPrimair,
         string Roepnaam,
         string Rol,
         string Voornaam,
@@ -82,13 +82,13 @@ public record VerenigingWerdGeregistreerd(
             => new(
                 vertegenwoordiger.VertegenwoordigerId,
                 vertegenwoordiger.Insz,
-                vertegenwoordiger.PrimairContactpersoon,
+                vertegenwoordiger.IsPrimair,
                 vertegenwoordiger.Roepnaam ?? string.Empty,
                 vertegenwoordiger.Rol ?? string.Empty,
                 vertegenwoordiger.Voornaam,
                 vertegenwoordiger.Achternaam,
                 vertegenwoordiger.Email.Waarde,
-                vertegenwoordiger.TelefoonNummer.Waarde,
+                vertegenwoordiger.Telefoon.Waarde,
                 vertegenwoordiger.Mobiel.Waarde,
                 vertegenwoordiger.SocialMedia.Waarde);
     }

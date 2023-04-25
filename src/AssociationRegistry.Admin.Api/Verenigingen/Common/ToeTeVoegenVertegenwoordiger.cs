@@ -10,7 +10,7 @@ public class ToeTeVoegenVertegenwoordiger
     ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
     /// </summary>
     [DataMember]
-    public string? Insz { get; set; }
+    public string Insz { get; set; } = null!;
 
     /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
     [DataMember]
@@ -24,7 +24,7 @@ public class ToeTeVoegenVertegenwoordiger
     ///     Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
     /// </summary>
     [DataMember]
-    public bool PrimairContactpersoon { get; set; }
+    public bool IsPrimair { get; set; }
 
     /// <summary>Het emailadres van de vertegenwoordiger</summary>
     [DataMember]

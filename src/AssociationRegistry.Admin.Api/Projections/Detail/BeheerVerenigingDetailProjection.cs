@@ -39,7 +39,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
                 {
                     VertegenwoordigerId = v.VertegenwoordigerId,
-                    PrimairContactpersoon = v.PrimairContactpersoon,
+                    IsPrimair = v.IsPrimair,
                     Roepnaam = v.Roepnaam,
                     Insz = v.Insz,
                     Rol = v.Rol,
@@ -59,26 +59,11 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
         };
 
-    private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(VerenigingWerdGeregistreerd.Locatie[]? locaties)
-        => locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>();
-
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
         document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(naamWerdGewijzigd.Sequence, naamWerdGewijzigd.Version);
-    }
-
-    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, BeheerVerenigingDetailDocument document)
-    {
-        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(
-            h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
-            {
-                Code = h.Code,
-                Beschrijving = h.Beschrijving,
-            }).ToArray();
-        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(hoofactiviteitenVerenigingloketWerdenGewijzigd.Sequence, hoofactiviteitenVerenigingloketWerdenGewijzigd.Version);
     }
 
     public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -136,7 +121,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
-
     public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
@@ -147,6 +131,42 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
     }
+
+    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(
+            h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+            {
+                Code = h.Code,
+                Beschrijving = h.Beschrijving,
+            }).ToArray();
+        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(hoofactiviteitenVerenigingloketWerdenGewijzigd.Sequence, hoofactiviteitenVerenigingloketWerdenGewijzigd.Version);
+    }
+
+    public void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
+            new BeheerVerenigingDetailDocument.Vertegenwoordiger
+            {
+                VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
+                IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
+                Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
+                Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
+                Email = vertegenwoordigerWerdToegevoegd.Data.Email,
+                Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
+                Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
+                Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,
+                Rol = vertegenwoordigerWerdToegevoegd.Data.Rol,
+                SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
+            }).ToArray();
+
+        document.DatumLaatsteAanpassing = vertegenwoordigerWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
+    }
+
+    private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(VerenigingWerdGeregistreerd.Locatie[]? locaties)
+        => locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>();
 
     private static BeheerVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
         => new()
@@ -219,7 +239,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Achternaam { get; set; } = null!;
         public string? Roepnaam { get; set; }
         public string? Rol { get; set; }
-        public bool PrimairContactpersoon { get; set; }
+        public bool IsPrimair { get; set; }
         public string Email { get; set; } = null!;
         public string Telefoon { get; set; } = null!;
         public string Mobiel { get; set; } = null!;

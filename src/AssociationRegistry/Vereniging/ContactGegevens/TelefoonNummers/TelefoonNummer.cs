@@ -24,6 +24,9 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
         return new TelefoonNummer(telefoonNummer, beschrijving, isPrimair);
     }
 
+    public static TelefoonNummer Hydrate(string telefoonNummer)
+        => new(telefoonNummer, string.Empty,false);
+
     private static bool HasNumber(string telefoonNummer)
         => telefoonNummer.Any(char.IsNumber);
 

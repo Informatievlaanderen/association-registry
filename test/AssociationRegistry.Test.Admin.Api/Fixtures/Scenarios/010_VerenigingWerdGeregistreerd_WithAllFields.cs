@@ -29,7 +29,7 @@ public class V010_VerenigingWerdGeregistreerd_WithAllFields : IEventsInDbScenari
             Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
                 (vertegenwoordiger, i) => vertegenwoordiger with
                 {
-                    PrimairContactpersoon = i == 0,
+                    IsPrimair = i == 0,
                 }).ToArray(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

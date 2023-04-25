@@ -16,6 +16,7 @@ public record Email(string Waarde, string Beschrijving, bool IsPrimair)
     public static Email Create(string? email)
         => Create(email, string.Empty, false);
 
+
     public static Email Create(string? email, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(email))
@@ -23,6 +24,9 @@ public record Email(string Waarde, string Beschrijving, bool IsPrimair)
         Throw<InvalidEmailFormat>.IfNot(MatchWithRegex(email));
         return new Email(email, beschrijving, isPrimair);
     }
+
+    public static Email Hydrate(string email)
+        => new(email, string.Empty, false);
 
     private static bool MatchWithRegex(string email)
         => EmailRegex.IsMatch(email);

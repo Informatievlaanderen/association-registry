@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Vertegenwoordiger.RequestValidating.With_An_Insz;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -18,7 +17,7 @@ public class Is_Null
         {
             Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger()
             {
-                Insz = null,
+                Insz = null!,
             },
         };
         var result = validator.TestValidate(request);

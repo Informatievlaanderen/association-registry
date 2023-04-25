@@ -121,7 +121,7 @@ public class DetailVerenigingResponse
             /// <summary>
             ///     Dit duidt aan dat dit de unieke primaire contactpersoon is voor alle communicatie met overheidsinstanties
             /// </summary>
-            [DataMember(Name = "PrimairContactpersoon")]
+            [DataMember(Name = "IsPrimair")]
             public bool PrimairContactpersoon { get; init; }
 
             /// <summary>Het emailadres van de vertegenwoordiger</summary>
