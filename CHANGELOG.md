@@ -1,3 +1,10 @@
+## [2.8.1](https://github.com/informatievlaanderen/association-registry/compare/v2.8.0...v2.8.1) (2023-04-26)
+
+
+### Bug Fixes
+
+* or-1683 add summary documentation to acm api and beheer api where it was missing ([6382e28](https://github.com/informatievlaanderen/association-registry/commit/6382e28adfd277b8cf2055838a2863c855936348))
+
 # [2.8.0](https://github.com/informatievlaanderen/association-registry/compare/v2.7.0...v2.8.0) (2023-04-26)
 
 
