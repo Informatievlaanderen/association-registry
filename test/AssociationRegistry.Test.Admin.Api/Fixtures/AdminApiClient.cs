@@ -38,11 +38,13 @@ public class AdminApiClient : IDisposable
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
+
     public async Task<HttpResponseMessage> PostVertegenwoordiger(string vCode, string content, long? version = null)
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers", content.AsJsonContent());
     }
+
     public async Task<HttpResponseMessage> PostContactgegevens(string vCode, string content, long? version = null)
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
@@ -63,6 +65,18 @@ public class AdminApiClient : IDisposable
             Content = jsonBody.AsJsonContent(),
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative),
+        };
+        return await _httpClient.SendAsync(request);
+    }
+
+    public async Task<HttpResponseMessage> DeleteVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null)
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        var request = new HttpRequestMessage
+        {
+            Content = jsonBody.AsJsonContent(),
+            Method = HttpMethod.Delete,
+            RequestUri = new Uri($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", UriKind.Relative),
         };
         return await _httpClient.SendAsync(request);
     }

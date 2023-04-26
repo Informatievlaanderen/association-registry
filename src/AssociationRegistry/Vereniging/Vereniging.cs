@@ -182,7 +182,14 @@ public class Vereniging : IHasVersion
         vertegenwoordiger = vertegenwoordiger with { VertegenwoordigerId = _state.Vertegenwoordigers.NextId };
         AddEvent(VertegenwoordigerWerdToegevoegd.With(vertegenwoordiger));
     }
+    public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
+    {
+        _state.Vertegenwoordigers.MustContain(vertegenwoordigerId);
 
+        var vertegenwoordiger = _state.Vertegenwoordigers[vertegenwoordigerId];
+
+        AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
+    }
     private void AddEvent(IEvent @event)
     {
         Apply(@event);
@@ -193,4 +200,6 @@ public class Vereniging : IHasVersion
     {
         _state = _state.Apply(@event);
     }
+
+
 }

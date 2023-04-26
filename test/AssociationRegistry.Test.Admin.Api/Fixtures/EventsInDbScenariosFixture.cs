@@ -15,6 +15,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V008_VerenigingWerdGeregistreerd_WithContactgegeven V008VerenigingWerdGeregistreerdWithContactgegeven = new();
     public readonly V009_VerenigingWerdGeregistreerd_ForDuplicateForce V009VerenigingWerdGeregistreerdForDuplicateForce = new();
     public readonly V010_VerenigingWerdGeregistreerd_WithAllFields V010VerenigingWerdGeregistreerdWithAllFields = new();
+    public readonly V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger V011VerenigingWerdGeregistreerdWithVertegenwoordiger = new();
 
     protected override async Task Given()
     {
@@ -30,6 +31,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V008VerenigingWerdGeregistreerdWithContactgegeven,
             V009VerenigingWerdGeregistreerdForDuplicateForce,
             V010VerenigingWerdGeregistreerdWithAllFields,
+            V011VerenigingWerdGeregistreerdWithVertegenwoordiger,
         };
 
         foreach (var scenario in scenarios)
