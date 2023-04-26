@@ -46,6 +46,7 @@ public class VerwijderVertegenwoordigerController : ApiController
     [HttpDelete("{vCode}/vertegenwoordigers/{vertegenwoordigerId:int}")]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerRequestExample(typeof(VerwijderVertegenwoordigerRequest), typeof(VerwijderVertegenwoordigerRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
