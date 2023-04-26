@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/informatievlaanderen/association-registry/compare/v2.6.1...v2.7.0) (2023-04-26)
+
+
+### Features
+
+* or-1676 rework intro for public api ([8cfb6b9](https://github.com/informatievlaanderen/association-registry/commit/8cfb6b9dbeacccb8e22b81936778d207d99015f0))
+
 ## [2.6.1](https://github.com/informatievlaanderen/association-registry/compare/v2.6.0...v2.6.1) (2023-04-25)
 
 
