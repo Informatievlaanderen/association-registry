@@ -9,14 +9,8 @@ public static class Documentation
     private static string IntroductieText
         => @"
 ---
-Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze <a href=""https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie"">publieke confluence pagina</a>.
-
-# Introductie
-Het Verenigingsregister stelt je in staat om informatie te verkrijgen over verenigingen die in interactie treden met een overheid (in het kader van dienstverlening):
-* verenigingen zonder winstoogmerk
-* verenigingen zonder rechtspersoon, met name:
-    * feitelijke verenigingen
-    * afdelingen van koepelorganisaties (sommige vzw’s vertakken hun werking in afdelingen omwille van interne operationele werking)
+Het Verenigingsregister verstrekt informatie over verenigingen die in interactie treden met een overheid (in het kader van dienstverlening).
+<br />Het betreft verenigingen zonder rechtspersoonlijkheid (zoals feitelijke verenigingen) en verenigingen met rechtspersoonlijkheid (zoals vzw’s).
 
 Deze API geeft *enkel leesrechten* tot de informatie uit het Verenigingsregister.
 ";
