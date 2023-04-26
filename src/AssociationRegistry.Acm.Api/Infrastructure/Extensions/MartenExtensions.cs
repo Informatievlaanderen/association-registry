@@ -41,7 +41,6 @@ public static class MartenExtentions
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
 
-
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
         var jsonNetSerializer = new JsonNetSerializer();
