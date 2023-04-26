@@ -83,6 +83,50 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
         => Metadata;
 }
 
+public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
+    public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
+    public readonly CommandMetadata Metadata;
+
+    public NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        VCode = "V0003003";
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        {
+            VCode = VCode,
+            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            KorteNaam = string.Empty,
+            KboNummer = string.Empty,
+            Startdatum = null,
+            KorteBeschrijving = string.Empty,
+            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+        };
+        NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public string Insz { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            NaamWerdGewijzigd,
+            VertegenwoordigerWerdToegevoegd,
+        };
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}
+
 public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;

@@ -11,14 +11,14 @@ using Xunit.Categories;
 [Collection(nameof(AcmApiCollection))]
 [Category("AcmApi")]
 [IntegrationTest]
-public class When_Retrieving_Verenigingen_For_Insz
+public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
 {
     private readonly HttpResponseMessage _response;
-    private readonly VertegenwoordigerWerdToegevoegd_EventsInDbScenario _scenario;
+    private readonly NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario _scenario;
 
-    public When_Retrieving_Verenigingen_For_Insz(EventsInDbScenariosFixture fixture)
+    public When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.VertegenwoordigerWerdToegevoegdEventsInDbScenario;
+        _scenario = fixture.NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario;
         _response = fixture.DefaultClient.GetVerenigingenForInsz(_scenario.Insz).GetAwaiter().GetResult();
     }
 
@@ -36,8 +36,8 @@ public class When_Retrieving_Verenigingen_For_Insz
             ""insz"":""{_scenario.Insz}"",
             ""verenigingen"":[
                 {{
-                    ""vCode"":""{_scenario.VerenigingWerdGeregistreerd.VCode}"",
-                    ""naam"":""{_scenario.VerenigingWerdGeregistreerd.Naam}"",
+                    ""vCode"":""{_scenario.VCode}"",
+                    ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}"",
                 }}
             ]
         }}";

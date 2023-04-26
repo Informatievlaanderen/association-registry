@@ -6,6 +6,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
 {
     public readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
     public readonly VertegenwoordigerWerdToegevoegd_EventsInDbScenario VertegenwoordigerWerdToegevoegdEventsInDbScenario = new();
+    public readonly NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario = new();
     public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
 
     protected override async Task Given()
@@ -15,6 +16,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
             VertegenwoordigerWerdToegevoegdEventsInDbScenario,
             AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
+            NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario,
         };
 
         foreach (var scenario in scenarios)

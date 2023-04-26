@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,56 +19,94 @@ public class VerenigingenPerInszProjection : EventProjection
         Options.BatchSize = 1;
     }
 
-    public void Project(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    public async Task Project(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
-        var docs = new List<VerenigingenPerInszDocument>();
-        foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
-        {
-            var verenigingenPerInszDocument =
-                ops.Query<VerenigingenPerInszDocument>()
-                    .SingleOrDefault(x => x.Insz == vertegenwoordiger.Insz) ??
-                new VerenigingenPerInszDocument
-                {
-                    Insz = vertegenwoordiger.Insz,
-                    Verenigingen = new List<Vereniging>(),
-                };
-            verenigingenPerInszDocument.Verenigingen.Add(new Vereniging { VCode = werdGeregistreerd.VCode, Naam = werdGeregistreerd.Naam });
-            docs.Add(verenigingenPerInszDocument);
-        }
+        var docs = new List<object>();
+
+        docs.Add(VerenigingDocumentProjector.Apply(werdGeregistreerd));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(werdGeregistreerd, ops));
 
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(NaamWerdGewijzigd e, IDocumentOperations ops)
+    public async Task Project(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
     {
-        var documents = await ops.Query<VerenigingenPerInszDocument>()
-            .Where(document => document.Verenigingen.Any(vereniging => vereniging.VCode == e.VCode))
-            .ToListAsync();
+        var docs = new List<object>();
 
-        foreach (var verenigingenPerInszDocument in documents)
-        {
-            verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == e.VCode).Naam = e.Naam;
-            ops.Store(verenigingenPerInszDocument);
-        }
+        docs.Add(await VerenigingDocumentProjector.Apply(naamWerdGewijzigd, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(naamWerdGewijzigd, ops));
+
+        ops.StoreObjects(docs);
     }
 
     public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
+
+    private static class VerenigingenPerInszProjector
     {
-        var document = await ops.Query<VerenigingenPerInszDocument>()
-            .SingleOrDefaultAsync(document => document.Insz.Equals(vertegenwoordigerWerdToegevoegd.Data.Insz)) ??
-                   new VerenigingenPerInszDocument
-                        {
-                            Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
-                            Verenigingen = new List<Vereniging>(),
-                        };
-
-        document.Verenigingen.Add(
-            new Vereniging
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var vereniging = new Vereniging
             {
-                VCode = vertegenwoordigerWerdToegevoegd.StreamKey!,
-                Naam = string.Empty, //todo: where to find the naam?
-            });
+                VCode = werdGeregistreerd.VCode,
+                Naam = werdGeregistreerd.Naam,
+            };
 
-        ops.Store(document);
+            foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
+            {
+                var verenigingenPerInszDocument = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.Insz);
+                verenigingenPerInszDocument.Verenigingen.Add(vereniging);
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(naamWerdGewijzigd.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode).Naam = naamWerdGewijzigd.Naam;
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<VerenigingenPerInszDocument> Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+        {
+            var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
+            var vereniging = await ops.GetVerenigingDocument(vCode);
+            var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdToegevoegd.Data.Insz);
+
+            document.Verenigingen.Add(
+                new Vereniging
+                {
+                    VCode = vereniging.VCode,
+                    Naam = vereniging.Naam,
+                });
+            return document;
+        }
+    }
+
+    private static class VerenigingDocumentProjector
+    {
+        public static VerenigingDocument Apply(VerenigingWerdGeregistreerd werdGeregistreerd)
+            => new()
+            {
+                VCode = werdGeregistreerd.VCode,
+                Naam = werdGeregistreerd.Naam,
+            };
+
+        public static async Task<VerenigingDocument> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(naamWerdGewijzigd.VCode);
+            verenigingDocument.Naam = naamWerdGewijzigd.Naam;
+            return verenigingDocument;
+        }
     }
 }
