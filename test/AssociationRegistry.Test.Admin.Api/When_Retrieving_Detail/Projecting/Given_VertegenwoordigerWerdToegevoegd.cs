@@ -25,14 +25,15 @@ public class Given_VertegenwoordigerWerdToegevoegd
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                IsPrimair = vertegenwoordigerWerdToegevoegd.IsPrimair,
+                Insz = vertegenwoordigerWerdToegevoegd.Insz,
                 Achternaam = vertegenwoordigerWerdToegevoegd.Achternaam,
                 Voornaam = vertegenwoordigerWerdToegevoegd.Voornaam,
-                Email = vertegenwoordigerWerdToegevoegd.Email,
-                Insz = vertegenwoordigerWerdToegevoegd.Insz,
-                Mobiel = vertegenwoordigerWerdToegevoegd.Mobiel,
                 Roepnaam = vertegenwoordigerWerdToegevoegd.Roepnaam,
                 Rol = vertegenwoordigerWerdToegevoegd.Rol,
+                IsPrimair = vertegenwoordigerWerdToegevoegd.IsPrimair,
+                Email = vertegenwoordigerWerdToegevoegd.Email,
+                Telefoon = vertegenwoordigerWerdToegevoegd.Telefoon,
+                Mobiel = vertegenwoordigerWerdToegevoegd.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.SocialMedia,
             });
     }
