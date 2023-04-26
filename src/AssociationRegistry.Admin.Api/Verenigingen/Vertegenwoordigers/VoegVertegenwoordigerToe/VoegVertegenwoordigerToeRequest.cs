@@ -15,7 +15,7 @@ public class VoegVertegenwoordigerToeRequest
     [DataMember(Name = "initiator")]
     public string Initiator { get; set; } = null!;
 
-    /// <summary>Het toe te voegen vertegenwoordiger</summary>
+    /// <summary>De toe te voegen vertegenwoordiger</summary>
     [DataMember(Name = "vertegenwoordiger")]
     public ToeTeVoegenVertegenwoordiger Vertegenwoordiger { get; set; } = null!;
 

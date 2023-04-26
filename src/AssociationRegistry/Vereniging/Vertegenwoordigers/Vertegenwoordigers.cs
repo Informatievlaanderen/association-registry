@@ -35,6 +35,14 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         return new Vertegenwoordigers(Items.Append(vertegenwoordiger).ToArray(), nextId);
     }
 
+    public Vertegenwoordigers Remove(int vertegenwoordigerId)
+        => new(Items.Where(v => v.VertegenwoordigerId != vertegenwoordigerId).ToArray(), NextId);
+
+
+    public new Vertegenwoordiger this[int vertegenwoordigerId]
+        => this.Single(v => v.VertegenwoordigerId == vertegenwoordigerId);
+
+
     private static bool HasMultiplePrimaryVertegenwoordigers(Vertegenwoordiger[] vertegenwoordigersArray)
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.IsPrimair) > 1;
 
@@ -51,5 +59,10 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
             HasMultiplePrimaryVertegenwoordigers(
                 Items.Append(vertegenwoordiger)
                     .ToArray()));
+    }
+
+    public void MustContain(int vertegenwoordigerId)
+    {
+        Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId==vertegenwoordigerId));
     }
 }

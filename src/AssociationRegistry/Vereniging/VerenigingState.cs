@@ -130,4 +130,10 @@ public record VerenigingState
                     SocialMedia.Hydrate(@event.SocialMedia)
                 )),
         };
+
+    public VerenigingState Apply(VertegenwoordigerWerdVerwijderd @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Remove(@event.VertegenwoordigerId),
+        };
 }

@@ -42,6 +42,9 @@ public class VerenigingenPerInszProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
 
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
@@ -89,6 +92,15 @@ public class VerenigingenPerInszProjection : EventProjection
                     VCode = vereniging.VCode,
                     Naam = vereniging.Naam,
                 });
+            return document;
+        }
+
+        public static async Task<VerenigingenPerInszDocument> Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+        {
+            var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
+            var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
+
+            document.Verenigingen = document.Verenigingen.Where(v => v.VCode != vCode).ToList();
             return document;
         }
     }

@@ -84,6 +84,30 @@ public class VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario 
     }
 }
 
+public class VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario : CommandhandlerScenarioBase
+{
+    public VCode VCode { get; }
+    public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
+    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; }
+
+    public VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        VCode = fixture.Create<VCode>();
+        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+    }
+
+    public override IEnumerable<IEvent> Events()
+    {
+        return new IEvent[]
+        {
+            VerenigingWerdGeregistreerd,
+            VertegenwoordigerWerdToegevoegd,
+        };
+    }
+}
+
 public class VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario : CommandhandlerScenarioBase
 {
     public readonly VCode VCode = VCode.Create("V0009002");
