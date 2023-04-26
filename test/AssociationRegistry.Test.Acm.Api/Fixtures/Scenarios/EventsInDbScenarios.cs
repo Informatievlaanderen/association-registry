@@ -5,7 +5,6 @@ using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Framework;
-using Vereniging;
 
 public interface IEventsInDbScenario
 {
