@@ -1,3 +1,16 @@
+# [2.9.0](https://github.com/informatievlaanderen/association-registry/compare/v2.8.1...v2.9.0) (2023-04-26)
+
+
+### Bug Fixes
+
+* or-1697 add telefoon to vertegenwoordiger detail ([2949edd](https://github.com/informatievlaanderen/association-registry/commit/2949edd8c312376d8ccc487af63c1a650d3478c7))
+* or-1697 add voornaam and achternaam to vertegenwoordiger from magda service ([5aa9acc](https://github.com/informatievlaanderen/association-registry/commit/5aa9accd0d1c0d3408431a05c709bf81ea021a88))
+
+
+### Features
+
+* or-1698 allow vertegenwoordiger to be removed from a vereniging ([89b6386](https://github.com/informatievlaanderen/association-registry/commit/89b6386909e82c73686e3e454aa75dc5c630164d))
+
 ## [2.8.1](https://github.com/informatievlaanderen/association-registry/compare/v2.8.0...v2.8.1) (2023-04-26)
 
 
