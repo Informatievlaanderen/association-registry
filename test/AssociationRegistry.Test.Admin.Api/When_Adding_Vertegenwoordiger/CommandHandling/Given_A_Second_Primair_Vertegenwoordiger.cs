@@ -7,6 +7,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
+using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -26,7 +27,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
     }
 
     [Fact]

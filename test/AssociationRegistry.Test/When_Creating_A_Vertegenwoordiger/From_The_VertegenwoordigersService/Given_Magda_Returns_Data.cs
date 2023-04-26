@@ -33,7 +33,7 @@ public class Given_Magda_Returns_Data
         magdaMock.Setup(m => m.GetByInsz(vertegenwoordiger.Insz, It.IsAny<CancellationToken>())).ReturnsAsync(
             magdaPersoon);
 
-        var vertegenwoordigersLijst = await service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
+        var vertegenwoordigersLijst = await service.GetVertegenwoordigers(new[] { vertegenwoordiger });
 
         vertegenwoordigersLijst.Should().HaveCount(1);
         var result = vertegenwoordigersLijst.Single();

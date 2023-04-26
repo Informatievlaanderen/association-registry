@@ -39,7 +39,7 @@ public class RegistreerVerenigingCommandHandler
         }
 
         var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
-        var vertegenwoordigersLijst = await vertegenwoordigerService.GetVertegenwoordigersLijst(command.Vertegenwoordigers);
+        var vertegenwoordigersLijst = await vertegenwoordigerService.GetVertegenwoordigers(command.Vertegenwoordigers);
 
         var vCode = await _vCodeService.GetNext();
 

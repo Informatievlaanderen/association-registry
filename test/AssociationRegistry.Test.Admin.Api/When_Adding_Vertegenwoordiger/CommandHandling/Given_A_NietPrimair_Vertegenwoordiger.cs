@@ -7,6 +7,7 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios;
 using Framework;
+using Framework.MagdaMocks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -22,7 +23,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
 
         var fixture = new Fixture().CustomizeAll();
 
-        var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
+        var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
         var command = new VoegVertegenwoordigerToeCommand(
             scenario.VCode,
             fixture.Create<Vertegenwoordiger>());
@@ -36,8 +37,8 @@ public class Given_A_NietPrimair_Vertegenwoordiger
                 command.Vertegenwoordiger.IsPrimair,
                 command.Vertegenwoordiger.Roepnaam ?? string.Empty,
                 command.Vertegenwoordiger.Rol ?? string.Empty,
-                command.Vertegenwoordiger.Voornaam,
-                command.Vertegenwoordiger.Achternaam,
+                command.Vertegenwoordiger.Insz,
+                command.Vertegenwoordiger.Insz,
                 command.Vertegenwoordiger.Email.Waarde,
                 command.Vertegenwoordiger.Telefoon.Waarde,
                 command.Vertegenwoordiger.Mobiel.Waarde,
