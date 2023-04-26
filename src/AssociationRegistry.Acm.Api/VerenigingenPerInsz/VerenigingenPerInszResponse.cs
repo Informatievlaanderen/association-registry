@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
+/// <summary>De lijst van alle verenigingen voor een specifiek INSZ</summary>
 [DataContract]
 public class VerenigingenPerInszResponse
 {
