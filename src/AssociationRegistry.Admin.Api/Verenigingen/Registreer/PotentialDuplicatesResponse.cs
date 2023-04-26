@@ -93,6 +93,7 @@ public class PotentialDuplicatesResponse
         [DataMember(Name = "Links")]
         public VerenigingLinks Links { get; init; }
 
+        /// <summary>Een locatie van een vereniging</summary>
         [DataContract]
         public class Locatie
         {
@@ -114,22 +115,32 @@ public class PotentialDuplicatesResponse
             public static Locatie FromDuplicaatVereniging(DuplicaatVereniging.Locatie locatie)
                 => new(locatie.Locatietype, locatie.Hoofdlocatie, locatie.Adres, locatie.Naam, locatie.Postcode, locatie.Gemeente);
 
+            /// <summary>Het soort locatie dat beschreven wordt</summary>
             [DataMember(Name = "Locatietype")]
             public string Locatietype { get; init; }
 
+            /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
             [DataMember(Name = "Hoofdlocatie")]
             public bool Hoofdlocatie { get; init; }
 
-            [DataMember(Name = "Adres")] public string Adres { get; init; }
-            [DataMember(Name = "Naam")] public string? Naam { get; init; }
+            /// <summary>Het samengestelde adres van de locatie</summary>
+            [DataMember(Name = "Adres")]
+            public string Adres { get; init; }
 
+            /// <summary>Een beschrijvende naam voor de locatie</summary>
+            [DataMember(Name = "Naam")]
+            public string? Naam { get; init; }
+
+            /// <summary>Het busnummer van de locatie</summary>
             [DataMember(Name = "Postcode")]
             public string Postcode { get; init; }
 
+            /// <summary>De gemeente van de locatie</summary>
             [DataMember(Name = "Gemeente")]
             public string Gemeente { get; init; }
         }
 
+        /// <summary>Een activiteit van een vereninging</summary>
         [DataContract]
         public class Activiteit
         {
@@ -143,8 +154,10 @@ public class PotentialDuplicatesResponse
             public static Activiteit FromDuplicaatVereniging(DuplicaatVereniging.Activiteit locatie)
                 => new(locatie.Id, locatie.Categorie);
 
+            /// <summary>De unieke identificatie code van deze activiteit binnen de vereniging</summary>
             [DataMember(Name = "Id")] public int Id { get; init; }
 
+            /// <summary>De categorie van deze activiteit</summary>
             [DataMember(Name = "Categorie")]
             public string Categorie { get; init; }
         }
@@ -162,8 +175,11 @@ public class PotentialDuplicatesResponse
             public static HoofdactiviteitVerenigingsloket FromDuplicaatVereniging(DuplicaatVereniging.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
                 => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
 
-            [DataMember(Name = "Code")] public string Code { get; init; }
+            /// <summary>De code van de hoofdactivititeit</summary>
+            [DataMember(Name = "Code")]
+            public string Code { get; init; }
 
+            /// <summary>De beschrijving van de hoofdactivititeit</summary>
             [DataMember(Name = "Beschrijving")]
             public string Beschrijving { get; init; }
         }
@@ -177,6 +193,7 @@ public class PotentialDuplicatesResponse
                 Detail = detail;
             }
 
+            /// <summary>De link naar het beheer detail van de vereniging</summary>
             [DataMember(Name = "Detail")]
             public Uri Detail { get; init; }
         }

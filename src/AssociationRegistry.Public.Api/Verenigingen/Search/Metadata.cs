@@ -4,38 +4,38 @@ using System.Runtime.Serialization;
 using Constants;
 
 /// <summary>
-/// In deze metadata plaatsen we alle relevante metadata voor de zoekopdracht, de paginering informatie.
+/// In deze metadata plaatsen we alle relevante metadata voor de zoekopdracht, de paginering informatie
 /// </summary>
 [DataContract]
 public class Metadata
 {
     /// <summary>
-    /// De paginatie metaData.
+    /// De paginatie metaData
     /// </summary>
     [DataMember]
     public Pagination Pagination { get; init; } = null!;
 }
 
 /// <summary>
-/// De paginatie metaData.
+/// De paginatie metaData
 /// </summary>
 [DataContract]
 public class Pagination
 {
     /// <summary>
-    /// het totaal aantal verenigingen met de huidige limit.
+    /// Het totaal aantal verenigingen dat voldoet aan de zoekcriteria
     /// </summary>
     [DataMember]
     public long TotalCount { get; init; }
 
     /// <summary>
-    /// Het aantal overgeslagen resultaten.
+    /// Het aantal overgeslagen resultaten
     /// </summary>
     [DataMember]
     public int Offset { get; init; }
 
     /// <summary>
-    /// Het maximum aantal teruggegeven resultaten.
+    /// Het maximum aantal teruggegeven resultaten
     /// </summary>
     [DataMember]
     public int Limit { get; init; }
@@ -54,10 +54,10 @@ public class PaginationQueryParams
     public int Offset { get; set; } = PagingConstants.DefaultOffset;
 
     /// <summary>
-    /// Het aantal items dat (maximaal) zal worden opgehaald.
+    /// Het aantal items dat (maximaal) zal worden opgehaald
     /// </summary>
     /// <remarks>
-    /// De laatste pagina kan minder items bevatten.
+    /// De laatste pagina kan minder items bevatten
     /// </remarks>
     [DataMember]
     public int Limit { get; set; } = PagingConstants.DefaultLimit;

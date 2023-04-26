@@ -18,7 +18,7 @@ public class Vereniging
     [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; } = null!;
 
-    /// <summary>De lijst van hoofdactiviteiten erkend door het vereninginsloket</summary>
+    /// <summary>De lijst van hoofdactiviteiten erkend door het vereningingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
@@ -43,13 +43,13 @@ public class Vereniging
 public class Locatie
 {
     /// <summary>
-    /// Waarvoor deze locatie gebruikt wordt.
+    /// Waarvoor deze locatie gebruikt wordt
     /// </summary>
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
 
     /// <summary>
-    /// Is dit de hoofdlocatie van deze vereniging.
+    /// Is dit de hoofdlocatie van deze vereniging
     /// </summary>
     [DataMember(Name = "Hoofdlocatie")]
     public bool Hoofdlocatie { get; init; }
@@ -67,13 +67,13 @@ public class Locatie
     public string? Naam { get; init; }
 
     /// <summary>
-    /// De postcode van de locatie.
+    /// De postcode van de locatie
     /// </summary>
     [DataMember(Name = "Postcode")]
     public string Postcode { get; init; } = null!;
 
     /// <summary>
-    /// De gemeente waarin de locatie ligt.
+    /// De gemeente waarin de locatie ligt
     /// </summary>
     [DataMember(Name = "Gemeente")]
     public string Gemeente { get; init; } = null!;
@@ -115,7 +115,7 @@ public class HoofdactiviteitVerenigingsloket
 public class VerenigingLinks
 {
     /// <summary>
-    /// De link naar het publiek detail van de vereniging.
+    /// De link naar het publiek detail van de vereniging
     /// </summary>
     [DataMember(Name = "Detail")]
     public Uri Detail { get; init; } = null!;
