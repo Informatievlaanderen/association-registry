@@ -1,3 +1,12 @@
+# [2.8.0](https://github.com/informatievlaanderen/association-registry/compare/v2.7.0...v2.8.0) (2023-04-26)
+
+
+### Features
+
+* or-1697 add validation ([6f11d37](https://github.com/informatievlaanderen/association-registry/commit/6f11d3725483e1283b9b3d81ce45d20ddb2661e9))
+* or-1697 allow adding a new vertegenwoordiger to vereniging ([1b107e5](https://github.com/informatievlaanderen/association-registry/commit/1b107e5972891b827b4225eb6f00148e6542bdba))
+* or-1697 update acm projection with added vertegenwoordiger ([29bbd33](https://github.com/informatievlaanderen/association-registry/commit/29bbd33b848dadf499da48c82e9dc48a25dd9405))
+
 # [2.7.0](https://github.com/informatievlaanderen/association-registry/compare/v2.6.1...v2.7.0) (2023-04-26)
 
 
