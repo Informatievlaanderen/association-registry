@@ -7,6 +7,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using Framework;
+using Framework.MagdaMocks;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
@@ -25,7 +26,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
+        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
     }
 
     [Fact]

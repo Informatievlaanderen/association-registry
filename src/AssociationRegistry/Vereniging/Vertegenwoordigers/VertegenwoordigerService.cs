@@ -13,7 +13,7 @@ public class VertegenwoordigerService
         _magdaFacade = magdaFacade;
     }
 
-    public async Task<Vertegenwoordiger[]> GetVertegenwoordigersLijst(Vertegenwoordiger[]? vertegenwoordigers)
+    public async Task<Vertegenwoordiger[]> GetVertegenwoordigers(Vertegenwoordiger[]? vertegenwoordigers)
     {
         if (vertegenwoordigers is null) return Array.Empty<Vertegenwoordiger>();
 
@@ -24,7 +24,7 @@ public class VertegenwoordigerService
         return expandedVertegenwoordigers.ToArray();
     }
 
-    private async Task<Vertegenwoordiger> GetVertegenwoordiger(Vertegenwoordiger vertegenwoordiger)
+    public async Task<Vertegenwoordiger> GetVertegenwoordiger(Vertegenwoordiger vertegenwoordiger)
     {
         var insz = Insz.Create(vertegenwoordiger.Insz);
 

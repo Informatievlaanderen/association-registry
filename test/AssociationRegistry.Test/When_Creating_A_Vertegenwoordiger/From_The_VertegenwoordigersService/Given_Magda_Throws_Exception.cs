@@ -25,7 +25,7 @@ public class Given_Magda_Throws_Exception
 
         var service = new VertegenwoordigerService(magdaMock.Object);
 
-        var createFunc = () => service.GetVertegenwoordigersLijst(new[] { vertegenwoordiger });
+        var createFunc = () => service.GetVertegenwoordigers(new[] { vertegenwoordiger });
 
         await createFunc.Should().ThrowAsync<UnknownInsz>();
     }
