@@ -150,14 +150,15 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
-                IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
+                Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                 Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
                 Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
-                Email = vertegenwoordigerWerdToegevoegd.Data.Email,
-                Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
-                Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,
                 Rol = vertegenwoordigerWerdToegevoegd.Data.Rol,
+                IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
+                Email = vertegenwoordigerWerdToegevoegd.Data.Email,
+                Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
+                Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
             }).ToArray();
 
