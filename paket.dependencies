@@ -71,7 +71,8 @@ nuget Structurizr.Client 0.9.7
 nuget Structurizr.AdrTools 0.9.3
 
 // MARTEN
-nuget Marten 6.0.0-alpha.6
+nuget Marten 6.0.0-rc.1
+nuget Marten.CommandLine 6.0.0-rc.1
 nuget Testcontainers 2.3.0
 nuget WolverineFx 0.9.17
 
