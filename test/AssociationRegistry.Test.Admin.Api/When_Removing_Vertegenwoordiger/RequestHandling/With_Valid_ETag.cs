@@ -29,7 +29,7 @@ public class With_Valid_ETag : IAsyncLifetime
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
             .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
 
-        _controller = new VerwijderVertegenwoordigerController(_messageBusMock.Object)
+        _controller = new VerwijderVertegenwoordigerController(_messageBusMock.Object, new ValidatorStub<VerwijderVertegenwoordigerRequest>())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
