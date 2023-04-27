@@ -33,7 +33,8 @@ public static class MartenExtentions
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-            });
+            })
+            .OptimizeArtifactWorkflow(TypeLoadMode.Auto);
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
