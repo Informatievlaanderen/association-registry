@@ -21,7 +21,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("verenigingen/{vCode}")]
+[ApiRoute("verenigingen")]
 [ApiExplorerSettings(GroupName = "Verenigingen")]
 public class WijzigBasisgegevensController : ApiController
 {
@@ -50,7 +50,7 @@ public class WijzigBasisgegevensController : ApiController
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
-    [HttpPatch]
+    [HttpPatch("{vCode}")]
     [Consumes("application/json")]
     [Produces("application/json")]
     [SwaggerRequestExample(typeof(WijzigBasisgegevensRequest), typeof(WijzigBasisgegevensRequestExamples))]
