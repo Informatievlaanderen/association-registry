@@ -1,3 +1,10 @@
+# [2.10.0](https://github.com/informatievlaanderen/association-registry/compare/v2.9.0...v2.10.0) (2023-04-27)
+
+
+### Features
+
+* or-1698 validate initiator ([eb0d9c7](https://github.com/informatievlaanderen/association-registry/commit/eb0d9c73b3b45e9fd3c1a5750e7181d303d78b34))
+
 # [2.9.0](https://github.com/informatievlaanderen/association-registry/compare/v2.8.1...v2.9.0) (2023-04-26)
 
 
