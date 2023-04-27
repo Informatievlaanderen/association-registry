@@ -1,3 +1,10 @@
+## [2.10.1](https://github.com/informatievlaanderen/association-registry/compare/v2.10.0...v2.10.1) (2023-04-27)
+
+
+### Bug Fixes
+
+* or-1683 fix example namespace ([98ed8cb](https://github.com/informatievlaanderen/association-registry/commit/98ed8cbb2b8234109c4a11286bc9d8a30307d8de))
+
 # [2.10.0](https://github.com/informatievlaanderen/association-registry/compare/v2.9.0...v2.10.0) (2023-04-27)
 
 
