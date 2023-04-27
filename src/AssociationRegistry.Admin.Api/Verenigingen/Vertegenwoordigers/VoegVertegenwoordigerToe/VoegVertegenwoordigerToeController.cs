@@ -33,7 +33,7 @@ public class VoegVertegenwoordigerToeController : ApiController
     }
 
     /// <summary>
-    /// Voeg een vertegnwoordiger toe.
+    /// Voeg een vertegenwoordiger toe.
     /// </summary>
     /// <remarks>
     /// Na het uitvoeren van deze call wordt een sequentie teruggegeven via de `VR-Sequence` header.
