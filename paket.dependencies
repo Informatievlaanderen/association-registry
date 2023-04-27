@@ -73,7 +73,7 @@ nuget Structurizr.AdrTools 0.9.3
 // MARTEN
 nuget Marten 6.0.0-alpha.6
 nuget Testcontainers 2.3.0
-nuget WolverineFx 0.9.6
+nuget WolverineFx 0.9.17
 
 // TEST STUFF
 nuget Microsoft.AspNetCore.Mvc.Testing 6.0.4

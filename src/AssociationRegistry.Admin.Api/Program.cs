@@ -91,8 +91,7 @@ public class Program
         ConfigureServices(builder);
 
         builder.Host.UseWolverine(
-            options => options.Handlers.Discovery(
-                source => source.IncludeAssembly(typeof(Vereniging).Assembly)));
+            options => options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly));
 
         var app = builder.Build();
 

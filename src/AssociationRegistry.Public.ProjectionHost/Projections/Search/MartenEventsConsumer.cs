@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Marten.Events;
 using Wolverine;
 using Wolverine.Runtime.Routing;
+using IEvent = Marten.Events.IEvent;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {

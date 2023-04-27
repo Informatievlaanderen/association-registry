@@ -28,4 +28,6 @@ public class MessageBusMock:IMessageBus
 
     public async ValueTask BroadcastToTopicAsync(string topicName, object message, DeliveryOptions? options = null)
         => throw new NotImplementedException();
+
+    public string? TenantId { get; set; }
 }
