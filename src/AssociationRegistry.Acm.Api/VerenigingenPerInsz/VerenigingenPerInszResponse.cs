@@ -1,26 +1,34 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 /// <summary>De lijst van alle verenigingen voor een specifiek INSZ</summary>
 [DataContract]
 public class VerenigingenPerInszResponse
 {
-    public VerenigingenPerInszResponse(string insz,
-        ImmutableArray<Vereniging> verenigingen)
-    {
-        Insz = insz;
-        Verenigingen = verenigingen;
-    }
-
     /// <summary>
     ///     Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn
     /// </summary>
     [DataMember]
-    public string Insz { get; init; }
+    public string Insz { get; init; } = null!;
 
     /// <summary>De lijst van verenigingen waarvoor deze persoon vertegenwoordiger is</summary>
     [DataMember]
-    public ImmutableArray<Vereniging> Verenigingen { get; init; }
+    public Vereniging[] Verenigingen { get; init; } = null!;
+
+    [DataContract]
+    public class Vereniging
+    {
+        /// <summary>
+        /// De vCode van de verening
+        /// </summary>
+        [DataMember]
+        public string VCode { get; init; } = null!;
+
+        /// <summary>
+        /// De naam van de vereniging
+        /// </summary>
+        [DataMember]
+        public string Naam { get; init; } = null!;
+    }
 }
