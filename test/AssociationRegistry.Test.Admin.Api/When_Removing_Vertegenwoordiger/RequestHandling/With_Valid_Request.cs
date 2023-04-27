@@ -33,7 +33,7 @@ public class With_Valid_Request
         messageBusMock
             .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
             .ReturnsAsync(_commandResult);
-        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object)
+        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object, new ValidatorStub<VerwijderVertegenwoordigerRequest>())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 

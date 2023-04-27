@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Acties.VerwijderVertegenwoordiger;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using FluentValidation;
 using Framework;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -23,11 +24,14 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class VerwijderVertegenwoordigerController : ApiController
 {
     private readonly IMessageBus _messageBus;
+    private readonly IValidator<VerwijderVertegenwoordigerRequest> _validator;
 
-    public VerwijderVertegenwoordigerController(IMessageBus messageBus)
+    public VerwijderVertegenwoordigerController(IMessageBus messageBus, IValidator<VerwijderVertegenwoordigerRequest> validator)
     {
         _messageBus = messageBus;
+        _validator = validator;
     }
+
     /// <summary>
     /// Verwijder een vertegenwoordiger.
     /// </summary>
@@ -61,6 +65,8 @@ public class VerwijderVertegenwoordigerController : ApiController
         [FromBody] VerwijderVertegenwoordigerRequest request,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
+        await _validator.NullValidateAndThrowAsync(request);
+
         var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(request.ToCommand(vCode, vertegenwoordigerId), metaData);
 

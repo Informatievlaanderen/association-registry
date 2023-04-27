@@ -4,9 +4,6 @@ using AssociationRegistry.Admin.Api.Projections.Detail;
 using AutoFixture;
 using Framework;
 using Framework.Helpers;
-using JasperFx.CodeGeneration;
-using Marten.Events;
-using IEvent = AssociationRegistry.Framework.IEvent;
 
 public class When<TEvent> where TEvent : notnull
 {
