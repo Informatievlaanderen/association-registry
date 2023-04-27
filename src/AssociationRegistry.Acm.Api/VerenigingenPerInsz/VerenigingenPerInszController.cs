@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Examples;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

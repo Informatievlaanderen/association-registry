@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz.Examples;
+namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using Swashbuckle.AspNetCore.Filters;
 
