@@ -20,6 +20,7 @@ public class With_Valid_ETag : IAsyncLifetime
     private readonly VerwijderContactgegevenController _toeController;
     private readonly Fixture _fixture;
     private const int ETagNumber = 1;
+    private const string Initiator = "OVO000001";
 
     public With_Valid_ETag()
     {
@@ -38,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _toeController.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            new VerwijderContactgegevenRequest(),
+            Initiator,
             $"W/\"{ETagNumber}\"");
     }
 

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
+using System.Net.Http.Json;
+using System.Net.Mime;
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;
@@ -57,24 +59,26 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
     }
 
-    public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, string jsonBody, long? version = null)
+    public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
+
         var request = new HttpRequestMessage
         {
-            Content = jsonBody.AsJsonContent(),
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative),
         };
         return await _httpClient.SendAsync(request);
     }
 
-    public async Task<HttpResponseMessage> DeleteVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null)
+    public async Task<HttpResponseMessage> DeleteVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
+
         var request = new HttpRequestMessage
         {
-            Content = jsonBody.AsJsonContent(),
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", UriKind.Relative),
         };

@@ -27,7 +27,7 @@ public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0].ContactgegevenId, @"{""initiator"":""OVO000001""}");
+        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0].ContactgegevenId);
     }
 
     public Task DisposeAsync()

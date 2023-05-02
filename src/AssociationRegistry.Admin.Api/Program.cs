@@ -32,6 +32,7 @@ using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
+using Infrastructure.Middleware;
 using Magda;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -256,6 +257,7 @@ public class Program
                     { "br", 1.0 },
                     { "gzip", 0.9 },
                 })
+            .UseMiddleware<InitiatorHeaderMiddleware>()
             .UseResponseCompression();
     }
 
