@@ -39,7 +39,7 @@ public class VerwijderContactgegevenController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="contactgegevenId">Id van het contactgegeven</param>
-    /// <param name="request"></param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd verwijderd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
@@ -58,10 +58,10 @@ public class VerwijderContactgegevenController : ApiController
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,
-        [FromBody] VerwijderContactgegevenRequest request,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [InitiatorHeader] string initiator,
+        [IfMatchHeader] string? ifMatch = null)
     {
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderContactgegevenCommand>(
             new VerwijderContactgegevenCommand(VCode.Create(vCode), contactgegevenId),
             metaData);

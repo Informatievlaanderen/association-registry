@@ -36,6 +36,8 @@
     <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_minimal_fields.json" />
     <EmbeddedResource Include="When_RegistreerVereniging\files\request.with_unparsable_request.json" />
     <EmbeddedResource Include="When_RegistreerVereniging\files\response.unparsable.json" />
+    <EmbeddedResource Include="When_Validating_Initiator_Header\files\response.required.json" />
+    <EmbeddedResource Include="When_Validating_Initiator_Header\files\response.not_empty.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="When_Removing_Vertegenwoordiger\CommandHandling\" />

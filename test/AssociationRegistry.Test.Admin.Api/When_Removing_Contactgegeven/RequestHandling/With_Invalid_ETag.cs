@@ -15,6 +15,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Invalid_ETag
 {
+    private const string Initiator = "OVO000001";
     private readonly VerwijderContactgegevenController _controller;
     private readonly Fixture _fixture;
 
@@ -36,7 +37,7 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
-                new VerwijderContactgegevenRequest(),
+                Initiator,
                 eTagValue);
         };
 

@@ -20,6 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Valid_Request
 {
+    private const string Initiator = "OVO000001";
     private readonly VerwijderVertegenwoordigerController _controller;
     private readonly Fixture _fixture;
     private readonly CommandResult _commandResult;
@@ -33,7 +34,7 @@ public class With_Valid_Request
         messageBusMock
             .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
             .ReturnsAsync(_commandResult);
-        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object, new ValidatorStub<VerwijderVertegenwoordigerRequest>())
+        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
@@ -43,7 +44,7 @@ public class With_Valid_Request
         var response = await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<VerwijderVertegenwoordigerRequest>());
+            Initiator);
 
         using (new AssertionScope())
         {
@@ -58,7 +59,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<VerwijderVertegenwoordigerRequest>());
+            Initiator);
 
         using (new AssertionScope())
         {
@@ -72,7 +73,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<VerwijderVertegenwoordigerRequest>());
+            Initiator);
 
         using (new AssertionScope())
         {

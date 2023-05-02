@@ -22,7 +22,7 @@ public class With_Invalid_ETag
     {
         _fixture = new Fixture().CustomizeAll();
         var messageBusMock = new Mock<IMessageBus>();
-        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object, new ValidatorStub<VerwijderVertegenwoordigerRequest>() )
+        _controller = new VerwijderVertegenwoordigerController(messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
@@ -36,7 +36,6 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
-                _fixture.Create<VerwijderVertegenwoordigerRequest>(),
                 eTagValue);
         };
 

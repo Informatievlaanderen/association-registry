@@ -22,6 +22,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Valid_Request
 {
+    private const string Initiator = "OVO000001";
     private readonly VerwijderContactgegevenController _controller;
     private readonly Fixture _fixture;
     private readonly CommandResult _commandResult;
@@ -44,7 +45,7 @@ public class With_Valid_Request
         var response = await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            new VerwijderContactgegevenRequest());
+            Initiator);
 
         using (new AssertionScope())
         {
@@ -59,7 +60,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            new VerwijderContactgegevenRequest());
+            Initiator);
 
         using (new AssertionScope())
         {
@@ -73,7 +74,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            new VerwijderContactgegevenRequest());
+            Initiator);
 
         using (new AssertionScope())
         {
