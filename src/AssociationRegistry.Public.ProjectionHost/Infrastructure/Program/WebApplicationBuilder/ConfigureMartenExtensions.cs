@@ -4,6 +4,7 @@ using Constants;
 using Projections.Detail;
 using Projections.Search;
 using ConfigurationBindings;
+using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
@@ -11,6 +12,7 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
+using Schema.Detail;
 using Wolverine;
 
 public static class ConfigureMartenExtensions
@@ -79,8 +81,12 @@ public static class ConfigureMartenExtensions
                     "PubliekVerenigingZoekenDocument");
 
                 opts.Serializer(CreateCustomMartenSerializer());
+
+                opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+                opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 return opts;
-            });
+            })
+            .OptimizeArtifactWorkflow(TypeLoadMode.Auto);
         return martenConfigurationExpression;
     }
 }
