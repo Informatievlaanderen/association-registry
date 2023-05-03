@@ -89,13 +89,15 @@ public class VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario : 
     public VCode VCode { get; }
     public VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
     public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; }
+    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd2 { get; }
 
     public VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = fixture.Create<VCode>();
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with { IsPrimair = true };
+        VertegenwoordigerWerdToegevoegd2 = fixture.Create<VertegenwoordigerWerdToegevoegd>();
     }
 
     public override IEnumerable<IEvent> Events()
@@ -104,6 +106,7 @@ public class VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario : 
         {
             VerenigingWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegd,
+            VertegenwoordigerWerdToegevoegd2,
         };
     }
 }

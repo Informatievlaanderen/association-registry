@@ -106,4 +106,26 @@ public record Vertegenwoordiger
         {
             VertegenwoordigerId = vertegenwoordigerId,
         };
+
+    public bool WouldBeEquivalent(string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair, out Vertegenwoordiger updatedVertegenwoordiger)
+    {
+        updatedVertegenwoordiger = CopyWithValuesIfNotNull(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        return this == updatedVertegenwoordiger;
+    }
+
+    private Vertegenwoordiger CopyWithValuesIfNotNull(string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+        => Create(
+                Insz,
+                isPrimair ?? IsPrimair,
+                roepnaam ?? Roepnaam,
+                rol ?? Rol,
+                Voornaam,
+                Achternaam,
+                email ?? Email,
+                telefoonNummer ?? Telefoon,
+                mobiel ?? Mobiel,
+                socialMedia ?? SocialMedia) with
+            {
+                VertegenwoordigerId = VertegenwoordigerId,
+            };
 }

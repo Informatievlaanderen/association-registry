@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
-using System.Net.Http.Json;
-using System.Net.Mime;
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;
@@ -57,6 +55,12 @@ public class AdminApiClient : IDisposable
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
+    }
+
+    public async Task<HttpResponseMessage> PatchVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null)
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", jsonBody.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, long? version = null, string? initiator = "OVO000001")

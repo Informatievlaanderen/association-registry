@@ -1,9 +1,12 @@
 namespace AssociationRegistry.Vereniging;
 
+using Emails;
 using Events;
 using Exceptions;
 using Framework;
 using Marten.Schema;
+using SocialMedias;
+using TelefoonNummers;
 
 public class Vereniging : IHasVersion
 {
@@ -182,6 +185,19 @@ public class Vereniging : IHasVersion
         vertegenwoordiger = vertegenwoordiger with { VertegenwoordigerId = _state.Vertegenwoordigers.NextId };
         AddEvent(VertegenwoordigerWerdToegevoegd.With(vertegenwoordiger));
     }
+
+    public void WijzigVertegenwoordiger(int veretegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    {
+        _state.Vertegenwoordigers.MustContain(veretegenwoordigerId);
+
+        if (_state.Vertegenwoordigers[veretegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var updatedVertegenwoordiger))
+            return;
+
+        _state.Vertegenwoordigers.MustNotHaveMultiplePrimary(updatedVertegenwoordiger);
+
+        AddEvent(VertegenwoordigerWerdAangepast.With(updatedVertegenwoordiger));
+    }
+
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
     {
         _state.Vertegenwoordigers.MustContain(vertegenwoordigerId);
@@ -190,6 +206,7 @@ public class Vereniging : IHasVersion
 
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
+
     private void AddEvent(IEvent @event)
     {
         Apply(@event);
@@ -200,6 +217,4 @@ public class Vereniging : IHasVersion
     {
         _state = _state.Apply(@event);
     }
-
-
 }

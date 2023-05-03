@@ -8,6 +8,9 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
     private const int InitialId = 1;
 
+    private Vertegenwoordiger? Primair
+        => Items.SingleOrDefault(i => i.IsPrimair);
+
     private Vertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers, int nextId) : base(vertegenwoordigers)
     {
         NextId = nextId;
@@ -50,19 +53,22 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
 
     public void MustNotHaveDuplicateOf(Vertegenwoordiger vertegenwoordiger)
-        => Throw<DuplicateInszProvided>.If(HasDuplicateInsz(Items.Append(vertegenwoordiger).ToArray()));
+        => Throw<DuplicateInszProvided>.If(
+            HasDuplicateInsz(Items.Append(vertegenwoordiger).ToArray()));
 
     public void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
     {
         Throw<MultiplePrimaryVertegenwoordigers>.If(
-            vertegenwoordiger.IsPrimair &&
-            HasMultiplePrimaryVertegenwoordigers(
-                Items.Append(vertegenwoordiger)
-                    .ToArray()));
+            Primair is not null && // there is a primair vertegenwoordiger
+            Primair.VertegenwoordigerId != vertegenwoordiger.VertegenwoordigerId && // it is not the same
+            vertegenwoordiger.IsPrimair); // we want to make it primair
     }
 
     public void MustContain(int vertegenwoordigerId)
     {
-        Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId==vertegenwoordigerId));
+        Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId));
     }
+
+    public Vertegenwoordigers Replace(Vertegenwoordiger vertegenwoordiger)
+        => Remove(vertegenwoordiger.VertegenwoordigerId).Append(vertegenwoordiger);
 }
