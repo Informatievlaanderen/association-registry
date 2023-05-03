@@ -20,7 +20,7 @@ public class When<TEvent> where TEvent : notnull
     public BeheerVerenigingDetailDocument ToDetailProjectie(Func<BeheerVerenigingDetailDocument, BeheerVerenigingDetailDocument>? documentSetup = null)
     {
         var document = _fixture.Create<BeheerVerenigingDetailDocument>();
-        documentSetup?.Invoke(document);
+        document = documentSetup?.Invoke(document) ?? document;
         var copy = document.Copy();
         new BeheerVerenigingDetailProjection().Apply((dynamic)_event, copy);
         return copy;
