@@ -166,6 +166,32 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
+    public void Apply(IEvent<VertegenwoordigerWerdAangepast> veretegenwoordigerWerdAangepast, BeheerVerenigingDetailDocument document)
+    {
+        var vertegenwoordigerToUpdate = document.Vertegenwoordigers.Single(v => v.VertegenwoordigerId == veretegenwoordigerWerdAangepast.Data.VertegenwoordigerId);
+        document.Vertegenwoordigers = document.Vertegenwoordigers
+            .Where(c => c.VertegenwoordigerId != veretegenwoordigerWerdAangepast.Data.VertegenwoordigerId)
+            .Append(
+                new BeheerVerenigingDetailDocument.Vertegenwoordiger()
+                {
+                    VertegenwoordigerId = veretegenwoordigerWerdAangepast.Data.VertegenwoordigerId,
+                    Insz = vertegenwoordigerToUpdate.Insz,
+                    Achternaam = vertegenwoordigerToUpdate.Achternaam,
+                    Voornaam = vertegenwoordigerToUpdate.Voornaam,
+                    Roepnaam = veretegenwoordigerWerdAangepast.Data.Roepnaam,
+                    Rol = veretegenwoordigerWerdAangepast.Data.Rol,
+                    IsPrimair = veretegenwoordigerWerdAangepast.Data.IsPrimair ?? vertegenwoordigerToUpdate.IsPrimair,
+                    Email = veretegenwoordigerWerdAangepast.Data.Email ?? vertegenwoordigerToUpdate.Email,
+                    Telefoon = veretegenwoordigerWerdAangepast.Data.Telefoon ?? vertegenwoordigerToUpdate.Telefoon,
+                    Mobiel = veretegenwoordigerWerdAangepast.Data.Mobiel ?? vertegenwoordigerToUpdate.Mobiel,
+                    SocialMedia = veretegenwoordigerWerdAangepast.Data.SocialMedia ?? vertegenwoordigerToUpdate.SocialMedia,
+                })
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = veretegenwoordigerWerdAangepast.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(veretegenwoordigerWerdAangepast.Sequence, veretegenwoordigerWerdAangepast.Version);
+    }
+
     public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers

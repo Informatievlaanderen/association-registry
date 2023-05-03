@@ -119,6 +119,17 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
+    public void Apply(IEvent<VertegenwoordigerWerdAangepast> vertegenwoordigerWerdAangepast, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            vertegenwoordigerWerdAangepast,
+            document,
+            $"Id {vertegenwoordigerWerdAangepast.Data.VertegenwoordigerId} werd gewijzigd als vertegenwoordiger."
+        );
+
+        document.Metadata = new Metadata(vertegenwoordigerWerdAangepast.Sequence, vertegenwoordigerWerdAangepast.Version);
+    }
+
     public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
