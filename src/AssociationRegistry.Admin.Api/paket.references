@@ -13,4 +13,5 @@ SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
 
 Marten
+Marten.CommandLine
 WolverineFx

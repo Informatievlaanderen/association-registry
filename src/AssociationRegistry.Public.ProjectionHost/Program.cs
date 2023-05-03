@@ -22,6 +22,7 @@ namespace AssociationRegistry.Public.ProjectionHost;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Newtonsoft.Json.Linq;
+using Oakton;
 
 public class Program
 {
@@ -49,6 +50,7 @@ public class Program
             options =>
                 options.AddEndpoint(IPAddress.Any, 11005));
 
+        builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine();
         builder.Services
             .AddTransient<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
@@ -81,7 +83,7 @@ public class Program
         ConfigureHealtChecks(app);
 
         await DistributedLock<Program>.RunAsync(
-            async () => await app.RunAsync(),
+            async () => await app.RunOaktonCommands(args),
             DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
             app.Services.GetRequiredService<ILogger<Program>>());
     }

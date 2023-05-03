@@ -5,7 +5,6 @@ using Constants;
 using Json;
 using Marten;
 using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +13,7 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
-        var martenConfiguration = services.AddMarten(
+        services.AddMarten(
             _ =>
             {
                 var connectionString1 = GetPostgresConnectionString(postgreSqlOptions);
@@ -28,10 +27,9 @@ public static class MartenExtensions
                 opts.Events.MetadataConfig.EnableAll();
 
                 opts.Serializer(CreateCustomMartenSerializer());
+
                 return opts;
             });
-        if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
         return services;
     }

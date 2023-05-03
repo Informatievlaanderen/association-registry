@@ -157,6 +157,7 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
       run-docker-db: true
+      pre-gen-marten: true
       run-docker-elasticsearch: false
     secrets: inherit
 
@@ -174,6 +175,7 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
       run-docker-db: true
+      pre-gen-marten: false
       run-docker-elasticsearch: true
     secrets: inherit
 
@@ -191,6 +193,7 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
       run-docker-db: true
+      pre-gen-marten: true
       run-docker-elasticsearch: true
     secrets: inherit
 
@@ -209,6 +212,7 @@ jobs:
       run-docker-acm: true
       run-docker-db: true
       run-docker-elasticsearch: false
+      pre-gen-marten: true
     secrets: inherit
   #
   #  build-acm-api:
