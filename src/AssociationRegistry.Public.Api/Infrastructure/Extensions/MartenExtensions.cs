@@ -2,7 +2,6 @@
 
 using ConfigurationBindings;
 using Constants;
-using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
@@ -10,7 +9,6 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Schema.Detail;
 
 public static class MartenExtensions
 {
@@ -30,11 +28,8 @@ public static class MartenExtensions
                 opts.Events.MetadataConfig.EnableAll();
 
                 opts.Serializer(CreateCustomMartenSerializer());
-
                 return opts;
-            })
-            .OptimizeArtifactWorkflow(TypeLoadMode.Auto);
-
+            });
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
