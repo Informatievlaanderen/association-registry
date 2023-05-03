@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using NodaTime;
 using Npgsql;
+using Oakton;
 using Polly;
 using Xunit;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -60,6 +61,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, _publicApiServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
             .GetAwaiter().GetResult();
+
+        OaktonEnvironment.AutoStartHost = true;
 
         _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
             .WithWebHostBuilder(
@@ -210,4 +213,3 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public virtual Task DisposeAsync()
         => Task.CompletedTask;
 }
-

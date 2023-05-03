@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
+using Oakton;
 using Polly;
 using Xunit;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -57,6 +58,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                 new NullLogger<AcmApiFixture>(),
                 GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
             .GetAwaiter().GetResult();
+
+        OaktonEnvironment.AutoStartHost = true;
 
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
