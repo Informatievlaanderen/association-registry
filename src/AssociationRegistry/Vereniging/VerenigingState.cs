@@ -131,6 +131,28 @@ public record VerenigingState
                 )),
         };
 
+    public VerenigingState Apply(VertegenwoordigerWerdAangepast @event)
+    {
+        var veretegenwoordiger = Vertegenwoordigers[@event.VertegenwoordigerId];
+        return this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Replace(
+                Vertegenwoordiger.Hydrate(
+                    @event.VertegenwoordigerId,
+                    Insz.Hydrate(veretegenwoordiger.Insz),
+                    @event.Rol ?? veretegenwoordiger.Rol,
+                    @event.Roepnaam ?? veretegenwoordiger.Roepnaam,
+                    veretegenwoordiger.Voornaam,
+                    veretegenwoordiger.Achternaam,
+                    @event.IsPrimair ?? veretegenwoordiger.IsPrimair,
+                    Email.Hydrate(@event.Email ?? veretegenwoordiger.Email.Waarde),
+                    TelefoonNummer.Hydrate(@event.Telefoon ?? veretegenwoordiger.Telefoon.Waarde),
+                    TelefoonNummer.Hydrate(@event.Mobiel ?? veretegenwoordiger.Mobiel.Waarde),
+                    SocialMedia.Hydrate(@event.SocialMedia ?? veretegenwoordiger.SocialMedia.Waarde)
+                )),
+        };
+    }
+
     public VerenigingState Apply(VertegenwoordigerWerdVerwijderd @event)
         => this with
         {

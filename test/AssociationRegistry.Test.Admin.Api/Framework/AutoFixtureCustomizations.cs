@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AutoFixture;
 using AutoFixture.Dsl;
@@ -40,11 +41,13 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeRegistreerVerenigingRequest();
         fixture.CustominzeWijzigBasisgegevensRequest();
         fixture.CustomizeVoegContactgegevenToeRequest();
+        fixture.CustomizeWijzigVertegenwoordigerRequest();
 
         fixture.CustomizeRegistreerVerenigingCommand();
 
         fixture.CustomizeVerenigingWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
+        fixture.CustomizeVertegenwoordigerWerdToegevoegd();
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
@@ -227,6 +230,26 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 
+    public static void CustomizeVertegenwoordigerWerdToegevoegd(this IFixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerWerdToegevoegd>(
+            composer => composer.FromFactory(
+                    () => new VertegenwoordigerWerdToegevoegd(
+                        fixture.Create<int>(),
+                        fixture.Create<Insz>(),
+                        false,
+                        fixture.Create<string>(),
+                        fixture.Create<string>(),
+                        fixture.Create<string>(),
+                        fixture.Create<string>(),
+                        fixture.Create<Email>().Waarde,
+                        fixture.Create<TelefoonNummer>().Waarde,
+                        fixture.Create<TelefoonNummer>().Waarde,
+                        fixture.Create<SocialMedia>().Waarde
+                    ))
+                .OmitAutoProperties());
+    }
+
     public static void CustomizeKboNummer(this IFixture fixture)
     {
         fixture.Customize<KboNummer>(
@@ -385,6 +408,27 @@ public static class AutoFixtureCustomizations
                             Beschrijving = fixture.Create<string>(),
                             IsPrimair = false,
                         };
+                    })
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeWijzigVertegenwoordigerRequest(this IFixture fixture)
+    {
+        fixture.Customize<WijzigVertegenwoordigerRequest>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => new WijzigVertegenwoordigerRequest
+                    {
+                        Initiator = fixture.Create<string>(),
+                        Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger()
+                        {
+                            Email = fixture.Create<Email>().Waarde,
+                            Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                            Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                            SocialMedia = fixture.Create<SocialMedia>().Waarde,
+                            Rol = fixture.Create<string>(),
+                            Roepnaam = fixture.Create<string>(),
+                            IsPrimair = false,
+                        },
                     })
                 .OmitAutoProperties());
     }

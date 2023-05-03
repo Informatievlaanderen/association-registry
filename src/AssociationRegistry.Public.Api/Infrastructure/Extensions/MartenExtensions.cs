@@ -10,7 +10,6 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Schema.Detail;
 
 public static class MartenExtensions
 {
