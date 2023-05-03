@@ -72,6 +72,9 @@ nuget Structurizr.AdrTools 0.9.3
 
 // MARTEN
 nuget Marten 6.0.0-alpha.6
+nuget Marten.CommandLine 6.0.0-alpha.6
+nuget Weasel.Core 6.0.0-alpha.6
+nuget Npgsql
 nuget Testcontainers 2.3.0
 nuget WolverineFx 0.9.6
 
@@ -105,9 +108,9 @@ nuget OpenTelemetry.Extensions.Hosting 1.0.0-rc9.9
 nuget OpenTelemetry.Instrumentation.AspNetCore 1.0.0-rc9.9
 nuget OpenTelemetry.Instrumentation.Http 1.0.0-rc9.9
 nuget OpenTelemetry.Instrumentation.Runtime 1.1.0-beta.1
-nuget NpgSql.OpenTelemetry >= 6.0.0
+nuget NpgSql.OpenTelemetry 7.0.0
 
-nuget Npgsql >= 6.0.0
+nuget Npgsql 7.0.0
 
 // ELASTICSEARCH
 nuget NEST 7.17.4

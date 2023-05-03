@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -57,6 +58,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
@@ -68,7 +70,7 @@ public class Program
 {
     private const string AdminGlobalPolicyName = "Admin Global";
 
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(
             new WebApplicationOptions
@@ -91,6 +93,7 @@ public class Program
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
+        builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine(
             options => options.Handlers.Discovery(
                 source => source.IncludeAssembly(typeof(Vereniging).Assembly)));
@@ -122,7 +125,7 @@ public class Program
 
         ConfigureLifetimeHooks(app);
 
-        app.Run();
+        await app.RunOaktonCommands(args);
     }
 
 

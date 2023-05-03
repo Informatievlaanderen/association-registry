@@ -12,6 +12,8 @@ on:
       run-docker-elasticsearch:
         required: true
         type: boolean
+      pre-gen-marten:
+        type: boolean
       build-target:
         required: true
         type: string

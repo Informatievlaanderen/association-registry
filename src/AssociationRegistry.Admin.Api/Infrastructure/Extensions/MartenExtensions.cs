@@ -2,6 +2,7 @@
 
 using ConfigurationBindings;
 using Constants;
+using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
@@ -10,6 +11,8 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Projections.Detail;
+using Projections.Historiek.Schema;
 using VCodeGeneration;
 using Vereniging;
 
@@ -26,6 +29,10 @@ public static class MartenExtentions
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
                 opts.AddPostgresProjections();
+
+                opts.GeneratedCodeMode = TypeLoadMode.Auto;
+                opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
             });
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
