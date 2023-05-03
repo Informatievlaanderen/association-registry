@@ -3,6 +3,9 @@ appsettings.*.json
 *.Importer-*.config
 wwwroot/
 
+# Internal folders created by marten for prebuilding
+src/*/Internal
+
 .vs/
 .vscode/
 .fake/
