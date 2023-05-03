@@ -15,11 +15,13 @@ using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Npgsql;
+using Oakton;
 using Polly;
 using Xunit;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
@@ -59,6 +61,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
             .GetAwaiter().GetResult();
 
+        OaktonEnvironment.AutoStartHost = true;
+
         _webApplicationFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
@@ -77,6 +81,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                                     })
                     );
                 });
+
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
