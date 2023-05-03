@@ -110,7 +110,6 @@ public class Program
         await app.RunOaktonCommands(args);
     }
 
-
     private static void ConfigureRequestLocalization(WebApplication app)
     {
         var requestLocalizationOptions = app.Services
