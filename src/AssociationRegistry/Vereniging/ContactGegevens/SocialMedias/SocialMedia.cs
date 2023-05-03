@@ -3,27 +3,26 @@
 using Framework;
 using Exceptions;
 
-public record SocialMedia(string Waarde, string Beschrijving, bool IsPrimair)
-    : Contactgegeven(ContactgegevenType.SocialMedia, Waarde, Beschrijving, IsPrimair)
+public record SocialMedia(string Waarde)
 {
-    public static readonly SocialMedia Leeg = new(string.Empty, string.Empty, false);
+    public static readonly SocialMedia Leeg = new(string.Empty);
+
+
 
     public static SocialMedia Create(string? socialMedia)
-        => Create(socialMedia, string.Empty, false);
-
-    public static SocialMedia Create(string? socialMedia, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(socialMedia))
             return Leeg;
 
         Throw<InvalidSocialMediaStart>.IfNot(UrlHasCorrectStartingCharacters(socialMedia));
         Throw<SocialMediaMissingPeriod>.IfNot(UrlContainsAPeriod(socialMedia));
-        return new SocialMedia(socialMedia, beschrijving, isPrimair);
+        return new SocialMedia(socialMedia);
     }
 
     public static SocialMedia Hydrate(string socialMedia)
-        => new(socialMedia, string.Empty, false);
-
+        => new(socialMedia);
+    public override string ToString()
+        => Waarde;
     private static bool UrlContainsAPeriod(string urlString)
         => urlString.Contains('.');
 

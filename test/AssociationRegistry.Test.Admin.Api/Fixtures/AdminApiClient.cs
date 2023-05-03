@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
-using System.Net.Http.Json;
-using System.Net.Mime;
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;

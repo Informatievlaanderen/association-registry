@@ -70,7 +70,7 @@ public class With_All_Fields
                         new VerenigingWerdGeregistreerd.Contactgegeven(
                             i + 1,
                             c.Type,
-                            c.Waarde,
+                            c.Waarde.ToString(),
                             c.Beschrijving,
                             c.IsPrimair
                         )).ToArray(),

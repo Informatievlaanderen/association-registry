@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Framework;
 using Emails;
+using Framework;
 using Exceptions;
 using SocialMedias;
 using TelefoonNummers;
@@ -40,21 +40,25 @@ public record Contactgegeven
     {
         beschrijving ??= string.Empty;
 
-        return type switch
+        return new Contactgegeven(0, type, ParseWaarde(waarde, type), beschrijving, isPrimair);
+    }
+
+    private static string ParseWaarde(string waarde, ContactgegevenType type)
+        => type switch
         {
-            { Waarde: nameof(ContactgegevenType.Email) } => Email.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, beschrijving, isPrimair),
+            { } c when c == ContactgegevenType.Email => Email.Create(waarde).ToString(),
+            { } c when c == ContactgegevenType.Telefoon => TelefoonNummer.Create(waarde).ToString(),
+            { } c when c == ContactgegevenType.Website => Website.Create(waarde).ToString(),
+            { } c when c == ContactgegevenType.SocialMedia => SocialMedia.Create(waarde).ToString(),
             _ => throw new InvalidContactType(),
         };
-    }
 
     public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
         return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
+
     public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
         => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde && Beschrijving == contactgegeven.Beschrijving;
 

@@ -3,23 +3,25 @@
 using Framework;
 using Exceptions;
 
-public record Website(string Waarde, string Beschrijving, bool IsPrimair)
-    : Contactgegeven(ContactgegevenType.Website, Waarde, Beschrijving, IsPrimair)
+public record Website(string Waarde)
 {
-    public static readonly Website Leeg = new(string.Empty, string.Empty, false);
+    public static readonly Website Leeg = new(string.Empty);
 
     public static Website Create(string? website)
-        => Create(website, string.Empty, false);
-
-    public static Website Create(string? website, string beschrijving, bool isPrimair)
     {
         if (string.IsNullOrEmpty(website))
             return Leeg;
 
         Throw<InvalidWebsiteStart>.IfNot(UrlHasCorrectStartingCharacters(website));
         Throw<WebsiteMissingPeriod>.IfNot(UrlContainsAPeriod(website));
-        return new Website(website, beschrijving, isPrimair);
+        return new Website(website);
     }
+
+    public static Website Hydrate(string website)
+        => new(website);
+
+    public override string ToString()
+        => Waarde;
 
     private static bool UrlContainsAPeriod(string urlString)
         => urlString.Contains('.');

@@ -63,21 +63,21 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Email>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), false))
+                    factory: () => new Email($"{fixture.Create<string>()}@example.org"))
                 .OmitAutoProperties());
 
         fixture.Customize<SocialMedia>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com"))
                 .OmitAutoProperties());
 
         fixture.Customize<Website>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                    factory: () => new Website($"https://{fixture.Create<string>()}.com"))
                 .OmitAutoProperties());
         fixture.Customize<TelefoonNummer>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), false))
+                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString()))
                 .OmitAutoProperties());
 
         fixture.Customize<ContactgegevenType>(
@@ -90,13 +90,18 @@ public static class AutoFixtureCustomizations
 
         fixture.Customize<Contactgegeven>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => (string)fixture.Create<ContactgegevenType>() switch
+                    factory: () =>
                     {
-                        nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
-                        nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
-                        nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
-                        nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
-                        _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
+                        var contactgegevenType = fixture.Create<ContactgegevenType>();
+                        dynamic waarde = (string)contactgegevenType switch
+                        {
+                            { } c when c == ContactgegevenType.Email => fixture.Create<Email>(),
+                            { } c when c == ContactgegevenType.Website => fixture.Create<Website>(),
+                            { } c when c == ContactgegevenType.SocialMedia => fixture.Create<SocialMedia>(),
+                            { } c when c == ContactgegevenType.Telefoon => fixture.Create<TelefoonNummer>(),
+                            _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
+                        };
+                        return Contactgegeven.Create(contactgegevenType, waarde, fixture.Create<string>(), false);
                     })
                 .OmitAutoProperties());
     }

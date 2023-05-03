@@ -14,15 +14,16 @@ using Xunit.Categories;
 public class With_A_Valid_Type
 {
     [Theory]
-    [InlineData("email", "test@example.org", typeof(Email))]
-    [InlineData("WeBsIte", "https://www.example.org", typeof(Website))]
-    [InlineData("SOCIALMEDIA", "https://www.example.org", typeof(SocialMedia))]
-    [InlineData("Telefoon", "0000112233", typeof(TelefoonNummer))]
-    public void Then_it_Returns_A_Contactgegeven(string type, string waarde, Type expectedType)
+    [InlineData("email", "test@example.org")]
+    [InlineData("WeBsIte", "https://www.example.org")]
+    [InlineData("SOCIALMEDIA", "https://www.example.org")]
+    [InlineData("Telefoon", "0000112233")]
+    public void Then_it_Returns_A_Contactgegeven(string type, string waarde)
     {
         var fixture = new Fixture();
         var contactgegeven = Contactgegeven.Create(type, waarde, fixture.Create<string>(), false);
 
-        contactgegeven.Should().BeOfType(expectedType);
+        contactgegeven.Type.Should().Be(ContactgegevenType.Parse(type));
+        contactgegeven.Waarde.Should().Be(waarde);
     }
 }

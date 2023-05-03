@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Acties.VerwijderVertegenwoordiger;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using FluentValidation;
 using Framework;
 using Infrastructure;
 using Infrastructure.Extensions;
