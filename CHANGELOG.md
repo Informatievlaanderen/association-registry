@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/informatievlaanderen/association-registry/compare/v3.0.0...v3.0.1) (2023-05-03)
+
+
+### Reverts
+
+* Revert "feat: or-1706 optimize artifact flow for marten" ([06ac1b4](https://github.com/informatievlaanderen/association-registry/commit/06ac1b4f78d2578d4740ec9a7a784d03826c05e8))
+
 # [3.0.0](https://github.com/informatievlaanderen/association-registry/compare/v2.10.2...v3.0.0) (2023-05-03)
 
 
