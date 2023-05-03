@@ -1,3 +1,19 @@
+# [3.0.0](https://github.com/informatievlaanderen/association-registry/compare/v2.10.2...v3.0.0) (2023-05-03)
+
+
+### Features
+
+* or-1678 move initiator field from request to vr-initiator header ([a83e76c](https://github.com/informatievlaanderen/association-registry/commit/a83e76cd50f47d3ecad8d1b64b2a43e0bbdb835d))
+* or-1706 optimize artifact flow for marten ([51686bb](https://github.com/informatievlaanderen/association-registry/commit/51686bbaf7c5c99fd9669a0985c9fa85f62413d2))
+
+
+### BREAKING CHANGES
+
+* requests without vr-initiator header will fail
+validation.
+
+The initiator field in the request will be ignored.
+
 ## [2.10.2](https://github.com/informatievlaanderen/association-registry/compare/v2.10.1...v2.10.2) (2023-04-27)
 
 ## [2.10.1](https://github.com/informatievlaanderen/association-registry/compare/v2.10.0...v2.10.1) (2023-04-27)
