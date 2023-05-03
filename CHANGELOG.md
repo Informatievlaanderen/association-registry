@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/informatievlaanderen/association-registry/compare/v3.0.1...v3.1.0) (2023-05-03)
+
+
+### Features
+
+* or-1706 use auto type load mode, but don't optimize ([ce2e6b1](https://github.com/informatievlaanderen/association-registry/commit/ce2e6b1aa2004e2ebcf454d9816f297f1597beac))
+
 ## [3.0.1](https://github.com/informatievlaanderen/association-registry/compare/v3.0.0...v3.0.1) (2023-05-03)
 
 
