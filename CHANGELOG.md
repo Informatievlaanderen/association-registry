@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/informatievlaanderen/association-registry/compare/v3.3.0...v3.4.0) (2023-05-04)
+
+
+### Features
+
+* or-1678 add the initiator in the header for http verbs post, put and patch ([f4a6248](https://github.com/informatievlaanderen/association-registry/commit/f4a624820a266b35feced0fb0e1279f2386f4009))
+
 # [3.3.0](https://github.com/informatievlaanderen/association-registry/compare/v3.2.0...v3.3.0) (2023-05-04)
 
 
