@@ -129,6 +129,12 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           SEMVER: ${{ inputs.semver }}
 
+      - name: Pre-build Marten models
+        if: ${{ inputs.pre-gen-marten }}
+        shell: bash
+        run: dotnet --project src/${{ inputs.build-project }} -- codegen write
+
+
       - name: Dotnet build
         shell: bash
         run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/${{ inputs.build-project }}
