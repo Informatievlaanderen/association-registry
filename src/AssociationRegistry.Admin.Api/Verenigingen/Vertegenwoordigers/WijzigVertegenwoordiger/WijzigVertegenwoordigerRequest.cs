@@ -10,7 +10,7 @@ using Vereniging.TelefoonNummers;
 [DataContract]
 public class WijzigVertegenwoordigerRequest
 {
-    /// <summary>De toe te voegen vertegenwoordiger</summary>
+    /// <summary>De te wijzigen vertegenwoordiger</summary>
     [DataMember(Name = "vertegenwoordiger")]
     public TeWijzigenVertegenwoordiger Vertegenwoordiger { get; set; } = null!;
 
@@ -28,6 +28,8 @@ public class WijzigVertegenwoordigerRequest
                 IsPrimair: Vertegenwoordiger.IsPrimair
             ));
 
+    /// <summary>De te wijzigen vertegenwoordiger</summary>
+    [DataContract]
     public class TeWijzigenVertegenwoordiger
     {
         /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>

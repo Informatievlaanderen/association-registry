@@ -43,7 +43,7 @@ public class WijzigContactgegevenController : ApiController
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
-    /// <param name="request"></param>
+    /// <param name="request">Het te wijzigen contactgegeven</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De wijziging werd aanvaard.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
