@@ -13,7 +13,6 @@ public class Is_Empty : ValidatorTest
         var validator = new VoegContactgegevenToeValidator();
         var request = new VoegContactgegevenToeRequest()
         {
-            Initiator = "OVO000001",
         };
         var result = validator.TestValidate(request);
 

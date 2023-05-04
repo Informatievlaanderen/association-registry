@@ -41,7 +41,6 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
             {
                 locatie,
             },
-            Initiator = "OVO000001",
         };
         Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());

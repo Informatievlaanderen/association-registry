@@ -45,7 +45,8 @@ public class With_Valid_Request
         var response = await _controller.Patch(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<WijzigContactgegevenRequest>());
+            _fixture.Create<WijzigContactgegevenRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {
@@ -60,7 +61,8 @@ public class With_Valid_Request
         await _controller.Patch(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<WijzigContactgegevenRequest>());
+            _fixture.Create<WijzigContactgegevenRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {
@@ -74,7 +76,8 @@ public class With_Valid_Request
         await _controller.Patch(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            _fixture.Create<WijzigContactgegevenRequest>());
+            _fixture.Create<WijzigContactgegevenRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {

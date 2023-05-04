@@ -91,7 +91,6 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 {
                     RequestLocatie,
                 },
-                Initiator = "OVO000001",
             };
             var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 

@@ -10,8 +10,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
 {
     public WijzigBasisgegevensRequestValidator()
     {
-        this.RequireNotNullOrEmpty(request => request.Initiator);
-
         RuleFor(request => request)
             .Must(HaveAtLeastOneValue)
             .OverridePropertyName("request")

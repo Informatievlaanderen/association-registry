@@ -7,10 +7,6 @@ using Vereniging;
 [DataContract]
 public class WijzigContactgegevenRequest
 {
-    /// <summary>Instantie die de wijziging uitvoert</summary>
-    [DataMember(Name = "initiator")]
-    public string Initiator { get; set; } = null!;
-
     /// <summary>Het te wijzigen contactgegeven</summary>
     [DataMember(Name = "contactgegeven")]
     public TeWijzigenContactgegeven Contactgegeven { get; set; } = null!;

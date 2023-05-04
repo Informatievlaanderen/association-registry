@@ -41,8 +41,9 @@ public class WijzigVertegenwoordigerController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging</param>
-    /// <param name="request"></param>
+    /// <param name="request">De gegevens van de vertegenwoordiger die gewijzigd moeten worden</param>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd gewijzigd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
@@ -63,11 +64,12 @@ public class WijzigVertegenwoordigerController : ApiController
         [FromRoute] string vCode,
         [FromRoute] int vertegenwoordigerId,
         [FromBody] WijzigVertegenwoordigerRequest request,
+        [InitiatorHeader] string initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigVertegenwoordigerCommand>(request.ToCommand(vCode, vertegenwoordigerId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 

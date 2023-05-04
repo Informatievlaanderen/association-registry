@@ -11,10 +11,6 @@ using Vereniging.TelefoonNummers;
 [DataContract]
 public class VoegVertegenwoordigerToeRequest
 {
-    /// <summary>Instantie die de wijziging uitvoert</summary>
-    [DataMember(Name = "initiator")]
-    public string Initiator { get; set; } = null!;
-
     /// <summary>De toe te voegen vertegenwoordiger</summary>
     [DataMember(Name = "vertegenwoordiger")]
     public ToeTeVoegenVertegenwoordiger Vertegenwoordiger { get; set; } = null!;

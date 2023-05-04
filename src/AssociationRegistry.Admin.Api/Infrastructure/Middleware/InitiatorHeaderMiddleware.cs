@@ -11,12 +11,11 @@ using Newtonsoft.Json;
 
 public class InitiatorHeaderMiddleware
 {
-    private readonly string[] _methodsRequiringInitiator =
+    private readonly string[] _methodsNotRequiringInitiator =
     {
-        HttpMethods.Delete,
-        //HttpMethods.Patch,
-        //HttpMethods.Post,
-        //HttpMethods.Put,
+        HttpMethods.Get,
+        HttpMethods.Options,
+        HttpMethods.Head,
     };
 
     private readonly RequestDelegate _next;
@@ -28,7 +27,7 @@ public class InitiatorHeaderMiddleware
 
     public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper)
     {
-        var initiatorHeaderNotRequired = !_methodsRequiringInitiator.Contains(context.Request.Method);
+        var initiatorHeaderNotRequired = _methodsNotRequiringInitiator.Contains(context.Request.Method);
         var initiatorHeaderMissing = !context.Request.Headers.ContainsKey(WellknownHeaderNames.Initiator);
         var initiatorHeaderEmpty = string.IsNullOrWhiteSpace(context.Request.Headers[WellknownHeaderNames.Initiator]);
 

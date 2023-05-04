@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using Acties.WijzigBasisgegevens;
@@ -11,11 +10,6 @@ using Vereniging;
 [DataContract]
 public class WijzigBasisgegevensRequest
 {
-    /// <summary>Instantie die de vereniging wijzigt</summary>
-    [DataMember]
-    [Required]
-    public string Initiator { get; init; } = null!;
-
     /// <summary>Nieuwe naam van de vereniging</summary>
     [DataMember]
     public string? Naam { get; set; }

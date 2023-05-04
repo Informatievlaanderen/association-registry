@@ -8,10 +8,6 @@ using Vereniging;
 [DataContract]
 public class VoegContactgegevenToeRequest
 {
-    /// <summary>Instantie die de wijziging uitvoert</summary>
-    [DataMember(Name = "initiator")]
-    public string Initiator { get; set; } = null!;
-
     /// <summary>Het toe te voegen contactgegeven</summary>
     [DataMember(Name = "contactgegeven")]
     public ToeTeVoegenContactgegeven Contactgegeven { get; set; } = null!;

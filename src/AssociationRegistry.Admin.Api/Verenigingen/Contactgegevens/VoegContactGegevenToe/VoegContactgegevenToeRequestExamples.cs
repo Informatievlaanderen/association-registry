@@ -9,7 +9,6 @@ public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContac
     public VoegContactgegevenToeRequest GetExamples()
         => new()
         {
-            Initiator = "OVO000001",
             Contactgegeven = new ToeTeVoegenContactgegeven
             {
                 Beschrijving = "Algemeen",

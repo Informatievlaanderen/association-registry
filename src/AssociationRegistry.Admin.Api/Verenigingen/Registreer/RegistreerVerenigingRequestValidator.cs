@@ -14,8 +14,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
 {
     public RegistreerVerenigingRequestValidator()
     {
-        this.RequireNotNullOrEmpty(request => request.Initiator);
-
         this.RequireNotNullOrEmpty(request => request.Naam);
 
         RuleFor(request => request.KboNummer)

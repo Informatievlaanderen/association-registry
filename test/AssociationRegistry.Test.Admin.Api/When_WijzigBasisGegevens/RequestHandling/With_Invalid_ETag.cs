@@ -32,7 +32,7 @@ public class With_Invalid_ETag
         {
             await _controller.Patch(
                 new WijzigBasisgegevensRequestValidator(),
-                new WijzigBasisgegevensRequest { Initiator = "V0001001", KorteNaam = "Korte naam" },
+                new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
                 "V0001001",
                 eTagValue);
         };

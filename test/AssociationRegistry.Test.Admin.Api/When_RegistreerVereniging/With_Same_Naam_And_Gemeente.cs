@@ -43,7 +43,6 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
             {
                 locatie,
             },
-            Initiator = "OVO000001",
         };
         VCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
         Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Naam;

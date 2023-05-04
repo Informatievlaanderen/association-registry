@@ -7,7 +7,6 @@ public class WijzigContactgegevenRequestExamples : IExamplesProvider<WijzigConta
     public WijzigContactgegevenRequest GetExamples()
         => new()
         {
-            Initiator = "OVO000001",
             Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven
             {
                 Beschrijving = "Algemeen",

@@ -51,6 +51,7 @@ public class RegistreerVerenigingController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren vereniging</param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
     /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de vereniging uniek is,
     /// ondanks de voorgestelde duplicaten.</param>
     /// <response code="202">De vereniging is geregistreerd.</response>
@@ -74,6 +75,7 @@ public class RegistreerVerenigingController : ApiController
     [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingRequest? request,
+        [InitiatorHeader] string initiator,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
         string? bevestigingsToken = null)
     {
@@ -88,7 +90,7 @@ public class RegistreerVerenigingController : ApiController
                 SkipDuplicateDetection = skipDuplicateDetection,
             };
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant());
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant());
         var envelope = new CommandEnvelope<RegistreerVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 

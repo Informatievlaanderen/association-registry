@@ -8,7 +8,6 @@ public class VoegVertegenwoordigerToeRequestExamples : IExamplesProvider<VoegVer
     public VoegVertegenwoordigerToeRequest GetExamples()
         => new()
         {
-            Initiator = "OVO000001",
             Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger
             {
                 Insz = "yymmddxxxcc",

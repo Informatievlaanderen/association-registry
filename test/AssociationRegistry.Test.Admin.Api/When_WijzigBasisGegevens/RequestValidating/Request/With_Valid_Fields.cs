@@ -28,7 +28,6 @@ public class With_Valid_Fields
                 KorteBeschrijving = korteBeschrijving,
                 Startdatum = ToNullOrEmptyDateOnly(startdatum),
                 HoofdactiviteitenVerenigingsloket = hoofdactiviteiten,
-                Initiator = "ikki",
             });
 
         result.ShouldNotHaveAnyValidationErrors();

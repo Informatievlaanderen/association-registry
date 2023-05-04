@@ -39,6 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigVertegenwoordigerRequest>(),
+            _fixture.Create<string>(),
             $"W/\"{ETagNumber}\"");
     }
 

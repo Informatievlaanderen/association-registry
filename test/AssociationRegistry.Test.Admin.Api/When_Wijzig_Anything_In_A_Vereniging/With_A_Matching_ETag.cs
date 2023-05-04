@@ -22,11 +22,10 @@ public sealed class When_WijzigBasisgegevens_With_A_Matching_ETag
         Request = new WijzigBasisgegevensRequest()
         {
             Naam = "De nieuwe vereniging",
-            Initiator = "OVO000001",
         };
         VCode = fixture.V005VerenigingWerdGeregistreerdForUseWithETagMatching.VCode;
 
-        var jsonBody = $@"{{""naam"":""{Request.Naam}"", ""Initiator"": ""{Request.Initiator}""}}";
+        var jsonBody = $@"{{""naam"":""{Request.Naam}""}}";
 
         var saveVersionResult = fixture.V005VerenigingWerdGeregistreerdForUseWithETagMatching.Result;
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version).GetAwaiter().GetResult();

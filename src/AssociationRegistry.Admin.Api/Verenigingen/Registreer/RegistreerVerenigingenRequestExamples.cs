@@ -12,7 +12,6 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
         => new()
         {
             Naam = "Naam van de vereniging",
-            Initiator = "OVO000001",
             KorteNaam = "Korte naam",
             KorteBeschrijving = "Beschrijving",
             KboNummer = "BE0123456789",
