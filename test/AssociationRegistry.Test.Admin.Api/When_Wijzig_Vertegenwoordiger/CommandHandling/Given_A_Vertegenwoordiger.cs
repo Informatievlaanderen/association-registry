@@ -32,7 +32,7 @@ public class Given_A_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_VertegenwoordigerWerdAangepast_Event_Is_Saved_With_The_Next_Id()
+    public async Task Then_A_VertegenwoordigerWerdGewijzigd_Event_Is_Saved_With_The_Next_Id()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,
@@ -49,7 +49,7 @@ public class Given_A_Vertegenwoordiger
         await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VertegenwoordigerWerdAangepast(
+            new VertegenwoordigerWerdGewijzigd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                 command.Vertegenwoordiger.Rol,
                 command.Vertegenwoordiger.Roepnaam,

@@ -195,7 +195,7 @@ public class Vereniging : IHasVersion
 
         _state.Vertegenwoordigers.MustNotHaveMultiplePrimary(updatedVertegenwoordiger);
 
-        AddEvent(VertegenwoordigerWerdAangepast.With(updatedVertegenwoordiger));
+        AddEvent(VertegenwoordigerWerdGewijzigd.With(updatedVertegenwoordiger));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)

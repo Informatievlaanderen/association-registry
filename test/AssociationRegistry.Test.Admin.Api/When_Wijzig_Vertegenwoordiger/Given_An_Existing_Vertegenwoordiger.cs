@@ -87,13 +87,13 @@ public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Patch_A_New_Ver
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var vertegenwoordigerWerdAangepast = (await session.Events
+        var vertegenwoordigerWerdGewijzigd = (await session.Events
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdAangepast));
+            .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdGewijzigd));
 
-        vertegenwoordigerWerdAangepast.Data.Should()
+        vertegenwoordigerWerdGewijzigd.Data.Should()
             .BeEquivalentTo(
-                new VertegenwoordigerWerdAangepast(
+                new VertegenwoordigerWerdGewijzigd(
                     _classFixture.AanTePassenVertegenwoordiger.VertegenwoordigerId,
                     _classFixture.Rol,
                     _classFixture.Roepnaam,

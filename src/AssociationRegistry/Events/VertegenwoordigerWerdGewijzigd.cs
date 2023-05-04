@@ -3,7 +3,7 @@
 using Framework;
 using Vereniging;
 
-public record VertegenwoordigerWerdAangepast(
+public record VertegenwoordigerWerdGewijzigd(
     int VertegenwoordigerId,
     string? Rol,
     string? Roepnaam,
@@ -13,7 +13,7 @@ public record VertegenwoordigerWerdAangepast(
     string? SocialMedia,
     bool? IsPrimair) : IEvent
 {
-    public static VertegenwoordigerWerdAangepast With(Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerWerdGewijzigd With(Vertegenwoordiger vertegenwoordiger)
         => new(
             vertegenwoordiger.VertegenwoordigerId,
             vertegenwoordiger.Rol,

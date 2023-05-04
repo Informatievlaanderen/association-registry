@@ -10,20 +10,20 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_VertegenwoordigerWerdAangepast
+public class Given_VertegenwoordigerWerdGewijzigd
 {
     [Fact]
     public void Then_it_updates_the_vertegenwoordiger_in_the_detail()
     {
         var fixture = new Fixture().CustomizeAll();
-        var vertegenwoordigerWerdAangepast = fixture.Create<VertegenwoordigerWerdAangepast>();
+        var vertegenwoordigerWerdGewijzigd = fixture.Create<VertegenwoordigerWerdGewijzigd>();
         var vertegenwoordigerToUpdate = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
         {
-            VertegenwoordigerId = vertegenwoordigerWerdAangepast.VertegenwoordigerId,
+            VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.VertegenwoordigerId,
         };
 
-        var detailDocument = When<VertegenwoordigerWerdAangepast>
-            .Applying(_ => vertegenwoordigerWerdAangepast)
+        var detailDocument = When<VertegenwoordigerWerdGewijzigd>
+            .Applying(_ => vertegenwoordigerWerdGewijzigd)
             .ToDetailProjectie(
                 doc => doc with
                 {
@@ -33,17 +33,17 @@ public class Given_VertegenwoordigerWerdAangepast
         detailDocument.Vertegenwoordigers.Should().Contain(
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
-                VertegenwoordigerId = vertegenwoordigerWerdAangepast.VertegenwoordigerId,
+                VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.VertegenwoordigerId,
                 Insz = vertegenwoordigerToUpdate.Insz,
                 Achternaam = vertegenwoordigerToUpdate.Achternaam,
                 Voornaam = vertegenwoordigerToUpdate.Voornaam,
-                Roepnaam = vertegenwoordigerWerdAangepast.Roepnaam,
-                Rol = vertegenwoordigerWerdAangepast.Rol,
-                IsPrimair = vertegenwoordigerWerdAangepast.IsPrimair!.Value,
-                Email = vertegenwoordigerWerdAangepast.Email!,
-                Telefoon = vertegenwoordigerWerdAangepast.Telefoon!,
-                Mobiel = vertegenwoordigerWerdAangepast.Mobiel!,
-                SocialMedia = vertegenwoordigerWerdAangepast.SocialMedia!,
+                Roepnaam = vertegenwoordigerWerdGewijzigd.Roepnaam,
+                Rol = vertegenwoordigerWerdGewijzigd.Rol,
+                IsPrimair = vertegenwoordigerWerdGewijzigd.IsPrimair!.Value,
+                Email = vertegenwoordigerWerdGewijzigd.Email!,
+                Telefoon = vertegenwoordigerWerdGewijzigd.Telefoon!,
+                Mobiel = vertegenwoordigerWerdGewijzigd.Mobiel!,
+                SocialMedia = vertegenwoordigerWerdGewijzigd.SocialMedia!,
             });
     }
 }

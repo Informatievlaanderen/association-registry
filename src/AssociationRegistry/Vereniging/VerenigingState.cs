@@ -131,7 +131,7 @@ public record VerenigingState
                 )),
         };
 
-    public VerenigingState Apply(VertegenwoordigerWerdAangepast @event)
+    public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
     {
         var veretegenwoordiger = Vertegenwoordigers[@event.VertegenwoordigerId];
         return this with
