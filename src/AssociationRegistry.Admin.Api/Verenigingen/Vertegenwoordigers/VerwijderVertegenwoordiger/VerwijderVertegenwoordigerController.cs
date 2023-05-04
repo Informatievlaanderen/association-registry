@@ -37,7 +37,7 @@ public class VerwijderVertegenwoordigerController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger die verwijderd moet worden</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>

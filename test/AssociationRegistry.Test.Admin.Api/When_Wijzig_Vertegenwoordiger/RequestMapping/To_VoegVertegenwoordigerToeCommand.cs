@@ -25,7 +25,7 @@ public class To_WijzigVertegenwoordigerCommand
 
 
         command.VCode.Should().Be(vCode);
-        command.Vertegenwoordiger.VeretegenwoordigerId.Should().Be(vertegenwoordigerId);
+        command.Vertegenwoordiger.VertegenwoordigerId.Should().Be(vertegenwoordigerId);
         command.Vertegenwoordiger.IsPrimair.Should().Be(request.Vertegenwoordiger.IsPrimair);
         command.Vertegenwoordiger.Roepnaam.Should().BeEquivalentTo(request.Vertegenwoordiger.Roepnaam);
         command.Vertegenwoordiger.Rol.Should().BeEquivalentTo(request.Vertegenwoordiger.Rol);

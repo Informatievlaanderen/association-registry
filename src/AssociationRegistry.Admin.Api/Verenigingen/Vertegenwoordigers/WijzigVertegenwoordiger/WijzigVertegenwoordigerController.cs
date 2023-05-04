@@ -40,9 +40,9 @@ public class WijzigVertegenwoordigerController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vertegenwoordigerId">Id van de vertegenwoordiger</param>
+    /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging</param>
     /// <param name="request"></param>
-    /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd gewijzigd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>

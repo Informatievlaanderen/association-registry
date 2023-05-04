@@ -40,8 +40,8 @@ public class WijzigContactgegevenController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="vCode">De VCode van de vereniging</param>
-    /// <param name="contactgegevenId">Id van het contactgegeven</param>
+    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
+    /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
     /// <param name="request"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De wijziging werd aanvaard.</response>

@@ -22,7 +22,7 @@ public class WijzigVertegenwoordigerRequest
         => new(
             VCode: VCode.Create(vCode),
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-                VeretegenwoordigerId: veretegenwoordigerId,
+                VertegenwoordigerId: veretegenwoordigerId,
                 Rol: Vertegenwoordiger.Rol,
                 Roepnaam: Vertegenwoordiger.Roepnaam,
                 Email: Vertegenwoordiger.Email is null ? null : Email.Create(Vertegenwoordiger.Email),
