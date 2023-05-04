@@ -6,19 +6,19 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_VertegenwoordigerWerdAangepast
+public class Given_VertegenwoordigerWerdGewijzigd
 {
     [Fact]
     public void Then_it_updates_the_vertegenwoordiger_gebeurtenis()
     {
         var projectEventOnHistoriekDocument =
-            WhenApplying<VertegenwoordigerWerdAangepast>
+            WhenApplying<VertegenwoordigerWerdGewijzigd>
                 .ToHistoriekProjectie();
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
                 $"Id {projectEventOnHistoriekDocument.Event.Data.VertegenwoordigerId} werd gewijzigd als vertegenwoordiger.",
-                nameof(VertegenwoordigerWerdAangepast),
+                nameof(VertegenwoordigerWerdGewijzigd),
                 projectEventOnHistoriekDocument.Event.Data,
                 initiator,
                 tijdstip));
