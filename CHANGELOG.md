@@ -1,3 +1,10 @@
+# [3.3.0](https://github.com/informatievlaanderen/association-registry/compare/v3.2.0...v3.3.0) (2023-05-04)
+
+
+### Features
+
+* or-1699 Patch endpoint vertegenwoordigers ([0d22cf2](https://github.com/informatievlaanderen/association-registry/commit/0d22cf25f2b3201058df8084d2ebea4380e6d785))
+
 # [3.2.0](https://github.com/informatievlaanderen/association-registry/compare/v3.1.0...v3.2.0) (2023-05-04)
 
 
