@@ -38,6 +38,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _toeController.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegVertegenwoordigerToeRequest>(),
+            _fixture.Create<string>(),
             $"W/\"{ETagNumber}\"");
     }
 

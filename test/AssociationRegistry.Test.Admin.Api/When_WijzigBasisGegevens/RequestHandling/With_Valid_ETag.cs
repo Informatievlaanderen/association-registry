@@ -36,8 +36,9 @@ public class With_Valid_ETag : IAsyncLifetime
     {
         await _controller.Patch(
             new WijzigBasisgegevensRequestValidator(),
-            new WijzigBasisgegevensRequest { Initiator = "V0001001", KorteNaam = "Korte naam" },
+            new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
             "V0001001",
+            "OVO0001000",
             $"W/\"{ETagNumber}\"");
     }
 

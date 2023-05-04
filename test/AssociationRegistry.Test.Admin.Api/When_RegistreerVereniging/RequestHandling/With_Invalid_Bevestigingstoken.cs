@@ -19,7 +19,7 @@ public class With_Invalid_Bevestigingstoken
     public With_Invalid_Bevestigingstoken()
     {
         _fixture = new Fixture().CustomizeAll();
-        _request = new RegistreerVerenigingRequest { Initiator = _fixture.Create<VCode>(), Naam = _fixture.Create<string>() };
+        _request = new RegistreerVerenigingRequest { Naam = _fixture.Create<string>() };
         var messageBusMock = new MessageBusMock();
         _controller = new RegistreerVerenigingController(messageBusMock, new RegistreerVerenigingRequestValidator(), new AppSettings { Salt = "RandomS@lt" });
     }
@@ -28,6 +28,6 @@ public class With_Invalid_Bevestigingstoken
     public async Task Then_it_throws_a_ValidationException()
     {
         await Assert.ThrowsAsync<InvalidBevestigingstokenProvided>(
-            () => _controller.Post(_request, _fixture.Create<string>()));
+            () => _controller.Post(_request, _fixture.Create<string>(), _fixture.Create<string>()));
     }
 }

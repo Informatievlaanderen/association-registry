@@ -13,7 +13,7 @@ public class A_Valid_Request : ValidatorTest
     public void Has_no_validation_errors()
     {
         var validator = new RegistreerVerenigingRequestValidator();
-        var result = validator.TestValidate(new RegistreerVerenigingRequest { Naam = "abcd", Initiator = "OVO000001" });
+        var result = validator.TestValidate(new RegistreerVerenigingRequest { Naam = "abcd" });
 
         result.ShouldNotHaveAnyValidationErrors();
     }

@@ -7,7 +7,6 @@ public class WijzigVertegenwoordigerRequestExamples : IExamplesProvider<WijzigVe
     public WijzigVertegenwoordigerRequest GetExamples()
         => new()
         {
-            Initiator = "OVO000001",
             Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger
             {
                 IsPrimair = true,

@@ -40,8 +40,9 @@ public class VoegVertegenwoordigerToeController : ApiController
     /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
-    /// <param name="request"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="request">De gegevens van de toe te voegen vertegenwoordiger</param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd toegevoegd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
@@ -61,11 +62,12 @@ public class VoegVertegenwoordigerToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromBody] VoegVertegenwoordigerToeRequest request,
+        [InitiatorHeader] string initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 

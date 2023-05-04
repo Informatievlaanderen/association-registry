@@ -43,6 +43,7 @@ public class WijzigBasisgegevensController : ApiController
     /// </remarks>
     /// <param name="request"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="validator"></param>
     /// <response code="200">Er waren geen wijzigingen</response>
@@ -66,6 +67,7 @@ public class WijzigBasisgegevensController : ApiController
         [FromServices] IValidator<WijzigBasisgegevensRequest> validator,
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode,
+        [InitiatorHeader] string initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         try
@@ -74,7 +76,7 @@ public class WijzigBasisgegevensController : ApiController
 
             var command = request.ToCommand(vCode);
 
-            var metaData = new CommandMetadata(request.Initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+            var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
             var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
             var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 

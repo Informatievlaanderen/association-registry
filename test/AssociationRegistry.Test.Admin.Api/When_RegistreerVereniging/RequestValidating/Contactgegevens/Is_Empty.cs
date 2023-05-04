@@ -11,10 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__contactgegeven_is_verplicht()
     {
         var validator = new RegistreerVerenigingRequestValidator();
-        var request = new RegistreerVerenigingRequest
-        {
-            Initiator = "OVO000001",
-        };
+        var request = new RegistreerVerenigingRequest();
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(toeRequest => toeRequest.Contactgegevens);

@@ -9,8 +9,6 @@ public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegen
 {
     public WijzigVertegenwoordigerValidator()
     {
-        this.RequireNotNullOrEmpty(request => request.Initiator);
-
         RuleFor(request => request.Vertegenwoordiger).NotNull()
             .WithMessage("'Vertegenwoordiger' is verplicht.");
         When(

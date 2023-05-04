@@ -8,8 +8,6 @@ public class VoegVertegenwoordigerToeValidator : AbstractValidator<VoegVertegenw
 {
     public VoegVertegenwoordigerToeValidator()
     {
-        this.RequireNotNullOrEmpty(request => request.Initiator);
-
         RuleFor(request => request.Vertegenwoordiger).NotNull()
             .WithMessage("'Vertegenwoordiger' is verplicht.");
 

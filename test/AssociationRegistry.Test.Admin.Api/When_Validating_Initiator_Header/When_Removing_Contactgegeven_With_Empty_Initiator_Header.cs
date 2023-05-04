@@ -39,11 +39,11 @@ public class Delete_With_Empty_Initiator_Header : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_Removing_Contactgegeven_With_Empty_Initiator_Header : IClassFixture<Delete_With_Empty_Initiator_Header>
+public class When_Removing_Contactgegeven_With_Empty_Initiator_Header : IClassFixture<Delete_With_Empty_Initiator_Header>
 {
     private readonly Delete_With_Empty_Initiator_Header _classFixture;
 
-    public Given_Removing_Contactgegeven_With_Empty_Initiator_Header(Delete_With_Empty_Initiator_Header classFixture)
+    public When_Removing_Contactgegeven_With_Empty_Initiator_Header(Delete_With_Empty_Initiator_Header classFixture)
     {
         _classFixture = classFixture;
     }

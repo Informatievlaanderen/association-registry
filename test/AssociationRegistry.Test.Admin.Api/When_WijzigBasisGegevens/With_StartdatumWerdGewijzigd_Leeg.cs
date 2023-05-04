@@ -19,11 +19,8 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
 
     private When_WijzigBasisGegevens_WithStartdatumLeeg(EventsInDbScenariosFixture fixture)
     {
-        const string initiator = "OVO000001";
-
         Request = new WijzigBasisgegevensRequest
         {
-            Initiator = initiator,
             Startdatum = NullOrEmpty<DateOnly>.Empty,
         };
         VCode = fixture.V010VerenigingWerdGeregistreerdWithAllFields.VCode;

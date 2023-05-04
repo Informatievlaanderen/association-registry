@@ -98,7 +98,6 @@ public static class AutoFixtureCustomizations
                     Naam = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
                     KorteBeschrijving = fixture.Create<string>(),
-                    Initiator = fixture.Create<string>(),
                     Startdatum = NullOrEmpty<DateOnly>.Create(fixture.Create<DateOnly>()),
                     HoofdactiviteitenVerenigingsloket = fixture
                         .CreateMany<HoofdactiviteitVerenigingsloket>()
@@ -115,7 +114,6 @@ public static class AutoFixtureCustomizations
                 _ => new RegistreerVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Initiator = fixture.Create<string>(),
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
@@ -391,7 +389,6 @@ public static class AutoFixtureCustomizations
                     factory: () => new VoegContactgegevenToeRequest
                     {
                         Contactgegeven = fixture.Create<ToeTeVoegenContactgegeven>(),
-                        Initiator = fixture.Create<VCode>(),
                     }
                 )
                 .OmitAutoProperties());
@@ -418,7 +415,6 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new WijzigVertegenwoordigerRequest
                     {
-                        Initiator = fixture.Create<string>(),
                         Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger()
                         {
                             Email = fixture.Create<Email>().Waarde,

@@ -14,11 +14,6 @@ using Vereniging.TelefoonNummers;
 [DataContract]
 public class RegistreerVerenigingRequest
 {
-    /// <summary>Instantie die de vereniging aanmaakt</summary>
-    [DataMember]
-    [Required]
-    public string Initiator { get; init; } = null!;
-
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]

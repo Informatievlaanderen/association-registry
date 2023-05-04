@@ -44,7 +44,8 @@ public class With_Valid_Request
     {
         var response = await _controller.Post(
             _fixture.Create<VCode>(),
-            _fixture.Create<VoegVertegenwoordigerToeRequest>());
+            _fixture.Create<VoegVertegenwoordigerToeRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {
@@ -58,7 +59,8 @@ public class With_Valid_Request
     {
         await _controller.Post(
             _fixture.Create<VCode>(),
-            _fixture.Create<VoegVertegenwoordigerToeRequest>());
+            _fixture.Create<VoegVertegenwoordigerToeRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {
@@ -71,7 +73,8 @@ public class With_Valid_Request
     {
         await _controller.Post(
             _fixture.Create<VCode>(),
-            _fixture.Create<VoegVertegenwoordigerToeRequest>());
+            _fixture.Create<VoegVertegenwoordigerToeRequest>(),
+            _fixture.Create<string>());
 
         using (new AssertionScope())
         {

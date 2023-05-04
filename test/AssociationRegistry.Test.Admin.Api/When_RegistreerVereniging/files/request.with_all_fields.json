@@ -4,7 +4,6 @@
   "korteBeschrijving": "{{vereniging.korteBeschrijving}}",
   "startdatum": "{{vereniging.startdatum}}",
   "kboNummer": "{{vereniging.kboNummer}}",
-  "initiator": "{{vereniging.initiator}}",
   "contactgegevens": {{vereniging.contactgegevens}},
   "locaties": {{vereniging.locaties}},
   "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},

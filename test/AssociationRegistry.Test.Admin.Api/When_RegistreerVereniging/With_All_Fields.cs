@@ -35,7 +35,6 @@ public sealed class When_RegistreerVereniging_WithAllFields
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             KboNummer = "0123456749",
-            Initiator = "OVO000001",
             Contactgegevens = new ToeTeVoegenContactgegeven[]
             {
                 new()
@@ -103,7 +102,6 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
             .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.kboNummer}}", request.KboNummer)
-            .Replace("{{vereniging.initiator}}", request.Initiator)
             .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))

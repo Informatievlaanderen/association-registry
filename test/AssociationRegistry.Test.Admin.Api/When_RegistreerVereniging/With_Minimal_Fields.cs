@@ -25,7 +25,6 @@ public sealed class When_RegistreerVereniging_WithMinimalFields
         Request = new RegistreerVerenigingRequest
         {
             Naam = new Fixture().Create<string>(),
-            Initiator = "OVO000001",
         };
         Response ??= fixture.DefaultClient.RegistreerVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
     }
@@ -36,8 +35,7 @@ public sealed class When_RegistreerVereniging_WithMinimalFields
     private string GetJsonBody(RegistreerVerenigingRequest request)
         => GetType()
             .GetAssociatedResourceJson("files.request.with_minimal_fields")
-            .Replace("{{vereniging.naam}}", request.Naam)
-            .Replace("{{vereniging.initiator}}", request.Initiator);
+            .Replace("{{vereniging.naam}}", request.Naam);
 }
 
 [Collection(nameof(AdminApiCollection))]
