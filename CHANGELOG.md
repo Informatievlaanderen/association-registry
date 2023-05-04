@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/informatievlaanderen/association-registry/compare/v3.4.0...v3.4.1) (2023-05-04)
+
+
+### Bug Fixes
+
+* or-1699 add missing api documentation ([fbbcae3](https://github.com/informatievlaanderen/association-registry/commit/fbbcae32b63f3644b135695cd3fe1a2f68532dcc))
+
 # [3.4.0](https://github.com/informatievlaanderen/association-registry/compare/v3.3.0...v3.4.0) (2023-05-04)
 
 
