@@ -132,7 +132,7 @@ jobs:
       - name: Pre-build Marten models
         if: ${{ inputs.pre-gen-marten }}
         shell: bash
-        run: dotnet --project src/${{ inputs.build-project }} -- codegen write
+        run: dotnet run --project src/${{ inputs.build-project }} -- codegen write
 
 
       - name: Dotnet build
