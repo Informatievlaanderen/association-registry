@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/informatievlaanderen/association-registry/compare/v3.1.0...v3.2.0) (2023-05-04)
+
+
+### Features
+
+* or-1706 add pre-build step to workflow ([9953dbe](https://github.com/informatievlaanderen/association-registry/commit/9953dbe7402f9ae44452fd92a78ec5cf6bfc1886))
+
 # [3.1.0](https://github.com/informatievlaanderen/association-registry/compare/v3.0.1...v3.1.0) (2023-05-03)
 
 
