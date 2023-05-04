@@ -186,11 +186,11 @@ public class Vereniging : IHasVersion
         AddEvent(VertegenwoordigerWerdToegevoegd.With(vertegenwoordiger));
     }
 
-    public void WijzigVertegenwoordiger(int veretegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    public void WijzigVertegenwoordiger(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
     {
-        _state.Vertegenwoordigers.MustContain(veretegenwoordigerId);
+        _state.Vertegenwoordigers.MustContain(vertegenwoordigerId);
 
-        if (_state.Vertegenwoordigers[veretegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var updatedVertegenwoordiger))
+        if (_state.Vertegenwoordigers[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var updatedVertegenwoordiger))
             return;
 
         _state.Vertegenwoordigers.MustNotHaveMultiplePrimary(updatedVertegenwoordiger);

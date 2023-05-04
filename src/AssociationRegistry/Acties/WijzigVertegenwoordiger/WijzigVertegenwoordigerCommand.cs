@@ -10,7 +10,7 @@ public record WijzigVertegenwoordigerCommand(
     WijzigVertegenwoordigerCommand.CommandVertegenwoordiger Vertegenwoordiger)
 {
     public record CommandVertegenwoordiger(
-        int VeretegenwoordigerId,
+        int VertegenwoordigerId,
         string? Rol,
         string? Roepnaam,
         Email? Email,
