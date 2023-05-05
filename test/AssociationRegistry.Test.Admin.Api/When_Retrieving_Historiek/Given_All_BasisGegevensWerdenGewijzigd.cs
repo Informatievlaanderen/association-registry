@@ -56,7 +56,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence + 10))
+        => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence + 1000))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 

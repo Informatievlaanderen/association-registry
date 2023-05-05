@@ -15,8 +15,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V008_VerenigingWerdGeregistreerd_WithContactgegeven V008VerenigingWerdGeregistreerdWithContactgegeven = new();
     public readonly V009_VerenigingWerdGeregistreerd_ForDuplicateForce V009VerenigingWerdGeregistreerdForDuplicateForce = new();
     public readonly V010_VerenigingWerdGeregistreerd_WithAllFields V010VerenigingWerdGeregistreerdWithAllFields = new();
-    public readonly V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger V011VerenigingWerdGeregistreerdWithVertegenwoordiger = new();
-    public readonly V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger V012VerenigingWerdGeregistreerdWithVertegenwoordiger = new();
+    public readonly V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger = new();
+    public readonly V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger = new();
+    public readonly V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
+    public readonly V014_VerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
 
     protected override async Task Given()
     {
@@ -32,8 +34,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V008VerenigingWerdGeregistreerdWithContactgegeven,
             V009VerenigingWerdGeregistreerdForDuplicateForce,
             V010VerenigingWerdGeregistreerdWithAllFields,
-            V011VerenigingWerdGeregistreerdWithVertegenwoordiger,
-            V012VerenigingWerdGeregistreerdWithVertegenwoordiger,
+            V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger,
+            V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
+            V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
+            V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
         };
 
         foreach (var scenario in scenarios)

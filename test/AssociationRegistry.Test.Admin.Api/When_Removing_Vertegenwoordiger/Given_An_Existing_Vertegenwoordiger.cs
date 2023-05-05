@@ -12,7 +12,7 @@ using Xunit.Categories;
 public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    public V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger Scenario { get; }
+    public V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -21,7 +21,7 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V011VerenigingWerdGeregistreerdWithVertegenwoordiger;
+        Scenario = fixture.V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger;
         DocumentStore = _fixture.DocumentStore;
     }
 

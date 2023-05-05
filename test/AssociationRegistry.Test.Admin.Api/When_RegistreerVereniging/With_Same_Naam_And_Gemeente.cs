@@ -35,21 +35,21 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Gemeente
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-        locatie.Gemeente = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+        locatie.Gemeente = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
         Request = new RegistreerVerenigingRequest
         {
-            Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Naam,
+            Naam = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
             {
                 locatie,
             },
         };
-        VCode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VCode;
-        Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Naam;
+        VCode = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VCode;
+        Naam = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(
             Request);
-        VerenigingWerdGeregistreerd = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd;
+        VerenigingWerdGeregistreerd = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(RequestAsJson).GetAwaiter().GetResult();
     }
 
