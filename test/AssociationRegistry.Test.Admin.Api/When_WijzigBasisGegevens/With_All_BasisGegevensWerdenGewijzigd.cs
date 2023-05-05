@@ -23,12 +23,12 @@ using Xunit.Categories;
 public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 {
     public WijzigBasisgegevensRequest Request { get; }
-    public V001_VerenigingWerdGeregistreerd_WithAllFields Scenario { get; }
+    public V014_VerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens Scenario { get; }
     public HttpResponseMessage Response { get; }
 
     public When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup(EventsInDbScenariosFixture fixture)
     {
-        Scenario = fixture.V001VerenigingWerdGeregistreerdWithAllFields;
+        Scenario = fixture.V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens;
 
         Request = new Fixture().CustomizeAll().Create<WijzigBasisgegevensRequest>();
 

@@ -25,7 +25,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
     public readonly string Rol;
     public readonly string Roepnaam;
     public VerenigingWerdGeregistreerd.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
-    public V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger Scenario { get; }
+    public V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -36,7 +36,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
 
         _fixture = fixture;
 
-        Scenario = fixture.V012VerenigingWerdGeregistreerdWithVertegenwoordiger;
+        Scenario = fixture.V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger;
         DocumentStore = _fixture.DocumentStore;
 
         Rol = autoFixture.Create<string>();

@@ -1,31 +1,36 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
+namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Events;
 using EventStore;
+using AssociationRegistry.Framework;
 using Framework;
+using AutoFixture;
 
-public class V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger : IEventsInDbScenario
+public class V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck : IEventsInDbScenario
 {
     public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger()
+    public V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck()
     {
         var fixture = new Fixture().CustomizeAll();
-        VCode = "V9999011";
-        Naam = "Dee coolste club";
+        VCode = "V9999013";
+        Naam = "De absoluut coolste club";
         VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
-            Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
-                (vertegenwoordiger, w) => vertegenwoordiger with
+            Contactgegevens = fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().Select(
+                (contactgegeven, w) => contactgegeven with
                 {
                     IsPrimair = w == 0,
                 }
             ).ToArray(),
+            Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+                (vertegenwoordiger, i) => vertegenwoordiger with
+                {
+                    IsPrimair = i == 0,
+                }).ToArray(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

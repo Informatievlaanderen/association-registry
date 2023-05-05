@@ -33,18 +33,18 @@ public sealed class When_RegistreerVereniging_With_Same_Naam_And_Postcode
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-        locatie.Postcode = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Locaties.First().Postcode;
+        locatie.Postcode = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd.Locaties.First().Postcode;
         Request = new RegistreerVerenigingRequest
         {
-            Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd.Naam,
+            Naam = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
             {
                 locatie,
             },
         };
-        Naam = fixture.V001VerenigingWerdGeregistreerdWithAllFields.Naam;
+        Naam = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
-        VerenigingWerdGeregistreerd = fixture.V001VerenigingWerdGeregistreerdWithAllFields.VerenigingWerdGeregistreerd;
+        VerenigingWerdGeregistreerd = fixture.V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.VerenigingWerdGeregistreerd;
         Response = fixture.DefaultClient.RegistreerVereniging(JsonConvert.SerializeObject(Request)).GetAwaiter().GetResult();
     }
 
