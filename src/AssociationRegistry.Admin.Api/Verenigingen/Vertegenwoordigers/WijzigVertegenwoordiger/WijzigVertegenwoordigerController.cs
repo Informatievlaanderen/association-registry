@@ -47,6 +47,7 @@ public class WijzigVertegenwoordigerController : ApiController
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd gewijzigd.</response>
     /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpPatch("{vCode}/vertegenwoordigers/{vertegenwoordigerId}")]
     [Consumes("application/json")]
