@@ -1,3 +1,10 @@
+## [3.4.4](https://github.com/informatievlaanderen/association-registry/compare/v3.4.3...v3.4.4) (2023-05-08)
+
+
+### Bug Fixes
+
+* or-1699 show naam and voornaam in historiek projection ([9477b76](https://github.com/informatievlaanderen/association-registry/commit/9477b7676174366e4b296f22de6445693b92964d))
+
 ## [3.4.3](https://github.com/informatievlaanderen/association-registry/compare/v3.4.2...v3.4.3) (2023-05-08)
 
 
