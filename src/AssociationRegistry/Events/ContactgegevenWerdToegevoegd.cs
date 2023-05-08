@@ -3,7 +3,12 @@
 using Framework;
 using Vereniging;
 
-public record ContactgegevenWerdToegevoegd(int ContactgegevenId, string Type, string Waarde, string Beschrijving, bool IsPrimair) : IEvent
+public record ContactgegevenWerdToegevoegd(
+    int ContactgegevenId,
+    string Type,
+    string Waarde,
+    string Beschrijving,
+    bool IsPrimair) : IEvent
 {
     public static ContactgegevenWerdToegevoegd With(Contactgegeven contactgegeven)
         => new(

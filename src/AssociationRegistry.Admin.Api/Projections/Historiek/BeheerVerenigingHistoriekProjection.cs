@@ -124,7 +124,9 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             vertegenwoordigerWerdGewijzigd,
             document,
-            $"Id {vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId} werd gewijzigd als vertegenwoordiger."
+            $"Vertegenwoordiger {vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam} " +
+            $"met ID {vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId} " +
+            $"werd gewijzigd."
         );
 
         document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);

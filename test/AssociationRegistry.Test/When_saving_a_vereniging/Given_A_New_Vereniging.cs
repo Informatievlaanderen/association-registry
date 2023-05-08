@@ -9,6 +9,7 @@ using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_A_New_Vereniging : IAsyncLifetime

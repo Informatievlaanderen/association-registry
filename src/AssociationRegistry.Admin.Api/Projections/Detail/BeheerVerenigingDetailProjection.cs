@@ -180,11 +180,11 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Voornaam = vertegenwoordigerToUpdate.Voornaam,
                     Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                     Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
-                    IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair ?? vertegenwoordigerToUpdate.IsPrimair,
-                    Email = vertegenwoordigerWerdGewijzigd.Data.Email ?? vertegenwoordigerToUpdate.Email,
-                    Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon ?? vertegenwoordigerToUpdate.Telefoon,
-                    Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel ?? vertegenwoordigerToUpdate.Mobiel,
-                    SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia ?? vertegenwoordigerToUpdate.SocialMedia,
+                    IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
+                    Email = vertegenwoordigerWerdGewijzigd.Data.Email,
+                    Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
+                    Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
+                    SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
                 })
             .ToArray();
 

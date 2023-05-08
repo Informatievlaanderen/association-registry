@@ -11,6 +11,7 @@ using Framework.MagdaMocks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_A_NietPrimair_Vertegenwoordiger

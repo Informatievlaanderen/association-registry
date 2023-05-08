@@ -28,5 +28,6 @@ public record VertegenwoordigerWerdToegevoegd(
             vertegenwoordiger.Email.Waarde,
             vertegenwoordiger.Telefoon.Waarde,
             vertegenwoordiger.Mobiel.Waarde,
-            vertegenwoordiger.SocialMedia.Waarde);
+            vertegenwoordiger.SocialMedia.Waarde
+        );
 }
