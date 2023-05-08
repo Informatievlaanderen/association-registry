@@ -11,9 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__vertegenwoordiger_is_verplicht()
     {
         var validator = new VoegVertegenwoordigerToeValidator();
-        var request = new VoegVertegenwoordigerToeRequest()
-        {
-        };
+        var request = new VoegVertegenwoordigerToeRequest();
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Vertegenwoordiger)

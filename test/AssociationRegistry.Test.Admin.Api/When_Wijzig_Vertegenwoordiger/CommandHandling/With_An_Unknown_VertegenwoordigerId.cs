@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
 using Acties.WijzigVertegenwoordiger;
-using Acties.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;

@@ -79,6 +79,9 @@ public class Given_A_Http_Method : IAsyncLifetime
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
 
-    public async Task DisposeAsync()
-        => _host.Dispose();
+    public Task DisposeAsync()
+    {
+        _host.Dispose();
+        return Task.CompletedTask;
+    }
 }

@@ -4,7 +4,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 
 using System.Linq;
 using FluentValidation;
-using Infrastructure.Validation;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
