@@ -260,6 +260,7 @@ public class Program
                     { "br", 1.0 },
                     { "gzip", 0.9 },
                 })
+            .UseMiddleware<UnexpectedAggregateVersionMiddleware>()
             .UseMiddleware<InitiatorHeaderMiddleware>()
             .UseResponseCompression();
     }

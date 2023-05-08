@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Acties.WijzigBasisgegevens;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using EventStore;
 using FluentValidation;
 using Framework;
 using Infrastructure;
@@ -70,23 +69,16 @@ public class WijzigBasisgegevensController : ApiController
         [InitiatorHeader] string initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
-        try
-        {
-            await validator.NullValidateAndThrowAsync(request);
+        await validator.NullValidateAndThrowAsync(request);
 
-            var command = request.ToCommand(vCode);
+        var command = request.ToCommand(vCode);
 
-            var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
-            var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
-            var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
+        var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-            if (!wijzigResult.HasChanges()) return Ok();
+        if (!wijzigResult.HasChanges()) return Ok();
 
-            return this.AcceptedCommand(_appSettings, wijzigResult);
-        }
-        catch (UnexpectedAggregateVersionException)
-        {
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
-        }
+        return this.AcceptedCommand(_appSettings, wijzigResult);
     }
 }

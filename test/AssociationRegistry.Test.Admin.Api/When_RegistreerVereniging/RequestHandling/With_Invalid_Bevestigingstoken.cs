@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
 using Fakes;
 using Framework;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

@@ -11,9 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__contactgegeven_is_verplicht()
     {
         var validator = new VoegContactgegevenToeValidator();
-        var request = new VoegContactgegevenToeRequest()
-        {
-        };
+        var request = new VoegContactgegevenToeRequest();
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Contactgegeven)
