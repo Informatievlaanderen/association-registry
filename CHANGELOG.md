@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/informatievlaanderen/association-registry/compare/v3.4.1...v3.4.2) (2023-05-08)
+
+
+### Bug Fixes
+
+* or-1710 add 412 response code to api documentation for contactgegevens and vertegenwoordigers ([0435472](https://github.com/informatievlaanderen/association-registry/commit/04354722c23efe79cce817318874c884d4c27125))
+
 ## [3.4.1](https://github.com/informatievlaanderen/association-registry/compare/v3.4.0...v3.4.1) (2023-05-04)
 
 
