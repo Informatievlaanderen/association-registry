@@ -39,7 +39,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Voornaam = vertegenwoordigerToUpdate.Voornaam,
                 Roepnaam = vertegenwoordigerWerdGewijzigd.Roepnaam,
                 Rol = vertegenwoordigerWerdGewijzigd.Rol,
-                IsPrimair = vertegenwoordigerWerdGewijzigd.IsPrimair!.Value,
+                IsPrimair = vertegenwoordigerWerdGewijzigd.IsPrimair,
                 Email = vertegenwoordigerWerdGewijzigd.Email!,
                 Telefoon = vertegenwoordigerWerdGewijzigd.Telefoon!,
                 Mobiel = vertegenwoordigerWerdGewijzigd.Mobiel!,

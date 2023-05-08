@@ -51,14 +51,16 @@ public class Given_A_Vertegenwoordiger
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VertegenwoordigerWerdGewijzigd(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                command.Vertegenwoordiger.Rol,
-                command.Vertegenwoordiger.Roepnaam,
+                command.Vertegenwoordiger.IsPrimair!.Value,
+                command.Vertegenwoordiger.Roepnaam!,
+                command.Vertegenwoordiger.Rol!,
+                _scenario.VertegenwoordigerWerdToegevoegd.Voornaam,
+                _scenario.VertegenwoordigerWerdToegevoegd.Achternaam,
                 command.Vertegenwoordiger.Email!.Waarde,
                 command.Vertegenwoordiger.Telefoon!.Waarde,
                 command.Vertegenwoordiger.Mobiel!.Waarde,
-                command.Vertegenwoordiger.SocialMedia!.Waarde,
-                command.Vertegenwoordiger.IsPrimair
-                )
+                command.Vertegenwoordiger.SocialMedia!.Waarde
+            )
         );
     }
 }

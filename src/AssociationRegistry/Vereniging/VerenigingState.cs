@@ -133,22 +133,22 @@ public record VerenigingState
 
     public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
     {
-        var veretegenwoordiger = Vertegenwoordigers[@event.VertegenwoordigerId];
+        var vertegenwoordiger = Vertegenwoordigers[@event.VertegenwoordigerId];
         return this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Replace(
                 Vertegenwoordiger.Hydrate(
                     @event.VertegenwoordigerId,
-                    Insz.Hydrate(veretegenwoordiger.Insz),
-                    @event.Rol ?? veretegenwoordiger.Rol,
-                    @event.Roepnaam ?? veretegenwoordiger.Roepnaam,
-                    veretegenwoordiger.Voornaam,
-                    veretegenwoordiger.Achternaam,
-                    @event.IsPrimair ?? veretegenwoordiger.IsPrimair,
-                    Email.Hydrate(@event.Email ?? veretegenwoordiger.Email.Waarde),
-                    TelefoonNummer.Hydrate(@event.Telefoon ?? veretegenwoordiger.Telefoon.Waarde),
-                    TelefoonNummer.Hydrate(@event.Mobiel ?? veretegenwoordiger.Mobiel.Waarde),
-                    SocialMedia.Hydrate(@event.SocialMedia ?? veretegenwoordiger.SocialMedia.Waarde)
+                    Insz.Hydrate(vertegenwoordiger.Insz),
+                    @event.Rol,
+                    @event.Roepnaam,
+                    vertegenwoordiger.Voornaam,
+                    vertegenwoordiger.Achternaam,
+                    @event.IsPrimair,
+                    Email.Hydrate(@event.Email),
+                    TelefoonNummer.Hydrate(@event.Telefoon),
+                    TelefoonNummer.Hydrate(@event.Mobiel),
+                    SocialMedia.Hydrate(@event.SocialMedia)
                 )),
         };
     }

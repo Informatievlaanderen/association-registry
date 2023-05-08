@@ -22,6 +22,7 @@ using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
 using Contactgegeven = Vereniging.Contactgegeven;
 using ToeTeVoegenContactgegeven = AssociationRegistry.Admin.Api.Verenigingen.Common.ToeTeVoegenContactgegeven;
+using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
 
 public static class AutoFixtureCustomizations
 {

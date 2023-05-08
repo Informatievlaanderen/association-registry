@@ -95,13 +95,15 @@ public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Patch_A_New_Ver
             .BeEquivalentTo(
                 new VertegenwoordigerWerdGewijzigd(
                     _classFixture.AanTePassenVertegenwoordiger.VertegenwoordigerId,
-                    _classFixture.Rol,
+                    false,
                     _classFixture.Roepnaam,
+                    _classFixture.Rol,
+                    _classFixture.AanTePassenVertegenwoordiger.Voornaam,
+                    _classFixture.AanTePassenVertegenwoordiger.Achternaam,
                     _classFixture.Email,
                     _classFixture.TelefoonNummer,
                     _classFixture.Mobiel,
-                    _classFixture.SocialMedia,
-                    false));
+                    _classFixture.SocialMedia));
     }
 
     [Fact]
