@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/informatievlaanderen/association-registry/compare/v3.4.2...v3.4.3) (2023-05-08)
+
+
+### Bug Fixes
+
+* or-1713 add middleware for UnexpectedAggregateVersion ([ba41527](https://github.com/informatievlaanderen/association-registry/commit/ba41527b3e2dc7be122b59c4564b78c91034c70c))
+
 ## [3.4.2](https://github.com/informatievlaanderen/association-registry/compare/v3.4.1...v3.4.2) (2023-05-08)
 
 
