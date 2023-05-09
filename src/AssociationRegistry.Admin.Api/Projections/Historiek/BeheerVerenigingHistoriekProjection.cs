@@ -112,8 +112,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             vertegenwoordigerWerdToegevoegd,
             document,
-            $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} " +
-            $"{vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger."
+            $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger."
         );
 
         document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
@@ -124,9 +123,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             vertegenwoordigerWerdGewijzigd,
             document,
-            $"Vertegenwoordiger {vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam} " +
-            $"met ID {vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId} " +
-            $"werd gewijzigd."
+            $"Vertegenwoordiger {vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam} werd gewijzigd."
         );
 
         document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);

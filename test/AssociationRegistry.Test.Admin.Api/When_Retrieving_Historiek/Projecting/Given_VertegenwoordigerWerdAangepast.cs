@@ -17,10 +17,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
 
         projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
             (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                $"Vertegenwoordiger {projectEventOnHistoriekDocument.Event.Data.Voornaam} " +
-                $"{projectEventOnHistoriekDocument.Event.Data.Achternaam} " +
-                $"met ID {projectEventOnHistoriekDocument.Event.Data.VertegenwoordigerId} " +
-                $"werd gewijzigd.",
+                $"Vertegenwoordiger {projectEventOnHistoriekDocument.Event.Data.Voornaam} {projectEventOnHistoriekDocument.Event.Data.Achternaam} werd gewijzigd.",
                 nameof(VertegenwoordigerWerdGewijzigd),
                 projectEventOnHistoriekDocument.Event.Data,
                 initiator,
