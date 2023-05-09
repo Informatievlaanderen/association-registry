@@ -1,3 +1,10 @@
+## [3.4.5](https://github.com/informatievlaanderen/association-registry/compare/v3.4.4...v3.4.5) (2023-05-09)
+
+
+### Bug Fixes
+
+* or-1699 make historiek message uniform ([461e5de](https://github.com/informatievlaanderen/association-registry/commit/461e5dee09cb35f1cbde1ef183fd6b1b14dd27ba))
+
 ## [3.4.4](https://github.com/informatievlaanderen/association-registry/compare/v3.4.3...v3.4.4) (2023-05-08)
 
 
