@@ -16,11 +16,6 @@ public class RegistreerVerenigingRequestValidator : AbstractValidator<Registreer
     {
         this.RequireNotNullOrEmpty(request => request.Naam);
 
-        RuleFor(request => request.KboNummer)
-            .Length(min: 10, int.MaxValue)
-            .WithMessage("KboNummer moet 10 cijfers bevatten.")
-            .When(request => !string.IsNullOrEmpty(request.KboNummer));
-
         RuleFor(request => request.Locaties)
             .Must(LocatieValidator.NotHaveDuplicates)
             .WithMessage("Identieke locaties zijn niet toegelaten.");

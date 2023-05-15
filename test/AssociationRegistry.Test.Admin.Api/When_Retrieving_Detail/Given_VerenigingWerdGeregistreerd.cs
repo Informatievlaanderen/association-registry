@@ -75,7 +75,6 @@ public class Given_VerenigingWerdGeregistreerd
                     ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
                     ""korteNaam"": ""{_verenigingWerdGeregistreerd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_verenigingWerdGeregistreerd.KorteBeschrijving}"",
-                    ""kboNummer"": ""{_verenigingWerdGeregistreerd.KboNummer}"",
                     ""startdatum"": ""{_verenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{

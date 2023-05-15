@@ -163,7 +163,6 @@ public class With_Same_Naam_And_Gemeente
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,
                 Request.Startdatum,
-                Request.KboNummer ?? string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {

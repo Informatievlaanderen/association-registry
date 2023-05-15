@@ -124,7 +124,6 @@ public static class AutoFixtureCustomizations
                         .ToArray(),
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
-                    KboNummer = fixture.Create<KboNummer>(),
                 }).OmitAutoProperties());
 
         fixture.Customize<ToeTeVoegenLocatie>(
@@ -373,7 +372,6 @@ public static class AutoFixtureCustomizations
                         KorteNaam: fixture.Create<string>(),
                         KorteBeschrijving: fixture.Create<string>(),
                         Startdatum: fixture.Create<Startdatum>(),
-                        KboNummer: fixture.Create<KboNummer>(),
                         Contactgegevens: fixture.CreateMany<Contactgegeven>().ToArray(),
                         Locaties: fixture.CreateMany<Locatie>().ToArray(),
                         Vertegenwoordigers: fixture.CreateMany<Vertegenwoordiger>().ToArray(),

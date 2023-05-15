@@ -49,7 +49,6 @@ public class RegistreerVerenigingCommandHandler
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
-            command.KboNummer,
             command.Contactgegevens,
             command.Locaties,
             vertegenwoordigersLijst,

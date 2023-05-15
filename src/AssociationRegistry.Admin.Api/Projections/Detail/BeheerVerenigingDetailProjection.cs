@@ -22,7 +22,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
@@ -228,7 +227,6 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
-    public string? KboNummer { get; set; }
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();

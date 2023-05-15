@@ -21,7 +21,6 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
     public readonly string Naam = "Feestcommittee Oudenaarde";
     public readonly string? KorteBeschrijving = "Het feestcommittee van Oudenaarde";
     public readonly string? KorteNaam = "FOud";
-    public readonly string? KboNummer = "0123456789";
 
     public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
@@ -72,7 +71,6 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
                 KorteNaam ?? string.Empty,
                 KorteBeschrijving ?? string.Empty,
                 _startdatum,
-                KboNummer ?? string.Empty,
                 new[] { _contactgegeven },
                 new[] { _locatie },
                 new[] { _vertegenwoordiger },
@@ -101,7 +99,6 @@ public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenar
                 string.Empty,
                 string.Empty,
                 null,
-                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -121,7 +118,6 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
         string.Empty,
         string.Empty,
         null,
-        string.Empty,
         Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
         Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
         Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -171,7 +167,6 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
                 string.Empty,
                 string.Empty,
                 null,
-                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -222,7 +217,6 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
             korteNaam ,
             string.Empty,
             null,
-            string.Empty,
             Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),

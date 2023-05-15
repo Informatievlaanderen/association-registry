@@ -64,7 +64,6 @@ public class DetailVerenigingenController : ApiController
                         KorteNaam = vereniging.KorteNaam,
                         KorteBeschrijving = vereniging.KorteBeschrijving,
                         Startdatum = vereniging.Startdatum,
-                        KboNummer = vereniging.KboNummer,
                         Status = vereniging.Status,
                         Contactgegevens = vereniging.Contactgegevens.Select(ToContactgegeven).ToImmutableArray(),
                         Locaties = vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
