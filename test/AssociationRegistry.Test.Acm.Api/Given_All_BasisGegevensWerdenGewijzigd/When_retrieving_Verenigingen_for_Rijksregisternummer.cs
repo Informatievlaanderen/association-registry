@@ -22,8 +22,8 @@ public class When_Retrieving_Verenigingen_For_Insz
         _scenario = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario;
         _response = fixture.DefaultClient.GetVerenigingenForInsz(_scenario.Insz).GetAwaiter().GetResult();
         helper.WriteLine($"INSZ: {_scenario.Insz}");
-        helper.WriteLine($"Vereniging: {_scenario.VerenigingWerdGeregistreerd.VCode} met naam {_scenario.VerenigingWerdGeregistreerd.Naam}");
-        foreach (var vertegenwoordiger in _scenario.VerenigingWerdGeregistreerd.Vertegenwoordigers)
+        helper.WriteLine($"Vereniging: {_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode} met naam {_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}");
+        foreach (var vertegenwoordiger in _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
         {
             helper.WriteLine($"\tVertegenwoordiger: {vertegenwoordiger.Insz}");
         }
@@ -44,7 +44,7 @@ public class When_Retrieving_Verenigingen_For_Insz
             ""insz"":""{_scenario.Insz}"",
             ""verenigingen"":[
                 {{
-                    ""vCode"":""{_scenario.VerenigingWerdGeregistreerd.VCode}"",
+                    ""vCode"":""{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}"",
                     ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}"",
                 }}
             ]

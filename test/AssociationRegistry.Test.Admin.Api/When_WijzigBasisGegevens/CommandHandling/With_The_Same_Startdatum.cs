@@ -25,14 +25,14 @@ public class With_The_Same_Startdatum
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Hydrate(_scenario.VerenigingWerdGeregistreerd.Startdatum));
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
         _result = commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
             _verenigingRepositoryMock,
-            new ClockStub(_scenario.VerenigingWerdGeregistreerd.Startdatum!.Value)).GetAwaiter().GetResult();
+            new ClockStub(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value)).GetAwaiter().GetResult();
     }
 
     [Fact]

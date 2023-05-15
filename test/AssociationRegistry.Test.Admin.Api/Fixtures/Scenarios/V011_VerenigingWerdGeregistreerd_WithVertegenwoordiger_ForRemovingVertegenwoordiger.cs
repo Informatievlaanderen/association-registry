@@ -8,7 +8,7 @@ using Framework;
 
 public class V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger()
@@ -16,11 +16,11 @@ public class V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingV
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999011";
         Naam = "Dee coolste club";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
-            Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+            Vertegenwoordigers = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
                 (vertegenwoordiger, w) => vertegenwoordiger with
                 {
                     IsPrimair = w == 0,
@@ -35,11 +35,11 @@ public class V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingV
     public string Naam { get; set; }
 
     public DateOnly? Startdatum
-        => VerenigingWerdGeregistreerd.Startdatum;
+        => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

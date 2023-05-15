@@ -29,13 +29,13 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     private readonly StreamActionResult _result;
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
     private readonly string _vCode;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
+    private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
         _vCode = fixture.V004AlleBasisGegevensWerdenGewijzigd.VCode;
         _adminApiClient = fixture.DefaultClient;
-        _verenigingWerdGeregistreerd = fixture.V004AlleBasisGegevensWerdenGewijzigd.VerenigingWerdGeregistreerd;
+        _feitelijkeVerenigingWerdGeregistreerd = fixture.V004AlleBasisGegevensWerdenGewijzigd.FeitelijkeVerenigingWerdGeregistreerd;
         _naamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.NaamWerdGewijzigd;
         _korteNaamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteBeschrijvingWerdGewijzigd;
@@ -68,7 +68,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
 
         var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
             .Append(
-                _verenigingWerdGeregistreerd.Contactgegevens.Select(
+                _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
                         new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
                         {
@@ -98,7 +98,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
@@ -111,7 +111,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-                    ""vertegenwoordigers"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                    ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
                             ""vertegenwoordigerId"": {x.VertegenwoordigerId},
                             ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
@@ -124,7 +124,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}""
                     }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}]

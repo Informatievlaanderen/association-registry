@@ -10,6 +10,11 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
             "",
             new VerenigingDetail(
                 "V0001001",
+                new VerenigingsType()
+                {
+                    Code = "FV",
+                    Beschrijving = "Feitelijke vereniging",
+                },
                 "FWA De vrolijke BA’s",
                 "DVB",
                 "De vereniging van de vrolijke BA's",

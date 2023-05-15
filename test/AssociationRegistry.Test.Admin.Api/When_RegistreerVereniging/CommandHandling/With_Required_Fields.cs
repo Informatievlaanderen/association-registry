@@ -52,16 +52,16 @@ public class With_Required_Fields
     public void Then_it_saves_the_event()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
     }
 }

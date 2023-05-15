@@ -58,6 +58,11 @@ public class DetailVerenigingenController : ApiController
                 $"{_appsettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 new VerenigingDetail(
                     vereniging.VCode,
+                    new VerenigingsType
+                    {
+                        Code = vereniging.Type.Code,
+                        Beschrijving = vereniging.Type.Beschrijving,
+                    },
                     vereniging.Naam,
                     vereniging.KorteNaam,
                     vereniging.KorteBeschrijving,

@@ -62,7 +62,7 @@ public class With_Minimal_Fields
         using var session = _fixture.DocumentStore
             .LightweightSession();
 
-        session.Events.QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+        session.Events.QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
             .Where(e => e.Naam == Request.Naam)
             .Should().HaveCount(expected: 1);
     }

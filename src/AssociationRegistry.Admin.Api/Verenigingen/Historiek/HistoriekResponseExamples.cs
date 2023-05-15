@@ -13,7 +13,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
                 new()
                 {
                     Beschrijving = "Vereniging werd aangemaakt met naam 'Eerste vereniging'",
-                    Gebeurtenis = "VerenigingWerdGeregistreerd",
+                    Gebeurtenis = "FeitelijkeVerenigingWerdGeregistreerd",
                     Data = new
                     {
                         Naam = "Eerste vereniging",

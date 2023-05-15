@@ -14,12 +14,12 @@ public class VerenigingenPerInszProjection : EventProjection
     public VerenigingenPerInszProjection()
     {
         // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
-        // the newly persisted VerenigingenPerInszDocument from VerenigingWerdGeregistreerd is not in the
+        // the newly persisted VerenigingenPerInszDocument from FeitelijkeVerenigingWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd
         Options.BatchSize = 1;
     }
 
-    public async Task Project(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    public async Task Project(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -47,7 +47,7 @@ public class VerenigingenPerInszProjection : EventProjection
 
     private static class VerenigingenPerInszProjector
     {
-        public static async Task<List<VerenigingenPerInszDocument>> Apply(VerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
             var vereniging = new Vereniging
@@ -107,7 +107,7 @@ public class VerenigingenPerInszProjection : EventProjection
 
     private static class VerenigingDocumentProjector
     {
-        public static VerenigingDocument Apply(VerenigingWerdGeregistreerd werdGeregistreerd)
+        public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd)
             => new()
             {
                 VCode = werdGeregistreerd.VCode,

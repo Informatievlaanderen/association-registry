@@ -46,7 +46,7 @@ public class With_A_Startdatum_On_Today
     {
         _verenigingRepositoryMock.SaveInvocations
             .Single().Vereniging.UncommittedEvents
-            .OfType<VerenigingWerdGeregistreerd>()
+            .OfType<FeitelijkeVerenigingWerdGeregistreerd>()
             .Should().HaveCount(expected: 1);
     }
 }

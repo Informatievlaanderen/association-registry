@@ -22,7 +22,7 @@ public class With_The_Same_KorteBeschrijving
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteBeschrijving: _scenario.VerenigingWerdGeregistreerd.KorteBeschrijving);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteBeschrijving: _scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

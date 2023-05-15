@@ -16,14 +16,14 @@ public interface IEventsInDbScenario
 
 public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003001";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -31,11 +31,11 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
     public StreamActionResult Result { get; set; } = null!;
 
     public string Insz
-        => VerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
@@ -43,7 +43,7 @@ public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEve
 
 public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly CommandMetadata Metadata;
 
@@ -51,15 +51,15 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003002";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         Insz = VertegenwoordigerWerdToegevoegd.Insz;
@@ -73,7 +73,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegd,
         };
 
@@ -83,7 +83,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
 
 public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly CommandMetadata Metadata;
@@ -92,15 +92,15 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003003";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
@@ -115,7 +115,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             NaamWerdGewijzigd,
             VertegenwoordigerWerdToegevoegd,
         };
@@ -126,7 +126,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
 
 public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
@@ -136,8 +136,8 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003004";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
-        VerenigingWerdGeregistreerd = VerenigingWerdGeregistreerd with { Vertegenwoordigers = VerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        FeitelijkeVerenigingWerdGeregistreerd = FeitelijkeVerenigingWerdGeregistreerd with { Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
@@ -148,12 +148,12 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public StreamActionResult Result { get; set; } = null!;
 
     public string Insz
-        => VerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
 
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             NaamWerdGewijzigd,
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,
@@ -165,7 +165,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
 
 public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     private readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly VertegenwoordigerWerdVerwijderd VertegenwoordigerWerdVerwijderd;
     public readonly CommandMetadata Metadata;
@@ -174,15 +174,15 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003005";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         VertegenwoordigerWerdVerwijderd = new VertegenwoordigerWerdVerwijderd(
@@ -201,7 +201,7 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             VertegenwoordigerWerdToegevoegd,
             VertegenwoordigerWerdVerwijderd,
         };

@@ -2,6 +2,10 @@
   "@context": "https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json",
   "vereniging": {
     "vCode": "V0001001",
+    "type":{
+      "code":"FV",
+      "beschrijving": "Feitelijke vereniging"
+    },
     "naam": "Feestcommittee Oudenaarde",
     "korteNaam": "FOud",
     "korteBeschrijving": "Het feestcommittee van Oudenaarde",

@@ -15,13 +15,13 @@ using Xunit.Categories;
 public class Given_VerenigingWerdGeregistreerd
 {
     private readonly BeheerVerenigingHistoriekDocument _document;
-    private readonly TestEvent<VerenigingWerdGeregistreerd> _verenigingWerdGeregistreerd;
+    private readonly TestEvent<FeitelijkeVerenigingWerdGeregistreerd> _verenigingWerdGeregistreerd;
 
     public Given_VerenigingWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeAll();
         var beheerVerenigingHistoriekProjection = new BeheerVerenigingHistoriekProjection();
-        _verenigingWerdGeregistreerd = fixture.Create<TestEvent<VerenigingWerdGeregistreerd>>();
+        _verenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
 
         _document = beheerVerenigingHistoriekProjection.Create(_verenigingWerdGeregistreerd);
     }
@@ -37,7 +37,7 @@ public class Given_VerenigingWerdGeregistreerd
                 {
                     new(
                         $"Feitelijke vereniging werd geregistreerd met naam '{_verenigingWerdGeregistreerd.Data.Naam}'.",
-                        nameof(VerenigingWerdGeregistreerd),
+                        nameof(FeitelijkeVerenigingWerdGeregistreerd),
                         _verenigingWerdGeregistreerd.Data,
                         _verenigingWerdGeregistreerd.Initiator,
                         _verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),

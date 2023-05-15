@@ -8,7 +8,7 @@ using AutoFixture;
 
 public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd;
     public readonly CommandMetadata Metadata;
 
@@ -16,7 +16,7 @@ public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999006";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         ContactgegevenWerdToegevoegd = fixture.Create<ContactgegevenWerdToegevoegd>() with {ContactgegevenId = 1};
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -27,7 +27,7 @@ public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             ContactgegevenWerdToegevoegd,
         };
 

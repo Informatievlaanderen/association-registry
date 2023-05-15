@@ -20,13 +20,13 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
+    private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
 
     public Given_VerenigingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         _vCode = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.VCode;
-        _verenigingWerdGeregistreerd = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.VerenigingWerdGeregistreerd;
+        _feitelijkeVerenigingWerdGeregistreerd = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields.FeitelijkeVerenigingWerdGeregistreerd;
         _adminApiClient = fixture.DefaultClient;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
@@ -56,12 +56,12 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
         var expected = $@"
 {{
     ""vereniging"": {{
-            ""vCode"": ""{_verenigingWerdGeregistreerd.VCode}"",
+            ""vCode"": ""{_feitelijkeVerenigingWerdGeregistreerd.VCode}"",
             ""type"": {{
                 ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
                 ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
             }},
-            ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
+            ""naam"": ""{_feitelijkeVerenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": """",
             ""korteBeschrijving"": """",
             ""startdatum"": null,

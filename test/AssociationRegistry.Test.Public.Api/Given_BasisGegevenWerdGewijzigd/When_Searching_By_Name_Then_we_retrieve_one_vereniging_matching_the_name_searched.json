@@ -2,6 +2,10 @@
   "verenigingen": [
     {
       "vCode": "V0001003",
+      "type":{
+        "code":"FV",
+        "beschrijving": "Feitelijke vereniging"
+      },
       "naam": "Oarelbeke Weireldstad",
       "korteNaam": "OW",
       "hoofdactiviteitenVerenigingsloket": [

@@ -174,9 +174,9 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeVerenigingWerdGeregistreerd(this IFixture fixture)
     {
-        fixture.Customize<VerenigingWerdGeregistreerd.Locatie>(
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(
             composer => composer.FromFactory<int>(
-                    value => new VerenigingWerdGeregistreerd.Locatie(
+                    value => new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
                         Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
                         Naam: fixture.Create<string>(),
                         Straatnaam: fixture.Create<string>(),
@@ -188,20 +188,20 @@ public static class AutoFixtureCustomizations
                         Hoofdlocatie: false))
                 .OmitAutoProperties());
 
-        fixture.Customize<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(
             composer => composer.FromFactory(
                 () =>
                 {
                     var h = fixture.Create<HoofdactiviteitVerenigingsloket>();
-                    return new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving);
+                    return new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving);
                 }).OmitAutoProperties());
 
-        fixture.Customize<VerenigingWerdGeregistreerd.Contactgegeven>(
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(
             composer => composer.FromFactory<int>(
                 i =>
                 {
                     var contactgegeven = fixture.Create<Contactgegeven>();
-                    return new VerenigingWerdGeregistreerd.Contactgegeven(
+                    return new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
                         i,
                         contactgegeven.Type,
                         contactgegeven.Waarde,
@@ -210,19 +210,19 @@ public static class AutoFixtureCustomizations
                     );
                 }).OmitAutoProperties());
 
-        fixture.Customize<VerenigingWerdGeregistreerd>(
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd>(
             composer => composer.FromFactory(
-                () => new VerenigingWerdGeregistreerd(
+                () => new FeitelijkeVerenigingWerdGeregistreerd(
                     fixture.Create<VCode>().ToString(),
                     VerenigingsType.FeitelijkeVereniging.Code,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>(),
-                    fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().ToArray(),
-                    fixture.CreateMany<VerenigingWerdGeregistreerd.Locatie>().ToArray(),
-                    fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().ToArray(),
-                    fixture.CreateMany<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>().ToArray()
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Locatie>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
     }
 

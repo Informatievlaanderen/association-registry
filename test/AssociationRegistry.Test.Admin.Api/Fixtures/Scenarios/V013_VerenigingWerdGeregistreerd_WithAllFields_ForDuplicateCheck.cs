@@ -8,7 +8,7 @@ using AutoFixture;
 
 public class V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck()
@@ -16,17 +16,17 @@ public class V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck : 
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999013";
         Naam = "De absoluut coolste club";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
-            Contactgegevens = fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().Select(
+            Contactgegevens = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().Select(
                 (contactgegeven, w) => contactgegeven with
                 {
                     IsPrimair = w == 0,
                 }
             ).ToArray(),
-            Vertegenwoordigers = fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+            Vertegenwoordigers = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
                 (vertegenwoordiger, i) => vertegenwoordiger with
                 {
                     IsPrimair = i == 0,
@@ -40,11 +40,11 @@ public class V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck : 
     public string Naam { get; set; }
 
     public DateOnly? Startdatum
-        => VerenigingWerdGeregistreerd.Startdatum;
+        => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

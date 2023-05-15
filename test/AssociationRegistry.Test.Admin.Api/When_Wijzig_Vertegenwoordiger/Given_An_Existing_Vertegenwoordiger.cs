@@ -24,7 +24,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
     public readonly string Mobiel;
     public readonly string Rol;
     public readonly string Roepnaam;
-    public VerenigingWerdGeregistreerd.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
     public V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
@@ -59,7 +59,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
                 }},
             ""initiator"": ""OVO000001""
         }}";
-        AanTePassenVertegenwoordiger = Scenario.VerenigingWerdGeregistreerd.Vertegenwoordigers[0];
+        AanTePassenVertegenwoordiger = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0];
     }
 
     public async Task InitializeAsync()

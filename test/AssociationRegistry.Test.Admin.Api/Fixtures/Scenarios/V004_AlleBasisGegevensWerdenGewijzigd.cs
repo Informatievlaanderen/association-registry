@@ -8,7 +8,7 @@ using AutoFixture;
 
 public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
@@ -19,7 +19,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999004";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with { VCode = VCode };
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
@@ -33,7 +33,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     public IEvent[] GetEvents()
         => new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             NaamWerdGewijzigd,
             KorteNaamWerdGewijzigd,
             KorteBeschrijvingWerdGewijzigd,

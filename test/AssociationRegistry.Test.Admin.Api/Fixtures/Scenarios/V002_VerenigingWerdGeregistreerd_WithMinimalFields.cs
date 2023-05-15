@@ -8,23 +8,23 @@ using AutoFixture;
 
 public class V002_VerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public V002_VerenigingWerdGeregistreerd_WithMinimalFields()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999002";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(),
+            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -34,7 +34,7 @@ public class V002_VerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbSce
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

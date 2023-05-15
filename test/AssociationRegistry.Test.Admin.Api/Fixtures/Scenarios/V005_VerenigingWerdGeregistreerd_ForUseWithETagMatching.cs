@@ -8,22 +8,22 @@ using AutoFixture;
 
 public class V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999005";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -33,7 +33,7 @@ public class V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching : IEventsIn
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

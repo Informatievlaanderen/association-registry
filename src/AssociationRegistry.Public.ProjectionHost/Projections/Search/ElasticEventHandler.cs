@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Events;
 using Infrastructure.Extensions;
 using Schema.Search;
+using Vereniging;
 
 public class ElasticEventHandler
 {
@@ -17,11 +18,12 @@ public class ElasticEventHandler
         _brolFeeder = brolFeeder;
     }
 
-    public async Task Handle(EventEnvelope<VerenigingWerdGeregistreerd> message)
+    public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new VerenigingDocument
             {
                 VCode = message.Data.VCode,
+                Type = new VerenigingDocument.VerenigingsType(message.Data.Type, VerenigingsType.Parse(message.Data.Type).Beschrijving),
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(ToDocument).ToArray(),
@@ -63,6 +65,6 @@ public class ElasticEventHandler
             });
     }
 
-    private static VerenigingDocument.Locatie ToDocument(VerenigingWerdGeregistreerd.Locatie loc)
+    private static VerenigingDocument.Locatie ToDocument(FeitelijkeVerenigingWerdGeregistreerd.Locatie loc)
         => new(loc.Locatietype, loc.Naam, loc.ToAdresString(), loc.Hoofdlocatie, loc.Postcode, loc.Gemeente);
 }

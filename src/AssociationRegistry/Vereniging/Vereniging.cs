@@ -27,7 +27,7 @@ public class Vereniging : IHasVersion
         Vertegenwoordigers vertegenwoordigers,
         HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloketLijst)
     {
-        var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
+        var verenigingWerdGeregistreerdEvent = new FeitelijkeVerenigingWerdGeregistreerd(
             vCode,
             VerenigingsType.FeitelijkeVereniging.Code,
             naam,
@@ -82,17 +82,17 @@ public class Vereniging : IHasVersion
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
         => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
 
-    private static VerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
-        => contactgegevens.Select(VerenigingWerdGeregistreerd.Contactgegeven.With).ToArray();
+    private static FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
+        => contactgegevens.Select(FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven.With).ToArray();
 
-    private static VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
-        => hoofdactiviteitenVerenigingsloketLijst.Select(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket.With).ToArray();
+    private static FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+        => hoofdactiviteitenVerenigingsloketLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket.With).ToArray();
 
-    private static VerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(VerenigingWerdGeregistreerd.Vertegenwoordiger.With).ToArray();
+    private static FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
+        => vertegenwoordigersLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With).ToArray();
 
-    private static VerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
-        => locatieLijst.Select(VerenigingWerdGeregistreerd.Locatie.With).ToArray();
+    private static FeitelijkeVerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
+        => locatieLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.Locatie.With).ToArray();
 
     public void ClearEvents()
     {
