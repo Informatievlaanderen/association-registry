@@ -8,6 +8,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using Framework;
 using FluentAssertions;
 using Newtonsoft.Json;

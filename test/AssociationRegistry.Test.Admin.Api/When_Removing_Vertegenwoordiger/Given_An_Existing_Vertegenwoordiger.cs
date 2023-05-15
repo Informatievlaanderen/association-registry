@@ -4,6 +4,7 @@ using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Xunit;
@@ -12,7 +13,7 @@ using Xunit.Categories;
 public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    public V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger Scenario { get; }
+    public V011_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -21,7 +22,7 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger;
+        Scenario = fixture.V011FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger;
         DocumentStore = _fixture.DocumentStore;
     }
 

@@ -1,0 +1,35 @@
+namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
+
+public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : CommandhandlerScenarioBase
+{
+    public const string Naam = "Hulste Huldigt";
+    public const string KorteNaam = "FOud";
+    public readonly string Initiator = "Een initiator";
+    public readonly string KorteBeschrijving = string.Empty;
+    public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
+    public readonly VCode VCode = VCode.Create("V0009002");
+    public FeitelijkeVerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
+
+    public override IEnumerable<IEvent> Events()
+    {
+        WerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
+            VCode,
+            VerenigingsType.FeitelijkeVereniging.Code,
+            Naam,
+            KorteNaam,
+            KorteBeschrijving,
+            Startdatum,
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+        return new IEvent[]
+        {
+            WerdGeregistreerd,
+        };
+    }
+}

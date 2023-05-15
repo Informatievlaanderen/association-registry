@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using System.Collections.Immutable;
-using Acties.RegistreerVereniging;
+using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
@@ -39,12 +39,12 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
         fixture.CustomizeHoofdactiviteitenVerenigingsloket();
 
-        fixture.CustomizeRegistreerVerenigingRequest();
+        fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
         fixture.CustominzeWijzigBasisgegevensRequest();
         fixture.CustomizeVoegContactgegevenToeRequest();
         fixture.CustomizeWijzigVertegenwoordigerRequest();
 
-        fixture.CustomizeRegistreerVerenigingCommand();
+        fixture.CustomizeRegistreerFeitelijkeVerenigingCommand();
 
         fixture.CustomizeVerenigingWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
@@ -108,11 +108,11 @@ public static class AutoFixtureCustomizations
                 }).OmitAutoProperties());
     }
 
-    public static void CustomizeRegistreerVerenigingRequest(this IFixture fixture)
+    public static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
-        fixture.Customize<RegistreerVerenigingRequest>(
+        fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ => new RegistreerVerenigingRequest
+                _ => new RegistreerFeitelijkeVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
@@ -378,11 +378,11 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 
-    public static void CustomizeRegistreerVerenigingCommand(this IFixture fixture)
+    public static void CustomizeRegistreerFeitelijkeVerenigingCommand(this IFixture fixture)
     {
-        fixture.Customize<RegistreerVerenigingCommand>(
+        fixture.Customize<RegistreerFeitelijkeVerenigingCommand>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingCommand(
+                    factory: () => new RegistreerFeitelijkeVerenigingCommand(
                         Naam: fixture.Create<VerenigingsNaam>(),
                         KorteNaam: fixture.Create<string>(),
                         KorteBeschrijving: fixture.Create<string>(),

@@ -11,6 +11,7 @@ using AutoFixture;
 using Primitives;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using JasperFx.Core;
@@ -23,12 +24,12 @@ using Xunit.Categories;
 public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 {
     public WijzigBasisgegevensRequest Request { get; }
-    public V014_VerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens Scenario { get; }
+    public V014_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens Scenario { get; }
     public HttpResponseMessage Response { get; }
 
     public When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup(EventsInDbScenariosFixture fixture)
     {
-        Scenario = fixture.V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens;
+        Scenario = fixture.V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens;
 
         Request = new Fixture().CustomizeAll().Create<WijzigBasisgegevensRequest>();
 

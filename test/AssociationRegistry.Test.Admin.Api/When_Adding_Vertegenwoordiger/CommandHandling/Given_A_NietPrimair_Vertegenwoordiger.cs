@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Framework.MagdaMocks;
 using Xunit;
@@ -18,7 +19,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     [Fact]
     public async Task Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
-        var scenario = new VerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

@@ -10,6 +10,7 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -19,13 +20,13 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Vertegenwoordiger()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

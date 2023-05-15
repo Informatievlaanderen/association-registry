@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
@@ -17,12 +18,12 @@ public class Given_A_Contactgegeven
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
@@ -36,7 +37,7 @@ public class Given_A_Contactgegeven
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _fixture.Create<Email>().Waarde,
                 _fixture.Create<string?>(),
                 IsPrimair: false));
@@ -45,7 +46,7 @@ public class Given_A_Contactgegeven
 
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdGewijzigd(
-                ContactgegevenId: VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                ContactgegevenId: FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 ContactgegevenType.Email,
                 command.Contactgegeven.Waarde!,
                 command.Contactgegeven.Beschrijving ?? string.Empty,

@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -16,11 +17,11 @@ public class Given_A_Contactgegeven_Was_Removed
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario _scenario;
 
     public Given_A_Contactgegeven_Was_Removed()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

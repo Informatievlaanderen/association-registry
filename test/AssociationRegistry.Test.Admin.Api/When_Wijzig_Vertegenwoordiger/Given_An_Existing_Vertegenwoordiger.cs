@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Marten;
@@ -25,7 +26,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
     public readonly string Rol;
     public readonly string Roepnaam;
     public FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
-    public V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger Scenario { get; }
+    public V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -36,7 +37,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
 
         _fixture = fixture;
 
-        Scenario = fixture.V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger;
+        Scenario = fixture.V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger;
         DocumentStore = _fixture.DocumentStore;
 
         Rol = autoFixture.Create<string>();

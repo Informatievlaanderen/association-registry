@@ -13,7 +13,7 @@ public interface IScenario
     public CommandMetadata GetCommandMetadata();
 }
 
-public class V001_VerenigingWerdGeregistreerdScenario : IScenario
+public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
     private readonly FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven _contactgegeven = new(
         ContactgegevenId: 1,
@@ -84,7 +84,7 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
         => new("OVO000001", new Instant());
 }
 
-public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
+public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
     private readonly string Naam = "Feesten Hulste";
 
@@ -188,7 +188,7 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
         => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant());
 }
 
-public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenario
+public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
     public const string Naam = "Oostende voor anker";
     private const string KorteNaam = "OVA";
@@ -206,7 +206,7 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
         return new IEvent[]
         {
             new EenEvent(),
-            VerenigingWerdGeregistreerd(
+            FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
                 Naam,
                 KorteNaam),
@@ -216,7 +216,7 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
     public CommandMetadata GetCommandMetadata()
         => new("OVO000001", new Instant());
 
-    private static FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
+    private static FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
         => new(
             vCode,
             VerenigingsType.FeitelijkeVereniging.Code,

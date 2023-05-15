@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Vereniging;
@@ -17,11 +18,11 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

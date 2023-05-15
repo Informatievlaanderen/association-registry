@@ -15,22 +15,22 @@ public record Metadata(long Sequence, long Version);
 
 public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVerenigingDetailDocument>
 {
-    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
-            VCode = verenigingWerdGeregistreerd.Data.VCode,
+            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Type = new BeheerVerenigingDetailDocument.VerenigingsType
             {
-                Code = verenigingWerdGeregistreerd.Data.Type,
-                Beschrijving = VerenigingsType.Parse(verenigingWerdGeregistreerd.Data.Type).Beschrijving,
+                Code = feitelijkeVerenigingWerdGeregistreerd.Data.Type,
+                Beschrijving = VerenigingsType.Parse(feitelijkeVerenigingWerdGeregistreerd.Data.Type).Beschrijving,
             },
-            Naam = verenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = verenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
+            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
+            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new BeheerVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = c.ContactgegevenId,
@@ -39,8 +39,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = ToLocationArray(verenigingWerdGeregistreerd.Data.Locaties),
-            Vertegenwoordigers = verenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
+            Locaties = ToLocationArray(feitelijkeVerenigingWerdGeregistreerd.Data.Locaties),
+            Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                 v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
                 {
                     VertegenwoordigerId = v.VertegenwoordigerId,
@@ -55,13 +55,13 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Mobiel = v.Mobiel,
                     SocialMedia = v.SocialMedia,
                 }).ToArray(),
-            HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
+            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                 h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
                     Code = h.Code,
                     Beschrijving = h.Beschrijving,
                 }).ToArray(),
-            Metadata = new Metadata(verenigingWerdGeregistreerd.Sequence, verenigingWerdGeregistreerd.Version),
+            Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)

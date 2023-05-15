@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Vereniging;
@@ -16,13 +17,13 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private CommandResult _commandResult = null!;
 
     public Given_No_Modifications_To_The_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();
@@ -35,10 +36,10 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair));
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair));
 
         _commandResult = await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
     }

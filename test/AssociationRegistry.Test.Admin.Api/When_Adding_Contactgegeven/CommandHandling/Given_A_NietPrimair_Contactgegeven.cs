@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -21,7 +22,7 @@ public class Given_A_NietPrimair_Contactgegeven
     [InlineData("Telefoon", "0000112233")]
     public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
-        var scenario = new VerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

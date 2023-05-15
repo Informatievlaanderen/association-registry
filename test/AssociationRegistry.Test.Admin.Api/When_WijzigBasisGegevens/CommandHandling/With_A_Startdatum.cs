@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -14,12 +15,12 @@ using Xunit.Categories;
 public class With_A_Startdatum
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly DateOnly _nieuweStartdatum;
 
     public With_A_Startdatum()
     {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 

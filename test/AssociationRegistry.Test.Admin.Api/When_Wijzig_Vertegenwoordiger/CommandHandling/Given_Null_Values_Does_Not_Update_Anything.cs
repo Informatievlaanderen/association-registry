@@ -6,6 +6,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,12 +15,12 @@ public class Given_Null_Values_Does_Not_Update_Anything
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_Null_Values_Does_Not_Update_Anything()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

@@ -4,6 +4,7 @@ using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Xunit;
@@ -12,7 +13,7 @@ using Xunit.Categories;
 public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    public V007_VerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
+    public V007_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -21,7 +22,7 @@ public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V007VerenigingWerdGeregistreerdWithContactgegeven;
+        Scenario = fixture.V007FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven;
         DocumentStore = _fixture.DocumentStore;
     }
 

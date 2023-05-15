@@ -4,6 +4,7 @@ using System.Net;
 using Fixtures;
 using Fixtures.Scenarios;
 using Events;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Vereniging;
@@ -14,7 +15,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V002_VerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
+    public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -23,7 +24,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V002VerenigingWerdGeregistreerdWithMinimalFields;
+        Scenario = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = $@"{{

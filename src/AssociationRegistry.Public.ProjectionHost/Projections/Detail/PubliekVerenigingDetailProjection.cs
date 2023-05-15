@@ -10,22 +10,22 @@ using Vereniging;
 
 public class PubliekVerenigingDetailProjection : SingleStreamAggregation<PubliekVerenigingDetailDocument>
 {
-    public PubliekVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public PubliekVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
-            VCode = verenigingWerdGeregistreerd.Data.VCode,
+            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Type = new PubliekVerenigingDetailDocument.VerenigingsType()
             {
-                Code = verenigingWerdGeregistreerd.Data.Type,
-                Beschrijving = VerenigingsType.Parse(verenigingWerdGeregistreerd.Data.Type).Beschrijving,
+                Code = feitelijkeVerenigingWerdGeregistreerd.Data.Type,
+                Beschrijving = VerenigingsType.Parse(feitelijkeVerenigingWerdGeregistreerd.Data.Type).Beschrijving,
             },
-            Naam = verenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
-            DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
+            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(
+            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven()
                 {
                     ContactgegevenId = c.ContactgegevenId,
@@ -34,8 +34,8 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = verenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)

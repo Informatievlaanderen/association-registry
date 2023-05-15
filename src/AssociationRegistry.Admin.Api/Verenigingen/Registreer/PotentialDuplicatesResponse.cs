@@ -4,7 +4,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.Serialization;
-using Acties.RegistreerVereniging;
+using Acties.RegistreerFeitelijkeVereniging;
 using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
 
