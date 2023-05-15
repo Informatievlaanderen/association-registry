@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -15,11 +16,11 @@ using Xunit.Categories;
 public class With_The_Same_HoofdactiviteitenVerenigingsloket
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
     public With_The_Same_HoofdactiviteitenVerenigingsloket()
     {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 

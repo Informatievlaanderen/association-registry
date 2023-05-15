@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -18,14 +19,14 @@ public class Given_A_Vertegenwoordiger
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Vertegenwoordiger()
     {
         _fixture = new Fixture().CustomizeAll();
 
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);

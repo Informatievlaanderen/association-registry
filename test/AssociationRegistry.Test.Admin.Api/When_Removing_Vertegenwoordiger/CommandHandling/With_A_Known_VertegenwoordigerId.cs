@@ -7,6 +7,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,11 +15,11 @@ using Xunit.Categories;
 public class With_A_Known_VertegenwoordigerId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
 
     public With_A_Known_VertegenwoordigerId()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 

@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
@@ -16,11 +17,11 @@ public class Given_A_Duplicate_Contactgegeven
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario _scenario;
 
     public Given_A_Duplicate_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

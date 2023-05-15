@@ -14,12 +14,12 @@ public interface IEventsInDbScenario
     CommandMetadata GetCommandMetadata();
 }
 
-public class VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
+public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
+    public FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V0003001";

@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -17,11 +18,11 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public Given_A_Second_NietPrimair_Contactgegeven()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

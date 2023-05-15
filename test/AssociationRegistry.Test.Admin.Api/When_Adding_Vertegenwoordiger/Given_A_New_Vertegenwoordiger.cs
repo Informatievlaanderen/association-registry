@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Marten;
@@ -18,7 +19,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
     private readonly EventsInDbScenariosFixture _classFixture;
     private readonly string _jsonBody;
 
-    public V002_VerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
+    public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
     public readonly VoegVertegenwoordigerToeRequest Request;
@@ -27,7 +28,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
     {
         _classFixture = classFixture;
 
-        Scenario = classFixture.V002VerenigingWerdGeregistreerdWithMinimalFields;
+        Scenario = classFixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         DocumentStore = _classFixture.DocumentStore;
 
         var fixture = new Fixture().CustomizeAll();

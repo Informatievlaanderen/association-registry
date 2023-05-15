@@ -45,7 +45,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         => await _repo.Save(_vereniging, new Fixture().Create<CommandMetadata>());
 
     [Fact]
-    public void Then_the_VerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
+    public void Then_the_FeitelijkeVerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
     {
         _eventStore.Invocations.Should().HaveCount(1);
         var invocation = _eventStore.Invocations.Single();

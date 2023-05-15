@@ -12,18 +12,18 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_VerenigingWerdGeregistreerd
+public class Given_FeitelijkeVerenigingWerdGeregistreerd
 {
     private readonly BeheerVerenigingHistoriekDocument _document;
-    private readonly TestEvent<FeitelijkeVerenigingWerdGeregistreerd> _verenigingWerdGeregistreerd;
+    private readonly TestEvent<FeitelijkeVerenigingWerdGeregistreerd> _feitelijkeVerenigingWerdGeregistreerd;
 
-    public Given_VerenigingWerdGeregistreerd()
+    public Given_FeitelijkeVerenigingWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeAll();
         var beheerVerenigingHistoriekProjection = new BeheerVerenigingHistoriekProjection();
-        _verenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
+        _feitelijkeVerenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
 
-        _document = beheerVerenigingHistoriekProjection.Create(_verenigingWerdGeregistreerd);
+        _document = beheerVerenigingHistoriekProjection.Create(_feitelijkeVerenigingWerdGeregistreerd);
     }
 
     [Fact]
@@ -32,17 +32,17 @@ public class Given_VerenigingWerdGeregistreerd
         _document.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument
             {
-                VCode = _verenigingWerdGeregistreerd.Data.VCode,
+                VCode = _feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                 Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
                 {
                     new(
-                        $"Feitelijke vereniging werd geregistreerd met naam '{_verenigingWerdGeregistreerd.Data.Naam}'.",
+                        $"Feitelijke vereniging werd geregistreerd met naam '{_feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.",
                         nameof(FeitelijkeVerenigingWerdGeregistreerd),
-                        _verenigingWerdGeregistreerd.Data,
-                        _verenigingWerdGeregistreerd.Initiator,
-                        _verenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                        _feitelijkeVerenigingWerdGeregistreerd.Data,
+                        _feitelijkeVerenigingWerdGeregistreerd.Initiator,
+                        _feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
                 },
-                Metadata = new Metadata(_verenigingWerdGeregistreerd.Sequence, _verenigingWerdGeregistreerd.Version),
+                Metadata = new Metadata(_feitelijkeVerenigingWerdGeregistreerd.Sequence, _feitelijkeVerenigingWerdGeregistreerd.Version),
             }
         );
     }

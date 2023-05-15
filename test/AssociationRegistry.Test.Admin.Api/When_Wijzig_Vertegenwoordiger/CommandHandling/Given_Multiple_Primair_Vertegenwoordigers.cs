@@ -7,6 +7,7 @@ using Fixtures.Scenarios;
 using Framework;
 using Vereniging.Exceptions;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -16,11 +17,11 @@ public class Given_Multiple_Primair_Vertegenwoordigers
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario _scenario;
 
     public Given_Multiple_Primair_Vertegenwoordigers()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         _fixture = new Fixture().CustomizeAll();

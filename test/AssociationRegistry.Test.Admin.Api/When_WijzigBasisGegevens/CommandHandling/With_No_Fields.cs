@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -13,11 +14,11 @@ using Xunit.Categories;
 public class With_No_Fields
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
     public With_No_Fields()
     {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

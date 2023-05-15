@@ -4,7 +4,7 @@ using Scenarios;
 
 public class EventsInDbScenariosFixture : AcmApiFixture
 {
-    public readonly VerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
+    public readonly FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
     public readonly VertegenwoordigerWerdToegevoegd_EventsInDbScenario VertegenwoordigerWerdToegevoegdEventsInDbScenario = new();
     public readonly NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario = new();
     public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
@@ -14,7 +14,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     {
         var scenarios = new IEventsInDbScenario[]
         {
-            VerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
+            FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
             VertegenwoordigerWerdToegevoegdEventsInDbScenario,
             AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
             NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario,

@@ -14,19 +14,19 @@ using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
-    public BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
     {
         var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
         {
-            VCode = verenigingWerdGeregistreerd.Data.VCode,
+            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
             Metadata = new Metadata(Sequence: 0, Version: 0),
         };
 
         AddHistoriekEntry(
-            verenigingWerdGeregistreerd,
+            feitelijkeVerenigingWerdGeregistreerd,
             beheerVerenigingHistoriekDocument,
-            $"Feitelijke vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}'.");
+            $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.");
 
         return beheerVerenigingHistoriekDocument;
     }

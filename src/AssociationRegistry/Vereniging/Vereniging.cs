@@ -27,7 +27,7 @@ public class Vereniging : IHasVersion
         Vertegenwoordigers vertegenwoordigers,
         HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloketLijst)
     {
-        var verenigingWerdGeregistreerdEvent = new FeitelijkeVerenigingWerdGeregistreerd(
+        var feitelijkeVerenigingWerdGeregistreerdEvent = new FeitelijkeVerenigingWerdGeregistreerd(
             vCode,
             VerenigingsType.FeitelijkeVereniging.Code,
             naam,
@@ -39,7 +39,7 @@ public class Vereniging : IHasVersion
             ToVertegenwoordigersLijst(vertegenwoordigers.ToArray()),
             ToHoofdactiviteitenLijst(hoofdactiviteitenVerenigingsloketLijst.ToArray()));
 
-        AddEvent(verenigingWerdGeregistreerdEvent);
+        AddEvent(feitelijkeVerenigingWerdGeregistreerdEvent);
     }
 
     [Identity]

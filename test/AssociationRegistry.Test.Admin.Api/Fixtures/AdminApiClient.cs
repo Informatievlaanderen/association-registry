@@ -22,7 +22,7 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> GetHistoriek(string vCode, long? expectedSequence = null)
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
 
-    public async Task<HttpResponseMessage> RegistreerVereniging(string content, string? bevestigingsToken = null, string? initiator = "OVO000001")
+    public async Task<HttpResponseMessage> RegistreerFeitelijkeVereniging(string content, string? bevestigingsToken = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);

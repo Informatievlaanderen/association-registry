@@ -1,0 +1,105 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerFeitelijkeVereniging.CommandHandling;
+
+using Acties.RegistreerFeitelijkeVereniging;
+using AssociationRegistry.Framework;
+using AutoFixture;
+using DuplicateVerenigingDetection;
+using Events;
+using Fakes;
+using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
+using Framework;
+using Framework.MagdaMocks;
+using Moq;
+using ResultNet;
+using Vereniging;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class With_A_PotentialDuplicate_And_Force
+{
+    private readonly RegistreerFeitelijkeVerenigingCommand _command;
+    private readonly Locatie _locatie;
+    private readonly Result _result;
+    private readonly InMemorySequentialVCodeService _vCodeService;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+
+    public With_A_PotentialDuplicate_And_Force()
+    {
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario();
+        var fixture = new Fixture().CustomizeAll();
+
+        _locatie = fixture.Create<Locatie>() with { Postcode = scenario.Locatie.Postcode };
+        _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        {
+            Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
+            Locaties = new[] { _locatie },
+            SkipDuplicateDetection = true,
+        };
+
+        var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
+        var potentialDuplicates = new[] { fixture.Create<DuplicaatVereniging>() };
+        duplicateChecker.Setup(
+                d =>
+                    d.GetDuplicates(
+                        _command.Naam,
+                        _command.Locaties))
+            .ReturnsAsync(potentialDuplicates);
+
+        var commandMetadata = fixture.Create<CommandMetadata>();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
+        _vCodeService = new InMemorySequentialVCodeService();
+        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new MagdaFacadeEchoMock(),
+            duplicateChecker.Object,
+            new ClockStub(_command.Startdatum.Datum!.Value));
+
+        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
+            .GetAwaiter()
+            .GetResult();
+    }
+
+    [Fact]
+    public void Then_The_Result_Is_A_Success()
+    {
+        _result.IsSuccess().Should().BeTrue();
+    }
+
+    [Fact]
+    public void Then_it_saves_the_event()
+    {
+        _verenigingRepositoryMock.ShouldHaveSaved(
+            new FeitelijkeVerenigingWerdGeregistreerd(
+                _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
+                _command.Naam,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
+                _command.Startdatum,
+                _command.Contactgegevens.Select(
+                    (g, index) => FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven.With(g) with
+                    {
+                        ContactgegevenId = index + 1,
+                    }).ToArray(),
+                new[]
+                {
+                    FeitelijkeVerenigingWerdGeregistreerd.Locatie.With(_locatie),
+                },
+                _command.Vertegenwoordigers.Select(
+                    (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    {
+                        VertegenwoordigerId = index + 1,
+                        Voornaam = v.Insz,
+                        Achternaam = v.Insz,
+                    }).ToArray(),
+                _command.HoofdactiviteitenVerenigingsloket.Select(
+                    h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                        h.Code,
+                        h.Beschrijving)).ToArray()
+            ));
+    }
+}

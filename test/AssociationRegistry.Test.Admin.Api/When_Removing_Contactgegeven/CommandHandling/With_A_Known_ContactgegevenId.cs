@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -14,16 +15,16 @@ using Xunit.Categories;
 public class With_A_Known_ContactgegevenId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
 
     public With_A_Known_ContactgegevenId()
     {
-        _scenario = new VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId);
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode, FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderContactgegevenCommandHandler(_verenigingRepositoryMock);
 
@@ -42,11 +43,11 @@ public class With_A_Known_ContactgegevenId
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdVerwijderd(
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 _scenario.Type,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
-                VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair)
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Waarde,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair)
         );
     }
 }

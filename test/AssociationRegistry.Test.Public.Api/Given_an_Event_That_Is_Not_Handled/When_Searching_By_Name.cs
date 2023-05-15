@@ -23,7 +23,7 @@ public class When_Searching_By_Name
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        var scenario = fixture.V004UnHandledEventAndVerenigingWerdGeregistreerdScenario;
+        var scenario = fixture.V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario;
         _vCode = scenario.VCode;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
@@ -32,15 +32,15 @@ public class When_Searching_By_Name
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam);
+        var response = await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario.Naam);
+            .Replace("{{originalQuery}}", V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 

@@ -2,19 +2,19 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 public class GivenEventsFixture : PublicApiFixture
 {
-    public readonly V001_VerenigingWerdGeregistreerdScenario V001VerenigingWerdGeregistreerdScenario = new();
-    public readonly V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario V002VerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
+    public readonly V001_FeitelijkeVerenigingWerdGeregistreerdScenario V001FeitelijkeVerenigingWerdGeregistreerdScenario = new();
+    public readonly V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
     public readonly V003_BasisgegevensWerdenGewijzigdScenario V003BasisgegevensWerdenGewijzigdScenario = new();
-    public readonly V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario V004UnHandledEventAndVerenigingWerdGeregistreerdScenario = new();
+    public readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario = new();
     public readonly V005_ContactgegevenWerdToegevoegdScenario V005ContactgegevenWerdToegevoegdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
         {
-            V001VerenigingWerdGeregistreerdScenario,
-            V002VerenigingWerdGeregistreerdWithMinimalFieldsScenario,
+            V001FeitelijkeVerenigingWerdGeregistreerdScenario,
+            V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario,
             V003BasisgegevensWerdenGewijzigdScenario,
-            V004UnHandledEventAndVerenigingWerdGeregistreerdScenario,
+            V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario,
             V005ContactgegevenWerdToegevoegdScenario,
         };
 

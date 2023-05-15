@@ -1,0 +1,40 @@
+namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
+
+public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase
+{
+    public const int ContactgegevenId = 1;
+    public const string Waarde = "test@example.org";
+    public const string Beschrijving = "";
+    public const bool IsPrimair = true;
+    public readonly string Initiator = "Een initiator";
+    public readonly string KorteBeschrijving = string.Empty;
+    public readonly string KorteNaam = "FOud";
+
+    public readonly string Naam = "Hulste Huldigt";
+    public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
+    public readonly ContactgegevenType Type = ContactgegevenType.Email;
+    public readonly VCode VCode = VCode.Create("V0009002");
+
+    public override IEnumerable<IEvent> Events()
+    {
+        return new IEvent[]
+        {
+            new FeitelijkeVerenigingWerdGeregistreerd(
+                VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
+                Naam,
+                KorteNaam,
+                KorteBeschrijving,
+                Startdatum,
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
+            new ContactgegevenWerdToegevoegd(ContactgegevenId, Type, Waarde, Beschrijving, IsPrimair),
+        };
+    }
+}

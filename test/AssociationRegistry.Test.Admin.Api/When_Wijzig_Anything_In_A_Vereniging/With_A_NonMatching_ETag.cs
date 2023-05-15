@@ -21,11 +21,11 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
         {
             Naam = "De nieuwe vereniging",
         };
-        VCode = fixture.V003VerenigingWerdGeregistreerdForUseWithNoChanges.VCode;
+        VCode = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.VCode;
 
         var jsonBody = $@"{{""naam"":""{Request.Naam}""}}";
 
-        var saveVersionResult = fixture.V003VerenigingWerdGeregistreerdForUseWithNoChanges.Result;
+        var saveVersionResult = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.Result;
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version-1).GetAwaiter().GetResult();
     }
 

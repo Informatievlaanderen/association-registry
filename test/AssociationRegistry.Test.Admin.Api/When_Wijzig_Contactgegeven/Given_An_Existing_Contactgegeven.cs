@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Marten;
@@ -17,7 +18,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
     private readonly string _jsonBody;
     public string WaardeVolgensType { get; }
     public FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven AanTePassenContactGegeven { get; }
-    public V008_VerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
+    public V008_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -28,7 +29,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
 
         _fixture = fixture;
 
-        Scenario = fixture.V008VerenigingWerdGeregistreerdWithContactgegeven;
+        Scenario = fixture.V008FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven;
         DocumentStore = _fixture.DocumentStore;
 
         var contactgegeven = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.First();

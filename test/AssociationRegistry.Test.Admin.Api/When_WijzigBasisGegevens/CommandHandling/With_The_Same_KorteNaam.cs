@@ -6,6 +6,7 @@ using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
 using Events;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -14,11 +15,11 @@ using Xunit.Categories;
 public class With_The_Same_KorteNaam
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
     public With_The_Same_KorteNaam()
     {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

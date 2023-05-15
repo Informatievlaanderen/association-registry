@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -16,7 +17,7 @@ public class With_A_Startdatum_Null
 
     public With_A_Startdatum_Null()
     {
-        var scenario = new VerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

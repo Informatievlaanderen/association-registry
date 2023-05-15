@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Fixtures.Scenarios;
 using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -15,12 +16,12 @@ using Xunit.Categories;
 public class With_A_Naam
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly VerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private const string NieuweNaam = "De nieuwe naam";
 
     public With_A_Naam()
     {
-        _scenario = new VerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVereniging());
 
         var fixture = new Fixture().CustomizeAll();

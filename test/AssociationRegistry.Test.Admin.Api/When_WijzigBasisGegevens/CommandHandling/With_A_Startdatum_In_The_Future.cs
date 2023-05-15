@@ -8,6 +8,7 @@ using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
 using Fixtures.Scenarios;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -22,7 +23,7 @@ public class With_A_Startdatum_In_The_Future
     public With_A_Startdatum_In_The_Future()
     {
         var fixture = new Fixture().CustomizeAll();
-        var scenario = new VerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _repositoryMock = new VerenigingRepositoryMock(scenario.GetVereniging());
         var today = fixture.Create<DateOnly>();
 

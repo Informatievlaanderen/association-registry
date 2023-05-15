@@ -2,42 +2,43 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using EventStore;
 using Scenarios;
+using Scenarios.EventsInDb;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
-    public readonly V001_VerenigingWerdGeregistreerd_WithAllFields V001VerenigingWerdGeregistreerdWithAllFields = new();
-    public readonly V002_VerenigingWerdGeregistreerd_WithMinimalFields V002VerenigingWerdGeregistreerdWithMinimalFields = new();
-    public readonly V003_VerenigingWerdGeregistreerd_ForUseWithNoChanges V003VerenigingWerdGeregistreerdForUseWithNoChanges = new();
+    public readonly V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields = new();
+    public readonly V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields = new();
+    public readonly V003_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithNoChanges V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges = new();
     public readonly V004_AlleBasisGegevensWerdenGewijzigd V004AlleBasisGegevensWerdenGewijzigd = new();
-    public readonly V005_VerenigingWerdGeregistreerd_ForUseWithETagMatching V005VerenigingWerdGeregistreerdForUseWithETagMatching = new();
+    public readonly V005_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithETagMatching V005FeitelijkeVerenigingWerdGeregistreerdForUseWithETagMatching = new();
     public readonly V006_ContactgegevenWerdToegevoegd V006ContactgegevenWerdToegevoegd = new();
-    public readonly V007_VerenigingWerdGeregistreerd_WithContactgegeven V007VerenigingWerdGeregistreerdWithContactgegeven = new();
-    public readonly V008_VerenigingWerdGeregistreerd_WithContactgegeven V008VerenigingWerdGeregistreerdWithContactgegeven = new();
-    public readonly V009_VerenigingWerdGeregistreerd_ForDuplicateForce V009VerenigingWerdGeregistreerdForDuplicateForce = new();
-    public readonly V010_VerenigingWerdGeregistreerd_WithAllFields V010VerenigingWerdGeregistreerdWithAllFields = new();
-    public readonly V011_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger = new();
-    public readonly V012_VerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger = new();
-    public readonly V013_VerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
-    public readonly V014_VerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
+    public readonly V007_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven V007FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven = new();
+    public readonly V008_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven V008FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven = new();
+    public readonly V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce = new();
+    public readonly V010_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields V010FeitelijkeVerenigingWerdGeregistreerdWithAllFields = new();
+    public readonly V011_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger V011FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger = new();
+    public readonly V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger = new();
+    public readonly V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
+    public readonly V014_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
 
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
         {
-            V001VerenigingWerdGeregistreerdWithAllFields,
-            V002VerenigingWerdGeregistreerdWithMinimalFields,
-            V003VerenigingWerdGeregistreerdForUseWithNoChanges,
+            V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields,
+            V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields,
+            V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges,
             V004AlleBasisGegevensWerdenGewijzigd,
-            V005VerenigingWerdGeregistreerdForUseWithETagMatching,
+            V005FeitelijkeVerenigingWerdGeregistreerdForUseWithETagMatching,
             V006ContactgegevenWerdToegevoegd,
-            V007VerenigingWerdGeregistreerdWithContactgegeven,
-            V008VerenigingWerdGeregistreerdWithContactgegeven,
-            V009VerenigingWerdGeregistreerdForDuplicateForce,
-            V010VerenigingWerdGeregistreerdWithAllFields,
-            V011VerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger,
-            V012VerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
-            V013VerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
-            V014VerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
+            V007FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven,
+            V008FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven,
+            V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce,
+            V010FeitelijkeVerenigingWerdGeregistreerdWithAllFields,
+            V011FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForRemovingVertegenwoordiger,
+            V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
+            V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
+            V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
         };
 
         foreach (var scenario in scenarios)
