@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -39,19 +38,19 @@ public class DetailVerenigingResponse
 
         /// <summary>De contactgegevens van deze vereniging</summary>
         [DataMember(Name = "Contactgegevens")]
-        public ImmutableArray<Contactgegeven> Contactgegevens { get; init; }
+        public Contactgegeven[] Contactgegevens { get; init; } = null!;
 
         /// <summary>Alle locaties waar deze vereniging actief is</summary>
         [DataMember(Name = "Locaties")]
-        public ImmutableArray<Locatie> Locaties { get; init; }
+        public Locatie[] Locaties { get; init; } = null!;
 
         /// <summary>Alle vertegenwoordigers van deze vereniging</summary>
         [DataMember(Name = "Vertegenwoordigers")]
-        public ImmutableArray<Vertegenwoordiger> Vertegenwoordigers { get; init; }
+        public Vertegenwoordiger[] Vertegenwoordigers { get; init; } = null!;
 
         /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
         [DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
-        public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
+        public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
         /// <summary>Een contactgegeven van een vereniging</summary>
         [DataContract]

@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
 using System;
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
 public class DetailVerenigingResponse
 {
-    public DetailVerenigingResponse(string context,
+    public DetailVerenigingResponse(
+        string context,
         VerenigingDetail verenigingDetail,
         Metadata metadata)
     {
@@ -33,15 +33,16 @@ public class DetailVerenigingResponse
 [DataContract]
 public class VerenigingDetail
 {
-    public VerenigingDetail(string vCode,
+    public VerenigingDetail(
+        string vCode,
         string naam,
         string? korteNaam,
         string? korteBeschrijving,
         DateOnly? startdatum,
         string status,
         Contactgegeven[] contactgegevens,
-        ImmutableArray<Locatie> locaties,
-        ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
+        Locatie[] locaties,
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
     {
         VCode = vCode;
         Naam = naam;
@@ -84,11 +85,11 @@ public class VerenigingDetail
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember(Name = "Locaties")]
-    public ImmutableArray<Locatie> Locaties { get; init; }
+    public Locatie[] Locaties { get; init; }
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-    public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; }
 }
 
 /// <summary>De metadata van de vereniging, deze bevat bv de datum van laatste aanpassing</summary>
@@ -108,7 +109,8 @@ public class Metadata
 [DataContract]
 public class Locatie
 {
-    public Locatie(string locatietype,
+    public Locatie(
+        string locatietype,
         bool hoofdlocatie,
         string adres,
         string? naam,
@@ -182,7 +184,8 @@ public class Locatie
 [DataContract]
 public class Contactgegeven
 {
-    public Contactgegeven(string type,
+    public Contactgegeven(
+        string type,
         string waarde,
         string beschrijving,
         bool isPrimair)
@@ -194,25 +197,30 @@ public class Contactgegeven
     }
 
     /// <summary>Het type contactgegeven</summary>
-    [DataMember(Name = "type")] public string Type { get; init; }
+    [DataMember(Name = "type")]
+    public string Type { get; init; }
 
     /// <summary>De waarde van het contactgegeven</summary>
-    [DataMember(Name = "waarde")] public string Waarde { get; init; }
+    [DataMember(Name = "waarde")]
+    public string Waarde { get; init; }
 
     /// <summary>
     /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
-    [DataMember(Name = "beschrijving")] public string Beschrijving { get; init; }
+    [DataMember(Name = "beschrijving")]
+    public string Beschrijving { get; init; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
-    [DataMember(Name = "isPrimair")] public bool IsPrimair { get; init; }
+    [DataMember(Name = "isPrimair")]
+    public bool IsPrimair { get; init; }
 }
 
 /// <summary>De hoofdactivititeit van een vereniging volgens het verenigingsloket</summary>
 [DataContract]
 public class HoofdactiviteitVerenigingsloket
 {
-    public HoofdactiviteitVerenigingsloket(string code,
+    public HoofdactiviteitVerenigingsloket(
+        string code,
         string beschrijving)
     {
         Code = code;
@@ -220,8 +228,10 @@ public class HoofdactiviteitVerenigingsloket
     }
 
     /// <summary>De code van de hoofdactivititeit</summary>
-    [DataMember(Name = "Code")] public string Code { get; init; }
+    [DataMember(Name = "Code")]
+    public string Code { get; init; }
 
     /// <summary>De beschrijving van de hoofdactivititeit</summary>
-    [DataMember(Name = "Beschrijving")] public string Beschrijving { get; init; }
+    [DataMember(Name = "Beschrijving")]
+    public string Beschrijving { get; init; }
 }
