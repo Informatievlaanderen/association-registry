@@ -39,7 +39,7 @@ public class Given_A_NietPrimair_Contactgegeven
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdToegevoegd(
-                scenario.VerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1,
+                scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1,
                 command.Contactgegeven.Type,
                 command.Contactgegeven.Waarde,
                 command.Contactgegeven.Beschrijving,

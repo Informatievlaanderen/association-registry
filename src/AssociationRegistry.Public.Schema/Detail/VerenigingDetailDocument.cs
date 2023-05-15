@@ -7,6 +7,7 @@ public record PubliekVerenigingDetailDocument : IVCode
 {
     [Identity] public string VCode { get; set; } = null!;
 
+    public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public string KorteBeschrijving { get; set; } = null!;
@@ -16,6 +17,12 @@ public record PubliekVerenigingDetailDocument : IVCode
     public Locatie[] Locaties { get; set; } = null!;
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+
+    public record VerenigingsType
+    {
+        public string Code { get; set; } = null!;
+        public string Beschrijving { get; set; } = null!;
+    }
 
     public record Contactgegeven
     {

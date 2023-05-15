@@ -12,17 +12,17 @@ using Framework;
 /// <param name="Status"></param>
 /// <param name="DatumLaatsteAanpassing"></param>
 /// <param name="Inititator"></param>
-public record VerenigingWerdGeregistreerd(
+public record FeitelijkeVerenigingWerdGeregistreerd(
     string VCode,
     string Type,
     string Naam,
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
-    VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
-    VerenigingWerdGeregistreerd.Locatie[] Locaties,
-    VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
-    VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+    FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
+    FeitelijkeVerenigingWerdGeregistreerd.Locatie[] Locaties,
+    FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,
+    FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     public record Contactgegeven(
         int ContactgegevenId,

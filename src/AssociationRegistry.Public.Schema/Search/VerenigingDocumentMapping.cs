@@ -16,6 +16,11 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.KorteNaam))
+                .Nested<VerenigingDocument.VerenigingsType>(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Type)
+                        .IncludeInRoot()
+                        .Properties(VerenigingsTypeMapping.Get))
                 .Nested<VerenigingDocument.Locatie>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Locaties)
@@ -69,5 +74,18 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
                         .Name(document => document.Naam));
+    }
+
+    private static class VerenigingsTypeMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.VerenigingsType> map)
+            => map
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Code)
+                        .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Beschrijving));
     }
 }

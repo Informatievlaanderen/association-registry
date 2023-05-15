@@ -27,7 +27,7 @@ public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0].ContactgegevenId);
+        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0].ContactgegevenId);
     }
 
     public Task DisposeAsync()
@@ -57,15 +57,15 @@ public class Given_An_Existing_Contactgegeven : IClassFixture<Delete_An_Existing
         contactgegevenWerdVerwijderd.Data.Should()
             .BeEquivalentTo(
                 new ContactgegevenWerdVerwijderd(
-                    _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .ContactgegevenId,
-                    _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .Type,
-                    _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .Waarde,
-                    _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .Beschrijving,
-                    _classFixture.Scenario.VerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .IsPrimair));
     }
 

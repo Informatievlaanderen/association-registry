@@ -27,7 +27,7 @@ public class With_The_Same_Naam
         var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
-            VerenigingsNaam.Create(_scenario.VerenigingWerdGeregistreerd.Naam));
+            VerenigingsNaam.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

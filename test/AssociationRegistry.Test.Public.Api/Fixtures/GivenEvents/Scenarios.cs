@@ -15,14 +15,14 @@ public interface IScenario
 
 public class V001_VerenigingWerdGeregistreerdScenario : IScenario
 {
-    private readonly VerenigingWerdGeregistreerd.Contactgegeven _contactgegeven = new(
+    private readonly FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven _contactgegeven = new(
         ContactgegevenId: 1,
         ContactgegevenType.Email,
         "info@FOud.be",
         "Algemeen",
         IsPrimair: true);
 
-    private readonly VerenigingWerdGeregistreerd.Locatie _locatie = new(
+    private readonly FeitelijkeVerenigingWerdGeregistreerd.Locatie _locatie = new(
         "Correspondentie",
         "Stationsstraat",
         "1",
@@ -35,7 +35,7 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9));
 
-    private readonly VerenigingWerdGeregistreerd.Vertegenwoordiger _vertegenwoordiger = new(
+    private readonly FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger _vertegenwoordiger = new(
         VertegenwoordigerId: 1,
         "01234567890",
         IsPrimair: true,
@@ -48,7 +48,7 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
         "",
         "");
 
-    public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
+    public readonly FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
@@ -66,7 +66,7 @@ public class V001_VerenigingWerdGeregistreerdScenario : IScenario
     {
         return new IEvent[]
         {
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
                 VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
@@ -95,17 +95,17 @@ public class V002_VerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenar
     {
         return new IEvent[]
         {
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
                 VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
         };
     }
 
@@ -117,26 +117,26 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
 {
     public readonly ContactgegevenWerdToegevoegd ContactgegevenWerdToegevoegd = new(ContactgegevenId: 1, ContactgegevenType.Email, "test@example.org", "de email om naar te sturen", IsPrimair: false);
 
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd = new(
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         "V0001005",
         VerenigingsType.FeitelijkeVereniging.Code,
         "Feesten Hulste",
         string.Empty,
         string.Empty,
         Startdatum: null,
-        Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-        Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-        Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-        Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+        Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+        Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+        Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+        Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
 
     public VCode VCode
-        => VCode.Create(VerenigingWerdGeregistreerd.VCode);
+        => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()
     {
         return new IEvent[]
         {
-            VerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerd,
             ContactgegevenWerdToegevoegd,
         };
     }
@@ -151,7 +151,7 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
     public const string KorteNaam = "OW";
     public const string Naam = "Oarelbeke Weireldstad";
 
-    public readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
+    public readonly FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
@@ -166,16 +166,16 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
     {
         return new IEvent[]
         {
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
                 VerenigingsType.FeitelijkeVereniging.Code,
                 "Foudenaarder feest",
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
                 Hoofdactiviteiten),
             new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving),
             new NaamWerdGewijzigd(VCode, Naam),
@@ -193,7 +193,7 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
     public const string Naam = "Oostende voor anker";
     private const string KorteNaam = "OVA";
 
-    public static readonly VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
+    public static readonly FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
@@ -216,7 +216,7 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
     public CommandMetadata GetCommandMetadata()
         => new("OVO000001", new Instant());
 
-    private static VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
+    private static FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
         => new(
             vCode,
             VerenigingsType.FeitelijkeVereniging.Code,
@@ -224,9 +224,9 @@ public class V004_UnHandledEventAndVerenigingWerdGeregistreerdScenario : IScenar
             korteNaam,
             string.Empty,
             Startdatum: null,
-            Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
-            Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
-            Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
             Hoofdactiviteiten);
 }
 

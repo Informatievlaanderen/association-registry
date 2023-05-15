@@ -35,6 +35,7 @@ public class VerenigingDetail
 {
     public VerenigingDetail(
         string vCode,
+        VerenigingsType type,
         string naam,
         string? korteNaam,
         string? korteBeschrijving,
@@ -45,6 +46,7 @@ public class VerenigingDetail
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
     {
         VCode = vCode;
+        Type = type;
         Naam = naam;
         KorteNaam = korteNaam;
         KorteBeschrijving = korteBeschrijving;
@@ -58,6 +60,10 @@ public class VerenigingDetail
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "VCode")]
     public string VCode { get; init; }
+
+    /// <summary>Type van de vereniging</summary>
+    [DataMember(Name = "Type")]
+    public VerenigingsType Type { get; init; }
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -103,6 +109,22 @@ public class Metadata
 
     /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
     public string DatumLaatsteAanpassing { get; init; }
+}
+
+/// <summary>
+/// Type van een vereniging
+/// </summary>
+public class VerenigingsType
+{
+    /// <summary>
+    /// Code van het type vereniging
+    /// </summary>
+    public string Code { get; set; } = null!;
+
+    /// <summary>
+    /// Beschrijving van het type vereniging
+    /// </summary>
+    public string Beschrijving { get; set; } = null!;
 }
 
 /// <summary>Een locatie van een vereniging</summary>

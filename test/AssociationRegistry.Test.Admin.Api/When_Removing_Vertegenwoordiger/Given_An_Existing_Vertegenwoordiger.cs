@@ -27,7 +27,7 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteVertegenwoordiger(Scenario.VCode, Scenario.VerenigingWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId, @"{""initiator"":""OVO000001""}");
+        Response = await _fixture.AdminApiClient.DeleteVertegenwoordiger(Scenario.VCode, Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId, @"{""initiator"":""OVO000001""}");
     }
 
     public Task DisposeAsync()
@@ -54,7 +54,7 @@ public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Delete_An_Exist
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
             .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdVerwijderd));
 
-        var vertegenwoordiger = _classFixture.Scenario.VerenigingWerdGeregistreerd.Vertegenwoordigers[0];
+        var vertegenwoordiger = _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0];
         vertegenwoordigerWerdVerwijderd.Data.Should()
             .BeEquivalentTo(
                 new VertegenwoordigerWerdVerwijderd(

@@ -56,7 +56,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     public void Then_it_saves_the_event()
     {
         _repositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
@@ -65,14 +65,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.Startdatum,
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.Contactgegeven(
+                    new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
                         ContactgegevenId: 1,
                         ContactgegevenType.Email,
                         _command.Contactgegevens[0].Waarde,
                         _command.Contactgegevens[0].Beschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
-                    new VerenigingWerdGeregistreerd.Contactgegeven(
+                    new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
                         ContactgegevenId: 2,
                         ContactgegevenType.Website,
                         _command.Contactgegevens[1].Waarde,
@@ -80,16 +80,16 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                _command.Locaties.Select(VerenigingWerdGeregistreerd.Locatie.With).ToArray(),
+                _command.Locaties.Select(FeitelijkeVerenigingWerdGeregistreerd.Locatie.With).ToArray(),
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
                         Voornaam = v.Insz,
                         Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                    h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Beschrijving)).ToArray()));
     }

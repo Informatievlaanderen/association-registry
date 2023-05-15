@@ -2,7 +2,7 @@
 
 public class VerenigingsType
 {
-    public static readonly VerenigingsType FeitelijkeVereniging = new("FV", "Feitelijke Vereniging");
+    public static readonly VerenigingsType FeitelijkeVereniging = new("FV", "Feitelijke vereniging");
 
     public static readonly VerenigingsType[] All = { FeitelijkeVereniging };
 

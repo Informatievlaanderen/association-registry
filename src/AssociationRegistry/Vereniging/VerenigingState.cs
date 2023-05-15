@@ -20,7 +20,7 @@ public record VerenigingState
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
 
-    public VerenigingState Apply(VerenigingWerdGeregistreerd @event)
+    public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
             VCode = VCode.Hydrate(@event.VCode),

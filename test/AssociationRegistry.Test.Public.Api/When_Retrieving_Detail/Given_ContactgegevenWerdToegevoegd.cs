@@ -20,7 +20,7 @@ public class Given_ContactgegevenWerdToegevoegd
     private readonly string _vCode;
     private readonly PublicApiClient _publicApiClient;
     private readonly HttpResponseMessage _response;
-    private readonly VerenigingWerdGeregistreerd _verenigingWerdGeregistreerd;
+    private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
     private readonly ContactgegevenWerdToegevoegd _contactgegevenWerdToegevoegd;
     private readonly CommandMetadata _metadata;
 
@@ -28,7 +28,7 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         _publicApiClient = fixture.PublicApiClient;
         _vCode = fixture.V005ContactgegevenWerdToegevoegdScenario.VCode;
-        _verenigingWerdGeregistreerd = fixture.V005ContactgegevenWerdToegevoegdScenario.VerenigingWerdGeregistreerd;
+        _feitelijkeVerenigingWerdGeregistreerd = fixture.V005ContactgegevenWerdToegevoegdScenario.FeitelijkeVerenigingWerdGeregistreerd;
         _contactgegevenWerdToegevoegd = fixture.V005ContactgegevenWerdToegevoegdScenario.ContactgegevenWerdToegevoegd;
         _metadata = fixture.V005ContactgegevenWerdToegevoegdScenario.GetCommandMetadata();
         _response = _publicApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
@@ -65,7 +65,11 @@ public class Given_ContactgegevenWerdToegevoegd
             ""@context"": ""https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json"",
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
-                    ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
+                    ""type"":{{
+                        ""code"":""FV"",
+                        ""beschrijving"": ""Feitelijke vereniging""
+                    }},
+                    ""naam"": ""{_feitelijkeVerenigingWerdGeregistreerd.Naam}"",
                     ""korteNaam"": """",
                     ""korteBeschrijving"": """",
                     ""startdatum"": null,
@@ -76,7 +80,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(',', _verenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatietype"": ""{x.Locatietype}"",
                         {(x.Hoofdlocatie ? $"\"hoofdlocatie\": {x.Hoofdlocatie.ToString().ToLower()}," : string.Empty)}
                         ""adres"": ""{x.ToAdresString()}"",
@@ -89,7 +93,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""land"": ""{x.Land}""
                     }}"))}
                     ],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _verenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
+                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}]

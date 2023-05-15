@@ -33,7 +33,7 @@ public class With_An_Unknown_VertegenwoordigerId
     {
         int nietBestaandContactgegevenId;
         var bestaandeContactgegevenIds =
-            _scenario.VerenigingWerdGeregistreerd.Contactgegevens.Select(x => x.ContactgegevenId)
+            _scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(x => x.ContactgegevenId)
                 .ToArray();
         do
         {
