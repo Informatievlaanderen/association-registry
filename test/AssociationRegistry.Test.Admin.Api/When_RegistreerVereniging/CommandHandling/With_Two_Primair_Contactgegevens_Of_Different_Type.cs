@@ -62,7 +62,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
-                _command.KboNummer,
                 new[]
                 {
                     new VerenigingWerdGeregistreerd.Contactgegeven(

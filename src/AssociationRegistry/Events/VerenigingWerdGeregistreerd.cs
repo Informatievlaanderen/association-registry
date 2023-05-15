@@ -9,7 +9,6 @@ using Framework;
 /// <param name="KorteNaam"></param>
 /// <param name="KorteBeschrijving"></param>
 /// <param name="Startdatum"></param>
-/// <param name="KboNummer"></param>
 /// <param name="Status"></param>
 /// <param name="DatumLaatsteAanpassing"></param>
 /// <param name="Inititator"></param>
@@ -19,7 +18,6 @@ public record VerenigingWerdGeregistreerd(
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
-    string KboNummer,
     VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
     VerenigingWerdGeregistreerd.Locatie[] Locaties,
     VerenigingWerdGeregistreerd.Vertegenwoordiger[] Vertegenwoordigers,

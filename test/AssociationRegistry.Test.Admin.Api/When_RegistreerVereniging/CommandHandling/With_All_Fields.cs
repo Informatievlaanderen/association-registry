@@ -64,7 +64,6 @@ public class With_All_Fields
                 KorteNaam: _command.KorteNaam ?? string.Empty,
                 KorteBeschrijving: _command.KorteBeschrijving ?? string.Empty,
                 Startdatum: _command.Startdatum,
-                KboNummer: _command.KboNummer,
                 Contactgegevens: _command.Contactgegevens.Select(
                     (c, i) =>
                         new VerenigingWerdGeregistreerd.Contactgegeven(

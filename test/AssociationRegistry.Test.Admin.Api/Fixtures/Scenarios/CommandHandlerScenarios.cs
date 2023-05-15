@@ -55,7 +55,6 @@ public class VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario 
     public readonly string Naam = "Hulste Huldigt";
     public readonly string KorteBeschrijving = string.Empty;
     public readonly string KorteNaam = "FOud";
-    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public const int ContactgegevenId = 1;
@@ -74,7 +73,6 @@ public class VerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario 
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
-                KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -134,7 +132,6 @@ public class VerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhand
                 "FOud",
                 string.Empty,
                 new DateOnly(2023, 3, 6),
-                string.Empty,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -152,7 +149,6 @@ public class VerenigingWerdGeregistreerdWithoutVertegenwoordigers : Commandhandl
     public const string Naam = "Hulste Huldigt";
     public readonly string KorteBeschrijving = string.Empty;
     public const string KorteNaam = "FOud";
-    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public VerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
@@ -165,7 +161,6 @@ public class VerenigingWerdGeregistreerdWithoutVertegenwoordigers : Commandhandl
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
-            KboNummer,
             Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -184,7 +179,6 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario : Comm
     public const string Naam = "Hulste Huldigt";
     public readonly string KorteBeschrijving = string.Empty;
     public const string KorteNaam = "FOud";
-    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly Startdatum = new(2023, 3, 6);
     public VerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
@@ -204,7 +198,6 @@ public class VerenigingWerdGeregistreerdWithRemovedContactgegevenScenario : Comm
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
-            KboNummer,
             Contactgegevens,
             Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
@@ -225,7 +218,6 @@ public class VerenigingWerdGeregistreerdWithLocationScenario : CommandhandlerSce
     public const string Naam = "Hulste Huldigt";
     public readonly string KorteBeschrijving = string.Empty;
     public const string KorteNaam = "FOud";
-    public readonly string KboNummer = string.Empty;
     public readonly string Initiator = "Een initiator";
     public readonly DateOnly? Startdatum = null;
     public readonly VerenigingWerdGeregistreerd.Locatie Locatie;
@@ -246,7 +238,6 @@ public class VerenigingWerdGeregistreerdWithLocationScenario : CommandhandlerSce
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
-                KboNummer,
                 Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[] { Locatie },
                 Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),

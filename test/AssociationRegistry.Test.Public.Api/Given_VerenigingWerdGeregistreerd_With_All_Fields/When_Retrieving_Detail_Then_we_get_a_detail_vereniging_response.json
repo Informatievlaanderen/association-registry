@@ -5,7 +5,6 @@
     "naam": "Feestcommittee Oudenaarde",
     "korteNaam": "FOud",
     "korteBeschrijving": "Het feestcommittee van Oudenaarde",
-    "kboNummer": "0123456789",
     "startdatum": "2022-11-09",
     "status": "Actief",
     "contactgegevens": [{"type":"Email","waarde":"info@FOud.be","beschrijving":"Algemeen","isPrimair":true}],

@@ -34,7 +34,6 @@ public sealed class When_RegistreerVereniging_WithAllFields
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
-            KboNummer = "0123456749",
             Contactgegevens = new ToeTeVoegenContactgegeven[]
             {
                 new()
@@ -101,7 +100,6 @@ public sealed class When_RegistreerVereniging_WithAllFields
             .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
             .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
-            .Replace("{{vereniging.kboNummer}}", request.KboNummer)
             .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
@@ -139,7 +137,6 @@ public class With_All_Fields
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
-        savedEvent.KboNummer.Should().Be(Request.KboNummer);
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(expected: 1);

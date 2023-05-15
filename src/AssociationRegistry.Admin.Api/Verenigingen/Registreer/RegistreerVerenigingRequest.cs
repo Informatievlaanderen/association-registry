@@ -31,12 +31,6 @@ public class RegistreerVerenigingRequest
     [DataMember]
     public DateOnly? Startdatum { get; init; }
 
-    /// <summary>
-    ///     Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
-    /// </summary>
-    [DataMember]
-    public string? KboNummer { get; init; }
-
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember]
     public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = Array.Empty<ToeTeVoegenContactgegeven>();
@@ -59,7 +53,6 @@ public class RegistreerVerenigingRequest
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
-            AssociationRegistry.Vereniging.KboNummer.Create(KboNummer),
             Contactgegevens.Select(Map).ToArray(),
             Locaties.Select(Map).ToArray(),
             Vertegenwoordigers.Select(Map).ToArray(),

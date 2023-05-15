@@ -17,7 +17,6 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = verenigingWerdGeregistreerd.Data.Startdatum,
-            KboNummer = verenigingWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = verenigingWerdGeregistreerd.Data.Contactgegevens.Select(

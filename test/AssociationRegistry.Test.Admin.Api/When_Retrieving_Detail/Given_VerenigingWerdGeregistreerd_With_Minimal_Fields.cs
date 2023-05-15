@@ -59,7 +59,6 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
             ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": """",
             ""korteBeschrijving"": """",
-            ""kboNummer"": """",
             ""startdatum"": null,
             ""status"": ""Actief"",
             ""contactgegevens"": [],

@@ -14,7 +14,6 @@ public class RegistreerVerenigingenRequestExamples : IExamplesProvider<Registree
             Naam = "Naam van de vereniging",
             KorteNaam = "Korte naam",
             KorteBeschrijving = "Beschrijving",
-            KboNummer = "BE0123456789",
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
             Locaties = new[]
             {

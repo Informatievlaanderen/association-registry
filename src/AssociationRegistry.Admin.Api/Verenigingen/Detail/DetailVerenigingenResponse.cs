@@ -33,12 +33,6 @@ public class DetailVerenigingResponse
         [DataMember(Name = "Startdatum")]
         public string? Startdatum { get; init; }
 
-        /// <summary>
-        ///     Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
-        /// </summary>
-        [DataMember(Name = "KboNummer")]
-        public string? KboNummer { get; init; }
-
         /// <summary>Status van de vereniging</summary>
         [DataMember(Name = "Status")]
         public string Status { get; init; } = null!;

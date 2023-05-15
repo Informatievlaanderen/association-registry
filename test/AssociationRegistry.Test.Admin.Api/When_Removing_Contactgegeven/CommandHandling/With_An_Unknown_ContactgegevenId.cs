@@ -31,7 +31,16 @@ public class With_An_Unknown_ContactgegevenId
     [Fact]
     public async Task Then_A_UnknownContactgegevenException_Is_Thrown()
     {
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, _fixture.Create<int>());
+        int nietBestaandContactgegevenId;
+        var bestaandeContactgegevenIds =
+            _scenario.VerenigingWerdGeregistreerd.Contactgegevens.Select(x => x.ContactgegevenId)
+                .ToArray();
+        do
+        {
+            nietBestaandContactgegevenId = _fixture.Create<int>();
+        } while (bestaandeContactgegevenIds.Contains(nietBestaandContactgegevenId));
+
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode, nietBestaandContactgegevenId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));

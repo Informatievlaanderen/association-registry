@@ -20,7 +20,6 @@ public class V002_VerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbSce
             VCode = VCode,
             Locaties = Array.Empty<VerenigingWerdGeregistreerd.Locatie>(),
             KorteNaam = string.Empty,
-            KboNummer = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
             Contactgegevens = Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),

@@ -38,7 +38,6 @@ public class VerenigingDetail
         string? korteNaam,
         string? korteBeschrijving,
         DateOnly? startdatum,
-        string? kboNummer,
         string status,
         Contactgegeven[] contactgegevens,
         ImmutableArray<Locatie> locaties,
@@ -49,7 +48,6 @@ public class VerenigingDetail
         KorteNaam = korteNaam;
         KorteBeschrijving = korteBeschrijving;
         Startdatum = startdatum;
-        KboNummer = kboNummer;
         Status = status;
         Contactgegevens = contactgegevens;
         Locaties = locaties;
@@ -75,12 +73,6 @@ public class VerenigingDetail
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember(Name = "Startdatum")]
     public DateOnly? Startdatum { get; init; }
-
-    /// <summary>
-    ///     Ondernemingsnummer van de vereniging. Formaat '##########', '#### ### ###' en '####.###.###" zijn toegelaten
-    /// </summary>
-    [DataMember(Name = "KboNummer")]
-    public string? KboNummer { get; init; }
 
     /// <summary>Status van de vereniging</summary>
     [DataMember(Name = "Status")]

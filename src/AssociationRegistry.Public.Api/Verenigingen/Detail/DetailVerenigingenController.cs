@@ -63,7 +63,6 @@ public class DetailVerenigingenController : ApiController
                     vereniging.KorteNaam,
                     vereniging.KorteBeschrijving,
                     vereniging.Startdatum,
-                    vereniging.KboNummer,
                     vereniging.Status,
                     vereniging.Contactgegevens.Select(
                             info => new Contactgegeven(
