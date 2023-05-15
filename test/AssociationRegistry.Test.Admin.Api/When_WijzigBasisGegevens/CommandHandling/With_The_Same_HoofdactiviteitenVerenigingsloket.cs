@@ -26,7 +26,7 @@ public class With_The_Same_HoofdactiviteitenVerenigingsloket
         var fixture = new Fixture().CustomizeAll();
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
-            HoofdactiviteitenVerenigingsloket: _scenario.VerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(h => HoofdactiviteitVerenigingsloket.Create(h.Code)).ToArray());
+            HoofdactiviteitenVerenigingsloket: _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(h => HoofdactiviteitVerenigingsloket.Create(h.Code)).ToArray());
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

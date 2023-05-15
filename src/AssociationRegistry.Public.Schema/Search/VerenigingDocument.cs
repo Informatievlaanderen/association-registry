@@ -14,12 +14,14 @@ public class VerenigingDocument
         string Code,
         string Naam);
 
+    public record VerenigingsType(string Code, string Beschrijving);
+
     public string VCode { get; set; } = null!;
+    public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
-
 }

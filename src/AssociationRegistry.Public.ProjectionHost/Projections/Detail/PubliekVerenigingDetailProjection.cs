@@ -6,13 +6,19 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema.Detail;
+using Vereniging;
 
 public class PubliekVerenigingDetailProjection : SingleStreamAggregation<PubliekVerenigingDetailDocument>
 {
-    public PubliekVerenigingDetailDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public PubliekVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
         => new()
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
+            Type = new PubliekVerenigingDetailDocument.VerenigingsType()
+            {
+                Code = verenigingWerdGeregistreerd.Data.Type,
+                Beschrijving = VerenigingsType.Parse(verenigingWerdGeregistreerd.Data.Type).Beschrijving,
+            },
             Naam = verenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -32,7 +38,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             HoofdactiviteitenVerenigingsloket = verenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
-    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
+    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,
@@ -119,7 +125,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(VerenigingWerdGeregistreerd.Locatie loc)
+    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(FeitelijkeVerenigingWerdGeregistreerd.Locatie loc)
         => new()
         {
             Hoofdlocatie = loc.Hoofdlocatie,

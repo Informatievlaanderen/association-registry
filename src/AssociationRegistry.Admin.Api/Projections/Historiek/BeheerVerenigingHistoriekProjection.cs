@@ -14,7 +14,7 @@ using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
-    public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
+    public BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> verenigingWerdGeregistreerd)
     {
         var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
         {

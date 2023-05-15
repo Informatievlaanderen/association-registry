@@ -32,7 +32,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new VertegenwoordigerWerdToegevoegd(
-                scenario.VerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
+                scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
                 command.Vertegenwoordiger.Insz,
                 command.Vertegenwoordiger.IsPrimair,
                 command.Vertegenwoordiger.Roepnaam ?? string.Empty,

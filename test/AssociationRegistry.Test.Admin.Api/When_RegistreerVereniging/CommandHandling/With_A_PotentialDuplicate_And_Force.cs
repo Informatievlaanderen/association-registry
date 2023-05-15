@@ -72,7 +72,7 @@ public class With_A_PotentialDuplicate_And_Force
     public void Then_it_saves_the_event()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
@@ -80,23 +80,23 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
                 _command.Contactgegevens.Select(
-                    (g, index) => VerenigingWerdGeregistreerd.Contactgegeven.With(g) with
+                    (g, index) => FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven.With(g) with
                     {
                         ContactgegevenId = index + 1,
                     }).ToArray(),
                 new[]
                 {
-                    VerenigingWerdGeregistreerd.Locatie.With(_locatie),
+                    FeitelijkeVerenigingWerdGeregistreerd.Locatie.With(_locatie),
                 },
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => VerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
                         Voornaam = v.Insz,
                         Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                    h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Beschrijving)).ToArray()
             ));

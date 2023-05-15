@@ -43,21 +43,21 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
         await using var session = _fixture.DocumentStore
             .LightweightSession();
         var savedEvents = await session.Events
-            .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+            .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
             .ToListAsync();
 
         savedEvents.Should().ContainEquivalentOf(
-            new VerenigingWerdGeregistreerd(
+            new FeitelijkeVerenigingWerdGeregistreerd(
                 string.Empty,
                 VerenigingsType.FeitelijkeVereniging.Code,
                 _setup.Request.Naam,
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,
                 _setup.Request.Startdatum,
-                Array.Empty<VerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
                 new[]
                 {
-                    new VerenigingWerdGeregistreerd.Locatie(
+                    new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
                         _setup.RequestLocatie.Naam ?? string.Empty,
                         _setup.RequestLocatie.Straatnaam,
                         _setup.RequestLocatie.Huisnummer,
@@ -68,8 +68,8 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                         _setup.RequestLocatie.Hoofdlocatie,
                         _setup.RequestLocatie.Locatietype),
                 },
-                Array.Empty<VerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
             ),
             options => options.Excluding(e => e.VCode));
     }
@@ -84,10 +84,10 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             var autoFixture = new Fixture().CustomizeAll();
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-            RequestLocatie.Gemeente = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+            RequestLocatie.Gemeente = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
             Request = new RegistreerVerenigingRequest
             {
-                Naam = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.VerenigingWerdGeregistreerd.Naam,
+                Naam = fixture.V009VerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                 Locaties = new[]
                 {
                     RequestLocatie,

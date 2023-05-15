@@ -131,7 +131,7 @@ public class With_All_Fields
             .LightweightSession();
 
         var savedEvent = session.Events
-            .QueryRawEventDataOnly<VerenigingWerdGeregistreerd>()
+            .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
             .Single(e => e.Naam == Request.Naam);
 
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
@@ -147,8 +147,8 @@ public class With_All_Fields
         savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {
-                new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
-                new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
+                new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
+                new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
             });
     }
 

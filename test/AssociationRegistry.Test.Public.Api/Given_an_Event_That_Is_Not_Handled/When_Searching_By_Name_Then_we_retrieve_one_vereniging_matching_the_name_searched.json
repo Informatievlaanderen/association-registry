@@ -2,6 +2,10 @@
   "verenigingen": [
     {
       "vCode": "V0001004",
+      "type": {
+        "code": "FV",
+        "beschrijving": "Feitelijke vereniging"
+      },
       "naam": "Oostende voor anker",
       "korteNaam": "OVA",
       "hoofdactiviteitenVerenigingsloket": [

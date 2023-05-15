@@ -6,7 +6,7 @@ using NodaTime;
 
 public static class Formatters
 {
-    public static string ToAdresString(this VerenigingWerdGeregistreerd.Locatie locatie)
+    public static string ToAdresString(this FeitelijkeVerenigingWerdGeregistreerd.Locatie locatie)
         => $"{locatie.Straatnaam} {locatie.Huisnummer}" +
            (!string.IsNullOrWhiteSpace(locatie.Busnummer) ? $" bus {locatie.Busnummer}" : string.Empty) +
            $", {locatie.Postcode} {locatie.Gemeente}, {locatie.Land}";

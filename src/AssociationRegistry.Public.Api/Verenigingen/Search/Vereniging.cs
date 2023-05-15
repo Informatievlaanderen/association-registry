@@ -10,6 +10,10 @@ public class Vereniging
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;
 
+    /// <summary>Het type van de vereniging</summary>
+    [DataMember(Name = "Type")]
+    public VerenigingsType Type { get; init; } = null!;
+
     /// <summary>De naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
@@ -93,6 +97,22 @@ public class Activiteit
     /// </summary>
     [DataMember(Name = "Categorie")]
     public string Categorie { get; init; } = null!;
+}
+
+[DataContract]
+public class VerenigingsType
+{
+    /// <summary>
+    /// De code van het type vereniging
+    /// </summary>
+    [DataMember]
+    public string Code { get; set; } = null!;
+
+    /// <summary>
+    /// De beschrijving van het type vereniging
+    /// </summary>
+    [DataMember]
+    public string Beschrijving { get; set; } = null!;
 }
 
 [DataContract]

@@ -8,7 +8,7 @@ using AutoFixture;
 
 public class V008_VerenigingWerdGeregistreerd_WithContactgegeven : IEventsInDbScenario
 {
-    public readonly VerenigingWerdGeregistreerd VerenigingWerdGeregistreerd;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
     public V008_VerenigingWerdGeregistreerd_WithContactgegeven()
@@ -16,11 +16,11 @@ public class V008_VerenigingWerdGeregistreerd_WithContactgegeven : IEventsInDbSc
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999008";
         Naam = "Dee coolste club";
-        VerenigingWerdGeregistreerd = fixture.Create<VerenigingWerdGeregistreerd>() with
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
-            Contactgegevens = fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().Select(
+            Contactgegevens = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().Select(
                 (contactgegeven, w) => contactgegeven with
                 {
                     IsPrimair = w == 0,
@@ -36,11 +36,11 @@ public class V008_VerenigingWerdGeregistreerd_WithContactgegeven : IEventsInDbSc
     public string Naam { get; set; }
 
     public DateOnly? Startdatum
-        => VerenigingWerdGeregistreerd.Startdatum;
+        => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingWerdGeregistreerd };
+            { FeitelijkeVerenigingWerdGeregistreerd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

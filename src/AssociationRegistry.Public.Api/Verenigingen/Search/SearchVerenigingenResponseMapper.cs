@@ -90,6 +90,11 @@ public class SearchVerenigingenResponseMapper
                 return new Vereniging()
                 {
                     VCode = x.Source.VCode,
+                    Type = new VerenigingsType()
+                    {
+                        Code = x.Source.Type.Code,
+                        Beschrijving = x.Source.Type.Beschrijving,
+                    },
                     Naam = x.Source.Naam,
                     KorteNaam = x.Source.KorteNaam,
                     HoofdactiviteitenVerenigingsloket = x.Source.HoofdactiviteitenVerenigingsloket
