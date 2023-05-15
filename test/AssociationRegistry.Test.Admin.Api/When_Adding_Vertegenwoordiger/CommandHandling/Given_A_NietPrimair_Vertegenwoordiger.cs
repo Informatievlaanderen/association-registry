@@ -8,7 +8,6 @@ using Fakes;
 using Fixtures.Scenarios;
 using Framework;
 using Framework.MagdaMocks;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using Vertegenwoordiger = Vereniging.Vertegenwoordiger;

@@ -40,10 +40,10 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Roepnaam = vertegenwoordigerWerdGewijzigd.Roepnaam,
                 Rol = vertegenwoordigerWerdGewijzigd.Rol,
                 IsPrimair = vertegenwoordigerWerdGewijzigd.IsPrimair,
-                Email = vertegenwoordigerWerdGewijzigd.Email!,
-                Telefoon = vertegenwoordigerWerdGewijzigd.Telefoon!,
-                Mobiel = vertegenwoordigerWerdGewijzigd.Mobiel!,
-                SocialMedia = vertegenwoordigerWerdGewijzigd.SocialMedia!,
+                Email = vertegenwoordigerWerdGewijzigd.Email,
+                Telefoon = vertegenwoordigerWerdGewijzigd.Telefoon,
+                Mobiel = vertegenwoordigerWerdGewijzigd.Mobiel,
+                SocialMedia = vertegenwoordigerWerdGewijzigd.SocialMedia,
             });
     }
 }

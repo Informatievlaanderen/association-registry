@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -71,8 +70,8 @@ public class DetailVerenigingenController : ApiController
                                 info.Beschrijving,
                                 info.IsPrimair))
                         .ToArray(),
-                    vereniging.Locaties.Select(ToLocatie).ToImmutableArray(),
-                    vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToImmutableArray()),
+                    vereniging.Locaties.Select(ToLocatie).ToArray(),
+                    vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray()),
                 new Metadata(vereniging.DatumLaatsteAanpassing)));
     }
 
