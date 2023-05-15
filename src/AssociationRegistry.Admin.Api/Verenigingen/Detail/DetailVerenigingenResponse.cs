@@ -17,7 +17,7 @@ public class DetailVerenigingResponse
         [DataMember(Name = "VCode")]
         public string VCode { get; init; } = null!;
 
-        /// <summary>Het type vereinging</summary>
+        /// <summary>Het type vereniging</summary>
         [DataMember(Name = "Type")]
         public BeheerVerenigingDetailDocument.VerenigingsType Type { get; init; } = null!;
 
