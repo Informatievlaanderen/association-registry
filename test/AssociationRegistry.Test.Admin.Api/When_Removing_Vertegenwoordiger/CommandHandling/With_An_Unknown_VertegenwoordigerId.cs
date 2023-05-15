@@ -31,7 +31,16 @@ public class With_An_Unknown_VertegenwoordigerId
     [Fact]
     public async Task Then_A_UnknownVertegenoordigerException_Is_Thrown()
     {
-        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _fixture.Create<int>());
+        int nietBestaandContactgegevenId;
+        var bestaandeContactgegevenIds =
+            _scenario.VerenigingWerdGeregistreerd.Contactgegevens.Select(x => x.ContactgegevenId)
+                .ToArray();
+        do
+        {
+            nietBestaandContactgegevenId = _fixture.Create<int>();
+        } while (bestaandeContactgegevenIds.Contains(nietBestaandContactgegevenId));
+
+        var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, nietBestaandContactgegevenId);
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));

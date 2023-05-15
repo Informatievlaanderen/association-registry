@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using System.Runtime.Serialization;
+using Projections.Detail;
 
 [DataContract]
 public class DetailVerenigingResponse
@@ -15,6 +16,10 @@ public class DetailVerenigingResponse
         /// <summary>De unieke identificatie code van deze vereniging</summary>
         [DataMember(Name = "VCode")]
         public string VCode { get; init; } = null!;
+
+        /// <summary>Het type vereinging</summary>
+        [DataMember(Name = "Type")]
+        public BeheerVerenigingDetailDocument.VerenigingsType Type { get; init; } = null!;
 
         /// <summary>Naam van de vereniging</summary>
         [DataMember(Name = "Naam")]

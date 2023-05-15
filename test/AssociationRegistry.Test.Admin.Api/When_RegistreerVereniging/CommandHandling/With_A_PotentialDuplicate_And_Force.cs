@@ -74,6 +74,7 @@ public class With_A_PotentialDuplicate_And_Force
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,

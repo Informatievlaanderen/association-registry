@@ -7,6 +7,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -56,6 +57,10 @@ public class Given_VerenigingWerdGeregistreerd_With_Minimal_Fields
 {{
     ""vereniging"": {{
             ""vCode"": ""{_verenigingWerdGeregistreerd.VCode}"",
+            ""type"": {{
+                ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
+                ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+            }},
             ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": """",
             ""korteBeschrijving"": """",

@@ -11,6 +11,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using JasperFx.Core;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -81,6 +82,10 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         {{
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
+                    ""type"": {{
+                        ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
+                        ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+                    }},
                     ""naam"": ""{_naamWerdGewijzigd.Naam}"",
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",

@@ -16,6 +16,7 @@ using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -93,6 +94,10 @@ public class With_Same_Naam_And_Gemeente
   ""mogelijkeDuplicateVerenigingen"": [
     {{
       ""vCode"": ""{VerenigingWerdGeregistreerd.VCode}"",
+      ""type"": {{
+        ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
+        ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+      }},
       ""naam"": ""{VerenigingWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{VerenigingWerdGeregistreerd.KorteNaam}"",
       ""hoofdactiviteitenVerenigingsloket"": [{string.Join(",",
@@ -159,6 +164,7 @@ public class With_Same_Naam_And_Gemeente
         savedEvents.Should().NotContainEquivalentOf(
             new VerenigingWerdGeregistreerd(
                 string.Empty,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Request.Naam,
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,

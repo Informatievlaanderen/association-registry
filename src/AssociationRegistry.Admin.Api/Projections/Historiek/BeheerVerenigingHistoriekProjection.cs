@@ -26,7 +26,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         AddHistoriekEntry(
             verenigingWerdGeregistreerd,
             beheerVerenigingHistoriekDocument,
-            $"Vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}'.");
+            $"Feitelijke vereniging werd geregistreerd met naam '{verenigingWerdGeregistreerd.Data.Naam}'.");
 
         return beheerVerenigingHistoriekDocument;
     }
@@ -61,11 +61,13 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             );
         }
         else
+        {
             AddHistoriekEntry(
                 startdatumWerdGewijzigd,
                 document,
-                $"Startdatum werd verwijderd."
+                "Startdatum werd verwijderd."
             );
+        }
     }
 
     public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)

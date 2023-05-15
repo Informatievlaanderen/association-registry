@@ -209,6 +209,21 @@ public static class AutoFixtureCustomizations
                         contactgegeven.IsPrimair
                     );
                 }).OmitAutoProperties());
+
+        fixture.Customize<VerenigingWerdGeregistreerd>(
+            composer => composer.FromFactory(
+                () => new VerenigingWerdGeregistreerd(
+                    fixture.Create<VCode>().ToString(),
+                    VerenigingsType.FeitelijkeVereniging.Code,
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>(),
+                    fixture.CreateMany<VerenigingWerdGeregistreerd.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<VerenigingWerdGeregistreerd.Locatie>().ToArray(),
+                    fixture.CreateMany<VerenigingWerdGeregistreerd.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>().ToArray()
+                )).OmitAutoProperties());
     }
 
     public static void CustomizeContactgegevenWerdToegevoegd(this IFixture fixture)

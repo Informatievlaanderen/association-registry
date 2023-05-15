@@ -36,7 +36,7 @@ public class Given_VerenigingWerdGeregistreerd
                 Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
                 {
                     new(
-                        $"Vereniging werd geregistreerd met naam '{_verenigingWerdGeregistreerd.Data.Naam}'.",
+                        $"Feitelijke vereniging werd geregistreerd met naam '{_verenigingWerdGeregistreerd.Data.Naam}'.",
                         nameof(VerenigingWerdGeregistreerd),
                         _verenigingWerdGeregistreerd.Data,
                         _verenigingWerdGeregistreerd.Initiator,

@@ -9,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Schema;
+using Vereniging;
 
 public record Metadata(long Sequence, long Version);
 
@@ -18,6 +19,11 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         => new()
         {
             VCode = verenigingWerdGeregistreerd.Data.VCode,
+            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            {
+                Code = verenigingWerdGeregistreerd.Data.Type,
+                Beschrijving = VerenigingsType.Parse(verenigingWerdGeregistreerd.Data.Type).Beschrijving,
+            },
             Naam = verenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = verenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -171,7 +177,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Vertegenwoordigers = document.Vertegenwoordigers
             .Where(c => c.VertegenwoordigerId != vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId)
             .Append(
-                new BeheerVerenigingDetailDocument.Vertegenwoordiger()
+                new BeheerVerenigingDetailDocument.Vertegenwoordiger
                 {
                     VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
                     Insz = vertegenwoordigerToUpdate.Insz,
@@ -224,6 +230,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     public string Naam { get; set; } = null!;
+    public VerenigingsType Type { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
@@ -235,6 +242,12 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Metadata Metadata { get; set; } = null!;
     [Identity] public string VCode { get; init; } = null!;
+
+    public record VerenigingsType
+    {
+        public string Code { get; set; } = null!;
+        public string Beschrijving { get; set; } = null!;
+    }
 
     public record Contactgegeven
     {
