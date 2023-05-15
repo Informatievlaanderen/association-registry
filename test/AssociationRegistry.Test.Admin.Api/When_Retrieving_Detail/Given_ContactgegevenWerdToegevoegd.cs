@@ -11,6 +11,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using JasperFx.Core;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -86,6 +87,10 @@ public class Given_ContactgegevenWerdToegevoegd
         {{
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
+                    ""type"": {{
+                        ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
+                        ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+                    }},
                     ""naam"": ""{_verenigingWerdGeregistreerd.Naam}"",
                     ""korteNaam"": ""{_verenigingWerdGeregistreerd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_verenigingWerdGeregistreerd.KorteBeschrijving}"",

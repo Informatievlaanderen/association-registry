@@ -10,7 +10,6 @@ using Framework.MagdaMocks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
 
 [UnitTest]
 public class With_Required_Fields
@@ -55,6 +54,7 @@ public class With_Required_Fields
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 string.Empty,
                 string.Empty,

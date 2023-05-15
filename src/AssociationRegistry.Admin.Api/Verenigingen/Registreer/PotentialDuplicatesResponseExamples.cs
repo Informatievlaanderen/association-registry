@@ -5,6 +5,7 @@ using Acties.RegistreerVereniging;
 using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
 {
@@ -23,6 +24,9 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                 {
                     new DuplicaatVereniging(
                         "V0001001",
+                        new DuplicaatVereniging.VerenigingsType(
+                                VerenigingsType.FeitelijkeVereniging.Code,
+                                VerenigingsType.FeitelijkeVereniging.Beschrijving),
                         "Naam",
                         "Korte naam",
                         ImmutableArray.Create(

@@ -29,6 +29,7 @@ public class Vereniging : IHasVersion
     {
         var verenigingWerdGeregistreerdEvent = new VerenigingWerdGeregistreerd(
             vCode,
+            VerenigingsType.FeitelijkeVereniging.Code,
             naam,
             korteNaam ?? string.Empty,
             korteBeschrijving ?? string.Empty,

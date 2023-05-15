@@ -14,6 +14,7 @@ using Framework;
 /// <param name="Inititator"></param>
 public record VerenigingWerdGeregistreerd(
     string VCode,
+    string Type,
     string Naam,
     string KorteNaam,
     string KorteBeschrijving,

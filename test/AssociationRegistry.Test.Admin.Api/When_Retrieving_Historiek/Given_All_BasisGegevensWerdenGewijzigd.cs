@@ -71,7 +71,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                 ""vCode"": ""{VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
+                        ""beschrijving"": ""Feitelijke vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdGeregistreerd)},
                         ""initiator"":""{Metadata.Initiator}"",

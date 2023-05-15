@@ -63,7 +63,7 @@ public class Given_VerenigingWerdGeregistreerd
                 ""vCode"": ""{_scenario.VCode}"",
                 ""gebeurtenissen"": [
                     {{
-                        ""beschrijving"": ""Vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
+                        ""beschrijving"": ""Feitelijke vereniging werd geregistreerd met naam '{_scenario.VerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",

@@ -13,6 +13,7 @@ using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -48,6 +49,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
         savedEvents.Should().ContainEquivalentOf(
             new VerenigingWerdGeregistreerd(
                 string.Empty,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 _setup.Request.Naam,
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,

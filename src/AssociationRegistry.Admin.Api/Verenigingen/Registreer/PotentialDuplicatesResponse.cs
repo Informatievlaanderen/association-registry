@@ -32,6 +32,7 @@ public class PotentialDuplicatesResponse
             document.VCode,
             document.Naam,
             document.KorteNaam,
+            new DuplicaatVerenigingContract.VerenigingsType(document.Type.Code, document.Type.Beschrijving),
             document.HoofdactiviteitenVerenigingsloket.Select(DuplicaatVerenigingContract.HoofdactiviteitVerenigingsloket.FromDuplicaatVereniging).ToImmutableArray(),
             document.Doelgroep,
             document.Locaties.Select(DuplicaatVerenigingContract.Locatie.FromDuplicaatVereniging).ToImmutableArray(),
@@ -45,6 +46,7 @@ public class PotentialDuplicatesResponse
         public DuplicaatVerenigingContract(string vCode,
             string naam,
             string korteNaam,
+            VerenigingsType type,
             ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
             string doelgroep,
             ImmutableArray<Locatie> locaties,
@@ -54,6 +56,7 @@ public class PotentialDuplicatesResponse
             VCode = vCode;
             Naam = naam;
             KorteNaam = korteNaam;
+            Type = type;
             HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
             Doelgroep = doelgroep;
             Locaties = locaties;
@@ -72,6 +75,10 @@ public class PotentialDuplicatesResponse
         /// <summary>Korte naam van de vereniging</summary>
         [DataMember(Name = "KorteNaam")]
         public string KorteNaam { get; init; }
+
+        /// <summary>Type van de vereniging</summary>
+        [DataMember(Name = "Type")]
+        public VerenigingsType Type { get; init; }
 
         /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
         [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
@@ -138,6 +145,27 @@ public class PotentialDuplicatesResponse
             /// <summary>De gemeente van de locatie</summary>
             [DataMember(Name = "Gemeente")]
             public string Gemeente { get; init; }
+        }
+
+        [DataContract]
+        public class VerenigingsType
+        {
+
+            public VerenigingsType(string code,
+                string beschrijving)
+            {
+                Code = code;
+                Beschrijving = beschrijving;
+            }
+
+            public static VerenigingsType FromDuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
+                => new(duplicaatVereniging.Type.Code, duplicaatVereniging.Type.Beschrijving);
+
+            /// <summary>De code van het type van deze vereniging</summary>
+            [DataMember(Name = "Code")] public string Code { get; }
+
+            /// <summary>De beschrijving van het type van deze vereniging</summary>
+            [DataMember(Name = "Beschrijving")]public string Beschrijving { get; }
         }
 
         /// <summary>Een activiteit van een vereninging</summary>

@@ -59,6 +59,7 @@ public class DetailVerenigingenController : ApiController
                     new DetailVerenigingResponse.VerenigingDetail
                     {
                         VCode = vereniging.VCode,
+                        Type = vereniging.Type,
                         Naam = vereniging.Naam,
                         KorteNaam = vereniging.KorteNaam,
                         KorteBeschrijving = vereniging.KorteBeschrijving,

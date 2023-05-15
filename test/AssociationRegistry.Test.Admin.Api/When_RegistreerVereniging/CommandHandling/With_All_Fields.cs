@@ -59,12 +59,13 @@ public class With_All_Fields
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGeregistreerd(
-                VCode: _vCodeService.GetLast(),
-                Naam: _command.Naam,
-                KorteNaam: _command.KorteNaam ?? string.Empty,
-                KorteBeschrijving: _command.KorteBeschrijving ?? string.Empty,
-                Startdatum: _command.Startdatum,
-                Contactgegevens: _command.Contactgegevens.Select(
+                _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
+                _command.Naam,
+                _command.KorteNaam ?? string.Empty,
+                _command.KorteBeschrijving ?? string.Empty,
+                _command.Startdatum,
+                _command.Contactgegevens.Select(
                     (c, i) =>
                         new VerenigingWerdGeregistreerd.Contactgegeven(
                             i + 1,
@@ -73,7 +74,7 @@ public class With_All_Fields
                             c.Beschrijving,
                             c.IsPrimair
                         )).ToArray(),
-                Locaties: _command.Locaties.Select(
+                _command.Locaties.Select(
                     l =>
                         new VerenigingWerdGeregistreerd.Locatie(
                             l.Naam ?? string.Empty,
@@ -86,7 +87,7 @@ public class With_All_Fields
                             l.Hoofdlocatie,
                             l.Locatietype)
                 ).ToArray(),
-                Vertegenwoordigers: _command.Vertegenwoordigers.Select(
+                _command.Vertegenwoordigers.Select(
                     (v, i) =>
                         new VerenigingWerdGeregistreerd.Vertegenwoordiger(
                             i + 1,
@@ -101,7 +102,7 @@ public class With_All_Fields
                             v.Mobiel.Waarde,
                             v.SocialMedia.Waarde
                         )).ToArray(),
-                HoofdactiviteitenVerenigingsloket: _command.HoofdactiviteitenVerenigingsloket.Select(
+                _command.HoofdactiviteitenVerenigingsloket.Select(
                     h =>
                         new VerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)
                 ).ToArray()));

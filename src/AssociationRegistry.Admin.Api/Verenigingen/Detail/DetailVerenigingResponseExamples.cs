@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
+using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
@@ -10,6 +12,11 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
             Vereniging = new DetailVerenigingResponse.VerenigingDetail()
             {
                 VCode = "V0001001",
+                Type = new BeheerVerenigingDetailDocument.VerenigingsType()
+                {
+                    Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
+                    Code = VerenigingsType.FeitelijkeVereniging.Code,
+                },
                 Naam = "FWA De vrolijke BA’s",
                 KorteNaam = "DVB",
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
