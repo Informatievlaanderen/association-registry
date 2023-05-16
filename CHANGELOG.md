@@ -1,3 +1,19 @@
+# [3.5.0](https://github.com/informatievlaanderen/association-registry/compare/v3.4.5...v3.5.0) (2023-05-16)
+
+
+### Bug Fixes
+
+* or-1704 add detail examples ([2b08860](https://github.com/informatievlaanderen/association-registry/commit/2b088601768abf3d8bb34126db3e12bcddeb2e32))
+* or-1704 fix typo ([dfafb86](https://github.com/informatievlaanderen/association-registry/commit/dfafb86f1c140e809ffb9efcc5b19123bd5e953c))
+
+
+### Features
+
+* or-1704 add verenigingstype to projections ([737450b](https://github.com/informatievlaanderen/association-registry/commit/737450b7f2bab642c68376636bf51329f733ca73))
+* or-1704 remove kbo number from feitelijke vereniging ([a89e9e8](https://github.com/informatievlaanderen/association-registry/commit/a89e9e8427fc2e8515bdd0bccee61bae0ea6bdb2))
+* or-1704 rename event to FeitelijkeVerenigingWerdGeregistreerd ([455e957](https://github.com/informatievlaanderen/association-registry/commit/455e9574a45e6a462fba35a85a19dadb10bb1e84))
+* or-1704 rename everything to FeitelijkeVerenigingWerdGeregistreerd ([4b9ce86](https://github.com/informatievlaanderen/association-registry/commit/4b9ce869df9b336f842c32a7a886e1a15fd33f33))
+
 ## [3.4.5](https://github.com/informatievlaanderen/association-registry/compare/v3.4.4...v3.4.5) (2023-05-09)
 
 
