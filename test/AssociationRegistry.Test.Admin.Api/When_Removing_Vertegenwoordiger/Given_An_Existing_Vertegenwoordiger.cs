@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Removing_Vertegenwoordiger;
 using System.Net;
 using Events;
 using Fixtures;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;

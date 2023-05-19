@@ -16,7 +16,7 @@ public class Is_Empty
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = string.Empty,
                 },

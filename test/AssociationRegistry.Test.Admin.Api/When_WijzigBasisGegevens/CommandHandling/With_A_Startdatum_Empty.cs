@@ -4,7 +4,6 @@ using Acties.WijzigBasisgegevens;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures.Scenarios;
 using AutoFixture;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;

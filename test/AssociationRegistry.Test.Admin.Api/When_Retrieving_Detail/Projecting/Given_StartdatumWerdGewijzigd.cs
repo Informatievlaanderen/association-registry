@@ -1,0 +1,30 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
+
+using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Detail;
+using AutoFixture;
+using Events;
+using FluentAssertions;
+using Framework;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class Given_StartdatumWerdGewijzigd
+{
+    [Fact]
+    public void Then_it_modifies_the_startdatum()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
+        var projector = new BeheerVerenigingDetailProjection();
+
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
+        projector.Apply(startdatumWerdGewijzigd, doc);
+
+        doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly));
+        doc.DatumLaatsteAanpassing.Should().Be(startdatumWerdGewijzigd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(startdatumWerdGewijzigd.Sequence, startdatumWerdGewijzigd.Version));}
+}

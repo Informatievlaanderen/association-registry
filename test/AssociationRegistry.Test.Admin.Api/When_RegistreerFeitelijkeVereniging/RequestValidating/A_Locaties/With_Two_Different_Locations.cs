@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
@@ -14,7 +14,7 @@ public class With_Two_Different_Locations : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
@@ -33,7 +33,7 @@ public class With_Two_Different_Locations : ValidatorTest
             Straatnaam = "Kerkstraat",
             Land = "Belgie",
         };
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Locaties = new[]
             {

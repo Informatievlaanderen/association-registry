@@ -1,8 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AutoFixture;
 using Events;
+using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -12,19 +17,22 @@ public class Given_StartdatumWerdGewijzigd
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
-        var projectEventOnHistoriekDocument =
-            WhenApplying<StartdatumWerdGewijzigd>
-                .ToHistoriekProjectie();
+        var fixture = new Fixture().CustomizeAll();
+        var projection = new BeheerVerenigingHistoriekProjection();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
 
-        var startdatumString = projectEventOnHistoriekDocument.Event.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly);
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                $"Startdatum werd gewijzigd naar '{startdatumString}'.",
+        projection.Apply(startdatumWerdGewijzigd, doc);
+
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"Startdatum werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'.",
                 nameof(StartdatumWerdGewijzigd),
-                projectEventOnHistoriekDocument.Event.Data,
-                initiator,
-                tijdstip));
+                startdatumWerdGewijzigd.Data,
+                startdatumWerdGewijzigd.Initiator,
+                startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
     }
 }
 
@@ -34,16 +42,25 @@ public class Given_StartdatumWerdGewijzigd_With_Null
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis_with_null()
     {
-        var projectEventOnHistoriekDocument =
-            WhenApplying<StartdatumWerdGewijzigd>
-                .ToHistoriekProjectie(e => e with { Startdatum = null });
+        var fixture = new Fixture().CustomizeAll();
+        var projection = new BeheerVerenigingHistoriekProjection();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
+        startdatumWerdGewijzigd.Data = fixture.Create<StartdatumWerdGewijzigd>() with
+        {
+            Startdatum = null,
+        };
 
-        projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        projection.Apply(startdatumWerdGewijzigd, doc);
+
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
                 "Startdatum werd verwijderd.",
                 nameof(StartdatumWerdGewijzigd),
-                projectEventOnHistoriekDocument.Event.Data,
-                initiator,
-                tijdstip));
+                startdatumWerdGewijzigd.Data,
+                startdatumWerdGewijzigd.Initiator,
+                startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
     }
 }

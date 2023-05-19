@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 public abstract class CommandhandlerScenarioBase
 {

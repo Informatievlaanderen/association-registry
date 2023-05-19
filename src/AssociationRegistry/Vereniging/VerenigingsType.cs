@@ -3,8 +3,9 @@
 public class VerenigingsType
 {
     public static readonly VerenigingsType FeitelijkeVereniging = new("FV", "Feitelijke vereniging");
+    public static readonly VerenigingsType VerenigingMetRechtspersoonlijkheid = new("VZW", "Vereniging zonder winstoogmerk");
 
-    public static readonly VerenigingsType[] All = { FeitelijkeVereniging };
+    public static readonly VerenigingsType[] All = { FeitelijkeVereniging, VerenigingMetRechtspersoonlijkheid };
 
     public VerenigingsType(string code, string beschrijving)
     {

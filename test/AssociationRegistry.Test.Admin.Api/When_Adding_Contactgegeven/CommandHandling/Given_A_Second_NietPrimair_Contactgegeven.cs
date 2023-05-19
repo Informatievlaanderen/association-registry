@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fakes;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;

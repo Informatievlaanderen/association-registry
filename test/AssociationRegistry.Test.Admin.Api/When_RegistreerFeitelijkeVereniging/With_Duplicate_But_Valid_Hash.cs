@@ -4,7 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -13,7 +13,6 @@ using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -49,7 +48,6 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
         savedEvents.Should().ContainEquivalentOf(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 string.Empty,
-                VerenigingsType.FeitelijkeVereniging.Code,
                 _setup.Request.Naam,
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,
@@ -76,7 +74,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
 
     public sealed class Setup
     {
-        public readonly RegistreerFeitelijkeVerenigingRequest Request;
+        public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
         public readonly HttpResponseMessage Response;
 
         public Setup(EventsInDbScenariosFixture fixture)
@@ -85,7 +83,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
             RequestLocatie.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-            Request = new RegistreerFeitelijkeVerenigingRequest
+            Request = new RegistreerDecentraalBeheerdeVerenigingRequest
             {
                 Naam = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                 Locaties = new[]

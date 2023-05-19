@@ -1,7 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AutoFixture;
 using Events;
+using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -11,16 +16,21 @@ public class Given_VertegenwoordigerWerdGewijzigd
     [Fact]
     public void Then_it_updates_the_vertegenwoordiger_gebeurtenis()
     {
-        var projectEventOnHistoriekDocument =
-            WhenApplying<VertegenwoordigerWerdGewijzigd>
-                .ToHistoriekProjectie();
+        var fixture = new Fixture().CustomizeAll();
+        var projection = new BeheerVerenigingHistoriekProjection();
+        var vertegenwoordigerWerdGewijzigd = fixture.Create<TestEvent<VertegenwoordigerWerdGewijzigd>>();
 
-        projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
-            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
-                $"Vertegenwoordiger {projectEventOnHistoriekDocument.Event.Data.Voornaam} {projectEventOnHistoriekDocument.Event.Data.Achternaam} werd gewijzigd.",
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        projection.Apply(vertegenwoordigerWerdGewijzigd, doc);
+
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"Vertegenwoordiger {vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam} werd gewijzigd.",
                 nameof(VertegenwoordigerWerdGewijzigd),
-                projectEventOnHistoriekDocument.Event.Data,
-                initiator,
-                tijdstip));
+                vertegenwoordigerWerdGewijzigd.Data,
+                vertegenwoordigerWerdGewijzigd.Initiator,
+                vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
     }
 }

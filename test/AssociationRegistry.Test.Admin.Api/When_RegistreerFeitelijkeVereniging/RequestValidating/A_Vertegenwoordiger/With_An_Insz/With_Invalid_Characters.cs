@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -14,8 +14,8 @@ public class With_Invalid_Characters
     [InlineData("25/03/71 123 57")]
     public void Has_validation_error__insz_heeft_incorect_formaat(string insz)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Vertegenwoordigers = new[]
             {

@@ -10,7 +10,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Primitives;
 using Fixtures;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
@@ -16,8 +16,8 @@ public class With_A_Valid_Locatietype : ValidatorTest
     [InlineData(Locatietypes.Activiteiten)]
     public void Has_no_validation_errors(string locationType)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Locaties = new[]
             {
@@ -34,6 +34,6 @@ public class With_A_Valid_Locatietype : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}");
     }
 }
