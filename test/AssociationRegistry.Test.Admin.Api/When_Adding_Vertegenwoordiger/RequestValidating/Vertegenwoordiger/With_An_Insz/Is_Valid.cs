@@ -19,7 +19,7 @@ public class Is_Valid
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = insz,
                 },

@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VoegVertegen
 using AutoFixture;
 using Events;
 using Fixtures;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;

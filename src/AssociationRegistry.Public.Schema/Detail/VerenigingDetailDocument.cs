@@ -3,7 +3,7 @@
 using System;
 using Marten.Schema;
 
-public record PubliekVerenigingDetailDocument : IVCode
+public class PubliekVerenigingDetailDocument : IVCode
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -17,14 +17,15 @@ public record PubliekVerenigingDetailDocument : IVCode
     public Locatie[] Locaties { get; set; } = null!;
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
 
-    public record VerenigingsType
+    public class VerenigingsType
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
     }
 
-    public record Contactgegeven
+    public class Contactgegeven
     {
         public int ContactgegevenId { get; set; }
         public string Type { get; set; } = null!;
@@ -33,31 +34,29 @@ public record PubliekVerenigingDetailDocument : IVCode
         public bool IsPrimair { get; set; }
     }
 
-    public record Locatie
+    public class Locatie
     {
         public string Locatietype { get; set; } = null!;
-
         public bool Hoofdlocatie { get; set; }
-
         public string Adres { get; set; } = null!;
         public string Naam { get; set; } = null!;
-
         public string Straatnaam { get; set; } = null!;
-
         public string Huisnummer { get; set; } = null!;
-
         public string Busnummer { get; set; } = null!;
-
         public string Postcode { get; set; } = null!;
-
         public string Gemeente { get; set; } = null!;
-
         public string Land { get; set; } = null!;
     }
 
-    public record HoofdactiviteitVerenigingsloket
+    public class HoofdactiviteitVerenigingsloket
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
+    }
+
+    public class Sleutel
+    {
+        public string Bron { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
     }
 }

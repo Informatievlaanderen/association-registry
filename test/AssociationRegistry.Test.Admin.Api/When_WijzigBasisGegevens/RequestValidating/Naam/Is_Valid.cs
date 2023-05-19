@@ -13,7 +13,7 @@ public class Is_Valid : ValidatorTest
     public void Has_no_validation_errors()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
-        var result = validator.TestValidate(new WijzigBasisgegevensRequest() { Naam = "abcd" });
+        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = "abcd" });
 
         result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Naam);
     }

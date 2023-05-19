@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
@@ -15,8 +15,8 @@ public class Is_Valid
     [InlineData(InszTestSet.Insz2_WithCharacters)]
     public void Has_no_validation_errors(string insz)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Vertegenwoordigers = new[]
             {
@@ -28,6 +28,6 @@ public class Is_Valid
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}");
     }
 }

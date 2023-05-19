@@ -58,7 +58,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         _repositoryMock.ShouldHaveSaved(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
-                VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,

@@ -10,7 +10,7 @@ public class With_Empty_Waarde : ValidatorTest
     [Fact] public void Has_validation_error__waarde_mag_niet_leeg_zijn()
     {
         var validator = new WijzigContactgegevenValidator();
-        var request = new WijzigContactgegevenRequest()
+        var request = new WijzigContactgegevenRequest
         {
             Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven
             {

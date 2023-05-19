@@ -2,19 +2,8 @@
 
 using Framework;
 
-/// <summary>
-/// </summary>
-/// <param name="VCode"></param>
-/// <param name="Naam"></param>
-/// <param name="KorteNaam"></param>
-/// <param name="KorteBeschrijving"></param>
-/// <param name="Startdatum"></param>
-/// <param name="Status"></param>
-/// <param name="DatumLaatsteAanpassing"></param>
-/// <param name="Inititator"></param>
 public record FeitelijkeVerenigingWerdGeregistreerd(
     string VCode,
-    string Type,
     string Naam,
     string KorteNaam,
     string KorteBeschrijving,

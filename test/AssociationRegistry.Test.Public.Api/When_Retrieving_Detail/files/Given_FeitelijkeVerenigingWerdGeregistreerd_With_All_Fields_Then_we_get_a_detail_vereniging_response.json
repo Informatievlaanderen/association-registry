@@ -1,0 +1,40 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json",
+  "vereniging": {
+    "vCode": "V0001001",
+    "type":{
+      "code":"FV",
+      "beschrijving": "Feitelijke vereniging"
+    },
+    "naam": "Feestcommittee Oudenaarde",
+    "korteNaam": "FOud",
+    "korteBeschrijving": "Het feestcommittee van Oudenaarde",
+    "startdatum": "2022-11-09",
+    "status": "Actief",
+    "contactgegevens": [{"type":"Email","waarde":"info@FOud.be","beschrijving":"Algemeen","isPrimair":true}],
+    "locaties": [
+      {
+        "locatietype": "Correspondentie",
+        "hoofdlocatie": true,
+        "adres": "Stationsstraat 1 bus B, 1790 Affligem, België",
+        "naam": "Correspondentie",
+        "straatnaam": "Stationsstraat",
+        "huisnummer": "1",
+        "busnummer": "B",
+        "postcode": "1790",
+        "gemeente": "Affligem",
+        "land": "België"
+      }
+    ],
+    "hoofdactiviteitenVerenigingsloket": [
+      {
+        "code": "BLA",
+        "beschrijving": "Buitengewoon Leuke Afkortingen"
+      }
+    ],"sleutels":[
+    ]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": ""
+  }
+}

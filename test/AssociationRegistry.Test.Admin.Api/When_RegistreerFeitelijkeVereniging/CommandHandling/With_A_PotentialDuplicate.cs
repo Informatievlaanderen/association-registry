@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
 using Fakes;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;

@@ -24,7 +24,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         _verenigingToLoad = verenigingToLoad;
     }
 
-    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata)
+    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
     {
         SaveInvocations.Add(new SaveInvocation(vereniging));
         return await Task.FromResult(StreamActionResult.Empty);

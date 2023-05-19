@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -25,7 +25,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
     private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode? called;
     public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public readonly string Naam;
-    public readonly RegistreerFeitelijkeVerenigingRequest Request;
+    public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
@@ -35,7 +35,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Postcode;
-        Request = new RegistreerFeitelijkeVerenigingRequest
+        Request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
@@ -66,7 +66,7 @@ public class With_Same_Naam_And_Postcode
         _fixture = fixture;
     }
 
-    private RegistreerFeitelijkeVerenigingRequest Request
+    private RegistreerDecentraalBeheerdeVerenigingRequest Request
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode.Called(_fixture).Request;
 
     private BevestigingsTokenHelper BevestigingsTokenHelper
@@ -157,7 +157,6 @@ public class With_Same_Naam_And_Postcode
         savedEvents.Should().NotContainEquivalentOf(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 string.Empty,
-                VerenigingsType.FeitelijkeVereniging.Code,
                 Request.Naam,
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,

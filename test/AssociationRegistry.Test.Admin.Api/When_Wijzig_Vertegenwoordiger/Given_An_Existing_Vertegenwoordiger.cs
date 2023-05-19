@@ -4,7 +4,6 @@ using System.Net;
 using AutoFixture;
 using Events;
 using Fixtures;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;

@@ -14,10 +14,10 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         => new()
         {
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Type = new PubliekVerenigingDetailDocument.VerenigingsType()
+            Type = new PubliekVerenigingDetailDocument.VerenigingsType
             {
-                Code = feitelijkeVerenigingWerdGeregistreerd.Data.Type,
-                Beschrijving = VerenigingsType.Parse(feitelijkeVerenigingWerdGeregistreerd.Data.Type).Beschrijving,
+                Code = VerenigingsType.FeitelijkeVereniging.Code,
+                Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -26,7 +26,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
-                c => new PubliekVerenigingDetailDocument.Contactgegeven()
+                c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = c.ContactgegevenId,
                     Type = c.Type.ToString(),
@@ -37,6 +37,32 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
+
+    public PubliekVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+        => new()
+        {
+            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+            Type = new PubliekVerenigingDetailDocument.VerenigingsType
+            {
+                Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code,
+                Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+            },
+            Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
+            KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
+            Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
+            {
+                new()
+                {
+                    Bron = Bron.Kbo.Waarde,
+                    Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                },
+            } };
+
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
         => new()
@@ -73,7 +99,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
     {
         document.Contactgegevens = document.Contactgegevens
             .Append(
-                new PubliekVerenigingDetailDocument.Contactgegeven()
+                new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                     Type = contactgegevenWerdToegevoegd.Data.Type,
