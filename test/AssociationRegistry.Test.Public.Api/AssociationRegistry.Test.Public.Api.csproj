@@ -20,13 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Given_an_Event_That_Is_Not_Handled\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
-    <EmbeddedResource Include="Given_BasisGegevenWerdGewijzigd\When_Retrieving_Detail_Then_we_get_a_detail_vereniging_response_with_the_new_basisgegevens.json" />
-    <EmbeddedResource Include="Given_BasisGegevenWerdGewijzigd\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
-    <EmbeddedResource Include="Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
-    <EmbeddedResource Include="Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields\When_Retrieving_Detail_Then_we_get_a_detail_vereniging_response.json" />
-    <EmbeddedResource Include="When_Fetching_The_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
-    <EmbeddedResource Include="Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields\When_Retrieving_Detail_Then_we_get_a_detail_vereniging_response.json" />
-  </ItemGroup>
+    <EmbeddedResource Include="When_Retrieving_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
+    <EmbeddedResource Include="When_Retrieving_Detail\files\*.json" />
+    <EmbeddedResource Include="When_Searching\files\*.json" />
+   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.ProjectionHost\AssociationRegistry.Public.ProjectionHost.csproj" />

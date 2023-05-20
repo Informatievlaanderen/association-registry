@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -10,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -37,7 +37,7 @@ public class DetailVerenigingenController : ApiController
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Als er een interne fout is opgetreden.</response>
     [HttpGet("{vCode}")]
-    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PubliekVerenigingDetailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -46,43 +46,13 @@ public class DetailVerenigingenController : ApiController
         [FromRoute] string vCode)
     {
         await using var session = _documentStore.LightweightSession();
-        var maybeVereniging = await session.Query<PubliekVerenigingDetailDocument>()
+        var vereniging = await session.Query<PubliekVerenigingDetailDocument>()
             .WithVCode(vCode)
             .SingleOrDefaultAsync();
 
-        if (maybeVereniging is not { } vereniging)
+        if (vereniging is null)
             return NotFound();
 
-        return Ok(
-            new DetailVerenigingResponse(
-                $"{_appsettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
-                new VerenigingDetail(
-                    vereniging.VCode,
-                    new VerenigingsType
-                    {
-                        Code = vereniging.Type.Code,
-                        Beschrijving = vereniging.Type.Beschrijving,
-                    },
-                    vereniging.Naam,
-                    vereniging.KorteNaam,
-                    vereniging.KorteBeschrijving,
-                    vereniging.Startdatum,
-                    vereniging.Status,
-                    vereniging.Contactgegevens.Select(
-                            info => new Contactgegeven(
-                                info.Type,
-                                info.Waarde,
-                                info.Beschrijving,
-                                info.IsPrimair))
-                        .ToArray(),
-                    vereniging.Locaties.Select(ToLocatie).ToArray(),
-                    vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray()),
-                new Metadata(vereniging.DatumLaatsteAanpassing)));
+        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
     }
-
-    private static HoofdactiviteitVerenigingsloket ToHoofdactiviteit(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
-        => new(ha.Code, ha.Beschrijving);
-
-    private static Locatie ToLocatie(PubliekVerenigingDetailDocument.Locatie loc)
-        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Straatnaam, loc.Huisnummer, loc.Busnummer, loc.Postcode, loc.Gemeente, loc.Land);
 }

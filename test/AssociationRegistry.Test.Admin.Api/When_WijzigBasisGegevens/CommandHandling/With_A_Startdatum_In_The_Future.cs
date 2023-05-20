@@ -7,7 +7,6 @@ using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
-using Fixtures.Scenarios;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Xunit;

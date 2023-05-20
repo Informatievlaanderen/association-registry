@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_RegistreerFeitelijkeVereniging.RequestValidating.Contactgegevens.Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Vereniging;
@@ -12,9 +12,9 @@ public class Is_Valid : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
         var result = validator.TestValidate(
-            new RegistreerFeitelijkeVerenigingRequest
+            new RegistreerDecentraalBeheerdeVerenigingRequest
             {
                 Contactgegevens =
                     new[]
@@ -26,6 +26,6 @@ public class Is_Valid : ValidatorTest
                     },
             });
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}");
     }
 }

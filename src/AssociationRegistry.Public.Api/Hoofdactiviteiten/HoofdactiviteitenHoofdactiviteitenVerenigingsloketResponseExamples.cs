@@ -10,7 +10,7 @@ public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples 
             HoofdactiviteitenVerenigingsloket =
                 new[]
                 {
-                    new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket()
+                    new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket
                     {
                         Code = "BLA",
                         Beschrijving = "Bijzonder Lange Afkortingen",

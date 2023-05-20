@@ -2,7 +2,6 @@
 
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
-using Fixtures.Scenarios;
 using Vereniging;
 using AutoFixture;
 using Events;

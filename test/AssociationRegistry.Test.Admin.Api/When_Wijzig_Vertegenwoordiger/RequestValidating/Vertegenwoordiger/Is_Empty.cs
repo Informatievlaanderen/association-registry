@@ -11,7 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__vertegenwoordiger_is_verplicht()
     {
         var validator = new WijzigVertegenwoordigerValidator();
-        var request = new WijzigVertegenwoordigerRequest()
+        var request = new WijzigVertegenwoordigerRequest
         {
             Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger(),
         };

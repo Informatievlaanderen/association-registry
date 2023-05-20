@@ -18,7 +18,7 @@ public class With_Invalid_Length
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
-                new ToeTeVoegenVertegenwoordiger()
+                new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = insz,
                 },

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Framework.Helpers;
@@ -15,7 +15,7 @@ public class With_Two_Identical_Locations : ValidatorTest
     [Fact]
     public void Has_validation_error__idenitiek_locaties_verboden()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
         var identiekLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
@@ -24,7 +24,7 @@ public class With_Two_Identical_Locations : ValidatorTest
             Postcode = "0123",
             Land = "Belgie",
         };
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Locaties = new[]
             {

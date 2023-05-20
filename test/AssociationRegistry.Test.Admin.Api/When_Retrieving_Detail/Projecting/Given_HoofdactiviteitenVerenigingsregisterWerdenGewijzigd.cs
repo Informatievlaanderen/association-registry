@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -14,14 +16,15 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
     public void Then_it_replaces_the_hoofdactiviteitenVerenigingsLoket()
     {
         var fixture = new Fixture().CustomizeAll();
-        var hoofdactiviteitenVerenigingsloket = fixture.Create<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
+        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
+        var projector = new BeheerVerenigingDetailProjection();
 
-        var projectEventOnDetailDocument =
-            When<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>
-                .Applying(_ => hoofdactiviteitenVerenigingsloket)
-                .ToDetailProjectie();
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projectEventOnDetailDocument.HoofdactiviteitenVerenigingsloket.Should()
-            .BeEquivalentTo(hoofdactiviteitenVerenigingsloket.HoofdactiviteitenVerenigingsloket);
-    }
+        projector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
+
+        doc.HoofdactiviteitenVerenigingsloket.Should()
+            .BeEquivalentTo(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);
+        doc.DatumLaatsteAanpassing.Should().Be(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Sequence, hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Version));}
 }

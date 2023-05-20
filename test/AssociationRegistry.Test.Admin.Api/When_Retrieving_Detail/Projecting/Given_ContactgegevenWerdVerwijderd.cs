@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AutoFixture;
 using Events;
 using FluentAssertions;
-using Vereniging;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,38 +15,34 @@ public class Given_ContactgegevenWerdVerwijderd
     [Fact]
     public void Then_it_removes_the_contactgegeven()
     {
-        var contactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(
-            ContactgegevenId: 666,
-            ContactgegevenType.Telefoon,
-            "007",
-            "James Bond",
-            IsPrimair: false);
+        var fixture = new Fixture().CustomizeAll();
+        var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
+        var projector = new BeheerVerenigingDetailProjection();
 
-        var projectEventOnDetailDocument =
-            When<ContactgegevenWerdVerwijderd>
-                .Applying(_ => contactgegevenWerdVerwijderd)
-                .ToDetailProjectie(
-                    d => d with
-                    {
-                        Contactgegevens = d.Contactgegevens.Append(
-                            new BeheerVerenigingDetailDocument.Contactgegeven
-                            {
-                                ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                                Type = contactgegevenWerdVerwijderd.Type,
-                                Waarde = contactgegevenWerdVerwijderd.Waarde,
-                                Beschrijving = contactgegevenWerdVerwijderd.Beschrijving,
-                                IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
-                            }).ToArray(),
-                    });
-
-        projectEventOnDetailDocument.Contactgegevens.Should().NotContain(
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+        doc.Contactgegevens = doc.Contactgegevens.Append(
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
-                ContactgegevenId = contactgegevenWerdVerwijderd.ContactgegevenId,
-                Type = contactgegevenWerdVerwijderd.Type,
-                Waarde = contactgegevenWerdVerwijderd.Waarde,
-                Beschrijving = contactgegevenWerdVerwijderd.Beschrijving,
-                IsPrimair = contactgegevenWerdVerwijderd.IsPrimair,
+                ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
+                Type = fixture.Create<string>(),
+                Waarde = fixture.Create<string>(),
+                Beschrijving = fixture.Create<string>(),
+                IsPrimair = true,
+            }
+        ).ToArray();
+
+        projector.Apply(contactgegevenWerdVerwijderd, doc);
+
+        doc.Contactgegevens.Should().NotContain(
+            new BeheerVerenigingDetailDocument.Contactgegeven
+            {
+                ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
+                Type = contactgegevenWerdVerwijderd.Data.Type,
+                Waarde = contactgegevenWerdVerwijderd.Data.Waarde,
+                Beschrijving = contactgegevenWerdVerwijderd.Data.Beschrijving,
+                IsPrimair = contactgegevenWerdVerwijderd.Data.IsPrimair,
             });
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version));
     }
 }

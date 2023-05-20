@@ -15,7 +15,7 @@ public class Is_Null
         var validator = new VoegVertegenwoordigerToeValidator();
         var request = new VoegVertegenwoordigerToeRequest
         {
-            Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger()
+            Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger
             {
                 Insz = null!,
             },

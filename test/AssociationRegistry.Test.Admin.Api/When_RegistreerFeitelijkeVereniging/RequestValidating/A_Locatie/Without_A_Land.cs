@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
@@ -14,8 +14,8 @@ public class Without_A_Land : ValidatorTest
     [Fact]
     public void Has_validation_error__land_is_verplicht()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new RegistreerFeitelijkeVerenigingRequest
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
+        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
         {
             Locaties = new[]
             {
@@ -31,7 +31,7 @@ public class Without_A_Land : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Land)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Land)}")
             .WithErrorMessage("'Land' is verplicht.");
     }
 }

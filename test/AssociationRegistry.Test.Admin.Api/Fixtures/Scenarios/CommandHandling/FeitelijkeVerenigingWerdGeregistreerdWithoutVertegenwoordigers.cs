@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : CommandhandlerScenarioBase
 {
@@ -18,7 +18,6 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : Co
     {
         WerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            VerenigingsType.FeitelijkeVereniging.Code,
             Naam,
             KorteNaam,
             KorteBeschrijving,

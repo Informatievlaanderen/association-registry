@@ -21,8 +21,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Type = new BeheerVerenigingDetailDocument.VerenigingsType
             {
-                Code = feitelijkeVerenigingWerdGeregistreerd.Data.Type,
-                Beschrijving = VerenigingsType.Parse(feitelijkeVerenigingWerdGeregistreerd.Data.Type).Beschrijving,
+                Code = VerenigingsType.FeitelijkeVereniging.Code,
+                Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -62,6 +62,34 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     Beschrijving = h.Beschrijving,
                 }).ToArray(),
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
+        };
+
+    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+        => new()
+        {
+            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            {
+                Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code,
+                Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+            },
+            Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
+            KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
+            Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
+            Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            Sleutels = new BeheerVerenigingDetailDocument.Sleutel[]
+            {
+                new()
+                {
+                    Bron = Bron.Kbo.Waarde,
+                    Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                },
+            },
+            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -229,6 +257,7 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
 
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
+    [Identity] public string VCode { get; init; } = null!;
     public string Naam { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string? KorteNaam { get; set; }
@@ -240,8 +269,9 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Metadata Metadata { get; set; } = null!;
-    [Identity] public string VCode { get; init; } = null!;
+
 
     public record VerenigingsType
     {
@@ -299,5 +329,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     {
         public string Code { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
+    }
+
+    public record Sleutel
+    {
+        public string Bron { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
     }
 }

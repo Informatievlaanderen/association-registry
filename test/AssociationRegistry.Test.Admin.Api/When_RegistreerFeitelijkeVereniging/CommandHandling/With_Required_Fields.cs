@@ -54,7 +54,6 @@ public class With_Required_Fields
         _verenigingRepositoryMock.ShouldHaveSaved(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
-                VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 string.Empty,
                 string.Empty,

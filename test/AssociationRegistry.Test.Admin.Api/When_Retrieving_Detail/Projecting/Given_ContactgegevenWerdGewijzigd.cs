@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AutoFixture;
 using Events;
 using FluentAssertions;
-using Vereniging;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,38 +15,38 @@ public class Given_ContactgegevenWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_contactgegeven()
     {
-        var contactgegevenWerdGewijzigd = new ContactgegevenWerdGewijzigd(
-            ContactgegevenId: 666,
-            ContactgegevenType.Telefoon,
-            "007",
-            "James Bond",
-            IsPrimair: false);
+        var fixture = new Fixture().CustomizeAll();
+        var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
+        var projector = new BeheerVerenigingDetailProjection();
 
-        var projectEventOnDetailDocument =
-            When<ContactgegevenWerdGewijzigd>
-                .Applying(_ => contactgegevenWerdGewijzigd)
-                .ToDetailProjectie(
-                    d => d with
-                    {
-                        Contactgegevens = d.Contactgegevens.Append(
-                            new BeheerVerenigingDetailDocument.Contactgegeven
-                            {
-                                ContactgegevenId = contactgegevenWerdGewijzigd.ContactgegevenId,
-                                Type = contactgegevenWerdGewijzigd.Type,
-                                Waarde = "006",
-                                Beschrijving = "Alec Trevelyan",
-                                IsPrimair = true,
-                            }).ToArray(),
-                    });
-
-        projectEventOnDetailDocument.Contactgegevens.Should().Contain(
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+        doc.Contactgegevens = new[]
+        {
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
-                ContactgegevenId = contactgegevenWerdGewijzigd.ContactgegevenId,
-                Type = contactgegevenWerdGewijzigd.Type,
-                Waarde = contactgegevenWerdGewijzigd.Waarde,
-                Beschrijving = contactgegevenWerdGewijzigd.Beschrijving,
-                IsPrimair = contactgegevenWerdGewijzigd.IsPrimair,
+                ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
+                Type = contactgegevenWerdGewijzigd.Data.Type,
+                Waarde = fixture.Create<string>(),
+                Beschrijving = fixture.Create<string>(),
+                IsPrimair = true,
+            },
+        };
+
+        projector.Apply(contactgegevenWerdGewijzigd, doc);
+
+        doc.Contactgegevens.Should().BeEquivalentTo(
+            new[]
+            {
+                new BeheerVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdGewijzigd.Data.Type,
+                    Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
+                    Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
+                    IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
+                },
             });
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdGewijzigd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version));
     }
 }

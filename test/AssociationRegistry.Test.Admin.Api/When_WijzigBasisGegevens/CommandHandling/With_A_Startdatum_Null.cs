@@ -3,7 +3,6 @@
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures.Scenarios;
 using AutoFixture;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;
