@@ -3,7 +3,6 @@
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures.Scenarios;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;

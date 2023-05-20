@@ -19,7 +19,7 @@ public sealed class When_WijzigBasisgegevens_With_A_Matching_ETag
 
     private When_WijzigBasisgegevens_With_A_Matching_ETag(EventsInDbScenariosFixture fixture)
     {
-        Request = new WijzigBasisgegevensRequest()
+        Request = new WijzigBasisgegevensRequest
         {
             Naam = "De nieuwe vereniging",
         };

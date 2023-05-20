@@ -69,7 +69,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
             ""contactgegevens"": [],
             ""locaties"":[],
             ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenVerenigingsloket"":[]
+            ""hoofdactiviteitenVerenigingsloket"":[],
+            ""sleutels"":[]
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"

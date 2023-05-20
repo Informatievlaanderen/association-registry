@@ -13,7 +13,6 @@ using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
 using Schema.Detail;
-using Wolverine;
 
 public static class ConfigureMartenExtensions
 {
@@ -34,7 +33,8 @@ public static class ConfigureMartenExtensions
     }
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
-        IServiceCollection services, ConfigurationManager configurationManager)
+        IServiceCollection services,
+        ConfigurationManager configurationManager)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
         {
@@ -76,7 +76,13 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add<PubliekVerenigingDetailProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(serviceProvider.GetRequiredService<IMessageBus>())),
+                        new MartenEventsConsumer(
+                            serviceProvider.GetRequiredService<IElasticRepository>(),
+                            new ElasticEventProjection(
+                                serviceProvider.GetRequiredService<IVerenigingBrolFeeder>()
+                            )
+                        )
+                    ),
                     ProjectionLifecycle.Async,
                     "PubliekVerenigingZoekenDocument");
 

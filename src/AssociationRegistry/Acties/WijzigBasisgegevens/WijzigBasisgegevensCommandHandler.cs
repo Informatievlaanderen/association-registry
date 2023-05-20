@@ -8,7 +8,8 @@ public class WijzigBasisgegevensCommandHandler
     public async Task<CommandResult> Handle(
         CommandEnvelope<WijzigBasisgegevensCommand> message,
         IVerenigingsRepository repository,
-        IClock clock)
+        IClock clock,
+        CancellationToken cancellationToken = default)
     {
         var vereniging = await repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
@@ -18,7 +19,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleStartdatum(vereniging, message.Command.Startdatum, clock);
         WijzigHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
 
-        var result = await repository.Save(vereniging, message.Metadata);
+        var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 

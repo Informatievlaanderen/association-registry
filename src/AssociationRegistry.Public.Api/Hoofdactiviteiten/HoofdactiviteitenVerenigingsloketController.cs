@@ -27,7 +27,7 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public IActionResult GetAll()
         => Ok(
-            new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse()
+            new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
             {
                 HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket.All().Select(ToDto).ToArray(),
             }

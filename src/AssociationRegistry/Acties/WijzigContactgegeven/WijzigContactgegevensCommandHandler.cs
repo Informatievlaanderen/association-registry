@@ -12,14 +12,14 @@ public class WijzigContactgegevenCommandHandler
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<WijzigContactgegevenCommand> envelope)
+    public async Task<CommandResult> Handle(CommandEnvelope<WijzigContactgegevenCommand> envelope, CancellationToken cancellationToken = default)
     {
         var vereniging = await _verenigingRepository.Load(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
         var (contacgegevenId, waarde, beschrijving, isPrimair) = envelope.Command.Contactgegeven;
         vereniging.WijzigContactgegeven(contacgegevenId, waarde, beschrijving, isPrimair);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata);
+        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

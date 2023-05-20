@@ -31,6 +31,23 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
         return beheerVerenigingHistoriekDocument;
     }
 
+    public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+    {
+        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
+        {
+            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
+            Metadata = new Metadata(Sequence: 0, Version: 0),
+        };
+
+        AddHistoriekEntry(
+            verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            beheerVerenigingHistoriekDocument,
+            $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam}'.");
+
+        return beheerVerenigingHistoriekDocument;
+    }
+
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             naamWerdGewijzigd,

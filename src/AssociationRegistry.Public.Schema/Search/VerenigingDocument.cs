@@ -2,19 +2,34 @@ namespace AssociationRegistry.Public.Schema.Search;
 
 public class VerenigingDocument
 {
-    public record Locatie(
-        string Locatietype,
-        string? Naam,
-        string Adres,
-        bool Hoofdlocatie,
-        string Postcode,
-        string Gemeente);
+    public class Locatie
+    {
+        public string Locatietype { get; init; } = null!;
+        public string? Naam { get; init; }
+        public string Adres { get; init; }= null!;
+        public bool Hoofdlocatie { get; init; }
+        public string Postcode { get; init; }= null!;
+        public string Gemeente { get; init; }= null!;
+    }
 
-    public record HoofdactiviteitVerenigingsloket(
-        string Code,
-        string Naam);
+    public class HoofdactiviteitVerenigingsloket
+    {
+        public string Code { get; init; }= null!;
+        public string Naam { get; init; }= null!;
+    }
 
-    public record VerenigingsType(string Code, string Beschrijving);
+    public class VerenigingsType
+    {
+        public string Code { get; init; } = null!;
+        public string Beschrijving { get; init; } = null!;
+
+    }
+
+    public class Sleutel
+    {
+        public string Bron { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
+    }
 
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
@@ -24,4 +39,5 @@ public class VerenigingDocument
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
+    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
 }

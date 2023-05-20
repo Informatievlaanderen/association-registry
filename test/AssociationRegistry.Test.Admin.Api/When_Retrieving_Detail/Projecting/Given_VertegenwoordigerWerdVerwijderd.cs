@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AutoFixture;
 using Events;
@@ -15,24 +16,28 @@ public class Given_VertegenwoordigerWerdVerwijderd
     public void Then_it_removes_the_vertegenwoordiger_from_the_detail()
     {
         var fixture = new Fixture().CustomizeAll();
-        var vertegenwoordigerWerdVerwijderd = fixture.Create<VertegenwoordigerWerdVerwijderd>();
+        var vertegenwoordigerWerdVerwijderd = fixture.Create<TestEvent<VertegenwoordigerWerdVerwijderd>>();
+        var projector = new BeheerVerenigingDetailProjection();
 
-        var detailDocument = When<VertegenwoordigerWerdVerwijderd>
-            .Applying(_ => vertegenwoordigerWerdVerwijderd)
-            .ToDetailProjectie(
-                d => d with
-                {
-                    Vertegenwoordigers = d.Vertegenwoordigers.Append(
-                        new BeheerVerenigingDetailDocument.Vertegenwoordiger
-                        {
-                            VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.VertegenwoordigerId,
-                        }).ToArray(),
-                });
+        var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
+        {
+            VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
+        };
 
-        detailDocument.Vertegenwoordigers.Should().NotContain(
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+        doc.Vertegenwoordigers = doc.Vertegenwoordigers.Append(
+            vertegenwoordiger
+        ).ToArray();
+
+        projector.Apply(vertegenwoordigerWerdVerwijderd, doc);
+
+
+        doc.Vertegenwoordigers.Should().NotContain(
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
-                VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.VertegenwoordigerId,
+                VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
             });
+        doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version));
     }
 }

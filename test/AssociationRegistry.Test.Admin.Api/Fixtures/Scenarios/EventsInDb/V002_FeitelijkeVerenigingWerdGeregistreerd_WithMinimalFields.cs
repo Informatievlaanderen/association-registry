@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 
 public class V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbScenario

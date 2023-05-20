@@ -39,6 +39,7 @@ public class Given_An_Event
             new CommandMetadata(
                 "SomeInitiator",
                 tijdstip),
+            CancellationToken.None,
             someEvent);
 
         // assert
