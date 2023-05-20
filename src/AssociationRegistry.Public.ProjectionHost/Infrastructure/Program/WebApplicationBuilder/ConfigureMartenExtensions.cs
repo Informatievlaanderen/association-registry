@@ -13,6 +13,7 @@ using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
 using Schema.Detail;
+using Wolverine;
 
 public static class ConfigureMartenExtensions
 {
@@ -77,10 +78,7 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IElasticRepository>(),
-                            new ElasticEventProjection(
-                                serviceProvider.GetRequiredService<IVerenigingBrolFeeder>()
-                            )
+                            serviceProvider.GetRequiredService<IMessageBus>()
                         )
                     ),
                     ProjectionLifecycle.Async,
