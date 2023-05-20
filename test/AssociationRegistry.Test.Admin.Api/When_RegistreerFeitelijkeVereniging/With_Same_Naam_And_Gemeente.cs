@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -25,7 +25,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
     private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente? called;
     public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public readonly string Naam;
-    public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
+    public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
     public readonly string VCode;
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
@@ -37,7 +37,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-        Request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
             Locaties = new[]
@@ -85,7 +85,7 @@ public class With_Same_Naam_And_Gemeente
     private FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).FeitelijkeVerenigingWerdGeregistreerd;
 
-    private RegistreerDecentraalBeheerdeVerenigingRequest Request
+    private RegistreerFeitelijkeVerenigingRequest Request
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
 
     private string ResponseBody
@@ -164,6 +164,7 @@ public class With_Same_Naam_And_Gemeente
         savedEvents.Should().NotContainEquivalentOf(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 string.Empty,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Request.Naam,
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,

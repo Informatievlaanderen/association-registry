@@ -9,7 +9,7 @@ public class EventStoreMock : IEventStore
 
     public readonly List<Invocation> Invocations = new();
 
-    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken = default, params IEvent[] events)
+    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         Invocations.Add(new Invocation(aggregateId, events));
         return await Task.FromResult(new StreamActionResult(-1, -1));

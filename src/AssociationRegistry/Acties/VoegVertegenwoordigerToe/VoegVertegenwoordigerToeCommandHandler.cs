@@ -15,7 +15,7 @@ public class VoegVertegenwoordigerToeCommandHandler
         _magdaFacade = magdaFacade;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope)
     {
         var vereniging = await _verenigingRepository.Load(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
         var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
@@ -23,7 +23,7 @@ public class VoegVertegenwoordigerToeCommandHandler
 
         vereniging.VoegVertegenwoordigerToe(vertegenwoordiger);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata);
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

@@ -69,18 +69,10 @@ public class DetailVerenigingenController : ApiController
                         Locaties = vereniging.Locaties.Select(ToLocatie).ToArray(),
                         Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
                         HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray(),
-                        Sleutels = vereniging.Sleutels.Select(ToSleutel).ToArray(),
                     },
                 Metadata = new DetailVerenigingResponse.MetadataDetail { DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing },
             });
     }
-
-    private static DetailVerenigingResponse.VerenigingDetail.Sleutel ToSleutel(BeheerVerenigingDetailDocument.Sleutel s)
-        => new()
-        {
-            Bron = s.Bron,
-            Waarde = s.Waarde,
-        };
 
     private static DetailVerenigingResponse.VerenigingDetail.Contactgegeven ToContactgegeven(BeheerVerenigingDetailDocument.Contactgegeven contactgegeven)
         => new()

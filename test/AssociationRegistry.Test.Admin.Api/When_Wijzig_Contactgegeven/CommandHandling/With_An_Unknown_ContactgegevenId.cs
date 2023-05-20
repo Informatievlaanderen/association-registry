@@ -3,6 +3,7 @@
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using Fakes;
+using Fixtures.Scenarios;
 using Framework;
 using Vereniging.Exceptions;
 using AutoFixture;

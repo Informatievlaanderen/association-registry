@@ -12,13 +12,13 @@ public class VerwijderVertegenwoordigerCommandHandler
         _repository = repository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VerwijderVertegenwoordigerCommand> message, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(CommandEnvelope<VerwijderVertegenwoordigerCommand> message)
     {
         var vereniging = await _repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
         vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
 
-        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await _repository.Save(vereniging, message.Metadata);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 

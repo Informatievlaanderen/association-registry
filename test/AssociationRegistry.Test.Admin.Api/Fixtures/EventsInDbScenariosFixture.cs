@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using EventStore;
+using Scenarios;
 using Scenarios.EventsInDb;
 
 public class EventsInDbScenariosFixture : AdminApiFixture

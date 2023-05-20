@@ -16,9 +16,30 @@ public class Vereniging : IHasVersion
     {
     }
 
-    private Vereniging(IEvent registratieEvent)
+    private Vereniging(
+        VCode vCode,
+        VerenigingsNaam naam,
+        string? korteNaam,
+        string? korteBeschrijving,
+        Startdatum? startdatum,
+        Contactgegevens contactgegevens,
+        Locaties locaties,
+        Vertegenwoordigers vertegenwoordigers,
+        HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloketLijst)
     {
-        AddEvent(registratieEvent);
+        var feitelijkeVerenigingWerdGeregistreerdEvent = new FeitelijkeVerenigingWerdGeregistreerd(
+            vCode,
+            VerenigingsType.FeitelijkeVereniging.Code,
+            naam,
+            korteNaam ?? string.Empty,
+            korteBeschrijving ?? string.Empty,
+            startdatum?.Datum,
+            ToEventContactgegevens(contactgegevens.ToArray()),
+            ToLocatieLijst(locaties.ToArray()),
+            ToVertegenwoordigersLijst(vertegenwoordigers.ToArray()),
+            ToHoofdactiviteitenLijst(hoofdactiviteitenVerenigingsloketLijst.ToArray()));
+
+        AddEvent(feitelijkeVerenigingWerdGeregistreerdEvent);
     }
 
     [Identity]
@@ -47,24 +68,16 @@ public class Vereniging : IHasVersion
         MustNotBeInFuture(startdatum, clock.Today);
 
         return new Vereniging(
-            new FeitelijkeVerenigingWerdGeregistreerd(
-                vCode,
-                naam,
-                korteNaam ?? string.Empty,
-                korteBeschrijving ?? string.Empty,
-                startdatum.Datum,
-                ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
-                ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
-                ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
+            vCode,
+            naam,
+            korteNaam,
+            korteBeschrijving,
+            startdatum,
+            Contactgegevens.FromArray(contactgegevens),
+            Locaties.FromArray(locaties),
+            Vertegenwoordigers.FromArray(vertegenwoordigers),
+            HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst));
     }
-
-
-    public static Vereniging RegistreerVanuitKbo(VCode vCode, KboNummer kboNummer)
-        => new(
-            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(vCode, kboNummer,
-                $"VZW {kboNummer}",
-                string.Empty));
 
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
         => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));

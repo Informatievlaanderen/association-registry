@@ -18,7 +18,7 @@ public class With_Invalid_Characters
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
-                new ToeTeVoegenVertegenwoordiger
+                new ToeTeVoegenVertegenwoordiger()
                 {
                     Insz = insz,
                 },

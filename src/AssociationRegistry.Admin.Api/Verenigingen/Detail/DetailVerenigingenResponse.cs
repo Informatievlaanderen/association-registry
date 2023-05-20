@@ -57,11 +57,6 @@ public class DetailVerenigingResponse
         [DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
         public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
-        /// <summary>De sleutels van deze vereniging beheren</summary>
-        [DataMember(Name = "Sleutels")]
-        public Sleutel[] Sleutels { get; init; } = null!;
-
-
         /// <summary>Een contactgegeven van een vereniging</summary>
         [DataContract]
         public class Contactgegeven
@@ -87,22 +82,6 @@ public class DetailVerenigingResponse
             /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
             [DataMember(Name = "IsPrimair")]
             public bool IsPrimair { get; init; }
-        }
-
-        [DataContract]
-        public class Sleutel
-        {
-            /// <summary>
-            /// De bron van de sleutel
-            /// </summary>
-            [DataMember(Name = "Bron")]
-            public string Bron { get; set; } = null!;
-
-            /// <summary>
-            /// De externe identificator van de vereniging in de bron
-            /// </summary>
-            [DataMember(Name = "Waarde")]
-            public string Waarde { get; set; } = null!;
         }
 
         /// <summary>Een vertegenwoordiger van een vereniging</summary>

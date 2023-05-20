@@ -12,13 +12,13 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata)
     {
         var events = vereniging.UncommittedEvents.ToArray();
         if (!events.Any())
             return StreamActionResult.Empty;
 
-        return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
+        return await _eventStore.Save(vereniging.VCode, metadata, events);
     }
 
     public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)

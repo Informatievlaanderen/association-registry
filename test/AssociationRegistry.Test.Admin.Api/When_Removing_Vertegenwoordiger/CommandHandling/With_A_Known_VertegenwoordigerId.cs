@@ -4,6 +4,7 @@ using Acties.VerwijderVertegenwoordiger;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
+using Fixtures.Scenarios;
 using Framework;
 using AutoFixture;
 using Fixtures.Scenarios.CommandHandling;

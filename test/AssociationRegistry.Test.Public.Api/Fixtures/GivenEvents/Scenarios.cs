@@ -68,6 +68,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 KorteNaam ?? string.Empty,
                 KorteBeschrijving ?? string.Empty,
@@ -96,6 +97,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 string.Empty,
                 string.Empty,
@@ -117,6 +119,7 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         "V0001005",
+        VerenigingsType.FeitelijkeVereniging.Code,
         "Feesten Hulste",
         string.Empty,
         string.Empty,
@@ -135,29 +138,6 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
         {
             FeitelijkeVerenigingWerdGeregistreerd,
             ContactgegevenWerdToegevoegd,
-        };
-    }
-
-    public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant());
-}
-
-public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario
-{
-    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001006",
-        "0000000000",
-        "VZW 0000000000",
-        string.Empty);
-
-    public VCode VCode
-        => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
-
-    public IEvent[] GetEvents()
-    {
-        return new IEvent[]
-        {
-            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
         };
     }
 
@@ -188,6 +168,7 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 "Foudenaarder feest",
                 string.Empty,
                 string.Empty,
@@ -238,6 +219,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
     private static FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
         => new(
             vCode,
+            VerenigingsType.FeitelijkeVereniging.Code,
             naam,
             korteNaam,
             string.Empty,

@@ -4,6 +4,7 @@ using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Fakes;
+using Fixtures.Scenarios;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;

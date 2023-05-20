@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
-using AutoFixture;
 using Events;
 using FluentAssertions;
-using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,23 +13,26 @@ public class Given_ContactgegevenWerdToegevoegd
     [Fact]
     public void Then_it_adds_the_contactgegeven_to_the_detail()
     {
-        var fixture = new Fixture().CustomizeAll();
-        var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdToegevoegd>>();
-        var projector = new BeheerVerenigingDetailProjection();
-        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+        var contactgegevenWerdToegevoegd = new ContactgegevenWerdToegevoegd(
+            ContactgegevenId: 666,
+            ContactgegevenType.Telefoon,
+            "007",
+            "James Bond",
+            IsPrimair: false);
 
-        projector.Apply(contactgegevenWerdToegevoegd, doc);
+        var projectEventOnDetailDocument =
+            When<ContactgegevenWerdToegevoegd>
+                .Applying(_ => contactgegevenWerdToegevoegd)
+                .ToDetailProjectie();
 
-        doc.Contactgegevens.Should().Contain(
+        projectEventOnDetailDocument.Contactgegevens.Should().Contain(
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
-                ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
-                Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                ContactgegevenId = contactgegevenWerdToegevoegd.ContactgegevenId,
+                Type = contactgegevenWerdToegevoegd.Type,
+                Waarde = contactgegevenWerdToegevoegd.Waarde,
+                Beschrijving = contactgegevenWerdToegevoegd.Beschrijving,
+                IsPrimair = contactgegevenWerdToegevoegd.IsPrimair,
             });
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version));
     }
 }

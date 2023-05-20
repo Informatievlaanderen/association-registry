@@ -118,8 +118,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
-                    }}"))}],
-                    ""sleutels"":[]
+                    }}"))}
+                    ]
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": """"

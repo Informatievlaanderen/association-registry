@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
-using DuplicateVerenigingDetection;
-using Framework;
-using Magda;
-using Vereniging;
+using AssociationRegistry.DuplicateVerenigingDetection;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Magda;
+using AssociationRegistry.Vereniging;
 using ResultNet;
 
 public class RegistreerFeitelijkeVerenigingCommandHandler
@@ -28,7 +28,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         _clock = clock;
     }
 
-    public async Task<Result> Handle(CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message, CancellationToken cancellationToken = default)
+    public async Task<Result> Handle(CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message, CancellationToken cancellationToken)
     {
         var command = message.Command;
         if (!message.Command.SkipDuplicateDetection)
@@ -55,7 +55,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.HoofdactiviteitenVerenigingsloket,
             _clock);
 
-        var result = await _verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await _verenigingsRepository.Save(vereniging, message.Metadata);
         return Result.Success(CommandResult.Create(vCode, result));
     }
 }

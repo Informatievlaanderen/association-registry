@@ -31,15 +31,6 @@ public class AdminApiClient : IDisposable
         return httpResponseMessage;
     }
 
-
-    public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
-    {
-        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        var httpResponseMessage = await _httpClient.PostAsync($"/v1/verenigingen/kbo", content.AsJsonContent());
-        return httpResponseMessage;
-
-    }
-
     private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
         => expectedSequence == null ? await _httpClient.GetAsync(requestUri) : await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
 

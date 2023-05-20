@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase
 {
@@ -25,6 +25,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 Naam,
                 KorteNaam,
                 KorteBeschrijving,

@@ -1,5 +1,5 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
-using DuplicateVerenigingDetection;
+using AssociationRegistry.DuplicateVerenigingDetection;
 
 public record PotentialDuplicatesFound(IEnumerable<DuplicaatVereniging> Candidates);

@@ -124,7 +124,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var eventStore = new EventStore(DocumentStore);
         foreach (var @event in eventsToAdd)
-            await eventStore.Save(vCode, metadata, CancellationToken.None, @event);
+            await eventStore.Save(vCode, metadata, @event);
 
         var retry = Polly.Policy
             .Handle<Exception>()

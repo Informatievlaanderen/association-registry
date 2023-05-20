@@ -60,6 +60,7 @@ public class With_All_Fields
         _verenigingRepositoryMock.ShouldHaveSaved(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
