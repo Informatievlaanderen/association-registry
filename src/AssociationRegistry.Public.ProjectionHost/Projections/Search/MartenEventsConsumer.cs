@@ -1,31 +1,30 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Marten.Events;
-using Schema.Search;
+using Wolverine;
 using Wolverine.Runtime.Routing;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {
-    private readonly IElasticRepository _elasticRepository;
-    private readonly ElasticEventProjection _projection;
+    private readonly IMessageBus _bus;
 
-    public MartenEventsConsumer(IElasticRepository elasticRepository, ElasticEventProjection projection)
+    public MartenEventsConsumer(IMessageBus bus)
     {
-        _elasticRepository = elasticRepository;
-        _projection = projection;
+        _bus = bus;
     }
 
     public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
     {
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
+            var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
             try
             {
-                await TryCreateMethod(@event);
-                await TryApplyMethod(@event);
+                await _bus.InvokeAsync(eventEnvelope);
             }
             catch (IndeterminateRoutesException)
             {
@@ -33,29 +32,25 @@ public class MartenEventsConsumer : IMartenEventsConsumer
             }
         }
     }
+}
 
-    private async Task TryCreateMethod(IEvent @event)
-    {
-        var createMethod = typeof(ElasticEventProjection).GetMethod("Create", new[] { @event.GetType() });
-        if (createMethod is not null && createMethod.ReturnType == typeof(VerenigingDocument))
-        {
-            await _elasticRepository.IndexAsync((createMethod.Invoke(_projection, new object?[] { @event }) as VerenigingDocument)!);
-        }
-    }
+public class EventEnvelope<T> : IEventEnvelope
+{
+    public string VCode
+        => Event.StreamKey!;
 
-    private async Task TryApplyMethod(IEvent @event)
-    {
-        var applyMethod = typeof(ElasticEventProjection)
-            .GetMethod("Apply", new[] { @event.GetType(), typeof(VerenigingDocument) });
+    public T Data
+        => (T)Event.Data;
 
-        if (applyMethod is not null && applyMethod.ReturnType == typeof(void))
-        {
-            var document = new VerenigingDocument();
-            applyMethod.Invoke(_projection, new object?[] { @event, document });
-            await _elasticRepository.UpdateAsync(
-                @event.StreamKey!,
-                document
-            );
-        }
-    }
+    public Dictionary<string, object>? Headers
+        => Event.Headers;
+
+    public EventEnvelope(IEvent @event)
+        => Event = @event;
+
+    private IEvent Event { get; }
+}
+
+public interface IEventEnvelope
+{
 }
