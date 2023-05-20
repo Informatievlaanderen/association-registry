@@ -9,10 +9,10 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
     public DetailVerenigingResponse GetExamples()
         => new()
         {
-            Vereniging = new DetailVerenigingResponse.VerenigingDetail
+            Vereniging = new DetailVerenigingResponse.VerenigingDetail()
             {
                 VCode = "V0001001",
-                Type = new BeheerVerenigingDetailDocument.VerenigingsType
+                Type = new BeheerVerenigingDetailDocument.VerenigingsType()
                 {
                     Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
                     Code = VerenigingsType.FeitelijkeVereniging.Code,
@@ -32,7 +32,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Contactgegevens = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                    new DetailVerenigingResponse.VerenigingDetail.Contactgegeven()
                     {
                         Type = "Email",
                         Beschrijving = "Info",
@@ -55,7 +55,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Vertegenwoordigers = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger
+                    new DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger()
                     {
                         Insz = "xx.xx.xx-xxx-xx",
                         VertegenwoordigerId = 1,

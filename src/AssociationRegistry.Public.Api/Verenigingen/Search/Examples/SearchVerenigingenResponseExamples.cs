@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Api.Verenigingen.Search.Examples;
 
 using System;
 using Infrastructure.ConfigurationBindings;
-using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>

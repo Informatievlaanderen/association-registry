@@ -11,7 +11,7 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__contactgegeven_moet_een_waarde_bevatten()
     {
         var validator = new WijzigContactgegevenValidator();
-        var request = new WijzigContactgegevenRequest
+        var request = new WijzigContactgegevenRequest()
         {
             Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven(),
         };

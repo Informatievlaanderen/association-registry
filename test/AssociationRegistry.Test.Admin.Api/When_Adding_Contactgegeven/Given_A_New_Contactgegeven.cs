@@ -2,6 +2,7 @@
 
 using System.Net;
 using Fixtures;
+using Fixtures.Scenarios;
 using Events;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;

@@ -61,14 +61,6 @@ public record VerenigingState
                     .ToArray()),
         };
 
-    public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
-        => new()
-        {
-            VCode = VCode.Hydrate(@event.VCode),
-            Naam = VerenigingsNaam.Hydrate(@event.Naam),
-            KorteNaam = @event.KorteNaam,
-        };
-
     public VerenigingState Apply(NaamWerdGewijzigd @event)
         => this with { Naam = VerenigingsNaam.Hydrate(@event.Naam) };
 

@@ -127,8 +127,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
-                    }}"))}],
-                    ""sleutels"":[]
+                    }}"))}]
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}""

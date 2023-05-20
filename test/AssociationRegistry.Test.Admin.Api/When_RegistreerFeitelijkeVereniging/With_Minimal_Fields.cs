@@ -3,7 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -17,12 +17,12 @@ using Xunit.Categories;
 public sealed class When_RegistreerFeitelijkeVereniging_WithMinimalFields
 {
     private static When_RegistreerFeitelijkeVereniging_WithMinimalFields? called;
-    public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
+    public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
 
     private When_RegistreerFeitelijkeVereniging_WithMinimalFields(AdminApiFixture fixture)
     {
-        Request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = new Fixture().Create<string>(),
         };
@@ -32,7 +32,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithMinimalFields
     public static When_RegistreerFeitelijkeVereniging_WithMinimalFields Called(AdminApiFixture fixture)
         => called ??= new When_RegistreerFeitelijkeVereniging_WithMinimalFields(fixture);
 
-    private string GetJsonBody(RegistreerDecentraalBeheerdeVerenigingRequest request)
+    private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)
         => GetType()
             .GetAssociatedResourceJson("files.request.with_minimal_fields")
             .Replace("{{vereniging.naam}}", request.Naam);
@@ -50,7 +50,7 @@ public class With_Minimal_Fields
         _fixture = fixture;
     }
 
-    private RegistreerDecentraalBeheerdeVerenigingRequest Request
+    private RegistreerFeitelijkeVerenigingRequest Request
         => When_RegistreerFeitelijkeVereniging_WithMinimalFields.Called(_fixture).Request;
 
     private HttpResponseMessage Response

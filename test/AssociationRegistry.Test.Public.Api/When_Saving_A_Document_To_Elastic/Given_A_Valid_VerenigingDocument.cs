@@ -29,7 +29,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
 
         _classFixture.ElasticRepository!
             .Index(
-                new VerenigingDocument
+                new VerenigingDocument()
                 {
                     VCode = fixture.Create<string>(),
                     Naam = fixture.Create<string>(),

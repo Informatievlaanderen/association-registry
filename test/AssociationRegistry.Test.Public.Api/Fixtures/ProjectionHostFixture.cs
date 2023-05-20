@@ -89,7 +89,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         metadata ??= new CommandMetadata(vCode, new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
 
         var eventStore = new EventStore(DocumentStore);
-        await eventStore.Save(vCode, metadata, CancellationToken.None, eventToAdd);
+        await eventStore.Save(vCode, metadata, eventToAdd);
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();

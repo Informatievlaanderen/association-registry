@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario : CommandhandlerScenarioBase
 {
@@ -24,6 +24,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_C
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
+                VerenigingsType.FeitelijkeVereniging.Code,
                 "Hulste Huldigt",
                 "FOud",
                 string.Empty,

@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.Schema.Detail;
 using Events;
 using AutoFixture;
 using FluentAssertions;
@@ -16,14 +14,14 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
     public void Then_it_replaces_the_hoofdactiviteitenVerenigingsLoket()
     {
         var fixture = new Fixture().CustomizeAll();
-        var hoofactiviteitenVerenigingloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
+        var hoofdactiviteitenVerenigingsloket = fixture.Create<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
 
-        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+        var projectEventOnDetailDocument =
+            When<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>
+                .Applying(_ => hoofdactiviteitenVerenigingsloket)
+                .ToDetailProjectie();
 
-        projector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
-
-        doc.HoofdactiviteitenVerenigingsloket.Should()
-            .BeEquivalentTo(hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);
+        projectEventOnDetailDocument.HoofdactiviteitenVerenigingsloket.Should()
+            .BeEquivalentTo(hoofdactiviteitenVerenigingsloket.HoofdactiviteitenVerenigingsloket);
     }
 }

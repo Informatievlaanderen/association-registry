@@ -5,8 +5,7 @@ using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.ExterneBronVereniging.Kbo;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AutoFixture;
@@ -44,7 +43,6 @@ public static class AutoFixtureCustomizations
         fixture.CustominzeWijzigBasisgegevensRequest();
         fixture.CustomizeVoegContactgegevenToeRequest();
         fixture.CustomizeWijzigVertegenwoordigerRequest();
-        fixture.CustomizeRegistreerVerenigingUitKboRequest();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingCommand();
 
@@ -112,9 +110,9 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
-        fixture.Customize<RegistreerDecentraalBeheerdeVerenigingRequest>(
+        fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ => new RegistreerDecentraalBeheerdeVerenigingRequest
+                _ => new RegistreerFeitelijkeVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
@@ -216,6 +214,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => new FeitelijkeVerenigingWerdGeregistreerd(
                     fixture.Create<VCode>().ToString(),
+                    VerenigingsType.FeitelijkeVereniging.Code,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),
@@ -430,7 +429,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new WijzigVertegenwoordigerRequest
                     {
-                        Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger
+                        Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger()
                         {
                             Email = fixture.Create<Email>().Waarde,
                             Telefoon = fixture.Create<TelefoonNummer>().Waarde,
@@ -440,17 +439,6 @@ public static class AutoFixtureCustomizations
                             Roepnaam = fixture.Create<string>(),
                             IsPrimair = false,
                         },
-                    })
-                .OmitAutoProperties());
-    }
-
-    private static void CustomizeRegistreerVerenigingUitKboRequest(this IFixture fixture)
-    {
-        fixture.Customize<RegistreerVerenigingUitKboRequest>(
-            composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingUitKboRequest
-                    {
-                        KboNummer = fixture.Create<KboNummer>(),
                     })
                 .OmitAutoProperties());
     }

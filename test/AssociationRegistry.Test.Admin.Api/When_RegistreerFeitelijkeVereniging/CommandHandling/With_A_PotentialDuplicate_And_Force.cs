@@ -6,6 +6,7 @@ using AutoFixture;
 using DuplicateVerenigingDetection;
 using Events;
 using Fakes;
+using Fixtures.Scenarios;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
@@ -74,6 +75,7 @@ public class With_A_PotentialDuplicate_And_Force
         _verenigingRepositoryMock.ShouldHaveSaved(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 _vCodeService.GetLast(),
+                VerenigingsType.FeitelijkeVereniging.Code,
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,

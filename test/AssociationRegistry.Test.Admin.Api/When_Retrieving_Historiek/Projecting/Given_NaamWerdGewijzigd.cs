@@ -1,12 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
-using AutoFixture;
 using Events;
-using FluentAssertions;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,21 +11,16 @@ public class Given_NaamWerdGewijzigd
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
-        var korteNaamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
+        var projectEventOnHistoriekDocument =
+            WhenApplying<NaamWerdGewijzigd>
+                .ToHistoriekProjectie();
 
-        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
-
-        projection.Apply(korteNaamWerdGewijzigd, doc);
-
-
-        doc.Gebeurtenissen.Should().ContainEquivalentOf(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                $"Naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.Naam}'.",
+        projectEventOnHistoriekDocument.AppendsTheCorrectGebeurtenissen(
+            (initiator, tijdstip) => new BeheerVerenigingHistoriekGebeurtenis(
+                $"Naam werd gewijzigd naar '{projectEventOnHistoriekDocument.Event.Data.Naam}'.",
                 nameof(NaamWerdGewijzigd),
-                korteNaamWerdGewijzigd.Data,
-                korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                projectEventOnHistoriekDocument.Event.Data,
+                initiator,
+                tijdstip));
     }
 }

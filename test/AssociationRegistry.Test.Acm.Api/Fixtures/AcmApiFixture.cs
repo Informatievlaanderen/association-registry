@@ -159,7 +159,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         var eventStore = new EventStore(DocumentStore);
         var result = StreamActionResult.Empty;
-        foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, @event);
+        foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, @event);
 
         var retry = Policy
             .Handle<Exception>()

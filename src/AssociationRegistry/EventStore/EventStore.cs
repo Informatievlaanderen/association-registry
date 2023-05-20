@@ -16,7 +16,7 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken = default, params IEvent[] events)
+    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
 
@@ -26,7 +26,7 @@ public class EventStore : IEventStore
         {
             var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
 
-            await session.SaveChangesAsync(cancellationToken);
+            await session.SaveChangesAsync();
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
