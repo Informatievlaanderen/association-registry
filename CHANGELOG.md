@@ -1,3 +1,21 @@
+# [3.6.0](https://github.com/informatievlaanderen/association-registry/compare/v3.5.0...v3.6.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* or-1702 revert experimental code ([d36f102](https://github.com/informatievlaanderen/association-registry/commit/d36f102c8d9f2affb755d1af7668592ddd487d17))
+
+
+### Features
+
+* or-1702 registreer from kbo ([effaf43](https://github.com/informatievlaanderen/association-registry/commit/effaf4372ab9aee56e7aa313a163169d91aeb1ee))
+
+
+### Reverts
+
+* Revert "Revert "feat: or-1702 registreer from kbo"" ([ec3f2b0](https://github.com/informatievlaanderen/association-registry/commit/ec3f2b0176aff0ee54fd9350c280dba3bbc5f266))
+* Revert "feat: or-1702 registreer from kbo" ([7700531](https://github.com/informatievlaanderen/association-registry/commit/77005316ef678beb997f5b2c68b1b7a27b89bcf2))
+
 # [3.5.0](https://github.com/informatievlaanderen/association-registry/compare/v3.4.5...v3.5.0) (2023-05-16)
 
 
