@@ -147,8 +147,10 @@ public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : 
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
         "V0001006",
         "0000000000",
+        "VZW",
         "VZW 0000000000",
-        string.Empty);
+        string.Empty,
+        null);
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);

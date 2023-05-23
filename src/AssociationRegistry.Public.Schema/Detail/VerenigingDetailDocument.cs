@@ -12,6 +12,8 @@ public class PubliekVerenigingDetailDocument : IVCode
     public string KorteNaam { get; set; } = null!;
     public string KorteBeschrijving { get; set; } = null!;
     public DateOnly? Startdatum { get; set; }
+
+    public string? Rechtsvorm { get; set; }
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;

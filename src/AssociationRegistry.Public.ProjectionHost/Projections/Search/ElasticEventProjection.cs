@@ -56,7 +56,7 @@ public class ElasticEventHandler
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
-            new VerenigingDocument()
+            new VerenigingDocument
             {
                 VCode = message.Data.VCode,
                 Type = new VerenigingDocument.VerenigingsType { Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving },
@@ -99,12 +99,12 @@ public class ElasticEventHandler
     {
         _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingDocument()
+            new VerenigingDocument
             {
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
-                            new VerenigingDocument.HoofdactiviteitVerenigingsloket()
+                            new VerenigingDocument.HoofdactiviteitVerenigingsloket
                             {
                                 Code = hoofdactiviteitVerenigingsloket.Code,
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,

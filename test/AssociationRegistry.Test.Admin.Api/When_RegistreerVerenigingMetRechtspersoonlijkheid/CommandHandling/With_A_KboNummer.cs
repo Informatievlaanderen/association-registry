@@ -41,7 +41,9 @@ public class With_A_KboNummer
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
+                "VZW",
                 $"VZW {_command.KboNummer}",
-                string.Empty));
+                string.Empty,
+                null));
     }
 }
