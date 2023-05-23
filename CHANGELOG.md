@@ -1,3 +1,10 @@
+# [3.7.0](https://github.com/informatievlaanderen/association-registry/compare/v3.6.0...v3.7.0) (2023-05-23)
+
+
+### Features
+
+* or-1702 add KBO basisgegevens fields to the WerdGeregistreerd event with hardcoded or empty values ([4428fb0](https://github.com/informatievlaanderen/association-registry/commit/4428fb0e34c29e55ff145ceddcf8755f4e6749b4))
+
 # [3.6.0](https://github.com/informatievlaanderen/association-registry/compare/v3.5.0...v3.6.0) (2023-05-22)
 
 
