@@ -62,9 +62,13 @@ public class Vereniging : IHasVersion
 
     public static Vereniging RegistreerVanuitKbo(VCode vCode, KboNummer kboNummer)
         => new(
-            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(vCode, kboNummer,
+            new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+                vCode,
+                kboNummer,
+                "VZW",
                 $"VZW {kboNummer}",
-                string.Empty));
+                string.Empty,
+                null));
 
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
         => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));

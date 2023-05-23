@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

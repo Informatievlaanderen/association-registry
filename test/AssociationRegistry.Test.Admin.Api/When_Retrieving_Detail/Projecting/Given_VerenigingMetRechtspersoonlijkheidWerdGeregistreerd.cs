@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AutoFixture;
@@ -33,6 +34,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
+                KorteBeschrijving = string.Empty,
+                Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = "Actief",
                 Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
