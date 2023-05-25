@@ -1,0 +1,31 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.Contactgegevens.Type;
+
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using Framework;
+using Vereniging;
+using FluentValidation.TestHelper;
+using Xunit;
+
+public class Is_Valid : ValidatorTest
+{
+    [Fact]
+    public void Has_no_validation_error()
+    {
+        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
+        var result = validator.TestValidate(
+            new RegistreerDecentraalBeheerdeVerenigingRequest
+            {
+                Contactgegevens =
+                    new[]
+                    {
+                        new ToeTeVoegenContactgegeven
+                        {
+                            Type = ContactgegevenType.Email,
+                        },
+                    },
+            });
+
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}");
+    }
+}

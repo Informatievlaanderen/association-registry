@@ -23,7 +23,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         var vCode = await _vCodeService.GetNext();
 
-        var vereniging = Vereniging.RegistreerVanuitKbo(
+        var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(
             vCode,
             command.KboNummer);
 

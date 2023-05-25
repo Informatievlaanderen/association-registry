@@ -136,8 +136,9 @@ public class Given_ContactgegevenWerdToegevoegd
                     ""sleutels"":[]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}""
-                }}
+                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+                    ""beheerBasisUri"":""/verenigingen/{_vCode}""
+                    }}
                 }}
         ";
 

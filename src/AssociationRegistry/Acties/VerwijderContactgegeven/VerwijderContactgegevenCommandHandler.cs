@@ -14,7 +14,7 @@ public class VerwijderContactgegevenCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VerwijderContactgegevenCommand> message, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging = await _repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
         vereniging.VerwijderContactgegeven(message.Command.ContactgegevenId);
 

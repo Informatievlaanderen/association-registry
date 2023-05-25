@@ -12,7 +12,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
     {
         var events = vereniging.UncommittedEvents.ToArray();
         if (!events.Any())
@@ -21,13 +21,15 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
 
-    public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
     {
-        var vereniging = await _eventStore.Load<Vereniging>(vCode);
+        var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
 
-        if (expectedVersion is not null && vereniging.Version != expectedVersion)
+        if (expectedVersion is not null && verenigingState.Version != expectedVersion)
             throw new UnexpectedAggregateVersionException();
 
+        var vereniging = new TVereniging();
+        vereniging.Hydrate(verenigingState);
         return vereniging;
     }
 }

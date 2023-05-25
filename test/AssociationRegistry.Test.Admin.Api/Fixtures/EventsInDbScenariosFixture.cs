@@ -19,6 +19,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger = new();
     public readonly V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
     public readonly V014_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
+    public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
 
     protected override async Task Given()
     {
@@ -38,6 +39,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
             V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
             V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
+            V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
         };
 
         foreach (var scenario in scenarios)

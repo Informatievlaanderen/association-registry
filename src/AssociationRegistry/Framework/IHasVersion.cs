@@ -2,5 +2,5 @@
 
 public interface IHasVersion
 {
-    long Version { get; }
+    long Version { get; set; }
 }
