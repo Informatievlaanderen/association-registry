@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
+using System;
 using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
@@ -70,10 +71,12 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                         SocialMedia = "http://example.org",
                     },
                 },
+                Sleutels = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Sleutel>(),
             },
             Metadata = new DetailVerenigingResponse.MetadataDetail
             {
                 DatumLaatsteAanpassing = "2020-05-15",
+                BeheerBasisUri = "/verenigingen/V0001001",
             },
         };
 }

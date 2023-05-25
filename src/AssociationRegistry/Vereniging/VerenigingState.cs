@@ -2,16 +2,23 @@ namespace AssociationRegistry.Vereniging;
 
 using Emails;
 using Events;
+using Framework;
+using Marten.Schema;
 using SocialMedias;
 using TelefoonNummers;
 
-public record VerenigingState
+public record VerenigingState : IHasVersion
 {
-    internal VerenigingState()
-    {
-    }
+    public long Version { get; set; }
 
-    public VCode VCode { get; init; } = null!;
+    [Identity]
+    public string Identity
+    {
+        get => VCode;
+        set => VCode = VCode.Create(value);
+    }
+    public VerenigingsType VerenigingsType { get; init; } = null!;
+     public VCode VCode { get; private set; } = null!;
     public VerenigingsNaam Naam { get; private init; } = null!;
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
@@ -23,6 +30,7 @@ public record VerenigingState
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
+            VerenigingsType = VerenigingsType.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -64,6 +72,7 @@ public record VerenigingState
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
+            VerenigingsType = VerenigingsType.VerenigingMetRechtspersoonlijkheid,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,

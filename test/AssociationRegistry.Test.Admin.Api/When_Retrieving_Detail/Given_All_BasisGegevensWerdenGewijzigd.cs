@@ -131,8 +131,9 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""sleutels"":[]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}""
-                }}
+                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+                    ""beheerBasisUri"":""/verenigingen/{_vCode}""
+                    }}
                 }}
         ";
 

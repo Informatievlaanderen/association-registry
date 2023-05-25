@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 using AssociationRegistry.Public.Api.Constants;
 using Fixtures;
 using Fixtures.GivenEvents;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -51,4 +51,3 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }
-

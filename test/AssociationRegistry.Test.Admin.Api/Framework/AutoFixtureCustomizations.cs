@@ -5,8 +5,8 @@ using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
+using AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.ExterneBronVereniging.Kbo;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AutoFixture;
@@ -41,7 +41,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeHoofdactiviteitenVerenigingsloket();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
-        fixture.CustominzeWijzigBasisgegevensRequest();
+        fixture.CustomizeWijzigBasisgegevensRequest();
         fixture.CustomizeVoegContactgegevenToeRequest();
         fixture.CustomizeWijzigVertegenwoordigerRequest();
         fixture.CustomizeRegistreerVerenigingUitKboRequest();
@@ -92,7 +92,7 @@ public static class AutoFixtureCustomizations
                 generator => new Instant() + Duration.FromSeconds(generator.Next())));
     }
 
-    public static void CustominzeWijzigBasisgegevensRequest(this IFixture fixture)
+    public static void CustomizeWijzigBasisgegevensRequest(this IFixture fixture)
     {
         fixture.Customize<WijzigBasisgegevensRequest>(
             composer => composer.FromFactory(
@@ -108,7 +108,21 @@ public static class AutoFixtureCustomizations
                         .Select(h => h.Code)
                         .ToArray(),
                 }).OmitAutoProperties());
+
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.WijzigBasisgegevens.WijzigBasisgegevensRequest>(
+            composer => composer.FromFactory(
+                () => new AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.WijzigBasisgegevens.WijzigBasisgegevensRequest
+                {
+                    KorteBeschrijving = fixture.Create<string>(),
+                    HoofdactiviteitenVerenigingsloket = fixture
+                        .CreateMany<HoofdactiviteitVerenigingsloket>()
+                        .Distinct()
+                        .Select(h => h.Code)
+                        .ToArray(),
+                }).OmitAutoProperties());
     }
+
+
 
     public static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {

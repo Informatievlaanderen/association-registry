@@ -230,5 +230,7 @@ public class DetailVerenigingResponse
     {
         /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
         public string DatumLaatsteAanpassing { get; init; } = null!;
+
+        public string BeheerBasisUri { get; init; } = null!;
     }
 }

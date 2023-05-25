@@ -8,9 +8,9 @@ using IEvent = AssociationRegistry.Framework.IEvent;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
-    private readonly Vereniging? _verenigingToLoad;
+    private VerenigingState? _verenigingToLoad;
 
-    public record SaveInvocation(Vereniging Vereniging);
+    public record SaveInvocation(VerenigingsBase Vereniging);
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     // Anders kan er niet gecompared worden.
@@ -19,21 +19,30 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(Vereniging? verenigingToLoad = null)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null)
     {
         _verenigingToLoad = verenigingToLoad;
     }
 
-    public async Task<StreamActionResult> Save(Vereniging vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
     {
         SaveInvocations.Add(new SaveInvocation(vereniging));
+
+        if (_verenigingToLoad is not null)
+            foreach (var e in vereniging.UncommittedEvents)
+            {
+                _verenigingToLoad = _verenigingToLoad.Apply((dynamic)e);
+            }
+
         return await Task.FromResult(StreamActionResult.Empty);
     }
 
-    public async Task<Vereniging> Load(VCode vCode, long? expectedVersion)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Add(new InvocationLoad(vCode));
-        return (await Task.FromResult(_verenigingToLoad))!;
+        var vereniging = new TVereniging();
+        vereniging.Hydrate(_verenigingToLoad!);
+        return await Task.FromResult(vereniging);
     }
 
     public void ShouldHaveLoaded(params string[] vCodes)

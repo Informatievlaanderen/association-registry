@@ -7,12 +7,13 @@ public abstract class CommandhandlerScenarioBase
 {
     public abstract IEnumerable<IEvent> Events();
 
-    public Vereniging GetVereniging()
+    public VerenigingState GetVerenigingState()
     {
-        var vereniging = new Vereniging();
+        var verenigingState = new VerenigingState();
 
-        foreach (var evnt in Events()) vereniging.Apply((dynamic)evnt);
+        foreach (var evnt in Events())
+            verenigingState = verenigingState.Apply((dynamic)evnt);
 
-        return vereniging;
+        return verenigingState;
     }
 }

@@ -17,7 +17,7 @@ public class VoegVertegenwoordigerToeCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
         var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
         var vertegenwoordiger = await vertegenwoordigerService.GetVertegenwoordiger(envelope.Command.Vertegenwoordiger);
 

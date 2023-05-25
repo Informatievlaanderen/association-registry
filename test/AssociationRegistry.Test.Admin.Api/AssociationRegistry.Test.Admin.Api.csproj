@@ -32,21 +32,20 @@
     <None Remove="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_unparsable_request.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
+    <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
+    <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\response.required.json" />
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\response.not_empty.json" />
     <None Remove="When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
     <None Remove="When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
     <None Remove="When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
-    <EmbeddedResource Include="When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
     <None Remove="When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
-    <EmbeddedResource Include="When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="When_RegistreerVerenigingMetRechtspersoonlijkheid\RequestValidating" />
-    <Folder Include="When_Removing_Vertegenwoordiger\CommandHandling\" />
+    <Folder Include="FeitelijkeVereniging" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

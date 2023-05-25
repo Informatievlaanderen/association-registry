@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -71,7 +72,11 @@ public class DetailVerenigingenController : ApiController
                         HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray(),
                         Sleutels = vereniging.Sleutels.Select(ToSleutel).ToArray(),
                     },
-                Metadata = new DetailVerenigingResponse.MetadataDetail { DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing },
+                Metadata = new DetailVerenigingResponse.MetadataDetail
+                {
+                    DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
+                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}"+(vereniging.Type.Code == VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code?"/kbo":""),
+                },
             });
     }
 

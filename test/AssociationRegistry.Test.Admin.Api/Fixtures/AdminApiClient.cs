@@ -50,6 +50,13 @@ public class AdminApiClient : IDisposable
         return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> PatchVerenigingMetRechtspersoonlijkheid(string vCode, string content, long? version = null, string? initiator = "OVO000001")
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
+        return await _httpClient.PatchAsync($"/v1/verenigingen/kbo/{vCode}", content.AsJsonContent());
+    }
+
     public async Task<HttpResponseMessage> PostVertegenwoordiger(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
