@@ -1,3 +1,10 @@
+# [3.10.0](https://github.com/informatievlaanderen/association-registry/compare/v3.9.0...v3.10.0) (2023-05-30)
+
+
+### Features
+
+* or-1696 remove insz from beheerd detail ([0907a67](https://github.com/informatievlaanderen/association-registry/commit/0907a67ba62053132c2cdcdc4d6fde9172824022))
+
 # [3.9.0](https://github.com/informatievlaanderen/association-registry/compare/v3.8.0...v3.9.0) (2023-05-30)
 
 
