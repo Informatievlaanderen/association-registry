@@ -108,7 +108,6 @@ public class DetailVerenigingenController : ApiController
         => new()
         {
             VertegenwoordigerId = ver.VertegenwoordigerId,
-            Insz = ver.Insz,
             Voornaam = ver.Voornaam,
             Achternaam = ver.Achternaam,
             Roepnaam = ver.Roepnaam,

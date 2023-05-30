@@ -36,7 +36,6 @@ public class Given_VertegenwoordigerWerdGewijzigd
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                Insz = vertegenwoordiger.Insz,
                 Achternaam = vertegenwoordiger.Achternaam,
                 Voornaam = vertegenwoordiger.Voornaam,
                 Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
