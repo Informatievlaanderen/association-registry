@@ -1,3 +1,11 @@
+# [3.9.0](https://github.com/informatievlaanderen/association-registry/compare/v3.8.0...v3.9.0) (2023-05-30)
+
+
+### Features
+
+* or-1725 add tests for new code ([cfcd67e](https://github.com/informatievlaanderen/association-registry/commit/cfcd67e1589098cdb0e6cec894a04fade3e7d38e))
+* or-1725 WIP splits feitelijke ven rechtspersoonlijkheid ([c5068a0](https://github.com/informatievlaanderen/association-registry/commit/c5068a08fbd5f73501f0164f914067970612443e))
+
 # [3.8.0](https://github.com/informatievlaanderen/association-registry/compare/v3.7.0...v3.8.0) (2023-05-30)
 
 
