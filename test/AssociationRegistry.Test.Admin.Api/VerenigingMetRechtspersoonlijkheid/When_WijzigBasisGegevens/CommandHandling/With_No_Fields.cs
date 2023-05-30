@@ -6,6 +6,7 @@ using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
 using AutoFixture;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,7 +34,7 @@ public class With_No_Fields
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
     }
 
     [Fact]

@@ -14,7 +14,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     // Anders kan er niet gecompared worden.
-    private record InvocationLoad(VCode VCode);
+    private record InvocationLoad(VCode VCode, Type Type);
 
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
@@ -28,27 +28,28 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     {
         SaveInvocations.Add(new SaveInvocation(vereniging));
 
-        if (_verenigingToLoad is not null)
-            foreach (var e in vereniging.UncommittedEvents)
-            {
-                _verenigingToLoad = _verenigingToLoad.Apply((dynamic)e);
-            }
+        if (_verenigingToLoad is null) return await Task.FromResult(StreamActionResult.Empty);
+
+        foreach (var e in vereniging.UncommittedEvents)
+        {
+            _verenigingToLoad = _verenigingToLoad.Apply((dynamic)e);
+        }
 
         return await Task.FromResult(StreamActionResult.Empty);
     }
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
     {
-        _invocationsLoad.Add(new InvocationLoad(vCode));
+        _invocationsLoad.Add(new InvocationLoad(vCode, typeof(TVereniging)));
         var vereniging = new TVereniging();
         vereniging.Hydrate(_verenigingToLoad!);
         return await Task.FromResult(vereniging);
     }
 
-    public void ShouldHaveLoaded(params string[] vCodes)
+    public void ShouldHaveLoaded<TVereniging>(params string[] vCodes)where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(
-            vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode))),
+            vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode), typeof(TVereniging))),
             options => options.WithStrictOrdering());
     }
 

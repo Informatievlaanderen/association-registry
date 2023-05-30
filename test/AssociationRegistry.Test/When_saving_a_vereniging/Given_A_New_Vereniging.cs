@@ -47,8 +47,8 @@ public class Given_A_New_Vereniging : IAsyncLifetime
     [Fact]
     public void Then_the_FeitelijkeVerenigingWerdGeregistreerd_is_sent_correctly_to_the_EventStore()
     {
-        _eventStore.Invocations.Should().HaveCount(1);
-        var invocation = _eventStore.Invocations.Single();
+        _eventStore.SaveInvocations.Should().HaveCount(1);
+        var invocation = _eventStore.SaveInvocations.Single();
 
         invocation.AggregateId.Should().Be(_vCode);
 

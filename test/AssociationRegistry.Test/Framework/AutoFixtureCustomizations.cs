@@ -1,7 +1,9 @@
 namespace AssociationRegistry.Test.Framework;
 
+using Admin.Api.Constants;
 using AutoFixture;
 using AutoFixture.Dsl;
+using Events;
 using NodaTime;
 using Vereniging;
 using Vereniging.Emails;
@@ -18,6 +20,9 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeInstant();
         fixture.CustomizeInsz();
         fixture.CustomizeContactgegeven();
+        fixture.CustomizeHoofdactiviteitVerenigingsloket();
+
+        fixture.CustomizeVerenigingWerdGeregistreerd();
         return fixture;
     }
 
@@ -98,6 +103,67 @@ public static class AutoFixtureCustomizations
                         nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
                         _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
                     })
+                .OmitAutoProperties());
+    }
+
+    public static void CustomizeVerenigingWerdGeregistreerd(this IFixture fixture)
+    {
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(
+            composer => composer.FromFactory<int>(
+                    value => new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
+                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
+                        Naam: fixture.Create<string>(),
+                        Straatnaam: fixture.Create<string>(),
+                        Huisnummer: fixture.Create<int>().ToString(),
+                        Busnummer: fixture.Create<string>(),
+                        Postcode: (fixture.Create<int>() % 10000).ToString(),
+                        Gemeente: fixture.Create<string>(),
+                        Land: fixture.Create<string>(),
+                        Hoofdlocatie: false))
+                .OmitAutoProperties());
+
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(
+            composer => composer.FromFactory(
+                () =>
+                {
+                    var h = fixture.Create<HoofdactiviteitVerenigingsloket>();
+                    return new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving);
+                }).OmitAutoProperties());
+
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(
+            composer => composer.FromFactory<int>(
+                i =>
+                {
+                    var contactgegeven = fixture.Create<Contactgegeven>();
+                    return new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
+                        i,
+                        contactgegeven.Type,
+                        contactgegeven.Waarde,
+                        contactgegeven.Beschrijving,
+                        contactgegeven.IsPrimair
+                    );
+                }).OmitAutoProperties());
+
+        fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd>(
+            composer => composer.FromFactory(
+                () => new FeitelijkeVerenigingWerdGeregistreerd(
+                    fixture.Create<VCode>().ToString(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Locatie>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>().ToArray()
+                )).OmitAutoProperties());
+    }
+
+    public static void CustomizeHoofdactiviteitVerenigingsloket(this IFixture fixture)
+    {
+        fixture.Customize<HoofdactiviteitVerenigingsloket>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                    factory: value => HoofdactiviteitVerenigingsloket.All()[value % HoofdactiviteitVerenigingsloket.All().Count])
                 .OmitAutoProperties());
     }
 }

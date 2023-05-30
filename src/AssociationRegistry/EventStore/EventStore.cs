@@ -35,7 +35,7 @@ public class EventStore : IEventStore
         }
     }
 
-    public async Task<T> Load<T>(string id) where T : class, IHasVersion
+    public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
     {
         await using var session = _documentStore.OpenSession();
 
