@@ -50,11 +50,6 @@ public static class SwaggerExtensions
                         {
                             Version = "v1",
                             Title = appSettings.ApiDocs.Title,
-                            License = new OpenApiLicense
-                            {
-                                Name = appSettings.ApiDocs.License.Name,
-                                Url = new Uri(appSettings.ApiDocs.License.Url),
-                            },
                             Description = "---\n" +
                                           "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
                                           "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
