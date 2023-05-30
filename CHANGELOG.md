@@ -1,3 +1,10 @@
+# [3.8.0](https://github.com/informatievlaanderen/association-registry/compare/v3.7.0...v3.8.0) (2023-05-30)
+
+
+### Features
+
+* or-1758 remove license from admin api ([1343327](https://github.com/informatievlaanderen/association-registry/commit/13433272d883bdffe1ee93f044490238a88e951f))
+
 # [3.7.0](https://github.com/informatievlaanderen/association-registry/compare/v3.6.0...v3.7.0) (2023-05-23)
 
 
