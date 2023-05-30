@@ -115,12 +115,6 @@ public class DetailVerenigingResponse
             [DataMember(Name = "VertegenwoordigerId")]
             public int VertegenwoordigerId { get; set; }
 
-            /// <summary>
-            ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
-            /// </summary>
-            [DataMember(Name = "Insz")]
-            public string Insz { get; init; } = null!;
-
             /// <summary>Dit is de voornaam van de vertegenwoordiger volgens het rijksregister</summary>
             [DataMember(Name = "Voornaam")]
             public string Voornaam { get; init; } = null!;

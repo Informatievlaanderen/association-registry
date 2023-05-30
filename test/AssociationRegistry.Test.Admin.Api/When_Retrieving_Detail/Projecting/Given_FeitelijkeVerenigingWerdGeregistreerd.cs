@@ -67,7 +67,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         VertegenwoordigerId = v.VertegenwoordigerId,
                         IsPrimair = v.IsPrimair,
                         Roepnaam = v.Roepnaam,
-                        Insz = v.Insz,
                         Rol = v.Rol,
                         Achternaam = v.Achternaam,
                         Voornaam = v.Voornaam,

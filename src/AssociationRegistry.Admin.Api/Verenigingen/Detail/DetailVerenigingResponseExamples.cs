@@ -58,7 +58,6 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 {
                     new DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger
                     {
-                        Insz = "xx.xx.xx-xxx-xx",
                         VertegenwoordigerId = 1,
                         Voornaam = "Jhon",
                         Achternaam = "Doo",

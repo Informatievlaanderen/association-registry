@@ -46,7 +46,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                     VertegenwoordigerId = v.VertegenwoordigerId,
                     IsPrimair = v.IsPrimair,
                     Roepnaam = v.Roepnaam,
-                    Insz = v.Insz,
                     Rol = v.Rol,
                     Achternaam = v.Achternaam,
                     Voornaam = v.Voornaam,
@@ -186,7 +185,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
-                Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                 Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
                 Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
                 Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,
@@ -211,7 +209,6 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 new BeheerVerenigingDetailDocument.Vertegenwoordiger
                 {
                     VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                    Insz = vertegenwoordigerToUpdate.Insz,
                     Achternaam = vertegenwoordigerToUpdate.Achternaam,
                     Voornaam = vertegenwoordigerToUpdate.Voornaam,
                     Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
@@ -318,7 +315,6 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record Vertegenwoordiger
     {
         public int VertegenwoordigerId { get; set; }
-        public string Insz { get; set; } = null!;
         public string Voornaam { get; set; } = null!;
         public string Achternaam { get; set; } = null!;
         public string? Roepnaam { get; set; }
