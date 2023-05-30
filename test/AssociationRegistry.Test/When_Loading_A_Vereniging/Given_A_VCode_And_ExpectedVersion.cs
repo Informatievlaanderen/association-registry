@@ -6,31 +6,28 @@ using EventStore;
 using FluentAssertions;
 using Framework;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_VCode
+public class Given_A_VCode_And_ExpectedVersion
 {
     private readonly VerenigingsRepository _repo;
     private readonly VCode _vCode;
 
-    public Given_A_VCode()
+    public Given_A_VCode_And_ExpectedVersion()
     {
         var fixture = new Fixture().CustomizeAll();
         _vCode = fixture.Create<VCode>();
         var eventStoreMock = new EventStoreMock(
-            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with {VCode = _vCode});
+            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });
         _repo = new VerenigingsRepository(eventStoreMock);
-
-
     }
 
     [Fact]
     public async Task Then_A_FeitelijkeVereniging_Is_Returned()
     {
-        var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, null);
+        var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, 1);
         feteitelijkeVerenging
             .Should()
             .NotBeNull()
@@ -39,9 +36,9 @@ public class Given_A_VCode
     }
 
     [Fact]
-    public async Task Then_It_Throws_A_UnsupportedOperationException()
+    public async Task Then_It_Throws_A_UnexpectedAggregateVersionException()
     {
-        var loadMethod = ()=> _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, null);
-        await loadMethod.Should().ThrowAsync<UnsupportedOperationException>();
+        var loadMethod = () => _repo.Load<Vereniging>(_vCode, 2);
+        await loadMethod.Should().ThrowAsync<UnexpectedAggregateVersionException>();
     }
 }

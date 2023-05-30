@@ -25,11 +25,12 @@ public class VerenigingsRepository : IVerenigingsRepository
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
 
+        var vereniging = new TVereniging();
+        vereniging.Hydrate(verenigingState);
+
         if (expectedVersion is not null && verenigingState.Version != expectedVersion)
             throw new UnexpectedAggregateVersionException();
 
-        var vereniging = new TVereniging();
-        vereniging.Hydrate(verenigingState);
         return vereniging;
     }
 }

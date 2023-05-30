@@ -38,7 +38,7 @@ public class With_The_Same_Startdatum
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
     [Fact]

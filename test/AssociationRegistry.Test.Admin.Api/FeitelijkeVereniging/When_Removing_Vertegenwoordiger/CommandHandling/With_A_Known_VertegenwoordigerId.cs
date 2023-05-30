@@ -7,6 +7,7 @@ using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
 using AutoFixture;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,7 +35,7 @@ public class With_A_Known_VertegenwoordigerId
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
     [Fact]
