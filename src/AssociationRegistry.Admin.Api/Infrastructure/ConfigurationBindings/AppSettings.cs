@@ -18,14 +18,7 @@ public class AppSettings
     {
         public string Title { get; set; } = null!;
 
-        public LicenseSettings License { get; set; } = null!;
         public ContactSettings Contact { get; set; } = null!;
-
-        public class LicenseSettings
-        {
-            public string Name { get; set; } = null!;
-            public string Url { get; set; } = null!;
-        }
 
         public class ContactSettings
         {
