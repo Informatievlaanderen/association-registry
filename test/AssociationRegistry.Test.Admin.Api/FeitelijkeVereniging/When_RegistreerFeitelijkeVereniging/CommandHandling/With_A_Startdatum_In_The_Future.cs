@@ -4,7 +4,6 @@ using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
@@ -33,7 +32,6 @@ public class With_A_Startdatum_In_The_Future
         _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            new MagdaFacadeEchoMock(),
             new NoDuplicateVerenigingDetectionService(),
             new ClockStub(today));
 

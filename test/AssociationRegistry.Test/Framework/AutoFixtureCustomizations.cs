@@ -21,9 +21,27 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeInsz();
         fixture.CustomizeContactgegeven();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
+        fixture.CustomizeVoornaam();
+        fixture.CustomizeAchternaam();
 
         fixture.CustomizeVerenigingWerdGeregistreerd();
         return fixture;
+    }
+
+    private static void CustomizeAchternaam(this IFixture fixture)
+    {
+        fixture.Customize<Achternaam>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => Achternaam.Create(string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeVoornaam(this IFixture fixture)
+    {
+        fixture.Customize<Voornaam>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => Voornaam.Create(string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
+                .OmitAutoProperties());
     }
 
     public static void CustomizeDateOnly(this IFixture fixture)

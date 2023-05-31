@@ -39,6 +39,8 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeContactgegevens();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
         fixture.CustomizeHoofdactiviteitenVerenigingsloket();
+        fixture.CustomizeVoornaam();
+        fixture.CustomizeAchternaam();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
         fixture.CustomizeWijzigBasisgegevensRequest();
@@ -123,7 +125,6 @@ public static class AutoFixtureCustomizations
     }
 
 
-
     public static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
         fixture.Customize<RegistreerDecentraalBeheerdeVerenigingRequest>(
@@ -177,6 +178,8 @@ public static class AutoFixtureCustomizations
                     factory: () => new ToeTeVoegenVertegenwoordiger
                     {
                         Insz = fixture.Create<Insz>(),
+                        Voornaam = fixture.Create<Voornaam>(),
+                        Achternaam = fixture.Create<Achternaam>(),
                         Roepnaam = fixture.Create<string>(),
                         Rol = fixture.Create<string>(),
                         IsPrimair = false,
@@ -185,6 +188,22 @@ public static class AutoFixtureCustomizations
                         Mobiel = fixture.Create<TelefoonNummer>().Waarde,
                         SocialMedia = fixture.Create<SocialMedia>().Waarde,
                     })
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeAchternaam(this IFixture fixture)
+    {
+        fixture.Customize<Achternaam>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => Achternaam.Create(string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeVoornaam(this IFixture fixture)
+    {
+        fixture.Customize<Voornaam>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () => Voornaam.Create(string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
                 .OmitAutoProperties());
     }
 
@@ -268,8 +287,8 @@ public static class AutoFixtureCustomizations
                         false,
                         fixture.Create<string>(),
                         fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
+                        fixture.Create<Voornaam>(),
+                        fixture.Create<Achternaam>(),
                         fixture.Create<Email>().Waarde,
                         fixture.Create<TelefoonNummer>().Waarde,
                         fixture.Create<TelefoonNummer>().Waarde,
@@ -334,8 +353,8 @@ public static class AutoFixtureCustomizations
                     false,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
+                    fixture.Create<Voornaam>(),
+                    fixture.Create<Achternaam>(),
                     fixture.Create<Email>(),
                     fixture.Create<TelefoonNummer>(),
                     fixture.Create<TelefoonNummer>(),

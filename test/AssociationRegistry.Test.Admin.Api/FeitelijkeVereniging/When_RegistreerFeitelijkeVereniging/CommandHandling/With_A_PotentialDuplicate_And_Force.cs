@@ -7,7 +7,6 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
@@ -53,7 +52,6 @@ public class With_A_PotentialDuplicate_And_Force
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
             new ClockStub(_command.Startdatum.Datum!.Value));
 
@@ -91,8 +89,6 @@ public class With_A_PotentialDuplicate_And_Force
                     (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
-                        Voornaam = v.Insz,
-                        Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(

@@ -64,6 +64,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = autoFixture.Create<Insz>(),
+                    Voornaam = "Jane",
+                    Achternaam = "Doe",
                     Rol = "Voorzitter, Hoofdcoach",
                     Roepnaam = "QTPY",
                     IsPrimair = true,
@@ -75,6 +77,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = autoFixture.Create<Insz>(),
+                    Voornaam = "Kim",
+                    Achternaam = "Possible",
                     Rol = "Master",
                     Roepnaam = "Lara",
                     IsPrimair = false,

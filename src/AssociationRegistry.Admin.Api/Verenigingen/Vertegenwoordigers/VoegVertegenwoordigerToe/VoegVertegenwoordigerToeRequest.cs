@@ -23,6 +23,8 @@ public class VoegVertegenwoordigerToeRequest
                 Vertegenwoordiger.IsPrimair,
                 Vertegenwoordiger.Roepnaam,
                 Vertegenwoordiger.Rol,
+                Voornaam.Create(Vertegenwoordiger.Voornaam),
+                Achternaam.Create(Vertegenwoordiger.Achternaam),
                 Email.Create(Vertegenwoordiger.Email),
                 TelefoonNummer.Create(Vertegenwoordiger.Telefoon),
                 TelefoonNummer.Create(Vertegenwoordiger.Mobiel),

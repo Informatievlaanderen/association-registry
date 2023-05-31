@@ -25,6 +25,8 @@ public class To_VoegVertegenwoordigerToeCommand
 
         command.VCode.Should().Be(vCode);
         command.Vertegenwoordiger.Insz.ToString().Should().BeEquivalentTo(request.Vertegenwoordiger.Insz);
+        command.Vertegenwoordiger.Voornaam.Waarde.Should().BeEquivalentTo(request.Vertegenwoordiger.Voornaam);
+        command.Vertegenwoordiger.Achternaam.Waarde.Should().BeEquivalentTo(request.Vertegenwoordiger.Achternaam);
         command.Vertegenwoordiger.IsPrimair.Should().Be(request.Vertegenwoordiger.IsPrimair);
         command.Vertegenwoordiger.Roepnaam.Should().BeEquivalentTo(request.Vertegenwoordiger.Roepnaam);
         command.Vertegenwoordiger.Rol.Should().BeEquivalentTo(request.Vertegenwoordiger.Rol);

@@ -64,6 +64,8 @@ public class RegistreerDecentraalBeheerdeVerenigingRequest
             vert.IsPrimair,
             vert.Roepnaam,
             vert.Rol,
+            Voornaam.Create(vert.Voornaam),
+            Achternaam.Create(vert.Achternaam),
             Email.Create(vert.Email),
             TelefoonNummer.Create(vert.Telefoon),
             TelefoonNummer.Create(vert.Mobiel),

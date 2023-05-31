@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
@@ -26,7 +25,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
+        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
     }
 
     [Fact]

@@ -5,7 +5,6 @@ using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
@@ -31,7 +30,6 @@ public class With_A_Startdatum_On_Today
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             _verenigingRepositoryMock,
             vCodeService,
-            new MagdaFacadeEchoMock(),
             new NoDuplicateVerenigingDetectionService(),
             new ClockStub(command.Startdatum.Datum!.Value));
 

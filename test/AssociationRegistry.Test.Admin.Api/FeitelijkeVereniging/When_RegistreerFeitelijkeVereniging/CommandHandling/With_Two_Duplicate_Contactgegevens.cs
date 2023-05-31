@@ -4,7 +4,6 @@ using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
@@ -35,7 +34,6 @@ public class With_Two_Duplicate_Contactgegevens
         _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
-            new MagdaFacadeEchoMock(),
             new NoDuplicateVerenigingDetectionService(),
             new ClockStub(command.Startdatum.Datum!.Value));
 

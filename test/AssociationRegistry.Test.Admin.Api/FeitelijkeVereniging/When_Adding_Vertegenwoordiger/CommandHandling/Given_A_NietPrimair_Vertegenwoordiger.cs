@@ -6,7 +6,6 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using Framework.MagdaMocks;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;
@@ -23,7 +22,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
 
         var fixture = new Fixture().CustomizeAll();
 
-        var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
+        var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
         var command = new VoegVertegenwoordigerToeCommand(
             scenario.VCode,
             fixture.Create<Vertegenwoordiger>());
@@ -37,8 +36,8 @@ public class Given_A_NietPrimair_Vertegenwoordiger
                 command.Vertegenwoordiger.IsPrimair,
                 command.Vertegenwoordiger.Roepnaam ?? string.Empty,
                 command.Vertegenwoordiger.Rol ?? string.Empty,
-                command.Vertegenwoordiger.Insz,
-                command.Vertegenwoordiger.Insz,
+                command.Vertegenwoordiger.Voornaam,
+                command.Vertegenwoordiger.Achternaam,
                 command.Vertegenwoordiger.Email.Waarde,
                 command.Vertegenwoordiger.Telefoon.Waarde,
                 command.Vertegenwoordiger.Mobiel.Waarde,

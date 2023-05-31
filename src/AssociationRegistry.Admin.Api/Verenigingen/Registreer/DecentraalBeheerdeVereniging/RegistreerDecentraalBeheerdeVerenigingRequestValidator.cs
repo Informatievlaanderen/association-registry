@@ -83,6 +83,26 @@ public class RegistreerDecentraalBeheerdeVerenigingRequestValidator : AbstractVa
         {
             this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Insz);
 
+            this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Voornaam);
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Voornaam)
+                .Must(NotContainNumbers)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Voornaam))
+                .WithMessage("'Voornaam' mag geen cijfers bevatten.");
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Voornaam)
+                .Must(ContainAtLeastOneLetter)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Voornaam))
+                .WithMessage("'Voornaam' moet minstens een letter bevatten.");
+
+            this.RequireNotNullOrEmpty(vertegenwoordiger => vertegenwoordiger.Achternaam);
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Achternaam)
+                .Must(NotContainNumbers)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Achternaam))
+                .WithMessage("'Achternaam' mag geen cijfers bevatten.");
+            RuleFor(vertegenwoordiger => vertegenwoordiger.Achternaam)
+                .Must(ContainAtLeastOneLetter)
+                .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Achternaam))
+                .WithMessage("'Achternaam' moet minstens een letter bevatten.");
+
             RuleFor(vertegenwoordiger => vertegenwoordiger.Insz)
                 .Must(ContainOnlyNumbersDotsAndDashes)
                 .When(vertegenwoordiger => !string.IsNullOrEmpty(vertegenwoordiger.Insz))
@@ -107,6 +127,13 @@ public class RegistreerDecentraalBeheerdeVerenigingRequestValidator : AbstractVa
             insz = insz!.Replace(".", string.Empty).Replace("-", string.Empty);
             return insz.Length == 11;
         }
+
+        private static bool NotContainNumbers(string arg)
+            => !arg.Any(char.IsDigit);
+
+
+        private static bool ContainAtLeastOneLetter(string arg)
+            => arg.Any(char.IsLetter);
     }
 
     private class ContactgegevenValidator : AbstractValidator<ToeTeVoegenContactgegeven>

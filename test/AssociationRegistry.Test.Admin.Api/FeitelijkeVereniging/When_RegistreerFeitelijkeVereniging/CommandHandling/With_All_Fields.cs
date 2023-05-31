@@ -3,12 +3,9 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using Events;
 using AssociationRegistry.Framework;
-using Magda;
 using Fakes;
 using Framework;
-using Vereniging;
 using AutoFixture;
-using Moq;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,8 +13,6 @@ using Xunit.Categories;
 public class With_All_Fields
 {
     private readonly RegistreerFeitelijkeVerenigingCommand _command;
-    private readonly string _magdaAchternaam;
-    private readonly string _magdaVoornaam;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
@@ -25,28 +20,14 @@ public class With_All_Fields
     {
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
-        Mock<IMagdaFacade> magdaFacade = new();
 
         var fixture = new Fixture().CustomizeAll();
 
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>();
         var clock = new ClockStub(_command.Startdatum.Datum!.Value);
 
-        _magdaVoornaam = fixture.Create<string>();
-        _magdaAchternaam = fixture.Create<string>();
-        magdaFacade
-            .Setup(facade => facade.GetByInsz(It.IsAny<Insz>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(
-                (Insz insz, CancellationToken _) => new MagdaPersoon
-                {
-                    Insz = insz,
-                    Voornaam = _magdaVoornaam,
-                    Achternaam = _magdaAchternaam,
-                    IsOverleden = false,
-                });
-
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, magdaFacade.Object, new NoDuplicateVerenigingDetectionService(), clock);
+        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
@@ -94,8 +75,8 @@ public class With_All_Fields
                             v.IsPrimair,
                             v.Roepnaam ?? string.Empty,
                             v.Rol ?? string.Empty,
-                            _magdaVoornaam,
-                            _magdaAchternaam,
+                            v.Voornaam,
+                            v.Achternaam,
                             v.Email.Waarde,
                             v.Telefoon.Waarde,
                             v.Mobiel.Waarde,
