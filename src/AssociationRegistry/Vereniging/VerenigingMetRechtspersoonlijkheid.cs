@@ -22,7 +22,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationException>.If(obj.VerenigingsType != VerenigingsType.VerenigingMetRechtspersoonlijkheid);
+        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.VerenigingMetRechtspersoonlijkheid);
         State = obj;
     }
 

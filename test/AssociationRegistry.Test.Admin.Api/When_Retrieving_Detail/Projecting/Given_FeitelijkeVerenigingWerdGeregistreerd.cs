@@ -29,8 +29,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                 Type = new BeheerVerenigingDetailDocument.VerenigingsType
                 {
-                    Code = VerenigingsType.FeitelijkeVereniging.Code,
-                    Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
+                    Code = Verenigingstype.FeitelijkeVereniging.Code,
+                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                 },
                 Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,

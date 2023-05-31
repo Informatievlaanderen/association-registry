@@ -25,8 +25,8 @@ public class ElasticEventHandler
                 VCode = message.Data.VCode,
                 Type = new VerenigingDocument.VerenigingsType
                 {
-                    Code = VerenigingsType.FeitelijkeVereniging.Code,
-                    Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
+                    Code = Verenigingstype.FeitelijkeVereniging.Code,
+                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -59,7 +59,7 @@ public class ElasticEventHandler
             new VerenigingDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingDocument.VerenigingsType { Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving },
+                Type = new VerenigingDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<VerenigingDocument.Locatie>(),

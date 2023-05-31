@@ -75,7 +75,7 @@ public class DetailVerenigingenController : ApiController
                 Metadata = new DetailVerenigingResponse.MetadataDetail
                 {
                     DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
-                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}"+(vereniging.Type.Code == VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code?"/kbo":""),
+                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}"+(vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code?"/kbo":""),
                 },
             });
     }

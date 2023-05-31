@@ -17,7 +17,7 @@ public record VerenigingState : IHasVersion
         get => VCode;
         set => VCode = VCode.Create(value);
     }
-    public VerenigingsType VerenigingsType { get; init; } = null!;
+    public Verenigingstype Verenigingstype { get; init; } = null!;
      public VCode VCode { get; private set; } = null!;
     public VerenigingsNaam Naam { get; private init; } = null!;
     public string? KorteNaam { get; private init; }
@@ -30,7 +30,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
-            VerenigingsType = VerenigingsType.FeitelijkeVereniging,
+            Verenigingstype = Verenigingstype.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -72,7 +72,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            VerenigingsType = VerenigingsType.VerenigingMetRechtspersoonlijkheid,
+            Verenigingstype = Verenigingstype.VerenigingMetRechtspersoonlijkheid,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,

@@ -74,8 +74,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
                     ""type"": {{
-                        ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
-                        ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+                        ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
+                        ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Beschrijving}"",
                     }},
                     ""naam"": ""{_feitelijkeVerenigingWerdGeregistreerd.Naam}"",
                     ""korteNaam"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",

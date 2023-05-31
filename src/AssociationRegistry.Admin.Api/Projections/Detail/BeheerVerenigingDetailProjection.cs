@@ -21,8 +21,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Type = new BeheerVerenigingDetailDocument.VerenigingsType
             {
-                Code = VerenigingsType.FeitelijkeVereniging.Code,
-                Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
+                Code = Verenigingstype.FeitelijkeVereniging.Code,
+                Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -69,8 +69,8 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Type = new BeheerVerenigingDetailDocument.VerenigingsType
             {
-                Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
+                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

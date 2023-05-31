@@ -16,8 +16,8 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Type = new PubliekVerenigingDetailDocument.VerenigingsType
             {
-                Code = VerenigingsType.FeitelijkeVereniging.Code,
-                Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
+                Code = Verenigingstype.FeitelijkeVereniging.Code,
+                Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -44,8 +44,8 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Type = new PubliekVerenigingDetailDocument.VerenigingsType
             {
-                Code = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = VerenigingsType.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
+                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

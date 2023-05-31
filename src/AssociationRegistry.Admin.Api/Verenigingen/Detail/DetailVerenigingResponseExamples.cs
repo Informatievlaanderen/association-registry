@@ -15,8 +15,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 VCode = "V0001001",
                 Type = new BeheerVerenigingDetailDocument.VerenigingsType
                 {
-                    Beschrijving = VerenigingsType.FeitelijkeVereniging.Beschrijving,
-                    Code = VerenigingsType.FeitelijkeVereniging.Code,
+                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                    Code = Verenigingstype.FeitelijkeVereniging.Code,
                 },
                 Naam = "FWA De vrolijke BA’s",
                 KorteNaam = "DVB",

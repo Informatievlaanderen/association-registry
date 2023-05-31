@@ -83,8 +83,8 @@ public class Given_All_BasisGegevensWerdenGewijzigd
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
                     ""type"": {{
-                        ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
-                        ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+                        ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
+                        ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Beschrijving}"",
                     }},
                     ""naam"": ""{_naamWerdGewijzigd.Naam}"",
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",

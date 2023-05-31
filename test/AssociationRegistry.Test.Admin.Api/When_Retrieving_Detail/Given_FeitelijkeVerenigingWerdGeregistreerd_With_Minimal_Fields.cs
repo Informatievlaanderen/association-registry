@@ -58,8 +58,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
     ""vereniging"": {{
             ""vCode"": ""{_feitelijkeVerenigingWerdGeregistreerd.VCode}"",
             ""type"": {{
-                ""code"": ""{VerenigingsType.FeitelijkeVereniging.Code}"",
-                ""beschrijving"": ""{VerenigingsType.FeitelijkeVereniging.Beschrijving}"",
+                ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
+                ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Beschrijving}"",
             }},
             ""naam"": ""{_feitelijkeVerenigingWerdGeregistreerd.Naam}"",
             ""korteNaam"": """",

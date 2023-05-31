@@ -25,8 +25,8 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                     new DuplicaatVereniging(
                         "V0001001",
                         new DuplicaatVereniging.VerenigingsType(
-                                VerenigingsType.FeitelijkeVereniging.Code,
-                                VerenigingsType.FeitelijkeVereniging.Beschrijving),
+                                Verenigingstype.FeitelijkeVereniging.Code,
+                                Verenigingstype.FeitelijkeVereniging.Beschrijving),
                         "Naam",
                         "Korte naam",
                         ImmutableArray.Create(

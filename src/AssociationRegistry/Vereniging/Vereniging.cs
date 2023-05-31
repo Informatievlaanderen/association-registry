@@ -159,7 +159,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationException>.If(obj.VerenigingsType != VerenigingsType.FeitelijkeVereniging);
+        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
         State = obj;
     }
 }

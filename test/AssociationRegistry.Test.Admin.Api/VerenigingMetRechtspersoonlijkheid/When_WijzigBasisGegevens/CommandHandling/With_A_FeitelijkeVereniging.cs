@@ -36,6 +36,6 @@ public class With_A_FeitelijkeVereniging
     public async Task Then_A_UnsupportedOperationException_Is_Thrown()
     {
         var method = ()=>  _commandHandler.Handle(_envelope, _verenigingRepositoryMock);
-        await method.Should().ThrowAsync<UnsupportedOperationException>();
+        await method.Should().ThrowAsync<UnsupportedOperationForVerenigingstype>();
     }
 }
