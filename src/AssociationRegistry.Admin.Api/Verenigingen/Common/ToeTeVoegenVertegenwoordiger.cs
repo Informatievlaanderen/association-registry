@@ -7,10 +7,18 @@ using System.Runtime.Serialization;
 public class ToeTeVoegenVertegenwoordiger
 {
     /// <summary>
-    ///     Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
+    /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
     /// </summary>
     [DataMember]
     public string Insz { get; set; } = null!;
+
+    /// <summary>De voornaam van de vertegenwoordiger</summary>
+    [DataMember]
+    public string Voornaam { get; set; } = null!;
+
+    /// <summary>De achternaam van de vertegenwoordiger</summary>
+    [DataMember]
+    public string Achternaam { get; set; } = null!;
 
     /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
     [DataMember]

@@ -5,7 +5,6 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
@@ -27,7 +26,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
 
         _fixture = new Fixture().CustomizeAll();
 
-        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock, new MagdaFacadeEchoMock());
+        _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
     }
 
     [Fact]

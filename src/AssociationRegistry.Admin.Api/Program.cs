@@ -34,7 +34,6 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
-using Magda;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -277,7 +276,6 @@ public class Program
             .AddSingleton<IClock, Clock>()
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
-            .AddTransient<IMagdaFacade, StaticMagdaFacade>()
             .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddOpenTelemetry()

@@ -5,7 +5,6 @@ using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using AutoFixture;
 using Xunit;
@@ -37,7 +36,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             _repositoryMock,
             _vCodeService,
-            new MagdaFacadeEchoMock(),
             new NoDuplicateVerenigingDetectionService(),
             new ClockStub(_command.Startdatum.Datum!.Value));
     }
@@ -84,8 +82,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
-                        Voornaam = v.Insz,
-                        Achternaam = v.Insz,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(

@@ -6,7 +6,6 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
@@ -47,7 +46,6 @@ public class With_A_PotentialDuplicate
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
-            new MagdaFacadeEchoMock(),
             duplicateChecker.Object,
             new ClockStub(command.Startdatum.Datum!.Value));
 

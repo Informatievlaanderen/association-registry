@@ -5,7 +5,6 @@ using Events;
 using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
-using Framework.MagdaMocks;
 using Vereniging;
 using AutoFixture;
 using Xunit;
@@ -40,7 +39,7 @@ public class With_Required_Fields
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaFacadeEchoMock(), new NoDuplicateVerenigingDetectionService(), clock);
+        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)

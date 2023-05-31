@@ -2,7 +2,6 @@
 
 using DuplicateVerenigingDetection;
 using Framework;
-using Magda;
 using Vereniging;
 using ResultNet;
 
@@ -10,20 +9,17 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 {
     private readonly IClock _clock;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
-    private readonly IMagdaFacade _magdaFacade;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public RegistreerFeitelijkeVerenigingCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
-        IMagdaFacade magdaFacade,
         IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
         IClock clock)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
-        _magdaFacade = magdaFacade;
         _duplicateVerenigingDetectionService = duplicateVerenigingDetectionService;
         _clock = clock;
     }
@@ -38,9 +34,6 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
 
-        var vertegenwoordigerService = new VertegenwoordigerService(_magdaFacade);
-        var vertegenwoordigersLijst = await vertegenwoordigerService.GetVertegenwoordigers(command.Vertegenwoordigers);
-
         var vCode = await _vCodeService.GetNext();
 
         var vereniging = Vereniging.Registreer(
@@ -51,7 +44,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.Startdatum,
             command.Contactgegevens,
             command.Locaties,
-            vertegenwoordigersLijst,
+            message.Command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
             _clock);
 

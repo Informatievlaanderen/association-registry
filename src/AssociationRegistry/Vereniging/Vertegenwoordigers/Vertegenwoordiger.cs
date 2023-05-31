@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
 using Emails;
-using Magda;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -12,8 +11,8 @@ public record Vertegenwoordiger
         bool isPrimair,
         string? roepnaam,
         string? rol,
-        string voornaam,
-        string achternaam,
+        Voornaam voornaam,
+        Achternaam achternaam,
         Email email,
         TelefoonNummer telefoon,
         TelefoonNummer mobiel,
@@ -36,8 +35,8 @@ public record Vertegenwoordiger
     public bool IsPrimair { get; init; }
     public string? Roepnaam { get; }
     public string? Rol { get; }
-    public string Voornaam { get; }
-    public string Achternaam { get; }
+    public Voornaam Voornaam { get; }
+    public Achternaam Achternaam { get; }
     public Email Email { get; }
     public TelefoonNummer Telefoon { get; }
     public TelefoonNummer Mobiel { get; }
@@ -48,45 +47,22 @@ public record Vertegenwoordiger
         bool primairContactpersoon,
         string? roepnaam,
         string? rol,
-        string voornaam,
-        string achternaam,
+        Voornaam voornaam,
+        Achternaam achternaam,
         Email email,
         TelefoonNummer telefoonNummer,
         TelefoonNummer mobiel,
         SocialMedia socialMedia)
         => new(insz, primairContactpersoon, roepnaam, rol, voornaam, achternaam, email, telefoonNummer, mobiel, socialMedia);
 
-    public static Vertegenwoordiger Create(
-        Insz insz,
-        bool primairContactpersoon,
-        string? roepnaam,
-        string? rol,
-        Email email,
-        TelefoonNummer telefoonNummer,
-        TelefoonNummer mobiel,
-        SocialMedia socialMedia)
-        => new(insz, primairContactpersoon, roepnaam, rol, string.Empty, string.Empty, email, telefoonNummer, mobiel, socialMedia);
-
-    internal static Vertegenwoordiger Enrich(Vertegenwoordiger vertegenwoordiger, MagdaPersoon persoon)
-        => new(
-            vertegenwoordiger.Insz,
-            vertegenwoordiger.IsPrimair,
-            vertegenwoordiger.Roepnaam,
-            vertegenwoordiger.Rol,
-            persoon.Voornaam,
-            persoon.Achternaam,
-            vertegenwoordiger.Email,
-            vertegenwoordiger.Telefoon,
-            vertegenwoordiger.Mobiel,
-            vertegenwoordiger.SocialMedia);
 
     public static Vertegenwoordiger Hydrate(
         int vertegenwoordigerId,
         Insz insz,
         string? rol,
         string? roepnaam,
-        string voornaam,
-        string achternaam,
+        Voornaam voornaam,
+        Achternaam achternaam,
         bool isPrimair,
         Email email,
         TelefoonNummer telefoon,

@@ -54,6 +54,8 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
                             v.IsPrimair,
                             v.Roepnaam,
                             v.Rol,
+                            Voornaam.Create(v.Voornaam),
+                            Achternaam.Create(v.Achternaam),
                             Email.Create(v.Email),
                             TelefoonNummer.Create(v.Telefoon),
                             TelefoonNummer.Create(v.Mobiel),
