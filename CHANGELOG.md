@@ -1,3 +1,10 @@
+# [3.11.0](https://github.com/informatievlaanderen/association-registry/compare/v3.10.0...v3.11.0) (2023-05-31)
+
+
+### Features
+
+* or-1725 add exception message when action is started on wrong verenigingstype ([68b954b](https://github.com/informatievlaanderen/association-registry/commit/68b954b74465df8651e45e9d5d4d7f2c3a90c4c1))
+
 # [3.10.0](https://github.com/informatievlaanderen/association-registry/compare/v3.9.0...v3.10.0) (2023-05-30)
 
 
