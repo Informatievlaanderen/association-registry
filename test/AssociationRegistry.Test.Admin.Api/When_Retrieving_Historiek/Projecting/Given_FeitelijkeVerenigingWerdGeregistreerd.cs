@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -32,7 +33,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     new(
                         $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.",
                         nameof(FeitelijkeVerenigingWerdGeregistreerd),
-                        feitelijkeVerenigingWerdGeregistreerd.Data,
+                        FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
                         feitelijkeVerenigingWerdGeregistreerd.Initiator,
                         feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
                 },

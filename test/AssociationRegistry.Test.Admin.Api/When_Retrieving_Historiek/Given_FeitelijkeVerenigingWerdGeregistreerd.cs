@@ -3,6 +3,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
 using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -65,7 +66,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     {{
                         ""beschrijving"": ""Feitelijke vereniging werd geregistreerd met naam '{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.FeitelijkeVerenigingWerdGeregistreerd)},
+                        ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
