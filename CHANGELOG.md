@@ -1,3 +1,10 @@
+# [3.13.0](https://github.com/informatievlaanderen/association-registry/compare/v3.12.0...v3.13.0) (2023-06-01)
+
+
+### Features
+
+* or-1696 remove insz from historiek ([521b140](https://github.com/informatievlaanderen/association-registry/commit/521b14020c27ea6c1cdae4f3c784e6f5e5cd0ed8))
+
 # [3.12.0](https://github.com/informatievlaanderen/association-registry/compare/v3.11.0...v3.12.0) (2023-05-31)
 
 
