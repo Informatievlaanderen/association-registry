@@ -32,6 +32,10 @@
     <None Remove="Given_A_Vereniging_Does_Not_Exist\When_posting_a_new_vereniging\files\request.with_unparsable_request.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_unparsable_request.json" />
+    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\response.unparsable.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />

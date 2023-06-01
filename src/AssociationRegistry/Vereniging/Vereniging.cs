@@ -37,20 +37,51 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return vereniging;
     }
 
+    public static Vereniging RegistreerAfdeling(
+        VCode vCode,
+        VerenigingsNaam naam,
+        KboNummer kboNummerMoedervereniging,
+        string? korteNaam,
+        string? korteBeschrijving,
+        Startdatum startdatum,
+        Contactgegeven[] contactgegevens,
+        Locatie[] locaties,
+        Vertegenwoordiger[] vertegenwoordigers,
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
+        IClock clock)
+    {
+        MustNotBeInFuture(startdatum, clock.Today);
+        var vereniging = new Vereniging();
+        vereniging.AddEvent(
+            new AfdelingWerdGeregistreerd(
+                vCode,
+                naam,
+                kboNummerMoedervereniging,
+                korteNaam ?? string.Empty,
+                korteBeschrijving ?? string.Empty,
+                startdatum.Datum,
+                ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
+                ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
+                ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
+        return vereniging;
+    }
+
+
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
         => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
 
-    private static FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
-        => contactgegevens.Select(FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven.With).ToArray();
+    private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
+        => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
 
-    private static FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
-        => hoofdactiviteitenVerenigingsloketLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket.With).ToArray();
+    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+        => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
 
-    private static FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With).ToArray();
+    private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
+        => vertegenwoordigersLijst.Select(Registratiedata.Vertegenwoordiger.With).ToArray();
 
-    private static FeitelijkeVerenigingWerdGeregistreerd.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
-        => locatieLijst.Select(FeitelijkeVerenigingWerdGeregistreerd.Locatie.With).ToArray();
+    private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
+        => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
 
     public void WijzigNaam(VerenigingsNaam naam)
     {
@@ -159,7 +190,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
+        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
         State = obj;
     }
 }

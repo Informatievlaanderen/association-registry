@@ -118,7 +118,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}],
-                    ""sleutels"":[]
+                    ""sleutels"":[],
+                    ""relaties"":[]
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": """"

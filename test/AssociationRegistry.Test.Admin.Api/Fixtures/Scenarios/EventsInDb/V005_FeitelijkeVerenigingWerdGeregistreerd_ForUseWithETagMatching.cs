@@ -18,12 +18,12 @@ public class V005_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithETagMatching :
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

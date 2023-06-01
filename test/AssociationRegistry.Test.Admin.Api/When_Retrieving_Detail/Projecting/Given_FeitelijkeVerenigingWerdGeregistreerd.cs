@@ -82,6 +82,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Beschrijving = h.Beschrijving,
                     }).ToArray(),
                 Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
+                Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             });
         doc.DatumLaatsteAanpassing.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate());

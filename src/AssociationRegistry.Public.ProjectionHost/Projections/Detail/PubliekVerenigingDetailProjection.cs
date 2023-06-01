@@ -38,6 +38,34 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
+    public PubliekVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+        => new()
+        {
+            VCode = afdelingWerdGeregistreerd.Data.VCode,
+            Type = new PubliekVerenigingDetailDocument.VerenigingsType
+            {
+                Code = Verenigingstype.Afdeling.Code,
+                Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+            },
+            Naam = afdelingWerdGeregistreerd.Data.Naam,
+            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
+            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
+                c => new PubliekVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = c.ContactgegevenId,
+                    Type = c.Type.ToString(),
+                    Waarde = c.Waarde,
+                    Beschrijving = c.Beschrijving,
+                    IsPrimair = c.IsPrimair,
+                }).ToArray(),
+            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
+        };
+
     public PubliekVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
@@ -67,7 +95,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
             } };
 
 
-    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket arg)
+    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(Registratiedata.HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,
@@ -154,7 +182,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(FeitelijkeVerenigingWerdGeregistreerd.Locatie loc)
+    private static PubliekVerenigingDetailDocument.Locatie MapLocatie( Registratiedata.Locatie loc)
         => new()
         {
             Hoofdlocatie = loc.Hoofdlocatie,

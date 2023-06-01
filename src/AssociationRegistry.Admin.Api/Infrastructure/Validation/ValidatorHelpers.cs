@@ -25,4 +25,14 @@ public static class ValidatorHelpers
             .WithMessage($"'{expression.GetMember().Name}' mag niet leeg zijn.")
             .When(request => expression.Compile().Invoke(request) is { });
     }
+
+    public static void RequireValidKboNummer<T>(this AbstractValidator<T> validator, Expression<Func<T, string?>> expression)
+    {
+        validator.RequireNotNullOrEmpty(expression);
+
+        validator.RuleFor(expression)
+            .Length(min: 10, int.MaxValue)
+            .WithMessage("KboNummerMoedervereniging moet 10 cijfers bevatten.")
+            .When(request => !string.IsNullOrEmpty(expression.Compile().Invoke(request)));
+    }
 }

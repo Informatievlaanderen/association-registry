@@ -1,0 +1,11 @@
+﻿{
+  "naam": "{{vereniging.naam}}",
+  "kboNummerMoedervereniging": "{{vereniging.kboNummerMoedervereniging}}",
+  "korteNaam": "{{vereniging.korteNaam}}",
+  "korteBeschrijving": "{{vereniging.korteBeschrijving}}",
+  "startdatum": "{{vereniging.startdatum}}",
+  "contactgegevens": {{vereniging.contactgegevens}},
+  "locaties": {{vereniging.locaties}},
+  "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},
+  "hoofdactiviteitenVerenigingsloket": {{vereniging.hoofdactiviteitenLijst}}
+}

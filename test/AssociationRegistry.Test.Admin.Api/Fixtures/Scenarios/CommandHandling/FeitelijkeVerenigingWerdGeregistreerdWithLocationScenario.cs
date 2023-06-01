@@ -12,14 +12,14 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
     public const string KorteNaam = "FOud";
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
-    public readonly FeitelijkeVerenigingWerdGeregistreerd.Locatie Locatie;
+    public readonly  Registratiedata.Locatie Locatie;
     public readonly DateOnly? Startdatum = null;
     public readonly VCode VCode = VCode.Create("V0009002");
 
     public FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario()
     {
         var fixture = new Fixture().CustomizeAll();
-        Locatie = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd.Locatie>();
+        Locatie = fixture.Create<Registratiedata.Locatie>();
     }
 
     public override IEnumerable<IEvent> Events()
@@ -32,10 +32,10 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Locatie },
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
         };
     }
 }

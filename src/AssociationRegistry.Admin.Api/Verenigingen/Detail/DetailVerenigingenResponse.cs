@@ -61,6 +61,10 @@ public class DetailVerenigingResponse
         [DataMember(Name = "Sleutels")]
         public Sleutel[] Sleutels { get; init; } = null!;
 
+        /// <summary>De relaties van deze vereniging</summary>
+        [DataMember(Name = "Relaties")]
+        public Relatie[] Relaties { get; init; } = null!;
+
 
         /// <summary>Een contactgegeven van een vereniging</summary>
         [DataContract]
@@ -87,6 +91,22 @@ public class DetailVerenigingResponse
             /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
             [DataMember(Name = "IsPrimair")]
             public bool IsPrimair { get; init; }
+        }
+
+        [DataContract]
+        public class Relatie
+        {
+            /// <summary>
+            /// Het type relatie
+            /// </summary>
+            [DataMember(Name = "Type")]
+            public string Type { get; set; } = null!;
+
+            /// <summary>
+            /// De waarde van de relatie
+            /// </summary>
+            [DataMember(Name = "Waarde")]
+            public string Waarde { get; set; } = null!;
         }
 
         [DataContract]

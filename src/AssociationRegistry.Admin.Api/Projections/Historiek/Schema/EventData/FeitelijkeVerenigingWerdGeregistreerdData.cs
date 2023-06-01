@@ -10,10 +10,10 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
-    FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens,
-    FeitelijkeVerenigingWerdGeregistreerd.Locatie[] Locaties,
+    Registratiedata.Contactgegeven[] Contactgegevens,
+    Registratiedata.Locatie[] Locaties,
     FeitelijkeVerenigingWerdGeregistreerdData.Vertegenwoordiger[] Vertegenwoordigers,
-    FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
     public static FeitelijkeVerenigingWerdGeregistreerdData Create(FeitelijkeVerenigingWerdGeregistreerd e)
         => new(
@@ -41,7 +41,7 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
         string Mobiel,
         string SocialMedia)
     {
-        public static Vertegenwoordiger With(FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger vertegenwoordiger)
+        public static Vertegenwoordiger With(Registratiedata.Vertegenwoordiger vertegenwoordiger)
             => new(
                 vertegenwoordiger.VertegenwoordigerId,
                 vertegenwoordiger.IsPrimair,

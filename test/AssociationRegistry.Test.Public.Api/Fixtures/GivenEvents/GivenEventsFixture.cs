@@ -8,6 +8,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario = new();
     public readonly V005_ContactgegevenWerdToegevoegdScenario V005ContactgegevenWerdToegevoegdScenario = new();
     public readonly V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new();
+    public readonly V007_AfdelingWerdGeregistreerdScenario V007AfdelingWerdGeregistreerdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -18,6 +19,7 @@ public class GivenEventsFixture : PublicApiFixture
             V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario,
             V005ContactgegevenWerdToegevoegdScenario,
             V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
+            V007AfdelingWerdGeregistreerdScenario,
         };
 
     public override async Task InitializeAsync()

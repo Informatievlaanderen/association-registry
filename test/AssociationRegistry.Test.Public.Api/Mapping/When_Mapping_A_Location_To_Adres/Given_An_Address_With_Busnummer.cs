@@ -18,7 +18,7 @@ public class Given_An_Address_With_Busnummer
         const string gemeente = "Gent";
         const string land = "België";
         const string busnummer = "1B";
-        var locatie = new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
+        var locatie = new Registratiedata.Locatie(
             string.Empty, straatnaam, huisnummer, busnummer, postcode, gemeente, land, true, "Activiteiten");
 
         locatie.ToAdresString().Should().Be($"{straatnaam} {huisnummer} bus {busnummer}, {postcode} {gemeente}, {land}");

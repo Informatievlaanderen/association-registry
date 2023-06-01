@@ -127,7 +127,8 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}],
-                    ""sleutels"":[]
+                    ""sleutels"":[],
+                    ""relaties"":[],
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",

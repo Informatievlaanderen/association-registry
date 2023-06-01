@@ -151,8 +151,8 @@ public class With_All_Fields
         savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {
-                new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
-                new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
+                new Registratiedata.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
+                new Registratiedata.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
             });
     }
 

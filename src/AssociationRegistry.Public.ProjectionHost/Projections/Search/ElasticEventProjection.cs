@@ -53,6 +53,41 @@ public class ElasticEventHandler
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
             }
         );
+    public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
+        => await _elasticRepository.IndexAsync(
+            new VerenigingDocument
+            {
+                VCode = message.Data.VCode,
+                Type = new VerenigingDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.Afdeling.Code,
+                    Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+                },
+                Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
+                Locaties = message.Data.Locaties.Select(
+                    loc => new VerenigingDocument.Locatie
+                    {
+                        Locatietype = loc.Locatietype,
+                        Naam = loc.Naam,
+                        Adres = loc.ToAdresString(),
+                        Hoofdlocatie = loc.Hoofdlocatie,
+                        Postcode = loc.Postcode,
+                        Gemeente = loc.Gemeente,
+                    }).ToArray(),
+                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
+                    .Select(
+                        hoofdactiviteitVerenigingsloket =>
+                            new VerenigingDocument.HoofdactiviteitVerenigingsloket
+                            {
+                                Code = hoofdactiviteitVerenigingsloket.Code,
+                                Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                            })
+                    .ToArray(),
+                Doelgroep = _brolFeeder.Doelgroep,
+                Activiteiten = _brolFeeder.Activiteiten.ToArray(),
+            }
+        );
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
@@ -113,7 +148,7 @@ public class ElasticEventHandler
             });
     }
 
-    private static VerenigingDocument.Locatie ToDocument(FeitelijkeVerenigingWerdGeregistreerd.Locatie loc)
+    private static VerenigingDocument.Locatie ToDocument( Registratiedata.Locatie loc)
         => new()
         {
             Locatietype = loc.Locatietype,

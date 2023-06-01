@@ -132,7 +132,8 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}],
-                    ""sleutels"":[]
+                    ""sleutels"":[],
+                    ""relaties"":[],
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",

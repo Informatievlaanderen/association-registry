@@ -7,9 +7,6 @@ using System.Runtime.Serialization;
 using Acties.RegistreerFeitelijkeVereniging;
 using Common;
 using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 
 [DataContract]
 public class RegistreerDecentraalBeheerdeVerenigingRequest
@@ -55,22 +52,8 @@ public class RegistreerDecentraalBeheerdeVerenigingRequest
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
             Contactgegevens.Select(Map).ToArray(),
             Locaties.Select(Map).ToArray(),
-            Vertegenwoordigers.Select(Map).ToArray(),
+            Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray());
-
-    private static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
-        => Vertegenwoordiger.Create(
-            Insz.Create(vert.Insz),
-            vert.IsPrimair,
-            vert.Roepnaam,
-            vert.Rol,
-            Voornaam.Create(vert.Voornaam),
-            Achternaam.Create(vert.Achternaam),
-            Email.Create(vert.Email),
-            TelefoonNummer.Create(vert.Telefoon),
-            TelefoonNummer.Create(vert.Mobiel),
-            SocialMedia.Create(vert.SocialMedia)
-        );
 
     private static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(

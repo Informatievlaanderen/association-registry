@@ -20,7 +20,7 @@ public class V008_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven : IEv
         {
             VCode = VCode,
             Naam = Naam,
-            Contactgegevens = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().Select(
+            Contactgegevens = fixture.CreateMany<Registratiedata.Contactgegeven>().Select(
                 (contactgegeven, w) => contactgegeven with
                 {
                     IsPrimair = w == 0,

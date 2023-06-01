@@ -18,13 +18,13 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>(),
+            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

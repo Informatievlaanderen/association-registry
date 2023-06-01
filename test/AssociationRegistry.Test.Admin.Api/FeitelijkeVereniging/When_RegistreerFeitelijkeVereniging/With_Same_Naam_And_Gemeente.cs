@@ -168,10 +168,10 @@ public class With_Same_Naam_And_Gemeente
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,
                 Request.Startdatum,
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]
                 {
-                    new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
+                    new Registratiedata.Locatie(
                         Request.Locaties.First().Naam ?? string.Empty,
                         Request.Locaties.First().Straatnaam,
                         Request.Locaties.First().Huisnummer,
@@ -182,8 +182,8 @@ public class With_Same_Naam_And_Gemeente
                         Request.Locaties.First().Hoofdlocatie,
                         Request.Locaties.First().Locatietype),
                 },
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
             options => options.Excluding(e => e.VCode));
     }

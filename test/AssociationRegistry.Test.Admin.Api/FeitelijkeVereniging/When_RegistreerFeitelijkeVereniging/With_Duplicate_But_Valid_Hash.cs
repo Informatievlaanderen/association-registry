@@ -52,10 +52,10 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,
                 _setup.Request.Startdatum,
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
+                Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]
                 {
-                    new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
+                    new Registratiedata.Locatie(
                         _setup.RequestLocatie.Naam ?? string.Empty,
                         _setup.RequestLocatie.Straatnaam,
                         _setup.RequestLocatie.Huisnummer,
@@ -66,8 +66,8 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                         _setup.RequestLocatie.Hoofdlocatie,
                         _setup.RequestLocatie.Locatietype),
                 },
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
             options => options.Excluding(e => e.VCode));
     }
