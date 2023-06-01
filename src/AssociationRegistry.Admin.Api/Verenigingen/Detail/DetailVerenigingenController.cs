@@ -71,14 +71,22 @@ public class DetailVerenigingenController : ApiController
                         Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
                         HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray(),
                         Sleutels = vereniging.Sleutels.Select(ToSleutel).ToArray(),
+                        Relaties = vereniging.Relaties.Select(ToRelatie).ToArray(),
                     },
                 Metadata = new DetailVerenigingResponse.MetadataDetail
                 {
                     DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
-                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}"+(vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code?"/kbo":""),
+                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}" + (vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code ? "/kbo" : ""),
                 },
             });
     }
+
+    private static DetailVerenigingResponse.VerenigingDetail.Relatie ToRelatie(BeheerVerenigingDetailDocument.Relatie arg)
+        => new()
+        {
+            Type = arg.Type,
+            Waarde = arg.Waarde,
+        };
 
     private static DetailVerenigingResponse.VerenigingDetail.Sleutel ToSleutel(BeheerVerenigingDetailDocument.Sleutel s)
         => new()

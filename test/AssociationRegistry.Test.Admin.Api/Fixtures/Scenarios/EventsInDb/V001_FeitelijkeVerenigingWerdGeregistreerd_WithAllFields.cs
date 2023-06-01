@@ -20,13 +20,13 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
         {
             VCode = VCode,
             Naam = Naam,
-            Contactgegevens = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>().Select(
+            Contactgegevens = fixture.CreateMany<Registratiedata.Contactgegeven>().Select(
                 (contactgegeven, w) => contactgegeven with
                 {
                     IsPrimair = w == 0,
                 }
             ).ToArray(),
-            Vertegenwoordigers = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+            Vertegenwoordigers = fixture.CreateMany<Registratiedata.Vertegenwoordiger>().Select(
                 (vertegenwoordiger, i) => vertegenwoordiger with
                 {
                     IsPrimair = i == 0,

@@ -22,10 +22,10 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : Co
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+            Array.Empty<Registratiedata.Contactgegeven>(),
+            Array.Empty<Registratiedata.Locatie>(),
+            Array.Empty<Registratiedata.Vertegenwoordiger>(),
+            Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
         return new IEvent[]
         {
             WerdGeregistreerd,

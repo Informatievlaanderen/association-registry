@@ -77,21 +77,21 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
                 _command.Contactgegevens.Select(
-                    (g, index) => FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven.With(g) with
+                    (g, index) => Registratiedata.Contactgegeven.With(g) with
                     {
                         ContactgegevenId = index + 1,
                     }).ToArray(),
                 new[]
                 {
-                    FeitelijkeVerenigingWerdGeregistreerd.Locatie.With(_locatie),
+                    Registratiedata.Locatie.With(_locatie),
                 },
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                    h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Beschrijving)).ToArray()
             ));

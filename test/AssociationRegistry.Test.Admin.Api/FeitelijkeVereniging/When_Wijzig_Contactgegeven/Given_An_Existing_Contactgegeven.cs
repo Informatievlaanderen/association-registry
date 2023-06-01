@@ -16,7 +16,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
     public string WaardeVolgensType { get; }
-    public FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven AanTePassenContactGegeven { get; }
+    public Registratiedata.Contactgegeven AanTePassenContactGegeven { get; }
     public V008_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;

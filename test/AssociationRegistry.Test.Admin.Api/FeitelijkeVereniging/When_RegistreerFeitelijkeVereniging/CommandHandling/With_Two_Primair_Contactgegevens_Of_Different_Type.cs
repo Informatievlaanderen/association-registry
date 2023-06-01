@@ -62,14 +62,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.Startdatum,
                 new[]
                 {
-                    new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
+                    new Registratiedata.Contactgegeven(
                         ContactgegevenId: 1,
                         ContactgegevenType.Email,
                         _command.Contactgegevens[0].Waarde,
                         _command.Contactgegevens[0].Beschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
-                    new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
+                    new Registratiedata.Contactgegeven(
                         ContactgegevenId: 2,
                         ContactgegevenType.Website,
                         _command.Contactgegevens[1].Waarde,
@@ -77,14 +77,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                _command.Locaties.Select(FeitelijkeVerenigingWerdGeregistreerd.Locatie.With).ToArray(),
+                _command.Locaties.Select(Registratiedata.Locatie.With).ToArray(),
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger.With(v) with
+                    (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
                     {
                         VertegenwoordigerId = index + 1,
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(
+                    h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
                         h.Beschrijving)).ToArray()));
     }

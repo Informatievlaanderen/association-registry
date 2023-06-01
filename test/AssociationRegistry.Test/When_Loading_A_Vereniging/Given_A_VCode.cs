@@ -23,8 +23,6 @@ public class Given_A_VCode
         var eventStoreMock = new EventStoreMock(
             fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with {VCode = _vCode});
         _repo = new VerenigingsRepository(eventStoreMock);
-
-
     }
 
     [Fact]

@@ -18,7 +18,7 @@ public class V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_Fo
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Vertegenwoordigers = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>().Select(
+            Vertegenwoordigers = fixture.CreateMany<Registratiedata.Vertegenwoordiger>().Select(
                 (vertegenwoordiger, w) => vertegenwoordiger with
                 {
                     IsPrimair = w == 0,

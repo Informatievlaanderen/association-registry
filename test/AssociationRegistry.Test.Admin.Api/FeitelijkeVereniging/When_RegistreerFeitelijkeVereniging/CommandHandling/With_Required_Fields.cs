@@ -57,9 +57,9 @@ public class With_Required_Fields
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()));
+                Array.Empty<Registratiedata.Contactgegeven>(),
+                Array.Empty<Registratiedata.Locatie>(),
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()));
     }
 }

@@ -47,7 +47,7 @@ public class With_All_Fields
                 _command.Startdatum,
                 _command.Contactgegevens.Select(
                     (c, i) =>
-                        new FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven(
+                        new Registratiedata.Contactgegeven(
                             i + 1,
                             c.Type,
                             c.Waarde,
@@ -56,7 +56,7 @@ public class With_All_Fields
                         )).ToArray(),
                 _command.Locaties.Select(
                     l =>
-                        new FeitelijkeVerenigingWerdGeregistreerd.Locatie(
+                        new Registratiedata.Locatie(
                             l.Naam ?? string.Empty,
                             l.Straatnaam,
                             l.Huisnummer,
@@ -69,7 +69,7 @@ public class With_All_Fields
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, i) =>
-                        new FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger(
+                        new Registratiedata.Vertegenwoordiger(
                             i + 1,
                             v.Insz,
                             v.IsPrimair,
@@ -84,7 +84,7 @@ public class With_All_Fields
                         )).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h =>
-                        new FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)
+                        new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)
                 ).ToArray()));
     }
 }

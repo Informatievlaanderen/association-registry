@@ -29,10 +29,10 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-                Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>()),
+                Array.Empty<Registratiedata.Contactgegeven>(),
+                Array.Empty<Registratiedata.Locatie>(),
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
             new ContactgegevenWerdToegevoegd(ContactgegevenId, Type, Waarde, Beschrijving, IsPrimair),
         };
     }

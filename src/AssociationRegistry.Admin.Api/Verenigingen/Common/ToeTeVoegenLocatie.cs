@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using System.Runtime.Serialization;
+using Vereniging;
 
 /// <summary>Een locatie van een vereniging</summary>
 [DataContract]
@@ -47,4 +48,16 @@ public class ToeTeVoegenLocatie
     /// <summary>Het land van de locatie</summary>
     [DataMember]
     public string Land { get; set; } = null!;
+
+    public static Locatie Map(ToeTeVoegenLocatie loc)
+        => Locatie.Create(
+            loc.Naam,
+            loc.Straatnaam,
+            loc.Huisnummer,
+            loc.Busnummer,
+            loc.Postcode,
+            loc.Gemeente,
+            loc.Land,
+            loc.Hoofdlocatie,
+            loc.Locatietype);
 }

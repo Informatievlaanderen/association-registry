@@ -54,12 +54,12 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         Insz = VertegenwoordigerWerdToegevoegd.Insz;
@@ -95,12 +95,12 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
@@ -177,12 +177,12 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
+            Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
+            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         VertegenwoordigerWerdVerwijderd = new VertegenwoordigerWerdVerwijderd(

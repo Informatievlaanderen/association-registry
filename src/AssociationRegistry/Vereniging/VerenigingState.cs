@@ -69,6 +69,48 @@ public record VerenigingState : IHasVersion
                     .ToArray()),
         };
 
+    public VerenigingState Apply(AfdelingWerdGeregistreerd @event)
+        => new()
+        {
+            Verenigingstype = Verenigingstype.Afdeling,
+            VCode = VCode.Hydrate(@event.VCode),
+            Naam = VerenigingsNaam.Hydrate(@event.Naam),
+            KorteNaam = @event.KorteNaam,
+            KorteBeschrijving = @event.KorteBeschrijving,
+            Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Contactgegevens = @event.Contactgegevens.Aggregate(
+                Contactgegevens.Empty,
+                (lijst, c) => lijst.Append(
+                    Contactgegeven.Hydrate(
+                        c.ContactgegevenId,
+                        ContactgegevenType.Parse(c.Type),
+                        c.Waarde,
+                        c.Beschrijving,
+                        c.IsPrimair)
+                )
+            ),
+            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
+                Vertegenwoordigers.Empty,
+                (lijst, v) => lijst.Append(
+                    Vertegenwoordiger.Hydrate(
+                        v.VertegenwoordigerId,
+                        Insz.Hydrate(v.Insz),
+                        v.Rol,
+                        v.Roepnaam,
+                        Voornaam.Hydrate(v.Voornaam),
+                        Achternaam.Hydrate(v.Achternaam),
+                        v.IsPrimair,
+                        Email.Hydrate(v.Email),
+                        TelefoonNummer.Hydrate(v.Telefoon),
+                        TelefoonNummer.Hydrate(v.Mobiel),
+                        SocialMedia.Hydrate(v.SocialMedia)
+                    ))),
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                @event.HoofdactiviteitenVerenigingsloket.Select(
+                        h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                    .ToArray()),
+        };
+
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {

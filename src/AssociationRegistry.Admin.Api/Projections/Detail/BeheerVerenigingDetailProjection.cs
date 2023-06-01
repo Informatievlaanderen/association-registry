@@ -63,6 +63,58 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
+    public BeheerVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+        => new()
+        {
+            VCode = afdelingWerdGeregistreerd.Data.VCode,
+            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            {
+                Code = Verenigingstype.Afdeling.Code,
+                Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+            },
+            Naam = afdelingWerdGeregistreerd.Data.Naam,
+            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
+                c => new BeheerVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = c.ContactgegevenId,
+                    Type = c.Type.ToString(),
+                    Waarde = c.Waarde,
+                    Beschrijving = c.Beschrijving,
+                    IsPrimair = c.IsPrimair,
+                }).ToArray(),
+            Locaties = ToLocationArray(afdelingWerdGeregistreerd.Data.Locaties),
+            Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
+                v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                {
+                    VertegenwoordigerId = v.VertegenwoordigerId,
+                    IsPrimair = v.IsPrimair,
+                    Roepnaam = v.Roepnaam,
+                    Rol = v.Rol,
+                    Achternaam = v.Achternaam,
+                    Voornaam = v.Voornaam,
+                    Email = v.Email,
+                    Telefoon = v.Telefoon,
+                    Mobiel = v.Mobiel,
+                    SocialMedia = v.SocialMedia,
+                }).ToArray(),
+            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
+                h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+                {
+                    Code = h.Code,
+                    Beschrijving = h.Beschrijving,
+                }).ToArray(),
+            Relaties = new[]
+            {
+                new BeheerVerenigingDetailDocument.Relatie { Type = "IsAfdelingVan", Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
+            },
+            Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
+        };
+
     public BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
@@ -236,10 +288,10 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
         document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
-    private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(FeitelijkeVerenigingWerdGeregistreerd.Locatie[]? locaties)
+    private static BeheerVerenigingDetailDocument.Locatie[] ToLocationArray(Registratiedata.Locatie[]? locaties)
         => locaties?.Select(MapLocatie).ToArray() ?? Array.Empty<BeheerVerenigingDetailDocument.Locatie>();
 
-    private static BeheerVerenigingDetailDocument.Locatie MapLocatie(FeitelijkeVerenigingWerdGeregistreerd.Locatie loc)
+    private static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
         => new()
         {
             Hoofdlocatie = loc.Hoofdlocatie,
@@ -273,6 +325,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Metadata Metadata { get; set; } = null!;
+    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
 
 
     public record VerenigingsType
@@ -336,5 +389,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     {
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
+    }
+
+    public record Relatie
+    {
+        public string Type { get; set; } = null!;
+        public string Waarde { get; set; }= null!;
     }
 }

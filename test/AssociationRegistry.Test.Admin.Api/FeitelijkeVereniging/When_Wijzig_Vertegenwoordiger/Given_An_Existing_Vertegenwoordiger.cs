@@ -24,7 +24,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
     public readonly string Mobiel;
     public readonly string Rol;
     public readonly string Roepnaam;
-    public FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
+    public Registratiedata.Vertegenwoordiger AanTePassenVertegenwoordiger { get; }
     public V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;

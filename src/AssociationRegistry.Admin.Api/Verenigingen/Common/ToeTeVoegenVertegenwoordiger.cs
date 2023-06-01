@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using System.Runtime.Serialization;
+using Vereniging;
+using Vereniging.TelefoonNummers;
 
 /// <summary>Een vertegenwoordiger van een vereniging</summary>
 [DataContract]
@@ -49,4 +51,18 @@ public class ToeTeVoegenVertegenwoordiger
     /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
     [DataMember]
     public string? SocialMedia { get; set; }
+
+    public static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)
+        => Vertegenwoordiger.Create(
+            AssociationRegistry.Vereniging.Insz.Create(vert.Insz),
+            vert.IsPrimair,
+            vert.Roepnaam,
+            vert.Rol,
+            AssociationRegistry.Vereniging.Voornaam.Create(vert.Voornaam),
+            AssociationRegistry.Vereniging.Achternaam.Create(vert.Achternaam),
+            AssociationRegistry.Vereniging.Emails.Email.Create(vert.Email),
+            TelefoonNummer.Create(vert.Telefoon),
+            TelefoonNummer.Create(vert.Mobiel),
+            AssociationRegistry.Vereniging.SocialMedias.SocialMedia.Create(vert.SocialMedia)
+        );
 }

@@ -17,10 +17,10 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
 
     public FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario()
     {
-        Contactgegevens = new[] { new Fixture().CustomizeAll().Create<FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven>() with { ContactgegevenId = 1 } };
+        Contactgegevens = new[] { new Fixture().CustomizeAll().Create<Registratiedata.Contactgegeven>() with { ContactgegevenId = 1 } };
     }
 
-    public FeitelijkeVerenigingWerdGeregistreerd.Contactgegeven[] Contactgegevens { get; }
+    public Registratiedata.Contactgegeven[] Contactgegevens { get; }
     public FeitelijkeVerenigingWerdGeregistreerd WerdGeregistreerd { get; private set; } = null!;
     public ContactgegevenWerdVerwijderd ContactgegevenWerdVerwijderd { get; private set; } = null!;
 
@@ -33,9 +33,9 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
             KorteBeschrijving,
             Startdatum,
             Contactgegevens,
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Locatie>(),
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordiger>(),
-            Array.Empty<FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitVerenigingsloket>());
+            Array.Empty<Registratiedata.Locatie>(),
+            Array.Empty<Registratiedata.Vertegenwoordiger>(),
+            Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
         ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId, Contactgegevens[0].Type, Contactgegevens[0].Waarde, Contactgegevens[0].Beschrijving, Contactgegevens[0].IsPrimair);
         return new IEvent[]
         {

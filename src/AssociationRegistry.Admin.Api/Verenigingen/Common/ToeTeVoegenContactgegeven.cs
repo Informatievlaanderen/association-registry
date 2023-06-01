@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using System.Runtime.Serialization;
 using Infrastructure.Swagger;
+using Vereniging;
 
 /// <summary>
 /// Het toe te voegen contactgegeven
@@ -30,4 +31,11 @@ public class ToeTeVoegenContactgegeven
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
     [DataMember(Name = "isPrimair")]
     public bool IsPrimair { get; set; }
+
+    public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
+        => Contactgegeven.Create(
+            ContactgegevenType.Parse(toeTeVoegenContactgegeven.Type),
+            toeTeVoegenContactgegeven.Waarde,
+            toeTeVoegenContactgegeven.Beschrijving,
+            toeTeVoegenContactgegeven.IsPrimair);
 }
