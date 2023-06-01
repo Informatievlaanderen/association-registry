@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Achternaam;
 
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Valid_String
 {
     [Theory]

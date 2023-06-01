@@ -10,7 +10,9 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema;
+using Schema.EventData;
 using IEvent = Marten.Events.IEvent;
+using VertegenwoordigerWerdToegevoegd = Events.VertegenwoordigerWerdToegevoegd;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
@@ -25,6 +27,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
 
         AddHistoriekEntry(
             feitelijkeVerenigingWerdGeregistreerd,
+            FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
             beheerVerenigingHistoriekDocument,
             $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.");
 
@@ -130,6 +133,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdToegevoegd,
+            VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
             document,
             $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger."
         );
@@ -174,4 +178,21 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    private static void AddHistoriekEntry(IEvent @event,object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    {
+        var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+
+        document.Gebeurtenissen = document.Gebeurtenissen.Append(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                beschrijving,
+                @event.Data.GetType().Name,
+                data,
+                initiator,
+                tijdstip
+            )).ToList();
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
+
 }

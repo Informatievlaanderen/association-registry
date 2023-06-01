@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projectin
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -24,12 +25,11 @@ public class Given_VertegenwoordigerWerdToegevoegd
 
         projection.Apply(vertegenwoordigerWerdToegevoegd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger.",
                 nameof(VertegenwoordigerWerdToegevoegd),
-                vertegenwoordigerWerdToegevoegd.Data,
+                VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
                 vertegenwoordigerWerdToegevoegd.Initiator,
                 vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
     }

@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Achternaam;
 
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_String_Without_Letters
 {
     [Theory]
