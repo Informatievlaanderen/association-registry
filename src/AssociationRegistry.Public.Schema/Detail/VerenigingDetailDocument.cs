@@ -20,6 +20,7 @@ public class PubliekVerenigingDetailDocument : IVCode
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
 
     public class VerenigingsType
     {
@@ -59,6 +60,12 @@ public class PubliekVerenigingDetailDocument : IVCode
     public class Sleutel
     {
         public string Bron { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
+    }
+
+    public class Relatie
+    {
+        public string Type { get; set; } = null!;
         public string Waarde { get; set; } = null!;
     }
 }

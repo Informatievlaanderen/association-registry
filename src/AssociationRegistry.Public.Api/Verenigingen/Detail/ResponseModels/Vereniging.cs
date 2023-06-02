@@ -46,7 +46,12 @@ public class Vereniging
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
 
-    /// <summary>De sleutels van deze vereniging beheren</summary>
+    /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]
     public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();
+
+
+    /// <summary>De relaties van deze vereniging</summary>
+    [DataMember(Name = "Relaties")]
+    public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
 }

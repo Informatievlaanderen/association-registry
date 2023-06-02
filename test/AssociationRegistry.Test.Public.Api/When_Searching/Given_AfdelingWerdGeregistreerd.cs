@@ -16,8 +16,6 @@ public class Given_AfdelingWerdGeregistreerd
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
-
     public Given_AfdelingWerdGeregistreerd(GivenEventsFixture fixture)
     {
         _scenario = fixture.V007AfdelingWerdGeregistreerdScenario;

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using System.Linq;
 using System.Threading.Tasks;
+using Constants;
 using Events;
 using Infrastructure.Extensions;
 using Schema.Search;
@@ -53,6 +54,7 @@ public class ElasticEventHandler
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
             }
         );
+
     public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new VerenigingDocument
@@ -86,6 +88,8 @@ public class ElasticEventHandler
                     .ToArray(),
                 Doelgroep = _brolFeeder.Doelgroep,
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
+                Sleutels = Array.Empty<VerenigingDocument.Sleutel>(),
+                Relaties = new[] { new VerenigingDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = message.Data.KboNummerMoedervereniging } },
             }
         );
 
@@ -148,7 +152,7 @@ public class ElasticEventHandler
             });
     }
 
-    private static VerenigingDocument.Locatie ToDocument( Registratiedata.Locatie loc)
+    private static VerenigingDocument.Locatie ToDocument(Registratiedata.Locatie loc)
         => new()
         {
             Locatietype = loc.Locatietype,

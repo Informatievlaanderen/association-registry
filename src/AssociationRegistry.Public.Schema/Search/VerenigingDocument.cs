@@ -6,28 +6,33 @@ public class VerenigingDocument
     {
         public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
-        public string Adres { get; init; }= null!;
+        public string Adres { get; init; } = null!;
         public bool Hoofdlocatie { get; init; }
-        public string Postcode { get; init; }= null!;
-        public string Gemeente { get; init; }= null!;
+        public string Postcode { get; init; } = null!;
+        public string Gemeente { get; init; } = null!;
     }
 
     public class HoofdactiviteitVerenigingsloket
     {
-        public string Code { get; init; }= null!;
-        public string Naam { get; init; }= null!;
+        public string Code { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public class VerenigingsType
     {
         public string Code { get; init; } = null!;
         public string Beschrijving { get; init; } = null!;
-
     }
 
     public class Sleutel
     {
         public string Bron { get; set; } = null!;
+        public string Waarde { get; set; } = null!;
+    }
+
+    public class Relatie
+    {
+        public string Type { get; set; } = null!;
         public string Waarde { get; set; } = null!;
     }
 
@@ -40,4 +45,5 @@ public class VerenigingDocument
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
 }

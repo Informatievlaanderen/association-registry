@@ -18,6 +18,7 @@
           "waarde": "0000000000"
         }
       ],
+      "relaties": [],
       "links": {
         "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001006"
       }
