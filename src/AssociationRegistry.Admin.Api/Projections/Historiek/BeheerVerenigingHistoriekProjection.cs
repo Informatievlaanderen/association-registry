@@ -156,6 +156,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdVerwijderd,
+            VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
             document,
             $"Vertegenwoordiger {vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam} werd verwijderd."
         );
