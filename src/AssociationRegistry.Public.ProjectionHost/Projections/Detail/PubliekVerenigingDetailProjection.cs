@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
+using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -63,6 +64,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            Relaties = new[] { new PubliekVerenigingDetailDocument.Relatie() { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging } },
             HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
@@ -92,7 +94,8 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     Bron = Bron.Kbo.Waarde,
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                 },
-            } };
+            }
+        };
 
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(Registratiedata.HoofdactiviteitVerenigingsloket arg)
@@ -182,7 +185,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
         document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie( Registratiedata.Locatie loc)
+    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
         => new()
         {
             Hoofdlocatie = loc.Hoofdlocatie,

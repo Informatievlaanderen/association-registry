@@ -24,11 +24,10 @@ public class With_A_Startdatum_In_The_Future
         var fixture = new Fixture().CustomizeAll();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
-        var today = fixture.Create<DateOnly>();
 
         var command = fixture.Create<WijzigBasisgegevensCommand>() with
         {
-            Startdatum = Startdatum.Create(today.AddDays(1)),
+            Startdatum = fixture.Create<Startdatum>(),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();

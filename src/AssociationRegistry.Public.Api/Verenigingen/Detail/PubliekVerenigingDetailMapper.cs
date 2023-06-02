@@ -29,6 +29,7 @@ public static class PubliekVerenigingDetailMapper
             Locaties = document.Locaties.Select(Map).ToArray(),
             HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
             Sleutels = document.Sleutels.Select(Map).ToArray(),
+            Relaties = document.Relaties.Select(Map).ToArray(),
         };
 
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
@@ -71,4 +72,7 @@ public static class PubliekVerenigingDetailMapper
             Gemeente = loc.Gemeente,
             Land = loc.Land,
         };
+
+    private static Relatie Map(PubliekVerenigingDetailDocument.Relatie r)
+        => new() { Type = r.Type, Waarde = r.Waarde };
 }

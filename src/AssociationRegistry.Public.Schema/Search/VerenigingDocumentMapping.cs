@@ -37,6 +37,16 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Activiteiten))
+                .Nested<VerenigingDocument.Sleutel>(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Type)
+                        .IncludeInRoot()
+                        .Properties(SleutelMapping.Get))
+                .Nested<VerenigingDocument.Relatie>(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Type)
+                        .IncludeInRoot()
+                        .Properties(RelatieMapping.Get))
         );
 
     private static class LocationMapping
@@ -87,5 +97,31 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
                         .Name(document => document.Beschrijving));
+    }
+
+    private static class SleutelMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Sleutel> map)
+            => map
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Bron)
+                        .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Waarde));
+    }
+
+    private static class RelatieMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Relatie> map)
+            => map
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Type)
+                        .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                .Text(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Waarde));
     }
 }

@@ -58,6 +58,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     },
                 },
                 Sleutels = Array.Empty<Sleutel>(),
+                Relaties = Array.Empty<Relatie>(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
         };

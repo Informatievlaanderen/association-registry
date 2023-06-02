@@ -59,6 +59,9 @@ public class SearchVerenigingenResponseMapper
             Sleutels = verenigingDocument.Sleutels
                 .Select(Map)
                 .ToArray(),
+            Relaties = verenigingDocument.Relaties
+                .Select(Map)
+                .ToArray(),
             Links = Map(verenigingDocument.VCode, appSettings),
         };
 
@@ -146,5 +149,12 @@ public class SearchVerenigingenResponseMapper
         {
             Bron = s.Bron,
             Waarde = s.Waarde,
+        };
+
+    private static Relatie Map(VerenigingDocument.Relatie r)
+        => new()
+        {
+            Type = r.Type,
+            Waarde = r.Waarde,
         };
 }

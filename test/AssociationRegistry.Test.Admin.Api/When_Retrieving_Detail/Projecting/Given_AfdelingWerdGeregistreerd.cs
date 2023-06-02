@@ -84,7 +84,7 @@ public class Given_AfdelingWerdGeregistreerd
                 Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
                 Relaties = new[]
                 {
-                    new BeheerVerenigingDetailDocument.Relatie { Type = "IsAfdelingVan", Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
+                    new BeheerVerenigingDetailDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
                 },
                 Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
             });

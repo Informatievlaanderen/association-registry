@@ -2,8 +2,8 @@
   "verenigingen": [
     {
       "vCode": "V0001007",
-      "type":{
-        "code":"AFD",
+      "type": {
+        "code": "AFD",
         "beschrijving": "Afdeling"
       },
       "naam": "Antwerpse Bijscholing Clickers",
@@ -38,8 +38,14 @@
           "id": -1,
           "categorie": "Padel"
         }
-      ],"sleutels":[
-    ],
+      ],
+      "sleutels": [],
+      "relaties": [
+        {
+          "type": "Is afdeling van",
+          "waarde": "KBO Nummer"
+        }
+      ],
       "links": {
         "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001007"
       }
