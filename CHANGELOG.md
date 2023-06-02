@@ -1,3 +1,15 @@
+# [3.14.0](https://github.com/informatievlaanderen/association-registry/compare/v3.13.0...v3.14.0) (2023-06-02)
+
+
+### Features
+
+* or-1696 remove insz from event data when VertegenwoordigerWerdVerwijderd ([e9cb944](https://github.com/informatievlaanderen/association-registry/commit/e9cb944bcac6e98baf67ef2b71674e01e2513c92))
+
+
+### Reverts
+
+* Revert "build(deps): bump slackapi/slack-github-action from 1.23.0 to 1.24.0" ([57a50e4](https://github.com/informatievlaanderen/association-registry/commit/57a50e420b1fc6df27954c0d1f88bf54be2c77cd))
+
 # [3.13.0](https://github.com/informatievlaanderen/association-registry/compare/v3.12.0...v3.13.0) (2023-06-01)
 
 
