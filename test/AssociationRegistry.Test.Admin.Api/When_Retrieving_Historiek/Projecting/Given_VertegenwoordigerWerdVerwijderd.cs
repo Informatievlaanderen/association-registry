@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -29,7 +30,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Vertegenwoordiger {vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam} werd verwijderd.",
                 nameof(VertegenwoordigerWerdVerwijderd),
-                vertegenwoordigerWerdVerwijderd.Data,
+                VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
                 vertegenwoordigerWerdVerwijderd.Initiator,
                 vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDateAndTime()));
     }
