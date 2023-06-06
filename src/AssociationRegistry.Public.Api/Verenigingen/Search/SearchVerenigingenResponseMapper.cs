@@ -20,7 +20,7 @@ public class SearchVerenigingenResponseMapper
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
-        ISearchResponse<VerenigingDocument> searchResponse,
+        ISearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery,
         string[] hoofdactiviteiten)
@@ -33,36 +33,33 @@ public class SearchVerenigingenResponseMapper
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
 
-    private Facets MapFacets(ISearchResponse<VerenigingDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
+    private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
         => new()
         {
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
         };
 
-    private static Vereniging Map(VerenigingDocument verenigingDocument, AppSettings appSettings)
+    private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
         => new()
         {
-            VCode = verenigingDocument.VCode,
-            Type = Map(verenigingDocument.Type),
-            Naam = verenigingDocument.Naam,
-            KorteNaam = verenigingDocument.KorteNaam,
-            HoofdactiviteitenVerenigingsloket = verenigingDocument.HoofdactiviteitenVerenigingsloket
+            VCode = verenigingZoekDocument.VCode,
+            Type = Map(verenigingZoekDocument.Type),
+            Naam = verenigingZoekDocument.Naam,
+            KorteNaam = verenigingZoekDocument.KorteNaam,
+            HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                 .Select(Map)
                 .ToArray(),
-            Doelgroep = verenigingDocument.Doelgroep,
-            Locaties = verenigingDocument.Locaties
+            Doelgroep = verenigingZoekDocument.Doelgroep,
+            Locaties = verenigingZoekDocument.Locaties
                 .Select(Map)
                 .ToArray(),
-            Activiteiten = verenigingDocument.Activiteiten
+            Activiteiten = verenigingZoekDocument.Activiteiten
                 .Select(Map)
                 .ToArray(),
-            Sleutels = verenigingDocument.Sleutels
+            Sleutels = verenigingZoekDocument.Sleutels
                 .Select(Map)
                 .ToArray(),
-            Relaties = verenigingDocument.Relaties
-                .Select(Map)
-                .ToArray(),
-            Links = Map(verenigingDocument.VCode, appSettings),
+            Links = Map(verenigingZoekDocument.VCode, appSettings),
         };
 
     private static VerenigingLinks Map(string vCode, AppSettings appSettings)
@@ -71,17 +68,17 @@ public class SearchVerenigingenResponseMapper
     private static Activiteit Map(string activiteit)
         => new() { Id = -1, Categorie = activiteit };
 
-    private static HoofdactiviteitVerenigingsloket Map(VerenigingDocument.HoofdactiviteitVerenigingsloket h)
+    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
         => new() { Code = h.Code, Beschrijving = h.Naam };
 
-    private static VerenigingsType Map(VerenigingDocument.VerenigingsType verenigingDocumentType)
+    private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
         => new()
         {
             Code = verenigingDocumentType.Code,
             Beschrijving = verenigingDocumentType.Beschrijving,
         };
 
-    private static Metadata GetMetadata(ISearchResponse<VerenigingDocument> searchResponse, PaginationQueryParams paginationRequest)
+    private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
         => new()
         {
             Pagination = new Pagination
@@ -94,7 +91,7 @@ public class SearchVerenigingenResponseMapper
 
     private static HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
         AppSettings appSettings,
-        ISearchResponse<VerenigingDocument> searchResponse,
+        ISearchResponse<VerenigingZoekDocument> searchResponse,
         string originalQuery,
         string[] hoofdactiviteiten)
     {
@@ -132,7 +129,7 @@ public class SearchVerenigingenResponseMapper
             separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
-    private static Locatie Map(VerenigingDocument.Locatie loc)
+    private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()
         {
             Locatietype = loc.Locatietype,
@@ -144,17 +141,10 @@ public class SearchVerenigingenResponseMapper
         };
 
 
-    private static Sleutel Map(VerenigingDocument.Sleutel s)
+    private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
         {
             Bron = s.Bron,
             Waarde = s.Waarde,
-        };
-
-    private static Relatie Map(VerenigingDocument.Relatie r)
-        => new()
-        {
-            Type = r.Type,
-            Waarde = r.Waarde,
         };
 }

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
-using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -64,7 +63,17 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            Relaties = new[] { new PubliekVerenigingDetailDocument.Relatie() { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging } },
+            Relaties = new[] { new PubliekVerenigingDetailDocument.Relatie
+                {
+                    Type = RelatieType.IsAfdelingVan.Beschrijving,
+                    AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+                    {
+                        ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                        VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
+                        Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
+                    },
+                },
+            },
             HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 

@@ -84,7 +84,16 @@ public class Given_AfdelingWerdGeregistreerd
                 Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
                 Relaties = new[]
                 {
-                    new BeheerVerenigingDetailDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
+                    new BeheerVerenigingDetailDocument.Relatie
+                    {
+                        Type = RelatieType.IsAfdelingVan.Beschrijving,
+                        AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+                        {
+                            ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                            VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
+                            Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
+                        },
+                    },
                 },
                 Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
             });

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Public.ProjectionHost.Constants;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
@@ -72,7 +71,16 @@ public class Given_AfdelingWerdGeregistreerd
                 Sleutels = Array.Empty<PubliekVerenigingDetailDocument.Sleutel>(),
                 Relaties = new[]
                 {
-                    new PubliekVerenigingDetailDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
+                    new PubliekVerenigingDetailDocument.Relatie
+                    {
+                        Type = RelatieType.IsAfdelingVan.Beschrijving, AndereVereniging =
+                            new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+                            {
+                                ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                                VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
+                                Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
+                            },
+                    },
                 },
             });
     }

@@ -9,15 +9,21 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_An_Afdeling_As_Type
 {
+    private readonly VerenigingState _verenigingState;
+
+    public Given_An_Afdeling_As_Type()
+    {
+        _verenigingState = new VerenigingState
+        {
+            Verenigingstype = Verenigingstype.Afdeling,
+        };
+    }
+
     [Fact]
     public void Then_It_Does_Not_Throw_For_FeitelijkeVereniging()
     {
         var hydrate = () =>
-            new Vereniging().Hydrate(
-                new VerenigingState
-                {
-                    Verenigingstype = Verenigingstype.Afdeling,
-                });
+            new Vereniging().Hydrate(_verenigingState);
 
         hydrate.Should().NotThrow();
     }
@@ -26,11 +32,7 @@ public class Given_An_Afdeling_As_Type
     public void Then_It_Throws_For_KboVereniging()
     {
         var hydrate = () =>
-            new VerenigingMetRechtspersoonlijkheid().Hydrate(
-                new VerenigingState
-                {
-                    Verenigingstype = Verenigingstype.Afdeling,
-                });
+            new VerenigingMetRechtspersoonlijkheid().Hydrate(_verenigingState);
 
         hydrate.Should().Throw<UnsupportedOperationForVerenigingstype>();
     }

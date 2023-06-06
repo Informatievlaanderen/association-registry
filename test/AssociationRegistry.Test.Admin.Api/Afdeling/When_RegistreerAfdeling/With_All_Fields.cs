@@ -141,7 +141,9 @@ public class With_All_Fields
             .Single(e => e.Naam == Request.Naam);
 
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
-        savedEvent.KboNummerMoedervereniging.Should().Be(Request.KboNummerMoedervereniging);
+        savedEvent.Moedervereniging.KboNummer.Should().Be(Request.KboNummerMoedervereniging);
+        savedEvent.Moedervereniging.VCode.Should().Be(string.Empty);
+        savedEvent.Moedervereniging.Naam.Should().Be($"Moeder {Request.KboNummerMoedervereniging}");
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);

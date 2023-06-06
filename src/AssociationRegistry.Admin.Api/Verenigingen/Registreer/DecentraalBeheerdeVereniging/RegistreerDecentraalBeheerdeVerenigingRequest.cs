@@ -50,27 +50,8 @@ public class RegistreerDecentraalBeheerdeVerenigingRequest
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
-            Contactgegevens.Select(Map).ToArray(),
-            Locaties.Select(Map).ToArray(),
+            Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
+            Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray());
-
-    private static Locatie Map(ToeTeVoegenLocatie loc)
-        => Locatie.Create(
-            loc.Naam,
-            loc.Straatnaam,
-            loc.Huisnummer,
-            loc.Busnummer,
-            loc.Postcode,
-            loc.Gemeente,
-            loc.Land,
-            loc.Hoofdlocatie,
-            loc.Locatietype);
-
-    public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
-        => Contactgegeven.Create(
-            ContactgegevenType.Parse(toeTeVoegenContactgegeven.Type),
-            toeTeVoegenContactgegeven.Waarde,
-            toeTeVoegenContactgegeven.Beschrijving,
-            toeTeVoegenContactgegeven.IsPrimair);
 }

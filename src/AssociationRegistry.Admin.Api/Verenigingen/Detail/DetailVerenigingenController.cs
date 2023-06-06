@@ -81,18 +81,23 @@ public class DetailVerenigingenController : ApiController
             });
     }
 
-    private static DetailVerenigingResponse.VerenigingDetail.Relatie ToRelatie(BeheerVerenigingDetailDocument.Relatie arg)
+    private static DetailVerenigingResponse.VerenigingDetail.Relatie ToRelatie(BeheerVerenigingDetailDocument.Relatie relatie)
         => new()
         {
-            Type = arg.Type,
-            Waarde = arg.Waarde,
+            Type = relatie.Type,
+            AndereVereniging = new DetailVerenigingResponse.VerenigingDetail.Relatie.GerelateerdeVereniging
+            {
+                ExternId = relatie.AndereVereniging.ExternId,
+                VCode = relatie.AndereVereniging.VCode,
+                Naam = relatie.AndereVereniging.Naam,
+            },
         };
 
-    private static DetailVerenigingResponse.VerenigingDetail.Sleutel ToSleutel(BeheerVerenigingDetailDocument.Sleutel s)
+    private static DetailVerenigingResponse.VerenigingDetail.Sleutel ToSleutel(BeheerVerenigingDetailDocument.Sleutel sleutel)
         => new()
         {
-            Bron = s.Bron,
-            Waarde = s.Waarde,
+            Bron = sleutel.Bron,
+            Waarde = sleutel.Waarde,
         };
 
     private static DetailVerenigingResponse.VerenigingDetail.Contactgegeven ToContactgegeven(BeheerVerenigingDetailDocument.Contactgegeven contactgegeven)

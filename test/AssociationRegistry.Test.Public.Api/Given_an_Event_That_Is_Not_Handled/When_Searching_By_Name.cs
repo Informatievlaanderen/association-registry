@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Fixtures;
 using Framework;
 using Fixtures.GivenEvents;
+using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Vereniging;
 using Xunit;

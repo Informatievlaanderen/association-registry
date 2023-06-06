@@ -32,7 +32,7 @@ public static class ValidatorHelpers
 
         validator.RuleFor(expression)
             .Length(min: 10, int.MaxValue)
-            .WithMessage("KboNummerMoedervereniging moet 10 cijfers bevatten.")
+            .WithMessage($"'{expression.GetMember().Name}' moet 10 cijfers bevatten.")
             .When(request => !string.IsNullOrEmpty(expression.Compile().Invoke(request)));
     }
 }

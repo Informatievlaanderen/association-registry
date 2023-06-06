@@ -9,28 +9,30 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_An_VerenigingMetRechtspersoonlijkheid_As_Type
 {
+    private readonly VerenigingState _verenigingState;
+
+    public Given_An_VerenigingMetRechtspersoonlijkheid_As_Type()
+    {
+        _verenigingState = new VerenigingState
+        {
+            Verenigingstype = Verenigingstype.VerenigingMetRechtspersoonlijkheid,
+        };
+    }
+
     [Fact]
-    public void Then_It_Does_Not_Throw_For_FeitelijkeVereniging()
+    public void Then_It_Throws_For_FeitelijkeVereniging()
     {
         var hydrate = () =>
-            new Vereniging().Hydrate(
-                new VerenigingState
-                {
-                    Verenigingstype = Verenigingstype.VerenigingMetRechtspersoonlijkheid,
-                });
+            new Vereniging().Hydrate(_verenigingState);
 
         hydrate.Should().Throw<UnsupportedOperationForVerenigingstype>();
     }
 
     [Fact]
-    public void Then_It_Throws_For_KboVereniging()
+    public void Then_It_Does_Not_Throw_For_VerenigingMetRechtspersoonlijkheid()
     {
         var hydrate = () =>
-            new VerenigingMetRechtspersoonlijkheid().Hydrate(
-                new VerenigingState
-                {
-                    Verenigingstype = Verenigingstype.VerenigingMetRechtspersoonlijkheid,
-                });
+            new VerenigingMetRechtspersoonlijkheid().Hydrate(_verenigingState);
 
         hydrate.Should().NotThrow();
     }

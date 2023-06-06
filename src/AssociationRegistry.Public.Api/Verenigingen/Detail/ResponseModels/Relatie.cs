@@ -12,8 +12,30 @@ public class Relatie
     public string Type { get; set; } = null!;
 
     /// <summary>
-    /// De waarde van de relatie
+    /// De andere vereniging
     /// </summary>
-    [DataMember(Name = "Waarde")]
-    public string Waarde { get; set; } = null!;
+    [DataMember(Name = "AndereVereniging")]
+    public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+
+    [DataContract]
+    public class GerelateerdeVereniging
+    {
+        /// <summary>
+        /// De unieke identificator van de andere vereniging in een externe bron
+        /// </summary>
+        [DataMember(Name = "ExternId")]
+        public string ExternId { get; set; } = null!;
+
+        /// <summary>
+        /// De unieke identificator van de andere vereniging in het verenigingsregister
+        /// </summary>
+        [DataMember(Name = "VCode")]
+        public string VCode { get; set; } = null!;
+
+        /// <summary>
+        /// De naam van de andere vereniging
+        /// </summary>
+        [DataMember(Name = "Naam")]
+        public string Naam { get; set; } = null!;
+    }
 }

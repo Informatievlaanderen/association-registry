@@ -74,5 +74,14 @@ public static class PubliekVerenigingDetailMapper
         };
 
     private static Relatie Map(PubliekVerenigingDetailDocument.Relatie r)
-        => new() { Type = r.Type, Waarde = r.Waarde };
+        => new()
+        {
+            Type = r.Type,
+            AndereVereniging = new Relatie.GerelateerdeVereniging
+            {
+                ExternId = r.AndereVereniging.ExternId,
+                VCode = r.AndereVereniging.VCode,
+                Naam = r.AndereVereniging.Naam,
+            },
+        };
 }

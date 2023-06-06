@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
+using Scenarios;
+
 public class GivenEventsFixture : PublicApiFixture
 {
     public readonly V001_FeitelijkeVerenigingWerdGeregistreerdScenario V001FeitelijkeVerenigingWerdGeregistreerdScenario = new();

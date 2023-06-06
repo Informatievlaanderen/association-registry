@@ -42,7 +42,10 @@ public class With_All_Fields
             new AfdelingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
-                _command.KboNummerMoedervereniging,
+                new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    _command.KboNummerMoedervereniging,
+                    string.Empty,
+                    $"Moeder {_command.KboNummerMoedervereniging}"),
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,

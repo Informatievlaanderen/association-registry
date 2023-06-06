@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
 using Fixtures;
 using Fixtures.GivenEvents;
+using Fixtures.GivenEvents.Scenarios;
 using Framework;
 using FluentAssertions;
 using Xunit;

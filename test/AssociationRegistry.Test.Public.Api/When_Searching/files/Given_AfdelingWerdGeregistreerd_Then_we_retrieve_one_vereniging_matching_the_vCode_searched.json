@@ -40,12 +40,6 @@
         }
       ],
       "sleutels": [],
-      "relaties": [
-        {
-          "type": "Is afdeling van",
-          "waarde": "KBO Nummer"
-        }
-      ],
       "links": {
         "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001007"
       }
