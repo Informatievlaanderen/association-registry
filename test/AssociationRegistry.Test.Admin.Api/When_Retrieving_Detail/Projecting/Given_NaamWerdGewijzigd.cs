@@ -17,11 +17,10 @@ public class Given_NaamWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var naamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(naamWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigd.Data.Naam);
         doc.DatumLaatsteAanpassing.Should().Be(naamWerdGewijzigd.Tijdstip.ToBelgianDate());

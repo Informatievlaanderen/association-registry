@@ -17,10 +17,9 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         var fixture = new Fixture().CustomizeAll();
         var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdToegevoegd>>();
-        var projector = new BeheerVerenigingDetailProjection();
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(contactgegevenWerdToegevoegd, doc);
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
         doc.Contactgegevens.Should().Contain(
             new BeheerVerenigingDetailDocument.Contactgegeven

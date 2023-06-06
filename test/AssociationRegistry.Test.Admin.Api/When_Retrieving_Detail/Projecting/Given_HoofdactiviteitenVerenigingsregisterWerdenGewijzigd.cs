@@ -17,11 +17,10 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
 
         doc.HoofdactiviteitenVerenigingsloket.Should()
             .BeEquivalentTo(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);
