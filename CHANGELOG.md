@@ -1,3 +1,10 @@
+## [3.15.1](https://github.com/informatievlaanderen/association-registry/compare/v3.15.0...v3.15.1) (2023-06-06)
+
+
+### Bug Fixes
+
+* or-1715 add ACM projection for AfdelingWerdGeregistreerd event ([14002c4](https://github.com/informatievlaanderen/association-registry/commit/14002c4a7986583ea6793515652a65211917d1ce))
+
 # [3.15.0](https://github.com/informatievlaanderen/association-registry/compare/v3.14.0...v3.15.0) (2023-06-06)
 
 
