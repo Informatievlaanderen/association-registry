@@ -9,6 +9,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     public readonly NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario = new();
     public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
     public readonly VertegenwoordigerWerdVerwijderd_EventsInDbScenario VertegenwoordigerWerdVerwijderdEventsInDbScenario = new();
+    public readonly AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario AfdelingWerdGeregistreerdWithAllFieldsEventsInDbScenario = new();
 
     protected override async Task Given()
     {
@@ -19,12 +20,12 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
             NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario,
             VertegenwoordigerWerdVerwijderdEventsInDbScenario,
+            AfdelingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
         };
 
         foreach (var scenario in scenarios)
         {
-
-                scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+            scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
         }
     }
 }
