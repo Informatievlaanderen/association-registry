@@ -1,3 +1,12 @@
+# [3.15.0](https://github.com/informatievlaanderen/association-registry/compare/v3.14.0...v3.15.0) (2023-06-06)
+
+
+### Features
+
+* or-1715 add relaties to publiek ([24e3005](https://github.com/informatievlaanderen/association-registry/commit/24e30056cd075ab6d8dbd275cc2e46d2ea69b232))
+* or-1715 expand relation with more info on AndereVereniging ([7f0956c](https://github.com/informatievlaanderen/association-registry/commit/7f0956c11cbb4b278f84eef2d3446b3f755dc018))
+* or-1715 registreer afdeling ([0fbc544](https://github.com/informatievlaanderen/association-registry/commit/0fbc54458351a0efdefe95ada48c92e17f249649))
+
 # [3.14.0](https://github.com/informatievlaanderen/association-registry/compare/v3.13.0...v3.14.0) (2023-06-02)
 
 
