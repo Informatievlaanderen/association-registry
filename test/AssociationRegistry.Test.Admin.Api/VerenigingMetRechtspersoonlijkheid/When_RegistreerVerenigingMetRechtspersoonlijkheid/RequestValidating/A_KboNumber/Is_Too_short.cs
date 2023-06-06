@@ -16,6 +16,6 @@ public class Is_Too_Short : ValidatorTest
         var result = validator.TestValidate(new RegistreerVerenigingUitKboRequest { KboNummer = "1234" });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.KboNummer)
-            .WithErrorMessage("KboNummerMoedervereniging moet 10 cijfers bevatten.");
+            .WithErrorMessage("'KboNummer' moet 10 cijfers bevatten.");
     }
 }

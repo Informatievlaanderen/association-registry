@@ -21,10 +21,10 @@ public class ElasticEventHandler
 
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingDocument.VerenigingsType
+                Type = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
@@ -32,7 +32,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingDocument.Locatie
+                    loc => new VerenigingZoekDocument.Locatie
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
@@ -44,7 +44,7 @@ public class ElasticEventHandler
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
-                            new VerenigingDocument.HoofdactiviteitVerenigingsloket
+                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                             {
                                 Code = hoofdactiviteitVerenigingsloket.Code,
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
@@ -57,10 +57,10 @@ public class ElasticEventHandler
 
     public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingDocument.VerenigingsType
+                Type = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Afdeling.Code,
                     Beschrijving = Verenigingstype.Afdeling.Beschrijving,
@@ -68,7 +68,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingDocument.Locatie
+                    loc => new VerenigingZoekDocument.Locatie
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
@@ -80,7 +80,7 @@ public class ElasticEventHandler
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
-                            new VerenigingDocument.HoofdactiviteitVerenigingsloket
+                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                             {
                                 Code = hoofdactiviteitVerenigingsloket.Code,
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
@@ -88,26 +88,25 @@ public class ElasticEventHandler
                     .ToArray(),
                 Doelgroep = _brolFeeder.Doelgroep,
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
-                Sleutels = Array.Empty<VerenigingDocument.Sleutel>(),
-                Relaties = new[] { new VerenigingDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = message.Data.KboNummerMoedervereniging } },
+                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
+                Type = new VerenigingZoekDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
-                Locaties = Array.Empty<VerenigingDocument.Locatie>(),
-                HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingDocument.HoofdactiviteitVerenigingsloket>(),
+                Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Doelgroep = "",
                 Activiteiten = Array.Empty<string>(),
                 Sleutels = new[]
                 {
-                    new VerenigingDocument.Sleutel
+                    new VerenigingZoekDocument.Sleutel
                     {
                         Bron = Bron.Kbo,
                         Waarde = message.Data.KboNummer,
@@ -119,7 +118,7 @@ public class ElasticEventHandler
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 Naam = message.Data.Naam,
             }
@@ -128,7 +127,7 @@ public class ElasticEventHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 KorteNaam = message.Data.KorteNaam,
             }
@@ -138,12 +137,12 @@ public class ElasticEventHandler
     {
         _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingDocument
+            new VerenigingZoekDocument
             {
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
-                            new VerenigingDocument.HoofdactiviteitVerenigingsloket
+                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                             {
                                 Code = hoofdactiviteitVerenigingsloket.Code,
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
@@ -152,7 +151,7 @@ public class ElasticEventHandler
             });
     }
 
-    private static VerenigingDocument.Locatie ToDocument(Registratiedata.Locatie loc)
+    private static VerenigingZoekDocument.Locatie ToDocument(Registratiedata.Locatie loc)
         => new()
         {
             Locatietype = loc.Locatietype,

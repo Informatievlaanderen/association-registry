@@ -110,7 +110,16 @@ public class BeheerVerenigingDetailProjection : SingleStreamAggregation<BeheerVe
                 }).ToArray(),
             Relaties = new[]
             {
-                new BeheerVerenigingDetailDocument.Relatie { Type = RealtieTypes.IsAfdelingVan, Waarde = afdelingWerdGeregistreerd.Data.KboNummerMoedervereniging },
+                new BeheerVerenigingDetailDocument.Relatie
+                {
+                    Type = RelatieType.IsAfdelingVan.Beschrijving,
+                    AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+                    {
+                        ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                        VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
+                        Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
+                    },
+                },
             },
             Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
         };
@@ -391,9 +400,19 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Waarde { get; set; } = null!;
     }
 
-    public record Relatie
+    public class Relatie
     {
         public string Type { get; set; } = null!;
-        public string Waarde { get; set; }= null!;
+
+        public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+
+        public class GerelateerdeVereniging
+        {
+            public string ExternId { get; set; } = null!;
+
+            public string VCode { get; set; } = null!;
+
+            public string Naam { get; set; } = null!;
+        }
     }
 }

@@ -58,7 +58,10 @@ public class With_Required_Fields
             new AfdelingWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _verenigingsNaam,
-                _kboNummerMoedervereniging,
+                new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    _kboNummerMoedervereniging,
+                    string.Empty,
+                    $"Moeder {_kboNummerMoedervereniging}"),
                 string.Empty,
                 string.Empty,
                 Startdatum: null,

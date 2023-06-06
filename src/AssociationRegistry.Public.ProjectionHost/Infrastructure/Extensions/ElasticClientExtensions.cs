@@ -10,5 +10,5 @@ public static class ElasticClientExtentions
     =>indicesNamespace.Create(
         index,
         descriptor =>
-            descriptor.Map<VerenigingDocument>(VerenigingDocumentMapping.Get));
+            descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 }

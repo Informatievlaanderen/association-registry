@@ -33,9 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\request.with_unparsable_request.json" />
-    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\response.unparsable.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />

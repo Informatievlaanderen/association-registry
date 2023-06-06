@@ -57,7 +57,7 @@ public class DetailVerenigingResponse
         [DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
         public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
-        /// <summary>De sleutels van deze vereniging beheren</summary>
+        /// <summary>De sleutels van deze vereniging</summary>
         [DataMember(Name = "Sleutels")]
         public Sleutel[] Sleutels { get; init; } = null!;
 
@@ -103,10 +103,32 @@ public class DetailVerenigingResponse
             public string Type { get; set; } = null!;
 
             /// <summary>
-            /// De waarde van de relatie
+            /// De andere vereniging
             /// </summary>
-            [DataMember(Name = "Waarde")]
-            public string Waarde { get; set; } = null!;
+            [DataMember(Name = "AndereVereniging")]
+            public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+
+            [DataContract]
+            public class GerelateerdeVereniging
+            {
+                /// <summary>
+                /// De unieke identificator van de andere vereniging in een externe bron
+                /// </summary>
+                [DataMember(Name = "ExternId")]
+                public string ExternId { get; set; } = null!;
+
+                /// <summary>
+                /// De unieke identificator van de andere vereniging in het verenigingsregister
+                /// </summary>
+                [DataMember(Name = "VCode")]
+                public string VCode { get; set; } = null!;
+
+                /// <summary>
+                /// De naam van de andere vereniging
+                /// </summary>
+                [DataMember(Name = "Naam")]
+                public string Naam { get; set; } = null!;
+            }
         }
 
         [DataContract]

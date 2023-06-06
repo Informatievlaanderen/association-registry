@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-public class VerenigingDocument
+public class VerenigingZoekDocument
 {
     public class Locatie
     {
@@ -30,12 +30,6 @@ public class VerenigingDocument
         public string Waarde { get; set; } = null!;
     }
 
-    public class Relatie
-    {
-        public string Type { get; set; } = null!;
-        public string Waarde { get; set; } = null!;
-    }
-
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
@@ -45,5 +39,4 @@ public class VerenigingDocument
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
-    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
 }

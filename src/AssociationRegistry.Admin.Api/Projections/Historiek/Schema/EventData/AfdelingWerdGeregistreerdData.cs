@@ -20,7 +20,7 @@ public record AfdelingWerdGeregistreerdData(
         => new(
             e.VCode,
             e.Naam,
-            e.KboNummerMoedervereniging,
+            e.Moedervereniging.KboNummer,
             e.KorteNaam,
             e.KorteBeschrijving,
             e.Startdatum,

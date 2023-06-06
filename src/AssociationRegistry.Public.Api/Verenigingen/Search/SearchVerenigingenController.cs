@@ -82,12 +82,12 @@ public class SearchVerenigingenController : ApiController
         return Ok(response);
     }
 
-    private static async Task<ISearchResponse<VerenigingDocument>> Search(
+    private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
         IElasticClient client,
         string q,
         string[] hoofdactiviteiten,
         PaginationQueryParams paginationQueryParams)
-        => await client.SearchAsync<VerenigingDocument>(
+        => await client.SearchAsync<VerenigingZoekDocument>(
             s => s
                 .From(paginationQueryParams.Offset)
                 .Size(paginationQueryParams.Limit)
@@ -144,7 +144,7 @@ public class SearchVerenigingenController : ApiController
         );
     }
 
-    private static AggregationContainerDescriptor<VerenigingDocument> HoofdactiviteitCountAggregation(AggregationContainerDescriptor<VerenigingDocument> aggregationContainerDescriptor)
+    private static AggregationContainerDescriptor<VerenigingZoekDocument> HoofdactiviteitCountAggregation(AggregationContainerDescriptor<VerenigingZoekDocument> aggregationContainerDescriptor)
     {
         return aggregationContainerDescriptor.Terms(
             WellknownFacets.HoofdactiviteitenCountAggregateName,

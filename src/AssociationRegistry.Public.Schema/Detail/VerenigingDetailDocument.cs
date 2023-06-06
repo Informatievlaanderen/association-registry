@@ -66,6 +66,16 @@ public class PubliekVerenigingDetailDocument : IVCode
     public class Relatie
     {
         public string Type { get; set; } = null!;
-        public string Waarde { get; set; } = null!;
+
+        public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+
+        public class GerelateerdeVereniging
+        {
+            public string ExternId { get; set; } = null!;
+
+            public string VCode { get; set; } = null!;
+
+            public string Naam { get; set; } = null!;
+        }
     }
 }

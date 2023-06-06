@@ -43,7 +43,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
                 configurationRoot["ElasticClientOptions:Username"],
                 configurationRoot["ElasticClientOptions:Password"])
             .DefaultMappingFor(
-                typeof(VerenigingDocument),
+                typeof(VerenigingZoekDocument),
                 descriptor => descriptor.IndexName(VerenigingenIndexName))
             .EnableDebugMode();
 
@@ -58,9 +58,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         client.Indices.Create(
             VerenigingenIndexName,
             c => c
-                .Map<VerenigingDocument>(
+                .Map<VerenigingZoekDocument>(
                     m => m
-                        .AutoMap<VerenigingDocument>()));
+                        .AutoMap<VerenigingZoekDocument>()));
         client.Indices.Refresh(Indices.All);
     }
 

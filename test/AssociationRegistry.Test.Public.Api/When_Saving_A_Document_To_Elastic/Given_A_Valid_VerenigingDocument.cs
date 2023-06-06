@@ -29,13 +29,13 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
 
         _classFixture.ElasticRepository!
             .Index(
-                new VerenigingDocument
+                new VerenigingZoekDocument
                 {
                     VCode = fixture.Create<string>(),
                     Naam = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
-                    Locaties = new[] { fixture.Create<VerenigingDocument.Locatie>() },
-                    HoofdactiviteitenVerenigingsloket = new[] { fixture.Create<VerenigingDocument.HoofdactiviteitVerenigingsloket>() },
+                    Locaties = new[] { fixture.Create<VerenigingZoekDocument.Locatie>() },
+                    HoofdactiviteitenVerenigingsloket = new[] { fixture.Create<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>() },
                     Doelgroep = fixture.Create<string>(),
                     Activiteiten = new[] { fixture.Create<string>() },
                 });

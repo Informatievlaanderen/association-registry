@@ -2,9 +2,9 @@ namespace AssociationRegistry.Public.Schema.Search;
 
 using Nest;
 
-public static class VerenigingDocumentMapping
+public static class VerenigingZoekDocumentMapping
 {
-    public static TypeMappingDescriptor<VerenigingDocument> Get(TypeMappingDescriptor<VerenigingDocument> map)
+    public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
                 .Keyword(
@@ -16,17 +16,17 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.KorteNaam))
-                .Nested<VerenigingDocument.VerenigingsType>(
+                .Nested<VerenigingZoekDocument.VerenigingsType>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Type)
                         .IncludeInRoot()
                         .Properties(VerenigingsTypeMapping.Get))
-                .Nested<VerenigingDocument.Locatie>(
+                .Nested<VerenigingZoekDocument.Locatie>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Locaties)
                         .IncludeInRoot()
                         .Properties(LocationMapping.Get))
-                .Nested<VerenigingDocument.HoofdactiviteitVerenigingsloket>(
+                .Nested<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.HoofdactiviteitenVerenigingsloket)
                         .IncludeInRoot()
@@ -37,21 +37,16 @@ public static class VerenigingDocumentMapping
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Activiteiten))
-                .Nested<VerenigingDocument.Sleutel>(
+                .Nested<VerenigingZoekDocument.Sleutel>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Type)
                         .IncludeInRoot()
                         .Properties(SleutelMapping.Get))
-                .Nested<VerenigingDocument.Relatie>(
-                    propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Type)
-                        .IncludeInRoot()
-                        .Properties(RelatieMapping.Get))
         );
 
     private static class LocationMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Locatie> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
                 .Text(
                     propertyDescriptor => propertyDescriptor
@@ -75,7 +70,7 @@ public static class VerenigingDocumentMapping
 
     private static class HoofdactiviteitMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.HoofdactiviteitVerenigingsloket> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
             => map
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
@@ -88,7 +83,7 @@ public static class VerenigingDocumentMapping
 
     private static class VerenigingsTypeMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.VerenigingsType> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.VerenigingsType> map)
             => map
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
@@ -101,24 +96,11 @@ public static class VerenigingDocumentMapping
 
     private static class SleutelMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Sleutel> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Sleutel> map)
             => map
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
                         .Name(document => document.Bron)
-                        .Fields(x => x.Keyword(y => y.Name("keyword"))))
-                .Text(
-                    propertiesDescriptor => propertiesDescriptor
-                        .Name(document => document.Waarde));
-    }
-
-    private static class RelatieMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingDocument.Relatie> map)
-            => map
-                .Text(
-                    propertiesDescriptor => propertiesDescriptor
-                        .Name(document => document.Type)
                         .Fields(x => x.Keyword(y => y.Name("keyword"))))
                 .Text(
                     propertiesDescriptor => propertiesDescriptor

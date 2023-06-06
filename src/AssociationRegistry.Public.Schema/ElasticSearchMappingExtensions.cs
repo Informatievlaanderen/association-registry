@@ -8,8 +8,8 @@ public static class ElasticSearchMappingExtensions
     public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-            typeof(VerenigingDocument),
+            typeof(VerenigingZoekDocument),
             descriptor => descriptor.IndexName(indexName)
-                .IdProperty(nameof(VerenigingDocument.VCode)));
+                .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 }

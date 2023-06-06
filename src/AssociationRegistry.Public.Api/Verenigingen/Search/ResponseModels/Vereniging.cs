@@ -37,13 +37,9 @@ public class Vereniging
     [DataMember(Name = "Activiteiten")]
     public Activiteit[] Activiteiten { get; init; } = null!;
 
-    /// <summary>De sleutels van deze vereniging beheren</summary>
+    /// <summary>De sleutels van deze vereniging</summary>
     [DataMember(Name = "Sleutels")]
     public Sleutel[] Sleutels { get; init; } = null!;
-
-    /// <summary>De sleutels van deze vereniging beheren</summary>
-    [DataMember(Name = "Relaties")]
-    public Relatie[] Relaties { get; init; } = null!;
 
     /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]

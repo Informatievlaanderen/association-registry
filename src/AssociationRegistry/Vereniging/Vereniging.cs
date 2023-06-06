@@ -56,7 +56,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             new AfdelingWerdGeregistreerd(
                 vCode,
                 naam,
-                kboNummerMoedervereniging,
+                new AfdelingWerdGeregistreerd.MoederverenigingsData(kboNummerMoedervereniging, string.Empty, $"Moeder {kboNummerMoedervereniging}"),
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
