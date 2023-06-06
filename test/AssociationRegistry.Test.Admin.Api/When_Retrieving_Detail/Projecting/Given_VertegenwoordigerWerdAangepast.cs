@@ -18,7 +18,6 @@ public class Given_VertegenwoordigerWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var vertegenwoordigerWerdGewijzigd = fixture.Create<TestEvent<VertegenwoordigerWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
         {
@@ -30,7 +29,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
             vertegenwoordiger
         ).ToArray();
 
-        projector.Apply(vertegenwoordigerWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
 
         doc.Vertegenwoordigers.Should().Contain(
             new BeheerVerenigingDetailDocument.Vertegenwoordiger

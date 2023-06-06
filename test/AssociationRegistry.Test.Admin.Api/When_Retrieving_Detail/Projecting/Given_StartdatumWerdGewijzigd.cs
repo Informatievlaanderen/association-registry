@@ -18,11 +18,10 @@ public class Given_StartdatumWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(startdatumWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly));
         doc.DatumLaatsteAanpassing.Should().Be(startdatumWerdGewijzigd.Tijdstip.ToBelgianDate());

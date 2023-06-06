@@ -17,11 +17,10 @@ public class Given_KorteNaamWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var korteNaamWerdGewijzigd = fixture.Create<TestEvent<KorteNaamWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(korteNaamWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
 
         doc.KorteNaam.Should().Be(korteNaamWerdGewijzigd.Data.KorteNaam);
         doc.DatumLaatsteAanpassing.Should().Be(korteNaamWerdGewijzigd.Tijdstip.ToBelgianDate());

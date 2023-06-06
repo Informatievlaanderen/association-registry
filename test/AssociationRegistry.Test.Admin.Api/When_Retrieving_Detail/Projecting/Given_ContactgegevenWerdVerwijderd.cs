@@ -17,7 +17,6 @@ public class Given_ContactgegevenWerdVerwijderd
     {
         var fixture = new Fixture().CustomizeAll();
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
         doc.Contactgegevens = doc.Contactgegevens.Append(
@@ -31,7 +30,7 @@ public class Given_ContactgegevenWerdVerwijderd
             }
         ).ToArray();
 
-        projector.Apply(contactgegevenWerdVerwijderd, doc);
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
         doc.Contactgegevens.Should().NotContain(
             new BeheerVerenigingDetailDocument.Contactgegeven

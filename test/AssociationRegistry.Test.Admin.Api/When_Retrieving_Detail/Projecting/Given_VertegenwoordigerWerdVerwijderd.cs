@@ -17,7 +17,6 @@ public class Given_VertegenwoordigerWerdVerwijderd
     {
         var fixture = new Fixture().CustomizeAll();
         var vertegenwoordigerWerdVerwijderd = fixture.Create<TestEvent<VertegenwoordigerWerdVerwijderd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
         {
@@ -29,7 +28,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
             vertegenwoordiger
         ).ToArray();
 
-        projector.Apply(vertegenwoordigerWerdVerwijderd, doc);
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
 
         doc.Vertegenwoordigers.Should().NotContain(

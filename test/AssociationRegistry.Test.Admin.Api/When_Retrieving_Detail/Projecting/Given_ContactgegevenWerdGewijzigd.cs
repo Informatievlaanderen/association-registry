@@ -17,7 +17,6 @@ public class Given_ContactgegevenWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
         doc.Contactgegevens = new[]
@@ -32,7 +31,7 @@ public class Given_ContactgegevenWerdGewijzigd
             },
         };
 
-        projector.Apply(contactgegevenWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
         doc.Contactgegevens.Should().BeEquivalentTo(
             new[]

@@ -17,11 +17,10 @@ public class Given_VertegenwoordigerWerdToegevoegd
     {
         var fixture = new Fixture().CustomizeAll();
         var vertegenwoordigerWerdToegevoegd = fixture.Create<TestEvent<VertegenwoordigerWerdToegevoegd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(vertegenwoordigerWerdToegevoegd, doc);
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
 
         doc.Vertegenwoordigers.Should().Contain(
             new BeheerVerenigingDetailDocument.Vertegenwoordiger

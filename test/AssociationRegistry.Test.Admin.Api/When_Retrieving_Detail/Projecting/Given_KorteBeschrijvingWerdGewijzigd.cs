@@ -17,11 +17,10 @@ public class Given_KorteBeschrijvingWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var korteBeschrijvingWerdGewijzigd = fixture.Create<TestEvent<KorteBeschrijvingWerdGewijzigd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        projector.Apply(korteBeschrijvingWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
 
         doc.KorteBeschrijving.Should().Be(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving);
         doc.DatumLaatsteAanpassing.Should().Be(korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDate());
