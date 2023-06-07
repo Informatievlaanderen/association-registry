@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestMapping;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
@@ -19,7 +19,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
     {
         var fixture = new Fixture().CustomizeAll();
 
-        var request = fixture.Create<RegistreerDecentraalBeheerdeVerenigingRequest>();
+        var request = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
 
         var actual = request.ToCommand();
 

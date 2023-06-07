@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -14,8 +14,8 @@ public class With_An_Empty_Gemeente : ValidatorTest
     [Fact]
     public void Has_validation_error__gemeente_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
-        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
             {
@@ -32,7 +32,7 @@ public class With_An_Empty_Gemeente : ValidatorTest
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}")
             .WithErrorMessage("'Gemeente' mag niet leeg zijn.");
     }
 }

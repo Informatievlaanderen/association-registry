@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Fakes;
 using Xunit;
 using Xunit.Categories;
@@ -10,12 +10,12 @@ using Xunit.Categories;
 [UnitTest]
 public class With_A_Null_Request
 {
-    private readonly RegistreerDecentraalBeheerdeVerenigingController _controller;
+    private readonly RegistreerFeitelijkeVerenigingController _controller;
 
     public With_A_Null_Request()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new RegistreerDecentraalBeheerdeVerenigingController(messageBusMock, new RegistreerDecentraalBeheerdeVerenigingRequestValidator(), new AppSettings());
+        _controller = new RegistreerFeitelijkeVerenigingController(messageBusMock, new RegistreerFeitelijkeVerenigingRequestValidator(), new AppSettings());
     }
 
     [Fact]

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_A_Achternaam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -15,8 +15,8 @@ public class Is_Valid
     [InlineData("@#(!i i")]
     public void Has_no_validation_errors(string insz)
     {
-        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
-        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Vertegenwoordigers = new[]
             {
@@ -29,6 +29,6 @@ public class Is_Valid
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(
-            $"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}");
+            $"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}");
     }
 }

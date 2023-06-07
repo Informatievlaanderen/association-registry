@@ -4,7 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Events;
 using Fixtures;
 using Framework;
@@ -74,7 +74,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
 
     public sealed class Setup
     {
-        public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
+        public readonly RegistreerFeitelijkeVerenigingRequest Request;
         public readonly HttpResponseMessage Response;
 
         public Setup(EventsInDbScenariosFixture fixture)
@@ -83,7 +83,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
             RequestLocatie.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-            Request = new RegistreerDecentraalBeheerdeVerenigingRequest
+            Request = new RegistreerFeitelijkeVerenigingRequest
             {
                 Naam = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                 Locaties = new[]

@@ -2,6 +2,7 @@
 
 using System.Globalization;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Primitives;
 using FluentValidation.TestHelper;
 using Xunit;

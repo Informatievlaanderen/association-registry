@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -12,8 +12,8 @@ public class Is_Null
     [Fact]
     public void Has_validation_error__Insz_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
-        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Vertegenwoordigers = new[]
             {
@@ -25,7 +25,7 @@ public class Is_Null
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
             .WithErrorMessage("'Insz' is verplicht.");
     }
 }

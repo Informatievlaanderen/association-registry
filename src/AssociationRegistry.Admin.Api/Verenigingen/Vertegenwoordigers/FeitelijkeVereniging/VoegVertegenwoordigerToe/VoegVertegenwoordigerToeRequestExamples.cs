@@ -1,0 +1,23 @@
+namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
+
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using Swashbuckle.AspNetCore.Filters;
+
+public class VoegVertegenwoordigerToeRequestExamples : IExamplesProvider<VoegVertegenwoordigerToeRequest>
+{
+    public VoegVertegenwoordigerToeRequest GetExamples()
+        => new()
+        {
+            Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger
+            {
+                Insz = "yymmddxxxcc",
+                IsPrimair = true,
+                Roepnaam = "Conan",
+                Rol = "Barbarian",
+                Email = "conan@example.com",
+                Telefoon = "0000112233",
+                Mobiel = "9999887766",
+                SocialMedia = "http://example.org",
+            },
+        };
+}
