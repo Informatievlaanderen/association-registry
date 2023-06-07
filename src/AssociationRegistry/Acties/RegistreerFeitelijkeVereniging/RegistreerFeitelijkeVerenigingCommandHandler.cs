@@ -27,7 +27,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
     public async Task<Result> Handle(CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message, CancellationToken cancellationToken = default)
     {
         var command = message.Command;
-        if (!message.Command.SkipDuplicateDetection)
+        if (!command.SkipDuplicateDetection)
         {
             var duplicates = (await _duplicateVerenigingDetectionService.GetDuplicates(command.Naam, command.Locaties)).ToList();
             if (duplicates.Any())

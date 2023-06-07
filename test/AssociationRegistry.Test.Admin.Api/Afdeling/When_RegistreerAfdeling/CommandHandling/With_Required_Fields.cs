@@ -43,7 +43,11 @@ public class With_Required_Fields
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerAfdelingCommandHandler(_verenigingRepositoryMock, _vCodeService, clock);
+        var commandHandler = new RegistreerAfdelingCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new NoDuplicateVerenigingDetectionService(),
+            clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata), CancellationToken.None)

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using System;
 using System.Threading.Tasks;
 using Acties.RegistreerAfdeling;
+using Acties.RegistreerFeitelijkeVereniging;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -10,6 +11,7 @@ using Framework;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using DuplicateVerenigingDetection;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -94,6 +96,12 @@ public class RegistreerAfdelingController : ApiController
         return registratieResult switch
         {
             Result<CommandResult> commandResult => this.AcceptedCommand(_appSettings, commandResult.Data),
+
+            Result<PotentialDuplicatesFound> potentialDuplicates => Conflict(
+                new PotentialDuplicatesResponse(
+                    _bevestigingsTokenHelper.Calculate(request),
+                    potentialDuplicates.Data,
+                    _appSettings)),
 
             _ => throw new ArgumentOutOfRangeException(),
         };

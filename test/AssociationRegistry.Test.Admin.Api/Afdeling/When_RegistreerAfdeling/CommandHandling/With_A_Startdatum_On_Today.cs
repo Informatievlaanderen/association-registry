@@ -30,6 +30,7 @@ public class With_A_Startdatum_On_Today
         var commandHandler = new RegistreerAfdelingCommandHandler(
             _verenigingRepositoryMock,
             vCodeService,
+            new NoDuplicateVerenigingDetectionService(),
             new ClockStub(command.Startdatum.Datum!.Value));
 
         commandHandler

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
+namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -6,17 +6,18 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,7 +26,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
     private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente? called;
     public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public readonly string Naam;
-    public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
+    public readonly RegistreerAfdelingRequest Request;
     public readonly HttpResponseMessage Response;
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
@@ -36,9 +37,10 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
-        Request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        Request = new RegistreerAfdelingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            KboNummerMoedervereniging = autoFixture.Create<KboNummer>(),
             Locaties = new[]
             {
                 locatie,
@@ -48,7 +50,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(Request);
         FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd;
-        Response = fixture.DefaultClient.RegistreerFeitelijkeVereniging(RequestAsJson).GetAwaiter().GetResult();
+        Response = fixture.DefaultClient.RegistreerAfdeling(RequestAsJson).GetAwaiter().GetResult();
     }
 
     public string RequestAsJson { get; }
@@ -82,7 +84,7 @@ public class With_Same_Naam_And_Gemeente
     private FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).FeitelijkeVerenigingWerdGeregistreerd;
 
-    private RegistreerDecentraalBeheerdeVerenigingRequest Request
+    private RegistreerAfdelingRequest Request
         => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
 
     private string ResponseBody
@@ -159,9 +161,13 @@ public class With_Same_Naam_And_Gemeente
             .ToListAsync();
 
         savedEvents.Should().NotContainEquivalentOf(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new AfdelingWerdGeregistreerd(
                 string.Empty,
                 Request.Naam,
+                new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    Request.KboNummerMoedervereniging,
+                    string.Empty,
+                    $"Moeder {Request.KboNummerMoedervereniging}"),
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,
                 Request.Startdatum,
