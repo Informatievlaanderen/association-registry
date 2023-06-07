@@ -32,6 +32,7 @@ public class With_A_Startdatum_In_The_Future
         _commandHandler = new RegistreerAfdelingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
+            new NoDuplicateVerenigingDetectionService(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata);

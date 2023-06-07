@@ -27,7 +27,11 @@ public class With_All_Fields
         var clock = new ClockStub(_command.Startdatum.Datum!.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerAfdelingCommandHandler(_verenigingRepositoryMock, _vCodeService, clock);
+        var commandHandler = new RegistreerAfdelingCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new NoDuplicateVerenigingDetectionService(),
+            clock);
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(_command, commandMetadata), CancellationToken.None)

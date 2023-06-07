@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerAfdeling;
 
+using DuplicateVerenigingDetection;
 using Framework;
 using Vereniging;
 using ResultNet;
@@ -8,21 +9,30 @@ public class RegistreerAfdelingCommandHandler
 {
     private readonly IClock _clock;
     private readonly IVCodeService _vCodeService;
+    private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public RegistreerAfdelingCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
+        IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
         IClock clock)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
+        _duplicateVerenigingDetectionService = duplicateVerenigingDetectionService;
         _clock = clock;
     }
 
     public async Task<Result> Handle(CommandEnvelope<RegistreerAfdelingCommand> message, CancellationToken cancellationToken = default)
     {
         var command = message.Command;
+        if (!command.SkipDuplicateDetection)
+        {
+            var duplicates = (await _duplicateVerenigingDetectionService.GetDuplicates(command.Naam, command.Locaties)).ToList();
+            if (duplicates.Any())
+                return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
+        }
 
         var vCode = await _vCodeService.GetNext();
 
