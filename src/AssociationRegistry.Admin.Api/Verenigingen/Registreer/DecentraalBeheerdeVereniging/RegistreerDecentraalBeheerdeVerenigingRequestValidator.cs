@@ -3,7 +3,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 
 using System.Linq;
-using Afdeling;
 using Common;
 using Infrastructure.Validation;
 using FluentValidation;

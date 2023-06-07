@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using System;
 using System.Threading.Tasks;
 using Acties.RegistreerAfdeling;
-using Acties.RegistreerFeitelijkeVereniging;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;

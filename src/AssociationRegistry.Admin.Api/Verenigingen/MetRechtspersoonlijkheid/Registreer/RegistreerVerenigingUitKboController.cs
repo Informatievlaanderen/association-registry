@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.Re
 
 using System;
 using System.Threading.Tasks;
-using Acties.RegistreerFeitelijkeVereniging;
 using Acties.RegistreerVerenigingUitKbo;
 using Infrastructure;
 using Infrastructure.ConfigurationBindings;
