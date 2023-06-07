@@ -1,3 +1,10 @@
+# [3.16.0](https://github.com/informatievlaanderen/association-registry/compare/v3.15.1...v3.16.0) (2023-06-07)
+
+
+### Features
+
+* or-1715 add duplicate detection to RegistreerAfdeling ([fe55a2b](https://github.com/informatievlaanderen/association-registry/commit/fe55a2bc0ef250df5d4fb3b35a519c5078ca90ee))
+
 ## [3.15.1](https://github.com/informatievlaanderen/association-registry/compare/v3.15.0...v3.15.1) (2023-06-06)
 
 
