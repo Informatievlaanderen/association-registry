@@ -98,9 +98,99 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.Data.VCode);
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.StreamKey!);
 
         BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(korteNaamWerdGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(startdatumWerdGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdToegevoegd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdVerwijderd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdToegevoegd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdGewijzigd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdVerwijderd.StreamKey!);
+
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
         ops.Store(doc);
     }
