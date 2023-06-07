@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.Request;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

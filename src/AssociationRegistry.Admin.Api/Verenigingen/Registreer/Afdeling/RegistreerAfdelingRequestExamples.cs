@@ -3,13 +3,13 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using System;
 using Constants;
 using Common;
+using FeitelijkeVereniging;
 using Vereniging;
-using DecentraalBeheerdeVereniging;
 using Swashbuckle.AspNetCore.Filters;
 
-public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerDecentraalBeheerdeVerenigingRequest>
+public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFeitelijkeVerenigingRequest>
 {
-    public RegistreerDecentraalBeheerdeVerenigingRequest GetExamples()
+    public RegistreerFeitelijkeVerenigingRequest GetExamples()
         => new()
         {
             Naam = "Naam van de vereniging",

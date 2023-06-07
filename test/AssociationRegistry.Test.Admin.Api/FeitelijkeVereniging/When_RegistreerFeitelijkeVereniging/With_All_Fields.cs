@@ -5,7 +5,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Events;
 using Fixtures;
 using Framework;
@@ -22,13 +22,13 @@ using Xunit.Categories;
 public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 {
     private static When_RegistreerFeitelijkeVereniging_WithAllFields? called;
-    public readonly RegistreerDecentraalBeheerdeVerenigingRequest Request;
+    public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
 
     private When_RegistreerFeitelijkeVereniging_WithAllFields(AdminApiFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAll();
-        Request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = autoFixture.Create<string>(),
             KorteNaam = autoFixture.Create<string>(),
@@ -97,7 +97,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
     public static When_RegistreerFeitelijkeVereniging_WithAllFields Called(AdminApiFixture fixture)
         => called ??= new When_RegistreerFeitelijkeVereniging_WithAllFields(fixture);
 
-    private string GetJsonBody(RegistreerDecentraalBeheerdeVerenigingRequest request)
+    private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)
         => GetType()
             .GetAssociatedResourceJson("files.request.with_all_fields")
             .Replace("{{vereniging.naam}}", request.Naam)
@@ -122,7 +122,7 @@ public class With_All_Fields
         _fixture = fixture;
     }
 
-    private RegistreerDecentraalBeheerdeVerenigingRequest Request
+    private RegistreerFeitelijkeVerenigingRequest Request
         => When_RegistreerFeitelijkeVereniging_WithAllFields.Called(_fixture).Request;
 
     private HttpResponseMessage Response

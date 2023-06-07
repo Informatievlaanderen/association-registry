@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -21,9 +20,9 @@ using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente
+public sealed class When_RegistreerAfdeling_With_Same_Naam_And_Gemeente
 {
-    private static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente? called;
+    private static When_RegistreerAfdeling_With_Same_Naam_And_Gemeente? called;
     public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
     public readonly string Naam;
     public readonly RegistreerAfdelingRequest Request;
@@ -31,7 +30,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
 
-    private When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
+    private When_RegistreerAfdeling_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
@@ -55,8 +54,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
 
     public string RequestAsJson { get; }
 
-    public static When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente Called(EventsInDbScenariosFixture fixture)
-        => called ??= new When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente(fixture);
+    public static When_RegistreerAfdeling_With_Same_Naam_And_Gemeente Called(EventsInDbScenariosFixture fixture)
+        => called ??= new When_RegistreerAfdeling_With_Same_Naam_And_Gemeente(fixture);
 }
 
 //TODO: Rework to unit test
@@ -73,19 +72,19 @@ public class With_Same_Naam_And_Gemeente
     }
 
     private HttpResponseMessage Response
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
+        => When_RegistreerAfdeling_With_Same_Naam_And_Gemeente.Called(_fixture).Response;
 
     private BevestigingsTokenHelper BevestigingsTokenHelper
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingsTokenHelper;
+        => When_RegistreerAfdeling_With_Same_Naam_And_Gemeente.Called(_fixture).BevestigingsTokenHelper;
 
     private string Naam
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
+        => When_RegistreerAfdeling_With_Same_Naam_And_Gemeente.Called(_fixture).Naam;
 
     private FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).FeitelijkeVerenigingWerdGeregistreerd;
+        => When_RegistreerAfdeling_With_Same_Naam_And_Gemeente.Called(_fixture).FeitelijkeVerenigingWerdGeregistreerd;
 
     private RegistreerAfdelingRequest Request
-        => When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
+        => When_RegistreerAfdeling_With_Same_Naam_And_Gemeente.Called(_fixture).Request;
 
     private string ResponseBody
         => @$"{{

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Framework;
 using Vereniging;
 using AutoFixture;

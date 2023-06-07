@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 using Events;
 using Fixtures;
 using Framework;

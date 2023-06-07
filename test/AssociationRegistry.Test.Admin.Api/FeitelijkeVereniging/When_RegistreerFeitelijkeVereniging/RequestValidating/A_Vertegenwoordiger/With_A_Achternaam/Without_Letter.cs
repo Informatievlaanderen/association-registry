@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_A_Achternaam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -14,8 +14,8 @@ public class Without_Letter
     [InlineData("… --- …")]
     public void Has_validation_error__Achternaam_moet_minstens_een_letter_bevatten(string achternaam)
     {
-        var validator = new RegistreerDecentraalBeheerdeVerenigingRequestValidator();
-        var request = new RegistreerDecentraalBeheerdeVerenigingRequest
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Vertegenwoordigers = new []
             {
@@ -28,7 +28,7 @@ public class Without_Letter
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(
-                $"{nameof(RegistreerDecentraalBeheerdeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
+                $"{nameof(RegistreerFeitelijkeVerenigingRequest.Vertegenwoordigers)}[0].{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
             .WithErrorMessage("'Achternaam' moet minstens een letter bevatten.");
     }
 }

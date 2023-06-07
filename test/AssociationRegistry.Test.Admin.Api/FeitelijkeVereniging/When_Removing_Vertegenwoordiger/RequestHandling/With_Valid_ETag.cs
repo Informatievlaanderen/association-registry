@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.RequestHandling;
 
 using Acties.VerwijderVertegenwoordiger;
-using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerwijderVertegenwoordiger;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
 using Framework;
 using Vereniging;

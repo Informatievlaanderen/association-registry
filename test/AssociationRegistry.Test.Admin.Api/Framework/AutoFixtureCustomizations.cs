@@ -5,12 +5,13 @@ using Acties.RegistreerAfdeling;
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VoegContactGegevenToe;
-using AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.DecentraalBeheerdeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.WijzigVertegenwoordiger;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AutoFixture;
 using AutoFixture.Dsl;
 using AutoFixture.Kernel;
@@ -115,9 +116,9 @@ public static class AutoFixtureCustomizations
                         .ToArray(),
                 }).OmitAutoProperties());
 
-        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.WijzigBasisgegevens.WijzigBasisgegevensRequest>(
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.WijzigBasisgegevensRequest>(
             composer => composer.FromFactory(
-                () => new AssociationRegistry.Admin.Api.Verenigingen.MetRechtspersoonlijkheid.WijzigBasisgegevens.WijzigBasisgegevensRequest
+                () => new AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.WijzigBasisgegevensRequest
                 {
                     KorteBeschrijving = fixture.Create<string>(),
                     HoofdactiviteitenVerenigingsloket = fixture
@@ -131,9 +132,9 @@ public static class AutoFixtureCustomizations
 
     public static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
-        fixture.Customize<RegistreerDecentraalBeheerdeVerenigingRequest>(
+        fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ => new RegistreerDecentraalBeheerdeVerenigingRequest
+                _ => new RegistreerFeitelijkeVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
