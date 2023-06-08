@@ -205,7 +205,13 @@ jobs:
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
       - name: Run all tests
-        run: dotnet test ${{matrix.projects}}
+        run: dotnet test ${{matrix.projects}} --logger html
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: ${{matrix.projects}}/TestResults/*.html
 
       - name: Shows logs ACM container
         if: ${{ failure() }}
