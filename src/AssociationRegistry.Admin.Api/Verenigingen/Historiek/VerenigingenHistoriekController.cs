@@ -16,7 +16,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class VerenigingenHistoriekController : ApiController
 {
     /// <summary>
@@ -28,7 +28,7 @@ public class VerenigingenHistoriekController : ApiController
     /// <response code="200">De historiek van een vereniging</response>
     /// <response code="404">De historiek van de gevraagde vereniging is niet gevonden</response>
     /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}/historiek")]
     [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

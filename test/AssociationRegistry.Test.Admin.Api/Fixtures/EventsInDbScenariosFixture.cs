@@ -20,6 +20,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
     public readonly V014_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
     public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
+    public readonly V016_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_AlsMoeder_VoorRegistratieAfdeling V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling = new();
+    public readonly V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moeder V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder = new();
+    public readonly V019_AfdelingWerdGeregistreerd_WithMinimalFields V019AfdelingWerdGeregistreerdWithMinimalFields = new();
 
     protected override async Task Given()
     {
@@ -40,6 +43,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
             V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
+            V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling,
+            V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder,
+            V019AfdelingWerdGeregistreerdWithMinimalFields,
         };
 
         foreach (var scenario in scenarios)

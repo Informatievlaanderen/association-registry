@@ -66,7 +66,7 @@ public class BeheerVerenigingDetailMapper
             Type = RelatieType.IsAfdelingVan.Beschrijving,
             AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
             {
-                ExternId = moederverenigingsData.KboNummer,
+                KboNummer = moederverenigingsData.KboNummer,
                 VCode = moederverenigingsData.VCode,
                 Naam = moederverenigingsData.Naam,
             },

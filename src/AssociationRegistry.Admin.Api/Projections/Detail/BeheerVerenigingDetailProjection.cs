@@ -49,34 +49,21 @@ public class BeheerVerenigingDetailProjection : EventProjection
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
-    public BeheerVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
-        => new()
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
-            Naam = afdelingWerdGeregistreerd.Data.Naam,
-            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
-            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
-                BeheerVerenigingDetailMapper.MapContactgegeven)
-                .ToArray(),
-            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(BeheerVerenigingDetailMapper.MapLocatie)
-                .ToArray(),
-            Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                BeheerVerenigingDetailMapper.MapVertegenwoordiger)
-                .ToArray(),
-            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
-                .ToArray(),
-            Relaties = new[]
-            {
-                BeheerVerenigingDetailMapper.MapMoederRelatie(afdelingWerdGeregistreerd.Data.Moedervereniging),
-            },
-            Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
-        };
+    public async Task Project(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, IDocumentOperations ops)
+    {
+        var afdeling = BeheerVerenigingDetailProjector.Create(afdelingWerdGeregistreerd);
+
+        ops.Insert(afdeling);
+
+        if (string.IsNullOrEmpty(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))
+            return;
+
+        var moeder = ops.Load<BeheerVerenigingDetailDocument>(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode);
+
+        moeder = BeheerVerenigingDetailProjector.Apply(afdelingWerdGeregistreerd, moeder);
+
+        ops.Store(moeder);
+    }
 
     public BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()

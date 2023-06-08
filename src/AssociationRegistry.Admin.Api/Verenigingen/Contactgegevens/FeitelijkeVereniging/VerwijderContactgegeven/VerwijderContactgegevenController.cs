@@ -2,10 +2,10 @@
 
 using System.Threading.Tasks;
 using AssociationRegistry.Acties.VerwijderContactgegeven;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Infrastructure;
+using Infrastructure.Extensions;
+using Framework;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +19,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Vereniging Contactgegevens")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class VerwijderContactgegevenController : ApiController
 {
     private readonly IMessageBus _messageBus;
@@ -42,9 +42,9 @@ public class VerwijderContactgegevenController : ApiController
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd verwijderd.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpDelete("{vCode}/contactgegevens/{contactgegevenId:int}")]
     [Consumes("application/json")]
     [Produces("application/json")]

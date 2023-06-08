@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using Common;
 using Swashbuckle.AspNetCore.Filters;
 
 public class VoegVertegenwoordigerToeRequestExamples : IExamplesProvider<VoegVertegenwoordigerToeRequest>

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 
 using System;
-using AssociationRegistry.Primitives;
+using Primitives;
 using Swashbuckle.AspNetCore.Filters;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>

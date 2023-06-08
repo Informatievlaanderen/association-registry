@@ -2,7 +2,7 @@ namespace AssociationRegistry.Vereniging;
 
 public class RelatieType
 {
-    public static readonly RelatieType IsAfdelingVan = new("Is afdeling van", "heeft als afdeling");
+    public static readonly RelatieType IsAfdelingVan = new("Is afdeling van", "Heeft als afdeling");
 
     public static readonly RelatieType[] All = { IsAfdelingVan };
 

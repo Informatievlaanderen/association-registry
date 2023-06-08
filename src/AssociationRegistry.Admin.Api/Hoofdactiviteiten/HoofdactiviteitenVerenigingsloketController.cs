@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Public.Api.Hoofdactiviteiten;
+namespace AssociationRegistry.Admin.Api.Hoofdactiviteiten;
 
 using System.Linq;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("hoofdactiviteitenVerenigingsloket")]
-[ApiExplorerSettings(GroupName = "HoofdactiviteitenVerenigingsloket")]
+[ApiExplorerSettings(GroupName = "Parameters")]
 public class HoofdactiviteitenVerenigingsloketController : ApiController
 {
     /// <summary>

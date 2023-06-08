@@ -2,7 +2,7 @@
 
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.WijzigContactgegeven;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 [DataContract]
 public class WijzigContactgegevenRequest

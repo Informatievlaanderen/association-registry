@@ -2,10 +2,10 @@
 
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.WijzigVertegenwoordiger;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 
 [DataContract]
 public class WijzigVertegenwoordigerRequest

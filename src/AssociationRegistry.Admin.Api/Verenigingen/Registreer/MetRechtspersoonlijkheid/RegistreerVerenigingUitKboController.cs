@@ -2,12 +2,12 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoon
 
 using System;
 using System.Threading.Tasks;
-using AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Acties.RegistreerVerenigingUitKbo;
+using Infrastructure;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
+using Framework;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -23,7 +23,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen/kbo")]
-[ApiExplorerSettings(GroupName = "Verenigingen met rechtspersoonlijkheid")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van verenigingen met rechtspersoonlijkheid")]
 public class RegistreerVerenigingUitKboController : ApiController
 {
     private readonly AppSettings _appSettings;
@@ -41,7 +41,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     }
 
     /// <summary>
-    ///     Registreer een vereniging vanuit de KBO.
+    ///     Registreer een vereniging met rechtspersoonlijkheid vanuit de KBO.
     /// </summary>
     /// <remarks>
     ///     Bij het registreren van de vereniging wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -50,9 +50,9 @@ public class RegistreerVerenigingUitKboController : ApiController
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren vereniging</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
-    /// <response code="202">De vereniging is geregistreerd.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="202">De vereniging met rechtspersoonlijkheid werd geregistreerd.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("")]
     [Consumes("application/json")]
     [Produces("application/json")]

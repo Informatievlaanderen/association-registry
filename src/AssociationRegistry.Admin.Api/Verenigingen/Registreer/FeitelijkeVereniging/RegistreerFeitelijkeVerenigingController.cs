@@ -24,7 +24,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class RegistreerFeitelijkeVerenigingController : ApiController
 {
     private readonly AppSettings _appSettings;
@@ -55,10 +55,10 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
     /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de vereniging uniek is,
     /// ondanks de voorgestelde duplicaten.</param>
-    /// <response code="202">De vereniging is geregistreerd.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="202">De feitelijke vereniging werd geregistreerd.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost]
     [Consumes("application/json")]
     [Produces("application/json")]

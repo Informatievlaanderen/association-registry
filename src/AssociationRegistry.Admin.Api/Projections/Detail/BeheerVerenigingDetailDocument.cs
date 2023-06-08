@@ -95,7 +95,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 
         public class GerelateerdeVereniging
         {
-            public string ExternId { get; set; } = null!;
+            public string KboNummer { get; set; } = null!;
 
             public string VCode { get; set; } = null!;
 

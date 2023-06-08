@@ -17,7 +17,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class DetailVerenigingenController : ApiController
 {
     private readonly AppSettings _appsettings;
@@ -35,7 +35,7 @@ public class DetailVerenigingenController : ApiController
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}")]
     [ProducesResponseType(typeof(PubliekVerenigingDetailResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

@@ -68,7 +68,7 @@ public class PubliekVerenigingDetailProjection : SingleStreamAggregation<Publiek
                     Type = RelatieType.IsAfdelingVan.Beschrijving,
                     AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                     {
-                        ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                        KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
                         VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
                         Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
                     },

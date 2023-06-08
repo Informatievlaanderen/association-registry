@@ -2,10 +2,10 @@
 
 using System.Threading.Tasks;
 using AssociationRegistry.Acties.WijzigContactgegeven;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Infrastructure;
+using Infrastructure.Extensions;
+using Framework;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -20,7 +20,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Vereniging Contactgegevens")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class WijzigContactgegevenController : ApiController
 {
     private readonly IMessageBus _messageBus;
@@ -45,10 +45,11 @@ public class WijzigContactgegevenController : ApiController
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="request">Het te wijzigen contactgegeven</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De wijziging werd aanvaard.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}/contactgegevens/{contactgegevenId}")]
     [Consumes("application/json")]
     [Produces("application/json")]
@@ -57,6 +58,7 @@ public class WijzigContactgegevenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

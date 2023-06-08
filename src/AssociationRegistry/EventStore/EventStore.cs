@@ -1,11 +1,13 @@
 namespace AssociationRegistry.EventStore;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Events;
 using Framework;
 using JasperFx.Core.Reflection;
 using Marten;
 using Marten.Exceptions;
 using NodaTime.Text;
+using Vereniging;
 
 public class EventStore : IEventStore
 {
@@ -39,8 +41,21 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.OpenSession();
 
-        var aggregate = await session.Events.AggregateStreamAsync<T>(id) ??
-                        throw new AggregateNotFoundException(id, typeof(T));
-        return aggregate;
+        return await session.Events.AggregateStreamAsync<T>(id) ??
+               throw new AggregateNotFoundException(id, typeof(T));
+    }
+
+    public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
+    {
+        await using var session = _documentStore.OpenSession();
+
+        var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+            .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
+            .SingleOrDefaultAsync())?.VCode;
+
+        if (string.IsNullOrEmpty(id))
+            return null;
+
+        return await Load<T>(id);
     }
 }

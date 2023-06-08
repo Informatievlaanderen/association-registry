@@ -13,7 +13,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
             Vereniging = new DetailVerenigingResponse.VerenigingDetail
             {
                 VCode = "V0001001",
-                Type = new BeheerVerenigingDetailDocument.VerenigingsType
+                Type = new DetailVerenigingResponse.VerenigingDetail.VerenigingsType
                 {
                     Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                     Code = Verenigingstype.FeitelijkeVereniging.Code,

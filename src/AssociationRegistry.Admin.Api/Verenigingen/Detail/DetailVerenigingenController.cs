@@ -16,7 +16,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
     /// <summary>
@@ -26,9 +26,9 @@ public class DetailVerenigingenController : ApiController
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
-    /// <response code="404">De gevraagde vereniging is niet gevonden</response>
+    /// <response code="404">De gevraagde vereniging werd niet gevonden</response>
     /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}")]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -60,7 +60,11 @@ public class DetailVerenigingenController : ApiController
                     new DetailVerenigingResponse.VerenigingDetail
                     {
                         VCode = vereniging.VCode,
-                        Type = vereniging.Type,
+                        Type = new DetailVerenigingResponse.VerenigingDetail.VerenigingsType
+                        {
+                            Code = vereniging.Type.Code,
+                            Beschrijving = vereniging.Type.Beschrijving,
+                        },
                         Naam = vereniging.Naam,
                         KorteNaam = vereniging.KorteNaam,
                         KorteBeschrijving = vereniging.KorteBeschrijving,
@@ -87,7 +91,7 @@ public class DetailVerenigingenController : ApiController
             Type = relatie.Type,
             AndereVereniging = new DetailVerenigingResponse.VerenigingDetail.Relatie.GerelateerdeVereniging
             {
-                ExternId = relatie.AndereVereniging.ExternId,
+                KboNummer = relatie.AndereVereniging.KboNummer,
                 VCode = relatie.AndereVereniging.VCode,
                 Naam = relatie.AndereVereniging.Naam,
             },

@@ -10,7 +10,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AutoFixture;
 using AutoFixture.Dsl;
@@ -194,7 +193,9 @@ public static class AutoFixtureCustomizations
                         SocialMedia = fixture.Create<SocialMedia>().Waarde,
                     })
                 .OmitAutoProperties());
-    }public static void CustomizeRegistreerAfdelingRequest(this IFixture fixture)
+    }
+
+    public static void CustomizeRegistreerAfdelingRequest(this IFixture fixture)
     {
         fixture.Customize<RegistreerAfdelingRequest>(
             composer => composer.FromFactory<int>(
@@ -281,6 +282,17 @@ public static class AutoFixtureCustomizations
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
                     fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
+
+        fixture.Customize<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>(
+            composer => composer.FromFactory(
+                () => new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+                    fixture.Create<VCode>().ToString(),
+                    fixture.Create<KboNummer>(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>()
+                    )).OmitAutoProperties());
     }
 
     public static void CustomizeContactgegevenWerdToegevoegd(this IFixture fixture)

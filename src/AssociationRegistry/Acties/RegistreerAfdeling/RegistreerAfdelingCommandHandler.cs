@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerAfdeling;
 
 using DuplicateVerenigingDetection;
+using EventStore;
 using Framework;
+using Marten;
 using Vereniging;
 using ResultNet;
 
@@ -36,10 +38,15 @@ public class RegistreerAfdelingCommandHandler
 
         var vCode = await _vCodeService.GetNext();
 
+        var vCodeAndNaamMoedervereniging =
+            await _verenigingsRepository.GetVCodeAndNaam(message.Command.KboNummerMoedervereniging) ??
+            VerenigingsRepository.VCodeAndNaam.Fallback(message.Command.KboNummerMoedervereniging);
+
         var vereniging = Vereniging.RegistreerAfdeling(
             vCode,
             command.Naam,
             command.KboNummerMoedervereniging,
+            vCodeAndNaamMoedervereniging,
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
