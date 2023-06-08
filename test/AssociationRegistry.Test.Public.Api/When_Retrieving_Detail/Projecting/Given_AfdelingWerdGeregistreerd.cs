@@ -76,7 +76,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Type = RelatieType.IsAfdelingVan.Beschrijving, AndereVereniging =
                             new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                             {
-                                ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                                KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
                                 VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
                                 Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
                             },

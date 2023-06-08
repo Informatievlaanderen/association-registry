@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoon
 
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
+using Acties.RegistreerVerenigingUitKbo;
 
 [DataContract]
 public class RegistreerVerenigingUitKboRequest

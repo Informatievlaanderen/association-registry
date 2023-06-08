@@ -2,10 +2,10 @@
 
 using System.Threading.Tasks;
 using AssociationRegistry.Acties.WijzigVertegenwoordiger;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Infrastructure;
+using Infrastructure.Extensions;
+using Framework;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -20,7 +20,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Vereniging Vertegenwoordigers")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class WijzigVertegenwoordigerController : ApiController
 {
     private readonly IMessageBus _messageBus;
@@ -45,10 +45,11 @@ public class WijzigVertegenwoordigerController : ApiController
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De vertegenwoordiger werd gewijzigd.</response>
-    /// <response code="400">Er is een probleem met de doorgestuurde waarden. Zie body voor meer info.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}/vertegenwoordigers/{vertegenwoordigerId}")]
     [Consumes("application/json")]
     [Produces("application/json")]
@@ -58,6 +59,7 @@ public class WijzigVertegenwoordigerController : ApiController
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]

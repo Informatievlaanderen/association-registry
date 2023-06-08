@@ -33,4 +33,22 @@ public class VerenigingsRepository : IVerenigingsRepository
 
         return vereniging;
     }
+
+    public async Task<VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
+    {
+        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer);
+
+        if (verenigingState == null)
+            return null;
+
+        return new VCodeAndNaam(verenigingState.VCode, verenigingState.Naam);
+    }
+
+    public record VCodeAndNaam(VCode? VCode, VerenigingsNaam VerenigingsNaam)
+    {
+        public static VCodeAndNaam Fallback(KboNummer kboNummer)
+            => new(
+                null,
+                VerenigingsNaam.Create($"Moeder {kboNummer}"));
+    }
 }

@@ -6,9 +6,39 @@ using Events;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
+using Vereniging;
 
 public class BeheerVerenigingDetailProjector
 {
+    public static BeheerVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+        => new()
+        {
+            VCode = afdelingWerdGeregistreerd.Data.VCode,
+            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
+            Naam = afdelingWerdGeregistreerd.Data.Naam,
+            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
+                    BeheerVerenigingDetailMapper.MapContactgegeven)
+                .ToArray(),
+            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(BeheerVerenigingDetailMapper.MapLocatie)
+                .ToArray(),
+            Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
+                    BeheerVerenigingDetailMapper.MapVertegenwoordiger)
+                .ToArray(),
+            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
+                    BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
+                .ToArray(),
+            Relaties = new[]
+            {
+                BeheerVerenigingDetailMapper.MapMoederRelatie(afdelingWerdGeregistreerd.Data.Moedervereniging),
+            },
+            Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
+        };
+
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
@@ -149,5 +179,24 @@ public class BeheerVerenigingDetailProjector
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
+    }
+
+    public static BeheerVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingDetailDocument? moeder)
+    {
+        moeder = moeder with
+        {
+            Relaties = moeder.Relaties.Append(
+                new BeheerVerenigingDetailDocument.Relatie
+                {
+                    Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                    AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+                    {
+                        KboNummer = string.Empty,
+                        Naam = afdelingWerdGeregistreerd.Data.Naam,
+                        VCode = afdelingWerdGeregistreerd.Data.VCode,
+                    }
+                }).ToArray()
+        };
+        return moeder;
     }
 }

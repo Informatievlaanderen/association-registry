@@ -2,7 +2,7 @@
 
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
+using Infrastructure.Validation;
 using FluentValidation;
 
 public class RegistreerVerenigingUitKboRequestValidator : AbstractValidator<RegistreerVerenigingUitKboRequest>

@@ -79,7 +79,7 @@ public static class PubliekVerenigingDetailMapper
             Type = r.Type,
             AndereVereniging = new Relatie.GerelateerdeVereniging
             {
-                ExternId = r.AndereVereniging.ExternId,
+                KboNummer = r.AndereVereniging.KboNummer,
                 VCode = r.AndereVereniging.VCode,
                 Naam = r.AndereVereniging.Naam,
             },

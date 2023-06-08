@@ -21,7 +21,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Verenigingen")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
 public class SearchVerenigingenController : ApiController
 {
     private readonly ElasticClient _elasticClient;
@@ -59,7 +59,7 @@ public class SearchVerenigingenController : ApiController
     /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
-    /// <response code="500">Als er een interne fout is opgetreden.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("zoeken")]
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]

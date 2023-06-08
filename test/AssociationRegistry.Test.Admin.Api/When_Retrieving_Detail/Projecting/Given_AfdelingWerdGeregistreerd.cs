@@ -19,9 +19,8 @@ public class Given_AfdelingWerdGeregistreerd
     {
         var fixture = new Fixture().CustomizeAll();
         var afdelingWerdGeregistreerd = fixture.Create<TestEvent<AfdelingWerdGeregistreerd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
-        var doc = projector.Create(afdelingWerdGeregistreerd);
+        var doc = BeheerVerenigingDetailProjector.Create(afdelingWerdGeregistreerd);
 
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
@@ -89,7 +88,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Type = RelatieType.IsAfdelingVan.Beschrijving,
                         AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                         {
-                            ExternId = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
+                            KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
                             VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
                             Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
                         },

@@ -134,4 +134,7 @@ public class AdminApiClient : IDisposable
     {
         _httpClient.Dispose();
     }
+
+    public async Task<HttpResponseMessage> GetHoofdactiviteiten()
+        => await _httpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
 }

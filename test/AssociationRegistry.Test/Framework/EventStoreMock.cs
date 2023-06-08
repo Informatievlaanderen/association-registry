@@ -2,6 +2,7 @@
 
 using EventStore;
 using AssociationRegistry.Framework;
+using Vereniging;
 
 public class EventStoreMock : IEventStore
 {
@@ -36,4 +37,7 @@ public class EventStoreMock : IEventStore
 
         return Task.FromResult(result);
     }
+
+    public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
+        => throw new NotImplementedException();
 }

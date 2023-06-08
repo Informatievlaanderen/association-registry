@@ -9,6 +9,7 @@ using IEvent = AssociationRegistry.Framework.IEvent;
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private VerenigingState? _verenigingToLoad;
+    private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
 
     public record SaveInvocation(VerenigingsBase Vereniging);
 
@@ -19,9 +20,10 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null)
     {
         _verenigingToLoad = verenigingToLoad;
+        _moederVCodeAndNaam = moederVCodeAndNaam;
     }
 
     public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
@@ -45,6 +47,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         vereniging.Hydrate(_verenigingToLoad!);
         return await Task.FromResult(vereniging);
     }
+
+    public async Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
+        => _moederVCodeAndNaam;
 
     public void ShouldHaveLoaded<TVereniging>(params string[] vCodes)where TVereniging : IHydrate<VerenigingState>, new()
     {

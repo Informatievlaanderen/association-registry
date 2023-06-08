@@ -12,7 +12,7 @@ public class Relatie
     public string Type { get; set; } = null!;
 
     /// <summary>
-    /// De andere vereniging
+    /// de gerelateerde vereniging
     /// </summary>
     [DataMember(Name = "AndereVereniging")]
     public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
@@ -21,19 +21,19 @@ public class Relatie
     public class GerelateerdeVereniging
     {
         /// <summary>
-        /// De unieke identificator van de andere vereniging in een externe bron
+        /// Het KBO nummer van de gerelateerde vereniging
         /// </summary>
-        [DataMember(Name = "ExternId")]
-        public string ExternId { get; set; } = null!;
+        [DataMember(Name = "KboNummer")]
+        public string KboNummer { get; set; } = null!;
 
         /// <summary>
-        /// De unieke identificator van de andere vereniging in het verenigingsregister
+        /// De unieke identificator van de gerelateerde vereniging in het verenigingsregister
         /// </summary>
         [DataMember(Name = "VCode")]
         public string VCode { get; set; } = null!;
 
         /// <summary>
-        /// De naam van de andere vereniging
+        /// De naam van de gerelateerde vereniging
         /// </summary>
         [DataMember(Name = "Naam")]
         public string Naam { get; set; } = null!;

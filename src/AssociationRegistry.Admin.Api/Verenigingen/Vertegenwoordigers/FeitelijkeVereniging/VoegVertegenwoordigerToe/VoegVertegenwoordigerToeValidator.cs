@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 
 using System.Linq;
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using Infrastructure.Validation;
+using Common;
 using FluentValidation;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

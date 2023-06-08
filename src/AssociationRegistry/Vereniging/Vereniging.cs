@@ -2,6 +2,7 @@ namespace AssociationRegistry.Vereniging;
 
 using Emails;
 using Events;
+using EventStore;
 using Exceptions;
 using Framework;
 using SocialMedias;
@@ -41,6 +42,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         VCode vCode,
         VerenigingsNaam naam,
         KboNummer kboNummerMoedervereniging,
+        VerenigingsRepository.VCodeAndNaam vCodeAndNaamMoedervereniging,
         string? korteNaam,
         string? korteBeschrijving,
         Startdatum startdatum,
@@ -56,7 +58,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             new AfdelingWerdGeregistreerd(
                 vCode,
                 naam,
-                new AfdelingWerdGeregistreerd.MoederverenigingsData(kboNummerMoedervereniging, string.Empty, $"Moeder {kboNummerMoedervereniging}"),
+                new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    kboNummerMoedervereniging,
+                    vCodeAndNaamMoedervereniging.VCode ?? string.Empty,
+                    vCodeAndNaamMoedervereniging.VerenigingsNaam),
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,

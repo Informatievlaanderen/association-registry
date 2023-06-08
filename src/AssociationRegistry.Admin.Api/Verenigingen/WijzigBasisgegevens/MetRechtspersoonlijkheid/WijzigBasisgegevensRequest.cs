@@ -3,7 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using System.Linq;
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 [DataContract]
 public class WijzigBasisgegevensRequest

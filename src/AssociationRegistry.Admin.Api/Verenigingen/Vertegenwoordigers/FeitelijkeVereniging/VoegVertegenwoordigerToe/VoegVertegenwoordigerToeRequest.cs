@@ -2,11 +2,11 @@
 
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.VoegVertegenwoordigerToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using Common;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 
 [DataContract]
 public class VoegVertegenwoordigerToeRequest

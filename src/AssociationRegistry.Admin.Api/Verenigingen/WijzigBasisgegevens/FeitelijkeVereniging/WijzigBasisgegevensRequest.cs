@@ -4,8 +4,8 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.WijzigBasisgegevens;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Vereniging;
+using Primitives;
+using Vereniging;
 
 [DataContract]
 public class WijzigBasisgegevensRequest

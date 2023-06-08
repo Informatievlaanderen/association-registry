@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 
 using System.Linq;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>

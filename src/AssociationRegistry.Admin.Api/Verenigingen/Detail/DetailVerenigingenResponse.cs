@@ -17,9 +17,9 @@ public class DetailVerenigingResponse
         [DataMember(Name = "VCode")]
         public string VCode { get; init; } = null!;
 
-        /// <summary>Het type vereniging</summary>
+        /// <summary>Het type van deze vereniging</summary>
         [DataMember(Name = "Type")]
-        public BeheerVerenigingDetailDocument.VerenigingsType Type { get; init; } = null!;
+        public VerenigingsType Type { get; init; } = null!;
 
         /// <summary>Naam van de vereniging</summary>
         [DataMember(Name = "Naam")]
@@ -65,6 +65,24 @@ public class DetailVerenigingResponse
         [DataMember(Name = "Relaties")]
         public Relatie[] Relaties { get; init; } = null!;
 
+        /// <summary>
+        /// Het type van een vereniging
+        /// </summary>
+        [DataContract]
+        public class VerenigingsType
+        {
+            /// <summary>
+            /// De code van het type vereniging
+            /// </summary>
+            [DataMember(Name = "Code")]
+            public string Code { get; set; } = null!;
+
+            /// <summary>
+            /// De beschrijving van het type vereniging
+            /// </summary>
+            [DataMember(Name = "Beschrijving")]
+            public string Beschrijving { get; set; } = null!;
+        }
 
         /// <summary>Een contactgegeven van een vereniging</summary>
         [DataContract]
@@ -103,7 +121,7 @@ public class DetailVerenigingResponse
             public string Type { get; set; } = null!;
 
             /// <summary>
-            /// De andere vereniging
+            /// de gerelateerde vereniging
             /// </summary>
             [DataMember(Name = "AndereVereniging")]
             public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
@@ -112,25 +130,28 @@ public class DetailVerenigingResponse
             public class GerelateerdeVereniging
             {
                 /// <summary>
-                /// De unieke identificator van de andere vereniging in een externe bron
+                /// Het KBO nummer van de gerelateerde vereniging
                 /// </summary>
-                [DataMember(Name = "ExternId")]
-                public string ExternId { get; set; } = null!;
+                [DataMember(Name = "KboNummer")]
+                public string KboNummer { get; set; } = null!;
 
                 /// <summary>
-                /// De unieke identificator van de andere vereniging in het verenigingsregister
+                /// De unieke identificator van de gerelateerde vereniging in het verenigingsregister
                 /// </summary>
                 [DataMember(Name = "VCode")]
                 public string VCode { get; set; } = null!;
 
                 /// <summary>
-                /// De naam van de andere vereniging
+                /// De naam van de gerelateerde vereniging
                 /// </summary>
                 [DataMember(Name = "Naam")]
                 public string Naam { get; set; } = null!;
             }
         }
 
+        /// <summary>
+        /// Een uniek identificerende sleutel van deze vereniging in een externe bron
+        /// </summary>
         [DataContract]
         public class Sleutel
         {
