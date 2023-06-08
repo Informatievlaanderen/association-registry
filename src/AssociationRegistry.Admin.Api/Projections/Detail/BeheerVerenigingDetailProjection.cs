@@ -16,6 +16,15 @@ public record Metadata(long Sequence, long Version);
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {
+    public BeheerVerenigingDetailProjection()
+    {
+        // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
+        // the newly persisted document from xxxWerdGeregistreerd is not in the
+        // Query yet when we handle NaamWerdGewijzigd.
+        // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
+        Options.BatchSize = 1;
+    }
+
     public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
