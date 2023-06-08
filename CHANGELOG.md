@@ -1,3 +1,11 @@
+# [3.17.0](https://github.com/informatievlaanderen/association-registry/compare/v3.16.0...v3.17.0) (2023-06-08)
+
+
+### Features
+
+* or-1747 add relatie to moeder when afdelingWerdGeregistreerd ([9bc6cf8](https://github.com/informatievlaanderen/association-registry/commit/9bc6cf8a2a8a6994d61a1bfd3c65b2b810f29099))
+* or-1747 use batchSize of 1 to prevent missing updates ([77c7aba](https://github.com/informatievlaanderen/association-registry/commit/77c7abaf15aed4f27beb545ccedf61f97dfdc7ea))
+
 # [3.16.0](https://github.com/informatievlaanderen/association-registry/compare/v3.15.1...v3.16.0) (2023-06-07)
 
 
