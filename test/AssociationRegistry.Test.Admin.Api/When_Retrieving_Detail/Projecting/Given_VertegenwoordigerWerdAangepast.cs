@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Projections.Detail;
+using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;

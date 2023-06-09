@@ -1,19 +1,16 @@
-namespace AssociationRegistry.Admin.Api.Projections.Historiek;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using System.Collections.Generic;
 using System.Linq;
-using Detail;
-using Events;
-using Framework;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Historiek;
+using AssociationRegistry.Admin.Schema.Historiek.EventData;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
 using Marten.Events;
 using Marten.Events.Aggregation;
-using Schema;
-using Schema.Historiek;
-using Schema.Historiek.EventData;
-using Formatters = Infrastructure.Extensions.Formatters;
 using IEvent = Marten.Events.IEvent;
 using VertegenwoordigerWerdToegevoegd = Events.VertegenwoordigerWerdToegevoegd;
-using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
@@ -91,7 +88,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     {
         if (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum)
         {
-            var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
+            var startDatumString = startdatum.ToString(Schema.WellknownFormats.DateOnly);
             AddHistoriekEntry(
                 startdatumWerdGewijzigd,
                 document,
@@ -185,7 +182,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
+        var tijdstip = Schema.Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -201,7 +198,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     private static void AddHistoriekEntry(IEvent @event,object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
+        var tijdstip = Schema.Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(

@@ -152,7 +152,7 @@ public class With_Same_Naam_And_Gemeente
     [Fact]
     public async Task Then_it_saves_no_extra_events()
     {
-        using var session = _fixture.DocumentStore
+        using var session = _fixture.ApiDocumentStore
             .LightweightSession();
         var savedEvents = await session.Events
             .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()

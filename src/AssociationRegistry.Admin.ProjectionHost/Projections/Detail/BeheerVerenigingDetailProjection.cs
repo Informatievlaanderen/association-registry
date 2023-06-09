@@ -1,18 +1,16 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections.Detail;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Events;
-using Framework;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Events;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
-using Schema;
-using Schema.Detail;
-using Vereniging;
-using Formatters = Infrastructure.Extensions.Formatters;
-using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {
@@ -33,8 +31,8 @@ public class BeheerVerenigingDetailProjection : EventProjection
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = Formatters.ToBelgianDate(feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
+            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(Schema.WellknownFormats.DateOnly),
+            DatumLaatsteAanpassing = Schema.Formatters.ToBelgianDate(feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
                 .Select(BeheerVerenigingDetailMapper.MapContactgegeven)
@@ -77,9 +75,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = string.Empty,
-            Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(Schema.WellknownFormats.DateOnly),
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = Formatters.ToBelgianDate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
+            DatumLaatsteAanpassing = Schema.Formatters.ToBelgianDate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),

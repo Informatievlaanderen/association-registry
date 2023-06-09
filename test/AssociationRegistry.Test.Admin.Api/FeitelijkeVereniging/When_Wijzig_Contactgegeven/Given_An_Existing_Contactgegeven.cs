@@ -29,7 +29,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
         _fixture = fixture;
 
         Scenario = fixture.V008FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven;
-        DocumentStore = _fixture.DocumentStore;
+        DocumentStore = _fixture.ApiDocumentStore;
 
         var contactgegeven = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.First();
         WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(contactgegeven.Type).Waarde;

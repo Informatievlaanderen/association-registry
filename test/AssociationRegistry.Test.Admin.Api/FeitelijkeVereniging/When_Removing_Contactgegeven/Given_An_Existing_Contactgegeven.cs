@@ -22,7 +22,7 @@ public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
         _fixture = fixture;
 
         Scenario = fixture.V007FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven;
-        DocumentStore = _fixture.DocumentStore;
+        DocumentStore = _fixture.ApiDocumentStore;
     }
 
     public async Task InitializeAsync()

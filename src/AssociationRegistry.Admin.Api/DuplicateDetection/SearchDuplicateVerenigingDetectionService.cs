@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DuplicateVerenigingDetection;
 using Marten;
-using Projections.Detail;
 using Schema.Detail;
 using Vereniging;
 

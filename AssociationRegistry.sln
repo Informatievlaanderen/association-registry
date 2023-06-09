@@ -75,6 +75,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Acm.Sch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.Schema", "src\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj", "{BDA14929-DE1D-493A-A6D2-F29854F5DA47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.ProjectionHost", "src\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj", "{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,10 @@ Global
 		{BDA14929-DE1D-493A-A6D2-F29854F5DA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDA14929-DE1D-493A-A6D2-F29854F5DA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDA14929-DE1D-493A-A6D2-F29854F5DA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -154,5 +160,6 @@ Global
 		{FBB7C774-77D0-46E8-A9BF-E6F03F4806D7} = {C812C887-6495-405A-8B99-4F686D243126}
 		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{BDA14929-DE1D-493A-A6D2-F29854F5DA47} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{D3A2A321-6ACB-42CE-A2FF-0F5A3BC639FD} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal

@@ -28,7 +28,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
         _classFixture = classFixture;
 
         Scenario = classFixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
-        DocumentStore = _classFixture.DocumentStore;
+        DocumentStore = _classFixture.ApiDocumentStore;
 
         var fixture = new Fixture().CustomizeAll();
         Request = fixture.Create<VoegVertegenwoordigerToeRequest>();

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestMapping;
 
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Primitives;
 using Framework;

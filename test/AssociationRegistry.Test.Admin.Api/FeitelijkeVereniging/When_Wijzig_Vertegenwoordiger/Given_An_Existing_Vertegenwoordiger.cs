@@ -37,7 +37,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
         _fixture = fixture;
 
         Scenario = fixture.V012FeitelijkeVerenigingWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger;
-        DocumentStore = _fixture.DocumentStore;
+        DocumentStore = _fixture.ApiDocumentStore;
 
         Rol = autoFixture.Create<string>();
         Roepnaam = autoFixture.Create<string>();

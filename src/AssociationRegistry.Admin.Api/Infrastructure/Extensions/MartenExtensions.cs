@@ -11,7 +11,6 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Projections.Detail;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
@@ -29,7 +28,6 @@ public static class MartenExtentions
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections();
 
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();

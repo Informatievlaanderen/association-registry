@@ -1,23 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using Events;
 using Fixtures;
 using Framework;
-using Vereniging;
 using AutoFixture;
-using Azure;
-using Azure.Core;
 using FluentAssertions;
-using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
 
@@ -72,7 +65,7 @@ public class With_An_Existing_Moeder : IClassFixture<When_RegistreerAfdeling_Wit
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
+        using var session = _fixture.ApiDocumentStore
             .LightweightSession();
 
         var savedEvent = session.Events

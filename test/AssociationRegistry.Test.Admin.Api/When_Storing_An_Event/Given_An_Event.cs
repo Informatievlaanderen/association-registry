@@ -28,7 +28,7 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(_fixture.DocumentStore);
+        var eventStore = new EventStore(_fixture.ApiDocumentStore);
 
         // act
         var tijdstip = new Instant();
@@ -43,7 +43,7 @@ public class Given_An_Event
             someEvent);
 
         // assert
-        var events = await GetEventsFromDb(streamId, _fixture.DocumentStore);
+        var events = await GetEventsFromDb(streamId, _fixture.ApiDocumentStore);
         events.Should().HaveCount(1);
         var single = events.Single();
         single.Data.As<SomeEvent>().Should().BeEquivalentTo(someEvent);

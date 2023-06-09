@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.Request;
 
 using System.Globalization;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Primitives;
 using FluentValidation.TestHelper;

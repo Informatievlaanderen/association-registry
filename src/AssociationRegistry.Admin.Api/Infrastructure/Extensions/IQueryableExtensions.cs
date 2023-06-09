@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Marten;
-using Projections;
 using Schema;
 
 // ReSharper disable once InconsistentNaming

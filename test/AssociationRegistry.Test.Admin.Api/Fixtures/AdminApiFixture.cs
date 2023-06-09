@@ -24,16 +24,22 @@ using Oakton;
 using Polly;
 using Xunit;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
+using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
+
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier = "adminApiFixture";
 
-    private readonly WebApplicationFactory<Program> _webApplicationFactory;
+    private readonly WebApplicationFactory<Program> _adminApiServer;
+    private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    public IDocumentStore DocumentStore
-        => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
+    public IDocumentStore ApiDocumentStore
+        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
+
+    public IDocumentStore ProjectionsDocumentStore
+        => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
     public AdminApiClient AdminApiClient
         => Clients.Authenticated;
@@ -42,7 +48,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => Clients.Unauthenticated;
 
     public IServiceProvider ServiceProvider
-        => _webApplicationFactory.Services;
+        => _adminApiServer.Services;
 
     protected AdminApiFixture()
     {
@@ -62,12 +68,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         OaktonEnvironment.AutoStartHost = true;
 
-        _webApplicationFactory = new WebApplicationFactory<Program>()
+        _adminApiServer = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+                    builder.UseConfiguration(GetConfiguration());
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
@@ -81,13 +88,34 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     );
                 });
 
-        var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
+        var postgreSqlOptionsSection = _adminApiServer.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+
+        _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
+            .WithWebHostBuilder(
+                builder =>
+                {
+                    builder.UseContentRoot(Directory.GetCurrentDirectory());
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+                    builder.UseConfiguration(GetConfiguration());
+                    builder.ConfigureAppConfiguration(
+                        cfg =>
+                            cfg.SetBasePath(GetRootDirectoryOrThrow())
+                                .AddJsonFile("appsettings.json", optional: true)
+                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
+                                .AddInMemoryCollection(
+                                    new[]
+                                    {
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                    })
+                    );
+                });
+
         Clients = new Clients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
                 .Get<OAuth2IntrospectionOptions>(),
-            _webApplicationFactory.CreateClient);
+            _adminApiServer.CreateClient);
     }
 
     public Clients Clients { get; }
@@ -106,7 +134,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         GC.SuppressFinalize(this);
         Clients.SafeDispose();
-        _webApplicationFactory.SafeDispose();
+        _adminApiServer.SafeDispose();
         DropDatabase();
     }
 
@@ -148,10 +176,10 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
 
-        if (DocumentStore is not { })
+        if (ProjectionsDocumentStore is not { })
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
 
         if (daemon is not { })
@@ -159,7 +187,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore);
         var result = StreamActionResult.Empty;
         foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, @event);
 

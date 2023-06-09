@@ -3,7 +3,6 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Events;
 using Fixtures;
@@ -55,7 +54,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         _request = setup.Request;
         _response = setup.Response;
         _vCode = setup.Scenario.VCode;
-        _documentStore = fixture.DocumentStore;
+        _documentStore = fixture.ApiDocumentStore;
         _appSettings = fixture.ServiceProvider.GetRequiredService<AppSettings>();
     }
 

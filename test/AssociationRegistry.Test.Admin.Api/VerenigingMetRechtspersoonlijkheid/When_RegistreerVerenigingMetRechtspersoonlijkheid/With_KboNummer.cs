@@ -60,7 +60,7 @@ public class With_KboNummer
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
+        using var session = _fixture.ApiDocumentStore
             .LightweightSession();
 
         session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()

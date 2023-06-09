@@ -24,7 +24,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
         _fixture = fixture;
 
         Scenario = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
-        DocumentStore = _fixture.DocumentStore;
+        DocumentStore = _fixture.ApiDocumentStore;
 
         _jsonBody = $@"{{
             ""contactgegeven"":

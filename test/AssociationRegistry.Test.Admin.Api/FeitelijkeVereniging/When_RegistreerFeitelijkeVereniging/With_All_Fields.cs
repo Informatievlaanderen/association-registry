@@ -131,7 +131,7 @@ public class With_All_Fields
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
+        using var session = _fixture.ApiDocumentStore
             .LightweightSession();
 
         var savedEvent = session.Events

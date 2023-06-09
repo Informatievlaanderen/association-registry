@@ -3,7 +3,6 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Events;
 using Fixtures;
@@ -86,7 +85,7 @@ public class With_A_Matching_ETag
     [Fact]
     public void Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
+        using var session = _fixture.ApiDocumentStore
             .LightweightSession();
         var savedEvents = session.Events
             .QueryRawEventDataOnly<NaamWerdGewijzigd>()
