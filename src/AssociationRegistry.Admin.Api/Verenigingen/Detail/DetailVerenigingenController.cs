@@ -53,6 +53,8 @@ public class DetailVerenigingenController : ApiController
 
         Response.AddETagHeader(vereniging.Metadata.Version);
 
+        var routeTypePrefix = vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code ? "/kbo" : "";
+
         return Ok(
             new DetailVerenigingResponse
             {
@@ -80,7 +82,7 @@ public class DetailVerenigingenController : ApiController
                 Metadata = new DetailVerenigingResponse.MetadataDetail
                 {
                     DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
-                    BeheerBasisUri = $"/verenigingen/{vereniging.VCode}" + (vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code ? "/kbo" : ""),
+                    BeheerBasisUri = $"/verenigingen{routeTypePrefix}/{vereniging.VCode}",
                 },
             });
     }

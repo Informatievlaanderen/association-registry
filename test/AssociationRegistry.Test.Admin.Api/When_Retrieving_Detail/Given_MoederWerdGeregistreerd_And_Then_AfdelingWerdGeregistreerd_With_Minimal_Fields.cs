@@ -1,8 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using FluentAssertions;
@@ -25,6 +26,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd _moederWerdGeregistreerd;
     private readonly AfdelingWerdGeregistreerd _afdelingWerdGeregistreerd;
     private readonly HttpResponseMessage _moederResponse;
+    private readonly CommandMetadata _metadata;
 
     public Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
@@ -34,6 +36,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
         _vCode = fixture.V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder.VCode;
         _moederVCode = _moederWerdGeregistreerd.VCode;
+        _metadata = fixture.V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder.Metadata;
 
         _adminApiClient = fixture.DefaultClient;
         _afdelingResponse = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
@@ -60,7 +63,6 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     public async Task Then_we_get_a_detail_afdeling_response()
     {
         var content = await _afdelingResponse.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
 {{
@@ -92,7 +94,8 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
             ],
         }},
         ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
+            ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+            ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
         }}
         }}
 ";
@@ -104,7 +107,6 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     public async Task Then_we_get_a_detail_moeder_response()
     {
         var content = await _moederResponse.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
 {{
@@ -140,7 +142,8 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
             ],
         }},
         ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
+            ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+            ""beheerBasisUri"": ""/verenigingen/kbo/{_moederVCode}"",
         }}
         }}
 ";

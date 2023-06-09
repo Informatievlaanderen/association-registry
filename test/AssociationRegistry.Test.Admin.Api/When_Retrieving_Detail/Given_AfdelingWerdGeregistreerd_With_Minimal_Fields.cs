@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
-using System.Text.RegularExpressions;
-using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using FluentAssertions;
@@ -22,13 +22,14 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
     private readonly HttpResponseMessage _afdelingResponse;
     private readonly string _vCode;
     private readonly AfdelingWerdGeregistreerd _afdelingWerdGeregistreerd;
+    private readonly CommandMetadata _metadata;
 
     public Given_AfdelingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         _afdelingWerdGeregistreerd = fixture.V019AfdelingWerdGeregistreerdWithMinimalFields.AfdelingWerdGeregistreerd;
         _vCode = fixture.V019AfdelingWerdGeregistreerdWithMinimalFields.VCode;
-
+        _metadata = fixture.V019AfdelingWerdGeregistreerdWithMinimalFields.Metadata;
         _adminApiClient = fixture.DefaultClient;
         _afdelingResponse = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
@@ -53,7 +54,6 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
     public async Task Then_we_get_a_detail_afdeling_response()
     {
         var content = await _afdelingResponse.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
 {{
@@ -85,7 +85,8 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
             ],
         }},
         ""metadata"": {{
-            ""datumLaatsteAanpassing"": """"
+            ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+            ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
         }}
         }}
 ";
