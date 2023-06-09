@@ -9,7 +9,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
 {
     private readonly string Naam = "Feesten Hulste";
 
-    public VCode VCode
+    public VCode AfdelingVCode
         => VCode.Create("V0001002");
 
     public IEvent[] GetEvents()
@@ -17,7 +17,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
         return new IEvent[]
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
+                AfdelingVCode,
                 Naam,
                 string.Empty,
                 string.Empty,

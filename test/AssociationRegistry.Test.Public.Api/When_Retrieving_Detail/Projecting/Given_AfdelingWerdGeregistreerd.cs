@@ -22,7 +22,7 @@ public class Given_AfdelingWerdGeregistreerd
         var afdelingWerdGeregistreerd = new TestEvent<AfdelingWerdGeregistreerd>(fixture.Create<AfdelingWerdGeregistreerd>());
         var projector = new PubliekVerenigingDetailProjection();
 
-        var doc = projector.Create(afdelingWerdGeregistreerd);
+        var doc = PubliekVerenigingDetailProjector.Create(afdelingWerdGeregistreerd);
 
         doc.Should().BeEquivalentTo(
             new PubliekVerenigingDetailDocument

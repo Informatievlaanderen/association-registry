@@ -22,7 +22,7 @@ public class Given_StartdatumWerdGewijzigd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(startdatumWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum);
         doc.DatumLaatsteAanpassing.Should().Be(startdatumWerdGewijzigd.Tijdstip.ToBelgianDate());

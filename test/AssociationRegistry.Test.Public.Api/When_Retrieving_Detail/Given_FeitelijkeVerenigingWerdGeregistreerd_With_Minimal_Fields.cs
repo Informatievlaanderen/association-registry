@@ -20,7 +20,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario.VCode;
+        _vCode = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario.AfdelingVCode;
     }
 
     [Fact]

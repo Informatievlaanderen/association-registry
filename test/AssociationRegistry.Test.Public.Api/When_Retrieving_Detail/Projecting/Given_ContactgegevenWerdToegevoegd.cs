@@ -21,7 +21,7 @@ public class Given_ContactgegevenWerdToegevoegd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(contactgegevenWerdToegevoegd, doc);
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
         doc.Contactgegevens.Should()
             .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdToegevoegd.Data.ContactgegevenId)

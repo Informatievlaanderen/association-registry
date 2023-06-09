@@ -64,6 +64,33 @@ public class BeheerVerenigingDetailProjector
             Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
         };
 
+    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+        => new()
+        {
+            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            {
+                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
+                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+            },
+            Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
+            KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = string.Empty,
+            Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Status = "Actief",
+            Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
+            Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
+            Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            Sleutels = new[]
+            {
+                BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer),
+            },
+            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
+        };
+
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
@@ -224,31 +251,4 @@ public class BeheerVerenigingDetailProjector
         };
         return moeder;
     }
-
-    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-        => new()
-        {
-            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Type = new BeheerVerenigingDetailDocument.VerenigingsType
-            {
-                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
-            },
-            Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
-            KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = string.Empty,
-            Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
-            Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
-            Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
-            Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-            Sleutels = new[]
-            {
-                BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer),
-            },
-            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
-        };
 }

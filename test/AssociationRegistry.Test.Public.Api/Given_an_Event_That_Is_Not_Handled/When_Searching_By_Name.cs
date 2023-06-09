@@ -25,7 +25,7 @@ public class When_Searching_By_Name
     {
         _publicApiClient = fixture.PublicApiClient;
         var scenario = fixture.V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario;
-        _vCode = scenario.VCode;
+        _vCode = scenario.AfdelingVCode;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }

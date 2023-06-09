@@ -21,7 +21,7 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
 
         doc.HoofdactiviteitenVerenigingsloket.Should()
             .BeEquivalentTo(hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);

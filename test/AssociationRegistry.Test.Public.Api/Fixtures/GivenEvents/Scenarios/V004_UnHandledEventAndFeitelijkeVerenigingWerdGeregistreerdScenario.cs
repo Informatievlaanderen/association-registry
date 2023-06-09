@@ -15,7 +15,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         new("BLA", "Buitengewoon Leuke Afkortingen"),
     };
 
-    public VCode VCode
+    public VCode AfdelingVCode
         => VCode.Create("V0001004");
 
     public IEvent[] GetEvents()
@@ -24,7 +24,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         {
             new EenEvent(),
             FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
+                AfdelingVCode,
                 Naam,
                 KorteNaam),
         };

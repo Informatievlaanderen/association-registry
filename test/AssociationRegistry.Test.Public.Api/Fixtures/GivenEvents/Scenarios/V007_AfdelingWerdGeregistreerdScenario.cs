@@ -50,7 +50,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
 
     public readonly string Naam = "Antwerpse Bijscholing Clickers";
 
-    public VCode VCode
+    public VCode AfdelingVCode
         => VCode.Create("V0001007");
 
 
@@ -59,7 +59,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
         return new IEvent[]
         {
             new AfdelingWerdGeregistreerd(
-                VCode,
+                AfdelingVCode,
                 Naam,
                 new AfdelingWerdGeregistreerd.MoederverenigingsData("0123456789", string.Empty, "Moeder 0123456789"),
                 KorteNaam ?? string.Empty,
