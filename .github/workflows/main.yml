@@ -229,7 +229,7 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
       run-docker-db: true
-      pre-gen-marten: false
+      pre-gen-marten: true
       run-docker-elasticsearch: false
     secrets: inherit
   #

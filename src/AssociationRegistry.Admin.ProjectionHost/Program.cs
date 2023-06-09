@@ -45,7 +45,7 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(
             options =>
-                options.AddEndpoint(IPAddress.Any, 11005));
+                options.AddEndpoint(IPAddress.Any, 11006));
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine();
