@@ -18,16 +18,15 @@ public class Given_VertegenwoordigerWerdToegevoegd
     public void Then_it_adds_the_vertegenwoordiger_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var vertegenwoordigerWerdToegevoegd = fixture.Create<TestEvent<VertegenwoordigerWerdToegevoegd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(vertegenwoordigerWerdToegevoegd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger.",
+                $"'{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam}' werd toegevoegd als vertegenwoordiger.",
                 nameof(VertegenwoordigerWerdToegevoegd),
                 VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
                 vertegenwoordigerWerdToegevoegd.Initiator,

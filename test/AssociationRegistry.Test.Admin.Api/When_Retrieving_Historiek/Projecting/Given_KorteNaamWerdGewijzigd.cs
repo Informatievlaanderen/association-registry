@@ -17,12 +17,11 @@ public class Given_KorteNaamWerdGewijzigd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var korteNaamWerdGewijzigd = fixture.Create<TestEvent<KorteNaamWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(korteNaamWerdGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
 
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(

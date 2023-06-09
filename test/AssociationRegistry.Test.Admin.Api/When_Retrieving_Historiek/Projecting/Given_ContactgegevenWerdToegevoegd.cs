@@ -17,17 +17,16 @@ public class Given_ContactgegevenWerdToegevoegd
     public void Then_it_adds_the_contactgegeven()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdToegevoegd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(contactgegevenWerdToegevoegd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"{contactgegevenWerdToegevoegd.Data.Type} {contactgegevenWerdToegevoegd.Data.Waarde} werd toegevoegd.",
+                $"'{contactgegevenWerdToegevoegd.Data.Type} {contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd.",
                 nameof(ContactgegevenWerdToegevoegd),
                 contactgegevenWerdToegevoegd.Data,
                 contactgegevenWerdToegevoegd.Initiator,
