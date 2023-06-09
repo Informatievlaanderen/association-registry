@@ -411,7 +411,7 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Semantic Release
     runs-on: ubuntu-latest
-    needs: [ build-acm-api, build-public-api, build-public-projections, build-admin-api ]
+    needs: [ build-acm-api, build-public-api, build-public-projections, build-admin-api, build-admin-projections ]
 
     outputs:
       version: ${{ steps.set-version.outputs.version }}
@@ -656,6 +656,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-api-image.tar
 
+      - name: Download Admin Projections artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: admin-projections
+          path: ~/
+
+      - name: Load Admin Projections image
+        shell: bash
+        run: docker image load -i ~/ar-admin-projections-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -665,6 +675,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           SEMVER: ${{ needs.release.outputs.version }}
@@ -724,9 +735,19 @@ jobs:
           name: admin-api
           path: ~/
 
-      - name: Load Admin Api image
+      - name: Load Admin Projections image
         shell: bash
         run: docker image load -i ~/ar-admin-api-image.tar
+
+      - name: Download Admin Projections artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: admin-projections
+          path: ~/
+
+      - name: Load Admin Api image
+        shell: bash
+        run: docker image load -i ~/ar-admin-projections-image.tar
 
       - name: Push docker images to ECR Staging
         if: needs.release.outputs.version != 'none'
@@ -740,6 +761,8 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-projections:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
@@ -759,6 +782,7 @@ jobs:
             'association-registry-public-api',
             'association-registry-public-projections',
             'association-registry-admin-api',
+            'association-registry-admin-projections',
           ]
     steps:
       - name: debug_output
