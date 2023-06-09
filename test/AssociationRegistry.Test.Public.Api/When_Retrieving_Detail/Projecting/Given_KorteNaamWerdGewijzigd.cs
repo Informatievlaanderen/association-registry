@@ -22,7 +22,7 @@ public class Given_KorteNaamWerdGewijzigd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(korteNaamWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
 
         doc.KorteNaam.Should().Be(korteNaamWerdGewijzigd.Data.KorteNaam);
         doc.DatumLaatsteAanpassing.Should().Be(korteNaamWerdGewijzigd.Tijdstip.ToBelgianDate());

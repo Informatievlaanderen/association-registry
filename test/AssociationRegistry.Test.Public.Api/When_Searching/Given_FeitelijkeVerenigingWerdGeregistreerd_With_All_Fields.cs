@@ -30,7 +30,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(_scenario.AfdelingVCode)).Should().BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
@@ -76,11 +76,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var response = await _publicApiClient.Search(_scenario.VCode);
+        var response = await _publicApiClient.Search(_scenario.AfdelingVCode);
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+            .Replace("{{originalQuery}}", _scenario.AfdelingVCode);
         content.Should().BeEquivalentJson(goldenMaster);
     }
 

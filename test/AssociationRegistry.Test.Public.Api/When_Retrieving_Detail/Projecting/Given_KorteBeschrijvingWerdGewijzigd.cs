@@ -22,7 +22,7 @@ public class Given_KorteBeschrijvingWerdGewijzigd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(korteBeschrijvingWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
 
         doc.KorteBeschrijving.Should().Be(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving);
         doc.DatumLaatsteAanpassing.Should().Be(korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDate());

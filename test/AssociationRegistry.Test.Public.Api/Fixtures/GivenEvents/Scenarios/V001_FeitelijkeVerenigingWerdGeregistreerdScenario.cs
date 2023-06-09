@@ -50,7 +50,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 
     public readonly string Naam = "Feestcommittee Oudenaarde";
 
-    public VCode VCode
+    public VCode AfdelingVCode
         => VCode.Create("V0001001");
 
 
@@ -59,7 +59,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         return new IEvent[]
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
+                AfdelingVCode,
                 Naam,
                 KorteNaam ?? string.Empty,
                 KorteBeschrijving ?? string.Empty,

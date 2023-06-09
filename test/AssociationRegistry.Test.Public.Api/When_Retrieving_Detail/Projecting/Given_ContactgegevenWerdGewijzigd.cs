@@ -31,7 +31,7 @@ public class Given_ContactgegevenWerdGewijzigd
                 IsPrimair = fixture.Create<bool>(),
             }).ToArray();
 
-        projector.Apply(contactgegevenWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
         doc.Contactgegevens.Should()
             .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId)

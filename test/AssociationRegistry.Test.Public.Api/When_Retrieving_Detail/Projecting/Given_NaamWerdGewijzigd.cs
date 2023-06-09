@@ -22,7 +22,7 @@ public class Given_NaamWerdGewijzigd
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        projector.Apply(naamWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigd.Data.Naam);
         doc.DatumLaatsteAanpassing.Should().Be(naamWerdGewijzigd.Tijdstip.ToBelgianDate());

@@ -20,7 +20,7 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
-    public VCode VCode
+    public VCode AfdelingVCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()

@@ -30,7 +30,7 @@ public class Given_ContactgegevenWerdVerwijderd
                 IsPrimair = fixture.Create<bool>(),
             }).ToArray();
 
-        projector.Apply(contactgegevenWerdVerwijderd, doc);
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
         doc.Contactgegevens.Should().NotContain(c => c.ContactgegevenId == contactgegevenWerdVerwijderd.Data.ContactgegevenId);
     }

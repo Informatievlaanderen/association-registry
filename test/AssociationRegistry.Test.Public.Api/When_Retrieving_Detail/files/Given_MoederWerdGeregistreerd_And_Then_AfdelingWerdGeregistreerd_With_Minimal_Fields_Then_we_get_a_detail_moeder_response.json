@@ -1,0 +1,37 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json",
+  "vereniging": {
+    "vCode": "V0001008",
+    "type": {
+      "code": "VZW",
+      "beschrijving": "Vereniging zonder winstoogmerk"
+    },
+    "naam": "Moeder 0987654321",
+    "korteNaam": "",
+    "korteBeschrijving": "",
+    "startdatum": null,
+    "status": "Actief",
+    "contactgegevens": [],
+    "locaties": [],
+    "hoofdactiviteitenVerenigingsloket": [],
+    "sleutels": [
+      {
+        "bron": "KBO",
+        "waarde": "0987654321"
+      }
+    ],
+    "relaties": [
+      {
+        "type": "Heeft als afdeling",
+        "andereVereniging": {
+          "kboNummer": "",
+          "vCode": "V0001009",
+          "naam": "Feesten Affligem"
+        }
+      }
+    ]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": ""
+  }
+}

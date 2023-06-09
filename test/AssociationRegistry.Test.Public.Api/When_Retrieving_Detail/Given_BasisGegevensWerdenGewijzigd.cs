@@ -20,7 +20,7 @@ public class Given_BasisGegevensWerdenGewijzigd
     public Given_BasisGegevensWerdenGewijzigd(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.V003BasisgegevensWerdenGewijzigdScenario.VCode;
+        _vCode = fixture.V003BasisgegevensWerdenGewijzigdScenario.AfdelingVCode;
     }
 
     [Fact]

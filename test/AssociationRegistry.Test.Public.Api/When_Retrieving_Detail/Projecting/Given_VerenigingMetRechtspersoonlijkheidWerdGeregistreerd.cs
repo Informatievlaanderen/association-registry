@@ -22,7 +22,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = new TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>());
         var projector = new PubliekVerenigingDetailProjection();
 
-        var doc = projector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+        var doc = PubliekVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
         doc.Should().BeEquivalentTo(
             new PubliekVerenigingDetailDocument
