@@ -214,6 +214,24 @@ jobs:
       run-docker-elasticsearch: false
       pre-gen-marten: true
     secrets: inherit
+
+  build-admin-projections:
+    name: Build Admin Projections
+    uses: ./.github/workflows/build-image.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      build-target: Containerize_AdminProjections
+      image-file: ar-admin-projections-image.tar
+      image-name: admin-projections
+      test-project: AssociationRegistry.Test.Admin.Api
+      build-project: AssociationRegistry.Admin.ProjectionHost/
+      semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: true
+      run-docker-db: true
+      pre-gen-marten: false
+      run-docker-elasticsearch: false
+    secrets: inherit
   #
   #  build-acm-api:
   #    if: github.repository_owner == 'Informatievlaanderen'
