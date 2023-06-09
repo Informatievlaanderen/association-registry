@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -10,6 +10,8 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Formatters = AssociationRegistry.Admin.Api.Infrastructure.Extensions.Formatters;
+using WellknownFormats = AssociationRegistry.Admin.Api.Constants.WellknownFormats;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -36,7 +38,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
+                DatumLaatsteAanpassing = Formatters.ToBelgianDate(feitelijkeVerenigingWerdGeregistreerd.Tijdstip),
                 Status = "Actief",
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new BeheerVerenigingDetailDocument.Contactgegeven
@@ -59,7 +61,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Postcode = loc.Postcode,
                         Gemeente = loc.Gemeente,
                         Land = loc.Land,
-                        Adres = loc.ToAdresString(),
+                        Adres = Formatters.ToAdresString(loc),
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
@@ -85,6 +87,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             });
-        doc.DatumLaatsteAanpassing.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate());
+        doc.DatumLaatsteAanpassing.Should().Be(Formatters.ToBelgianDate(feitelijkeVerenigingWerdGeregistreerd.Tijdstip));
         doc.Metadata.Should().BeEquivalentTo(new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version));}
 }

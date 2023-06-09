@@ -9,6 +9,7 @@ using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Projections.Detail;
+using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;

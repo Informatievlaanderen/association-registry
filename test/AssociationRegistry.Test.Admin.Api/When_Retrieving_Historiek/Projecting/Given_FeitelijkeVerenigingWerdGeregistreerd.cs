@@ -1,16 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
-using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
-using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Historiek;
+using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using Formatters = AssociationRegistry.Admin.Api.Infrastructure.Extensions.Formatters;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -35,7 +36,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         nameof(FeitelijkeVerenigingWerdGeregistreerd),
                         FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
                         feitelijkeVerenigingWerdGeregistreerd.Initiator,
-                        feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                        Formatters.ToBelgianDateAndTime(feitelijkeVerenigingWerdGeregistreerd.Tijdstip)),
                 },
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             }

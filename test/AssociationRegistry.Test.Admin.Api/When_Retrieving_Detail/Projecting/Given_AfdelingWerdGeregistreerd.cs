@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
@@ -10,6 +10,8 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Formatters = AssociationRegistry.Admin.Api.Infrastructure.Extensions.Formatters;
+using WellknownFormats = AssociationRegistry.Admin.Api.Constants.WellknownFormats;
 
 [UnitTest]
 public class Given_AfdelingWerdGeregistreerd
@@ -35,7 +37,7 @@ public class Given_AfdelingWerdGeregistreerd
                 KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                DatumLaatsteAanpassing = afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
+                DatumLaatsteAanpassing = Formatters.ToBelgianDate(afdelingWerdGeregistreerd.Tijdstip),
                 Status = "Actief",
                 Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new BeheerVerenigingDetailDocument.Contactgegeven
@@ -58,7 +60,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Postcode = loc.Postcode,
                         Gemeente = loc.Gemeente,
                         Land = loc.Land,
-                        Adres = loc.ToAdresString(),
+                        Adres = Formatters.ToAdresString(loc),
                     }).ToArray(),
                 Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
@@ -96,7 +98,7 @@ public class Given_AfdelingWerdGeregistreerd
                 },
                 Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
             });
-        doc.DatumLaatsteAanpassing.Should().Be(afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate());
+        doc.DatumLaatsteAanpassing.Should().Be(Formatters.ToBelgianDate(afdelingWerdGeregistreerd.Tijdstip));
         doc.Metadata.Should().BeEquivalentTo(new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version));
     }
 }

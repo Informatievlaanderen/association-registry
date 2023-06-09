@@ -1,14 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using Formatters = AssociationRegistry.Admin.Api.Infrastructure.Extensions.Formatters;
+using WellknownFormats = AssociationRegistry.Admin.Api.Constants.WellknownFormats;
 
 [UnitTest]
 public class Given_StartdatumWerdGewijzigd
@@ -24,6 +26,6 @@ public class Given_StartdatumWerdGewijzigd
         BeheerVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly));
-        doc.DatumLaatsteAanpassing.Should().Be(startdatumWerdGewijzigd.Tijdstip.ToBelgianDate());
+        doc.DatumLaatsteAanpassing.Should().Be(Formatters.ToBelgianDate(startdatumWerdGewijzigd.Tijdstip));
         doc.Metadata.Should().BeEquivalentTo(new Metadata(startdatumWerdGewijzigd.Sequence, startdatumWerdGewijzigd.Version));}
 }

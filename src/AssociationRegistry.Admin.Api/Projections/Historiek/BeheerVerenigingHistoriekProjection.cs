@@ -2,17 +2,18 @@ namespace AssociationRegistry.Admin.Api.Projections.Historiek;
 
 using System.Collections.Generic;
 using System.Linq;
-using Constants;
 using Detail;
 using Events;
 using Framework;
-using Infrastructure.Extensions;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Schema;
-using Schema.EventData;
+using Schema.Historiek;
+using Schema.Historiek.EventData;
+using Formatters = Infrastructure.Extensions.Formatters;
 using IEvent = Marten.Events.IEvent;
 using VertegenwoordigerWerdToegevoegd = Events.VertegenwoordigerWerdToegevoegd;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
 {
@@ -184,7 +185,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var tijdstip = Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -200,7 +201,7 @@ public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<Behee
     private static void AddHistoriekEntry(IEvent @event,object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var tijdstip = Formatters.ToBelgianDateAndTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(

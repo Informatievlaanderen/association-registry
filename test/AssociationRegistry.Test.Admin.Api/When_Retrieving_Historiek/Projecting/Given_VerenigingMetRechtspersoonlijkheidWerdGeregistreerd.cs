@@ -1,15 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Detail;
 using AssociationRegistry.Admin.Api.Projections.Historiek;
-using AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Historiek;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using Formatters = AssociationRegistry.Admin.Api.Infrastructure.Extensions.Formatters;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -40,7 +41,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
                         _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data,
                         _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Initiator,
-                        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                        Formatters.ToBelgianDateAndTime(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip)),
                 },
                 Metadata = new Metadata(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
             }

@@ -3,16 +3,16 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Constants;
 using Events;
 using Framework;
-using Infrastructure.Extensions;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Schema;
+using Schema.Detail;
 using Vereniging;
-
-public record Metadata(long Sequence, long Version);
+using Formatters = Infrastructure.Extensions.Formatters;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {
@@ -34,7 +34,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            DatumLaatsteAanpassing = Formatters.ToBelgianDate(feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
                 .Select(BeheerVerenigingDetailMapper.MapContactgegeven)
@@ -79,7 +79,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
             KorteBeschrijving = string.Empty,
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            DatumLaatsteAanpassing = Formatters.ToBelgianDate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),

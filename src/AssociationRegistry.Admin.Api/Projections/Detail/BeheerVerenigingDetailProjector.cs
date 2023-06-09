@@ -1,12 +1,14 @@
 namespace AssociationRegistry.Admin.Api.Projections.Detail;
 
 using System.Linq;
-using Constants;
 using Events;
 using Framework;
-using Infrastructure.Extensions;
 using Marten.Events;
+using Schema;
+using Schema.Detail;
 using Vereniging;
+using Formatters = Infrastructure.Extensions.Formatters;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -19,7 +21,7 @@ public class BeheerVerenigingDetailProjector
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            DatumLaatsteAanpassing = Formatters.ToBelgianDate(afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = "Actief",
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     BeheerVerenigingDetailMapper.MapContactgegeven)
@@ -42,28 +44,28 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
-        document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(naamWerdGewijzigd.Sequence, naamWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
-        document.DatumLaatsteAanpassing = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(korteNaamWerdGewijzigd.Sequence, korteNaamWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
-        document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(korteBeschrijvingWerdGewijzigd.Sequence, korteBeschrijvingWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
-        document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(startdatumWerdGewijzigd.Sequence, startdatumWerdGewijzigd.Version);
     }
 
@@ -78,7 +80,7 @@ public class BeheerVerenigingDetailProjector
                 Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
             }).ToArray();
-        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
@@ -97,7 +99,7 @@ public class BeheerVerenigingDetailProjector
                 })
             .ToArray();
 
-        document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
@@ -108,7 +110,7 @@ public class BeheerVerenigingDetailProjector
                 c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
             .ToArray();
 
-        document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
     }
 
@@ -120,7 +122,7 @@ public class BeheerVerenigingDetailProjector
                 Code = h.Code,
                 Beschrijving = h.Beschrijving,
             }).ToArray();
-        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(hoofactiviteitenVerenigingloketWerdenGewijzigd.Sequence, hoofactiviteitenVerenigingloketWerdenGewijzigd.Version);
     }
 
@@ -141,7 +143,7 @@ public class BeheerVerenigingDetailProjector
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
             }).ToArray();
 
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(vertegenwoordigerWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
@@ -166,7 +168,7 @@ public class BeheerVerenigingDetailProjector
                 })
             .ToArray();
 
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(vertegenwoordigerWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);
     }
 
@@ -177,7 +179,7 @@ public class BeheerVerenigingDetailProjector
                 c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
             .ToArray();
 
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = Formatters.ToBelgianDate(vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
