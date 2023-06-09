@@ -58,7 +58,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         if (string.IsNullOrEmpty(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))
             return;
 
-        var moeder = ops.Load<BeheerVerenigingDetailDocument>(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode);
+        var moeder = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))!;
 
         moeder = BeheerVerenigingDetailProjector.Apply(afdelingWerdGeregistreerd, moeder);
 
@@ -94,7 +94,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
@@ -103,7 +103,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(korteNaamWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteNaamWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
 
@@ -112,7 +112,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
 
@@ -121,7 +121,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(startdatumWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(startdatumWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
 
@@ -130,7 +130,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdToegevoegd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(contactgegevenWerdToegevoegd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
@@ -139,7 +139,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(contactgegevenWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
@@ -148,7 +148,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(contactgegevenWerdVerwijderd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(contactgegevenWerdVerwijderd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
@@ -157,7 +157,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
 
@@ -166,7 +166,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdToegevoegd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdToegevoegd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
 
@@ -175,7 +175,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdGewijzigd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
 
@@ -184,7 +184,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
     {
-        var doc = ops.Load<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdVerwijderd.StreamKey!);
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(vertegenwoordigerWerdVerwijderd.StreamKey!))!;
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 

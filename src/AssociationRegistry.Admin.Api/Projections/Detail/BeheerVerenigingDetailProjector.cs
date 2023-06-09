@@ -181,7 +181,7 @@ public class BeheerVerenigingDetailProjector
         document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
-    public static BeheerVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingDetailDocument? moeder)
+    public static BeheerVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingDetailDocument moeder)
     {
         moeder = moeder with
         {
@@ -195,7 +195,7 @@ public class BeheerVerenigingDetailProjector
                         Naam = afdelingWerdGeregistreerd.Data.Naam,
                         VCode = afdelingWerdGeregistreerd.Data.VCode,
                     }
-                }).ToArray()
+                }).ToArray(),
         };
         return moeder;
     }

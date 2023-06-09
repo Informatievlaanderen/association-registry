@@ -288,6 +288,7 @@ public class DetailVerenigingResponse
         /// <summary>De datum waarop de laatste aanpassing uitgevoerd is op de gegevens van de vereniging</summary>
         public string DatumLaatsteAanpassing { get; init; } = null!;
 
+        /// <summary> De basis URI voor alle decentraal beheer acties die van toepassing zijn voor deze vereniging</summary>
         public string BeheerBasisUri { get; init; } = null!;
     }
 }

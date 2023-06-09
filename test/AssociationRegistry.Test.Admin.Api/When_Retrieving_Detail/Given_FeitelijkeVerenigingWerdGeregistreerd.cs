@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
+using AssociationRegistry.Framework;
 using Events;
 using EventStore;
 using Fixtures;
@@ -25,6 +25,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     private readonly StreamActionResult _result;
     private readonly string _vCode;
     private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
+    private readonly CommandMetadata _metadata;
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
@@ -32,6 +33,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         _vCode = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode;
         _feitelijkeVerenigingWerdGeregistreerd = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.FeitelijkeVerenigingWerdGeregistreerd;
         _result = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.Result;
+        _metadata = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.Metadata;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 
@@ -55,7 +57,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     public async Task Then_we_get_a_detail_vereniging_response()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
             .Append(
@@ -122,7 +123,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ""relaties"":[]
                 }},
                 ""metadata"": {{
-                    ""datumLaatsteAanpassing"": """"
+                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
+                    ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
                 }}
                 }}
         ";
