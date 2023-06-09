@@ -21,7 +21,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
         var projector = new BeheerVerenigingDetailProjection();
 
-        var doc = projector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+        var doc = BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument

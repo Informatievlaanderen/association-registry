@@ -22,7 +22,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         var projection = new BeheerVerenigingHistoriekProjection();
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
 
-        var document = projection.Create(feitelijkeVerenigingWerdGeregistreerd);
+        var document = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
         document.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument

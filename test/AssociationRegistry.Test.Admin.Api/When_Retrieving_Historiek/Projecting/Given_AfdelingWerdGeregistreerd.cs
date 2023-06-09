@@ -22,7 +22,7 @@ public class Given_AfdelingWerdGeregistreerd
         var projection = new BeheerVerenigingHistoriekProjection();
         var afdelingWerdGeregistreerd = fixture.Create<TestEvent<AfdelingWerdGeregistreerd>>();
 
-        var document = projection.Create(afdelingWerdGeregistreerd);
+        var document = BeheerVerenigingHistoriekProjector.Create(afdelingWerdGeregistreerd);
 
         document.Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekDocument

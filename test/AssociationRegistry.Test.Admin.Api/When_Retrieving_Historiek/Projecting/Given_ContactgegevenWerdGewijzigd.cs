@@ -17,16 +17,15 @@ public class Given_ContactgegevenWerdGewijzigd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(contactgegevenWerdGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"{contactgegevenWerdGewijzigd.Data.Type} {contactgegevenWerdGewijzigd.Data.Waarde} werd gewijzigd.",
+                $"'{contactgegevenWerdGewijzigd.Data.Type} {contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd.",
                 nameof(ContactgegevenWerdGewijzigd),
                 contactgegevenWerdGewijzigd.Data,
                 contactgegevenWerdGewijzigd.Initiator,

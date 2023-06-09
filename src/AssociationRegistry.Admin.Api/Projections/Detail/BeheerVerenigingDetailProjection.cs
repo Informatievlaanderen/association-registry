@@ -25,29 +25,19 @@ public class BeheerVerenigingDetailProjection : EventProjection
         Options.BatchSize = 1;
     }
 
-    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
-        => new()
-        {
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
-            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
-            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
-                .Select(BeheerVerenigingDetailMapper.MapContactgegeven)
-                .ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(BeheerVerenigingDetailMapper.MapLocatie).ToArray(),
-            Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers
-                .Select(BeheerVerenigingDetailMapper.MapVertegenwoordiger)
-                .ToArray(),
-            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
-                .HoofdactiviteitenVerenigingsloket.Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
-                .ToArray(),
-            Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
-        };
+    public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd, IDocumentOperations ops)
+    {
+        var feitelijkeVereniging = BeheerVerenigingDetailProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
+
+        ops.Insert(feitelijkeVereniging);
+    }
+
+    public void Project(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd, IDocumentOperations ops)
+    {
+        var verenigingMetRechtspersoonlijkheid = BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+
+        ops.Insert(verenigingMetRechtspersoonlijkheid);
+    }
 
     public async Task Project(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, IDocumentOperations ops)
     {
@@ -64,33 +54,6 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
         ops.Store(moeder);
     }
-
-    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-        => new()
-        {
-            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Type = new BeheerVerenigingDetailDocument.VerenigingsType
-            {
-                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
-            },
-            Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
-            KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = string.Empty,
-            Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
-            Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
-            Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
-            Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-            Sleutels = new[]
-            {
-                BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer),
-            },
-            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
-        };
 
     public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
     {

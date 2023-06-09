@@ -1,216 +1,150 @@
 namespace AssociationRegistry.Admin.Api.Projections.Historiek;
 
-using System.Collections.Generic;
-using System.Linq;
-using Constants;
-using Detail;
+using System.Threading.Tasks;
 using Events;
-using Framework;
-using Infrastructure.Extensions;
+using Marten;
 using Marten.Events;
-using Marten.Events.Aggregation;
+using Marten.Events.Projections;
 using Schema;
-using Schema.EventData;
-using IEvent = Marten.Events.IEvent;
-using VertegenwoordigerWerdToegevoegd = Events.VertegenwoordigerWerdToegevoegd;
 
-public class BeheerVerenigingHistoriekProjection : SingleStreamAggregation<BeheerVerenigingHistoriekDocument>
+public class BeheerVerenigingHistoriekProjection : EventProjection
 {
-    public BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+    public BeheerVerenigingHistoriekProjection()
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
-
-        AddHistoriekEntry(
-            feitelijkeVerenigingWerdGeregistreerd,
-            FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
-            beheerVerenigingHistoriekDocument,
-            $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.");
-
-        return beheerVerenigingHistoriekDocument;
+        // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
+        // the newly persisted document from xxxWerdGeregistreerd is not in the
+        // Query yet when we handle NaamWerdGewijzigd.
+        // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
+        Options.BatchSize = 1;
     }
-    public BeheerVerenigingHistoriekDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+    public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd, IDocumentOperations ops)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var doc = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
-        AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            beheerVerenigingHistoriekDocument,
-            $"Afdeling werd geregistreerd met naam '{afdelingWerdGeregistreerd.Data.Naam}'.");
-
-        return beheerVerenigingHistoriekDocument;
+        ops.Insert(doc);
     }
 
-    public BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+    public async Task Project(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, IDocumentOperations ops)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var doc = BeheerVerenigingHistoriekProjector.Create(afdelingWerdGeregistreerd);
 
-        AddHistoriekEntry(
-            verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            beheerVerenigingHistoriekDocument,
-            $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam}'.");
+        ops.Insert(doc);
 
-        return beheerVerenigingHistoriekDocument;
+        if (string.IsNullOrEmpty(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))
+            return;
+
+        var moeder = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(afdelingWerdGeregistreerd, moeder);
+
+        ops.Store(moeder);
     }
 
-    public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
-            naamWerdGewijzigd,
-            document,
-            $"Naam werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}'.");
-
-    public void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
-            korteNaamWerdGewijzigd,
-            document,
-            $"Korte naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}'.");
-
-    public void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
-            korteBeschrijvingWerdGewijzigd,
-            document,
-            $"Korte beschrijving werd gewijzigd naar '{korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving}'.");
-
-    public void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public void Project(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd, IDocumentOperations ops)
     {
-        if (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum)
-        {
-            var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
-            AddHistoriekEntry(
-                startdatumWerdGewijzigd,
-                document,
-                $"Startdatum werd gewijzigd naar '{startDatumString}'."
-            );
-        }
-        else
-        {
-            AddHistoriekEntry(
-                startdatumWerdGewijzigd,
-                document,
-                "Startdatum werd verwijderd."
-            );
-        }
+        var doc = BeheerVerenigingHistoriekProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+
+        ops.Insert(doc);
     }
 
-    public void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
-        => AddHistoriekEntry(
-            hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
-            document,
-            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
-
-    public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            contactgegevenWerdToegevoegd,
-            document,
-            $"{contactgegevenWerdToegevoegd.Data.Type} {contactgegevenWerdToegevoegd.Data.Waarde} werd toegevoegd."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(naamWerdGewijzigd.StreamKey!))!;
 
-        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(naamWerdGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
-    public void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            contactgegevenWerdVerwijderd,
-            document,
-            $"{contactgegevenWerdVerwijderd.Data.Type} {contactgegevenWerdVerwijderd.Data.Waarde} werd verwijderd."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(korteNaamWerdGewijzigd.StreamKey!))!;
 
-        document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
-    public void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            contactgegevenWerdGewijzigd,
-            document,
-            $"{contactgegevenWerdGewijzigd.Data.Type} {contactgegevenWerdGewijzigd.Data.Waarde} werd gewijzigd."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!))!;
 
-        document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
-    public void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            vertegenwoordigerWerdToegevoegd,
-            VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
-            document,
-            $"{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam} werd toegevoegd als vertegenwoordiger."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(startdatumWerdGewijzigd.StreamKey!))!;
 
-        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
-    public void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
+        IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            vertegenwoordigerWerdGewijzigd,
-            document,
-            $"Vertegenwoordiger {vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam} werd gewijzigd."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.StreamKey!))!;
 
-        document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
-    public void Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    public async Task Project(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, IDocumentOperations ops)
     {
-        AddHistoriekEntry(
-            vertegenwoordigerWerdVerwijderd,
-            VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
-            document,
-            $"Vertegenwoordiger {vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam} werd verwijderd."
-        );
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdToegevoegd.StreamKey!))!;
 
-        document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdToegevoegd, doc);
+
+        ops.Store(doc);
     }
 
-    private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    public async Task Project(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, IDocumentOperations ops)
     {
-        var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdVerwijderd.StreamKey!))!;
 
-        document.Gebeurtenissen = document.Gebeurtenissen.Append(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                beschrijving,
-                @event.Data.GetType().Name,
-                @event.Data,
-                initiator,
-                tijdstip
-            )).ToList();
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdVerwijderd, doc);
+
+        ops.Store(doc);
     }
 
-    private static void AddHistoriekEntry(IEvent @event,object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    public async Task Project(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, IDocumentOperations ops)
     {
-        var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdGewijzigd.StreamKey!))!;
 
-        document.Gebeurtenissen = document.Gebeurtenissen.Append(
-            new BeheerVerenigingHistoriekGebeurtenis(
-                beschrijving,
-                @event.Data.GetType().Name,
-                data,
-                initiator,
-                tijdstip
-            )).ToList();
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdGewijzigd, doc);
+
+        ops.Store(doc);
     }
 
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdToegevoegd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdVerwijderd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
 }

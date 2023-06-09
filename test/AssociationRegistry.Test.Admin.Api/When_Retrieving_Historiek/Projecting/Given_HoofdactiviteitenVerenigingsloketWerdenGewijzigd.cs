@@ -17,12 +17,11 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
 
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(

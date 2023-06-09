@@ -18,17 +18,16 @@ public class Given_VertegenwoordigerWerdVerwijderd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var vertegenwoordigerWerdVerwijderd = fixture.Create<TestEvent<VertegenwoordigerWerdVerwijderd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(vertegenwoordigerWerdVerwijderd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Vertegenwoordiger {vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam} werd verwijderd.",
+                $"Vertegenwoordiger '{vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam}' werd verwijderd.",
                 nameof(VertegenwoordigerWerdVerwijderd),
                 VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
                 vertegenwoordigerWerdVerwijderd.Initiator,

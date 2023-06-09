@@ -17,12 +17,11 @@ public class Given_KorteBeschrijvingWerdGewijzigd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var korteBeschrijvingWerdGewijzigd = fixture.Create<TestEvent<KorteBeschrijvingWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        projection.Apply(korteBeschrijvingWerdGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
 
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
