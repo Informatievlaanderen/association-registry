@@ -210,7 +210,7 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage-report
+          name: test-report
           path: ${{matrix.projects}}/TestResults/*.html
 
       - name: Shows logs ACM container

@@ -115,7 +115,13 @@ jobs:
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
       - name: Run all tests
-        run: dotnet test test/${{ inputs.test-project }}
+        run: dotnet test test/${{ inputs.test-project }} --logger html
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: ${{matrix.projects}}/TestResults/*.html
 
       - name: Dotnet restore
         shell: bash
