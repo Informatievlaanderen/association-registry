@@ -18,7 +18,7 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
 
     public readonly DateOnly Startdatum = new(year: 2023, month: 6, day: 3);
 
-    public VCode AfdelingVCode
+    public VCode VCode
         => VCode.Create("V0001003");
 
 
@@ -27,19 +27,20 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
         return new IEvent[]
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
-                AfdelingVCode,
+                VCode,
                 "Foudenaarder feest",
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
+                false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Hoofdactiviteiten),
-            new KorteBeschrijvingWerdGewijzigd(AfdelingVCode, KorteBeschrijving),
-            new NaamWerdGewijzigd(AfdelingVCode, Naam),
-            new KorteNaamWerdGewijzigd(AfdelingVCode, KorteNaam),
-            new StartdatumWerdGewijzigd(AfdelingVCode, Startdatum),
+            new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving),
+            new NaamWerdGewijzigd(VCode, Naam),
+            new KorteNaamWerdGewijzigd(VCode, KorteNaam),
+            new StartdatumWerdGewijzigd(VCode, Startdatum),
         };
     }
 

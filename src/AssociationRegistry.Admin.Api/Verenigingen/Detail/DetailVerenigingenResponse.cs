@@ -44,6 +44,10 @@ public class DetailVerenigingResponse
         [DataMember(Name = "Status")]
         public string Status { get; init; } = null!;
 
+        /// <summary>Is deze vereniging uitgeschreven uit de publieke datastroom</summary>
+        [DataMember(Name = "IsUitgeschrevenUitPubliekeDatastroom")]
+        public bool IsUitgeschrevenUitPubliekeDatastroom { get; init; }
+
         /// <summary>De contactgegevens van deze vereniging</summary>
         [DataMember(Name = "Contactgegevens")]
         public Contactgegeven[] Contactgegevens { get; init; } = null!;

@@ -39,6 +39,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
                 Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
                 HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),

@@ -9,6 +9,7 @@ public record AfdelingWerdGeregistreerd(
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
+    bool IsUitgeschrevenUitPubliekeDatastroom,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,

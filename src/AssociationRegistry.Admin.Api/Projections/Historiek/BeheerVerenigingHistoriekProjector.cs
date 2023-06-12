@@ -50,6 +50,15 @@ public class BeheerVerenigingHistoriekProjector
         return beheerVerenigingHistoriekDocument;
     }
 
+    public static void Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingHistoriekDocument moeder)
+    {
+        AddHistoriekEntry(
+            afdelingWerdGeregistreerd,
+            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
+            moeder,
+            $"'{afdelingWerdGeregistreerd.Data.Naam}' werd geregistreerd als afdeling.");
+    }
+
     public static BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
     {
         var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
@@ -180,13 +189,28 @@ public class BeheerVerenigingHistoriekProjector
         document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
-    public static void Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingHistoriekDocument moeder)
+    public static void Apply(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            moeder,
-            $"'{afdelingWerdGeregistreerd.Data.Naam}' werd geregistreerd als afdeling.");
+            verenigingWerdUitgeschrevenUitPubliekeDatastroom,
+            verenigingWerdUitgeschrevenUitPubliekeDatastroom.Data,
+            document,
+            $"Vereniging werd uitgeschreven uit de publieke datastroom."
+        );
+
+        document.Metadata = new Metadata(verenigingWerdUitgeschrevenUitPubliekeDatastroom.Sequence, verenigingWerdUitgeschrevenUitPubliekeDatastroom.Version);
+    }
+
+    public static void Apply(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdIngeschrevenInPubliekeDatastroom,
+            verenigingWerdIngeschrevenInPubliekeDatastroom.Data,
+            document,
+            $"Vereniging werd ingeschreven in de publieke datastroom."
+        );
+
+        document.Metadata = new Metadata(verenigingWerdIngeschrevenInPubliekeDatastroom.Sequence, verenigingWerdIngeschrevenInPubliekeDatastroom.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)

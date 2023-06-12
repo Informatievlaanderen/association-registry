@@ -24,3 +24,23 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScena
             FeitelijkeVerenigingWerdGeregistreerd,
         };
 }
+
+public class VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
+{
+    public readonly VCode VCode = VCode.Create("V0009002");
+
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+
+    public VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario()
+    {
+        var fixture = new Fixture().CustomizeAll();
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+    }
+
+    public override IEnumerable<IEvent> Events()
+        => new IEvent[]
+        {
+            FeitelijkeVerenigingWerdGeregistreerd,
+            new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
+        };
+}

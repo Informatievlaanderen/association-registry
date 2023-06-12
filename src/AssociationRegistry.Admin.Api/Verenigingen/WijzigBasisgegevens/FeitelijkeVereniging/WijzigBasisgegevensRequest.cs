@@ -32,6 +32,12 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
+    /// <summary>
+    /// Verberg deze vereniging van de publieke zoek API's
+    /// </summary>
+    [DataMember]
+    public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+
     public WijzigBasisgegevensCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
@@ -41,6 +47,7 @@ public class WijzigBasisgegevensRequest
             Startdatum.IsNull ? null :
             Startdatum.IsEmpty ? AssociationRegistry.Vereniging.Startdatum.Leeg :
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value),
-            HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
+            HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
+            IsUitgeschrevenUitPubliekeDatastroom
         );
 }

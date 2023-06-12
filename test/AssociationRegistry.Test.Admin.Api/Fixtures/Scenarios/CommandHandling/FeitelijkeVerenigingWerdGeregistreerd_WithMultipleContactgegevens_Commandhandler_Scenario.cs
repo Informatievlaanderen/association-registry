@@ -28,6 +28,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_C
                 "FOud",
                 string.Empty,
                 new DateOnly(year: 2023, month: 3, day: 6),
+                false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),

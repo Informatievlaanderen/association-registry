@@ -20,7 +20,7 @@ public class Given_ContactgegevenWerdToegevoegd
     public Given_ContactgegevenWerdToegevoegd(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.V005ContactgegevenWerdToegevoegdScenario.AfdelingVCode;
+        _vCode = fixture.V005ContactgegevenWerdToegevoegdScenario.VCode;
         _response = _publicApiClient.GetDetail(_vCode).GetAwaiter().GetResult();
     }
 

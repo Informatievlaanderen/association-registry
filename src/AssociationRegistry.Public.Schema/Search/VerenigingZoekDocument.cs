@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-public class VerenigingZoekDocument
+public class VerenigingZoekDocument: ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     public class Locatie
     {
@@ -39,4 +39,6 @@ public class VerenigingZoekDocument
     public string Doelgroep { get; set; } = null!;
     public string[] Activiteiten { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 }

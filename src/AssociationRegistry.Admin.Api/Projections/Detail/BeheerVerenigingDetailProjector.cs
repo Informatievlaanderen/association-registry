@@ -234,8 +234,7 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static BeheerVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingDetailDocument moeder)
-    {
-        moeder = moeder with
+        => moeder with
         {
             Relaties = moeder.Relaties.Append(
                 new BeheerVerenigingDetailDocument.Relatie
@@ -249,6 +248,18 @@ public class BeheerVerenigingDetailProjector
                     },
                 }).ToArray(),
         };
-        return moeder;
+
+    public static void Apply(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom, BeheerVerenigingDetailDocument document)
+    {
+        document.IsUitgeschrevenUitPubliekeDatastroom = true;
+        document.DatumLaatsteAanpassing = verenigingWerdVerwijderdUitPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(verenigingWerdVerwijderdUitPubliekeDatastroom.Sequence, verenigingWerdVerwijderdUitPubliekeDatastroom.Version);
+    }
+
+    public static void Apply(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdToegevoegdAanPubliekeDatastroom, BeheerVerenigingDetailDocument document)
+    {
+        document.IsUitgeschrevenUitPubliekeDatastroom = false;
+        document.DatumLaatsteAanpassing = verenigingWerdToegevoegdAanPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(verenigingWerdToegevoegdAanPubliekeDatastroom.Sequence, verenigingWerdToegevoegdAanPubliekeDatastroom.Version);
     }
 }

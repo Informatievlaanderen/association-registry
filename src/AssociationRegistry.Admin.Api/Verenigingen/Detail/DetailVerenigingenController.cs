@@ -81,6 +81,7 @@ public class DetailVerenigingenController : ApiController
                         KorteBeschrijving = vereniging.KorteBeschrijving,
                         Startdatum = vereniging.Startdatum,
                         Status = vereniging.Status,
+                        IsUitgeschrevenUitPubliekeDatastroom = vereniging.IsUitgeschrevenUitPubliekeDatastroom,
                         Contactgegevens = vereniging.Contactgegevens.Select(ToContactgegeven).ToArray(),
                         Locaties = vereniging.Locaties.Select(ToLocatie).ToArray(),
                         Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),

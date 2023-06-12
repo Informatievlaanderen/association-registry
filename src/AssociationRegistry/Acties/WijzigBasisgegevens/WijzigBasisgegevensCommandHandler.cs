@@ -18,9 +18,23 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleStartdatum(vereniging, message.Command.Startdatum, clock);
         WijzigHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
+        HandleUitgeschrevenUitPubliekeDatastroom(vereniging, message.Command.IsUitgeschrevenUitPubliekeDatastroom);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
+    }
+
+    private static void HandleUitgeschrevenUitPubliekeDatastroom(Vereniging vereniging, bool? hidden)
+    {
+        switch (hidden)
+        {
+            case true:
+                vereniging.SchrijfUitUitPubliekeDatastroom();
+                break;
+            case false:
+                vereniging.SchrijfInInPubliekeDatastroom();
+                break;
+        }
     }
 
     private static void WijzigHoofdactiviteitenVerenigingsloket(Vereniging vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)

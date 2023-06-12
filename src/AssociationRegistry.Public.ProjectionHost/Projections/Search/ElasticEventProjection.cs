@@ -150,14 +150,23 @@ public class ElasticEventHandler
             });
     }
 
-    private static VerenigingZoekDocument.Locatie ToDocument(Registratiedata.Locatie loc)
-        => new()
-        {
-            Locatietype = loc.Locatietype,
-            Naam = loc.Naam,
-            Adres = loc.ToAdresString(),
-            Hoofdlocatie = loc.Hoofdlocatie,
-            Postcode = loc.Postcode,
-            Gemeente = loc.Gemeente,
-        };
+    public void Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message)
+    {
+        _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                IsUitgeschrevenUitPubliekeDatastroom = true,
+            });
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message)
+    {
+        _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                IsUitgeschrevenUitPubliekeDatastroom = false,
+            });
+    }
 }

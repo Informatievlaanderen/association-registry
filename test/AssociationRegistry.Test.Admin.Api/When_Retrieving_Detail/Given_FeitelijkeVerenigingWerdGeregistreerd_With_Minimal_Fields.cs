@@ -67,6 +67,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
             ""korteBeschrijving"": """",
             ""startdatum"": null,
             ""status"": ""Actief"",
+            ""isUitgeschrevenUitPubliekeDatastroom"": false,
             ""contactgegevens"": [],
             ""locaties"":[],
             ""vertegenwoordigers"":[],

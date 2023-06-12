@@ -62,7 +62,9 @@ public static class PubliekVerenigingDetailProjector
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
             Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            Relaties = new[] { new PubliekVerenigingDetailDocument.Relatie
+            Relaties = new[]
+            {
+                new PubliekVerenigingDetailDocument.Relatie
                 {
                     Type = RelatieType.IsAfdelingVan.Beschrijving,
                     AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
@@ -222,5 +224,17 @@ public static class PubliekVerenigingDetailProjector
             }).ToArray();
 
         return moeder;
+    }
+
+    public static void Apply(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom, PubliekVerenigingDetailDocument document)
+    {
+        document.IsUitgeschrevenUitPubliekeDatastroom = true;
+        document.DatumLaatsteAanpassing = verenigingWerdVerwijderdUitPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
+    public static void Apply(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdToegevoegdAanPubliekeDatastroom, PubliekVerenigingDetailDocument document)
+    {
+        document.IsUitgeschrevenUitPubliekeDatastroom = false;
+        document.DatumLaatsteAanpassing = verenigingWerdToegevoegdAanPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 }

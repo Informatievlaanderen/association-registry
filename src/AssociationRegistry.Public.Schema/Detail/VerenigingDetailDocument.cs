@@ -3,7 +3,7 @@
 using System;
 using Marten.Schema;
 
-public class PubliekVerenigingDetailDocument : IVCode
+public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     [Identity] public string VCode { get; set; } = null!;
 
@@ -21,6 +21,7 @@ public class PubliekVerenigingDetailDocument : IVCode
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
     public class VerenigingsType
     {

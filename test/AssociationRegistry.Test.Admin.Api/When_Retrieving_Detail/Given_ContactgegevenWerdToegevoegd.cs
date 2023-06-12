@@ -97,6 +97,7 @@ public class Given_ContactgegevenWerdToegevoegd
                     ""korteBeschrijving"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving}"",
                     ""startdatum"": ""{_feitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
+                    ""isUitgeschrevenUitPubliekeDatastroom"": false,
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",

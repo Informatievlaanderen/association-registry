@@ -10,12 +10,13 @@ using TelefoonNummers;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public static Vereniging Registreer(
+    public static Vereniging RegistreerFeitelijkeVereniging(
         VCode vCode,
         VerenigingsNaam naam,
         string? korteNaam,
         string? korteBeschrijving,
         Startdatum startdatum,
+        bool uitgeschrevenUitPubliekeDatastroom,
         Contactgegeven[] contactgegevens,
         Locatie[] locaties,
         Vertegenwoordiger[] vertegenwoordigers,
@@ -31,6 +32,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
+                uitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
                 ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
                 ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
@@ -46,6 +48,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         string? korteNaam,
         string? korteBeschrijving,
         Startdatum startdatum,
+        bool IsUitgeschrevenUitPubliekeDatastroom,
         Contactgegeven[] contactgegevens,
         Locatie[] locaties,
         Vertegenwoordiger[] vertegenwoordigers,
@@ -65,6 +68,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
+                IsUitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
                 ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
                 ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
@@ -197,5 +201,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
         State = obj;
+    }
+
+    public void SchrijfUitUitPubliekeDatastroom()
+    {
+        if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
+        AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
+    }
+
+    public void SchrijfInInPubliekeDatastroom()
+    {
+        if (!State.IsUitgeschrevenUitPubliekeDatastroom) return;
+        AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 }

@@ -15,12 +15,13 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
         string.Empty,
         string.Empty,
         Startdatum: null,
+        false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         Array.Empty<Registratiedata.Locatie>(),
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
-    public VCode AfdelingVCode
+    public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()

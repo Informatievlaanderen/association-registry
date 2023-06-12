@@ -22,7 +22,14 @@ public class To_A_WijzigBasisgegevensCommand
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Deconstruct(out var vCode, out var naam, out var korteNaam, out var korteBeschrijving, out var startdatum, out var hoofdactiviteitenVerenigingsloket);
+        actual.Deconstruct(
+            out var vCode,
+            out var naam,
+            out var korteNaam,
+            out var korteBeschrijving,
+            out var startdatum,
+            out var hoofdactiviteitenVerenigingsloket,
+            out var hidden);
 
         vCode.Should().Be(actualVCode);
         naam!.ToString().Should().Be(request.Naam);
@@ -32,5 +39,6 @@ public class To_A_WijzigBasisgegevensCommand
             request.Startdatum.IsNull ? null :
             request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+        hidden.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 }

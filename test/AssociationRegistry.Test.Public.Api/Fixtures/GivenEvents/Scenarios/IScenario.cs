@@ -5,7 +5,7 @@ using Vereniging;
 
 public interface IScenario
 {
-    public VCode AfdelingVCode { get; }
+    public VCode VCode { get; }
     public IEvent[] GetEvents();
     public CommandMetadata GetCommandMetadata();
 }
