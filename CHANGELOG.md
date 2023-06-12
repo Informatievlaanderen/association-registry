@@ -1,3 +1,12 @@
+## [3.17.1](https://github.com/informatievlaanderen/association-registry/compare/v3.17.0...v3.17.1) (2023-06-12)
+
+
+### Bug Fixes
+
+* or-1747 add afdeling relaties to publiek detail projection ([03f27f2](https://github.com/informatievlaanderen/association-registry/commit/03f27f284ef7b71d9f93f76d4fb9dd93f1717eec))
+* or-1747 add historiekGebeurtenis for moeder of AfdelingWerdGeregstreerd ([7c60e77](https://github.com/informatievlaanderen/association-registry/commit/7c60e774828ec2dd946d8717905bb943403ab50b))
+* or-1747 correct BasisBeheerUri for verenigingen met rechtspersoonlijkheid ([6b3a855](https://github.com/informatievlaanderen/association-registry/commit/6b3a855e26af6ea001773e6ad0b369d3204fbedf))
+
 # [3.17.0](https://github.com/informatievlaanderen/association-registry/compare/v3.16.0...v3.17.0) (2023-06-08)
 
 
