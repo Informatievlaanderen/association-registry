@@ -19,7 +19,8 @@ public class When_Searching_By_Name
     private readonly PublicApiClient _publicApiClient;
     private readonly VCode _vCode;
 
-    private const string EmptyVerenigingenResponse = "{\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+    private const string EmptyVerenigingenResponse =
+        "{\"@context\":\"https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json\", \"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
