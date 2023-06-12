@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_AfdelingWerdGeregistreerd;
 
 using System.Net;
-using AssociationRegistry.Test.Acm.Api.Fixtures;
-using AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
-using AssociationRegistry.Test.Acm.Api.Framework;
+using Fixtures;
+using Fixtures.Scenarios;
+using Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

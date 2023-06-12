@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
 
+using DuplicateVerenigingDetection;
 using Framework;
 using Vereniging;
 using ResultNet;
@@ -20,6 +21,10 @@ public class RegistreerVerenigingUitKboCommandHandler
     public async Task<Result> Handle(CommandEnvelope<RegistreerVerenigingUitKboCommand> message, CancellationToken cancellationToken = default)
     {
         var command = message.Command;
+
+        var duplicateKbo = await _verenigingsRepository.GetVCodeAndNaam(command.KboNummer);
+        if (duplicateKbo is not null)
+            return DuplicateKboFound.WithVcode(duplicateKbo.VCode!);
 
         var vCode = await _vCodeService.GetNext();
 

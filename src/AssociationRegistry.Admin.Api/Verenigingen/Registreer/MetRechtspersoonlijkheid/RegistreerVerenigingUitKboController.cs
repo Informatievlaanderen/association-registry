@@ -10,6 +10,7 @@ using Framework;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using DuplicateVerenigingDetection;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -81,8 +82,14 @@ public class RegistreerVerenigingUitKboController : ApiController
         return registratieResult switch
         {
             Result<CommandResult> commandResult => this.AcceptedCommand(_appSettings, commandResult.Data),
-
+            Result<DuplicateKboFound> duplicateKboFound => DuplicateKboFoundResponse(_appSettings, duplicateKboFound.Data),
             _ => throw new ArgumentOutOfRangeException(),
         };
+    }
+
+    private OkResult DuplicateKboFoundResponse(AppSettings appSettings, DuplicateKboFound data)
+    {
+        Response.Headers.Location = $"{appSettings.BaseUrl}/v1/verenigingen/kbo/{data.VCode}";
+        return Ok();
     }
 }

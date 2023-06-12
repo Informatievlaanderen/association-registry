@@ -119,7 +119,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
             ""naam"": ""{_moederWerdGeregistreerd.Naam}"",
             ""korteNaam"": ""{_moederWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
-            ""startdatum"": ""{_moederWerdGeregistreerd.Startdatum.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"": ""{_moederWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
             ""status"": ""Actief"",
             ""contactgegevens"": [],
             ""locaties"":[],
