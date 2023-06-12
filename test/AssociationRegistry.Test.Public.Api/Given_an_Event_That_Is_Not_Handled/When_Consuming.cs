@@ -12,11 +12,11 @@ using Xunit;
 using Xunit.Categories;
 using IEvent = AssociationRegistry.Framework.IEvent;
 
-public class Given_an_unhandled_event_fixture : ProjectionHostFixture
+public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
 {
     public const string VCode = "V0001001";
 
-    public Given_an_unhandled_event_fixture() : base(nameof(Given_an_unhandled_event_fixture))
+    public Given_An_Unhandled_Event_Fixture() : base(nameof(Given_An_Unhandled_Event_Fixture))
     {
     }
 
@@ -29,12 +29,12 @@ public class Given_an_unhandled_event_fixture : ProjectionHostFixture
 }
 
 [UnitTest]
-public class Given_an_unhandled_event : IClassFixture<Given_an_unhandled_event_fixture>
+public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_Fixture>
 {
     private readonly IDocumentStore _documentStore;
     private readonly WebApplicationFactory<Program> _projectionHost;
 
-    public Given_an_unhandled_event(Given_an_unhandled_event_fixture fixture)
+    public Given_An_Unhandled_Event(Given_An_Unhandled_Event_Fixture fixture)
     {
         _projectionHost = fixture.ProjectionHost;
         _documentStore = fixture.DocumentStore;
@@ -53,7 +53,7 @@ public class Given_an_unhandled_event : IClassFixture<Given_an_unhandled_event_f
                 {
                     documentSession
                         .Events
-                        .Append(Given_an_unhandled_event_fixture.VCode, new Given_an_unhandled_event_fixture.AnUnhandledEvent()),
+                        .Append(Given_An_Unhandled_Event_Fixture.VCode, new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent()),
                 });
         };
         await consumeForElastic.Should().NotThrowAsync();
