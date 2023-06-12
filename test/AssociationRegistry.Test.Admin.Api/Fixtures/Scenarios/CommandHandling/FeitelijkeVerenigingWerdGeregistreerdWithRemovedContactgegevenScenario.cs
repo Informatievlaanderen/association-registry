@@ -32,6 +32,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
+            false,
             Contactgegevens,
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),

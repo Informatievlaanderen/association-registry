@@ -22,6 +22,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : Co
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
+            false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),

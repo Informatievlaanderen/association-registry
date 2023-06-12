@@ -3,6 +3,7 @@ namespace AssociationRegistry.Vereniging;
 using Emails;
 using Events;
 using Framework;
+using Marten.Linq.Filters;
 using Marten.Schema;
 using SocialMedias;
 using TelefoonNummers;
@@ -17,8 +18,9 @@ public record VerenigingState : IHasVersion
         get => VCode;
         set => VCode = VCode.Create(value);
     }
+
     public Verenigingstype Verenigingstype { get; init; } = null!;
-     public VCode VCode { get; private set; } = null!;
+    public VCode VCode { get; private set; } = null!;
     public VerenigingsNaam Naam { get; private init; } = null!;
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
@@ -26,6 +28,7 @@ public record VerenigingState : IHasVersion
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
@@ -216,5 +219,17 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Vertegenwoordigers = Vertegenwoordigers.Remove(@event.VertegenwoordigerId),
+        };
+
+    public VerenigingState Apply(VerenigingWerdUitgeschrevenUitPubliekeDatastroom @event)
+        => this with
+        {
+            IsUitgeschrevenUitPubliekeDatastroom = true,
+        };
+
+    public VerenigingState Apply(VerenigingWerdIngeschrevenInPubliekeDatastroom @event)
+        => this with
+        {
+            IsUitgeschrevenUitPubliekeDatastroom = false,
         };
 }

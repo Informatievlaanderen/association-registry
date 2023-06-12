@@ -38,6 +38,7 @@ public class Given_AfdelingWerdGeregistreerd
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
                 DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {

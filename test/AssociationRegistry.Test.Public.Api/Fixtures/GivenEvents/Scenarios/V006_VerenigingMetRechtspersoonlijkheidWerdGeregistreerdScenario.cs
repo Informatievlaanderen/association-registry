@@ -15,7 +15,7 @@ public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : 
         string.Empty,
         null);
 
-    public VCode AfdelingVCode
+    public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()

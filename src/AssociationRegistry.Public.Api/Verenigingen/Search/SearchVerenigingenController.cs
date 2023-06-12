@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Nest;
 using RequestModels;
 using ResponseModels;
+using Schema;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -97,7 +98,7 @@ public class SearchVerenigingenController : ApiController
                             queryContainerDescriptor => queryContainerDescriptor.QueryString(
                                 queryStringQueryDescriptor => queryStringQueryDescriptor.Query($"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}")
                             )
-                        )
+                        ).MustNot(BeUitgeschrevenUitPubliekeDatastroom)
                     )
                 )
                 .Aggregations(
@@ -125,7 +126,7 @@ public class SearchVerenigingenController : ApiController
         return agg;
     }
 
-    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(AggregationContainerDescriptor<T> aggregationContainerDescriptor, string query, Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations) where T : class
+    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(AggregationContainerDescriptor<T> aggregationContainerDescriptor, string query, Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations) where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
     {
         return aggregationContainerDescriptor.Filter(
             WellknownFacets.FilterAggregateName,
@@ -137,7 +138,7 @@ public class SearchVerenigingenController : ApiController
                                     qs =>
                                         qs.Query(query)
                                 )
-                        )
+                        ).MustNot(BeUitgeschrevenUitPubliekeDatastroom)
                     )
                 )
                 .Aggregations(aggregations)
@@ -171,5 +172,10 @@ public class SearchVerenigingenController : ApiController
 
         builder.Append(value: ')');
         return builder.ToString();
+    }
+
+    private static QueryContainer BeUitgeschrevenUitPubliekeDatastroom<T>(QueryContainerDescriptor<T> q) where T: class, ICanBeUitgeschrevenUitPubliekeDatastroom
+    {
+        return q.Terms(t => t.Field(arg => arg.IsUitgeschrevenUitPubliekeDatastroom).Terms(true));
     }
 }

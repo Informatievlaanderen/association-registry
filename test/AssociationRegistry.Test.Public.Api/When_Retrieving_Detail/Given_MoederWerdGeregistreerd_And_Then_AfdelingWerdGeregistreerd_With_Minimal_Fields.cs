@@ -19,7 +19,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     {
         var moederWerdGeregistreerd = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.MoederWerdGeregistreerd;
 
-        string afdelingVCode = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.AfdelingVCode;
+        string afdelingVCode = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.VCode;
         var moederVCode = moederWerdGeregistreerd.VCode;
 
         var publicApiClient = fixture.PublicApiClient;

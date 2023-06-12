@@ -47,6 +47,7 @@ public class DetailVerenigingenController : ApiController
     {
         await using var session = _documentStore.LightweightSession();
         var vereniging = await session.Query<PubliekVerenigingDetailDocument>()
+            .OnlyIngeschrevenInPubliekeDatastroom()
             .WithVCode(vCode)
             .SingleOrDefaultAsync();
 

@@ -28,12 +28,13 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         _vCode = VCode.Create(1001);
         _naam = VerenigingsNaam.Create("Vereniging 1");
-        _vereniging = Vereniging.Registreer(
+        _vereniging = Vereniging.RegistreerFeitelijkeVereniging(
             _vCode,
             _naam,
             null,
             null,
             Startdatum.Leeg,
+            false,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),

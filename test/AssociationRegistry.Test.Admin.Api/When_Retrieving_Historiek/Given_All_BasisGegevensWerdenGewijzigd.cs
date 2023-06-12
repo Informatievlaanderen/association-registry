@@ -105,6 +105,20 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""data"":{JsonConvert.SerializeObject(_scenario.StartdatumWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},
+                    {{
+                        ""beschrijving"": ""Vereniging werd uitgeschreven uit de publieke datastroom."",
+                        ""gebeurtenis"":""VerenigingWerdUitgeschrevenUitPubliekeDatastroom"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdUitgeschrevenUitPubliekeDatastroom)},
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},
+                    {{
+                        ""beschrijving"": ""Vereniging werd ingeschreven in de publieke datastroom."",
+                        ""gebeurtenis"":""VerenigingWerdIngeschrevenInPubliekeDatastroom"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdIngeschrevenInPubliekeDatastroom)},
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]
             }}

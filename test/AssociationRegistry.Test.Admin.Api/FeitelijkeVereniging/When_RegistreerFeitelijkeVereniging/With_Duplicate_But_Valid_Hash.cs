@@ -52,6 +52,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,
                 _setup.Request.Startdatum,
+                _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]
                 {

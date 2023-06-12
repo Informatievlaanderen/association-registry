@@ -28,6 +28,12 @@ public class RegistreerFeitelijkeVerenigingRequest
     [DataMember]
     public DateOnly? Startdatum { get; init; }
 
+    /// <summary>
+    /// Is deze vereniging uitgeschreven uit de publieke datastroom
+    /// </summary>
+    [DataMember]
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember]
     public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = Array.Empty<ToeTeVoegenContactgegeven>();
@@ -50,6 +56,7 @@ public class RegistreerFeitelijkeVerenigingRequest
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),

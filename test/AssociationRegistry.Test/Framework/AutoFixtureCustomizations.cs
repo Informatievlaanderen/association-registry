@@ -170,6 +170,7 @@ public static class AutoFixtureCustomizations
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>(),
+                    false,
                     fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
                     fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),

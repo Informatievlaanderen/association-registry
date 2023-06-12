@@ -29,6 +29,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
+                false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),

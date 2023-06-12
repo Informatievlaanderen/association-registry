@@ -41,6 +41,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
             ""startdatum"":""{Request.Startdatum.Value.ToString(WellknownFormats.DateOnly)}"",
             ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}],
+            ""isUitgeschrevenUitPubliekeDatastroom"":true,
             ""initiator"": ""OVO000001""}}";
 
         Response = fixture.DefaultClient.PatchVereniging(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
@@ -88,6 +89,11 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
             .FetchStream(_vCode)
             .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
 
+
+        session.Events
+            .FetchStream(_vCode)
+            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
+            .Should().NotBeNull();
 
         naamWerdGewijzigd.Naam.Should().Be(_request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(_request.KorteNaam);

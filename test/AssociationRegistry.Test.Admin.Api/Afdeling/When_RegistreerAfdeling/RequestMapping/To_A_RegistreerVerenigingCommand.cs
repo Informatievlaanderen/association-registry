@@ -29,6 +29,7 @@ public class To_A_RegistreerAfdelingCommand
             out var korteNaam,
             out var korteBeschrijving,
             out var startdatum,
+            out var isUitgeschrevenUitPubliekeDatastroom,
             out var contactgegevens,
             out var locaties,
             out var vertegenwoordigers,
@@ -40,6 +41,7 @@ public class To_A_RegistreerAfdelingCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
+        isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
         contactgegevens[0].Should().BeEquivalentTo(
             Contactgegeven.Create(
                 ContactgegevenType.Parse(request.Contactgegevens[0].Type),

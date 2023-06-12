@@ -9,7 +9,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
 {
     private readonly string Naam = "Feesten Hulste";
 
-    public VCode AfdelingVCode
+    public VCode VCode
         => VCode.Create("V0001002");
 
     public IEvent[] GetEvents()
@@ -17,15 +17,45 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
         return new IEvent[]
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
-                AfdelingVCode,
+                VCode,
                 Naam,
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
+                false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+        };
+    }
+
+    public CommandMetadata GetCommandMetadata()
+        => new("OVO000001", new Instant());
+}
+
+public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario : IScenario
+{
+    public VCode VCode
+        => VCode.Create("V0001002");
+
+
+    public IEvent[] GetEvents()
+    {
+        return new IEvent[]
+        {
+            new FeitelijkeVerenigingWerdGeregistreerd(
+                VCode,
+                "verenigingZonderNaam",
+                string.Empty,
+                string.Empty,
+                Startdatum: null,
+                false,
+                Array.Empty<Registratiedata.Contactgegeven>(),
+                Array.Empty<Registratiedata.Locatie>(),
+                Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
         };
     }
 

@@ -20,7 +20,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.V001FeitelijkeVerenigingWerdGeregistreerdScenario.AfdelingVCode;
+        _vCode = fixture.V001FeitelijkeVerenigingWerdGeregistreerdScenario.VCode;
     }
 
     [Fact]

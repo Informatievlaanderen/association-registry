@@ -12,6 +12,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new();
     public readonly V007_AfdelingWerdGeregistreerdScenario V007AfdelingWerdGeregistreerdScenario = new();
     public readonly V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario = new();
+    public readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -24,13 +25,14 @@ public class GivenEventsFixture : PublicApiFixture
             V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
             V007AfdelingWerdGeregistreerdScenario,
             V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario,
+            V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario,
         };
 
     public override async Task InitializeAsync()
     {
         foreach (var scenario in Scenarios)
             await AddEvents(
-                scenario.AfdelingVCode,
+                scenario.VCode,
                 scenario.GetEvents(),
                 scenario.GetCommandMetadata());
     }

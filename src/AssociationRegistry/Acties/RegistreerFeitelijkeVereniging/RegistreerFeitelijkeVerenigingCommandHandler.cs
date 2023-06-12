@@ -36,12 +36,13 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         var vCode = await _vCodeService.GetNext();
 
-        var vereniging = Vereniging.Registreer(
+        var vereniging = Vereniging.RegistreerFeitelijkeVereniging(
             vCode,
             command.Naam,
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
+            command.IsUitgeschrevenUitPubliekeDatastroom,
             command.Contactgegevens,
             command.Locaties,
             message.Command.Vertegenwoordigers,

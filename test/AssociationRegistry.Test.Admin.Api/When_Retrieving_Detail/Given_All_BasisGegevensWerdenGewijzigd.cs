@@ -91,6 +91,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""isUitgeschrevenUitPubliekeDatastroom"": false,
                     ""status"": ""Actief"",
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},

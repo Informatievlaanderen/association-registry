@@ -22,6 +22,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Metadata Metadata { get; set; } = null!;
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
 
     public record VerenigingsType

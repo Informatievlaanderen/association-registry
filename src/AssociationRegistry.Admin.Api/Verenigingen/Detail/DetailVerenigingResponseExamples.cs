@@ -32,6 +32,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
                 Startdatum = "2020-05-15",
                 Status = "Actief",
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = new[]
                 {
                     new DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket

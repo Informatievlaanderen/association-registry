@@ -147,4 +147,22 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdUitgeschrevenUitPubliekeDatastroom.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdUitgeschrevenUitPubliekeDatastroom, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdIngeschrevenInPubliekeDatastroom, doc);
+
+        ops.Store(doc);
+    }
 }

@@ -76,6 +76,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
+                _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(
                     (g, index) => Registratiedata.Contactgegeven.With(g) with
                     {

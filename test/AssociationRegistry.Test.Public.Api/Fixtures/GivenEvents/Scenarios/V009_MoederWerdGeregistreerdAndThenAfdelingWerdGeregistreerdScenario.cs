@@ -14,7 +14,7 @@ public class V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenari
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd MoederWerdGeregistreerd;
     public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
 
-    public VCode AfdelingVCode
+    public VCode VCode
         => VCode.Create("V0001009");
 
     public V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario()
@@ -32,12 +32,13 @@ public class V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenari
             Startdatum: null);
 
         AfdelingWerdGeregistreerd = new AfdelingWerdGeregistreerd(
-            AfdelingVCode,
+            VCode,
             Naam,
             new AfdelingWerdGeregistreerd.MoederverenigingsData(MoederKboNummer, MoederVCode, MoederNaam),
             string.Empty,
             string.Empty,
             Startdatum: null,
+            false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
