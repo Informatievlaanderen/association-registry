@@ -1,3 +1,15 @@
+# [3.18.0](https://github.com/informatievlaanderen/association-registry/compare/v3.17.1...v3.18.0) (2023-06-12)
+
+
+### Bug Fixes
+
+* or-1762 fix rebase errors ([4d9a2eb](https://github.com/informatievlaanderen/association-registry/commit/4d9a2eb5bd9a22dcd3385bac4c810d2a96067b07))
+
+
+### Features
+
+* or-1762 detect duplicates from kbo ([c02612d](https://github.com/informatievlaanderen/association-registry/commit/c02612d83a13434cf106fe91b0183b14fba6f555))
+
 ## [3.17.1](https://github.com/informatievlaanderen/association-registry/compare/v3.17.0...v3.17.1) (2023-06-12)
 
 
