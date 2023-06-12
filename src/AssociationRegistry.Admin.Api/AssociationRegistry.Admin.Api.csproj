@@ -38,5 +38,10 @@
     <Folder Include="Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Contexten\detail-vereniging-context.json" />
+    <EmbeddedResource Include="Contexten\list-verenigingen-context.json" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

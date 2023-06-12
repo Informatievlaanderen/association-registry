@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +20,13 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
+    private readonly AppSettings _appSettings;
+
+    public DetailVerenigingenController(AppSettings appSettings)
+    {
+        _appSettings = appSettings;
+    }
+
     /// <summary>
     ///     Vraag het detail van een vereniging op.
     /// </summary>
@@ -58,6 +66,7 @@ public class DetailVerenigingenController : ApiController
         return Ok(
             new DetailVerenigingResponse
             {
+                Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 Vereniging =
                     new DetailVerenigingResponse.VerenigingDetail
                     {

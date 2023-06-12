@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Api.Contexten;
+namespace AssociationRegistry.Admin.Api.Contexten;
 
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
