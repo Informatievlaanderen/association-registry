@@ -20,7 +20,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         var fixture = new Fixture().CustomizeAll();
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = new TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>());
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = PubliekVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 

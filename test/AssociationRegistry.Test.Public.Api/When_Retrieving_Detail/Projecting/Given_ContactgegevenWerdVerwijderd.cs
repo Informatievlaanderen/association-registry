@@ -17,7 +17,6 @@ public class Given_ContactgegevenWerdVerwijderd
     {
         var fixture = new Fixture().CustomizeAll();
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
         doc.Contactgegevens = doc.Contactgegevens.Append(

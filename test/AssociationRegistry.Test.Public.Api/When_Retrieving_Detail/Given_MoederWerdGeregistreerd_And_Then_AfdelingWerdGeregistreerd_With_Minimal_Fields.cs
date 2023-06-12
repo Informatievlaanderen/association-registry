@@ -1,15 +1,9 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
-using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Vereniging;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
-using Microsoft.Net.Http.Headers;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,7 +18,6 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     public Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields(GivenEventsFixture fixture)
     {
         var moederWerdGeregistreerd = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.MoederWerdGeregistreerd;
-        var afdelingWerdGeregistreerd = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.AfdelingWerdGeregistreerd;
 
         string afdelingVCode = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.AfdelingVCode;
         var moederVCode = moederWerdGeregistreerd.VCode;

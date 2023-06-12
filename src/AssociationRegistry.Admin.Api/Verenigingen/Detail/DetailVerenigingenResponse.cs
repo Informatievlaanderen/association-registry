@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using System.Runtime.Serialization;
-using Projections.Detail;
 
 [DataContract]
 public class DetailVerenigingResponse

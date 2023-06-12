@@ -33,8 +33,8 @@ public static class PubliekVerenigingDetailProjector
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray<PubliekVerenigingDetailDocument.Locatie>(),
-            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
     public static PubliekVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
@@ -61,7 +61,7 @@ public static class PubliekVerenigingDetailProjector
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray<PubliekVerenigingDetailDocument.Locatie>(),
+            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
             Relaties = new[] { new PubliekVerenigingDetailDocument.Relatie
                 {
                     Type = RelatieType.IsAfdelingVan.Beschrijving,
@@ -73,7 +73,7 @@ public static class PubliekVerenigingDetailProjector
                     },
                 },
             },
-            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
         };
 
     public static PubliekVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
@@ -102,7 +102,7 @@ public static class PubliekVerenigingDetailProjector
                     Bron = Bron.Kbo.Waarde,
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                 },
-            }
+            },
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(Registratiedata.HoofdactiviteitVerenigingsloket arg)
@@ -218,7 +218,7 @@ public static class PubliekVerenigingDetailProjector
                     KboNummer = string.Empty,
                     Naam = afdelingWerdGeregistreerd.Data.Naam,
                     VCode = afdelingWerdGeregistreerd.Data.VCode,
-                }
+                },
             }).ToArray();
 
         return moeder;

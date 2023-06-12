@@ -1,16 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Projections.Detail;
 
-using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Constants;
 using Events;
-using Framework;
-using Infrastructure.Extensions;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
-using Vereniging;
 
 public record Metadata(long Sequence, long Version);
 

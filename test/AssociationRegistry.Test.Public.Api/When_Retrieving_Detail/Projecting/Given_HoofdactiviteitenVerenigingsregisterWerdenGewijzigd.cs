@@ -17,7 +17,6 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var hoofactiviteitenVerenigingloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 

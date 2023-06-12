@@ -18,7 +18,6 @@ public class Given_KorteBeschrijvingWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var korteBeschrijvingWerdGewijzigd = fixture.Create<TestEvent<KorteBeschrijvingWerdGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 

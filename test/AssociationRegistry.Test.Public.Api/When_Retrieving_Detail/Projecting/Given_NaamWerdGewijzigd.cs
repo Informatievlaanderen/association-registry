@@ -18,7 +18,6 @@ public class Given_NaamWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var naamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 

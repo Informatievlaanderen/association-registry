@@ -19,7 +19,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     {
         var fixture = new Fixture().CustomizeAll();
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
-        var projector = new BeheerVerenigingDetailProjection();
 
         var doc = BeheerVerenigingDetailProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
