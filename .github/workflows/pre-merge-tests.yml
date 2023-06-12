@@ -208,6 +208,7 @@ jobs:
         run: dotnet test ${{matrix.projects}} --logger html
 
       - name: Archive code coverage results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: test-report
