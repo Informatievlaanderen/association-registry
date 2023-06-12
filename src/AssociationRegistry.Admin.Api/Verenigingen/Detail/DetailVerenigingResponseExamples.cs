@@ -9,6 +9,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
     public DetailVerenigingResponse GetExamples()
         => new()
         {
+            Context = "",
             Vereniging = new DetailVerenigingResponse.VerenigingDetail
             {
                 VCode = "V0001001",

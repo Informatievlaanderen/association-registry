@@ -72,6 +72,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         }));
         var expected = $@"
         {{
+            ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
             ""vereniging"": {{
                     ""vCode"": ""{_vCode}"",
                     ""type"": {{

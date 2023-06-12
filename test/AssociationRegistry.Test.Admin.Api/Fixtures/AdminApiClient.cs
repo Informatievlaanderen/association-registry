@@ -137,4 +137,7 @@ public class AdminApiClient : IDisposable
 
     public async Task<HttpResponseMessage> GetHoofdactiviteiten()
         => await _httpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
+
+    public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
+        => await _httpClient.GetAsync($"/v1/contexten/{contextName}");
 }
