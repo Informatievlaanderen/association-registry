@@ -14,13 +14,13 @@ using Xunit.Categories;
 [UnitTest]
 public class With_An_Unknown_ContactgegevenId
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithoutContactgegevens _scenario;
     private readonly VerwijderContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
 
     public With_An_Unknown_ContactgegevenId()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithoutContactgegevens();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
@@ -31,16 +31,7 @@ public class With_An_Unknown_ContactgegevenId
     [Fact]
     public async Task Then_A_UnknownContactgegevenException_Is_Thrown()
     {
-        int nietBestaandContactgegevenId;
-        var bestaandeContactgegevenIds =
-            _scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(x => x.ContactgegevenId)
-                .ToArray();
-        do
-        {
-            nietBestaandContactgegevenId = _fixture.Create<int>();
-        } while (bestaandeContactgegevenIds.Contains(nietBestaandContactgegevenId));
-
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, nietBestaandContactgegevenId);
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode, _fixture.Create<int>());
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));
