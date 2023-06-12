@@ -1,3 +1,16 @@
+# [3.19.0](https://github.com/informatievlaanderen/association-registry/compare/v3.18.0...v3.19.0) (2023-06-12)
+
+
+### Bug Fixes
+
+* rename json ld context for zoeken in beheer API ([88a6ceb](https://github.com/informatievlaanderen/association-registry/commit/88a6ceb1faee429b1e5618433f6b2a73e1c54594))
+
+
+### Features
+
+* or-1757 add json ld context to beheer detail ([f479f1a](https://github.com/informatievlaanderen/association-registry/commit/f479f1aec02ac80031f266c14dd64d2e464846eb))
+* or-1757 add Json-LD context to zoeken in public API ([8980d1b](https://github.com/informatievlaanderen/association-registry/commit/8980d1b0b4fd8b1bef1fdee82f30ca62084e9b8e))
+
 # [3.18.0](https://github.com/informatievlaanderen/association-registry/compare/v3.17.1...v3.18.0) (2023-06-12)
 
 
