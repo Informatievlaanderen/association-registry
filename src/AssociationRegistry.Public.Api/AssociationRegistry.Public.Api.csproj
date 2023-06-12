@@ -71,7 +71,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Contexten\detail-vereniging-context.json" />
-    <EmbeddedResource Include="Contexten\list-verenigingen-context.json" />
+    <EmbeddedResource Include="Contexten\zoek-verenigingen-context.json" />
   </ItemGroup>
 
   <ItemGroup>
