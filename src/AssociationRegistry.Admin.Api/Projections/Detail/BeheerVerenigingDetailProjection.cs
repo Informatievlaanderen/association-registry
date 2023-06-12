@@ -57,29 +57,29 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.StreamKey!))!;
+        var doc = await ops.LoadAsync<BeheerVerenigingDetailDocument>(naamWerdGewijzigd.StreamKey!);
 
-        BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc!);
 
-        ops.Store(doc);
+        ops.Store(doc!);
     }
 
     public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteNaamWerdGewijzigd.StreamKey!))!;
+        var doc = await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteNaamWerdGewijzigd.StreamKey!);
 
-        BeheerVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc!);
 
-        ops.Store(doc);
+        ops.Store(doc!);
     }
 
     public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!))!;
+        var doc = await ops.LoadAsync<BeheerVerenigingDetailDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!);
 
-        BeheerVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
+        BeheerVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc!);
 
-        ops.Store(doc);
+        ops.Store(doc!);
     }
 
     public async Task Project(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, IDocumentOperations ops)

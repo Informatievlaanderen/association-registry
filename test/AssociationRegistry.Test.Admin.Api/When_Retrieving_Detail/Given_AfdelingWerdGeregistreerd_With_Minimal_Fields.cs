@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
+using System.Text.RegularExpressions;
 using Events;
 using Fixtures;
 using FluentAssertions;

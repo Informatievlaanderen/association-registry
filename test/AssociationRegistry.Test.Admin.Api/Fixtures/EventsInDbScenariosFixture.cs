@@ -23,6 +23,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V016_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_AlsMoeder_VoorRegistratieAfdeling V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling = new();
     public readonly V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moeder V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder = new();
     public readonly V019_AfdelingWerdGeregistreerd_WithMinimalFields V019AfdelingWerdGeregistreerdWithMinimalFields = new();
+    public readonly V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateDetection V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection = new();
 
     protected override async Task Given()
     {
@@ -46,6 +47,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling,
             V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder,
             V019AfdelingWerdGeregistreerdWithMinimalFields,
+            V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection,
         };
 
         foreach (var scenario in scenarios)

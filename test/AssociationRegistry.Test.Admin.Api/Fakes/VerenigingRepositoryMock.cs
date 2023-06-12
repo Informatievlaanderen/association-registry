@@ -48,8 +48,8 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(vereniging);
     }
 
-    public async Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
-        => _moederVCodeAndNaam;
+    public Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
+        => Task.FromResult(_moederVCodeAndNaam)!;
 
     public void ShouldHaveLoaded<TVereniging>(params string[] vCodes)where TVereniging : IHydrate<VerenigingState>, new()
     {
