@@ -1,15 +1,24 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using System;
+using Infrastructure.ConfigurationBindings;
+using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
+    private readonly AppSettings _appSettings;
+
+    public DetailVerenigingResponseExamples(AppSettings appSettings)
+    {
+        _appSettings = appSettings;
+    }
+
     public DetailVerenigingResponse GetExamples()
         => new()
         {
-            Context = "",
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
             Vereniging = new DetailVerenigingResponse.VerenigingDetail
             {
                 VCode = "V0001001",

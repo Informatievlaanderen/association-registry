@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("contexten")]
 [ApiExplorerSettings(GroupName = "Contexten")]
-
 public class ContextenController : ApiController
 {
     [HttpGet("{name}")]

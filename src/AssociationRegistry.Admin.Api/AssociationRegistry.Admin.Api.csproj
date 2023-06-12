@@ -39,8 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Contexten\detail-vereniging-context.json" />
-    <EmbeddedResource Include="Contexten\list-verenigingen-context.json" />
+    <EmbeddedResource Include="Contexten\*.json" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
