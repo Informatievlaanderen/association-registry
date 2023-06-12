@@ -19,7 +19,6 @@ public class Given_AfdelingWerdGeregistreerd
     public void Then_it_creates_a_new_document()
     {
         var fixture = new Fixture().CustomizeAll();
-        var projection = new BeheerVerenigingHistoriekProjection();
         var afdelingWerdGeregistreerd = fixture.Create<TestEvent<AfdelingWerdGeregistreerd>>();
 
         var document = BeheerVerenigingHistoriekProjector.Create(afdelingWerdGeregistreerd);

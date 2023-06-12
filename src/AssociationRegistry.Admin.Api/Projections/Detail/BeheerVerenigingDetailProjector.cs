@@ -246,7 +246,7 @@ public class BeheerVerenigingDetailProjector
                         KboNummer = string.Empty,
                         Naam = afdelingWerdGeregistreerd.Data.Naam,
                         VCode = afdelingWerdGeregistreerd.Data.VCode,
-                    }
+                    },
                 }).ToArray(),
         };
         return moeder;

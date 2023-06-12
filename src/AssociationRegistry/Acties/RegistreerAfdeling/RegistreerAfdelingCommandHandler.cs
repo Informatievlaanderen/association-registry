@@ -3,7 +3,6 @@
 using DuplicateVerenigingDetection;
 using EventStore;
 using Framework;
-using Marten;
 using Vereniging;
 using ResultNet;
 

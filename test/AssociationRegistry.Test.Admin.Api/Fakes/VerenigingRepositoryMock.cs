@@ -20,7 +20,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null!)
     {
         _verenigingToLoad = verenigingToLoad;
         _moederVCodeAndNaam = moederVCodeAndNaam;

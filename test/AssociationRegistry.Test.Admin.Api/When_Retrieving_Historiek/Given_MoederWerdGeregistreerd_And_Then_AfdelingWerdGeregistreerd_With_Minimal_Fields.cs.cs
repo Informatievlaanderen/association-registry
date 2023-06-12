@@ -4,9 +4,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
-using EventStore;
 using AssociationRegistry.Framework;
-using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using Framework;
@@ -21,12 +19,9 @@ using Xunit.Categories;
 public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly EventsInDbScenariosFixture _fixture;
     private readonly HttpResponseMessage _afdelingResponse;
     private readonly string _vCode;
     private readonly string _moederVCode;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd _moederWerdGeregistreerd;
-    private readonly AfdelingWerdGeregistreerd _afdelingWerdGeregistreerd;
     private readonly HttpResponseMessage _moederResponse;
     private readonly CommandMetadata _metadata;
 
@@ -35,13 +30,11 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
     public Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields(EventsInDbScenariosFixture fixture)
     {
-        _fixture = fixture;
         _scenario = fixture.V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder;
-        _moederWerdGeregistreerd = _scenario.MoederWerdGeregistreerd;
-        _afdelingWerdGeregistreerd = _scenario.AfdelingWerdGeregistreerd;
+        var moederWerdGeregistreerd = _scenario.MoederWerdGeregistreerd;
 
         _vCode = _scenario.VCode;
-        _moederVCode = _moederWerdGeregistreerd.VCode;
+        _moederVCode = moederWerdGeregistreerd.VCode;
         _metadata = _scenario.Metadata;
 
         _adminApiClient = fixture.DefaultClient;

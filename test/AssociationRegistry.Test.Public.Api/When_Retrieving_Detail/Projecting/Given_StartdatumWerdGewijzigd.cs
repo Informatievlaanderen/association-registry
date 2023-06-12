@@ -18,7 +18,6 @@ public class Given_StartdatumWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 

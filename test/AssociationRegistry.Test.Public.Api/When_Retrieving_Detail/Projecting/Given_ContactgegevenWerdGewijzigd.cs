@@ -18,7 +18,6 @@ public class Given_ContactgegevenWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
         doc.Contactgegevens = doc.Contactgegevens.Append(

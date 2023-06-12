@@ -18,7 +18,6 @@ public class Given_KorteNaamWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAll();
         var korteNaamWerdGewijzigd = fixture.Create<TestEvent<KorteNaamWerdGewijzigd>>();
-        var projector = new PubliekVerenigingDetailProjection();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
