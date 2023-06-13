@@ -89,7 +89,7 @@ public class RegistreerVerenigingUitKboController : ApiController
 
     private OkResult DuplicateKboFoundResponse(AppSettings appSettings, DuplicateKboFound data)
     {
-        Response.Headers.Location = $"{appSettings.BaseUrl}/v1/verenigingen/kbo/{data.VCode}";
+        Response.Headers.Location = $"{appSettings.BaseUrl}/v1/verenigingen/{data.VCode}";
         return Ok();
     }
 }
