@@ -16,7 +16,7 @@ using Xunit.Categories;
 public class Given_VerenigingWerdVerwijderdUitPubliekeDatastroom
 {
     [Fact]
-    public void Then_it_sets_the_hidden_field_to_true()
+    public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_true()
     {
         var fixture = new Fixture().CustomizeAll();
         var verenigingWerdVerwijderdUitPubliekeDatastroom = new TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>(fixture.Create<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>());
