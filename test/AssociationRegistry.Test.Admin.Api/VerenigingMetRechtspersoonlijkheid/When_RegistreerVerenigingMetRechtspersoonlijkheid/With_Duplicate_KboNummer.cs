@@ -78,6 +78,7 @@ public class With_Duplicate_KboNummer
     {
         Response.Headers.Should().ContainKey(HeaderNames.Location);
         Response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/kbo/{_fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection.VCode}");
+            .StartWith(
+                $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/{_fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection.VCode}");
     }
 }
