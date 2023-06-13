@@ -29,7 +29,7 @@ public class To_A_WijzigBasisgegevensCommand
             out var korteBeschrijving,
             out var startdatum,
             out var hoofdactiviteitenVerenigingsloket,
-            out var hidden);
+            out var isUitgeschrevenUitPubliekeDatastroom);
 
         vCode.Should().Be(actualVCode);
         naam!.ToString().Should().Be(request.Naam);
@@ -39,6 +39,6 @@ public class To_A_WijzigBasisgegevensCommand
             request.Startdatum.IsNull ? null :
             request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
-        hidden.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
+        isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 }

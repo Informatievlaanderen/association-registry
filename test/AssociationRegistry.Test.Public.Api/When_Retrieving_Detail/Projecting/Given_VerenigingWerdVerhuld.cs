@@ -16,7 +16,7 @@ using Xunit.Categories;
 public class Given_VerenigingWerdToegevoegdAanPubliekeDatastroom
 {
     [Fact]
-    public void Then_it_sets_the_hidden_field_to_false()
+    public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_false()
     {
         var fixture = new Fixture().CustomizeAll();
         var verenigingWerdToegevoegdAanPubliekeDatastroom = new TestEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom>(fixture.Create<VerenigingWerdIngeschrevenInPubliekeDatastroom>());

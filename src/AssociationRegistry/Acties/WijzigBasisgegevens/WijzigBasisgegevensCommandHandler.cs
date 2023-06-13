@@ -24,9 +24,11 @@ public class WijzigBasisgegevensCommandHandler
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
-    private static void HandleUitgeschrevenUitPubliekeDatastroom(Vereniging vereniging, bool? hidden)
+    private static void HandleUitgeschrevenUitPubliekeDatastroom(
+        Vereniging vereniging,
+        bool? isUitgeschrevenUitPubliekeDatastroom)
     {
-        switch (hidden)
+        switch (isUitgeschrevenUitPubliekeDatastroom)
         {
             case true:
                 vereniging.SchrijfUitUitPubliekeDatastroom();
