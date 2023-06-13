@@ -1,3 +1,10 @@
+# [3.20.0](https://github.com/informatievlaanderen/association-registry/compare/v3.19.0...v3.20.0) (2023-06-13)
+
+
+### Features
+
+* or-1701 add opt-out of publieke datastroom to basisgegevens of a vereniging ([b86bb97](https://github.com/informatievlaanderen/association-registry/commit/b86bb9721a681da13bbfa4e7c3bed13ec21e3d4c))
+
 # [3.19.0](https://github.com/informatievlaanderen/association-registry/compare/v3.18.0...v3.19.0) (2023-06-12)
 
 
