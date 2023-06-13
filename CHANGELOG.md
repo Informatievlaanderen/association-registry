@@ -1,3 +1,10 @@
+## [3.20.2](https://github.com/informatievlaanderen/association-registry/compare/v3.20.1...v3.20.2) (2023-06-13)
+
+
+### Bug Fixes
+
+* or-1762 correct location header of duplicate KBO response ([747b865](https://github.com/informatievlaanderen/association-registry/commit/747b865497d467d56d78580b32ee08ae81d904c1))
+
 ## [3.20.1](https://github.com/informatievlaanderen/association-registry/compare/v3.20.0...v3.20.1) (2023-06-13)
 
 
