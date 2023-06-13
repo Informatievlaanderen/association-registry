@@ -1,3 +1,10 @@
+## [3.20.1](https://github.com/informatievlaanderen/association-registry/compare/v3.20.0...v3.20.1) (2023-06-13)
+
+
+### Bug Fixes
+
+* or-1757 add json ld context to responseExample of zoek in the public API ([d783348](https://github.com/informatievlaanderen/association-registry/commit/d783348a79a10680a2e54eda972a385c2a61077b))
+
 # [3.20.0](https://github.com/informatievlaanderen/association-registry/compare/v3.19.0...v3.20.0) (2023-06-13)
 
 
