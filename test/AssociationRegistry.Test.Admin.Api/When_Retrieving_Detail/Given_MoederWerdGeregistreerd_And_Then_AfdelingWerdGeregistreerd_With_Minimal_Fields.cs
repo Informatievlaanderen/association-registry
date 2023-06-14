@@ -91,6 +91,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                     ""kboNummer"": ""{_moederWerdGeregistreerd.KboNummer}"",
                     ""vCode"": ""{_moederWerdGeregistreerd.VCode}"",
                     ""naam"": ""{_moederWerdGeregistreerd.Naam}"",
+                    ""detail"": ""{"http://127.0.0.1:11004/v1/verenigingen/" + _moederWerdGeregistreerd.VCode}"",
                 }},
             }}
             ],
@@ -141,6 +142,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                     ""kboNummer"": """",
                     ""vCode"": ""{_afdelingWerdGeregistreerd.VCode}"",
                     ""naam"": ""{_afdelingWerdGeregistreerd.Naam}"",
+                    ""detail"": ""{"http://127.0.0.1:11004/v1/verenigingen/" + _afdelingWerdGeregistreerd.VCode}"",
                 }},
             }}
             ],
