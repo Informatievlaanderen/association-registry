@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
+using System;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -153,6 +154,12 @@ public class DetailVerenigingResponse
                 /// </summary>
                 [DataMember(Name = "Naam")]
                 public string Naam { get; set; } = null!;
+
+                /// <summary>
+                /// De link naar het beheer detail van de gerelateerde vereniging
+                /// </summary>
+                [DataMember(Name = "Detail")]
+                public Uri Detail { get; set; } = null!;
             }
         }
 

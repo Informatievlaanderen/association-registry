@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -87,7 +88,20 @@ public class DetailVerenigingenController : ApiController
                         Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(ToVertegenwoordiger).ToArray(),
                         HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(ToHoofdactiviteit).ToArray(),
                         Sleutels = vereniging.Sleutels.Select(ToSleutel).ToArray(),
-                        Relaties = vereniging.Relaties.Select(ToRelatie).ToArray(),
+                        Relaties = vereniging.Relaties
+                            .Select<BeheerVerenigingDetailDocument.Relatie,
+                                DetailVerenigingResponse.VerenigingDetail.Relatie>(
+                                relatie => new DetailVerenigingResponse.VerenigingDetail.Relatie
+                        {
+                            Type = relatie.Type,
+                            AndereVereniging = new DetailVerenigingResponse.VerenigingDetail.Relatie.GerelateerdeVereniging
+                            {
+                                KboNummer = relatie.AndereVereniging.KboNummer,
+                                VCode = relatie.AndereVereniging.VCode,
+                                Naam = relatie.AndereVereniging.Naam,
+                                Detail = new Uri($"{_appSettings.BaseUrl}/v1/verenigingen/{relatie.AndereVereniging.VCode}"),
+                            },
+                        }).ToArray(),
                     },
                 Metadata = new DetailVerenigingResponse.MetadataDetail
                 {
@@ -96,18 +110,6 @@ public class DetailVerenigingenController : ApiController
                 },
             });
     }
-
-    private static DetailVerenigingResponse.VerenigingDetail.Relatie ToRelatie(BeheerVerenigingDetailDocument.Relatie relatie)
-        => new()
-        {
-            Type = relatie.Type,
-            AndereVereniging = new DetailVerenigingResponse.VerenigingDetail.Relatie.GerelateerdeVereniging
-            {
-                KboNummer = relatie.AndereVereniging.KboNummer,
-                VCode = relatie.AndereVereniging.VCode,
-                Naam = relatie.AndereVereniging.Naam,
-            },
-        };
 
     private static DetailVerenigingResponse.VerenigingDetail.Sleutel ToSleutel(BeheerVerenigingDetailDocument.Sleutel sleutel)
         => new()

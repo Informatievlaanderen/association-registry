@@ -26,7 +26,8 @@
         "andereVereniging": {
           "kboNummer": "",
           "vCode": "V0001009",
-          "naam": "Feesten Affligem"
+          "naam": "Feesten Affligem",
+          "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001009"
         }
       }
     ]

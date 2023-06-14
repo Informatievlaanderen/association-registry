@@ -82,6 +82,7 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
                     ""kboNummer"": ""{_afdelingWerdGeregistreerd.Moedervereniging.KboNummer}"",
                     ""vCode"": ""{_afdelingWerdGeregistreerd.Moedervereniging.VCode}"",
                     ""naam"": ""{_afdelingWerdGeregistreerd.Moedervereniging.Naam}"",
+                    ""detail"": ""{"http://127.0.0.1:11004/v1/verenigingen/" + _afdelingWerdGeregistreerd.Moedervereniging.VCode}"",
                 }},
             }}
             ],
