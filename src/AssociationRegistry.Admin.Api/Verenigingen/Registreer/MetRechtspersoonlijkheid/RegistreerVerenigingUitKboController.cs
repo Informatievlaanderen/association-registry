@@ -51,6 +51,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren vereniging</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
+    /// <response code="200">De vereniging was reeds geregistreerd in het register.</response>
     /// <response code="202">De vereniging met rechtspersoonlijkheid werd geregistreerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -60,9 +61,11 @@ public class RegistreerVerenigingUitKboController : ApiController
     [SwaggerRequestExample(typeof(RegistreerVerenigingUitKboRequest), typeof(RegistreerVerenigingUitKboRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
+    [SwaggerResponseHeader(StatusCodes.Status200OK, "Location", "string", "De locatie van de geregistreerde vereniging.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "Location", "string", "De locatie van de geregistreerde vereniging.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
