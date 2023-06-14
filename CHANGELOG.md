@@ -1,3 +1,10 @@
+## [3.20.3](https://github.com/informatievlaanderen/association-registry/compare/v3.20.2...v3.20.3) (2023-06-14)
+
+
+### Bug Fixes
+
+* or-1762 add status 200 and location header in case of 200 to swagger documentation ([4218073](https://github.com/informatievlaanderen/association-registry/commit/42180730187369a10c398ef2fd4ae688926a6019))
+
 ## [3.20.2](https://github.com/informatievlaanderen/association-registry/compare/v3.20.1...v3.20.2) (2023-06-13)
 
 
