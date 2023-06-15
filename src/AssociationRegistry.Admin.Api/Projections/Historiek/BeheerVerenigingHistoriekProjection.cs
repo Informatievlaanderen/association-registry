@@ -5,7 +5,7 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
-using Schema;
+using Schema.Historiek;
 
 public class BeheerVerenigingHistoriekProjection : EventProjection
 {

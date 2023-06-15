@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Projections.Detail;
 
 using Events;
 using Infrastructure.Extensions;
+using Schema.Detail;
 using Vereniging;
 
 public class BeheerVerenigingDetailMapper

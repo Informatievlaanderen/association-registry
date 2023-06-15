@@ -3,7 +3,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
+using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using EventStore;
 using AssociationRegistry.Framework;
 using Fixtures;
