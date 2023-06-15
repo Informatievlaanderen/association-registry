@@ -6,15 +6,18 @@ using Microsoft.Net.Http.Headers;
 
 public class AdminApiClient : IDisposable
 {
-    private readonly HttpClient _httpClient;
+    public readonly HttpClient HttpClient;
 
     public AdminApiClient(HttpClient httpClient)
     {
-        _httpClient = httpClient;
+        HttpClient = httpClient;
     }
 
     public async Task<HttpResponseMessage> GetRoot()
-        => await _httpClient.GetAsync("");
+        => await HttpClient.GetAsync("");
+
+    public async Task<HttpResponseMessage> Search(string q)
+        => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}");
 
     public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null)
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
@@ -26,7 +29,7 @@ public class AdminApiClient : IDisposable
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        var httpResponseMessage = await _httpClient.PostAsync("/v1/verenigingen", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen", content.AsJsonContent());
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
         return httpResponseMessage;
     }
@@ -35,61 +38,61 @@ public class AdminApiClient : IDisposable
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        var httpResponseMessage = await _httpClient.PostAsync("/v1/verenigingen/afdelingen", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen/afdelingen", content.AsJsonContent());
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
         return httpResponseMessage;
     }
+
     public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        var httpResponseMessage = await _httpClient.PostAsync($"/v1/verenigingen/kbo", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync($"/v1/verenigingen/kbo", content.AsJsonContent());
         return httpResponseMessage;
-
     }
 
     private async Task<HttpResponseMessage> GetWithPossibleSequence(string? requestUri, long? expectedSequence)
-        => expectedSequence == null ? await _httpClient.GetAsync(requestUri) : await _httpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
+        => expectedSequence == null ? await HttpClient.GetAsync(requestUri) : await HttpClient.GetAsync($"{requestUri}?{WellknownParameters.ExpectedSequence}={expectedSequence}");
 
     public async Task<HttpResponseMessage> PatchVereniging(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PatchVerenigingMetRechtspersoonlijkheid(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PatchAsync($"/v1/verenigingen/kbo/{vCode}", content.AsJsonContent());
+        return await HttpClient.PatchAsync($"/v1/verenigingen/kbo/{vCode}", content.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PostVertegenwoordiger(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers", content.AsJsonContent());
+        return await HttpClient.PostAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers", content.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PostContactgegevens(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PostAsync($"/v1/verenigingen/{vCode}/contactgegevens", content.AsJsonContent());
+        return await HttpClient.PostAsync($"/v1/verenigingen/{vCode}/contactgegevens", content.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PatchContactgegevens(string vCode, int contactgegevenId, string jsonBody, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PatchVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null, string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
         AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
-        return await _httpClient.PatchAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", jsonBody.AsJsonContent());
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", jsonBody.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> DeleteContactgegeven(string vCode, int contactgegevenId, long? version = null, string? initiator = "OVO000001")
@@ -102,7 +105,7 @@ public class AdminApiClient : IDisposable
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", UriKind.Relative),
         };
-        return await _httpClient.SendAsync(request);
+        return await HttpClient.SendAsync(request);
     }
 
     public async Task<HttpResponseMessage> DeleteVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null, string? initiator = "OVO000001")
@@ -115,29 +118,29 @@ public class AdminApiClient : IDisposable
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", UriKind.Relative),
         };
-        return await _httpClient.SendAsync(request);
+        return await HttpClient.SendAsync(request);
     }
 
     public async Task<HttpResponseMessage> GetDocsJson()
-        => await _httpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
+        => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
 
     private static string? GetIfMatchHeaderValue(long? version)
         => version is not null ? $"W/\"{version}\"" : null;
 
     private void AddOrRemoveHeader(string headerName, string? headerValue = null)
     {
-        _httpClient.DefaultRequestHeaders.Remove(headerName);
-        if (headerValue is not null) _httpClient.DefaultRequestHeaders.Add(headerName, headerValue);
+        HttpClient.DefaultRequestHeaders.Remove(headerName);
+        if (headerValue is not null) HttpClient.DefaultRequestHeaders.Add(headerName, headerValue);
     }
 
     public void Dispose()
     {
-        _httpClient.Dispose();
+        HttpClient.Dispose();
     }
 
     public async Task<HttpResponseMessage> GetHoofdactiviteiten()
-        => await _httpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
+        => await HttpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
 
     public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
-        => await _httpClient.GetAsync($"/v1/contexten/{contextName}");
+        => await HttpClient.GetAsync($"/v1/contexten/{contextName}");
 }

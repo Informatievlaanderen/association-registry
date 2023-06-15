@@ -53,7 +53,7 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine();
         builder.Services
-            .AddTransient<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
+            .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .ConfigureRequestLocalization()
             .AddOpenTelemetry()
             .ConfigureProjectionsWithMarten(builder.Configuration)

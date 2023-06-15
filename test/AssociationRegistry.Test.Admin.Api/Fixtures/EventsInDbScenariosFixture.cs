@@ -24,6 +24,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moeder V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder = new();
     public readonly V019_AfdelingWerdGeregistreerd_WithMinimalFields V019AfdelingWerdGeregistreerdWithMinimalFields = new();
     public readonly V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateDetection V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection = new();
+    public readonly V021_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario V021FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroom = new();
 
     protected override async Task Given()
     {
@@ -48,6 +49,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder,
             V019AfdelingWerdGeregistreerdWithMinimalFields,
             V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection,
+            V021FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroom,
         };
 
         foreach (var scenario in scenarios)

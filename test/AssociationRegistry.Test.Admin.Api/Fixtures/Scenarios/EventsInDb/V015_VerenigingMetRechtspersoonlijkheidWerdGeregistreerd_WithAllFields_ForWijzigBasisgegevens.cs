@@ -15,21 +15,18 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFie
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999015";
-        Naam = "Dee coolste club";
-        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
-        {
-            VCode = VCode,
-            Naam = Naam,
-        };
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
+            VCode,
+            "0000000000",
+            "VZW",
+            "VZW 0000000000",
+            string.Empty,
+            null);
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
-    public string Naam { get; set; }
-
-    public DateOnly? Startdatum
-        => VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
         => new IEvent[]

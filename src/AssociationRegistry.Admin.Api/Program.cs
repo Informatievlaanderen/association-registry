@@ -59,6 +59,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Projections.Search;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
@@ -95,7 +96,11 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine(
             options => options.Handlers.Discovery(
-                source => source.IncludeAssembly(typeof(Vereniging).Assembly)));
+                source =>
+                {
+                    source.IncludeType<ElasticEventHandler>();
+                    source.IncludeAssembly(typeof(Vereniging).Assembly);
+                }));
 
         var app = builder.Build();
 
@@ -266,10 +271,12 @@ public class Program
 
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
+        var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
+            .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
@@ -278,6 +285,7 @@ public class Program
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
+            .AddElasticSearch(elasticSearchOptionsSection)
             .AddOpenTelemetry()
             .AddHttpContextAccessor()
             .AddControllers(options => options.Filters.Add<JsonRequestFilter>());

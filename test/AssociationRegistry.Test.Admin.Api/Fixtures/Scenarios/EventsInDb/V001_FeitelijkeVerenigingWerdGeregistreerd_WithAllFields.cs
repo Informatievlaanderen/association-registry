@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using Vereniging;
 
 public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsInDbScenario
 {
@@ -15,32 +16,59 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
     {
         var fixture = new Fixture().CustomizeAll();
         VCode = "V9999001";
-        Naam = "Dee coolste club";
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            VCode = VCode,
-            Naam = Naam,
-            Contactgegevens = fixture.CreateMany<Registratiedata.Contactgegeven>().Select(
-                (contactgegeven, w) => contactgegeven with
-                {
-                    IsPrimair = w == 0,
-                }
-            ).ToArray(),
-            Vertegenwoordigers = fixture.CreateMany<Registratiedata.Vertegenwoordiger>().Select(
-                (vertegenwoordiger, i) => vertegenwoordiger with
-                {
-                    IsPrimair = i == 0,
-                }).ToArray(),
-        };
+        FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
+            VCode,
+            "Feestcommittee Oudenaarde",
+            "FOud",
+            "Het feestcommittee van Oudenaarde",
+            DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
+            false,
+            new[]
+            {
+                new Registratiedata.Contactgegeven(
+                    ContactgegevenId: 1,
+                    ContactgegevenType.Email,
+                    "info@FOud.be",
+                    "Algemeen",
+                    IsPrimair: true),
+            },
+            new[]
+            {
+                new Registratiedata.Locatie(
+                    "Correspondentie",
+                    "Stationsstraat",
+                    "1",
+                    "B",
+                    "1790",
+                    "Affligem",
+                    "België",
+                    Hoofdlocatie: true,
+                    "Correspondentie"),
+            },
+            new[]
+            {
+                new Registratiedata.Vertegenwoordiger(
+                    VertegenwoordigerId: 1,
+                    "01234567890",
+                    IsPrimair: true,
+                    "father",
+                    "Leader",
+                    "Odin",
+                    "Allfather",
+                    "asgard@world.tree",
+                    "",
+                    "",
+                    ""),
+            },
+            new Registratiedata.HoofdactiviteitVerenigingsloket[]
+            {
+                new("BLA", "Buitengewoon Leuke Afkortingen"),
+            });
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
-    public string Naam { get; set; }
-
-    public DateOnly? Startdatum
-        => FeitelijkeVerenigingWerdGeregistreerd.Startdatum;
 
     public IEvent[] GetEvents()
         => new IEvent[]

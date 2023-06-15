@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Projections.Detail;
 using Projections.Historiek.Schema;
+using Projections.Search;
 using VCodeGeneration;
 using Vereniging;
 
@@ -20,19 +21,23 @@ public static class MartenExtentions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
+        services
+            .AddTransient<IElasticRepository, ElasticRepository>();
         var martenConfiguration = services.AddMarten(
-            opts =>
+            sp =>
             {
+                var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections();
+                opts.AddPostgresProjections(sp);
 
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                return opts;
             });
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();

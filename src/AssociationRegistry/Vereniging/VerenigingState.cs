@@ -3,7 +3,6 @@ namespace AssociationRegistry.Vereniging;
 using Emails;
 using Events;
 using Framework;
-using Marten.Linq.Filters;
 using Marten.Schema;
 using SocialMedias;
 using TelefoonNummers;

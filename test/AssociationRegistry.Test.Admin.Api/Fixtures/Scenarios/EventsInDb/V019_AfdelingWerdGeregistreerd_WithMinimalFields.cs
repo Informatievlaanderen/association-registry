@@ -18,18 +18,18 @@ public class V019_AfdelingWerdGeregistreerd_WithMinimalFields : IEventsInDbScena
 
         KboNummerMoeder = fixture.Create<KboNummer>();
         VCode = "V9999019";
-        AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with
-        {
-            VCode = VCode,
-            Moedervereniging = new AfdelingWerdGeregistreerd.MoederverenigingsData(KboNummerMoeder, string.Empty, $"Moeder {KboNummerMoeder}"),
-            Locaties = Array.Empty<Registratiedata.Locatie>(),
-            KorteNaam = string.Empty,
-            Startdatum = null,
-            KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-        };
+        AfdelingWerdGeregistreerd = new AfdelingWerdGeregistreerd(
+            VCode,
+            "Antwerpse Bijscholing Clickers",
+            new AfdelingWerdGeregistreerd.MoederverenigingsData("0123456789", string.Empty, "Moeder 0123456789"),
+            string.Empty,
+            string.Empty,
+            null,
+            false,
+            Array.Empty<Registratiedata.Contactgegeven>(),
+            Array.Empty<Registratiedata.Locatie>(),
+            Array.Empty<Registratiedata.Vertegenwoordiger>(),
+            new[] { new Registratiedata.HoofdactiviteitVerenigingsloket("BLA", "Buitengewoon Leuke Afkortingen") });
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

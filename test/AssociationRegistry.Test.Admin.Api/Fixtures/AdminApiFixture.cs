@@ -5,6 +5,7 @@ using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Api.Projections.Search;
 using EventStore;
 using AssociationRegistry.Framework;
 using Framework.Helpers;
@@ -18,19 +19,24 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using Nest;
 using NodaTime;
 using Npgsql;
 using Oakton;
 using Polly;
 using Xunit;
 using IEvent = global::AssociationRegistry.Framework.IEvent;
+using Policy = Polly.Policy;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "adminApiFixture";
+    private readonly string _identifier = "adminapifixture";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
+
+    private IElasticClient ElasticClient
+        => (IElasticClient)_webApplicationFactory.Services.GetRequiredService(typeof(ElasticClient));
 
     public IDocumentStore DocumentStore
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
@@ -43,6 +49,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
+
+    private string VerenigingenIndexName
+        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     protected AdminApiFixture()
     {
@@ -67,23 +76,20 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
-                    builder.ConfigureAppConfiguration(
-                        cfg =>
-                            cfg.SetBasePath(GetRootDirectoryOrThrow())
-                                .AddJsonFile("appsettings.json", optional: true)
-                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(
-                                    new[]
-                                    {
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
-                                    })
-                    );
+                    builder.UseSetting("PostgreSQLOptions:database", _identifier);
+                    builder.UseConfiguration(GetConfiguration());
+                    builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+
+        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
+            .GetAwaiter().GetResult();
+        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+        ConfigureBrolFeeder(_webApplicationFactory.Services);
+
         Clients = new Clients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
                 .Get<OAuth2IntrospectionOptions>(),
@@ -127,21 +133,24 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
             });
     }
+    private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
+        => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
+    private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    {
+        if (client.Indices.Exists(verenigingenIndexName).Exists)
+            client.Indices.Delete(verenigingenIndexName);
+
+        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+
+        client.Indices.Refresh(Indices.All);
+    }
+
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
         => $"host={postgreSqlOptionsSection.Host}:5432;" +
            "database=postgres;" +
            $"password={postgreSqlOptionsSection.Password};" +
            $"username={postgreSqlOptionsSection.Username}";
-
-    private static string GetRootDirectoryOrThrow()
-    {
-        var maybeRootDirectory = Directory
-            .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-        return rootDirectory;
-    }
 
     protected async Task<StreamActionResult> AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
@@ -169,6 +178,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         await retry.ExecuteAsync(
             async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
 
         return result;
     }
