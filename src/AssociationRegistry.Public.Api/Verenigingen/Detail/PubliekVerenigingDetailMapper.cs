@@ -33,7 +33,9 @@ public static class PubliekVerenigingDetailMapper
                         KboNummer = r.AndereVereniging.KboNummer,
                         VCode = r.AndereVereniging.VCode,
                         Naam = r.AndereVereniging.Naam,
-                        Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"),
+                        Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
+                            ? new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}")
+                            : null,
                     },
                 }).ToArray(),
             },

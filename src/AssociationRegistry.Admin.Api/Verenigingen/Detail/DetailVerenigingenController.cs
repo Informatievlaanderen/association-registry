@@ -99,7 +99,9 @@ public class DetailVerenigingenController : ApiController
                                 KboNummer = relatie.AndereVereniging.KboNummer,
                                 VCode = relatie.AndereVereniging.VCode,
                                 Naam = relatie.AndereVereniging.Naam,
-                                Detail = new Uri($"{_appSettings.BaseUrl}/v1/verenigingen/{relatie.AndereVereniging.VCode}"),
+                                Detail = !string.IsNullOrEmpty(relatie.AndereVereniging.VCode)
+                                    ? new Uri($"{_appSettings.BaseUrl}/v1/verenigingen/{relatie.AndereVereniging.VCode}")
+                                    : null,
                             },
                         }).ToArray(),
                     },
