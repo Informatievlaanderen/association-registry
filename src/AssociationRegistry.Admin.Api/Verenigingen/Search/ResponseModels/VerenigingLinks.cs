@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 public class VerenigingLinks
 {
     /// <summary>
-    /// De link naar het publiek detail van de vereniging
+    /// De link naar het beheer detail van de vereniging
     /// </summary>
     [DataMember(Name = "Detail")]
     public Uri Detail { get; init; } = null!;
