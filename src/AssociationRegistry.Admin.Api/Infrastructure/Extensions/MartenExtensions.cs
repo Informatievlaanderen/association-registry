@@ -28,7 +28,6 @@ public static class MartenExtentions
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections();
 
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
