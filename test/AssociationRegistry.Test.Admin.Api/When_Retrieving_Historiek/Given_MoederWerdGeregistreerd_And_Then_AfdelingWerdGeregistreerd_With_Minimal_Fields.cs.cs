@@ -2,7 +2,7 @@
 
 using System.Net;
 using System.Text.RegularExpressions;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AssociationRegistry.Framework;
 using Fixtures;

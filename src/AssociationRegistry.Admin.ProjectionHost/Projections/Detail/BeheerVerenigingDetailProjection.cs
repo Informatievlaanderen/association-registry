@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections.Detail;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using System.Threading.Tasks;
 using Events;
@@ -6,7 +6,6 @@ using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Schema.Detail;
-
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {

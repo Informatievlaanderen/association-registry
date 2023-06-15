@@ -1,9 +1,7 @@
-namespace AssociationRegistry.Admin.Api.Projections.Historiek;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using System.Collections.Generic;
-using System.Linq;
 using Constants;
-using Detail;
 using Events;
 using Framework;
 using Infrastructure.Extensions;

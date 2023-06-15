@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Projections.Detail;
+using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;

@@ -1,7 +1,6 @@
-namespace AssociationRegistry.Admin.Api.Projections.Detail;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using System;
-using System.Linq;
 using Constants;
 using Events;
 using Framework;
