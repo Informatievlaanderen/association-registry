@@ -1,3 +1,10 @@
+## [3.20.4](https://github.com/informatievlaanderen/association-registry/compare/v3.20.3...v3.20.4) (2023-06-15)
+
+
+### Bug Fixes
+
+* or-1747 add detail link to gerelateerde vereniging ([b278f94](https://github.com/informatievlaanderen/association-registry/commit/b278f9426140b8f05fd5e741b13a4cef1383f706))
+
 ## [3.20.3](https://github.com/informatievlaanderen/association-registry/compare/v3.20.2...v3.20.3) (2023-06-14)
 
 
