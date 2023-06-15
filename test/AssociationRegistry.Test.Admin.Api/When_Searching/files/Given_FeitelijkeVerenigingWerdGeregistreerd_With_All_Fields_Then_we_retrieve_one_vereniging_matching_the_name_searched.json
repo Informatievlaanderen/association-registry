@@ -46,15 +46,6 @@
       }
     }
   ],
-  "facets": {
-    "hoofdactiviteitenVerenigingsloket": [
-      {
-        "code": "BLA",
-        "aantal": 1,
-        "query": "http://127.0.0.1:11004/v1/verenigingen/zoeken?q={{originalQuery}}&facets.hoofdactiviteitenVerenigingsloket=BLA"
-      }
-    ]
-  },
   "metadata": {
     "pagination": {
       "totalCount": 1,

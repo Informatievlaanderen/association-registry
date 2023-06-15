@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Searching;
 
-using System.Text.RegularExpressions;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
@@ -18,7 +17,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     private readonly AdminApiClient _adminApiClient;
 
     private const string EmptyVerenigingenResponse =
-        "{\"@context\":\"http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+        "{\"@context\":\"http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(EventsInDbScenariosFixture fixture)
     {
@@ -91,22 +90,5 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
-    }
-
-    [Fact]
-    public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
-    {
-        var response = await _adminApiClient.Search("*dena*");
-        var content = await response.Content.ReadAsStringAsync();
-
-        var regex = new Regex(@"""facets"":\s*{\s*""hoofdactiviteitenVerenigingsloket"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
-        var regexResult = regex.Match(content);
-        var urlFromFacets = regexResult.Groups[2].Value;
-
-        var responseFromFacetsUrl = await _adminApiClient.HttpClient.GetAsync(urlFromFacets);
-        var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
-
-        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
-        contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
 }
