@@ -88,24 +88,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     },
                 },
             },
-            Facets = new Facets
-            {
-                HoofdactiviteitenVerenigingsloket = new[]
-                {
-                    new HoofdactiviteitVerenigingsloketFacetItem
-                    {
-                        Code = "CULT",
-                        Aantal = 1,
-                        Query = $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:CULT)",
-                    },
-                    new HoofdactiviteitVerenigingsloketFacetItem
-                    {
-                        Code = "SPRT",
-                        Aantal = 1,
-                        Query = $"{_appSettings.BaseUrl}/verenigingen/search/q=(hoofdactiviteitVerenigingsloket.code:SPRT)",
-                    },
-                },
-            },
             Metadata = new Metadata
             {
                 Pagination = new Pagination { TotalCount = 2, Offset = 0, Limit = 50 },

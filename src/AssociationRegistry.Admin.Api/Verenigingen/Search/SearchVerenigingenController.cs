@@ -1,13 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Constants;
 using Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +52,6 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=...&amp;offset=30&amp;limit=30`
     /// </remarks>
     /// <param name="q">De querystring</param>
-    /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -69,16 +63,13 @@ public class SearchVerenigingenController : ApiController
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromQuery] string? q,
-        [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
-        string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams)
     {
         q ??= "*";
-        var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-        var searchResponse = await Search(_elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
+        var searchResponse = await Search(_elasticClient, q, paginationQueryParams);
 
-        var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q);
 
         return Ok(response);
     }
@@ -86,7 +77,6 @@ public class SearchVerenigingenController : ApiController
     private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
         IElasticClient client,
         string q,
-        string[] hoofdactiviteiten,
         PaginationQueryParams paginationQueryParams)
         => await client.SearchAsync<VerenigingZoekDocument>(
             s => s
@@ -96,81 +86,10 @@ public class SearchVerenigingenController : ApiController
                     query => query.Bool(
                         boolQueryDescriptor => boolQueryDescriptor.Must(
                             queryContainerDescriptor => queryContainerDescriptor.QueryString(
-                                queryStringQueryDescriptor => queryStringQueryDescriptor.Query($"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}")
+                                queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
                             )
                         )
                     )
                 )
-                .Aggregations(
-                    agg =>
-                        GlobalAggregation(
-                            agg,
-                            agg2 =>
-                                QueryFilterAggregation(
-                                    agg2,
-                                    q,
-                                    HoofdactiviteitCountAggregation
-                                )
-                        )
-                )
         );
-
-    private static IAggregationContainer GlobalAggregation<T>(AggregationContainerDescriptor<T> agg, Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<T>> aggregations) where T : class
-    {
-        agg.Global(
-            WellknownFacets.GlobalAggregateName,
-            d => d.Aggregations(
-                aggregations
-            )
-        );
-        return agg;
-    }
-
-    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(AggregationContainerDescriptor<T> aggregationContainerDescriptor, string query, Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations) where T : class
-    {
-        return aggregationContainerDescriptor.Filter(
-            WellknownFacets.FilterAggregateName,
-            aggregationDescriptor => aggregationDescriptor.Filter(
-                    containerDescriptor => containerDescriptor.Bool(
-                        queryDescriptor => queryDescriptor.Must(
-                            m =>
-                                m.QueryString(
-                                    qs =>
-                                        qs.Query(query)
-                                )
-                        )
-                    )
-                )
-                .Aggregations(aggregations)
-        );
-    }
-
-    private static AggregationContainerDescriptor<VerenigingZoekDocument> HoofdactiviteitCountAggregation(AggregationContainerDescriptor<VerenigingZoekDocument> aggregationContainerDescriptor)
-    {
-        return aggregationContainerDescriptor.Terms(
-            WellknownFacets.HoofdactiviteitenCountAggregateName,
-            valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(h => h.Code).Suffix("keyword"))
-                .Size(size: 20)
-        );
-    }
-
-    private static string BuildHoofdActiviteiten(IReadOnlyCollection<string> hoofdactiviteiten)
-    {
-        if (hoofdactiviteiten.Count == 0)
-            return string.Empty;
-
-        var builder = new StringBuilder();
-        builder.Append(" AND (");
-
-        foreach (var (hoofdactiviteit, index) in hoofdactiviteiten.Select((item, index) => (item, index)))
-        {
-            builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteit}");
-            if (index < hoofdactiviteiten.Count - 1)
-                builder.Append(" OR ");
-        }
-
-        builder.Append(value: ')');
-        return builder.ToString();
-    }
 }

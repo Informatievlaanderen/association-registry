@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Constants;
 using Infrastructure.ConfigurationBindings;
 using Nest;
 using Projections.Search.Schema;
@@ -22,22 +21,14 @@ public class SearchVerenigingenResponseMapper
     public SearchVerenigingenResponse ToSearchVereningenResponse(
         ISearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
-        string originalQuery,
-        string[] hoofdactiviteiten)
+        string originalQuery)
         => new()
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
                 .Select(x => Map(x.Source, _appSettings))
                 .ToArray(),
-            Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
-        };
-
-    private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
-        => new()
-        {
-            HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
         };
 
     private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
@@ -88,37 +79,6 @@ public class SearchVerenigingenResponseMapper
                 Offset = paginationRequest.Offset,
                 Limit = paginationRequest.Limit,
             },
-        };
-
-    private static HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
-        AppSettings appSettings,
-        ISearchResponse<VerenigingZoekDocument> searchResponse,
-        string originalQuery,
-        string[] hoofdactiviteiten)
-    {
-        return searchResponse.Aggregations
-            .Filter(WellknownFacets.GlobalAggregateName)
-            .Filter(WellknownFacets.FilterAggregateName)
-            .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-            .Buckets
-            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-            .ToArray();
-    }
-
-    private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
-        AppSettings appSettings,
-        KeyedBucket<string> bucket,
-        string originalQuery,
-        string[] originalHoofdactiviteiten)
-        => new()
-        {
-            Code = bucket.Key,
-            Aantal = bucket.DocCount ?? 0,
-            Query = AddHoofdactiviteitToQuery(
-                appSettings,
-                bucket.Key,
-                originalQuery,
-                originalHoofdactiviteiten),
         };
 
     // public for testing
