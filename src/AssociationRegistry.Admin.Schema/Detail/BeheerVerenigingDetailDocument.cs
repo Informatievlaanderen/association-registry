@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Detail;
+namespace AssociationRegistry.Admin.Schema.Detail;
 
 using System;
 using Marten.Schema;

@@ -1,26 +1,23 @@
-namespace AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
+namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using System;
-using System.Linq;
 using Events;
 
-public record AfdelingWerdGeregistreerdData(
+public record FeitelijkeVerenigingWerdGeregistreerdData(
     string VCode,
     string Naam,
-    string KboNummerMoedervereniging,
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
-    AfdelingWerdGeregistreerdData.Vertegenwoordiger[] Vertegenwoordigers,
+    FeitelijkeVerenigingWerdGeregistreerdData.Vertegenwoordiger[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
-    public static AfdelingWerdGeregistreerdData Create(AfdelingWerdGeregistreerd e)
+    public static FeitelijkeVerenigingWerdGeregistreerdData Create(FeitelijkeVerenigingWerdGeregistreerd e)
         => new(
             e.VCode,
             e.Naam,
-            e.Moedervereniging.KboNummer,
             e.KorteNaam,
             e.KorteBeschrijving,
             e.Startdatum,

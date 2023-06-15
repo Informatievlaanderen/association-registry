@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+﻿namespace AssociationRegistry.Admin.Schema.Historiek;
 
 public record BeheerVerenigingHistoriekGebeurtenis(
     string Beschrijving,
