@@ -65,15 +65,18 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
                 ""beschrijving"": ""{Verenigingstype.Afdeling.Beschrijving}"",
             }},
             ""naam"": ""{_afdelingWerdGeregistreerd.Naam}"",
-            ""korteNaam"": """",
-            ""korteBeschrijving"": """",
+            ""korteNaam"": ""{string.Empty}"",
+            ""korteBeschrijving"": ""{string.Empty}"",
             ""startdatum"": null,
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,
             ""contactgegevens"": [],
             ""locaties"":[],
             ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenVerenigingsloket"":[],
+            ""hoofdactiviteitenVerenigingsloket"":[{{
+                ""code"": ""BLA"",
+                ""beschrijving"": ""Buitengewoon Leuke Afkortingen""
+            }}],
             ""sleutels"":[],
             ""relaties"":[
             {{

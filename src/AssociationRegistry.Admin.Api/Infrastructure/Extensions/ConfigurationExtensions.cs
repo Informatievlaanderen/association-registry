@@ -29,6 +29,29 @@ public static class ConfigurationExtensions
             .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
+    public static ElasticSearchOptionsSection GetElasticSearchOptionsSection(this IConfiguration configuration)
+    {
+        var elasticSearchOptions = configuration
+            .GetSection("ElasticClientOptions")
+            .Get<ElasticSearchOptionsSection>();
+
+        elasticSearchOptions.ThrowIfInvalid();
+        return elasticSearchOptions;
+    }
+
     public static string GetBaseUrl(this IConfiguration configuration)
         => configuration.GetValue<string>("BaseUrl").TrimEnd(trimChar: '/');
+
+    private static void ThrowIfInvalid(this ElasticSearchOptionsSection elasticSearchOptions)
+    {
+        const string sectionName = nameof(ElasticSearchOptionsSection);
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
+    }
 }
