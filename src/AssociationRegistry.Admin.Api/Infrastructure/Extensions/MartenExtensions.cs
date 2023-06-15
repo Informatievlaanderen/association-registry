@@ -6,12 +6,11 @@ using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
-using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Projections.Search;
+using ProjectionHost.Projections.Search;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
@@ -32,7 +31,6 @@ public static class MartenExtentions
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
-                opts.AddPostgresProjections(sp);
 
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
@@ -41,9 +39,6 @@ public static class MartenExtentions
             });
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
-
-        if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
 
         return services;
     }

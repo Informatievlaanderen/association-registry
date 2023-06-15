@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Search;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using System.Threading.Tasks;
 

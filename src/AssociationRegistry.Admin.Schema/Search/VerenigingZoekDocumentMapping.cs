@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Search.Schema;
+namespace AssociationRegistry.Admin.Schema.Search;
 
 using Nest;
 

@@ -1,15 +1,14 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
 using System;
 using ConfigurationBindings;
+using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using ProjectionHost.Infrastructure.Extensions;
-using Schema.Search;
 
-public static class ElasticSearchExtensions
+public static class ConfigureElasticSearchExtensions
 {
-    public static IServiceCollection AddElasticSearch(
+   public static IServiceCollection ConfigureElasticSearch(
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
@@ -38,13 +37,5 @@ public static class ElasticSearchExtensions
 
         var elasticClient = new ElasticClient(settings);
         return elasticClient;
-    }
-
-    public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
-    {
-        return settings.DefaultMappingFor(
-            typeof(VerenigingZoekDocument),
-            descriptor => descriptor.IndexName(indexName)
-                .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 }

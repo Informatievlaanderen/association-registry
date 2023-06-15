@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Search;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using System;
 using System.Linq;
@@ -7,6 +7,7 @@ using Events;
 using Vereniging;
 using Infrastructure.Extensions;
 using Schema;
+using Schema.Search;
 
 public class ElasticEventHandler
 {

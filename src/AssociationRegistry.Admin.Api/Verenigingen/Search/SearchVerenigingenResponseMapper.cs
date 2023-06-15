@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using Nest;
-using Projections.Search.Schema;
 using RequestModels;
 using ResponseModels;
+using Schema.Search;
 
 public class SearchVerenigingenResponseMapper
 {

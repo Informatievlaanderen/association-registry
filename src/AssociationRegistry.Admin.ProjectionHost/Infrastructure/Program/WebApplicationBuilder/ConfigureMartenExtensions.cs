@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Projections.Detail;
+using Projections.Historiek;
+using Projections.Search;
 using Schema.Detail;
 using Wolverine;
 
@@ -20,6 +22,7 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
     {
+
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
@@ -71,7 +74,17 @@ public static class ConfigureMartenExtensions
                 opts.Events.MetadataConfig.EnableAll();
 
                 opts.Projections.OnException(_ => true).Stop();
+
+                opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new MartenEventsConsumer(
+                            serviceProvider.GetRequiredService<IMessageBus>()
+                        )
+                    ),
+                    ProjectionLifecycle.Async,
+                    "BeheerVerenigingZoekenDocument");
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
