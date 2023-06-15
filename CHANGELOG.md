@@ -1,3 +1,17 @@
+# [3.21.0](https://github.com/informatievlaanderen/association-registry/compare/v3.20.4...v3.21.0) (2023-06-15)
+
+
+### Bug Fixes
+
+* or-1717 fix workflow ([76681ca](https://github.com/informatievlaanderen/association-registry/commit/76681ca6752f7492bc481efc8815c4029faf457e))
+
+
+### Features
+
+* or-1717 copy publiek zoeken naar beheer zoeken ([8a9aacf](https://github.com/informatievlaanderen/association-registry/commit/8a9aacfece690f1dea239a488c5854be46cecc30))
+* or-1717 remove facets from beheer zoeken ([ea4d1ec](https://github.com/informatievlaanderen/association-registry/commit/ea4d1ece88dbff63b5cc055fabe79445f62245cc))
+* or-1717 update workflow ([587bfb3](https://github.com/informatievlaanderen/association-registry/commit/587bfb32f1d7d789c6b44ba08f5ab8832a8026c8))
+
 ## [3.20.4](https://github.com/informatievlaanderen/association-registry/compare/v3.20.3...v3.20.4) (2023-06-15)
 
 
