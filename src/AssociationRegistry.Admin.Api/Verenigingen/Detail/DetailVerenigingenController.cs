@@ -100,8 +100,8 @@ public class DetailVerenigingenController : ApiController
                                 VCode = relatie.AndereVereniging.VCode,
                                 Naam = relatie.AndereVereniging.Naam,
                                 Detail = !string.IsNullOrEmpty(relatie.AndereVereniging.VCode)
-                                    ? new Uri($"{_appSettings.BaseUrl}/v1/verenigingen/{relatie.AndereVereniging.VCode}")
-                                    : null,
+                                    ? $"{_appSettings.BaseUrl}/v1/verenigingen/{relatie.AndereVereniging.VCode}"
+                                    : string.Empty,
                             },
                         }).ToArray(),
                     },
