@@ -1,3 +1,10 @@
+## [3.21.1](https://github.com/informatievlaanderen/association-registry/compare/v3.21.0...v3.21.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* or-1747 do add detail link when there is no vCode for the gerelateerde vereniging ([8c48688](https://github.com/informatievlaanderen/association-registry/commit/8c486883cf5c9eb58387ec441aecc58402880384))
+
 # [3.21.0](https://github.com/informatievlaanderen/association-registry/compare/v3.20.4...v3.21.0) (2023-06-15)
 
 
