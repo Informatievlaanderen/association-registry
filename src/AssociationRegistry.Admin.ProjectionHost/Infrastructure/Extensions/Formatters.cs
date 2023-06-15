@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
-using AssociationRegistry.Events;
+using Events;
 using Constants;
 using NodaTime;
 

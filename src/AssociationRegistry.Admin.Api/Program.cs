@@ -59,7 +59,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
-using Projections.Search;
+using ProjectionHost.Projections.Search;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
@@ -276,7 +276,6 @@ public class Program
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
-            .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()

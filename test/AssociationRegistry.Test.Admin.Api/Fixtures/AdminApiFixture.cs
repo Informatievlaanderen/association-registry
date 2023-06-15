@@ -3,11 +3,13 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 using System.Net.Http.Headers;
 using System.Reflection;
 using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Projections.Search;
-using EventStore;
+using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Framework;
+using EventStore;
 using Framework.Helpers;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
@@ -25,33 +27,16 @@ using Npgsql;
 using Oakton;
 using Polly;
 using Xunit;
-using IEvent = global::AssociationRegistry.Framework.IEvent;
 using Policy = Polly.Policy;
+using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
+
+    private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly string _identifier = "adminapifixture";
-
-    private readonly WebApplicationFactory<Program> _webApplicationFactory;
-
-    private IElasticClient ElasticClient
-        => (IElasticClient)_webApplicationFactory.Services.GetRequiredService(typeof(ElasticClient));
-
-    public IDocumentStore DocumentStore
-        => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
-
-    public AdminApiClient AdminApiClient
-        => Clients.Authenticated;
-
-    public AdminApiClient UnauthenticatedClient
-        => Clients.Unauthenticated;
-
-    public IServiceProvider ServiceProvider
-        => _webApplicationFactory.Services;
-
-    private string VerenigingenIndexName
-        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
+    private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
     protected AdminApiFixture()
     {
@@ -71,7 +56,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         OaktonEnvironment.AutoStartHost = true;
 
-        _webApplicationFactory = new WebApplicationFactory<Program>()
+        _adminApiServer = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(
                 builder =>
                 {
@@ -81,20 +66,64 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
+        var postgreSqlOptionsSection = _adminApiServer.Services.GetRequiredService<PostgreSqlOptionsSection>();
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
+
+        _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
+            .WithWebHostBuilder(
+                builder =>
+                {
+                    builder.UseContentRoot(Directory.GetCurrentDirectory());
+                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+                    builder.UseConfiguration(GetConfiguration());
+                    builder.ConfigureAppConfiguration(
+                        cfg =>
+                            cfg.SetBasePath(GetRootDirectoryOrThrow())
+                                .AddJsonFile("appsettings.json", optional: true)
+                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
+                                .AddInMemoryCollection(
+                                    new[]
+                                    {
+                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                    })
+                    );
+                });
 
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
             .GetAwaiter().GetResult();
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
-        ConfigureBrolFeeder(_webApplicationFactory.Services);
+        ConfigureBrolFeeder(_projectionHostServer.Services);
 
         Clients = new Clients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
                 .Get<OAuth2IntrospectionOptions>(),
-            _webApplicationFactory.CreateClient);
+            _adminApiServer.CreateClient);
     }
+
+    public IDocumentStore ApiDocumentStore
+        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
+
+    public IDocumentStore ProjectionsDocumentStore
+        => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
+
+    private IElasticClient ElasticClient
+        => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
+
+    public IDocumentStore DocumentStore
+        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
+
+    public AdminApiClient AdminApiClient
+        => Clients.Authenticated;
+
+    public AdminApiClient UnauthenticatedClient
+        => Clients.Unauthenticated;
+
+    public IServiceProvider ServiceProvider
+        => _adminApiServer.Services;
+
+    private string VerenigingenIndexName
+        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     public Clients Clients { get; }
 
@@ -107,12 +136,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public virtual Task DisposeAsync()
         => Task.CompletedTask;
 
-
     public void Dispose()
     {
         GC.SuppressFinalize(this);
         Clients.SafeDispose();
-        _webApplicationFactory.SafeDispose();
+        _adminApiServer.SafeDispose();
+        _projectionHostServer.SafeDispose();
         DropDatabase();
     }
 
@@ -133,8 +162,19 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
             });
     }
+
+    private static string GetRootDirectoryOrThrow()
+    {
+        var maybeRootDirectory = Directory
+            .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
+        if (maybeRootDirectory is not { } rootDirectory)
+            throw new NullReferenceException("Root directory cannot be null");
+        return rootDirectory;
+    }
+
     private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
         => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
+
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
     {
         if (client.Indices.Exists(verenigingenIndexName).Exists)
@@ -144,7 +184,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         client.Indices.Refresh(Indices.All);
     }
-
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
         => $"host={postgreSqlOptionsSection.Host}:5432;" +
@@ -157,13 +196,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
 
-        if (DocumentStore is not { })
+        if (ProjectionsDocumentStore is null)
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
 
-        if (daemon is not { })
+        if (daemon is null)
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
@@ -242,7 +281,7 @@ public class Clients : IDisposable
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
 
-        Authenticated = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", AssociationRegistry.Admin.Api.Constants.Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
+        Authenticated = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
 
         Unauthenticated = new AdminApiClient(_createClientFunc());
 

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program;
 
 using System;
-using AssociationRegistry.Framework;
+using Framework;
 using ConfigurationBindings;
 
 public static class ConfigHelpers

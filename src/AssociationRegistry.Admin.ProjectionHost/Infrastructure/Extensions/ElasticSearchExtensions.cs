@@ -1,11 +1,10 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
 using System;
 using ConfigurationBindings;
+using Schema.Search;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using ProjectionHost.Infrastructure.Extensions;
-using Schema.Search;
 
 public static class ElasticSearchExtensions
 {
