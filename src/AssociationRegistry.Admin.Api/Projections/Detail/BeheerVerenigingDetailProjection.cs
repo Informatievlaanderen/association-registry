@@ -5,8 +5,8 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Schema.Detail;
 
-public record Metadata(long Sequence, long Version);
 
 public class BeheerVerenigingDetailProjection : EventProjection
 {

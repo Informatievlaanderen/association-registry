@@ -7,6 +7,8 @@ using Events;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
+using Schema;
+using Schema.Detail;
 using Vereniging;
 
 public class BeheerVerenigingDetailProjector

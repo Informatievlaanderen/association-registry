@@ -11,8 +11,8 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Projections.Detail;
-using Projections.Historiek.Schema;
+using Schema.Detail;
+using Schema.Historiek;
 using VCodeGeneration;
 using Vereniging;
 

@@ -9,7 +9,8 @@ using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Schema;
-using Schema.EventData;
+using Schema.Historiek;
+using Schema.Historiek.EventData;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjector

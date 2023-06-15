@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections.Historiek.Schema;
+﻿namespace AssociationRegistry.Admin.Schema.Historiek;
 
 using System.Collections.Generic;
-using Detail;
 using Marten.Schema;
 
 public class BeheerVerenigingHistoriekDocument : IMetadata, IVCode

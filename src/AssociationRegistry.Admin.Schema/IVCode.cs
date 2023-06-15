@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections;
+namespace AssociationRegistry.Admin.Schema;
 
 public interface IVCode
 {

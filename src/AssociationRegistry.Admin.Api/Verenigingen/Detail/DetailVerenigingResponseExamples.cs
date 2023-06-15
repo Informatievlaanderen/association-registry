@@ -2,7 +2,6 @@
 
 using System;
 using Infrastructure.ConfigurationBindings;
-using Projections.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 

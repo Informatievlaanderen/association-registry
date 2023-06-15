@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Projections.Historiek.Schema.EventData;
+﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using Events;
 
