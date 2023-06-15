@@ -85,7 +85,7 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
                     ""kboNummer"": ""{_afdelingWerdGeregistreerd.Moedervereniging.KboNummer}"",
                     ""vCode"": ""{_afdelingWerdGeregistreerd.Moedervereniging.VCode}"",
                     ""naam"": ""{_afdelingWerdGeregistreerd.Moedervereniging.Naam}"",
-                    ""detail"": null,
+                    ""detail"": ""{string.Empty}"",
                 }},
             }}
             ],

@@ -34,8 +34,8 @@ public static class PubliekVerenigingDetailMapper
                         VCode = r.AndereVereniging.VCode,
                         Naam = r.AndereVereniging.Naam,
                         Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
-                            ? new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}")
-                            : null,
+                            ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
+                            : string.Empty,
                     },
                 }).ToArray(),
             },
