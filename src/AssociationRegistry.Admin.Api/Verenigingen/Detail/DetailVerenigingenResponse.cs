@@ -159,7 +159,7 @@ public class DetailVerenigingResponse
                 /// De link naar het beheer detail van de gerelateerde vereniging
                 /// </summary>
                 [DataMember(Name = "Detail")]
-                public Uri Detail { get; set; } = null!;
+                public Uri? Detail { get; set; }
             }
         }
 

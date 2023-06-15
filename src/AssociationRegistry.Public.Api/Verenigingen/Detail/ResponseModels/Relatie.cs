@@ -43,6 +43,6 @@ public class Relatie
         /// De link naar het publiek detail van de gerelateerde vereniging
         /// </summary>
         [DataMember(Name = "Detail")]
-        public Uri Detail { get; set; } = null!;
+        public Uri? Detail { get; set; }
     }
 }
