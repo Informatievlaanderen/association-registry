@@ -4,8 +4,8 @@ using System;
 using Marten;
 using Marten.Events.Projections;
 using Microsoft.Extensions.DependencyInjection;
-using Projections.Detail;
-using Projections.Historiek;
+using ProjectionHost.Projections.Detail;
+using ProjectionHost.Projections.Historiek;
 using Projections.Search;
 using Wolverine;
 

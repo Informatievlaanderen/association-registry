@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Historiek;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
 using System.Threading.Tasks;
 using Events;

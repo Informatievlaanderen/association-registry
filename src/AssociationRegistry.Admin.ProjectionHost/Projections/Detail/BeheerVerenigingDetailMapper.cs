@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Projections.Detail;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
 using Infrastructure.Extensions;
