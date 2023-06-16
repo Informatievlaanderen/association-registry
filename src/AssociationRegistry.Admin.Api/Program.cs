@@ -59,7 +59,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
-using ProjectionHost.Projections.Search;
 using Serilog;
 using Serilog.Debugging;
 using VCodeGeneration;
@@ -98,7 +97,6 @@ public class Program
             options => options.Handlers.Discovery(
                 source =>
                 {
-                    source.IncludeType<ElasticEventHandler>();
                     source.IncludeAssembly(typeof(Vereniging).Assembly);
                 }));
 

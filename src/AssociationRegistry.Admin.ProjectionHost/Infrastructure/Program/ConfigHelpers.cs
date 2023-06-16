@@ -8,7 +8,7 @@ public static class ConfigHelpers
 {
     public static void ThrowIfInvalidElasticOptions(ElasticSearchOptionsSection elasticSearchOptions)
     {
-        const string sectionName = nameof(ElasticSearchOptionsSection);
+        const string sectionName = "ElasticClientOptions";
         Throw<ArgumentNullException>
             .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
         Throw<ArgumentNullException>
@@ -21,7 +21,7 @@ public static class ConfigHelpers
 
     public static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
     {
-        const string sectionName = nameof(PostgreSqlOptionsSection);
+        const string sectionName = "PostgreSQLOptions";
         Throw<ArgumentNullException>
             .IfNullOrWhiteSpace(postgreSqlOptions.Database,$"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
         Throw<ArgumentNullException>

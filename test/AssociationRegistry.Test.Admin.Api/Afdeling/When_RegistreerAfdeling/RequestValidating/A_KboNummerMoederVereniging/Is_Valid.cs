@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.RequestValidating.A_KboNummerMoedervereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.RequestValidating.A_KboNummerMoederVereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
-using Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

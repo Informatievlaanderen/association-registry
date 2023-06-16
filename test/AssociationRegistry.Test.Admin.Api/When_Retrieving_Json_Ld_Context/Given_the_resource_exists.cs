@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_json_ld_context;
+namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Json_Ld_Context;
 
 using AssociationRegistry.Admin.Api.Contexten;
-using Fixtures;
-using Framework;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

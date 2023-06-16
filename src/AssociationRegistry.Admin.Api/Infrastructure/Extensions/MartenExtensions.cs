@@ -10,7 +10,6 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using ProjectionHost.Projections.Search;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
@@ -20,8 +19,6 @@ public static class MartenExtentions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
-        services
-            .AddTransient<IElasticRepository, ElasticRepository>();
         var martenConfiguration = services.AddMarten(
             sp =>
             {

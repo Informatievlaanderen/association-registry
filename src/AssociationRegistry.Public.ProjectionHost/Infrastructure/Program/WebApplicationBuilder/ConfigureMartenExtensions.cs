@@ -73,6 +73,7 @@ public static class ConfigureMartenExtensions
                 opts.Events.MetadataConfig.EnableAll();
 
                 opts.Projections.OnException(_ => true).Stop();
+
                 opts.Projections.Add<PubliekVerenigingDetailProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add(
                     new MartenSubscription(

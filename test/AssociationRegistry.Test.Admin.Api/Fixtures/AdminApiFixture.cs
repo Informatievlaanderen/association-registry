@@ -33,10 +33,23 @@ using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
+    private readonly string _identifier = "adminapifixture";
 
     private readonly WebApplicationFactory<Program> _adminApiServer;
-    private readonly string _identifier = "adminapifixture";
+
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
+
+    private IElasticClient ElasticClient
+        => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
+
+    public IDocumentStore DocumentStore
+        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
+
+    public AdminApiClient AdminApiClient
+        => Clients.Authenticated;
+
+    private string VerenigingenIndexName
+        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     protected AdminApiFixture()
     {
@@ -70,6 +83,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
             .GetAwaiter().GetResult();
 
+        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
+            .GetAwaiter().GetResult();
+
         _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
             .WithWebHostBuilder(
                 builder =>
@@ -77,21 +93,20 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
                     builder.UseConfiguration(GetConfiguration());
-                    builder.ConfigureAppConfiguration(
-                        cfg =>
-                            cfg.SetBasePath(GetRootDirectoryOrThrow())
-                                .AddJsonFile("appsettings.json", optional: true)
-                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(
-                                    new[]
-                                    {
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
-                                    })
-                    );
+                    // builder.ConfigureAppConfiguration(
+                    //     cfg =>
+                    //         cfg.SetBasePath(GetRootDirectoryOrThrow())
+                    //             .AddJsonFile("appsettings.json", optional: true)
+                    //             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
+                    //             .AddInMemoryCollection(
+                    //                 new[]
+                    //                 {
+                    //                     new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                    //                 })
+                    // );
+                    builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
-            .GetAwaiter().GetResult();
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
         ConfigureBrolFeeder(_projectionHostServer.Services);
 
@@ -107,23 +122,11 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
-    private IElasticClient ElasticClient
-        => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
-
-    public IDocumentStore DocumentStore
-        => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
-
-    public AdminApiClient AdminApiClient
-        => Clients.Authenticated;
-
     public AdminApiClient UnauthenticatedClient
         => Clients.Unauthenticated;
 
     public IServiceProvider ServiceProvider
         => _adminApiServer.Services;
-
-    private string VerenigingenIndexName
-        => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
     public Clients Clients { get; }
 
@@ -207,7 +210,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore);
         var result = StreamActionResult.Empty;
         foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, @event);
 

@@ -51,7 +51,12 @@ public class Program
                 options.AddEndpoint(IPAddress.Any, 11005));
 
         builder.Host.ApplyOaktonExtensions();
-        builder.Host.UseWolverine();
+        builder.Host.UseWolverine(
+            options =>
+            {
+                options.Handlers.Discovery(source =>
+                    source.IncludeType<ElasticEventHandler>());
+            });
         builder.Services
             .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .ConfigureRequestLocalization()

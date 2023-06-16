@@ -37,7 +37,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private IElasticClient ElasticClient
         => (IElasticClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticClient));
 
-    private IDocumentStore DocumentStore
+    private IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
     public PublicApiClient PublicApiClient
@@ -75,7 +75,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                 });
 
         ConfigureBrolFeeder(_projectionHostServer.Services);
-
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
     }
 
@@ -108,21 +107,21 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (!eventsToAdd.Any())
             return;
 
-        if (DocumentStore is not { })
+        if (ProjectionsDocumentStore is not { })
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
         if (ElasticClient is not { })
             throw new NullReferenceException("Elastic client cannot be null when adding an event");
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
+        await daemon.StartAllShards();
+
         if (daemon is not { })
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
-        await daemon.StartAllShards();
-
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore);
         foreach (var @event in eventsToAdd)
             await eventStore.Save(vCode, metadata, CancellationToken.None, @event);
 

@@ -22,6 +22,8 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
     {
+        source
+            .AddTransient<IElasticRepository, ElasticRepository>();
 
         var martenConfiguration = AddMarten(source, configurationManager);
 

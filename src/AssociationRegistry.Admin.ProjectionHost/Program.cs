@@ -32,7 +32,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Extensions;
 using Projections.Search;
-using Vereniging;
 
 public class Program
 {
@@ -62,15 +61,13 @@ public class Program
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine(
-            options => options.Handlers.Discovery(
-                source =>
-                {
-                    source.IncludeType<ElasticEventHandler>();
-                }));
+            opts =>
+            {
+                opts.ApplicationAssembly = typeof(Program).Assembly;
+            });
 
         builder.Services
             .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
-            .AddTransient<IElasticRepository, ElasticRepository>()
             .ConfigureRequestLocalization()
             .AddOpenTelemetry()
             .ConfigureProjectionsWithMarten(builder.Configuration)

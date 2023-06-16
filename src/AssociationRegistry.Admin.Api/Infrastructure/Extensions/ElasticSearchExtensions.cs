@@ -4,7 +4,6 @@ using System;
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using ProjectionHost.Infrastructure.Extensions;
 using Schema.Search;
 
 public static class ElasticSearchExtensions
@@ -14,18 +13,11 @@ public static class ElasticSearchExtensions
         ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
-        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
 
         return services;
-    }
-
-    private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
-    {
-        if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
