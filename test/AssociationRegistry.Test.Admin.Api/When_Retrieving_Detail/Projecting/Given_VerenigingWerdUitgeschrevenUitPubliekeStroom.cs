@@ -12,19 +12,19 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_VerenigingWerdVerwijderdUitPubliekeDatastroom
+public class Given_VerenigingWerdUitgeschrevenUitPubliekeStroom
 {
     [Fact]
     public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_true()
     {
         var fixture = new Fixture().CustomizeAll();
-        var verenigingWerdVerwijderdUitPubliekeDatastroom = fixture.Create<TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>>();
+        var verenigingWerduitgeschrevenUitPubliekeDatastroom = fixture.Create<TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
-        BeheerVerenigingDetailProjector.Apply(verenigingWerdVerwijderdUitPubliekeDatastroom, doc);
+        BeheerVerenigingDetailProjector.Apply(verenigingWerduitgeschrevenUitPubliekeDatastroom, doc);
 
         doc.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
-        doc.DatumLaatsteAanpassing.Should().Be(verenigingWerdVerwijderdUitPubliekeDatastroom.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingWerdVerwijderdUitPubliekeDatastroom.Sequence, verenigingWerdVerwijderdUitPubliekeDatastroom.Version));}
+        doc.DatumLaatsteAanpassing.Should().Be(verenigingWerduitgeschrevenUitPubliekeDatastroom.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingWerduitgeschrevenUitPubliekeDatastroom.Sequence, verenigingWerduitgeschrevenUitPubliekeDatastroom.Version));}
 }

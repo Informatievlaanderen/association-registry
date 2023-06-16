@@ -12,7 +12,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_VerenigingWerdToegevoegdAanPubliekeDatastroom
+public class Given_VerenigingWerdIngeschrevenInPubliekeDatastroom
 {
     [Fact]
     public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_false()

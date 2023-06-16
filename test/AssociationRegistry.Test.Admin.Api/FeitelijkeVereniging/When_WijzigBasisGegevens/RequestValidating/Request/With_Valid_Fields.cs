@@ -11,13 +11,14 @@ using Xunit.Categories;
 public class With_Valid_Fields
 {
     [Theory]
-    [InlineData("naam", null, null, null, null)]
-    [InlineData(null, "korte naam", null, null, null)]
-    [InlineData(null, null, "korte beschrijving", null, null)]
-    [InlineData(null, null, null, "1996-12-31", null)]
-    [InlineData(null, null, null, null, new[] {"abcd"})]
-    [InlineData("naam", "korte naam", "korte beschrijving", "2000-03-22", new[] {"abcd"})]
-    public void Then_it_should_not_have_errors(string? naam, string? korteNaam, string? korteBeschrijving, string? startdatum, string[] hoofdactiviteiten)
+    [InlineData("naam", null, null, null, null, null)]
+    [InlineData(null, "korte naam", null, null, null, null)]
+    [InlineData(null, null, "korte beschrijving", null, null, null)]
+    [InlineData(null, null, null, false, null, null)]
+    [InlineData(null, null, null, null, "1996-12-31", null)]
+    [InlineData(null, null, null, null, null, new[] { "abcd" })]
+    [InlineData("naam", "korte naam", "korte beschrijving", true, "2000-03-22", new[] { "abcd" })]
+    public void Then_it_should_not_have_errors(string? naam, string? korteNaam, string? korteBeschrijving, bool? isUitgeschreven, string? startdatum, string[] hoofdactiviteiten)
     {
         var validator = new WijzigBasisgegevensRequestValidator();
         var result = validator.TestValidate(
@@ -28,6 +29,7 @@ public class With_Valid_Fields
                 KorteBeschrijving = korteBeschrijving,
                 Startdatum = ToNullOrEmptyDateOnly(startdatum),
                 HoofdactiviteitenVerenigingsloket = hoofdactiviteiten,
+                IsUitgeschrevenUitPubliekeDatastroom = isUitgeschreven,
             });
 
         result.ShouldNotHaveAnyValidationErrors();
