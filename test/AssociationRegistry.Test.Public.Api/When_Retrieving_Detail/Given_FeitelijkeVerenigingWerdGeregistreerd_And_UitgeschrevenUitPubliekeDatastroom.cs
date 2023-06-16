@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
+using System.Net;
 using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
@@ -24,6 +25,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPub
     public async Task Then_we_get_a_notFound_response()
     {
         var response = await _publicApiClient.GetDetail(_vCode);
-        response.Should().BeSuccessful();
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
 }
