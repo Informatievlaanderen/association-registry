@@ -1,3 +1,13 @@
+# [3.22.0](https://github.com/informatievlaanderen/association-registry/compare/v3.21.1...v3.22.0) (2023-06-16)
+
+
+### Features
+
+* or-1422 build admin projectionhost ([5b83c89](https://github.com/informatievlaanderen/association-registry/commit/5b83c89e57a8e7482610085c83fb83ec7f8783e4))
+* or-1422 fix assembly location ([a1381ca](https://github.com/informatievlaanderen/association-registry/commit/a1381caf6e7200c875b07b5ccb05a17992a0b5f3))
+* or-1422 split projectionhost from admin api ([9a48f11](https://github.com/informatievlaanderen/association-registry/commit/9a48f11ef5287868dacdbda0d3941d68580da213))
+* or-1422 unify projection hosts; fix wolverine namespace issue ([330e846](https://github.com/informatievlaanderen/association-registry/commit/330e84666612e34c520366feefd1b3207f334849))
+
 ## [3.21.1](https://github.com/informatievlaanderen/association-registry/compare/v3.21.0...v3.21.1) (2023-06-15)
 
 
