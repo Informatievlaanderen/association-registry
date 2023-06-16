@@ -118,4 +118,20 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+    public async Task Project(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekDatastroom, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdUitgeschrevenUitPubliekDatastroom.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(verenigingWerdUitgeschrevenUitPubliekDatastroom, doc);
+
+        ops.Store(doc);
+    }
+    public async Task Project(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(verenigingWerdIngeschrevenInPubliekeDatastroom, doc);
+
+        ops.Store(doc);
+    }
 }

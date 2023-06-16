@@ -1,16 +1,15 @@
-namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
+﻿namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
-using Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Events;
 using NodaTime;
+using Vereniging;
 
-public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
+public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario : IScenario
 {
-    private readonly string Naam = "Feesten Hulste";
-
     public VCode VCode
-        => VCode.Create("V0001002");
+        => VCode.Create("V0001010");
+
 
     public IEvent[] GetEvents()
     {
@@ -18,7 +17,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
-                Naam,
+                "verenigingZonderNaam",
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
@@ -27,6 +26,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
         };
     }
 
