@@ -79,7 +79,7 @@ Target.create "PushContainer_PublicProjections" (fun _ -> push "public-projectio
 Target.create "Containerize_AdminApi" (fun _ -> containerize "AssociationRegistry.Admin.Api" "admin-api")
 Target.create "PushContainer_AdminApi" (fun _ -> push "admin-api")
 
-Target.create "Containerize_AdminProjections" (fun _ -> containerize "AssociationRegistry.Admin.Projections" "admin-projections")
+Target.create "Containerize_AdminProjections" (fun _ -> containerize "AssociationRegistry.Admin.ProjectionHost" "admin-projections")
 Target.create "PushContainer_AdminProjections" (fun _ -> push "admin-projections")
 
 // --------------------------------------------------------------------------------
