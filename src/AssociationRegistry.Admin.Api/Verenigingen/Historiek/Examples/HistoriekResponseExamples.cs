@@ -1,5 +1,6 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek.Examples;
 
+using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 
 public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>

@@ -38,7 +38,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
                 DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",
-                IsUitgeschrevenUitPubliekeDatastroom = false,
+                IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {

@@ -21,6 +21,7 @@ public static class PubliekVerenigingDetailProjector
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
+            IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
@@ -50,6 +51,7 @@ public static class PubliekVerenigingDetailProjector
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
+            IsUitgeschrevenUitPubliekeDatastroom = afdelingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(

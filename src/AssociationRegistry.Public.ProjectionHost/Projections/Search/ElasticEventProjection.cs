@@ -30,6 +30,7 @@ public class ElasticEventHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Locaties = message.Data.Locaties.Select(
                     loc => new VerenigingZoekDocument.Locatie
                     {
@@ -66,6 +67,7 @@ public class ElasticEventHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Locaties = message.Data.Locaties.Select(
                     loc => new VerenigingZoekDocument.Locatie
                     {

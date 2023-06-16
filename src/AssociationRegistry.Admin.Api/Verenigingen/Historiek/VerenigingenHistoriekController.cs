@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using Examples;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 
 
 using Microsoft.AspNetCore.Mvc;
+using ResponseModels;
 using Schema.Historiek;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -21,6 +23,13 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class VerenigingenHistoriekController : ApiController
 {
+    private readonly VerenigingHistoriekResponseMapper _mapper;
+
+    public VerenigingenHistoriekController(VerenigingHistoriekResponseMapper mapper)
+    {
+        _mapper = mapper;
+    }
+
     /// <summary>
     ///     Vraag de historiek van een vereniging op.
     /// </summary>
@@ -55,18 +64,8 @@ public class VerenigingenHistoriekController : ApiController
             return NotFound();
 
         return Ok(
-            new HistoriekResponse
-            {
-                VCode = vCode,
-                Gebeurtenissen = historiek.Gebeurtenissen.Select(
-                    gebeurtenis => new HistoriekGebeurtenisResponse
-                    {
-                        Beschrijving = gebeurtenis.Beschrijving,
-                        Gebeurtenis = gebeurtenis.Gebeurtenis,
-                        Data = gebeurtenis.Data,
-                        Initiator = gebeurtenis.Initiator,
-                        Tijdstip = gebeurtenis.Tijdstip,
-                    }).ToArray(),
-            });
+            _mapper.Map(vCode, historiek));
     }
+
+
 }
