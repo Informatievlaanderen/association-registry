@@ -34,6 +34,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
+            IsUitgeschrevenUitPubliekeDatastroom = true,
             Contactgegevens = new ToeTeVoegenContactgegeven[]
             {
                 new()
@@ -103,6 +104,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
             .Replace("{{vereniging.naam}}", request.Naam)
             .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
+            .Replace("{{vereniging.isUitgeschrevenUitPubliekeDatastroom}}", request.IsUitgeschrevenUitPubliekeDatastroom.ToString().ToLower())
             .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
             .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
@@ -142,6 +144,7 @@ public class With_All_Fields
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
+        savedEvent.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(expected: 1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
