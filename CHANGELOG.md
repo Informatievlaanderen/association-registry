@@ -1,3 +1,11 @@
+# [3.23.0](https://github.com/informatievlaanderen/association-registry/compare/v3.22.0...v3.23.0) (2023-06-16)
+
+
+### Features
+
+* or-1701 allow patch to be executed with only IsUitgeschrevenUitPubliekeDatastroom ([5cb5d01](https://github.com/informatievlaanderen/association-registry/commit/5cb5d01632dbf098e8a159795fad7e59314aaa62))
+* or-1701 project IsUitgeschrevenUitPubliekStroom from registratie events ([5b2ce2d](https://github.com/informatievlaanderen/association-registry/commit/5b2ce2dbb34a65fb97aa8e7c3752c9b86c19a7bb))
+
 # [3.22.0](https://github.com/informatievlaanderen/association-registry/compare/v3.21.1...v3.22.0) (2023-06-16)
 
 
