@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Examples;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -51,10 +53,13 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=locaties.postcode:1000`
     ///     Standaard gebruiken we een paginatie limiet van 50 verenigingen.
     ///     Om een andere limiet te gebruiken, geef je de parameter `limit` mee.
+    ///     De maximum limiet die kan gebruikt worden is 1000.
     ///     - `q=...&amp;limit=100`
     ///     Om de volgende pagina's op te vragen, geef je de parameter `offset` mee.
     ///     - `q=...&amp;offset=50`
     ///     - `q=...&amp;offset=30&amp;limit=30`
+    ///     Er kan enkel gepagineerd worden binnen de eerste 1000 resultaten.
+    ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
     /// </remarks>
     /// <param name="q">De querystring</param>
     /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
@@ -71,7 +76,9 @@ public class SearchVerenigingenController : ApiController
         [FromQuery] string? q,
         [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
         string? hoofdactiviteitenVerenigingsloket,
-        [FromQuery] PaginationQueryParams paginationQueryParams)
+        [FromQuery] PaginationQueryParams paginationQueryParams,
+        [FromServices] IValidator<PaginationQueryParams> validator,
+        CancellationToken cancellationToken)
     {
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();

@@ -15,6 +15,8 @@ public class AppSettings
 
     public ApiDocsSettings ApiDocs { get; set; } = null!;
 
+    public SearchSettings Search { get; set; } = new();
+
     public class ApiDocsSettings
     {
         public string Title { get; set; } = null!;
@@ -34,5 +36,10 @@ public class AppSettings
             public string Email { get; set; } = null!;
             public string Url { get; set; } = null!;
         }
+    }
+
+    public class SearchSettings
+    {
+        public int MaxNumberOfSearchResults { get; set; } = 1000;
     }
 }
