@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
+using System.Threading;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -53,6 +55,8 @@ public class SearchVerenigingenController : ApiController
     /// </remarks>
     /// <param name="q">De querystring</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
+    /// <param name="validator"></param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("zoeken")]
@@ -63,8 +67,11 @@ public class SearchVerenigingenController : ApiController
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromQuery] string? q,
-        [FromQuery] PaginationQueryParams paginationQueryParams)
+        [FromQuery] PaginationQueryParams paginationQueryParams,
+        [FromServices] IValidator<PaginationQueryParams> validator,
+        CancellationToken cancellationToken)
     {
+        await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
         var searchResponse = await Search(_elasticClient, q, paginationQueryParams);
