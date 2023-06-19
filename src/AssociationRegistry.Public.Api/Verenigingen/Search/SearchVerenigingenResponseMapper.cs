@@ -133,6 +133,7 @@ public class SearchVerenigingenResponseMapper
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()
         {
+            LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
             Hoofdlocatie = loc.Hoofdlocatie,
             Adres = loc.Adres,

@@ -35,6 +35,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             new[]
             {
                 new Registratiedata.Locatie(
+                    1,
                     "Correspondentie",
                     "Stationsstraat",
                     "1",

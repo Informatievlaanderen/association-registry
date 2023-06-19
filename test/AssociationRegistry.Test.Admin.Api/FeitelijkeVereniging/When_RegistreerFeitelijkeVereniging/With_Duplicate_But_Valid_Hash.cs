@@ -57,6 +57,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 new[]
                 {
                     new Registratiedata.Locatie(
+                        1,
                         _setup.RequestLocatie.Naam ?? string.Empty,
                         _setup.RequestLocatie.Straatnaam,
                         _setup.RequestLocatie.Huisnummer,

@@ -15,6 +15,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
         IsPrimair: true);
 
     private readonly  Registratiedata.Locatie _locatie = new(
+        1,
         "Correspondentie",
         "berglaan",
         "12",

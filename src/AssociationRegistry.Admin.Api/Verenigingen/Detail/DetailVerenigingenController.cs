@@ -154,6 +154,7 @@ public class DetailVerenigingenController : ApiController
     private static DetailVerenigingResponse.VerenigingDetail.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new()
         {
+            LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
             Hoofdlocatie = loc.Hoofdlocatie,
             Adres = loc.Adres,

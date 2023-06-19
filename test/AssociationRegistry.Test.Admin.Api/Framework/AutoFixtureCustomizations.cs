@@ -236,6 +236,7 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Registratiedata.Locatie>(
             composer => composer.FromFactory<int>(
                     value => new Registratiedata.Locatie(
+                        LocatieId: fixture.Create<int>(),
                         Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
                         Naam: fixture.Create<string>(),
                         Straatnaam: fixture.Create<string>(),

@@ -7,7 +7,7 @@ public class DetailVerenigingResponse
 {
     /// <summary>De JSON-LD open data context</summary>
     [DataMember(Name = "@context")]
-    public string Context { get; init; }= null!;
+    public string Context { get; init; } = null!;
 
     [DataMember(Name = "Vereniging")] public VerenigingDetail Vereniging { get; init; } = null!;
 
@@ -234,6 +234,12 @@ public class DetailVerenigingResponse
         [DataContract]
         public class Locatie
         {
+            /// <summary>
+            ///     De unieke identificatie code van deze locatie binnen de vereniging
+            /// </summary>
+            [DataMember(Name = "LocatieId")]
+            public int LocatieId { get; set; }
+
             /// <summary>
             ///     Het soort locatie dat beschreven wordt<br />
             ///     <br />

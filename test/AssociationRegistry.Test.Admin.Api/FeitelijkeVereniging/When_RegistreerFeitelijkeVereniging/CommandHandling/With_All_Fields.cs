@@ -56,8 +56,9 @@ public class With_All_Fields
                             c.IsPrimair
                         )).ToArray(),
                 _command.Locaties.Select(
-                    l =>
+                    (l, i) =>
                         new Registratiedata.Locatie(
+                            i + 1,
                             l.Naam ?? string.Empty,
                             l.Straatnaam,
                             l.Huisnummer,

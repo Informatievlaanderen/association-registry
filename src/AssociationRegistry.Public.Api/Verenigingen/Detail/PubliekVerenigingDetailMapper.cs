@@ -24,19 +24,20 @@ public static class PubliekVerenigingDetailMapper
                 Locaties = document.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
-                Relaties = document.Relaties.Select(r => new Relatie
-                {
-                    Type = r.Type,
-                    AndereVereniging = new Relatie.GerelateerdeVereniging
+                Relaties = document.Relaties.Select(
+                    r => new Relatie
                     {
-                        KboNummer = r.AndereVereniging.KboNummer,
-                        VCode = r.AndereVereniging.VCode,
-                        Naam = r.AndereVereniging.Naam,
-                        Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
-                            ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
-                            : string.Empty,
-                    },
-                }).ToArray(),
+                        Type = r.Type,
+                        AndereVereniging = new Relatie.GerelateerdeVereniging
+                        {
+                            KboNummer = r.AndereVereniging.KboNummer,
+                            VCode = r.AndereVereniging.VCode,
+                            Naam = r.AndereVereniging.Naam,
+                            Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
+                                ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
+                                : string.Empty,
+                        },
+                    }).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
@@ -70,6 +71,7 @@ public static class PubliekVerenigingDetailMapper
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()
         {
+            LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
             Hoofdlocatie = loc.Hoofdlocatie,
             Adres = loc.Adres,

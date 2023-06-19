@@ -19,6 +19,7 @@ public static class Registratiedata
     }
 
     public record Locatie(
+        int LocatieId,
         string Naam,
         string Straatnaam,
         string Huisnummer,
@@ -31,6 +32,7 @@ public static class Registratiedata
     {
         public static Locatie With(Vereniging.Locatie locatie)
             => new(
+                locatie.LocatieId,
                 locatie.Naam ?? string.Empty,
                 locatie.Straatnaam,
                 locatie.Huisnummer,

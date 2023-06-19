@@ -19,7 +19,7 @@ public class Given_An_Address_Without_Busnummer
         const string land = "België";
 
         var locatie = new Registratiedata.Locatie(
-            string.Empty, straatnaam, huisnummer, string.Empty, postcode, gemeente, land, true, "Activiteiten");
+            1, string.Empty, straatnaam, huisnummer, string.Empty, postcode, gemeente, land, true, "Activiteiten");
 
         locatie.ToAdresString().Should().Be($"{straatnaam} {huisnummer}, {postcode} {gemeente}, {land}");
     }
