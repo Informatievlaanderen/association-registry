@@ -12,7 +12,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("hoofdactiviteitenVerenigingsloket")]
-[ApiExplorerSettings(GroupName = "HoofdactiviteitenVerenigingsloket")]
+[ApiExplorerSettings(GroupName = "Parameters")]
 public class HoofdactiviteitenVerenigingsloketController : ApiController
 {
     /// <summary>
