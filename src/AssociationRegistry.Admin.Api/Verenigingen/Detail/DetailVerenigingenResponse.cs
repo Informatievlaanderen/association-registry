@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using System;
 using System.Runtime.Serialization;
 
 [DataContract]

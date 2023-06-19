@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System;
 using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;

@@ -23,6 +23,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
+            IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
                 .Select(BeheerVerenigingDetailMapper.MapContactgegeven)
                 .ToArray(),
@@ -47,6 +48,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
+            IsUitgeschrevenUitPubliekeDatastroom = afdelingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     BeheerVerenigingDetailMapper.MapContactgegeven)
                 .ToArray(),

@@ -20,7 +20,7 @@ public static class MartenExtentions
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
-            sp =>
+            _ =>
             {
                 var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
