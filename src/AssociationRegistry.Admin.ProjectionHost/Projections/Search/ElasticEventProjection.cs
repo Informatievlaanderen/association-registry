@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Events;
 using Vereniging;
 using Infrastructure.Extensions;
-using Schema;
 using Schema.Search;
 
 public class ElasticEventHandler
@@ -42,6 +41,7 @@ public class ElasticEventHandler
                         Postcode = loc.Postcode,
                         Gemeente = loc.Gemeente,
                     }).ToArray(),
+                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
@@ -87,6 +87,7 @@ public class ElasticEventHandler
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
                             })
                     .ToArray(),
+                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Doelgroep = _brolFeeder.Doelgroep,
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),

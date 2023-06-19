@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 
-using System;
 using System.Runtime.Serialization;
 
 [DataContract]

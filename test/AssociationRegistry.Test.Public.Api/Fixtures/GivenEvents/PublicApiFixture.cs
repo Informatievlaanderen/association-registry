@@ -149,7 +149,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private static void CreateDatabase(IConfiguration configuration)
     {
-        using var documentStore = Marten.DocumentStore.For(
+        using var documentStore = DocumentStore.For(
             opts =>
             {
                 var connectionString = GetConnectionString(configuration, configuration["PostgreSQLOptions:database"]);

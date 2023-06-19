@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
-using AssociationRegistry.Admin.Schema.Search;
+using Schema.Search;
 using Nest;
 using Nest.Specification.IndicesApi;
 
