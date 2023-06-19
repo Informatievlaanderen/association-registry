@@ -33,7 +33,7 @@ public class WijzigBasisgegevensRequest
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
     /// <summary>
-    /// Is deze vereniging uitgeschreven uit de publiek datastroom
+    /// Is deze vereniging uitgeschreven uit de publiek datastroom, dit kan enkel gewijzigd worden voor een feitelijke vereniging
     /// </summary>
     [DataMember]
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
