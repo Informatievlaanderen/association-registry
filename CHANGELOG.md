@@ -1,3 +1,10 @@
+# [3.28.0](https://github.com/informatievlaanderen/association-registry/compare/v3.27.0...v3.28.0) (2023-06-19)
+
+
+### Features
+
+* or-1780 remove InPubliekeStroom for Afdeling ([8b66279](https://github.com/informatievlaanderen/association-registry/commit/8b662798c0971bbd21d62ce2d635d2d40df05f10))
+
 # [3.27.0](https://github.com/informatievlaanderen/association-registry/compare/v3.26.0...v3.27.0) (2023-06-19)
 
 
