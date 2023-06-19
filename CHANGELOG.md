@@ -1,3 +1,16 @@
+# [3.26.0](https://github.com/informatievlaanderen/association-registry/compare/v3.25.0...v3.26.0) (2023-06-19)
+
+
+### Bug Fixes
+
+* or-1717 adjust swagger collections ([6188989](https://github.com/informatievlaanderen/association-registry/commit/6188989edbaa89ce4713a987347ba2020291fc17))
+
+
+### Features
+
+* or-1717 add validator for pagination query params (admin) ([1431d7b](https://github.com/informatievlaanderen/association-registry/commit/1431d7b358e3b8ef37d9dd98cd08a6f9bc012e57))
+* or-1717 add validator for pagination query params (public) ([298dbb0](https://github.com/informatievlaanderen/association-registry/commit/298dbb0a8250c5e36e6726951bf4834933627590))
+
 # [3.25.0](https://github.com/informatievlaanderen/association-registry/compare/v3.24.0...v3.25.0) (2023-06-19)
 
 
