@@ -14,3 +14,15 @@ public class UnsupportedOperationForVerenigingstype : DomainException
     {
     }
 }
+
+[Serializable]
+public class AfdelingCanNotBePulledFromPubliekeStroom : DomainException
+{
+    public AfdelingCanNotBePulledFromPubliekeStroom() : base("Een afdeling kan niet uit de publieke stroom worden gehaald.")
+    {
+    }
+
+    protected AfdelingCanNotBePulledFromPubliekeStroom(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
+}

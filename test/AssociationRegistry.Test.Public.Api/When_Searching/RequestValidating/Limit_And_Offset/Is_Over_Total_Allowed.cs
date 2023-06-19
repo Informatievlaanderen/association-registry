@@ -19,7 +19,7 @@ public class Is_Over_Total_Allowed : ValidatorTest
                 Search = new AppSettings.SearchSettings
                 {
                     MaxNumberOfSearchResults = 1000,
-                }
+                },
             });
 
         var result = validator.TestValidate(new PaginationQueryParams { Limit = 101, Offset = 900 });

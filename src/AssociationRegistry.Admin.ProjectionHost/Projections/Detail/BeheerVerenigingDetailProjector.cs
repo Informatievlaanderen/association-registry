@@ -48,7 +48,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
-            IsUitgeschrevenUitPubliekeDatastroom = afdelingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
+            IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     BeheerVerenigingDetailMapper.MapContactgegeven)
                 .ToArray(),

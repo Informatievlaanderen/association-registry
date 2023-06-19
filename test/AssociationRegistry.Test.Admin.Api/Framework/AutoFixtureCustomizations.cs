@@ -478,7 +478,6 @@ public static class AutoFixtureCustomizations
                         KorteNaam: fixture.Create<string>(),
                         KorteBeschrijving: fixture.Create<string>(),
                         Startdatum: fixture.Create<Startdatum>(),
-                        IsUitgeschrevenUitPubliekeDatastroom: false,
                         Contactgegevens: fixture.CreateMany<Contactgegeven>().ToArray(),
                         Locaties: fixture.CreateMany<Locatie>().ToArray(),
                         Vertegenwoordigers: fixture.CreateMany<Vertegenwoordiger>().ToArray(),
