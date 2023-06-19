@@ -203,7 +203,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
-        Throw<AfdelingCanNotBePulledFromPubliekeStroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
+        Throw<AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }
