@@ -1,3 +1,10 @@
+# [3.27.0](https://github.com/informatievlaanderen/association-registry/compare/v3.26.0...v3.27.0) (2023-06-19)
+
+
+### Features
+
+* or-1775 add locatieId ([ee0b38b](https://github.com/informatievlaanderen/association-registry/commit/ee0b38b7c54f49203ee6284cdeed24c166b388f9))
+
 # [3.26.0](https://github.com/informatievlaanderen/association-registry/compare/v3.25.0...v3.26.0) (2023-06-19)
 
 
