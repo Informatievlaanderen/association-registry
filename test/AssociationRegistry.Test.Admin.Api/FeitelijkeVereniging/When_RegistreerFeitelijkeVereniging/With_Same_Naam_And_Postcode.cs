@@ -166,6 +166,7 @@ public class With_Same_Naam_And_Postcode
                 new[]
                 {
                     new Registratiedata.Locatie(
+                        1,
                         Request.Locaties.First().Naam ?? string.Empty,
                         Request.Locaties.First().Straatnaam,
                         Request.Locaties.First().Huisnummer,

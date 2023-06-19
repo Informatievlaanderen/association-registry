@@ -18,6 +18,7 @@
       "doelgroep": "+18",
       "locaties": [
         {
+          "locatieId": 1,
           "locatietype": "Correspondentie",
           "hoofdlocatie": true,
           "adres": "berglaan 12 bus B, 2000 Antwerpen, België",

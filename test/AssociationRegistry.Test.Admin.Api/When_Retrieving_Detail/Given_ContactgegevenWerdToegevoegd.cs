@@ -106,6 +106,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
                     ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                        ""locatieId"": {x.LocatieId},
                         ""locatietype"": ""{x.Locatietype}"",
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",

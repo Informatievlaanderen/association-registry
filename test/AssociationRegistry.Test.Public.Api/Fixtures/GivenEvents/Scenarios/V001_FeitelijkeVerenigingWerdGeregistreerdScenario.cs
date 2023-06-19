@@ -15,6 +15,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         IsPrimair: true);
 
     private readonly  Registratiedata.Locatie _locatie = new(
+        1,
         "Correspondentie",
         "Stationsstraat",
         "1",

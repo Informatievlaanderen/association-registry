@@ -51,6 +51,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new PubliekVerenigingDetailDocument.Locatie
                     {
+                        LocatieId = loc.LocatieId,
                         Hoofdlocatie = loc.Hoofdlocatie,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,

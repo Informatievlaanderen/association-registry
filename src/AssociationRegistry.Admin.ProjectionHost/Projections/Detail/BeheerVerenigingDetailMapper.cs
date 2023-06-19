@@ -10,6 +10,7 @@ public class BeheerVerenigingDetailMapper
     public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
         => new()
         {
+            LocatieId = loc.LocatieId,
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,

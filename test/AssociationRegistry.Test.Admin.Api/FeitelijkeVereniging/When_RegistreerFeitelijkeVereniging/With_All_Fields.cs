@@ -148,6 +148,8 @@ public class With_All_Fields
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(expected: 1);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
+        savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
+        savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());
         savedEvent.Vertegenwoordigers.ForEach(x => x.VertegenwoordigerId.Should().BePositive());
         savedEvent.Vertegenwoordigers.Select(x => x.VertegenwoordigerId).ToList().Should().OnlyHaveUniqueItems();

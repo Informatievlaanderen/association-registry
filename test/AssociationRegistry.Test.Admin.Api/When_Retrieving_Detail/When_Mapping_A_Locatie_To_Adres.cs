@@ -19,6 +19,7 @@ public class Given_An_Address_With_Busnummer
         const string land = "België";
         const string busnummer = "1B";
         var locatie = new Registratiedata.Locatie(
+            1,
             string.Empty,
             straatnaam,
             huisnummer,
@@ -46,6 +47,7 @@ public class Given_An_Address_Without_Busnummer
         const string land = "België";
 
         var locatie = new Registratiedata.Locatie(
+            1,
             string.Empty,
             straatnaam,
             huisnummer,

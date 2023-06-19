@@ -78,7 +78,11 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                         _command.Contactgegevens[1].IsPrimair
                     ),
                 },
-                _command.Locaties.Select(Registratiedata.Locatie.With).ToArray(),
+                _command.Locaties.Select(
+                    (l, index) => Registratiedata.Locatie.With(l) with
+                    {
+                        LocatieId = index +1,
+                    }).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
                     {

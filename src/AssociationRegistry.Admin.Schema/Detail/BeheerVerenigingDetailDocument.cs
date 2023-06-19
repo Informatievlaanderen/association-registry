@@ -7,100 +7,101 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; init; } = null!;
     public string Naam { get; set; } = null!;
-    public VerenigingsType Type { get; set; } = null!;
+    public VerenigingsType Type { get; init; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
 
     public string? Rechtsvorm { get; set; }
-    public string Status { get; set; } = null!;
+    public string Status { get; init; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
-    public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
+    public Locatie[] Locaties { get; init; } = Array.Empty<Locatie>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
-    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+    public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();
     public Metadata Metadata { get; set; } = null!;
-    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
+    public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
 
     public record VerenigingsType
     {
-        public string Code { get; set; } = null!;
-        public string Beschrijving { get; set; } = null!;
+        public string Code { get; init; } = null!;
+        public string Beschrijving { get; init; } = null!;
     }
 
     public record Contactgegeven
     {
-        public int ContactgegevenId { get; set; }
-        public string Type { get; set; } = null!;
-        public string Waarde { get; set; } = null!;
-        public string? Beschrijving { get; set; }
-        public bool IsPrimair { get; set; }
+        public int ContactgegevenId { get; init; }
+        public string Type { get; init; } = null!;
+        public string Waarde { get; init; } = null!;
+        public string? Beschrijving { get; init; }
+        public bool IsPrimair { get; init; }
     }
 
     public record Locatie
     {
-        public string Locatietype { get; set; } = null!;
+        public int LocatieId { get; set; }
+        public string Locatietype { get; init; } = null!;
 
-        public bool Hoofdlocatie { get; set; }
+        public bool Hoofdlocatie { get; init; }
 
-        public string Adres { get; set; } = null!;
-        public string? Naam { get; set; }
+        public string Adres { get; init; } = null!;
+        public string? Naam { get; init; }
 
-        public string Straatnaam { get; set; } = null!;
+        public string Straatnaam { get; init; } = null!;
 
-        public string Huisnummer { get; set; } = null!;
+        public string Huisnummer { get; init; } = null!;
 
-        public string? Busnummer { get; set; }
+        public string? Busnummer { get; init; }
 
-        public string Postcode { get; set; } = null!;
+        public string Postcode { get; init; } = null!;
 
-        public string Gemeente { get; set; } = null!;
+        public string Gemeente { get; init; } = null!;
 
-        public string Land { get; set; } = null!;
+        public string Land { get; init; } = null!;
     }
 
     public record Vertegenwoordiger
     {
-        public int VertegenwoordigerId { get; set; }
-        public string Voornaam { get; set; } = null!;
-        public string Achternaam { get; set; } = null!;
-        public string? Roepnaam { get; set; }
-        public string? Rol { get; set; }
-        public bool IsPrimair { get; set; }
-        public string Email { get; set; } = null!;
-        public string Telefoon { get; set; } = null!;
-        public string Mobiel { get; set; } = null!;
-        public string SocialMedia { get; set; } = null!;
+        public int VertegenwoordigerId { get; init; }
+        public string Voornaam { get; init; } = null!;
+        public string Achternaam { get; init; } = null!;
+        public string? Roepnaam { get; init; }
+        public string? Rol { get; init; }
+        public bool IsPrimair { get; init; }
+        public string Email { get; init; } = null!;
+        public string Telefoon { get; init; } = null!;
+        public string Mobiel { get; init; } = null!;
+        public string SocialMedia { get; init; } = null!;
     }
 
     public record HoofdactiviteitVerenigingsloket
     {
-        public string Code { get; set; } = null!;
-        public string Beschrijving { get; set; } = null!;
+        public string Code { get; init; } = null!;
+        public string Beschrijving { get; init; } = null!;
     }
 
     public record Sleutel
     {
-        public string Bron { get; set; } = null!;
-        public string Waarde { get; set; } = null!;
+        public string Bron { get; init; } = null!;
+        public string Waarde { get; init; } = null!;
     }
 
     public class Relatie
     {
-        public string Type { get; set; } = null!;
+        public string Type { get; init; } = null!;
 
-        public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+        public GerelateerdeVereniging AndereVereniging { get; init; } = null!;
 
         public class GerelateerdeVereniging
         {
-            public string KboNummer { get; set; } = null!;
+            public string KboNummer { get; init; } = null!;
 
-            public string VCode { get; set; } = null!;
+            public string VCode { get; init; } = null!;
 
-            public string Naam { get; set; } = null!;
+            public string Naam { get; init; } = null!;
         }
     }
 }

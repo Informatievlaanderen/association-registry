@@ -31,6 +31,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
+                            LocatieId = 1,
                             Locatietype = "Correspondentie",
                             Hoofdlocatie = true,
                             Adres = "kerkstraat 5, 1770 Liedekerke, Belgie",
@@ -70,6 +71,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
+                            LocatieId = 1,
                             Locatietype = "Activiteiten",
                             Hoofdlocatie = false,
                             Adres = "dorpstraat 91, 9000 Gent, Belgie",

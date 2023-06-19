@@ -40,6 +40,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
     public class Locatie
     {
+        public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool Hoofdlocatie { get; set; }
         public string Adres { get; set; } = null!;

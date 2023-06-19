@@ -19,7 +19,8 @@ public class Given_A_List_Of_Locatie
 
         var locatieLijst = Locaties.FromArray(listOfLocatie);
 
-        locatieLijst.Should().HaveCount(1);
-        locatieLijst[0].Should().BeEquivalentTo(listOfLocatie[0]);
+        locatieLijst.Should().BeEquivalentTo(
+            listOfLocatie,
+            options => options.Excluding(locatie => locatie.LocatieId));
     }
 }

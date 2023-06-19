@@ -82,10 +82,11 @@ public class With_A_PotentialDuplicate_And_Force
                     {
                         ContactgegevenId = index + 1,
                     }).ToArray(),
-                new[]
-                {
-                    Registratiedata.Locatie.With(_locatie),
-                },
+                _command.Locaties.Select(
+                    (l, index) => Registratiedata.Locatie.With(l) with
+                    {
+                        LocatieId = index +1,
+                    }).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
                     {
