@@ -22,7 +22,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijk verenigingen en afdelingen")]
+[ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
     private readonly ElasticClient _elasticClient;
