@@ -1,3 +1,10 @@
+# [3.25.0](https://github.com/informatievlaanderen/association-registry/compare/v3.24.0...v3.25.0) (2023-06-19)
+
+
+### Features
+
+* or-1701 apply IsUitgeschrevenUitPubliekeStroom to beheer projecties ([50f941e](https://github.com/informatievlaanderen/association-registry/commit/50f941eafef71ec31581e3527e27cdeaf682fd27))
+
 # [3.24.0](https://github.com/informatievlaanderen/association-registry/compare/v3.23.0...v3.24.0) (2023-06-19)
 
 
