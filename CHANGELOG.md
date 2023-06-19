@@ -1,3 +1,15 @@
+# [3.24.0](https://github.com/informatievlaanderen/association-registry/compare/v3.23.0...v3.24.0) (2023-06-19)
+
+
+### Bug Fixes
+
+* or-1747 modify detail link to gerelateerde vereniging to string and empty string when no vCode is known ([9069aaa](https://github.com/informatievlaanderen/association-registry/commit/9069aaa7d2ef5d1ceffe0109b80759077943cc69))
+
+
+### Features
+
+* or-1701 only show public association in publiek detail ([572842e](https://github.com/informatievlaanderen/association-registry/commit/572842e585099d3b11ca063d8fceddbe0779e933))
+
 # [3.23.0](https://github.com/informatievlaanderen/association-registry/compare/v3.22.0...v3.23.0) (2023-06-16)
 
 
