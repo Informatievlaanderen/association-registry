@@ -89,7 +89,7 @@ public class ElasticEventHandler
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
                             })
                     .ToArray(),
-                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 Doelgroep = _brolFeeder.Doelgroep,
                 Activiteiten = _brolFeeder.Activiteiten.ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),

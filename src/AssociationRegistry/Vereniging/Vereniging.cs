@@ -48,7 +48,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         string? korteNaam,
         string? korteBeschrijving,
         Startdatum startdatum,
-        bool IsUitgeschrevenUitPubliekeDatastroom,
         Contactgegeven[] contactgegevens,
         Locatie[] locaties,
         Vertegenwoordiger[] vertegenwoordigers,
@@ -68,7 +67,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
-                IsUitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
                 ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
                 ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
@@ -205,6 +203,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
+        Throw<AfdelingCanNotBePulledFromPubliekeStroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }

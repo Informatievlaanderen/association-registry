@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -19,7 +19,7 @@ public class Is_Over_Total_Allowed : ValidatorTest
                 Search = new AppSettings.SearchSettings
                 {
                     MaxNumberOfSearchResults = 1000,
-                }
+                },
             });
 
         var result = validator.TestValidate(new PaginationQueryParams { Limit = 101, Offset = 900 });

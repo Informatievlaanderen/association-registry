@@ -35,7 +35,7 @@ public class Given_AfdelingWerdGeregistreerd
                 Naam = afdelingWerdGeregistreerd.Data.Naam,
                 KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
-                IsUitgeschrevenUitPubliekeDatastroom = afdelingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
                 DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",

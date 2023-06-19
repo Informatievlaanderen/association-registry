@@ -19,7 +19,6 @@ using Xunit.Categories;
 public class With_A_PotentialDuplicate_And_Force
 {
     private readonly RegistreerFeitelijkeVerenigingCommand _command;
-    private readonly Locatie _locatie;
     private readonly Result _result;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -29,11 +28,11 @@ public class With_A_PotentialDuplicate_And_Force
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAll();
 
-        _locatie = fixture.Create<Locatie>() with { Postcode = scenario.Locatie.Postcode };
+        var locatie = fixture.Create<Locatie>() with { Postcode = scenario.Locatie.Postcode };
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
-            Locaties = new[] { _locatie },
+            Locaties = new[] { locatie },
             SkipDuplicateDetection = true,
         };
 
