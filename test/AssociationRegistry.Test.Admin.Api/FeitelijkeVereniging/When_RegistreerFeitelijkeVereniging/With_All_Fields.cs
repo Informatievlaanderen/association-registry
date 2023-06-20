@@ -18,6 +18,7 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 {
