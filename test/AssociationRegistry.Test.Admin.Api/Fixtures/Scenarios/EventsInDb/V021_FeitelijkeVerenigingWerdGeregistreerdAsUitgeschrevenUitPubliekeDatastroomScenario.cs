@@ -5,13 +5,13 @@ using Events;
 using EventStore;
 using NodaTime;
 
-public class V021_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario : IEventsInDbScenario
+public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroomScenario : IEventsInDbScenario
 {
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; }= null!;
 
-    public V021_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario()
+    public V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroomScenario()
     {
         VCode = "V9999021";
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
@@ -20,7 +20,7 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
             string.Empty,
             string.Empty,
             Startdatum: null,
-            false,
+            true,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
@@ -32,7 +32,6 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
         => new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
         };
 
     public CommandMetadata GetCommandMetadata()
