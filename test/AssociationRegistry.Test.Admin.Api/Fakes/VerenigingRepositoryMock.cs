@@ -51,7 +51,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
         => Task.FromResult(_moederVCodeAndNaam)!;
 
-    public void ShouldHaveLoaded<TVereniging>(params string[] vCodes)where TVereniging : IHydrate<VerenigingState>, new()
+    public void ShouldHaveLoaded<TVereniging>(params string[] vCodes) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(
             vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode), typeof(TVereniging))),

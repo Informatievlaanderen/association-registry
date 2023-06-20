@@ -59,12 +59,12 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                     new Registratiedata.Locatie(
                         1,
                         _setup.RequestLocatie.Naam ?? string.Empty,
-                        _setup.RequestLocatie.Straatnaam,
+                        new Registratiedata.Adres(_setup.RequestLocatie.Straatnaam,
                         _setup.RequestLocatie.Huisnummer,
                         _setup.RequestLocatie.Busnummer ?? string.Empty,
                         _setup.RequestLocatie.Postcode,
                         _setup.RequestLocatie.Gemeente,
-                        _setup.RequestLocatie.Land,
+                        _setup.RequestLocatie.Land),
                         _setup.RequestLocatie.Hoofdlocatie,
                         _setup.RequestLocatie.Locatietype),
                 },
@@ -84,7 +84,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             var autoFixture = new Fixture().CustomizeAll();
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-            RequestLocatie.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Gemeente;
+            RequestLocatie.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente;
             Request = new RegistreerFeitelijkeVerenigingRequest
             {
                 Naam = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,
