@@ -21,7 +21,10 @@ public class With_An_Empty_Locatietype : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = string.Empty,
-                    Straatnaam = "dezeStraat",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "dezeStraat",
+                    },
                 },
             },
         };

@@ -50,12 +50,15 @@ public sealed class When_RegistreerAfdeling_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Kantoor",
-                    Straatnaam = "dorpstraat",
-                    Huisnummer = "69",
-                    Busnummer = "42",
-                    Postcode = "0123",
-                    Gemeente = "Nothingham",
-                    Land = "Belgie",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "dorpstraat",
+                        Huisnummer = "69",
+                        Busnummer = "42",
+                        Postcode = "0123",
+                        Gemeente = "Nothingham",
+                        Land = "Belgie",
+                    },
                     Hoofdlocatie = true,
                     Locatietype = Locatietypes.Correspondentie,
                 },

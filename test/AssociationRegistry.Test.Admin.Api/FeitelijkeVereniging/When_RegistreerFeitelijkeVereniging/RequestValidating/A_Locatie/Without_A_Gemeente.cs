@@ -22,16 +22,19 @@ public class Without_A_Gemeente : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
-                    Straatnaam = "Dezestraat",
-                    Huisnummer = "23",
-                    Postcode = "0123",
-                    Land = "Belgie",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Land = "Belgie",
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}")
             .WithErrorMessage("'Gemeente' is verplicht.");
     }
 }
