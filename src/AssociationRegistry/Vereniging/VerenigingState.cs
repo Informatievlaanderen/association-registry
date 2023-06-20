@@ -38,6 +38,7 @@ public record VerenigingState : IHasVersion
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
                 (lijst, c) => lijst.Append(

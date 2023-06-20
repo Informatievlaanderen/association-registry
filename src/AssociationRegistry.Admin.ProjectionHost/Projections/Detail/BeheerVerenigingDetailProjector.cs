@@ -83,6 +83,7 @@ public class BeheerVerenigingDetailProjector
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
+            IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
             Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
