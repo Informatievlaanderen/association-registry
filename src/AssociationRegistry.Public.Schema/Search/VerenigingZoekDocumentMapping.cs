@@ -50,9 +50,6 @@ public static class VerenigingZoekDocumentMapping
             => map
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.LocatieId))
-                .Text(
-                    propertyDescriptor => propertyDescriptor
                         .Name(document => document.Naam))
                 .Text(
                     propertyDescriptor => propertyDescriptor

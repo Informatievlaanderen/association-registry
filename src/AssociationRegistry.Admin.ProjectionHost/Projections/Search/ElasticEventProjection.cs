@@ -34,7 +34,6 @@ public class ElasticEventHandler
                 Locaties = message.Data.Locaties.Select(
                     loc => new VerenigingZoekDocument.Locatie
                     {
-                        LocatieId = loc.LocatieId,
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
                         Adres = loc.ToAdresString(),
@@ -72,7 +71,6 @@ public class ElasticEventHandler
                 Locaties = message.Data.Locaties.Select(
                     loc => new VerenigingZoekDocument.Locatie
                     {
-                        LocatieId = loc.LocatieId,
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
                         Adres = loc.ToAdresString(),
