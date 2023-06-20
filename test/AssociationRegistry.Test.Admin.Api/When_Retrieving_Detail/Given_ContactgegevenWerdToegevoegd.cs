@@ -4,6 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -60,11 +61,11 @@ public class Given_ContactgegevenWerdToegevoegd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
+        var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
             .Append(
                 _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                        new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
@@ -73,7 +74,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             IsPrimair = c.IsPrimair,
                         }))
             .Append(
-                new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
                 {
                     ContactgegevenId = _contactgegevenWerdToegevoegd.ContactgegevenId,
                     Type = _contactgegevenWerdToegevoegd.Type,
