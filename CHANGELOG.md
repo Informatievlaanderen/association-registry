@@ -1,3 +1,10 @@
+## [3.28.1](https://github.com/informatievlaanderen/association-registry/compare/v3.28.0...v3.28.1) (2023-06-20)
+
+
+### Bug Fixes
+
+* or-1701 apply isUitgeschrevenUitPubliekeDatastroom to verenigingState ([de656f9](https://github.com/informatievlaanderen/association-registry/commit/de656f9bce40f69dd4f237ab25e590924d25bbd6))
+
 # [3.28.0](https://github.com/informatievlaanderen/association-registry/compare/v3.27.0...v3.28.0) (2023-06-19)
 
 
