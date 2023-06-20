@@ -62,6 +62,26 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                     Hoofdlocatie = true,
                     Locatietype = Locatietypes.Correspondentie,
                 },
+                new ToeTeVoegenLocatie
+                {
+                    Naam = "Speeltuin",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "dorpelstraat",
+                        Huisnummer = "169",
+                        Busnummer = "2",
+                        Postcode = "4567",
+                        Gemeente = "Nothingham",
+                        Land = "Belgie",
+                        AdresId = new AdresId
+                        {
+                            AdresbronCode = "AR",
+                            AdresbronWaarde = "0123456789",
+                        },
+                    },
+                    Hoofdlocatie = false,
+                    Locatietype = Locatietypes.Activiteiten,
+                },
             },
             Vertegenwoordigers = new[]
             {

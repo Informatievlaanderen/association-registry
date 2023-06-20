@@ -18,4 +18,12 @@ public record Adres
     public string Postcode { get; set; }
     public string Gemeente { get; }
     public string Land { get; }
+
+    public AdresId AdresId { get; }
+}
+
+public record AdresId()
+{
+    public static AdresId Create(Adresbron Adresbron, string Waarde)
+        => new();
 }
