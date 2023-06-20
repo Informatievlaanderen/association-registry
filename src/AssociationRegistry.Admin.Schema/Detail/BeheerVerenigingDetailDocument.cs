@@ -61,6 +61,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Gemeente { get; init; } = null!;
 
         public string Land { get; init; } = null!;
+        public string? AdresId { get; set; }
     }
 
     public record Vertegenwoordiger

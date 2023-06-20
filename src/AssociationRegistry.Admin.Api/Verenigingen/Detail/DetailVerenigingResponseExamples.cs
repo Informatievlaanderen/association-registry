@@ -2,8 +2,13 @@
 
 using System;
 using Infrastructure.ConfigurationBindings;
+using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
+using Contactgegeven = ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = ResponseModels.Locatie;
+using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigingResponse>
 {
@@ -18,10 +23,10 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
         => new()
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
-            Vereniging = new DetailVerenigingResponse.VerenigingDetail
+            Vereniging = new VerenigingDetail
             {
                 VCode = "V0001001",
-                Type = new DetailVerenigingResponse.VerenigingDetail.VerenigingsType
+                Type = new VerenigingsType
                 {
                     Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
@@ -34,7 +39,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.HoofdactiviteitVerenigingsloket
+                    new HoofdactiviteitVerenigingsloket
                     {
                         Code = "CULT",
                         Beschrijving = "Cultuur",
@@ -42,7 +47,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Contactgegevens = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                    new Contactgegeven
                     {
                         Type = "Email",
                         Beschrijving = "Info",
@@ -53,7 +58,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Locaties = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.Locatie
+                    new Locatie
                     {
                         LocatieId = 1,
                         Locatietype = "Correspondentie",
@@ -66,7 +71,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Vertegenwoordigers = new[]
                 {
-                    new DetailVerenigingResponse.VerenigingDetail.Vertegenwoordiger
+                    new Vertegenwoordiger
                     {
                         VertegenwoordigerId = 1,
                         Voornaam = "Jhon",
@@ -80,9 +85,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                         SocialMedia = "http://example.org",
                     },
                 },
-                Sleutels = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Sleutel>(),
+                Sleutels = Array.Empty<Sleutel>(),
             },
-            Metadata = new DetailVerenigingResponse.MetadataDetail
+            Metadata = new MetadataDetail
             {
                 DatumLaatsteAanpassing = "2020-05-15",
                 BeheerBasisUri = "/verenigingen/V0001001",
