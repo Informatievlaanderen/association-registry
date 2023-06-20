@@ -34,7 +34,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-        locatie.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Postcode;
+        locatie.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Postcode;
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
@@ -108,8 +108,8 @@ public class With_Same_Naam_And_Postcode
           ""hoofdlocatie"": {(locatie.Hoofdlocatie ? "true" : "false")},
           ""adres"": ""{locatie.ToAdresString()}"",
           ""naam"": ""{locatie.Naam}"",
-          ""postcode"": ""{locatie.Postcode}"",
-          ""gemeente"": ""{locatie.Gemeente}""
+          ""postcode"": ""{locatie.Adres.Postcode}"",
+          ""gemeente"": ""{locatie.Adres.Gemeente}""
         }}"))}
       ],
       ""activiteiten"": [],
@@ -168,12 +168,12 @@ public class With_Same_Naam_And_Postcode
                     new Registratiedata.Locatie(
                         1,
                         Request.Locaties.First().Naam ?? string.Empty,
-                        Request.Locaties.First().Straatnaam,
+                        new Registratiedata.Adres(Request.Locaties.First().Straatnaam,
                         Request.Locaties.First().Huisnummer,
                         Request.Locaties.First().Busnummer ?? string.Empty,
                         Request.Locaties.First().Postcode,
                         Request.Locaties.First().Gemeente,
-                        Request.Locaties.First().Land,
+                        Request.Locaties.First().Land),
                         Request.Locaties.First().Hoofdlocatie,
                         Request.Locaties.First().Locatietype),
                 },

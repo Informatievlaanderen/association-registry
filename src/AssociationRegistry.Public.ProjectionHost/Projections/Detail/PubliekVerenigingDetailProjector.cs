@@ -103,7 +103,7 @@ public static class PubliekVerenigingDetailProjector
             {
                 new()
                 {
-                    Bron = Bron.Kbo.Waarde,
+                    Bron = Verenigingsbron.Kbo.Waarde,
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                 },
             },
@@ -202,12 +202,12 @@ public static class PubliekVerenigingDetailProjector
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Straatnaam = loc.Straatnaam,
-            Huisnummer = loc.Huisnummer,
-            Busnummer = loc.Busnummer,
-            Postcode = loc.Postcode,
-            Gemeente = loc.Gemeente,
-            Land = loc.Land,
+            Straatnaam = loc.Adres.Straatnaam,
+            Huisnummer = loc.Adres.Huisnummer,
+            Busnummer = loc.Adres.Busnummer,
+            Postcode = loc.Adres.Postcode,
+            Gemeente = loc.Adres.Gemeente,
+            Land = loc.Adres.Land,
             Adres = loc.ToAdresString(),
         };
 

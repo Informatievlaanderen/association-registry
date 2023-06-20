@@ -67,12 +67,13 @@ public class With_All_Fields
                         new Registratiedata.Locatie(
                             i + 1,
                             l.Naam ?? string.Empty,
-                            l.Straatnaam,
+                            new Registratiedata.Adres(
+                                l.Straatnaam,
                             l.Huisnummer,
                             l.Busnummer ?? string.Empty,
                             l.Postcode,
                             l.Gemeente,
-                            l.Land,
+                            l.Land),
                             l.Hoofdlocatie,
                             l.Locatietype)
                 ).ToArray(),

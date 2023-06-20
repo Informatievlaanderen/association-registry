@@ -17,12 +17,12 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
     private readonly  Registratiedata.Locatie _locatie = new(
         1,
         "Correspondentie",
-        "Stationsstraat",
+        new Registratiedata.Adres("Stationsstraat",
         "1",
         "B",
         "1790",
         "Affligem",
-        "België",
+        "België"),
         Hoofdlocatie: true,
         "Correspondentie");
 

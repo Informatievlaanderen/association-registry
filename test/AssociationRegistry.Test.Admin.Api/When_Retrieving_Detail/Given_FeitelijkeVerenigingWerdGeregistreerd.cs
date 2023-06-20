@@ -98,12 +98,12 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
                         ""adres"": ""{x.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
-                        ""straatnaam"": ""{x.Straatnaam}"",
-                        ""huisnummer"": ""{x.Huisnummer}"",
-                        ""busnummer"": ""{x.Busnummer}"",
-                        ""postcode"": ""{x.Postcode}"",
-                        ""gemeente"": ""{x.Gemeente}"",
-                        ""land"": ""{x.Land}""
+                        ""straatnaam"": ""{x.Adres.Straatnaam}"",
+                        ""huisnummer"": ""{x.Adres.Huisnummer}"",
+                        ""busnummer"": ""{x.Adres.Busnummer}"",
+                        ""postcode"": ""{x.Adres.Postcode}"",
+                        ""gemeente"": ""{x.Adres.Gemeente}"",
+                        ""land"": ""{x.Adres.Land}""
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
