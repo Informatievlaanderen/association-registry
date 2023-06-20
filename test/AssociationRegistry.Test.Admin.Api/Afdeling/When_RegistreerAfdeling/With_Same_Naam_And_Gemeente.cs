@@ -35,7 +35,7 @@ public sealed class When_RegistreerAfdeling_With_Same_Naam_And_Gemeente
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-        locatie.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente;
+        locatie.Adres.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente;
         Request = new RegistreerAfdelingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
@@ -177,12 +177,12 @@ public class With_Same_Naam_And_Gemeente
                         1,
                         Request.Locaties.First().Naam ?? string.Empty,
                         new Registratiedata.Adres(
-                            Request.Locaties.First().Straatnaam,
-                            Request.Locaties.First().Huisnummer,
-                            Request.Locaties.First().Busnummer ?? string.Empty,
-                            Request.Locaties.First().Postcode,
-                            Request.Locaties.First().Gemeente,
-                            Request.Locaties.First().Land),
+                            Request.Locaties.First().Adres.Straatnaam,
+                            Request.Locaties.First().Adres.Huisnummer,
+                            Request.Locaties.First().Adres.Busnummer ?? string.Empty,
+                            Request.Locaties.First().Adres.Postcode,
+                            Request.Locaties.First().Adres.Gemeente,
+                            Request.Locaties.First().Adres.Land),
                         Request.Locaties.First().Hoofdlocatie,
                         Request.Locaties.First().Locatietype),
                 },

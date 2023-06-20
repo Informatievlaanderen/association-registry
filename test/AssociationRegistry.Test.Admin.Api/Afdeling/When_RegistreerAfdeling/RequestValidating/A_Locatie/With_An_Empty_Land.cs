@@ -22,17 +22,20 @@ public class With_An_Empty_Land : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
-                    Straatnaam = "Dezestraat",
-                    Huisnummer = "23",
-                    Postcode = "0123",
-                    Gemeente = "Hottentot",
-                    Land = string.Empty,
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Gemeente = "Hottentot",
+                        Land = string.Empty,
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Land)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
             .WithErrorMessage("'Land' mag niet leeg zijn.");
     }
 }

@@ -153,12 +153,15 @@ public static class AutoFixtureCustomizations
                 {
                     Locatietype = Locatietypes.All[value % Locatietypes.All.Length],
                     Naam = fixture.Create<string>(),
-                    Straatnaam = fixture.Create<string>(),
-                    Huisnummer = fixture.Create<int>().ToString(),
-                    Busnummer = fixture.Create<string?>(),
-                    Postcode = (fixture.Create<int>() % 10000).ToString(),
-                    Gemeente = fixture.Create<string>(),
-                    Land = fixture.Create<string>(),
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = fixture.Create<string>(),
+                        Huisnummer = fixture.Create<int>().ToString(),
+                        Busnummer = fixture.Create<string?>(),
+                        Postcode = (fixture.Create<int>() % 10000).ToString(),
+                        Gemeente = fixture.Create<string>(),
+                        Land = fixture.Create<string>(),
+                    },
                     Hoofdlocatie = false,
                 }).OmitAutoProperties());
 

@@ -32,12 +32,12 @@ public static class Registratiedata
                 locatie.LocatieId,
                 locatie.Naam ?? string.Empty,
                 new Adres(
-                    locatie.Straatnaam,
-                    locatie.Huisnummer,
-                    locatie.Busnummer ?? string.Empty,
-                    locatie.Postcode,
-                    locatie.Gemeente,
-                    locatie.Land,
+                    locatie.Adres.Straatnaam,
+                    locatie.Adres.Huisnummer,
+                    locatie.Adres.Busnummer ?? string.Empty,
+                    locatie.Adres.Postcode,
+                    locatie.Adres.Gemeente,
+                    locatie.Adres.Land,
                     null), //TODO
                 locatie.Hoofdlocatie,
                 locatie.Locatietype);

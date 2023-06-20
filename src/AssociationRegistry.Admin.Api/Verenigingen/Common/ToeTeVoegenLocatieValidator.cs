@@ -17,11 +17,11 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
             .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietypes.Correspondentie}, {Locatietypes.Activiteiten}")
             .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
-        this.RequireNotNullOrEmpty(locatie => locatie.Straatnaam);
-        this.RequireNotNullOrEmpty(locatie => locatie.Huisnummer);
-        this.RequireNotNullOrEmpty(locatie => locatie.Gemeente);
-        this.RequireNotNullOrEmpty(locatie => locatie.Land);
-        this.RequireNotNullOrEmpty(locatie => locatie.Postcode);
+        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Straatnaam);
+        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Huisnummer);
+        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Gemeente);
+        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Land);
+        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Postcode);
     }
 
     private static bool BeAValidLocationTypeValue(string locatieType)
@@ -37,5 +37,5 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
     private static object ToAnonymousObject(ToeTeVoegenLocatie l)
-        => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Straatnaam, l.Huisnummer, l.Busnummer, l.Postcode, l.Gemeente, l.Land };
+        => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Adres.Straatnaam, l.Adres.Huisnummer, l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land };
 }

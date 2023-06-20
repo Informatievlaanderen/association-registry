@@ -22,17 +22,20 @@ public class With_An_Empty_Postcode : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
-                    Straatnaam = "Dezestraat",
-                    Gemeente = "Zonnedorp",
-                    Huisnummer = "23",
-                    Land = "Belgie",
-                    Postcode = string.Empty,
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "Dezestraat",
+                        Gemeente = "Zonnedorp",
+                        Huisnummer = "23",
+                        Land = "Belgie",
+                        Postcode = string.Empty,
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Postcode)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
             .WithErrorMessage("'Postcode' mag niet leeg zijn.");
     }
 }

@@ -24,16 +24,19 @@ public class With_A_Valid_Locatietype : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = locationType,
-                    Straatnaam = "dezeStraat",
-                    Huisnummer = "23",
-                    Gemeente = "Zonnedorp",
-                    Postcode = "0123",
-                    Land = "Belgie",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "dezeStraat",
+                        Huisnummer = "23",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}");
     }
 }

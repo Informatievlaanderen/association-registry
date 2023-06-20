@@ -18,20 +18,26 @@ public class With_Two_Different_Locations : ValidatorTest
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
-            Huisnummer = "23",
-            Gemeente = "Zonnedorp",
-            Postcode = "0123",
-            Straatnaam = "Kerkstraat",
-            Land = "Belgie",
+            Adres = new ToeTeVoegenAdres
+            {
+                Huisnummer = "23",
+                Gemeente = "Zonnedorp",
+                Postcode = "0123",
+                Straatnaam = "Kerkstraat",
+                Land = "Belgie",
+            },
         };
         var andereLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
-            Huisnummer = "23",
-            Gemeente = "Anderdorp",
-            Postcode = "0123",
-            Straatnaam = "Kerkstraat",
-            Land = "Belgie",
+            Adres = new ToeTeVoegenAdres
+            {
+                Huisnummer = "23",
+                Gemeente = "Anderdorp",
+                Postcode = "0123",
+                Straatnaam = "Kerkstraat",
+                Land = "Belgie",
+            },
         };
         var request = new RegistreerAfdelingRequest
         {
