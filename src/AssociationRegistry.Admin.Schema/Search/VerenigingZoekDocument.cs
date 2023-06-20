@@ -6,7 +6,6 @@ public class VerenigingZoekDocument
 {
     public class Locatie
     {
-        public int LocatieId { get; init; }
         public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
         public string Adres { get; init; } = null!;
