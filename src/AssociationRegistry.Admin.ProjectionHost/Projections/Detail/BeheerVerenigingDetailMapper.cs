@@ -21,6 +21,7 @@ public class BeheerVerenigingDetailMapper
             Gemeente = loc.Adres.Gemeente,
             Land = loc.Adres.Land,
             Adres = loc.ToAdresString(),
+            AdresId = loc.Adres.AdresId?.BronWaarde,
         };
 
     public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c)

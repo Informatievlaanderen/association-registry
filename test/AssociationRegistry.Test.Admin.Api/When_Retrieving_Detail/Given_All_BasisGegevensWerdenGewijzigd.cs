@@ -66,11 +66,11 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
+        var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
             .Append(
                 _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                        new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
