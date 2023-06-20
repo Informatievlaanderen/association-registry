@@ -33,8 +33,10 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
     {
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
+        locatie.Adres.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
+            .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
+            .Adres.Postcode;
 
-        locatie.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Postcode;
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
@@ -43,6 +45,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
                 locatie,
             },
         };
+
         Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd;
@@ -168,12 +171,12 @@ public class With_Same_Naam_And_Postcode
                     new Registratiedata.Locatie(
                         1,
                         Request.Locaties.First().Naam ?? string.Empty,
-                        new Registratiedata.Adres(Request.Locaties.First().Straatnaam,
-                        Request.Locaties.First().Huisnummer,
-                        Request.Locaties.First().Busnummer ?? string.Empty,
-                        Request.Locaties.First().Postcode,
-                        Request.Locaties.First().Gemeente,
-                        Request.Locaties.First().Land),
+                        new Registratiedata.Adres(Request.Locaties.First().Adres.Straatnaam,
+                        Request.Locaties.First().Adres.Huisnummer,
+                        Request.Locaties.First().Adres.Busnummer ?? string.Empty,
+                        Request.Locaties.First().Adres.Postcode,
+                        Request.Locaties.First().Adres.Gemeente,
+                        Request.Locaties.First().Adres.Land),
                         Request.Locaties.First().Hoofdlocatie,
                         Request.Locaties.First().Locatietype),
                 },

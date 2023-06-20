@@ -19,10 +19,13 @@ public class With_Two_Identical_Locations : ValidatorTest
         var identiekLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietypes.Activiteiten,
-            Huisnummer = "23",
-            Gemeente = "Zonnedorp",
-            Postcode = "0123",
-            Land = "Belgie",
+            Adres = new ToeTeVoegenAdres
+            {
+                Huisnummer = "23",
+                Gemeente = "Zonnedorp",
+                Postcode = "0123",
+                Land = "Belgie",
+            },
         };
         var request = new RegistreerAfdelingRequest
         {

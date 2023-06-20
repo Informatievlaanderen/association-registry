@@ -22,16 +22,19 @@ public class Without_A_Straatnaam : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
-                    Huisnummer = "23",
-                    Gemeente = "Zonnedorp",
-                    Postcode = "0123",
-                    Land = "Belgie",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Huisnummer = "23",
+                        Gemeente = "Zonnedorp",
+                        Postcode = "0123",
+                        Land = "Belgie",
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Straatnaam)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
             .WithErrorMessage("'Straatnaam' is verplicht.");
     }
 }

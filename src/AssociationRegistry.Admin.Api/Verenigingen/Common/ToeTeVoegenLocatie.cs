@@ -25,39 +25,48 @@ public class ToeTeVoegenLocatie
     [DataMember]
     public string? Naam { get; set; }
 
-    /// <summary>De straat van de locatie</summary>
+    /// <summary>Het adres van de locatie</summary>
     [DataMember]
-    public string Straatnaam { get; set; } = null!;
-
-    /// <summary>Het huisnummer van de locatie</summary>
-    [DataMember]
-    public string Huisnummer { get; set; } = null!;
-
-    /// <summary>Het busnummer van de locatie</summary>
-    [DataMember]
-    public string? Busnummer { get; set; }
-
-    /// <summary>De postcode van de locatie</summary>
-    [DataMember]
-    public string Postcode { get; set; } = null!;
-
-    /// <summary>De gemeente van de locatie</summary>
-    [DataMember]
-    public string Gemeente { get; set; } = null!;
-
-    /// <summary>Het land van de locatie</summary>
-    [DataMember]
-    public string Land { get; set; } = null!;
+    public ToeTeVoegenAdres Adres { get; set; } = new();
 
     public static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(
             loc.Naam,
-            loc.Straatnaam,
-            loc.Huisnummer,
-            loc.Busnummer,
-            loc.Postcode,
-            loc.Gemeente,
-            loc.Land,
+            loc.Adres.Straatnaam,
+            loc.Adres.Huisnummer,
+            loc.Adres.Busnummer,
+            loc.Adres.Postcode,
+            loc.Adres.Gemeente,
+            loc.Adres.Land,
             loc.Hoofdlocatie,
             loc.Locatietype);
+}
+
+/// <summary>Een adres van een locatie</summary>
+[DataContract]
+public class ToeTeVoegenAdres
+{
+    /// <summary>De straat van het adres</summary>
+    [DataMember]
+    public string Straatnaam { get; set; } = null!;
+
+    /// <summary>Het huisnummer van het adres</summary>
+    [DataMember]
+    public string Huisnummer { get; set; } = null!;
+
+    /// <summary>Het busnummer van het adres</summary>
+    [DataMember]
+    public string? Busnummer { get; set; }
+
+    /// <summary>De postcode van het adres</summary>
+    [DataMember]
+    public string Postcode { get; set; } = null!;
+
+    /// <summary>De gemeente van het adres</summary>
+    [DataMember]
+    public string Gemeente { get; set; } = null!;
+
+    /// <summary>Het land van het adres</summary>
+    [DataMember]
+    public string Land { get; set; } = null!;
 }

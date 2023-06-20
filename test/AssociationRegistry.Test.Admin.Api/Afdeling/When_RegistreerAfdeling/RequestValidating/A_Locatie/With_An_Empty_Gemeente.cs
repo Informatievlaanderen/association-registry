@@ -22,17 +22,20 @@ public class With_An_Empty_Gemeente : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietypes.Activiteiten,
-                    Straatnaam = "Dezestraat",
-                    Huisnummer = "23",
-                    Postcode = "0123",
-                    Land = "Belgie",
-                    Gemeente = string.Empty,
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "Dezestraat",
+                        Huisnummer = "23",
+                        Postcode = "0123",
+                        Land = "Belgie",
+                        Gemeente = string.Empty,
+                    },
                 },
             },
         };
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Gemeente)}")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}")
             .WithErrorMessage("'Gemeente' mag niet leeg zijn.");
     }
 }

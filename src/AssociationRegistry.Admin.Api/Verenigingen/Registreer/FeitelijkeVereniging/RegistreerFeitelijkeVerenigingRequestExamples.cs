@@ -20,14 +20,17 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Naam locatie",
-                    Busnummer = "12",
-                    Gemeente = "Gemeente",
                     Hoofdlocatie = true,
-                    Huisnummer = "234",
-                    Land = "België",
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Busnummer = "12",
+                        Gemeente = "Gemeente",
+                        Huisnummer = "234",
+                        Land = "België",
+                        Postcode = "1000",
+                        Straatnaam = "Straatnaam",
+                    },
                     Locatietype = Locatietypes.Activiteiten,
-                    Postcode = "1000",
-                    Straatnaam = "Straatnaam",
                 },
             },
             Contactgegevens = new[]
