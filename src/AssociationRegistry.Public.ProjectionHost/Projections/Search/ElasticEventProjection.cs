@@ -38,8 +38,8 @@ public class ElasticEventHandler
                         Naam = loc.Naam,
                         Adres = loc.ToAdresString(),
                         Hoofdlocatie = loc.Hoofdlocatie,
-                        Postcode = loc.Postcode,
-                        Gemeente = loc.Gemeente,
+                        Postcode = loc.Adres.Postcode,
+                        Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -75,8 +75,8 @@ public class ElasticEventHandler
                         Naam = loc.Naam,
                         Adres = loc.ToAdresString(),
                         Hoofdlocatie = loc.Hoofdlocatie,
-                        Postcode = loc.Postcode,
-                        Gemeente = loc.Gemeente,
+                        Postcode = loc.Adres.Postcode,
+                        Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -109,7 +109,7 @@ public class ElasticEventHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
-                        Bron = Bron.Kbo,
+                        Bron = Verenigingsbron.Kbo,
                         Waarde = message.Data.KboNummer,
                     },
                 },

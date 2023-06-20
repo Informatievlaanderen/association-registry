@@ -21,12 +21,12 @@ public class Given_An_Address_With_Busnummer
         var locatie = new Registratiedata.Locatie(
             1,
             string.Empty,
-            straatnaam,
+            new Registratiedata.Adres(straatnaam,
             huisnummer,
             busnummer,
             postcode,
             gemeente,
-            land,
+            land),
             Hoofdlocatie: true,
             "Activiteiten");
 
@@ -49,12 +49,12 @@ public class Given_An_Address_Without_Busnummer
         var locatie = new Registratiedata.Locatie(
             1,
             string.Empty,
-            straatnaam,
+            new Registratiedata.Adres(straatnaam,
             huisnummer,
             string.Empty,
             postcode,
             gemeente,
-            land,
+            land),
             Hoofdlocatie: true,
             "Activiteiten");
 

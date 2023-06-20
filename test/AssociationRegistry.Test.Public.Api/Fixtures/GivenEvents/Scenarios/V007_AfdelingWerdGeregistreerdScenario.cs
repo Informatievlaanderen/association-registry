@@ -17,12 +17,12 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
     private readonly  Registratiedata.Locatie _locatie = new(
         1,
         "Correspondentie",
-        "berglaan",
+        new Registratiedata.Adres("berglaan",
         "12",
         "B",
         "2000",
         "Antwerpen",
-        "België",
+        "België"),
         Hoofdlocatie: true,
         "Correspondentie");
 

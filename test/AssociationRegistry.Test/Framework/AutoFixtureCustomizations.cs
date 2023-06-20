@@ -130,15 +130,16 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                     value => new Registratiedata.Locatie(
                         LocatieId: fixture.Create<int>(),
-                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length],
                         Naam: fixture.Create<string>(),
-                        Straatnaam: fixture.Create<string>(),
+                        new Registratiedata.Adres(Straatnaam: fixture.Create<string>(),
                         Huisnummer: fixture.Create<int>().ToString(),
                         Busnummer: fixture.Create<string>(),
                         Postcode: (fixture.Create<int>() % 10000).ToString(),
                         Gemeente: fixture.Create<string>(),
-                        Land: fixture.Create<string>(),
-                        Hoofdlocatie: false))
+                        Land: fixture.Create<string>()),
+                        Hoofdlocatie: false,
+                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length]
+))
                 .OmitAutoProperties());
 
         fixture.Customize<Registratiedata.HoofdactiviteitVerenigingsloket>(

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Events;
 
+using Vereniging;
+
 public static class Registratiedata
 {
     public record Contactgegeven(
@@ -9,7 +11,7 @@ public static class Registratiedata
         string Beschrijving,
         bool IsPrimair)
     {
-        public static Contactgegeven With(Vereniging.Contactgegeven contactgegeven)
+        public static Contactgegeven With(AssociationRegistry.Vereniging.Contactgegeven contactgegeven)
             => new(
                 contactgegeven.ContactgegevenId,
                 contactgegeven.Type,
@@ -21,28 +23,38 @@ public static class Registratiedata
     public record Locatie(
         int LocatieId,
         string Naam,
+        Adres Adres,
+        bool Hoofdlocatie,
+        string Locatietype)
+    {
+        public static Locatie With(AssociationRegistry.Vereniging.Locatie locatie)
+            => new(
+                locatie.LocatieId,
+                locatie.Naam ?? string.Empty,
+                new Adres(
+                    locatie.Straatnaam,
+                    locatie.Huisnummer,
+                    locatie.Busnummer ?? string.Empty,
+                    locatie.Postcode,
+                    locatie.Gemeente,
+                    locatie.Land,
+                    null), //TODO
+                locatie.Hoofdlocatie,
+                locatie.Locatietype);
+    }
+
+    public record Adres(
         string Straatnaam,
         string Huisnummer,
         string Busnummer,
         string Postcode,
         string Gemeente,
         string Land,
-        bool Hoofdlocatie,
-        string Locatietype)
+        AdresId? AdresId = null)
     {
-        public static Locatie With(Vereniging.Locatie locatie)
-            => new(
-                locatie.LocatieId,
-                locatie.Naam ?? string.Empty,
-                locatie.Straatnaam,
-                locatie.Huisnummer,
-                locatie.Busnummer ?? string.Empty,
-                locatie.Postcode,
-                locatie.Gemeente,
-                locatie.Land,
-                locatie.Hoofdlocatie,
-                locatie.Locatietype);
     }
+
+    public record AdresId(string Broncode, string BronWaarde);
 
     public record Vertegenwoordiger(
         int VertegenwoordigerId,
@@ -57,7 +69,7 @@ public static class Registratiedata
         string Mobiel,
         string SocialMedia)
     {
-        public static Vertegenwoordiger With(Vereniging.Vertegenwoordiger vertegenwoordiger)
+        public static Vertegenwoordiger With(AssociationRegistry.Vereniging.Vertegenwoordiger vertegenwoordiger)
             => new(
                 vertegenwoordiger.VertegenwoordigerId,
                 vertegenwoordiger.Insz,
@@ -76,7 +88,7 @@ public static class Registratiedata
         string Code,
         string Beschrijving)
     {
-        public static HoofdactiviteitVerenigingsloket With(Vereniging.HoofdactiviteitVerenigingsloket activiteit)
+        public static HoofdactiviteitVerenigingsloket With(AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket activiteit)
             => new(activiteit.Code, activiteit.Beschrijving);
     }
 }
