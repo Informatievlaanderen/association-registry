@@ -4,6 +4,7 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -58,11 +59,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var contactgegevens = Array.Empty<DetailVerenigingResponse.VerenigingDetail.Contactgegeven>()
+        var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
             .Append(
                 _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
                     c =>
-                        new DetailVerenigingResponse.VerenigingDetail.Contactgegeven
+                        new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
                         {
                             ContactgegevenId = c.ContactgegevenId,
                             Type = c.Type,
@@ -103,7 +104,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""busnummer"": ""{x.Adres.Busnummer}"",
                         ""postcode"": ""{x.Adres.Postcode}"",
                         ""gemeente"": ""{x.Adres.Gemeente}"",
-                        ""land"": ""{x.Adres.Land}""
+                        ""land"": ""{x.Adres.Land}"",
+                        ""adresId"": ""{x.Adres.AdresId!.BronWaarde}""
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
