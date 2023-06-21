@@ -58,7 +58,11 @@ public class Locatie
     [DataMember(Name = "Land")]
     public string Land { get; init; } = null!;
 
-    /// <summary>De URI voor dit adres</summary>
+    /// <summary>De identificator voor dit adres bij de Adresbron</summary>
     [DataMember(Name = "AdresId")]
     public string? AdresId { get; init; }
+
+    /// <summary>De bron waar het AdresId naar verwijst</summary>
+    [DataMember(Name = "Adresbron")]
+    public string? AdresBron { get; init; }
 }

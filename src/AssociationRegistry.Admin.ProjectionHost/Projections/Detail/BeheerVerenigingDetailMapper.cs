@@ -22,6 +22,7 @@ public class BeheerVerenigingDetailMapper
             Land = loc.Adres.Land,
             Adres = loc.ToAdresString(),
             AdresId = loc.Adres.AdresId?.BronWaarde,
+            Adresbron = loc.Adres.AdresId?.Broncode,
         };
 
     public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c)

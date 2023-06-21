@@ -62,6 +62,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 
         public string Land { get; init; } = null!;
         public string? AdresId { get; set; }
+        public string? Adresbron { get; set; }
     }
 
     public record Vertegenwoordiger

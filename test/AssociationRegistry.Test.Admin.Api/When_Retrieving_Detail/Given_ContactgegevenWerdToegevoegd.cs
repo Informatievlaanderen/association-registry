@@ -3,8 +3,6 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -119,6 +117,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""gemeente"": ""{x.Adres.Gemeente}"",
                         ""land"": ""{x.Adres.Land}"",
                         ""adresId"": {(x.Adres.AdresId is not null ? $@"""{x.Adres.AdresId.BronWaarde}""" : "null")},
+                        ""adresbron"": {(x.Adres.AdresId is not null ? $@"""{x.Adres.AdresId.Broncode}""" : "null")},
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
