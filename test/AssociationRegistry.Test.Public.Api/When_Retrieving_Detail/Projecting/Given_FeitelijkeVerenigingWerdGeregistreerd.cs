@@ -63,6 +63,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Land = loc.Adres.Land,
                         Adres = loc.ToAdresString(),
                         AdresId = loc.Adres.AdresId?.BronWaarde,
+                        Adresbron = loc.Adres.AdresId?.Broncode,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket

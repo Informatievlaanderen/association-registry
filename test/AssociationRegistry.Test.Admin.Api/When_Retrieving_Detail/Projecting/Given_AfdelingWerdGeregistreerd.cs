@@ -63,6 +63,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Land = loc.Adres.Land,
                         Adres = loc.ToAdresString(),
                         AdresId = loc.Adres.AdresId?.BronWaarde,
+                        Adresbron = loc.Adres.AdresId?.Broncode,
                     }).ToArray(),
                 Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger

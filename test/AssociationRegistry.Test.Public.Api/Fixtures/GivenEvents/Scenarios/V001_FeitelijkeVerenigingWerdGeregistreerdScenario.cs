@@ -26,7 +26,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
             "België",
             new Registratiedata.AdresId(
                 Adresbron.AR,
-                "http://www.example.com/adres")),
+                "https://data.vlaanderen.be/id/adres/0")),
         Hoofdlocatie: true,
         "Correspondentie");
 
