@@ -1,3 +1,10 @@
+## [3.28.3](https://github.com/informatievlaanderen/association-registry/compare/v3.28.2...v3.28.3) (2023-06-21)
+
+
+### Bug Fixes
+
+* or-1775 remove locatieId from publiek detail ([72d09d1](https://github.com/informatievlaanderen/association-registry/commit/72d09d10a2c826ebd14c7e32009b8ceb20d7acbf))
+
 ## [3.28.2](https://github.com/informatievlaanderen/association-registry/compare/v3.28.1...v3.28.2) (2023-06-20)
 
 
