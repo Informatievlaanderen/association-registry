@@ -14,7 +14,6 @@
     "contactgegevens": [{"type":"Email","waarde":"info@FOud.be","beschrijving":"Algemeen","isPrimair":true}],
     "locaties": [
       {
-        "locatieId":1,
         "locatietype": "Correspondentie",
         "hoofdlocatie": true,
         "adres": "Stationsstraat 1 bus B, 1790 Affligem, België",

@@ -199,7 +199,6 @@ public static class PubliekVerenigingDetailProjector
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
         => new()
         {
-            LocatieId = loc.LocatieId,
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,

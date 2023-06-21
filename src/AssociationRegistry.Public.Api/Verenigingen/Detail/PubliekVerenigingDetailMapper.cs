@@ -71,7 +71,6 @@ public static class PubliekVerenigingDetailMapper
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()
         {
-            LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
             Hoofdlocatie = loc.Hoofdlocatie,
             Adres = loc.Adres,

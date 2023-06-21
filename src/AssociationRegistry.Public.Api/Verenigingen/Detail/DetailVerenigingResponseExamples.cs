@@ -45,7 +45,6 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Locatie
                     {
-                        LocatieId = 1,
                         Locatietype = "Correspondentie",
                         Hoofdlocatie = true,
                         Adres = "kerkstraat 5, 1770 Liedekerke, Belgie",

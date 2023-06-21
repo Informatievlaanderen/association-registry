@@ -6,12 +6,6 @@ using System.Runtime.Serialization;
 public class Locatie
 {
     /// <summary>
-    ///     De unieke identificatie code van deze locatie binnen de vereniging
-    /// </summary>
-    [DataMember(Name = "LocatieId")]
-    public int LocatieId { get; set; }
-
-    /// <summary>
     ///     Het soort locatie dat beschreven wordt<br />
     ///     <br />
     ///     Mogelijke waarden:<br />
