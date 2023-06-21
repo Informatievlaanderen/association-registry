@@ -209,6 +209,7 @@ public static class PubliekVerenigingDetailProjector
             Gemeente = loc.Adres.Gemeente,
             Land = loc.Adres.Land,
             Adres = loc.ToAdresString(),
+            AdresId = loc.Adres.AdresId?.BronWaarde,
         };
 
     public static PubliekVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, PubliekVerenigingDetailDocument moeder)

@@ -23,7 +23,8 @@
         "busnummer": "B",
         "postcode": "1790",
         "gemeente": "Affligem",
-        "land": "België"
+        "land": "België",
+        "adresId": "http://www.example.com/adres"
       }
     ],
     "hoofdactiviteitenVerenigingsloket": [

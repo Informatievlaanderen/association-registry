@@ -50,6 +50,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
         public string Postcode { get; set; } = null!;
         public string Gemeente { get; set; } = null!;
         public string Land { get; set; } = null!;
+        public string? AdresId { get; set; }
     }
 
     public class HoofdactiviteitVerenigingsloket

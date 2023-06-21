@@ -50,4 +50,8 @@ public class Locatie
     /// <summary>Het land van de locatie</summary>
     [DataMember(Name = "Land")]
     public string Land { get; init; } = null!;
+
+    /// <summary>De URI voor dit adres</summary>
+    [DataMember(Name = "AdresId")]
+    public string? AdresId { get; set; }
 }
