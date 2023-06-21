@@ -137,5 +137,6 @@ public class DetailVerenigingMapper
             Gemeente = loc.Gemeente,
             Land = loc.Land,
             AdresId = loc.AdresId,
+            AdresBron = loc.Adresbron,
         };
 }

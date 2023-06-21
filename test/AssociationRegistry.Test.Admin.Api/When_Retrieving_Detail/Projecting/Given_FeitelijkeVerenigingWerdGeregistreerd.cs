@@ -63,6 +63,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Land = loc.Adres.Land,
                         Adres = loc.ToAdresString(),
                         AdresId = loc.Adres.AdresId?.BronWaarde,
+                        Adresbron = loc.Adres.AdresId?.Broncode,
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger

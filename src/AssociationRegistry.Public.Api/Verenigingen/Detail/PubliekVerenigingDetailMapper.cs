@@ -84,5 +84,7 @@ public static class PubliekVerenigingDetailMapper
             Gemeente = loc.Gemeente,
             Land = loc.Land,
             AdresId = loc.AdresId,
+            Adresbron = loc.Adresbron,
+
         };
 }
