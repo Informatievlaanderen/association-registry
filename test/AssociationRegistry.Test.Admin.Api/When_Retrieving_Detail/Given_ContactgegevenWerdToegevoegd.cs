@@ -117,7 +117,8 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""busnummer"": ""{x.Adres.Busnummer}"",
                         ""postcode"": ""{x.Adres.Postcode}"",
                         ""gemeente"": ""{x.Adres.Gemeente}"",
-                        ""land"": ""{x.Adres.Land}""
+                        ""land"": ""{x.Adres.Land}"",
+                        ""adresId"": {(x.Adres.AdresId is not null ? $@"""{x.Adres.AdresId.BronWaarde}""" : "null")},
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{

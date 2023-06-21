@@ -14,15 +14,19 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         "Algemeen",
         IsPrimair: true);
 
-    private readonly  Registratiedata.Locatie _locatie = new(
+    private readonly Registratiedata.Locatie _locatie = new(
         1,
         "Correspondentie",
-        new Registratiedata.Adres("Stationsstraat",
-        "1",
-        "B",
-        "1790",
-        "Affligem",
-        "België"),
+        new Registratiedata.Adres(
+            "Stationsstraat",
+            "1",
+            "B",
+            "1790",
+            "Affligem",
+            "België",
+            new Registratiedata.AdresId(
+                Adresbron.AR,
+                "http://www.example.com/adres")),
         Hoofdlocatie: true,
         "Correspondentie");
 
