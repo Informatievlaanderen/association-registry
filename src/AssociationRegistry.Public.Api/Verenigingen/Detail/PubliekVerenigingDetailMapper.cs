@@ -24,22 +24,24 @@ public static class PubliekVerenigingDetailMapper
                 Locaties = document.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
-                Relaties = document.Relaties.Select(
-                    r => new Relatie
-                    {
-                        Type = r.Type,
-                        AndereVereniging = new Relatie.GerelateerdeVereniging
-                        {
-                            KboNummer = r.AndereVereniging.KboNummer,
-                            VCode = r.AndereVereniging.VCode,
-                            Naam = r.AndereVereniging.Naam,
-                            Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
-                                ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
-                                : string.Empty,
-                        },
-                    }).ToArray(),
+                Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
+        };
+
+    private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
+        => new()
+        {
+            Type = r.Type,
+            AndereVereniging = new Relatie.GerelateerdeVereniging
+            {
+                KboNummer = r.AndereVereniging.KboNummer,
+                VCode = r.AndereVereniging.VCode,
+                Naam = r.AndereVereniging.Naam,
+                Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
+                    ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
+                    : string.Empty,
+            },
         };
 
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
@@ -82,5 +84,6 @@ public static class PubliekVerenigingDetailMapper
             Postcode = loc.Postcode,
             Gemeente = loc.Gemeente,
             Land = loc.Land,
+            AdresId = loc.AdresId,
         };
 }
