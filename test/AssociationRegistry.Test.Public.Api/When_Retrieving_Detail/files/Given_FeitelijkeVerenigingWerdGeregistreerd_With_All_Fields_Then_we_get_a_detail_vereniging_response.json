@@ -24,7 +24,8 @@
         "postcode": "1790",
         "gemeente": "Affligem",
         "land": "België",
-        "adresId": "http://www.example.com/adres"
+        "adresId": "https://data.vlaanderen.be/id/adres/0"
+        "adresbron": "AR"
       }
     ],
     "hoofdactiviteitenVerenigingsloket": [
