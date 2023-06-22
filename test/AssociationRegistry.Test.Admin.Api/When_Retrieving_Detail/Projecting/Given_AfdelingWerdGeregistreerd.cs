@@ -8,6 +8,7 @@ using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -54,24 +55,28 @@ public class Given_AfdelingWerdGeregistreerd
                     loc => new BeheerVerenigingDetailDocument.Locatie
                     {
                         LocatieId = loc.LocatieId,
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,
-                        Adres = new Adres
-                        {
-                            Straatnaam = loc.Adres.Straatnaam,
-                            Huisnummer = loc.Adres.Huisnummer,
-                            Busnummer = loc.Adres.Busnummer,
-                            Postcode = loc.Adres.Postcode,
-                            Gemeente = loc.Adres.Gemeente,
-                            Land = loc.Adres.Land,
-                        },
-                        AdresWeergave = loc.ToAdresString(),
-                        AdresId = new AdresId
-                        {
-                            Broncode = loc.AdresId?.Broncode,
-                            Bronwaarde = loc.AdresId?.Bronwaarde,
-                        },
+                        Adres = loc.Adres is null
+                            ? null
+                            : new Adres
+                            {
+                                Straatnaam = loc.Adres.Straatnaam,
+                                Huisnummer = loc.Adres.Huisnummer,
+                                Busnummer = loc.Adres.Busnummer,
+                                Postcode = loc.Adres.Postcode,
+                                Gemeente = loc.Adres.Gemeente,
+                                Land = loc.Adres.Land,
+                            },
+                        Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
+                        AdresId = loc.AdresId is null
+                            ? null
+                            : new AdresId
+                            {
+                                Broncode = loc.AdresId?.Broncode,
+                                Bronwaarde = loc.AdresId?.Bronwaarde,
+                            },
                     }).ToArray(),
                 Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger

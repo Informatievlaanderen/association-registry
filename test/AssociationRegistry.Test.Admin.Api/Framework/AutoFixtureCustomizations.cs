@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using System.Collections.Immutable;
 using Acties.RegistreerAfdeling;
 using Acties.RegistreerFeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
@@ -152,7 +151,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                 value => new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietypes.All[value % Locatietypes.All.Length],
+                    Locatietype = Locatietype.All[value % Locatietype.All.Length],
                     Naam = fixture.Create<string>(),
                     Adres = new ToeTeVoegenAdres
                     {
@@ -168,7 +167,7 @@ public static class AutoFixtureCustomizations
                         Broncode = Adresbron.All[value % Adresbron.All.Length],
                         Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
                     },
-                    Hoofdlocatie = false,
+                    IsPrimair = false,
                 }).OmitAutoProperties());
 
         fixture.Customize<ToeTeVoegenContactgegeven>(
@@ -255,8 +254,8 @@ public static class AutoFixtureCustomizations
                             Postcode: (fixture.Create<int>() % 10000).ToString(),
                             Gemeente: fixture.Create<string>(),
                             Land: fixture.Create<string>()),
-                        Hoofdlocatie: false,
-                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length]
+                        IsPrimair: false,
+                        Locatietype: Locatietype.All[value % Locatietype.All.Length]
                     ))
                 .OmitAutoProperties());
 

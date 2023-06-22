@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Mapping.When_Mapping_A_Location_To_Adres;
 
 using Events;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using FluentAssertions;
+using Formatters;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,6 +31,6 @@ public class Given_An_Address_Without_Busnummer
             true,
             "Activiteiten");
 
-        locatie.ToAdresString().Should().Be($"{straatnaam} {huisnummer}, {postcode} {gemeente}, {land}");
+        AdresFormatter.ToAdresString(locatie.Adres).Should().Be($"{straatnaam} {huisnummer}, {postcode} {gemeente}, {land}");
     }
 }

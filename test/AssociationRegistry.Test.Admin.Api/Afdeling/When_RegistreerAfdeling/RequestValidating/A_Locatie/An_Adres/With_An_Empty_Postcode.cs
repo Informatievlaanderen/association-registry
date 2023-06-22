@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.RequestValidating.A_Locatie.An_Adres;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,7 +21,7 @@ public class With_An_Empty_Postcode : ValidatorTest
             {
                 new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietypes.Activiteiten,
+                    Locatietype = Locatietype.Activiteiten,
                     Adres = new ToeTeVoegenAdres
                     {
                         Straatnaam = "Dezestraat",

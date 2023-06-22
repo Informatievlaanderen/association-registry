@@ -7,6 +7,7 @@ using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -51,18 +52,24 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new PubliekVerenigingDetailDocument.Locatie
                     {
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,
-                        Straatnaam = loc.Adres.Straatnaam,
-                        Huisnummer = loc.Adres.Huisnummer,
-                        Busnummer = loc.Adres.Busnummer,
-                        Postcode = loc.Adres.Postcode,
-                        Gemeente = loc.Adres.Gemeente,
-                        Land = loc.Adres.Land,
-                        Adres = loc.ToAdresString(),
-                        AdresId = loc.AdresId?.Bronwaarde,
-                        Adresbron = loc.AdresId?.Broncode,
+                        Adres = new PubliekVerenigingDetailDocument.Adres
+                        {
+                            Straatnaam = loc.Adres.Straatnaam,
+                            Huisnummer = loc.Adres.Huisnummer,
+                            Busnummer = loc.Adres.Busnummer,
+                            Postcode = loc.Adres.Postcode,
+                            Gemeente = loc.Adres.Gemeente,
+                            Land = loc.Adres.Land,
+                        },
+                        Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
+                        AdresId = new PubliekVerenigingDetailDocument.AdresId
+                        {
+                            Bronwaarde = loc.AdresId?.Bronwaarde,
+                            Broncode = loc.AdresId?.Broncode,
+                        },
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket

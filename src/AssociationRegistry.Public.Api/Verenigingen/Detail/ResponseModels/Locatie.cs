@@ -15,47 +15,25 @@ public class Locatie
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
 
-    /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
-    [DataMember(Name = "Hoofdlocatie")]
-    public bool Hoofdlocatie { get; init; }
-
-    /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
-    [DataMember(Name = "Adres")]
-    public string Adres { get; init; } = null!;
+    /// <summary>Duidt aan dat dit de primaire locatie is</summary>
+    [DataMember(Name = "IsPrimair")]
+    public bool IsPrimair { get; init; }
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember(Name = "Naam")]
     public string? Naam { get; init; }
 
-    /// <summary>De straat van de locatie</summary>
-    [DataMember(Name = "Straatnaam")]
-    public string Straatnaam { get; init; } = null!;
+    /// <summary>De adrescomponenten van de locatie</summary>
+    [DataMember(Name = "Adres")]
+    public Adres? Adres { get; init; } = null!;
 
-    /// <summary>Het huisnummer van de locatie</summary>
-    [DataMember(Name = "Huisnummer")]
-    public string Huisnummer { get; init; } = null!;
+    /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
+    [DataMember(Name = "Adresvoorstelling")]
+    public string Adresvoorstelling { get; init; } = null!;
 
-    /// <summary>Het busnummer van de locatie</summary>
-    [DataMember(Name = "Busnummer")]
-    public string? Busnummer { get; init; }
-
-    /// <summary>De postcode van de locatie</summary>
-    [DataMember(Name = "Postcode")]
-    public string Postcode { get; init; } = null!;
-
-    /// <summary>De gemeente van de locatie</summary>
-    [DataMember(Name = "Gemeente")]
-    public string Gemeente { get; init; } = null!;
-
-    /// <summary>Het land van de locatie</summary>
-    [DataMember(Name = "Land")]
-    public string Land { get; init; } = null!;
-
-    /// <summary>De identificator voor dit adres bij de Adresbron</summary>
+    /// <summary>
+    /// De identifier van het adres op een externe bron
+    /// </summary>
     [DataMember(Name = "AdresId")]
-    public string? AdresId { get; init; }
-
-    /// <summary>De bron waar het AdresId naar verwijst</summary>
-    [DataMember(Name = "Adresbron")]
-    public string? Adresbron { get; init; }
+    public AdresId? AdresId { get; set; }
 }

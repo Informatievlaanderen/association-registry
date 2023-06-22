@@ -60,8 +60,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Gemeente = "Nothingham",
                         Land = "Belgie",
                     },
-                    Hoofdlocatie = true,
-                    Locatietype = Locatietypes.Correspondentie,
+                    IsPrimair = true,
+                    Locatietype = Locatietype.Correspondentie,
                 },
                 new ToeTeVoegenLocatie
                 {
@@ -69,7 +69,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                     AdresId = new AdresId
                     {
                         Broncode = "AR",
-                        Bronwaarde = "0123456789",
+                        Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
                     },
                     Adres = new ToeTeVoegenAdres
                     {
@@ -80,8 +80,19 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Gemeente = "Nothingham",
                         Land = "Belgie",
                     },
-                    Hoofdlocatie = false,
-                    Locatietype = Locatietypes.Activiteiten,
+                    IsPrimair = false,
+                    Locatietype = Locatietype.Activiteiten,
+                },
+                new ToeTeVoegenLocatie
+                {
+                    Naam = "Zwembad",
+                    AdresId = new AdresId
+                    {
+                        Broncode = "AR",
+                        Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "5",
+                    },
+                    IsPrimair = false,
+                    Locatietype = Locatietype.Activiteiten,
                 },
             },
             Vertegenwoordigers = new[]
@@ -170,9 +181,10 @@ public class With_All_Fields
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
-        savedEvent.Locaties.Should().HaveCount(expected: 2);
+        savedEvent.Locaties.Should().HaveCount(expected: 3);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Locaties[1].Should().BeEquivalentTo(Request.Locaties[1]);
+        savedEvent.Locaties[2].Should().BeEquivalentTo(Request.Locaties[2]);
         savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
         savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());

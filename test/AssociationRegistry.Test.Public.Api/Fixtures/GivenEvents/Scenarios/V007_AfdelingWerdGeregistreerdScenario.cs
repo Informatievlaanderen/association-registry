@@ -23,7 +23,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
         "2000",
         "Antwerpen",
         "België"),
-        Hoofdlocatie: true,
+        IsPrimair: true,
         "Correspondentie");
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9));

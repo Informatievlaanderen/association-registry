@@ -4,8 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
+using Formatters;
 using Vereniging;
-using Infrastructure.Extensions;
 using Schema.Search;
 
 public class ElasticEventHandler
@@ -36,8 +36,8 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.ToAdresString(),
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        Adres = loc.Adres.ToAdresString(),
+                        IsPrimair = loc.IsPrimair,
                         Postcode = loc.Adres.Postcode,
                         Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),
@@ -73,8 +73,8 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.ToAdresString(),
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        Adres = loc.Adres.ToAdresString(),
+                        IsPrimair = loc.IsPrimair,
                         Postcode = loc.Adres.Postcode,
                         Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),

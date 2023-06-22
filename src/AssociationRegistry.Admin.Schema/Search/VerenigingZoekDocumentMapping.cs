@@ -56,7 +56,7 @@ public static class VerenigingZoekDocumentMapping
                         .Name(document => document.Adres))
                 .Text(
                     propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Hoofdlocatie))
+                        .Name(document => document.IsPrimair))
                 .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Locatietype))

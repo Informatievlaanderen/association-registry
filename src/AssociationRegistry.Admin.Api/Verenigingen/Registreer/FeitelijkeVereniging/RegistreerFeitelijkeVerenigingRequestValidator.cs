@@ -20,8 +20,8 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
             .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorrespondentieLocaties)
             .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
         RuleFor(request => request.Locaties)
-            .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleHoofdlocaties)
-            .WithMessage("Er mag maximum één hoofdlocatie opgegeven worden.");
+            .Must(ToeTeVoegenLocatieValidator.NotHaveMultiplePrimairelocaties)
+            .WithMessage("Er mag maximum één primaire locatie opgegeven worden.");
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");

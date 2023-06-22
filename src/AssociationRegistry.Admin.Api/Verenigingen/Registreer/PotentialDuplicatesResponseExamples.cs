@@ -33,7 +33,7 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         ),
                         "Doelgroep",
                         ImmutableArray.Create(
-                            new DuplicaatVereniging.Locatie("LocatieType", Hoofdlocatie: true, "AdresWeergave", "Naam", "Postcode", "Gemeente")
+                            new DuplicaatVereniging.Locatie("Locatietype", IsPrimair: true, "Adresvoorstelling", "Naam", "Postcode", "Gemeente")
                         ),
                         ImmutableArray.Create(
                             new DuplicaatVereniging.Activiteit(Id: 1, "Categorie")

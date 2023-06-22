@@ -63,8 +63,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                     {
                         LocatieId = 1,
                         Locatietype = "Correspondentie",
-                        Hoofdlocatie = true,
-                        AdresWeergave = "kerkstraat 5, 1770 Liedekerke, Belgie",
+                        IsPrimair = true,
+                        Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = null,
                         Adres = new Adres
                         {

@@ -14,7 +14,7 @@ public record DuplicaatVereniging(
 {
     public record Locatie(
         string Locatietype,
-        bool Hoofdlocatie,
+        bool IsPrimair,
         string Adres,
         string? Naam,
         string Postcode,

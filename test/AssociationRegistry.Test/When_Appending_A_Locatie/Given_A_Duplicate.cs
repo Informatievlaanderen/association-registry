@@ -5,7 +5,9 @@ using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Duplicate
 {
     [Fact]

@@ -8,6 +8,7 @@ using Events;
 using EventStore;
 using Fixtures;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using JasperFx.Core;
 using Vereniging;
@@ -94,16 +95,21 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatieId"": {x.LocatieId},
                         ""locatietype"": ""{x.Locatietype}"",
-                        ""hoofdlocatie"": {(x.Hoofdlocatie ? "true" : "false")},
-                        ""adres"": ""{x.ToAdresString()}"",
+                        ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
+                        ""adresvoorstelling"": ""{AdresFormatter.ToAdresString(x.Adres)}"",
                         ""naam"": ""{x.Naam}"",
-                        ""straatnaam"": ""{x.Adres.Straatnaam}"",
-                        ""huisnummer"": ""{x.Adres.Huisnummer}"",
-                        ""busnummer"": ""{x.Adres.Busnummer}"",
-                        ""postcode"": ""{x.Adres.Postcode}"",
-                        ""gemeente"": ""{x.Adres.Gemeente}"",
-                        ""land"": ""{x.Adres.Land}"",
-                        ""adresId"": ""{x.AdresId!.Bronwaarde}""
+                        ""adres"":{{
+                            ""straatnaam"": ""{x.Adres.Straatnaam}"",
+                            ""huisnummer"": ""{x.Adres.Huisnummer}"",
+                            ""busnummer"": ""{x.Adres.Busnummer}"",
+                            ""postcode"": ""{x.Adres.Postcode}"",
+                            ""gemeente"": ""{x.Adres.Gemeente}"",
+                            ""land"": ""{x.Adres.Land}""
+                        }},
+                        ""adresId"":{(x.AdresId is null?"null":$@"{{
+                            ""bronwaarde"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
+                            ""broncode"": {(x.AdresId is not null ? $@"""{x.AdresId.Broncode}""" : "null")}
+                        }}")}
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{

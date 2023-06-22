@@ -27,7 +27,6 @@ public class EventStoreMock : IEventStore
 
     public Task<T> Load<T>(string aggregateId) where T : class, IHasVersion, new()
     {
-
         var result = new T();
         for (var i = 0; i < _events.Length; i++)
         {

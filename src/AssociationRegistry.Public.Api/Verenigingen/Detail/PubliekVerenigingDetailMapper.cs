@@ -74,17 +74,25 @@ public static class PubliekVerenigingDetailMapper
         => new()
         {
             Locatietype = loc.Locatietype,
-            Hoofdlocatie = loc.Hoofdlocatie,
-            Adres = loc.Adres,
+            IsPrimair = loc.IsPrimair,
+            Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
-            Straatnaam = loc.Straatnaam,
-            Huisnummer = loc.Huisnummer,
-            Busnummer = loc.Busnummer,
-            Postcode = loc.Postcode,
-            Gemeente = loc.Gemeente,
-            Land = loc.Land,
-            AdresId = loc.AdresId,
-            Adresbron = loc.Adresbron,
+            Adres = new Adres
+            {
+                Straatnaam = loc.Adres.Straatnaam,
+                Huisnummer = loc.Adres.Huisnummer,
+                Busnummer = loc.Adres.Busnummer,
+                Postcode = loc.Adres.Postcode,
+                Gemeente = loc.Adres.Gemeente,
+                Land = loc.Adres.Land,
+            },
+            AdresId = loc.AdresId is not null
+                ? new AdresId
+                {
+                    Broncode = loc.AdresId.Broncode,
+                    Bronwaarde = loc.AdresId.Bronwaarde,
+                }
+                : null,
 
         };
 }

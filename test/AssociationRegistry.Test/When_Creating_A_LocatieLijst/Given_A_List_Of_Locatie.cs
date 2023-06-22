@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.When_Creating_A_LocatieLijst;
 
-using Admin.Api.Constants;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
@@ -14,7 +13,7 @@ public class Given_A_List_Of_Locatie
     {
         var listOfLocatie = new[]
         {
-            Locatie.Create("Kerker", true, Locatietypes.Activiteiten, null, Adres.Create("kerkstraat", "1", "-1", "666", "penoze", "Nederland")),
+            Locatie.Create("Kerker", true, Locatietype.Activiteiten, null, Adres.Create("kerkstraat", "1", "-1", "666", "penoze", "Nederland")),
         };
 
         var locatieLijst = Locaties.FromArray(listOfLocatie);

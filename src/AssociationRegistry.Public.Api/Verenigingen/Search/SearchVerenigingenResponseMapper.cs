@@ -134,7 +134,7 @@ public class SearchVerenigingenResponseMapper
         => new()
         {
             Locatietype = loc.Locatietype,
-            Hoofdlocatie = loc.Hoofdlocatie,
+            IsPrimair = loc.IsPrimair,
             Adres = loc.Adres,
             Naam = loc.Naam,
             Postcode = loc.Postcode,

@@ -17,9 +17,9 @@ public class ToeTeVoegenLocatie
     [DataMember]
     public string Locatietype { get; set; } = null!;
 
-    /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
+    /// <summary>Duidt aan dat dit de primaire locatie is</summary>
     [DataMember]
-    public bool Hoofdlocatie { get; set; }
+    public bool IsPrimair { get; set; }
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
@@ -36,7 +36,7 @@ public class ToeTeVoegenLocatie
     public static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(
             loc.Naam,
-            loc.Hoofdlocatie,
+            loc.IsPrimair,
             loc.Locatietype,
             loc.AdresId is not null ? AssociationRegistry.Vereniging.AdresId.Create(loc.AdresId.Broncode, loc.AdresId.Bronwaarde) : null,
             loc.Adres is not null

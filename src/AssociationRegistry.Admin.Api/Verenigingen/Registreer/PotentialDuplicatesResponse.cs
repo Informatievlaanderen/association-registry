@@ -104,14 +104,14 @@ public class PotentialDuplicatesResponse
         public class Locatie
         {
             public Locatie(string locatietype,
-                bool hoofdlocatie,
+                bool isPrimair,
                 string adres,
                 string? naam,
                 string postcode,
                 string gemeente)
             {
                 Locatietype = locatietype;
-                Hoofdlocatie = hoofdlocatie;
+                IsPrimair = isPrimair;
                 Adres = adres;
                 Naam = naam;
                 Postcode = postcode;
@@ -119,18 +119,18 @@ public class PotentialDuplicatesResponse
             }
 
             public static Locatie FromDuplicaatVereniging(DuplicaatVereniging.Locatie locatie)
-                => new(locatie.Locatietype, locatie.Hoofdlocatie, locatie.Adres, locatie.Naam, locatie.Postcode, locatie.Gemeente);
+                => new(locatie.Locatietype, locatie.IsPrimair, locatie.Adres, locatie.Naam, locatie.Postcode, locatie.Gemeente);
 
             /// <summary>Het soort locatie dat beschreven wordt</summary>
             [DataMember(Name = "Locatietype")]
             public string Locatietype { get; init; }
 
-            /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
-            [DataMember(Name = "Hoofdlocatie")]
-            public bool Hoofdlocatie { get; init; }
+            /// <summary>Duidt aan dat dit de primaire locatie is</summary>
+            [DataMember(Name = "IsPrimair")]
+            public bool IsPrimair { get; init; }
 
             /// <summary>Het samengestelde adres van de locatie</summary>
-            [DataMember(Name = "AdresWeergave")]
+            [DataMember(Name = "Adresvoorstelling")]
             public string Adres { get; init; }
 
             /// <summary>Een beschrijvende naam voor de locatie</summary>

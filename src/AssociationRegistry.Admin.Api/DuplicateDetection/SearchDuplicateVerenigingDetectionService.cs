@@ -21,16 +21,18 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
     {
-        var postcodes = locaties.Select(l => l.Adres!.Postcode).ToArray();
-        var gemeentes = locaties.Select(l => l.Adres!.Gemeente).ToArray();
+        var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
+        var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
+        var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente).ToArray();
         return (await _session.Query<BeheerVerenigingDetailDocument>()
                 .Where(
                     document =>
                         document.Naam.Equals(naam, StringComparison.InvariantCultureIgnoreCase) &&
                         document.Locaties.Any(
                             locatie =>
+                                locatie.Adres != null && (
                                 locatie.Adres.Postcode.IsOneOf(postcodes) ||
-                                locatie.Adres.Gemeente.IsOneOf(gemeentes)
+                                locatie.Adres.Gemeente.IsOneOf(gemeentes))
                         )
                 )
                 .ToListAsync())
@@ -50,5 +52,5 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             ImmutableArray<DuplicaatVereniging.Activiteit>.Empty);
 
     private static DuplicaatVereniging.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
-        => new(loc.Locatietype, loc.Hoofdlocatie, loc.AdresWeergave, loc.Naam, loc.Adres.Postcode, loc.Adres.Gemeente);
+        => new(loc.Locatietype, loc.IsPrimair, loc.Adresvoorstelling, loc.Naam, loc.Adres.Postcode, loc.Adres.Gemeente);
 }

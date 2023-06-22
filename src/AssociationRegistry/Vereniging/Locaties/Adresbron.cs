@@ -18,6 +18,9 @@ public class Adresbron
     public static Adresbron Parse(string waarde)
         => All.Single(t => t.Code == waarde);
 
+    public static bool CanParse(string waarde)
+        => All.Any(t => t.Code == waarde);
+
     public static implicit operator string(Adresbron verenigingsbron)
         => verenigingsbron.Code;
 

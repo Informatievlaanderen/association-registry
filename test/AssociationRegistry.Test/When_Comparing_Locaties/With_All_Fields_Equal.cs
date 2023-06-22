@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Test.When_Comparing_Locaties;
 
-using Admin.Api.Constants;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_All_Fields_Equal
 {
     [Fact]
@@ -13,8 +14,8 @@ public class With_All_Fields_Equal
         var locatie1 = Locatie.Create(
             "naam",
             true,
-            Locatietypes.Activiteiten,
-            AdresId.Create(Adresbron.AR, "waarde"),
+            Locatietype.Activiteiten,
+            AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix),
             Adres.Create("straatnaam",
                 "huisnummer",
                 "busnummer",
@@ -25,8 +26,8 @@ public class With_All_Fields_Equal
         var locatie2 = Locatie.Create(
             "naam",
             true,
-            Locatietypes.Activiteiten,
-            AdresId.Create(Adresbron.AR, "waarde"),
+            Locatietype.Activiteiten,
+            AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix),
             Adres.Create("straatnaam",
                 "huisnummer",
                 "busnummer",
