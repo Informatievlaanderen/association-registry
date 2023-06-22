@@ -5,6 +5,8 @@ using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
 using Vereniging;
+using Adres = ResponseModels.Adres;
+using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
@@ -128,15 +130,23 @@ public class DetailVerenigingMapper
             LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
             Hoofdlocatie = loc.Hoofdlocatie,
-            Adres = loc.Adres,
+            AdresWeergave = loc.AdresWeergave,
             Naam = loc.Naam,
-            Straatnaam = loc.Straatnaam,
-            Huisnummer = loc.Huisnummer,
-            Busnummer = loc.Busnummer,
-            Postcode = loc.Postcode,
-            Gemeente = loc.Gemeente,
-            Land = loc.Land,
-            AdresId = loc.AdresId,
-            AdresBron = loc.Adresbron,
+            Adres = new Adres
+            {
+                Straatnaam = loc.Adres.Straatnaam,
+                Huisnummer = loc.Adres.Huisnummer,
+                Busnummer = loc.Adres.Busnummer,
+                Postcode = loc.Adres.Postcode,
+                Gemeente = loc.Adres.Gemeente,
+                Land = loc.Adres.Land,
+            },
+            AdresId = loc.AdresId is not null
+                ? new AdresId
+                {
+                    Broncode = loc.AdresId.Broncode,
+                    Bronwaarde = loc.AdresId.Bronwaarde,
+                }
+                : null,
         };
 }

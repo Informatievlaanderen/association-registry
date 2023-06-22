@@ -130,7 +130,7 @@ public class PotentialDuplicatesResponse
             public bool Hoofdlocatie { get; init; }
 
             /// <summary>Het samengestelde adres van de locatie</summary>
-            [DataMember(Name = "Adres")]
+            [DataMember(Name = "AdresWeergave")]
             public string Adres { get; init; }
 
             /// <summary>Een beschrijvende naam voor de locatie</summary>

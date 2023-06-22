@@ -37,15 +37,16 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                 new Registratiedata.Locatie(
                     1,
                     "Correspondentie",
-                   new Registratiedata.Adres("Stationsstraat",
-                    "1",
-                    "B",
-                    "1790",
-                    "Affligem",
-                    "België",
-                    new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    new Registratiedata.Adres(
+                        "Stationsstraat",
+                        "1",
+                        "B",
+                        "1790",
+                        "Affligem",
+                        "België"),
                     Hoofdlocatie: true,
-                    "Correspondentie"),
+                    "Correspondentie",
+                    new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
             },
             new[]
             {

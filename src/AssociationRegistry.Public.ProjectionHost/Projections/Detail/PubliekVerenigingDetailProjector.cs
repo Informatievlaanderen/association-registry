@@ -210,8 +210,8 @@ public static class PubliekVerenigingDetailProjector
             Gemeente = loc.Adres.Gemeente,
             Land = loc.Adres.Land,
             Adres = loc.ToAdresString(),
-            AdresId = loc.Adres.AdresId?.BronWaarde,
-            Adresbron = loc.Adres.AdresId?.Broncode,
+            AdresId = loc.AdresId?.Bronwaarde,
+            Adresbron = loc.AdresId?.Broncode,
         };
 
     public static PubliekVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, PubliekVerenigingDetailDocument moeder)
