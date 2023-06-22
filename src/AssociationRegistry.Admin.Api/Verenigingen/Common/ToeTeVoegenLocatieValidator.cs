@@ -17,12 +17,21 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
             .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietypes.Correspondentie}, {Locatietypes.Activiteiten}")
             .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
-        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Straatnaam);
-        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Huisnummer);
-        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Gemeente);
-        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Land);
-        this.RequireNotNullOrEmpty(locatie => locatie.Adres.Postcode);
+        RuleFor(locatie => locatie.Adres)
+            .SetValidator(new AdresValidator()!)
+            .When(locatie => locatie.Adres is not null);
+
+        RuleFor(locatie => locatie.AdresId)
+            .SetValidator(new AdresIdValidator()!)
+            .When(locatie => locatie.AdresId is not null);
+
+        RuleFor(locatie => locatie)
+            .Must(HaveAdresOrAdresId)
+            .WithMessage("'Locatie' moet of een adres of een adresId bevatten.");
     }
+
+    private static bool HaveAdresOrAdresId(ToeTeVoegenLocatie loc)
+        => loc.AdresId is not null || loc.Adres is not null;
 
     private static bool BeAValidLocationTypeValue(string locatieType)
         => Locatietypes.All.Contains(locatieType, StringComparer.InvariantCultureIgnoreCase);
@@ -30,12 +39,12 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
     internal static bool NotHaveMultipleHoofdlocaties(ToeTeVoegenLocatie[] locaties)
         => locaties.Count(l => l.Hoofdlocatie) <= 1;
 
-    internal static bool NotHaveMultipleCorresporentieLocaties(ToeTeVoegenLocatie[] locaties)
+    internal static bool NotHaveMultipleCorrespondentieLocaties(ToeTeVoegenLocatie[] locaties)
         => locaties.Count(l => string.Equals(l.Locatietype, Locatietypes.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
 
     internal static bool NotHaveDuplicates(ToeTeVoegenLocatie[] locaties)
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
     private static object ToAnonymousObject(ToeTeVoegenLocatie l)
-        => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Adres.Straatnaam, l.Adres.Huisnummer, l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land };
+        => new { Locatietype = l.Locatietype, l.Naam, Hoofdlocatie = l.Hoofdlocatie, l.Adres?.Straatnaam, l.Adres?.Huisnummer, l.Adres?.Busnummer, l.Adres?.Postcode, l.Adres?.Gemeente, l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode };
 }

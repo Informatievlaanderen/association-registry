@@ -68,14 +68,15 @@ public class With_All_Fields
                             i + 1,
                             l.Naam ?? string.Empty,
                             new Registratiedata.Adres(
-                                l.Adres.Straatnaam,
-                            l.Adres.Huisnummer,
-                            l.Adres.Busnummer ?? string.Empty,
-                            l.Adres.Postcode,
-                            l.Adres.Gemeente,
-                            l.Adres.Land),
+                                l.Adres!.Straatnaam,
+                                l.Adres.Huisnummer,
+                                l.Adres.Busnummer ?? string.Empty,
+                                l.Adres.Postcode,
+                                l.Adres.Gemeente,
+                                l.Adres.Land),
                             l.Hoofdlocatie,
-                            l.Locatietype)
+                            l.Locatietype,
+                            new Registratiedata.AdresId(l.AdresId!.Adresbron.Code, l.AdresId.Bronwaarde))
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, i) =>

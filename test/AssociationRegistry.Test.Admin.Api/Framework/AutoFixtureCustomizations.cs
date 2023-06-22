@@ -136,12 +136,13 @@ public static class AutoFixtureCustomizations
                 _ => new RegistreerFeitelijkeVerenigingRequest
                 {
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
+                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                         .Select(x => x.Code)
+                        .Distinct()
                         .ToArray(),
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
@@ -161,6 +162,11 @@ public static class AutoFixtureCustomizations
                         Postcode = (fixture.Create<int>() % 10000).ToString(),
                         Gemeente = fixture.Create<string>(),
                         Land = fixture.Create<string>(),
+                    },
+                    AdresId = new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId
+                    {
+                        Broncode = Adresbron.All[value % Adresbron.All.Length],
+                        Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
                     },
                     Hoofdlocatie = false,
                 }).OmitAutoProperties());
@@ -206,12 +212,13 @@ public static class AutoFixtureCustomizations
                 {
                     KboNummerMoedervereniging = fixture.Create<KboNummer>(),
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().ToArray(),
+                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                         .Select(x => x.Code)
+                        .Distinct()
                         .ToArray(),
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),

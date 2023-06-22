@@ -40,13 +40,17 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
-        contactgegevens[0].Should().BeEquivalentTo(
-            Contactgegeven.Create(
-                ContactgegevenType.Parse(request.Contactgegevens[0].Type),
-                request.Contactgegevens[0].Waarde,
-                request.Contactgegevens[0].Beschrijving,
-                request.Contactgegevens[0].IsPrimair));
-        locaties.Should().BeEquivalentTo(request.Locaties);
+
+        AssertContactgegevens(contactgegevens, request);
+        AssertLocaties(locaties, request);
+        AssertVertegenwoordigers(vertegenwoordigers, request);
+
+        hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
+        skipDuplicateDetection.Should().BeFalse();
+    }
+
+    private static void AssertVertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers, RegistreerFeitelijkeVerenigingRequest request)
+    {
         vertegenwoordigers.Should().BeEquivalentTo(
             request.Vertegenwoordigers
                 .Select(
@@ -63,8 +67,25 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
                             TelefoonNummer.Create(v.Mobiel),
                             SocialMedia.Create(v.SocialMedia)
                         )));
+    }
 
-        hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
-        skipDuplicateDetection.Should().BeFalse();
+    private static void AssertLocaties(Locatie[] locaties, RegistreerFeitelijkeVerenigingRequest request)
+    {
+        locaties.Should().BeEquivalentTo(request.Locaties, options => options.Excluding(x => x.AdresId));
+        foreach (var (locatie, i) in locaties.Select((l, i) => (l, i)))
+        {
+            locatie.AdresId!.Bronwaarde.Should().Be(request.Locaties[i].AdresId!.Bronwaarde);
+            locatie.AdresId!.Adresbron.Should().BeEquivalentTo(Adresbron.Parse(request.Locaties[i].AdresId!.Broncode));
+        }
+    }
+
+    private static void AssertContactgegevens(Contactgegeven[] contactgegevens, RegistreerFeitelijkeVerenigingRequest request)
+    {
+        contactgegevens[0].Should().BeEquivalentTo(
+            Contactgegeven.Create(
+                ContactgegevenType.Parse(request.Contactgegevens[0].Type),
+                request.Contactgegevens[0].Waarde,
+                request.Contactgegevens[0].Beschrijving,
+                request.Contactgegevens[0].IsPrimair));
     }
 }

@@ -25,21 +25,29 @@ public class ToeTeVoegenLocatie
     [DataMember]
     public string? Naam { get; set; }
 
+    /// <summary>De unieke identificator van het adres in een andere bron</summary>
+    [DataMember]
+    public AdresId? AdresId { get; set; }
+
     /// <summary>Het adres van de locatie</summary>
     [DataMember]
-    public ToeTeVoegenAdres Adres { get; set; } = new();
+    public ToeTeVoegenAdres? Adres { get; set; }
 
     public static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(
             loc.Naam,
-            loc.Adres.Straatnaam,
-            loc.Adres.Huisnummer,
-            loc.Adres.Busnummer,
-            loc.Adres.Postcode,
-            loc.Adres.Gemeente,
-            loc.Adres.Land,
             loc.Hoofdlocatie,
-            loc.Locatietype);
+            loc.Locatietype,
+            loc.AdresId is not null ? AssociationRegistry.Vereniging.AdresId.Create(loc.AdresId.Broncode, loc.AdresId.Bronwaarde) : null,
+            loc.Adres is not null
+                ? AssociationRegistry.Vereniging.Adres.Create(
+                    loc.Adres.Straatnaam,
+                    loc.Adres.Huisnummer,
+                    loc.Adres.Busnummer,
+                    loc.Adres.Postcode,
+                    loc.Adres.Gemeente,
+                    loc.Adres.Land)
+                : null);
 }
 
 /// <summary>Een adres van een locatie</summary>
@@ -69,10 +77,6 @@ public class ToeTeVoegenAdres
     /// <summary>Het land van het adres</summary>
     [DataMember]
     public string Land { get; set; } = null!;
-
-    /// <summary>De unieke identificator van het adres in een andere bron</summary>
-    [DataMember]
-    public AdresId? AdresId { get; set; }
 }
 
 /// <summary>De unieke identificator van het adres in een andere bron</summary>
@@ -81,9 +85,9 @@ public class AdresId
 {
     /// <summary>De code van de bron van het adres</summary>
     [DataMember]
-    public string AdresbronCode { get; set; } = null!;
+    public string Broncode { get; set; } = null!;
 
     /// <summary>De unieke identificator volgens de bron</summary>
     [DataMember]
-    public string AdresbronWaarde { get; set; } = null!;
+    public string Bronwaarde { get; set; } = null!;
 }
