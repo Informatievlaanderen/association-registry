@@ -4,6 +4,8 @@ using Events;
 using Infrastructure.Extensions;
 using Schema.Detail;
 using Vereniging;
+using Adres = Schema.Detail.Adres;
+using AdresId = Schema.Detail.AdresId;
 
 public class BeheerVerenigingDetailMapper
 {
@@ -14,15 +16,21 @@ public class BeheerVerenigingDetailMapper
             Hoofdlocatie = loc.Hoofdlocatie,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Straatnaam = loc.Adres.Straatnaam,
-            Huisnummer = loc.Adres.Huisnummer,
-            Busnummer = loc.Adres.Busnummer,
-            Postcode = loc.Adres.Postcode,
-            Gemeente = loc.Adres.Gemeente,
-            Land = loc.Adres.Land,
-            Adres = loc.ToAdresString(),
-            AdresId = loc.Adres.AdresId?.BronWaarde,
-            Adresbron = loc.Adres.AdresId?.Broncode,
+            Adres = new Adres
+            {
+                Straatnaam = loc.Adres.Straatnaam,
+                Huisnummer = loc.Adres.Huisnummer,
+                Busnummer = loc.Adres.Busnummer,
+                Postcode = loc.Adres.Postcode,
+                Gemeente = loc.Adres.Gemeente,
+                Land = loc.Adres.Land,
+            },
+            AdresWeergave = loc.ToAdresString(),
+            AdresId = new AdresId
+            {
+                Bronwaarde = loc.AdresId?.Bronwaarde,
+                Broncode = loc.AdresId?.Broncode,
+            },
         };
 
     public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c)

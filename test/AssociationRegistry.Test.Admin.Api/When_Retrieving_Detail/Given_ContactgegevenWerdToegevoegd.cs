@@ -116,8 +116,8 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""postcode"": ""{x.Adres.Postcode}"",
                         ""gemeente"": ""{x.Adres.Gemeente}"",
                         ""land"": ""{x.Adres.Land}"",
-                        ""adresId"": {(x.Adres.AdresId is not null ? $@"""{x.Adres.AdresId.BronWaarde}""" : "null")},
-                        ""adresbron"": {(x.Adres.AdresId is not null ? $@"""{x.Adres.AdresId.Broncode}""" : "null")},
+                        ""adresId"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
+                        ""adresbron"": {(x.AdresId is not null ? $@"""{x.AdresId.Broncode}""" : "null")},
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{

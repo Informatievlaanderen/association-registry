@@ -23,12 +23,12 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
             "B",
             "1790",
             "Affligem",
-            "België",
-            new Registratiedata.AdresId(
-                Adresbron.AR,
-                "https://data.vlaanderen.be/id/adres/0")),
+            "België"),
         Hoofdlocatie: true,
-        "Correspondentie");
+        "Correspondentie",
+        new Registratiedata.AdresId(
+            Adresbron.AR,
+            "https://data.vlaanderen.be/id/adres/0"));
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9));
 
