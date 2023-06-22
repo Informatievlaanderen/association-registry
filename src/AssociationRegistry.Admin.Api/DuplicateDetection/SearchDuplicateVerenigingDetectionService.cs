@@ -21,8 +21,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
     {
-        var postcodes = locaties.Select(l => l.Adres.Postcode).ToArray();
-        var gemeentes = locaties.Select(l => l.Adres.Gemeente).ToArray();
+        var postcodes = locaties.Select(l => l.Adres!.Postcode).ToArray();
+        var gemeentes = locaties.Select(l => l.Adres!.Gemeente).ToArray();
         return (await _session.Query<BeheerVerenigingDetailDocument>()
                 .Where(
                     document =>

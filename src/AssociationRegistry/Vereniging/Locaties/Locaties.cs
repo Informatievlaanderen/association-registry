@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using Exceptions;
 
 public class Locaties : ReadOnlyCollection<Locatie>
 {
@@ -26,6 +27,9 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public Locaties Append(Locatie locatie)
     {
+        if (Items.Contains(locatie))
+            throw new DuplicateLocatieProvided();
+
         var nextId = Math.Max(locatie.LocatieId + 1, NextId);
         return new Locaties(Items.Append(locatie).ToArray(), nextId);
     }

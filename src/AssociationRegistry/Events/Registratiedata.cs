@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Events;
 
-using Vereniging;
-
 public static class Registratiedata
 {
     public record Contactgegeven(
@@ -25,22 +23,23 @@ public static class Registratiedata
         string Naam,
         Adres Adres,
         bool Hoofdlocatie,
-        string Locatietype)
+        string Locatietype,
+        AdresId? AdresId = null)
     {
         public static Locatie With(AssociationRegistry.Vereniging.Locatie locatie)
             => new(
                 locatie.LocatieId,
                 locatie.Naam ?? string.Empty,
                 new Adres(
-                    locatie.Adres.Straatnaam,
+                    locatie.Adres!.Straatnaam,
                     locatie.Adres.Huisnummer,
                     locatie.Adres.Busnummer ?? string.Empty,
                     locatie.Adres.Postcode,
                     locatie.Adres.Gemeente,
-                    locatie.Adres.Land,
-                    null), //TODO
+                    locatie.Adres.Land),
                 locatie.Hoofdlocatie,
-                locatie.Locatietype);
+                locatie.Locatietype,
+                locatie.AdresId is not null ? new AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde) : null);
     }
 
     public record Adres(
@@ -49,12 +48,9 @@ public static class Registratiedata
         string Busnummer,
         string Postcode,
         string Gemeente,
-        string Land,
-        AdresId? AdresId = null)
-    {
-    }
+        string Land);
 
-    public record AdresId(string Broncode, string BronWaarde);
+    public record AdresId(string Broncode, string Bronwaarde);
 
     public record Vertegenwoordiger(
         int VertegenwoordigerId,

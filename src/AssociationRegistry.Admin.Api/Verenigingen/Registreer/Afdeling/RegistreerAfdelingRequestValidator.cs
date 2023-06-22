@@ -19,7 +19,7 @@ public class RegistreerAfdelingRequestValidator : AbstractValidator<RegistreerAf
             .Must(ToeTeVoegenLocatieValidator.NotHaveDuplicates)
             .WithMessage("Identieke locaties zijn niet toegelaten.");
         RuleFor(request => request.Locaties)
-            .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorresporentieLocaties)
+            .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorrespondentieLocaties)
             .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
         RuleFor(request => request.Locaties)
             .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleHoofdlocaties)
