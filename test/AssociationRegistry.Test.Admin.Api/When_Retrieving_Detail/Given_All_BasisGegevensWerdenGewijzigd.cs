@@ -3,7 +3,6 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;

@@ -12,6 +12,8 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Schema.Detail.Adres;
+using AdresId = AssociationRegistry.Admin.Schema.Detail.AdresId;
 
 [UnitTest]
 public class Given_AfdelingWerdGeregistreerd
@@ -55,15 +57,21 @@ public class Given_AfdelingWerdGeregistreerd
                         Hoofdlocatie = loc.Hoofdlocatie,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,
-                        Straatnaam = loc.Adres.Straatnaam,
-                        Huisnummer = loc.Adres.Huisnummer,
-                        Busnummer = loc.Adres.Busnummer,
-                        Postcode = loc.Adres.Postcode,
-                        Gemeente = loc.Adres.Gemeente,
-                        Land = loc.Adres.Land,
-                        Adres = loc.ToAdresString(),
-                        AdresId = loc.Adres.AdresId?.BronWaarde,
-                        Adresbron = loc.Adres.AdresId?.Broncode,
+                        Adres = new Adres
+                        {
+                            Straatnaam = loc.Adres.Straatnaam,
+                            Huisnummer = loc.Adres.Huisnummer,
+                            Busnummer = loc.Adres.Busnummer,
+                            Postcode = loc.Adres.Postcode,
+                            Gemeente = loc.Adres.Gemeente,
+                            Land = loc.Adres.Land,
+                        },
+                        AdresWeergave = loc.ToAdresString(),
+                        AdresId = new AdresId
+                        {
+                            Broncode = loc.AdresId?.Broncode,
+                            Bronwaarde = loc.AdresId?.Bronwaarde,
+                        },
                     }).ToArray(),
                 Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger

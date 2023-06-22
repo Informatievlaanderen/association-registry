@@ -44,25 +44,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     {
         public int LocatieId { get; set; }
         public string Locatietype { get; init; } = null!;
-
         public bool Hoofdlocatie { get; init; }
-
-        public string Adres { get; init; } = null!;
+        public string AdresWeergave { get; init; } = null!;
+        public Adres Adres { get; init; } = null!;
         public string? Naam { get; init; }
-
-        public string Straatnaam { get; init; } = null!;
-
-        public string Huisnummer { get; init; } = null!;
-
-        public string? Busnummer { get; init; }
-
-        public string Postcode { get; init; } = null!;
-
-        public string Gemeente { get; init; } = null!;
-
-        public string Land { get; init; } = null!;
-        public string? AdresId { get; set; }
-        public string? Adresbron { get; set; }
+        public AdresId? AdresId { get; set; }
     }
 
     public record Vertegenwoordiger
@@ -106,4 +92,25 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
             public string Naam { get; init; } = null!;
         }
     }
+}
+
+public class AdresId
+{
+    public string? Broncode { get; set; }
+    public string? Bronwaarde { get; set; }
+}
+
+public class Adres
+{
+    public string Straatnaam { get; init; } = null!;
+
+    public string Huisnummer { get; init; } = null!;
+
+    public string? Busnummer { get; init; }
+
+    public string Postcode { get; init; } = null!;
+
+    public string Gemeente { get; init; } = null!;
+
+    public string Land { get; init; } = null!;
 }

@@ -29,8 +29,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                         document.Naam.Equals(naam, StringComparison.InvariantCultureIgnoreCase) &&
                         document.Locaties.Any(
                             locatie =>
-                                locatie.Postcode.IsOneOf(postcodes) ||
-                                locatie.Gemeente.IsOneOf(gemeentes)
+                                locatie.Adres.Postcode.IsOneOf(postcodes) ||
+                                locatie.Adres.Gemeente.IsOneOf(gemeentes)
                         )
                 )
                 .ToListAsync())
@@ -50,5 +50,5 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             ImmutableArray<DuplicaatVereniging.Activiteit>.Empty);
 
     private static DuplicaatVereniging.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
-        => new(loc.Locatietype, loc.Hoofdlocatie, loc.Adres, loc.Naam, loc.Postcode, loc.Gemeente);
+        => new(loc.Locatietype, loc.Hoofdlocatie, loc.AdresWeergave, loc.Naam, loc.Adres.Postcode, loc.Adres.Gemeente);
 }

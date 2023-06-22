@@ -3,8 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -105,7 +103,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""postcode"": ""{x.Adres.Postcode}"",
                         ""gemeente"": ""{x.Adres.Gemeente}"",
                         ""land"": ""{x.Adres.Land}"",
-                        ""adresId"": ""{x.Adres.AdresId!.BronWaarde}""
+                        ""adresId"": ""{x.AdresId!.Bronwaarde}""
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{

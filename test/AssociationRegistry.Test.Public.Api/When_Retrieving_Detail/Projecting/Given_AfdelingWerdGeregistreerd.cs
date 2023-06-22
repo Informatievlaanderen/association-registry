@@ -61,8 +61,8 @@ public class Given_AfdelingWerdGeregistreerd
                         Gemeente = loc.Adres.Gemeente,
                         Land = loc.Adres.Land,
                         Adres = loc.ToAdresString(),
-                        AdresId = loc.Adres.AdresId?.BronWaarde,
-                        Adresbron = loc.Adres.AdresId?.Broncode,
+                        AdresId = loc.AdresId?.Bronwaarde,
+                        Adresbron = loc.AdresId?.Broncode,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket

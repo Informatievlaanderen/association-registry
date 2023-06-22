@@ -5,6 +5,7 @@ using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
+using Adres = ResponseModels.Adres;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
@@ -63,10 +64,12 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                         LocatieId = 1,
                         Locatietype = "Correspondentie",
                         Hoofdlocatie = true,
-                        Adres = "kerkstraat 5, 1770 Liedekerke, Belgie",
+                        AdresWeergave = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = null,
+                        Adres = new Adres
+                        {
                         Postcode = "1770",
-                        Gemeente = "Liedekerke",
+                        Gemeente = "Liedekerke"},
                     },
                 },
                 Vertegenwoordigers = new[]
