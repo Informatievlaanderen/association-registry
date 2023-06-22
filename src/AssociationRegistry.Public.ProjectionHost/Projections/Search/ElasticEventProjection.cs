@@ -3,7 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using System.Linq;
 using System.Threading.Tasks;
 using Events;
-using Infrastructure.Extensions;
+using Formatters;
 using Schema.Search;
 using Vereniging;
 
@@ -36,8 +36,8 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.ToAdresString(),
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        Adres = AdresFormatter.ToAdresString(loc.Adres),
+                        IsPrimair = loc.IsPrimair,
                         Postcode = loc.Adres.Postcode,
                         Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),
@@ -73,8 +73,8 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.ToAdresString(),
-                        Hoofdlocatie = loc.Hoofdlocatie,
+                        Adres = AdresFormatter.ToAdresString(loc.Adres),
+                        IsPrimair = loc.IsPrimair,
                         Postcode = loc.Adres.Postcode,
                         Gemeente = loc.Adres.Gemeente,
                     }).ToArray(),

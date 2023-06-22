@@ -12,15 +12,15 @@ public class Locatie
     public string Locatietype { get; init; } = null!;
 
     /// <summary>
-    /// Is dit de hoofdlocatie van deze vereniging
+    /// Is dit de primaire locatie van deze vereniging
     /// </summary>
-    [DataMember(Name = "Hoofdlocatie")]
-    public bool Hoofdlocatie { get; init; }
+    [DataMember(Name = "IsPrimair")]
+    public bool IsPrimair { get; init; }
 
     /// <summary>
     /// Het volledige adres van de vereniging
     /// </summary>
-    [DataMember(Name = "AdresWeergave")]
+    [DataMember(Name = "Adresvoorstelling")]
     public string Adres { get; init; } = null!;
 
     ///<summary>

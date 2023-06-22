@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_Adres;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,7 +21,7 @@ public class Without_A_Gemeente : ValidatorTest
             {
                 new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietypes.Activiteiten,
+                    Locatietype = Locatietype.Activiteiten,
                     Adres = new ToeTeVoegenAdres
                     {
                         Straatnaam = "Dezestraat",

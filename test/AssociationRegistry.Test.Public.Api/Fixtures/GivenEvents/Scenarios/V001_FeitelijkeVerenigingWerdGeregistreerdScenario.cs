@@ -24,7 +24,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
             "1790",
             "Affligem",
             "België"),
-        Hoofdlocatie: true,
+        IsPrimair: true,
         "Correspondentie",
         new Registratiedata.AdresId(
             Adresbron.AR,

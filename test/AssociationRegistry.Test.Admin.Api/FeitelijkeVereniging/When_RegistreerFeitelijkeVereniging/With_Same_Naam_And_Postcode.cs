@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Registree
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
@@ -13,6 +12,7 @@ using Framework;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Formatters;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
@@ -108,8 +108,8 @@ public class With_Same_Naam_And_Postcode
           FeitelijkeVerenigingWerdGeregistreerd.Locaties
               .Select(locatie => $@"{{
           ""locatietype"": ""{locatie.Locatietype}"",
-          ""hoofdlocatie"": {(locatie.Hoofdlocatie ? "true" : "false")},
-          ""adres"": ""{locatie.ToAdresString()}"",
+          ""isPrimair"": {(locatie.IsPrimair ? "true" : "false")},
+          ""adresvoorstelling"": ""{AdresFormatter.ToAdresString(locatie.Adres)}"",
           ""naam"": ""{locatie.Naam}"",
           ""postcode"": ""{locatie.Adres.Postcode}"",
           ""gemeente"": ""{locatie.Adres.Gemeente}""
@@ -178,7 +178,7 @@ public class With_Same_Naam_And_Postcode
                             Request.Locaties.First().Adres!.Postcode,
                             Request.Locaties.First().Adres!.Gemeente,
                             Request.Locaties.First().Adres!.Land),
-                        Request.Locaties.First().Hoofdlocatie,
+                        Request.Locaties.First().IsPrimair,
                         Request.Locaties.First().Locatietype),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),

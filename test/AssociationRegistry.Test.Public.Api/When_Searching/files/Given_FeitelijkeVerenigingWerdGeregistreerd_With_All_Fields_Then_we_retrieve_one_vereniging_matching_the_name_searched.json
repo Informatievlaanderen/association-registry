@@ -19,7 +19,7 @@
       "locaties": [
         {
           "locatietype": "Correspondentie",
-          "hoofdlocatie": true,
+          "isPrimair": true,
           "adres": "Stationsstraat 1 bus B, 1790 Affligem, België",
           "naam": "Correspondentie",
           "postcode": "1790",

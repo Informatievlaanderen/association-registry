@@ -46,15 +46,18 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     new Locatie
                     {
                         Locatietype = "Correspondentie",
-                        Hoofdlocatie = true,
-                        Adres = "kerkstraat 5, 1770 Liedekerke, Belgie",
+                        IsPrimair = true,
+                        Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = "de kerk",
-                        Straatnaam = "kerkstraat",
-                        Huisnummer = "5",
-                        Busnummer = null,
-                        Postcode = "1770",
-                        Gemeente = "Liedekerke",
-                        Land = "Belgie",
+                        Adres = new Adres
+                        {
+                            Straatnaam = "kerkstraat",
+                            Huisnummer = "5",
+                            Busnummer = null,
+                            Postcode = "1770",
+                            Gemeente = "Liedekerke",
+                            Land = "Belgie",
+                        },
                     },
                 },
                 HoofdactiviteitenVerenigingsloket = new[]

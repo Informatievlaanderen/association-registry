@@ -2,17 +2,23 @@
 
 using System.Collections.ObjectModel;
 using Exceptions;
+using Framework;
 
 public class Locaties : ReadOnlyCollection<Locatie>
 {
     private const int InitialId = 1;
+    public int NextId { get; }
 
-    private Locaties(Locatie[] locaties, int nextId):base(locaties)
+    private Locaties(Locatie[] locaties, int nextId) : base(locaties)
     {
         NextId = nextId;
     }
 
-    public int NextId { get; }
+    public bool HasPrimairelocatie
+        => Items.Any(l => l.IsPrimair);
+
+    public bool HasCorrespondentieLocatie
+        => Items.Any(l => l.Locatietype == Locatietype.Correspondentie);
 
     public static Locaties Empty
         => new(Array.Empty<Locatie>(), InitialId);
@@ -27,8 +33,9 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public Locaties Append(Locatie locatie)
     {
-        if (Items.Contains(locatie))
-            throw new DuplicateLocatieProvided();
+        Throw<DuplicateLocatieProvided>.If(Items.Contains(locatie));
+        Throw<DuplicatePrimaireLocatieProvided>.If(locatie.IsPrimair && HasPrimairelocatie);
+        Throw<DuplicateCorrespondentielocatieProvided>.If(locatie.Locatietype == Locatietype.Correspondentie && HasCorrespondentieLocatie);
 
         var nextId = Math.Max(locatie.LocatieId + 1, NextId);
         return new Locaties(Items.Append(locatie).ToArray(), nextId);

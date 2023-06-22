@@ -44,7 +44,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                         "1790",
                         "Affligem",
                         "België"),
-                    Hoofdlocatie: true,
+                    IsPrimair: true,
                     "Correspondentie",
                     new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
             },

@@ -65,7 +65,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                         _setup.RequestLocatie.Adres.Postcode,
                         _setup.RequestLocatie.Adres.Gemeente,
                         _setup.RequestLocatie.Adres.Land),
-                        _setup.RequestLocatie.Hoofdlocatie,
+                        _setup.RequestLocatie.IsPrimair,
                         _setup.RequestLocatie.Locatietype,
                         new Registratiedata.AdresId(
                             _setup.RequestLocatie.AdresId!.Broncode,

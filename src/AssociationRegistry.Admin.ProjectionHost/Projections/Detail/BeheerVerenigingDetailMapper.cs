@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
-using Infrastructure.Extensions;
+using Formatters;
 using Schema.Detail;
 using Vereniging;
 using Adres = Schema.Detail.Adres;
@@ -13,25 +13,35 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             LocatieId = loc.LocatieId,
-            Hoofdlocatie = loc.Hoofdlocatie,
+            IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Adres = new Adres
-            {
-                Straatnaam = loc.Adres.Straatnaam,
-                Huisnummer = loc.Adres.Huisnummer,
-                Busnummer = loc.Adres.Busnummer,
-                Postcode = loc.Adres.Postcode,
-                Gemeente = loc.Adres.Gemeente,
-                Land = loc.Adres.Land,
-            },
-            AdresWeergave = loc.ToAdresString(),
-            AdresId = new AdresId
-            {
-                Bronwaarde = loc.AdresId?.Bronwaarde,
-                Broncode = loc.AdresId?.Broncode,
-            },
+            Adres = Map(loc.Adres),
+            Adresvoorstelling = loc.Adres.ToAdresString(),
+            AdresId = Map(loc.AdresId),
         };
+
+    private static Adres? Map(Registratiedata.Adres? adres)
+        => adres is null
+            ? null
+            : new Adres
+            {
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = adres.Land,
+            };
+
+    private static AdresId? Map(Registratiedata.AdresId? locAdresId)
+        => locAdresId is null
+            ? null
+            : new AdresId
+            {
+                Bronwaarde = locAdresId.Bronwaarde,
+                Broncode = locAdresId.Broncode,
+            };
 
     public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c)
         => new()

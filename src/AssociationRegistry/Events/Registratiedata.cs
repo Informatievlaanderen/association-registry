@@ -21,8 +21,8 @@ public static class Registratiedata
     public record Locatie(
         int LocatieId,
         string Naam,
-        Adres Adres,
-        bool Hoofdlocatie,
+        Adres? Adres,
+        bool IsPrimair,
         string Locatietype,
         AdresId? AdresId = null)
     {
@@ -30,14 +30,8 @@ public static class Registratiedata
             => new(
                 locatie.LocatieId,
                 locatie.Naam ?? string.Empty,
-                new Adres(
-                    locatie.Adres!.Straatnaam,
-                    locatie.Adres.Huisnummer,
-                    locatie.Adres.Busnummer ?? string.Empty,
-                    locatie.Adres.Postcode,
-                    locatie.Adres.Gemeente,
-                    locatie.Adres.Land),
-                locatie.Hoofdlocatie,
+                Adres.With(locatie.Adres),
+                locatie.IsPrimair,
                 locatie.Locatietype,
                 locatie.AdresId is not null ? new AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde) : null);
     }
@@ -48,7 +42,22 @@ public static class Registratiedata
         string Busnummer,
         string Postcode,
         string Gemeente,
-        string Land);
+        string Land)
+    {
+        public static Adres? With(AssociationRegistry.Vereniging.Adres? adres)
+        {
+            if (adres is null)
+                return null;
+
+            return new Adres(
+                adres.Straatnaam,
+                adres.Huisnummer,
+                adres.Busnummer,
+                adres.Postcode,
+                adres.Gemeente,
+                adres.Land);
+        }
+    }
 
     public record AdresId(string Broncode, string Bronwaarde);
 

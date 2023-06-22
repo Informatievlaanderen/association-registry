@@ -38,20 +38,14 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
         public bool IsPrimair { get; set; }
     }
 
-    public class Locatie
+    public record Locatie
     {
-        public string Locatietype { get; set; } = null!;
-        public bool Hoofdlocatie { get; set; }
-        public string Adres { get; set; } = null!;
-        public string Naam { get; set; } = null!;
-        public string Straatnaam { get; set; } = null!;
-        public string Huisnummer { get; set; } = null!;
-        public string Busnummer { get; set; } = null!;
-        public string Postcode { get; set; } = null!;
-        public string Gemeente { get; set; } = null!;
-        public string Land { get; set; } = null!;
-        public string? AdresId { get; set; }
-        public string? Adresbron { get; set; }
+        public string Locatietype { get; init; } = null!;
+        public bool IsPrimair { get; init; }
+        public string Adresvoorstelling { get; init; } = null!;
+        public Adres? Adres { get; init; } = null!;
+        public string? Naam { get; init; }
+        public AdresId? AdresId { get; set; }
     }
 
     public class HoofdactiviteitVerenigingsloket
@@ -80,5 +74,25 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
             public string Naam { get; set; } = null!;
         }
+    }
+    public class AdresId
+    {
+        public string? Broncode { get; set; }
+        public string? Bronwaarde { get; set; }
+    }
+
+    public class Adres
+    {
+        public string Straatnaam { get; init; } = null!;
+
+        public string Huisnummer { get; init; } = null!;
+
+        public string? Busnummer { get; init; }
+
+        public string Postcode { get; init; } = null!;
+
+        public string Gemeente { get; init; } = null!;
+
+        public string Land { get; init; } = null!;
     }
 }

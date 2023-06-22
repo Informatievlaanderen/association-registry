@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locaties;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 
 public class With_Multiple_Corresporentie_Locaties : ValidatorTest
@@ -19,11 +19,11 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
             {
                 new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietypes.Correspondentie,
+                    Locatietype = Locatietype.Correspondentie,
                 },
                 new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietypes.Correspondentie,
+                    Locatietype = Locatietype.Correspondentie,
                 },
             },
         };

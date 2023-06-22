@@ -22,7 +22,7 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Naam locatie",
-                    Hoofdlocatie = true,
+                    IsPrimair = true,
                     AdresId = new AdresId
                     {
                         Broncode = "AR",
@@ -37,7 +37,7 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                         Postcode = "1000",
                         Straatnaam = "Straatnaam",
                     },
-                    Locatietype = Locatietypes.Activiteiten,
+                    Locatietype = Locatietype.Activiteiten,
                 },
             },
             Contactgegevens = new[]

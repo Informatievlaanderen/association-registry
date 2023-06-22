@@ -44,9 +44,9 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     {
         public int LocatieId { get; set; }
         public string Locatietype { get; init; } = null!;
-        public bool Hoofdlocatie { get; init; }
-        public string AdresWeergave { get; init; } = null!;
-        public Adres Adres { get; init; } = null!;
+        public bool IsPrimair { get; init; }
+        public string Adresvoorstelling { get; init; } = null!;
+        public Adres? Adres { get; init; } = null!;
         public string? Naam { get; init; }
         public AdresId? AdresId { get; set; }
     }

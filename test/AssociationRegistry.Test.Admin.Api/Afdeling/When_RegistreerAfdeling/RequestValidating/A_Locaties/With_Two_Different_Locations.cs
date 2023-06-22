@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.RequestValidating.A_Locaties;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using Framework;
 using FluentValidation.TestHelper;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,7 +17,7 @@ public class With_Two_Different_Locations : ValidatorTest
         var validator = new RegistreerAfdelingRequestValidator();
         var eersteLocatie = new ToeTeVoegenLocatie
         {
-            Locatietype = Locatietypes.Activiteiten,
+            Locatietype = Locatietype.Activiteiten,
             Adres = new ToeTeVoegenAdres
             {
                 Huisnummer = "23",
@@ -29,7 +29,7 @@ public class With_Two_Different_Locations : ValidatorTest
         };
         var andereLocatie = new ToeTeVoegenLocatie
         {
-            Locatietype = Locatietypes.Activiteiten,
+            Locatietype = Locatietype.Activiteiten,
             Adres = new ToeTeVoegenAdres
             {
                 Huisnummer = "23",

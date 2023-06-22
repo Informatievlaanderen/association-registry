@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
+using Formatters;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -199,19 +200,35 @@ public static class PubliekVerenigingDetailProjector
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
         => new()
         {
-            Hoofdlocatie = loc.Hoofdlocatie,
+            IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Straatnaam = loc.Adres.Straatnaam,
-            Huisnummer = loc.Adres.Huisnummer,
-            Busnummer = loc.Adres.Busnummer,
-            Postcode = loc.Adres.Postcode,
-            Gemeente = loc.Adres.Gemeente,
-            Land = loc.Adres.Land,
-            Adres = loc.ToAdresString(),
-            AdresId = loc.AdresId?.Bronwaarde,
-            Adresbron = loc.AdresId?.Broncode,
+            Adres = Map(loc.Adres),
+            Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
+            AdresId = Map(loc.AdresId),
         };
+
+    private static PubliekVerenigingDetailDocument.Adres? Map(Registratiedata.Adres? adres)
+        => adres is null
+            ? null
+            : new PubliekVerenigingDetailDocument.Adres
+            {
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = adres.Land,
+            };
+
+    private static PubliekVerenigingDetailDocument.AdresId? Map(Registratiedata.AdresId? locAdresId)
+        => locAdresId is null
+            ? null
+            : new PubliekVerenigingDetailDocument.AdresId
+            {
+                Bronwaarde = locAdresId.Bronwaarde,
+                Broncode = locAdresId.Broncode,
+            };
 
     public static PubliekVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, PubliekVerenigingDetailDocument moeder)
     {

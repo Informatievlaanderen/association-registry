@@ -32,7 +32,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new Locatie
                         {
                             Locatietype = "Correspondentie",
-                            Hoofdlocatie = true,
+                            IsPrimair = true,
                             Adres = "kerkstraat 5, 1770 Liedekerke, Belgie",
                             Naam = null,
                             Postcode = "1770",
@@ -71,7 +71,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new Locatie
                         {
                             Locatietype = "Activiteiten",
-                            Hoofdlocatie = false,
+                            IsPrimair = false,
                             Adres = "dorpstraat 91, 9000 Gent, Belgie",
                             Naam = "Cursuszaal",
                             Postcode = "9000",

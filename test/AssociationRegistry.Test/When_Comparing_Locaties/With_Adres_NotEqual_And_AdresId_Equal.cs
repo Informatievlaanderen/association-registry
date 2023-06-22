@@ -1,20 +1,24 @@
 namespace AssociationRegistry.Test.When_Comparing_Locaties;
 
-using Admin.Api.Constants;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
-public class With_AdressId_Equal_But_Not_AdresComponenten
+[UnitTest]
+
+public class With_Adres_NotEqual_And_AdresId_Equal
 {
     [Fact]
     public void Then_it_returns_true()
     {
+        var dezelfdeAdresIdWaarde = AdresId.DataVlaanderenAdresPrefix;
+
         var locatie1 = Locatie.Create(
             "naam",
             true,
-            Locatietypes.Activiteiten,
-            AdresId.Create(Adresbron.AR, "waarde"),
+            Locatietype.Activiteiten,
+            AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde),
             Adres.Create("straatnaam",
                 "huisnummer",
                 "busnummer",
@@ -25,9 +29,8 @@ public class With_AdressId_Equal_But_Not_AdresComponenten
         var locatie2 = Locatie.Create(
             "naam",
             true,
-            Locatietypes.Activiteiten,
-            AdresId.Create(Adresbron.AR, "waarde"),
-            null);
+            Locatietype.Activiteiten,
+            AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde));
 
         locatie1.Equals(locatie2).Should().BeTrue();
     }

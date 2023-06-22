@@ -22,9 +22,9 @@ public class Locatie
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
 
-    /// <summary>Duidt aan dat dit de hoofdlocatie is</summary>
-    [DataMember(Name = "Hoofdlocatie")]
-    public bool Hoofdlocatie { get; init; }
+    /// <summary>Duidt aan dat dit de primaire locatie is</summary>
+    [DataMember(Name = "IsPrimair")]
+    public bool IsPrimair { get; init; }
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember(Name = "Naam")]
@@ -35,12 +35,13 @@ public class Locatie
     public Adres? Adres { get; init; } = null!;
 
     /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
-    [DataMember(Name = "Adres")]
-    public string AdresWeergave { get; init; } = null!;
+    [DataMember(Name = "Adresvoorstelling")]
+    public string Adresvoorstelling { get; init; } = null!;
 
     /// <summary>
     /// De identifier van het adres op een externe bron
     /// </summary>
+    [DataMember(Name = "AdresId")]
     public AdresId? AdresId { get; set; }
 
 

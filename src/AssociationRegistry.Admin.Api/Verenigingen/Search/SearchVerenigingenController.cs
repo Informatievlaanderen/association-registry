@@ -42,7 +42,7 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=*kerke` zoekt in alle velden naar een term die eindigt op 'kerke',
     ///     - `q=*kerke*` zoekt in alle velden naar een term die 'kerke' bevat.
     ///     Om te zoeken binnen een bepaald veld, gebruik je de naam van het veld.
-    ///     - `q=hoofdlocatie:Liedekerke`
+    ///     - `q=gemeente:Liedekerke`
     ///     - `q=korteNaam:DV*`
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`

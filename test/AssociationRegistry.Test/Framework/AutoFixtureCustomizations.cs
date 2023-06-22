@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Framework;
 
-using Admin.Api.Constants;
 using AutoFixture;
 using AutoFixture.Dsl;
 using Events;
@@ -127,19 +126,24 @@ public static class AutoFixtureCustomizations
     public static void CustomizeVerenigingWerdGeregistreerd(this IFixture fixture)
     {
         fixture.Customize<Registratiedata.Locatie>(
-            composer => composer.FromFactory<int>(
-                    value => new Registratiedata.Locatie(
-                        LocatieId: fixture.Create<int>(),
-                        Naam: fixture.Create<string>(),
-                        new Registratiedata.Adres(Straatnaam: fixture.Create<string>(),
+            composer => composer.FromFactory(
+                () => new Registratiedata.Locatie(
+                    LocatieId: fixture.Create<int>(),
+                    Naam: fixture.Create<string>(),
+                    new Registratiedata.Adres(
+                        Straatnaam: fixture.Create<string>(),
                         Huisnummer: fixture.Create<int>().ToString(),
                         Busnummer: fixture.Create<string>(),
                         Postcode: (fixture.Create<int>() % 10000).ToString(),
                         Gemeente: fixture.Create<string>(),
                         Land: fixture.Create<string>()),
-                        Hoofdlocatie: false,
-                        Locatietype: Locatietypes.All[value % Locatietypes.All.Length]
-))
+                    IsPrimair: false,
+                    Locatietype: fixture.Create<Locatietype>()
+                )).OmitAutoProperties());
+
+        fixture.Customize<Locatietype>(
+            composer => composer.FromFactory<int>(
+                value => Locatietype.All[value % Locatietype.All.Length])
                 .OmitAutoProperties());
 
         fixture.Customize<Registratiedata.HoofdactiviteitVerenigingsloket>(

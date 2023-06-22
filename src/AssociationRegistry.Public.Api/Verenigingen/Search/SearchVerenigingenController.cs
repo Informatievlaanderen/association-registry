@@ -47,7 +47,7 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=*kerke` zoekt in alle velden naar een term die eindigt op 'kerke',
     ///     - `q=*kerke*` zoekt in alle velden naar een term die 'kerke' bevat.
     ///     Om te zoeken binnen een bepaald veld, gebruik je de naam van het veld.
-    ///     - `q=hoofdlocatie:Liedekerke`
+    ///     - `q=gemeente:Liedekerke`
     ///     - `q=korteNaam:DV*`
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`
@@ -64,6 +64,8 @@ public class SearchVerenigingenController : ApiController
     /// <param name="q">De querystring</param>
     /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
+    /// <param name="validator"></param>
+    /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("zoeken")]
@@ -80,6 +82,8 @@ public class SearchVerenigingenController : ApiController
         [FromServices] IValidator<PaginationQueryParams> validator,
         CancellationToken cancellationToken)
     {
+        await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
+
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 

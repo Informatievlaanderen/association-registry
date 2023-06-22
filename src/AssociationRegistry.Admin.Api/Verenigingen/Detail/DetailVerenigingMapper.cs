@@ -129,8 +129,8 @@ public class DetailVerenigingMapper
         {
             LocatieId = loc.LocatieId,
             Locatietype = loc.Locatietype,
-            Hoofdlocatie = loc.Hoofdlocatie,
-            AdresWeergave = loc.AdresWeergave,
+            IsPrimair = loc.IsPrimair,
+            Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
             Adres = new Adres
             {
