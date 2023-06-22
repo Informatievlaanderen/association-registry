@@ -1,0 +1,13 @@
+namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
+
+using FluentValidation;
+using Infrastructure.Validation;
+
+public class AdresIdValidator : AbstractValidator<AdresId>
+{
+    public AdresIdValidator()
+    {
+        this.RequireNotNullOrEmpty(adresId => adresId.Broncode);
+        this.RequireNotNullOrEmpty(adresId => adresId.Bronwaarde);
+    }
+}

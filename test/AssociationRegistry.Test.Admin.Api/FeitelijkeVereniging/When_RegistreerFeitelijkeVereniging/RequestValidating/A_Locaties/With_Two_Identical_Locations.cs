@@ -13,7 +13,7 @@ using Xunit.Categories;
 public class With_Two_Identical_Locations : ValidatorTest
 {
     [Fact]
-    public void Has_validation_error__idenitiek_locaties_verboden()
+    public void Has_validation_error__identiek_locaties_verboden()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
         var identiekLocatie = new ToeTeVoegenLocatie

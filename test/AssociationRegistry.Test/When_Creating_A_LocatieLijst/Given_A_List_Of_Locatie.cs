@@ -12,9 +12,9 @@ public class Given_A_List_Of_Locatie
     [Fact]
     public void Then_It_Returns_A_Filled_LocatieLijst()
     {
-        var listOfLocatie = new []
+        var listOfLocatie = new[]
         {
-            Locatie.Create("Kerker", "kerkstraat", "1", "-1", "666", "penoze", "Nederland", true, Locatietypes.Activiteiten),
+            Locatie.Create("Kerker", true, Locatietypes.Activiteiten, null, Adres.Create("kerkstraat", "1", "-1", "666", "penoze", "Nederland")),
         };
 
         var locatieLijst = Locaties.FromArray(listOfLocatie);

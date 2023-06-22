@@ -66,6 +66,11 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Speeltuin",
+                    AdresId = new AdresId
+                    {
+                        Broncode = "AR",
+                        Bronwaarde = "0123456789",
+                    },
                     Adres = new ToeTeVoegenAdres
                     {
                         Straatnaam = "dorpelstraat",
@@ -74,11 +79,6 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Postcode = "4567",
                         Gemeente = "Nothingham",
                         Land = "Belgie",
-                        AdresId = new AdresId
-                        {
-                            AdresbronCode = "AR",
-                            AdresbronWaarde = "0123456789",
-                        },
                     },
                     Hoofdlocatie = false,
                     Locatietype = Locatietypes.Activiteiten,
@@ -170,8 +170,9 @@ public class With_All_Fields
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
-        savedEvent.Locaties.Should().HaveCount(expected: 1);
+        savedEvent.Locaties.Should().HaveCount(expected: 2);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
+        savedEvent.Locaties[1].Should().BeEquivalentTo(Request.Locaties[1]);
         savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
         savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());

@@ -18,6 +18,7 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 public sealed class When_RegistreerAfdeling_WithAllFields
 {
@@ -61,6 +62,26 @@ public sealed class When_RegistreerAfdeling_WithAllFields
                     },
                     Hoofdlocatie = true,
                     Locatietype = Locatietypes.Correspondentie,
+                },
+                new ToeTeVoegenLocatie
+                {
+                    Naam = "Speeltuin",
+                    AdresId = new AdresId
+                    {
+                        Broncode = "AR",
+                        Bronwaarde = "0123456789",
+                    },
+                    Adres = new ToeTeVoegenAdres
+                    {
+                        Straatnaam = "dorpelstraat",
+                        Huisnummer = "169",
+                        Busnummer = "2",
+                        Postcode = "4567",
+                        Gemeente = "Nothingham",
+                        Land = "Belgie",
+                    },
+                    Hoofdlocatie = false,
+                    Locatietype = Locatietypes.Activiteiten,
                 },
             },
             Vertegenwoordigers = new[]
@@ -151,8 +172,11 @@ public class With_All_Fields
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
-        savedEvent.Locaties.Should().HaveCount(expected: 1);
+        savedEvent.Locaties.Should().HaveCount(expected: 2);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
+        savedEvent.Locaties[1].Should().BeEquivalentTo(Request.Locaties[1]);
+        savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
+        savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
         savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());
         savedEvent.Vertegenwoordigers.ForEach(x => x.VertegenwoordigerId.Should().BePositive());
         savedEvent.Vertegenwoordigers.Select(x => x.VertegenwoordigerId).ToList().Should().OnlyHaveUniqueItems();

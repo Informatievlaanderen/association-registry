@@ -1,20 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Events;
-using AssociationRegistry.Framework;
-using Primitives;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
