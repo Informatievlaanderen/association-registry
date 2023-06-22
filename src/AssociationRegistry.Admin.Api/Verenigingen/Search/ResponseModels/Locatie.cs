@@ -20,7 +20,7 @@ public class Locatie
     /// <summary>
     /// Het volledige adres van de vereniging
     /// </summary>
-    [DataMember(Name = "Adresvoorstelling")]
+    [DataMember(Name = "Adres")]
     public string Adres { get; init; } = null!;
 
     ///<summary>

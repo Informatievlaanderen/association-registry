@@ -42,8 +42,22 @@ public record Locatie
         if (Locatietype != other.Locatietype)
             return false;
 
-        return AdresId == other.AdresId ||
-               Adres == other.Adres;
+        return HasSameAdresId(other.AdresId) ||
+               HasSameAdres(other.Adres);
+    }
+
+    private bool HasSameAdresId(AdresId? other)
+    {
+        if (AdresId is null && other is null) return false;
+
+        return AdresId == other;
+    }
+
+    private bool HasSameAdres(Adres? other)
+    {
+        if (Adres is null && other is null) return false;
+
+        return Adres == other;
     }
 
     public override int GetHashCode()
