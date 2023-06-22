@@ -1,3 +1,23 @@
+# [3.29.0](https://github.com/informatievlaanderen/association-registry/compare/v3.28.3...v3.29.0) (2023-06-22)
+
+
+### Bug Fixes
+
+* or-1776 don't compare adressen and adresIds when they are null; rename adresvoorstelling ([9e7bfc8](https://github.com/informatievlaanderen/association-registry/commit/9e7bfc8239acb7e36d1712e70175fb9894e3c0f4))
+* or-1776 fix reference to AdresId ([f870e34](https://github.com/informatievlaanderen/association-registry/commit/f870e343a093a6c7b4a037d18ca61e6c1da80bb2))
+
+
+### Features
+
+* or-1776 add  adresid to publiek detail ([fdb2662](https://github.com/informatievlaanderen/association-registry/commit/fdb2662f42b01bd3b570bb1d92b68ac111021ced))
+* or-1776 add adresId to beheer detail ([a0cfd6f](https://github.com/informatievlaanderen/association-registry/commit/a0cfd6f119d7b30602d038a20ca1144120f4b186))
+* or-1776 add AdresId to Locatie and replace Hoofdlocatie by IsPrimair ([dfa40d9](https://github.com/informatievlaanderen/association-registry/commit/dfa40d95f49ee7d8728e61627e398e88ef4e298e))
+* or-1776 add AdresId to registreer FV request [WIP ([5cb4dc7](https://github.com/informatievlaanderen/association-registry/commit/5cb4dc7c454405d4589a67b8653e5af709cac53f))
+* or-1776 add bron to responses ([7dc5842](https://github.com/informatievlaanderen/association-registry/commit/7dc5842ab8904684253556399610b7acb5dffbfd))
+* or-1776 merge branches back together ([42b1de7](https://github.com/informatievlaanderen/association-registry/commit/42b1de7782af432c08074db217e2db5c66506a7d))
+* or-1776 merge with projections ([b931ff1](https://github.com/informatievlaanderen/association-registry/commit/b931ff154c01c0655809e097e1350265937e5a97))
+* or-1776 setup adres event contract ([407ca8b](https://github.com/informatievlaanderen/association-registry/commit/407ca8b00d5bf08785704246cff6fb82bfbef962))
+
 ## [3.28.3](https://github.com/informatievlaanderen/association-registry/compare/v3.28.2...v3.28.3) (2023-06-21)
 
 
