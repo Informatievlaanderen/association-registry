@@ -1,3 +1,10 @@
+## [3.29.1](https://github.com/informatievlaanderen/association-registry/compare/v3.29.0...v3.29.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* or-1776 fix null reference exception, replace adres by adresvoorstelling in publiek en beheer zoek ([6fd7cfb](https://github.com/informatievlaanderen/association-registry/commit/6fd7cfbc039e262e57cbccd5f8977abae6af6504))
+
 # [3.29.0](https://github.com/informatievlaanderen/association-registry/compare/v3.28.3...v3.29.0) (2023-06-22)
 
 
