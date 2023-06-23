@@ -37,6 +37,32 @@
           "bronwaarde": "https://data.vlaanderen.be/id/adres/0",
           "broncode": "AR"
         }
+      },
+      {
+        "locatietype": "Activiteiten",
+        "isPrimair": false,
+        "adresvoorstelling": "",
+        "naam": "Activiteiten",
+        "adres": null,
+        "adresId": {
+          "bronwaarde": "https://data.vlaanderen.be/id/adres/0",
+          "broncode": "AR"
+        }
+      },
+      {
+        "locatietype": "Activiteiten",
+        "isPrimair": false,
+        "adresvoorstelling": "Dorpstraat 1 bus B, 1790 Affligem, België",
+        "naam": "Activiteiten",
+        "adres": {
+          "straatnaam": "Dorpstraat",
+          "huisnummer": "1",
+          "busnummer": "B",
+          "postcode": "1790",
+          "gemeente": "Affligem",
+          "land": "België"
+        },
+        "adresId": null
       }
     ],
     "hoofdactiviteitenVerenigingsloket": [

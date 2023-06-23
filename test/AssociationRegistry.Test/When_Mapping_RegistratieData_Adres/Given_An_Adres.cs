@@ -22,7 +22,7 @@ public class Given_An_Adres
             .Should().Be(new Registratiedata.Adres(
                 adres.Straatnaam,
                 adres.Huisnummer,
-                adres.Busnummer!,
+                adres.Busnummer,
                 adres.Postcode,
                 adres.Gemeente,
                 adres.Land));

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 
 using System;
-using Constants;
 using Common;
 using FeitelijkeVereniging;
 using Vereniging;

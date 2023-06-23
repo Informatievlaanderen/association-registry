@@ -118,13 +118,13 @@ public class Program
         AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
             Log.Debug(
                 eventArgs.Exception,
-                "FirstChanceException event raised in {AppDomain}.",
+                "FirstChanceException event raised in {AppDomain}",
                 AppDomain.CurrentDomain.FriendlyName);
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                "Encountered a fatal exception, exiting program.");
+                "Encountered a fatal exception, exiting program");
     }
 
     private static void ConfigureHealtChecks(WebApplication app)

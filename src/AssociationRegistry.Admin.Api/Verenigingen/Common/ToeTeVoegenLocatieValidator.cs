@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using System;
 using System.Linq;
-using Constants;
 using Infrastructure.Validation;
 using FluentValidation;
 using Vereniging;

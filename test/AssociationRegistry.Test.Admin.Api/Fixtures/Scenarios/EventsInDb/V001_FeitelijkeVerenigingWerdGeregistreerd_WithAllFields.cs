@@ -47,6 +47,26 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                     IsPrimair: true,
                     "Correspondentie",
                     new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                new Registratiedata.Locatie(
+                    2,
+                    "Activiteiten",
+                    Adres: null,
+                    IsPrimair: false,
+                    "Activiteiten",
+                    new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                new Registratiedata.Locatie(
+                    3,
+                    "Activiteiten",
+                    new Registratiedata.Adres(
+                        "Dorpstraat",
+                        "1",
+                        "B",
+                        "1790",
+                        "Affligem",
+                        "België"),
+                    IsPrimair: false,
+                    "Activiteiten",
+                    AdresId: null),
             },
             new[]
             {

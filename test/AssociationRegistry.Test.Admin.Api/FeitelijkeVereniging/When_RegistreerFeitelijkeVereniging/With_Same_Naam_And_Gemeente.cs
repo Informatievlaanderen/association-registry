@@ -35,7 +35,9 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Gemee
         var autoFixture = new Fixture().CustomizeAll();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-        locatie.Adres!.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente;
+        locatie.Adres!.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
+            .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
+            .Adres!.Gemeente;
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
@@ -110,10 +112,10 @@ public class With_Same_Naam_And_Gemeente
               .Select(locatie => $@"{{
           ""locatietype"": ""{locatie.Locatietype}"",
           ""isPrimair"": {(locatie.IsPrimair ? "true" : "false")},
-          ""adresvoorstelling"": ""{AdresFormatter.ToAdresString(locatie.Adres)}"",
+          ""adresvoorstelling"": ""{locatie.Adres.ToAdresString()}"",
           ""naam"": ""{locatie.Naam}"",
-          ""postcode"": ""{locatie.Adres.Postcode}"",
-          ""gemeente"": ""{locatie.Adres.Gemeente}""
+          ""postcode"": ""{locatie.Adres?.Postcode ?? string.Empty}"",
+          ""gemeente"": ""{locatie.Adres?.Gemeente ?? string.Empty}""
         }}"))}
       ],
       ""activiteiten"": [],

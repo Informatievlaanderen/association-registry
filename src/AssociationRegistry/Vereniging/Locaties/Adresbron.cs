@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Vereniging;
 
+using Exceptions;
+using Framework;
+
 public class Adresbron
 {
     public static readonly Adresbron AR = new("AR", "Adressenregister");
@@ -15,11 +18,14 @@ public class Adresbron
     public string Code { get; }
     public string Beschrijving { get; }
 
-    public static Adresbron Parse(string waarde)
-        => All.Single(t => t.Code == waarde);
+    public static Adresbron Parse(string broncode)
+    {
+        Throw<InvalidBroncode>.If(!CanParse(broncode));
+        return All.Single(t => t.Code == broncode);
+    }
 
-    public static bool CanParse(string waarde)
-        => All.Any(t => t.Code == waarde);
+    public static bool CanParse(string broncode)
+        => All.Any(t => t.Code == broncode);
 
     public static implicit operator string(Adresbron verenigingsbron)
         => verenigingsbron.Code;

@@ -8,7 +8,7 @@ public class VerenigingZoekDocument
     {
         public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
-        public string Adres { get; init; } = null!;
+        public string Adresvoorstelling { get; init; } = null!;
         public bool IsPrimair { get; init; }
         public string Postcode { get; init; } = null!;
         public string Gemeente { get; init; } = null!;

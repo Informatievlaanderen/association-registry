@@ -36,10 +36,10 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.Adres.ToAdresString(),
+                        Adresvoorstelling = loc.Adres.ToAdresString(),
                         IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres.Postcode,
-                        Gemeente = loc.Adres.Gemeente,
+                        Postcode = loc.Adres?.Postcode ?? string.Empty,
+                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
                     }).ToArray(),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
@@ -73,10 +73,10 @@ public class ElasticEventHandler
                     {
                         Locatietype = loc.Locatietype,
                         Naam = loc.Naam,
-                        Adres = loc.Adres.ToAdresString(),
+                        Adresvoorstelling = loc.Adres.ToAdresString(),
                         IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres.Postcode,
-                        Gemeente = loc.Adres.Gemeente,
+                        Postcode = loc.Adres?.Postcode ?? string.Empty,
+                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(

@@ -52,5 +52,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             ImmutableArray<DuplicaatVereniging.Activiteit>.Empty);
 
     private static DuplicaatVereniging.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
-        => new(loc.Locatietype, loc.IsPrimair, loc.Adresvoorstelling, loc.Naam, loc.Adres.Postcode, loc.Adres.Gemeente);
+        => new(
+            loc.Locatietype,
+            loc.IsPrimair,
+            loc.Adresvoorstelling,
+            loc.Naam,
+            loc.Adres?.Postcode ?? string.Empty,
+            loc.Adres?.Gemeente ?? string.Empty);
 }

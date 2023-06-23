@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 
 using System;
-using Constants;
 using Common;
 using Vereniging;
 using Swashbuckle.AspNetCore.Filters;

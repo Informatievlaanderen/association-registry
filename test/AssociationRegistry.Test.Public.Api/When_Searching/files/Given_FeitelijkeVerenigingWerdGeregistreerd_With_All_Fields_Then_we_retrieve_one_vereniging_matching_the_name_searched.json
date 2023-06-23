@@ -20,8 +20,24 @@
         {
           "locatietype": "Correspondentie",
           "isPrimair": true,
-          "adres": "Stationsstraat 1 bus B, 1790 Affligem, België",
+          "adresvoorstelling": "Stationsstraat 1 bus B, 1790 Affligem, België",
           "naam": "Correspondentie",
+          "postcode": "1790",
+          "gemeente": "Affligem"
+        },
+        {
+          "locatietype": "Activiteiten",
+          "isPrimair": false,
+          "adresvoorstelling": "",
+          "naam": "Activiteiten",
+          "postcode": "",
+          "gemeente": ""
+        },
+        {
+          "locatietype": "Activiteiten",
+          "isPrimair": false,
+          "adresvoorstelling": "Dorpstraat 1 bus B, 1790 Affligem, België",
+          "naam": "Activiteiten",
           "postcode": "1790",
           "gemeente": "Affligem"
         }

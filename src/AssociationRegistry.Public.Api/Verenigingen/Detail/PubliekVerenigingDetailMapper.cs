@@ -77,22 +77,29 @@ public static class PubliekVerenigingDetailMapper
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
-            Adres = new Adres
-            {
-                Straatnaam = loc.Adres.Straatnaam,
-                Huisnummer = loc.Adres.Huisnummer,
-                Busnummer = loc.Adres.Busnummer,
-                Postcode = loc.Adres.Postcode,
-                Gemeente = loc.Adres.Gemeente,
-                Land = loc.Adres.Land,
-            },
-            AdresId = loc.AdresId is not null
-                ? new AdresId
-                {
-                    Broncode = loc.AdresId.Broncode,
-                    Bronwaarde = loc.AdresId.Bronwaarde,
-                }
-                : null,
-
+            Adres = Map(loc.Adres),
+            AdresId = Map(loc.AdresId),
         };
+
+    private static AdresId? Map(PubliekVerenigingDetailDocument.AdresId? adresId)
+        => adresId is not null
+            ? new AdresId
+            {
+                Broncode = adresId.Broncode,
+                Bronwaarde = adresId.Bronwaarde,
+            }
+            : null;
+
+    private static Adres? Map(PubliekVerenigingDetailDocument.Adres? adres)
+        => adres is not null
+            ? new Adres
+            {
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = adres.Land,
+            }
+            : null;
 }

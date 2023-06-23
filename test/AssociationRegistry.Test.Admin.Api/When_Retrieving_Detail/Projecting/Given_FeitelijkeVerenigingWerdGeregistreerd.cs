@@ -69,7 +69,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                                 Gemeente = loc.Adres.Gemeente,
                                 Land = loc.Adres.Land,
                             },
-                        Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
+                        Adresvoorstelling = loc.Adres.ToAdresString(),
                         AdresId = loc.AdresId is null
                             ? null
                             : new AdresId

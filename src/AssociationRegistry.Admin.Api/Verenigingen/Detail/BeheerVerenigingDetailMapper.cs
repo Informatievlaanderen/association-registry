@@ -12,11 +12,11 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Locatie = ResponseModels.Locatie;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 
-public class DetailVerenigingMapper
+public class BeheerVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
 
-    public DetailVerenigingMapper(AppSettings appSettings)
+    public BeheerVerenigingDetailMapper(AppSettings appSettings)
     {
         _appSettings = appSettings;
     }
@@ -132,21 +132,29 @@ public class DetailVerenigingMapper
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
-            Adres = new Adres
-            {
-                Straatnaam = loc.Adres.Straatnaam,
-                Huisnummer = loc.Adres.Huisnummer,
-                Busnummer = loc.Adres.Busnummer,
-                Postcode = loc.Adres.Postcode,
-                Gemeente = loc.Adres.Gemeente,
-                Land = loc.Adres.Land,
-            },
-            AdresId = loc.AdresId is not null
-                ? new AdresId
-                {
-                    Broncode = loc.AdresId.Broncode,
-                    Bronwaarde = loc.AdresId.Bronwaarde,
-                }
-                : null,
+            Adres = Map(loc.Adres),
+            AdresId = Map(loc.AdresId),
         };
+
+    private static AdresId? Map(Schema.Detail.AdresId? adresId)
+        => adresId is not null
+            ? new AdresId
+            {
+                Broncode = adresId.Broncode,
+                Bronwaarde = adresId.Bronwaarde,
+            }
+            : null;
+
+    private static Adres? Map(Schema.Detail.Adres? adres)
+        => adres is not null
+            ? new Adres
+            {
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = adres.Land,
+            }
+            : null;
 }

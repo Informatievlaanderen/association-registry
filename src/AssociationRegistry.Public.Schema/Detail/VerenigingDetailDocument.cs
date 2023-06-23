@@ -40,11 +40,11 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
     public record Locatie
     {
-        public string Locatietype { get; init; } = null!;
-        public bool IsPrimair { get; init; }
-        public string Adresvoorstelling { get; init; } = null!;
-        public Adres? Adres { get; init; } = null!;
-        public string? Naam { get; init; }
+        public string Locatietype { get; set; } = null!;
+        public bool IsPrimair { get; set; }
+        public string Adresvoorstelling { get; set; } = null!;
+        public Adres? Adres { get; set; }
+        public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
     }
 

@@ -55,21 +55,25 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,
-                        Adres = new PubliekVerenigingDetailDocument.Adres
-                        {
-                            Straatnaam = loc.Adres.Straatnaam,
-                            Huisnummer = loc.Adres.Huisnummer,
-                            Busnummer = loc.Adres.Busnummer,
-                            Postcode = loc.Adres.Postcode,
-                            Gemeente = loc.Adres.Gemeente,
-                            Land = loc.Adres.Land,
-                        },
-                        Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
-                        AdresId = new PubliekVerenigingDetailDocument.AdresId
-                        {
-                            Bronwaarde = loc.AdresId?.Bronwaarde,
-                            Broncode = loc.AdresId?.Broncode,
-                        },
+                        Adres = loc.Adres is null
+                            ? null
+                            : new PubliekVerenigingDetailDocument.Adres
+                            {
+                                Straatnaam = loc.Adres.Straatnaam,
+                                Huisnummer = loc.Adres.Huisnummer,
+                                Busnummer = loc.Adres.Busnummer,
+                                Postcode = loc.Adres.Postcode,
+                                Gemeente = loc.Adres.Gemeente,
+                                Land = loc.Adres.Land,
+                            },
+                        Adresvoorstelling = loc.Adres.ToAdresString(),
+                        AdresId = loc.AdresId is null
+                            ? null
+                            : new PubliekVerenigingDetailDocument.AdresId
+                            {
+                                Broncode = loc.AdresId?.Broncode,
+                                Bronwaarde = loc.AdresId?.Bronwaarde,
+                            },
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket

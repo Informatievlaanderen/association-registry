@@ -26,7 +26,7 @@ public class With_A_PotentialDuplicate
         var fixture = new Fixture().CustomizeAll();
 
         var locatie = fixture.Create<Locatie>();
-        locatie.Adres!.Postcode = scenario.Locatie.Adres.Postcode;
+        locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),

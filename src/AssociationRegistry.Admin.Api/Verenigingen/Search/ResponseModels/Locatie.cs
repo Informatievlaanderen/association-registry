@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 public class Locatie
 {
     /// <summary>
-    /// Waarvoor deze locatie gebruikt wordt
+    /// Het type van deze locatie
     /// </summary>
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
@@ -18,13 +18,13 @@ public class Locatie
     public bool IsPrimair { get; init; }
 
     /// <summary>
-    /// Het volledige adres van de vereniging
+    /// De volledige adresvoorstelling van de locatie
     /// </summary>
-    [DataMember(Name = "Adres")]
-    public string Adres { get; init; } = null!;
+    [DataMember(Name = "Adresvoorstelling")]
+    public string Adresvoorstelling { get; init; } = null!;
 
     ///<summary>
-    /// De naam van de locatie voor de vereniging
+    /// De naam van de locatie
     /// </summary>
     [DataMember(Name = "Naam")]
     public string? Naam { get; init; }

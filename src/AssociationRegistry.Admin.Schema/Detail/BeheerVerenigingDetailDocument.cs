@@ -43,11 +43,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record Locatie
     {
         public int LocatieId { get; set; }
-        public string Locatietype { get; init; } = null!;
-        public bool IsPrimair { get; init; }
+        public string Locatietype { get; set; } = null!;
+        public bool IsPrimair { get; set; }
         public string Adresvoorstelling { get; init; } = null!;
-        public Adres? Adres { get; init; } = null!;
-        public string? Naam { get; init; }
+        public Adres? Adres { get; set; } = null!;
+        public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
     }
 

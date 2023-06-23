@@ -87,7 +87,9 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             var autoFixture = new Fixture().CustomizeAll();
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
-            RequestLocatie.Adres!.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente;
+            RequestLocatie.Adres!.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce
+                .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
+                .Adres!.Gemeente;
             Request = new RegistreerFeitelijkeVerenigingRequest
             {
                 Naam = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,

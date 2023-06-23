@@ -104,14 +104,14 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""locatieId"": {x.LocatieId}
                         ""locatietype"": ""{x.Locatietype}"",
                         ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
-                        ""adres"": ""{AdresFormatter.ToAdresString(x.Adres)}"",
+                        ""adres"": ""{x.Adres.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
-                        ""straatnaam"": ""{x.Adres.Straatnaam}"",
-                        ""huisnummer"": ""{x.Adres.Huisnummer}"",
-                        ""busnummer"": ""{x.Adres.Busnummer}"",
-                        ""postcode"": ""{x.Adres.Postcode}"",
-                        ""gemeente"": ""{x.Adres.Gemeente}"",
-                        ""land"": ""{x.Adres.Land}""
+                        ""straatnaam"": ""{x.Adres!.Straatnaam}"",
+                        ""huisnummer"": ""{x.Adres!.Huisnummer}"",
+                        ""busnummer"": ""{x.Adres!.Busnummer}"",
+                        ""postcode"": ""{x.Adres!.Postcode}"",
+                        ""gemeente"": ""{x.Adres!.Gemeente}"",
+                        ""land"": ""{x.Adres!.Land}""
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{

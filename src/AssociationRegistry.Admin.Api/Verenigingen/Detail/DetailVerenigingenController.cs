@@ -18,9 +18,9 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
-    private readonly DetailVerenigingMapper _mapper;
+    private readonly BeheerVerenigingDetailMapper _mapper;
 
-    public DetailVerenigingenController(DetailVerenigingMapper mapper)
+    public DetailVerenigingenController(BeheerVerenigingDetailMapper mapper)
     {
         _mapper = mapper;
     }

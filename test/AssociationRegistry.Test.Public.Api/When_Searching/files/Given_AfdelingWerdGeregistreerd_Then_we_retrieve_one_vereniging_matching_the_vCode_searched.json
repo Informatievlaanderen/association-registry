@@ -20,7 +20,7 @@
         {
           "locatietype": "Correspondentie",
           "isPrimair": true,
-          "adres": "berglaan 12 bus B, 2000 Antwerpen, België",
+          "adresvoorstelling": "berglaan 12 bus B, 2000 Antwerpen, België",
           "naam": "Correspondentie",
           "postcode": "2000",
           "gemeente": "Antwerpen"

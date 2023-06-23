@@ -109,15 +109,15 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""locatieId"": {x.LocatieId},
                         ""locatietype"": ""{x.Locatietype}"",
                         ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
-                        ""adresvoorstelling"": ""{AdresFormatter.ToAdresString(x.Adres)}"",
+                        ""adresvoorstelling"": ""{x.Adres.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
                         ""adres"":{{
-                            ""straatnaam"": ""{x.Adres.Straatnaam}"",
-                            ""huisnummer"": ""{x.Adres.Huisnummer}"",
-                            ""busnummer"": ""{x.Adres.Busnummer}"",
-                            ""postcode"": ""{x.Adres.Postcode}"",
-                            ""gemeente"": ""{x.Adres.Gemeente}"",
-                            ""land"": ""{x.Adres.Land}""
+                            ""straatnaam"": ""{x.Adres!.Straatnaam}"",
+                            ""huisnummer"": ""{x.Adres!.Huisnummer}"",
+                            ""busnummer"": ""{x.Adres!.Busnummer}"",
+                            ""postcode"": ""{x.Adres!.Postcode}"",
+                            ""gemeente"": ""{x.Adres!.Gemeente}"",
+                            ""land"": ""{x.Adres!.Land}""
                         }},
                         ""adresId"":{(x.AdresId is null ? "null" : $@"{{
                             ""bronwaarde"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
