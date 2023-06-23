@@ -18,6 +18,7 @@ jobs:
             'association-registry-public-api',
             'association-registry-public-projections',
             'association-registry-admin-api',
+            'association-registry-admin-projections',
           ]
     steps:
       - name: CD
