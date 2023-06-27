@@ -1,3 +1,10 @@
+# [3.30.0](https://github.com/informatievlaanderen/association-registry/compare/v3.29.1...v3.30.0) (2023-06-27)
+
+
+### Features
+
+* OR-1777 allow toevoegen locatie ([bc96195](https://github.com/informatievlaanderen/association-registry/commit/bc96195ae0f841df6ad9e96449c8192801ca2cde))
+
 ## [3.29.1](https://github.com/informatievlaanderen/association-registry/compare/v3.29.0...v3.29.1) (2023-06-23)
 
 
