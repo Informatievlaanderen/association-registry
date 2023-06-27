@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 
-using System;
 using System.Threading.Tasks;
-using Acties.VoegContactgegevenToe;
 using Acties.VoegLocatieToe;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;

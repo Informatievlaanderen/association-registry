@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.When_Appending_A_Locatie;
+﻿namespace AssociationRegistry.Test.When_VoegLocatieToe;
 
-using AutoFixture;
 using Events;
 using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
+using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,7 +21,7 @@ public class Given_A_Second_Primaire_Locatie
         vereniging.Hydrate(new VerenigingState()
             .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
             {
-                Locaties = new [] { primaireLocatie }
+                Locaties = new [] { primaireLocatie },
             }));
 
         var locatie = fixture.Create<Locatie>() with { IsPrimair = true };

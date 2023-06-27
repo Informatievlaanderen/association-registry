@@ -84,7 +84,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Locatietype>(
             composer =>
-                composer.FromFactory<int>(i => Locatietype.Activiteiten)
+                composer.FromFactory<int>(_ => Locatietype.Activiteiten)
                     .OmitAutoProperties()
         );
 
@@ -282,7 +282,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Registratiedata.Locatie>(
             composer => composer.FromFactory<int>(
-                    value => new Registratiedata.Locatie(
+                    _ => new Registratiedata.Locatie(
                         LocatieId: fixture.Create<int>(),
                         Locatietype: fixture.Create<Locatietype>(),
                         IsPrimair: false,

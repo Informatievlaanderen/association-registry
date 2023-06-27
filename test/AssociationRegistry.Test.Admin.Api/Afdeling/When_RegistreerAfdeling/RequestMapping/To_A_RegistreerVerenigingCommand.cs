@@ -9,7 +9,6 @@ using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
-using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
 

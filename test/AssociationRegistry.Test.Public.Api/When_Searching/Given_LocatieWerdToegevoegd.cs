@@ -1,9 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Public.Api.Constants;
-using AssociationRegistry.Test.Public.Api.Fixtures;
-using AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
-using AssociationRegistry.Test.Public.Api.Framework;
+using Fixtures;
+using Fixtures.GivenEvents;
+using Framework;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Xunit;
