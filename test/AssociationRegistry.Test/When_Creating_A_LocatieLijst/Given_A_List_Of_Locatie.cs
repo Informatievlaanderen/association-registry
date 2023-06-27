@@ -16,7 +16,7 @@ public class Given_A_List_Of_Locatie
             Locatie.Create("Kerker", true, Locatietype.Activiteiten, null, Adres.Create("kerkstraat", "1", "-1", "666", "penoze", "Nederland")),
         };
 
-        var locatieLijst = Locaties.FromArray(listOfLocatie);
+        var locatieLijst = Locaties.Hydrate(listOfLocatie);
 
         locatieLijst.Should().BeEquivalentTo(
             listOfLocatie,

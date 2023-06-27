@@ -17,13 +17,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         string? korteBeschrijving,
         Startdatum startdatum,
         bool uitgeschrevenUitPubliekeDatastroom,
-        Contactgegeven[] contactgegevens,
-        Locatie[] locaties,
-        Vertegenwoordiger[] vertegenwoordigers,
+        Contactgegeven[] toeTeVoegenContactgegevens,
+        Locatie[] toeTeVoegenLocaties,
+        Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
         MustNotBeInFuture(startdatum, clock.Today);
+
+        var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
+        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
+        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
 
         var vereniging = new Vereniging();
         vereniging.AddEvent(
@@ -34,9 +38,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
                 uitgeschrevenUitPubliekeDatastroom,
-                ToEventContactgegevens(Contactgegevens.Create(contactgegevens).ToArray()),
-                ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
-                ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
+                ToEventContactgegevens(toegevoegdeContactgegevens),
+                ToLocatieLijst(toegevoegdeLocaties),
+                ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
         return vereniging;
     }
@@ -49,13 +53,18 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         string? korteNaam,
         string? korteBeschrijving,
         Startdatum startdatum,
-        Contactgegeven[] contactgegevens,
-        Locatie[] locaties,
-        Vertegenwoordiger[] vertegenwoordigers,
+        Contactgegeven[] toeTeVoegenContactgegevens,
+        Locatie[] toeTeVoegenLocaties,
+        Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
         MustNotBeInFuture(startdatum, clock.Today);
+
+        var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
+        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
+        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
+
         var vereniging = new Vereniging();
         vereniging.AddEvent(
             new AfdelingWerdGeregistreerd(
@@ -68,9 +77,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
-                ToEventContactgegevens(Contactgegevens.Create(contactgegevens).ToArray()),
-                ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
-                ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
+                ToEventContactgegevens(toegevoegdeContactgegevens),
+                ToLocatieLijst(toegevoegdeLocaties),
+                ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers.ToArray()),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
         return vereniging;
     }
@@ -150,11 +159,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerwijderContactgegeven(int contactgegevenId)
     {
-        State.Contactgegevens.MustContain(contactgegevenId);
-
-        var contactgegeven = State.Contactgegevens[contactgegevenId];
-
-        AddEvent(ContactgegevenWerdVerwijderd.With(contactgegeven));
+        var verwijderdContactgegeven = State.Contactgegevens.Verwijder(contactgegevenId);
+        AddEvent(ContactgegevenWerdVerwijderd.With(verwijderdContactgegeven));
     }
 
     public void WijzigHoofdactiviteitenVerenigingsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
@@ -215,12 +221,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 
-    public void VoegLocatieToe(Locatie locatie)
+    public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        State.Locaties.ThrowIfCannotAppend(locatie);
+        var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
-        locatie = locatie with { LocatieId = State.Locaties.NextId };
-
-        AddEvent(LocatieWerdToegevoegd.With(locatie));
+        AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
     }
 }

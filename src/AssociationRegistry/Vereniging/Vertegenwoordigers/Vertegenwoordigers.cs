@@ -8,38 +8,61 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
     private const int InitialId = 1;
 
+    public int NextId { get; }
+
     private Vertegenwoordiger? Primair
         => Items.SingleOrDefault(i => i.IsPrimair);
 
-    private Vertegenwoordigers(Vertegenwoordiger[] vertegenwoordigers, int nextId) : base(vertegenwoordigers)
+    private Vertegenwoordigers(IEnumerable<Vertegenwoordiger> vertegenwoordigers, int nextId) : base(vertegenwoordigers.ToArray())
     {
         NextId = nextId;
     }
 
-    public int NextId { get; }
-
     public static Vertegenwoordigers Empty
         => new(Array.Empty<Vertegenwoordiger>(), InitialId);
 
-    public static Vertegenwoordigers FromArray(Vertegenwoordiger[] vertegenwoordigerArray)
+    public Vertegenwoordigers Hydrate(IEnumerable<Vertegenwoordiger> vertegenwoordigers)
     {
-        Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigerArray));
-        Throw<MultiplePrimaryVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigerArray));
+        vertegenwoordigers = vertegenwoordigers.ToArray();
 
-        return vertegenwoordigerArray.Aggregate(
-            Empty,
-            (current, vertegenwoordiger) =>
-                current.Append(vertegenwoordiger with { VertegenwoordigerId = current.NextId }));
+        if (!vertegenwoordigers.Any())
+            return new(Empty, Math.Max(InitialId, NextId));
+
+        return new(vertegenwoordigers, Math.Max(vertegenwoordigers.Max(x => x.VertegenwoordigerId) + 1, NextId));
     }
 
-    public Vertegenwoordigers Append(Vertegenwoordiger vertegenwoordiger)
+    public Vertegenwoordiger[] VoegToe(params Vertegenwoordiger[] toeTeVoegenVertegenwoordigers)
     {
-        var nextId = Math.Max(vertegenwoordiger.VertegenwoordigerId + 1, NextId);
-        return new Vertegenwoordigers(Items.Append(vertegenwoordiger).ToArray(), nextId);
+        var vertegenwoordigers = this;
+        var toegevoegdeVertegenwoordigers = Array.Empty<Vertegenwoordiger>();
+
+        foreach (var toeTeVoegenVertegenwoordiger in toeTeVoegenVertegenwoordigers)
+        {
+            var vertegenwoordigerMetId = toeTeVoegenVertegenwoordiger with { VertegenwoordigerId = vertegenwoordigers.NextId };
+
+            vertegenwoordigers.ThrowIfCannotAppend(vertegenwoordigerMetId);
+            vertegenwoordigers = new Vertegenwoordigers(vertegenwoordigers.Append(vertegenwoordigerMetId), vertegenwoordigers.NextId + 1);
+
+            toegevoegdeVertegenwoordigers = toegevoegdeVertegenwoordigers.Append(vertegenwoordigerMetId).ToArray();
+        }
+
+        return toegevoegdeVertegenwoordigers;
     }
 
-    public Vertegenwoordigers Remove(int vertegenwoordigerId)
-        => new(Items.Where(v => v.VertegenwoordigerId != vertegenwoordigerId).ToArray(), NextId);
+    public Vertegenwoordiger Verwijder(int vertegenwoordigerId)
+    {
+        MustContain(vertegenwoordigerId);
+
+        return this[vertegenwoordigerId];
+    }
+
+    private void ThrowIfCannotAppend(Vertegenwoordiger vertegenwoordiger)
+    {
+        var vertegenwoordigers = this.Append(vertegenwoordiger).ToArray();
+
+        Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigers));
+        Throw<MultiplePrimaryVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
+    }
 
 
     public new Vertegenwoordiger this[int vertegenwoordigerId]
@@ -68,7 +91,17 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
     {
         Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId));
     }
+}
 
-    public Vertegenwoordigers Replace(Vertegenwoordiger vertegenwoordiger)
-        => Remove(vertegenwoordiger.VertegenwoordigerId).Append(vertegenwoordiger);
+public static class VertegenwoordigerEnumerableExtensions
+{
+    public static IEnumerable<Vertegenwoordiger> Without(this IEnumerable<Vertegenwoordiger> source, Vertegenwoordiger vertegenwoordiger)
+    {
+        return source.Where(c => c.VertegenwoordigerId != vertegenwoordiger.VertegenwoordigerId);
+    }
+
+    public static IEnumerable<Vertegenwoordiger> Without(this IEnumerable<Vertegenwoordiger> source, int vertegenwoordigerId)
+    {
+        return source.Where(c => c.VertegenwoordigerId != vertegenwoordigerId);
+    }
 }

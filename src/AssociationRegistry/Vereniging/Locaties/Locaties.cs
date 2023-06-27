@@ -9,37 +9,53 @@ public class Locaties : ReadOnlyCollection<Locatie>
     private const int InitialId = 1;
     public int NextId { get; }
 
-    private Locaties(Locatie[] locaties, int nextId) : base(locaties)
+    public static Locaties Empty
+        => new(Array.Empty<Locatie>(), InitialId);
+
+    private Locaties(IEnumerable<Locatie> locaties, int nextId) : base(locaties.ToArray())
     {
         NextId = nextId;
     }
 
-    public bool HasPrimairelocatie
+    public static Locaties Hydrate(IEnumerable<Locatie> locaties)
+    {
+        locaties = locaties.ToArray();
+
+        return new(locaties, locaties.Max(x => x.LocatieId) + 1);
+    }
+
+    public Locatie[] VoegToe(params Locatie[] toeTeVoegenLocaties)
+    {
+        var locaties = this;
+        var toegevoegdeLocaties = Array.Empty<Locatie>();
+
+        foreach (var toeTeVoegenLocatie in toeTeVoegenLocaties)
+        {
+            var locatieMetId = toeTeVoegenLocatie with { LocatieId = locaties.NextId };
+
+            locaties.ThrowIfCannotAppend(locatieMetId);
+            locaties = new Locaties(locaties.Append(locatieMetId), locaties.NextId + 1);
+
+            toegevoegdeLocaties = toegevoegdeLocaties.Append(locatieMetId).ToArray();
+        }
+
+        return toegevoegdeLocaties;
+    }
+
+    public Locatie VoegToe(Locatie toeTeVoegenLocatie)
+    {
+        ThrowIfCannotAppend(toeTeVoegenLocatie);
+
+        return toeTeVoegenLocatie with { LocatieId = NextId };
+    }
+
+    private bool HasPrimairelocatie
         => Items.Any(l => l.IsPrimair);
 
-    public bool HasCorrespondentieLocatie
+    private bool HasCorrespondentieLocatie
         => Items.Any(l => l.Locatietype == Locatietype.Correspondentie);
 
-    public static Locaties Empty
-        => new(Array.Empty<Locatie>(), InitialId);
-
-    public static Locaties FromArray(Locatie[] locatiesArray)
-    {
-        return locatiesArray.Aggregate(
-            Empty,
-            (current, locatie) =>
-                current.Append(locatie with { LocatieId = current.NextId }));
-    }
-
-    public Locaties Append(Locatie locatie)
-    {
-        ThrowIfCannotAppend(locatie);
-
-        var nextId = Math.Max(locatie.LocatieId + 1, NextId);
-        return new Locaties(Items.Append(locatie).ToArray(), nextId);
-    }
-
-    public void ThrowIfCannotAppend(Locatie locatie)
+    private void ThrowIfCannotAppend(Locatie locatie)
     {
         MustNotHaveDuplicateOf(locatie);
         MustNotHaveMultiplePrimaireLocaties(locatie);
@@ -60,13 +76,4 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         Throw<DuplicateLocatieProvided>.If(Items.Contains(locatie));
     }
-
-    public Locaties Remove(int locatieId)
-        => new(Items.Where(l => l.LocatieId != locatieId).ToArray(), NextId);
-
-    public new Locatie this[int locatieId]
-        => this.Single(l => l.LocatieId == locatieId);
-
-    public static Locaties Hydrate(Locatie[] locaties, int nextId)
-        => new(locaties, nextId);
 }

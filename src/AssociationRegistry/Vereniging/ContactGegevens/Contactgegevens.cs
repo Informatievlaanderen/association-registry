@@ -9,55 +9,64 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     private const int InitialId = 1;
     public int NextId { get; }
 
+    public static Contactgegevens Empty
+        => new(Array.Empty<Contactgegeven>(), InitialId);
 
-    private Contactgegevens(Contactgegeven[] contactgegevens, int nextId) : base(contactgegevens)
+    private Contactgegevens(IEnumerable<Contactgegeven> contactgegevens, int nextId) : base(contactgegevens.ToArray())
     {
         NextId = nextId;
     }
 
-    public static Contactgegevens Empty
-        => new(Array.Empty<Contactgegeven>(), InitialId);
-
-    public static Contactgegevens Create(Contactgegeven[] contactgegevenArray)
+    public Contactgegevens Hydrate(IEnumerable<Contactgegeven> contactgegevens)
     {
-        var contactgegevens = Empty;
-        foreach (var contactgegeven in contactgegevenArray)
-        {
-            contactgegevens = contactgegevens.VoegToe(contactgegeven with { ContactgegevenId = contactgegevens.NextId });
-        }
+        contactgegevens = contactgegevens.ToArray();
 
-        return contactgegevens;
+        if (!contactgegevens.Any())
+            return new(Empty, Math.Max(InitialId, NextId));
+
+        return new(contactgegevens, Math.Max(contactgegevens.Max(x => x.ContactgegevenId) + 1, NextId));
     }
 
-    private Contactgegevens VoegToe(Contactgegeven contactgegeven)
+    public Contactgegeven[] VoegToe(params Contactgegeven[] toeTeVoegenContactgegevens)
+    {
+        var contactgegevens = this;
+        var toegevoegdeContactgegevens = Array.Empty<Contactgegeven>();
+
+        foreach (var toeTeVoegenContactgegeven in toeTeVoegenContactgegevens)
+        {
+            var contactgegevenMetId = toeTeVoegenContactgegeven with { ContactgegevenId = contactgegevens.NextId };
+
+            contactgegevens.ThrowIfCannotAppend(contactgegevenMetId);
+            contactgegevens = new Contactgegevens(contactgegevens.Append(contactgegevenMetId), contactgegevens.NextId + 1);
+
+            toegevoegdeContactgegevens = toegevoegdeContactgegevens.Append(contactgegevenMetId).ToArray();
+        }
+
+        return toegevoegdeContactgegevens;
+    }
+
+    public Contactgegeven VoegToe(Contactgegeven toeTeVoegenContactgegeven)
+    {
+        ThrowIfCannotAppend(toeTeVoegenContactgegeven);
+
+        return toeTeVoegenContactgegeven with { ContactgegevenId = NextId };
+    }
+
+    public Contactgegeven Verwijder(int contactgegevenId)
+    {
+        MustContain(contactgegevenId);
+
+        return this[contactgegevenId];
+    }
+
+    private bool HasPrimairContactgegeven
+        => Items.Any(l => l.IsPrimair);
+
+    private void ThrowIfCannotAppend(Contactgegeven contactgegeven)
     {
         Throw<DuplicateContactgegeven>.If(ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
         Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && this.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
-
-        return Append(contactgegeven);
     }
-
-    public static Contactgegevens Hydrate(Contactgegeven[] contactgegevenArray)
-    {
-        var contactgegevens = Empty;
-        foreach (var contactgegeven in contactgegevenArray)
-        {
-            contactgegevens = contactgegevens.Append(contactgegeven);
-        }
-        return contactgegevens;
-    }
-
-    public Contactgegevens Append(Contactgegeven contactgegeven)
-    {
-        var nextId = Math.Max(contactgegeven.ContactgegevenId + 1, NextId);
-        return new(Items.Append(contactgegeven).ToArray(), nextId);
-    }
-
-    public Contactgegevens Remove(int contectgegevenId)
-        => new(Items.Where(c => c.ContactgegevenId != contectgegevenId).ToArray(), NextId);
-
-    public Contactgegevens Replace(Contactgegeven contactgegeven)
-        => Remove(contactgegeven.ContactgegevenId).VoegToe(contactgegeven);
 
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.MetZelfdeWaarden);
@@ -94,6 +103,11 @@ public static class ContactgegevenEnumerableExtensions
     public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
     {
         return source.Where(c => c.ContactgegevenId != contactgegeven.ContactgegevenId);
+    }
+
+    public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, int contactgegevenId)
+    {
+        return source.Where(c => c.ContactgegevenId != contactgegevenId);
     }
 
     public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)

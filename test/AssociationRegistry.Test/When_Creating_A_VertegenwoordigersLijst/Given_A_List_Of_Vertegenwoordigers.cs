@@ -16,7 +16,7 @@ public class Given_A_List_Of_Vertegenwoordigers
         var fixture = new Fixture().CustomizeAll();
         var listOfVertegenwoordigers = fixture.CreateMany<Vertegenwoordiger>().ToArray();
 
-        var vertegenwoordigersLijst = Vertegenwoordigers.FromArray(listOfVertegenwoordigers);
+        var vertegenwoordigersLijst = Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers);
 
         vertegenwoordigersLijst.Should()
             .BeEquivalentTo(

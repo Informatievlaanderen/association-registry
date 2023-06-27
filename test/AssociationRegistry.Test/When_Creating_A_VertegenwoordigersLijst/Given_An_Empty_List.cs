@@ -12,7 +12,7 @@ public class Given_An_Empty_List
     public void Then_It_Returns_An_Empty_VertegenwoordersLijst()
     {
         var list = Array.Empty<Vertegenwoordiger>();
-        var vertegenwoordigersLijst = Vertegenwoordigers.FromArray(list);
+        var vertegenwoordigersLijst = Vertegenwoordigers.Empty.VoegToe(list);
         vertegenwoordigersLijst.Should().BeEmpty();
     }
 }
