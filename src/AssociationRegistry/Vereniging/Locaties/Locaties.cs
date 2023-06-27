@@ -68,5 +68,5 @@ public class Locaties : ReadOnlyCollection<Locatie>
         => this.Single(l => l.LocatieId == locatieId);
 
     public static Locaties Hydrate(Locatie[] locaties, int nextId)
-        => new Locaties(locaties, nextId);
+        => new(locaties, nextId);
 }

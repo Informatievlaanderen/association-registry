@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projectin
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
-using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AutoFixture;
 using Events;
 using FluentAssertions;
