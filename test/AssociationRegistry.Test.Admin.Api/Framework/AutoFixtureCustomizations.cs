@@ -452,7 +452,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Contactgegevens>(
             composer => composer.FromFactory(
-                () => Contactgegevens.Create(
+                () => Contactgegevens.Empty.Hydrate(
                     fixture.CreateMany<Contactgegeven>().ToArray())));
     }
 

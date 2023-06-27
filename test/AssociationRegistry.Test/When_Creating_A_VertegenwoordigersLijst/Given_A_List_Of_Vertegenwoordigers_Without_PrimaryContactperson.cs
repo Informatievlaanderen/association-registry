@@ -22,7 +22,7 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
             vertegenwoordiger2,
         };
 
-        var vertegenwoordigersLijst = Vertegenwoordigers.FromArray(listOfVertegenwoordigers);
+        var vertegenwoordigersLijst = Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers);
 
         vertegenwoordigersLijst.Should().HaveCount(expected: 2);
         vertegenwoordigersLijst.Should().BeEquivalentTo(
