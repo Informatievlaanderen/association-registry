@@ -18,16 +18,32 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     public static Contactgegevens Empty
         => new(Array.Empty<Contactgegeven>(), InitialId);
 
-    public static Contactgegevens FromArray(Contactgegeven[] contactgegevenArray)
+    public static Contactgegevens Create(Contactgegeven[] contactgegevenArray)
     {
         var contactgegevens = Empty;
         foreach (var contactgegeven in contactgegevenArray)
         {
-            Throw<DuplicateContactgegeven>.If(contactgegevens.ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
-            Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && contactgegevens.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
-            contactgegevens = contactgegevens.Append(contactgegeven with { ContactgegevenId = contactgegevens.NextId });
+            contactgegevens = contactgegevens.VoegToe(contactgegeven with { ContactgegevenId = contactgegevens.NextId });
         }
 
+        return contactgegevens;
+    }
+
+    private Contactgegevens VoegToe(Contactgegeven contactgegeven)
+    {
+        Throw<DuplicateContactgegeven>.If(ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
+        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && this.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
+
+        return Append(contactgegeven);
+    }
+
+    public static Contactgegevens Hydrate(Contactgegeven[] contactgegevenArray)
+    {
+        var contactgegevens = Empty;
+        foreach (var contactgegeven in contactgegevenArray)
+        {
+            contactgegevens = contactgegevens.Append(contactgegeven);
+        }
         return contactgegevens;
     }
 
@@ -41,7 +57,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         => new(Items.Where(c => c.ContactgegevenId != contectgegevenId).ToArray(), NextId);
 
     public Contactgegevens Replace(Contactgegeven contactgegeven)
-        => Remove(contactgegeven.ContactgegevenId).Append(contactgegeven);
+        => Remove(contactgegeven.ContactgegevenId).VoegToe(contactgegeven);
 
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.MetZelfdeWaarden);

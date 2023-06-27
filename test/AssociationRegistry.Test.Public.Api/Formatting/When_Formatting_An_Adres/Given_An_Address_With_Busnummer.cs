@@ -20,6 +20,8 @@ public class Given_An_Address_With_Busnummer
         const string busnummer = "1B";
         var locatie = new Registratiedata.Locatie(
             1,
+            "Activiteiten",
+            true,
             string.Empty,
             new Registratiedata.Adres(
                 straatnaam,
@@ -28,8 +30,7 @@ public class Given_An_Address_With_Busnummer
                 postcode,
                 gemeente,
                 land),
-            true,
-            "Activiteiten");
+            null);
 
         locatie.Adres.ToAdresString().Should().Be($"{straatnaam} {huisnummer} bus {busnummer}, {postcode} {gemeente}, {land}");
     }

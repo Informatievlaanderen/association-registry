@@ -110,6 +110,15 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(locatieWerdToegevoegd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(locatieWerdToegevoegd, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!))!;

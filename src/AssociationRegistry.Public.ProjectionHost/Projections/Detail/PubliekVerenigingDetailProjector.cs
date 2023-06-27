@@ -186,6 +186,24 @@ public static class PubliekVerenigingDetailProjector
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
+    public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+            .Append(
+                new PubliekVerenigingDetailDocument.Locatie
+                {
+                    Adres = Map(locatieWerdToegevoegd.Data.Locatie.Adres),
+                    AdresId = Map(locatieWerdToegevoegd.Data.Locatie.AdresId),
+                    Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
+                    IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
+                    Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
+                    Adresvoorstelling = locatieWerdToegevoegd.Data.Locatie.Adres.ToAdresString(),
+                })
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
     public static void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, PubliekVerenigingDetailDocument document)
     {
         document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(

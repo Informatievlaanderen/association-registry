@@ -15,7 +15,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? Rechtsvorm { get; set; }
     public string Status { get; init; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
-    public Locatie[] Locaties { get; init; } = Array.Empty<Locatie>();
+    public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();

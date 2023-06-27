@@ -20,19 +20,19 @@ public static class Registratiedata
 
     public record Locatie(
         int LocatieId,
+        string Locatietype,
+        bool IsPrimair,
         string Naam,
         Adres? Adres,
-        bool IsPrimair,
-        string Locatietype,
-        AdresId? AdresId = null)
+        AdresId? AdresId)
     {
         public static Locatie With(AssociationRegistry.Vereniging.Locatie locatie)
             => new(
                 locatie.LocatieId,
+                locatie.Locatietype,
+                locatie.IsPrimair,
                 locatie.Naam ?? string.Empty,
                 Adres.With(locatie.Adres),
-                locatie.IsPrimair,
-                locatie.Locatietype,
                 locatie.AdresId is not null ? new AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde) : null);
     }
 
@@ -59,7 +59,18 @@ public static class Registratiedata
         }
     }
 
-    public record AdresId(string Broncode, string Bronwaarde);
+    public record AdresId(string Broncode, string Bronwaarde)
+    {
+        public static AdresId? With(AssociationRegistry.Vereniging.AdresId? adresId)
+        {
+            if (adresId is null)
+                return null;
+
+            return new AdresId(
+                adresId.Adresbron.Code,
+                adresId.Bronwaarde);
+        }
+    }
 
     public record Vertegenwoordiger(
         int VertegenwoordigerId,

@@ -17,14 +17,15 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
     private readonly  Registratiedata.Locatie _locatie = new(
         1,
         "Correspondentie",
-        new Registratiedata.Adres("berglaan",
-        "12",
-        "B",
-        "2000",
-        "Antwerpen",
-        "België"),
         IsPrimair: true,
-        "Correspondentie");
+        Naam: "Correspondentie",
+        Adres: new Registratiedata.Adres("berglaan",
+            "12",
+            "B",
+            "2000",
+            "Antwerpen",
+            "België"),
+        null);
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9));
 

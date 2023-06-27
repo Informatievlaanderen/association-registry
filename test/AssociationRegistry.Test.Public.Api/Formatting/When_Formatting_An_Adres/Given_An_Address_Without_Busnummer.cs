@@ -20,6 +20,8 @@ public class Given_An_Address_Without_Busnummer
 
         var locatie = new Registratiedata.Locatie(
             1,
+            "Activiteiten",
+            true,
             string.Empty,
             new Registratiedata.Adres(
                 straatnaam,
@@ -28,8 +30,7 @@ public class Given_An_Address_Without_Busnummer
                 postcode,
                 gemeente,
                 land),
-            true,
-            "Activiteiten");
+            null);
 
         locatie.Adres.ToAdresString().Should().Be($"{straatnaam} {huisnummer}, {postcode} {gemeente}, {land}");
     }

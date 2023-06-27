@@ -66,6 +66,8 @@ public class With_All_Fields
                     (l, i) =>
                         new Registratiedata.Locatie(
                             i + 1,
+                            l.Locatietype,
+                            l.IsPrimair,
                             l.Naam ?? string.Empty,
                             new Registratiedata.Adres(
                                 l.Adres!.Straatnaam,
@@ -74,8 +76,6 @@ public class With_All_Fields
                                 l.Adres.Postcode,
                                 l.Adres.Gemeente,
                                 l.Adres.Land),
-                            l.IsPrimair,
-                            l.Locatietype,
                             new Registratiedata.AdresId(l.AdresId!.Adresbron.Code, l.AdresId.Bronwaarde))
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(

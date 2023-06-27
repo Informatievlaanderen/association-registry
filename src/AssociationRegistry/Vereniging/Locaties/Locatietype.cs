@@ -12,7 +12,7 @@ public sealed class Locatietype : IEquatable<Locatietype>
             "Activiteiten"
         );
 
-    public static Locatietype[] All = new[] { Correspondentie, Activiteiten };
+    public static Locatietype[] All = { Correspondentie, Activiteiten };
 
     public string Waarde { get; }
 

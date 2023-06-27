@@ -212,6 +212,22 @@ public class BeheerVerenigingHistoriekProjector
         document.Metadata = new Metadata(verenigingWerdIngeschrevenInPubliekeDatastroom.Sequence, verenigingWerdIngeschrevenInPubliekeDatastroom.Version);
     }
 
+    public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    {
+        var naam = string.IsNullOrEmpty(locatieWerdToegevoegd.Data.Locatie.Naam)
+            ? string.Empty
+            : $"'{locatieWerdToegevoegd.Data.Locatie.Naam}' ";
+
+        AddHistoriekEntry(
+            locatieWerdToegevoegd,
+            locatieWerdToegevoegd.Data,
+            document,
+            $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd als vertegenwoordiger."
+        );
+
+        document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
+    }
+
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);

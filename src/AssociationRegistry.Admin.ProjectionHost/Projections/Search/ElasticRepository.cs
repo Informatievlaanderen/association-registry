@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using System.Threading.Tasks;
 using Nest;
+using Schema.Search;
 
 public class ElasticRepository : IElasticRepository
 {
@@ -49,6 +50,22 @@ public class ElasticRepository : IElasticRepository
     public async Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(id, u => u.Doc(update));
+
+        if (!response.IsValid)
+        {
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+        }
+    }
+
+    public async Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            u => u.Script(
+                s => s
+                    .Source("ctx._source.locaties.add(params.item)")
+                    .Params(objects => objects.Add("item", locatie))));
 
         if (!response.IsValid)
         {

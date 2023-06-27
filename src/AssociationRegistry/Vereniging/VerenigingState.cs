@@ -24,10 +24,11 @@ public record VerenigingState : IHasVersion
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
     public Startdatum? Startdatum { get; private init; }
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
+    public Locaties Locaties { get; init; } = Locaties.Empty;
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
@@ -39,16 +40,16 @@ public record VerenigingState : IHasVersion
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Hydrate(@event.Startdatum),
             IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
-            Contactgegevens = @event.Contactgegevens.Aggregate(
-                Contactgegevens.Empty,
-                (lijst, c) => lijst.Append(
-                    Contactgegeven.Hydrate(
-                        c.ContactgegevenId,
-                        ContactgegevenType.Parse(c.Type),
-                        c.Waarde,
-                        c.Beschrijving,
-                        c.IsPrimair)
-                )
+            Contactgegevens = Contactgegevens.Hydrate(
+                @event.Contactgegevens
+                    .Select(
+                        c => Contactgegeven.Hydrate(
+                            c.ContactgegevenId,
+                            ContactgegevenType.Parse(c.Type),
+                            c.Waarde,
+                            c.Beschrijving,
+                            c.IsPrimair))
+                    .ToArray()
             ),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
@@ -66,10 +67,32 @@ public record VerenigingState : IHasVersion
                         TelefoonNummer.Hydrate(v.Mobiel),
                         SocialMedia.Hydrate(v.SocialMedia)
                     ))),
-            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
-                @event.HoofdactiviteitenVerenigingsloket.Select(
-                        h => HoofdactiviteitVerenigingsloket.Create(h.Code))
-                    .ToArray()),
+            Locaties = @event.Locaties.Aggregate(
+                Locaties.Empty,
+                (lijst, l) => lijst.Append(
+                    Locatie.Hydrate(
+                        l.LocatieId,
+                        l.Naam,
+                        l.IsPrimair,
+                        l.Locatietype,
+                        l.Adres is null
+                            ? null
+                            : Adres.Hydrate(
+                                l.Adres.Straatnaam,
+                                l.Adres.Huisnummer,
+                                l.Adres.Busnummer,
+                                l.Adres.Postcode,
+                                l.Adres.Gemeente,
+                                l.Adres.Land),
+                        l.AdresId is null
+                            ? null
+                            : AdresId.Hydrate(
+                                Adresbron.Parse(l.AdresId.Broncode),
+                                l.AdresId.Bronwaarde)))),
+                HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                    @event.HoofdactiviteitenVerenigingsloket.Select(
+                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                        .ToArray()),
         };
 
     public VerenigingState Apply(AfdelingWerdGeregistreerd @event)
@@ -81,16 +104,16 @@ public record VerenigingState : IHasVersion
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Hydrate(@event.Startdatum),
-            Contactgegevens = @event.Contactgegevens.Aggregate(
-                Contactgegevens.Empty,
-                (lijst, c) => lijst.Append(
-                    Contactgegeven.Hydrate(
-                        c.ContactgegevenId,
-                        ContactgegevenType.Parse(c.Type),
-                        c.Waarde,
-                        c.Beschrijving,
-                        c.IsPrimair)
-                )
+            Contactgegevens = Contactgegevens.Hydrate(
+                @event.Contactgegevens
+                    .Select(
+                        c => Contactgegeven.Hydrate(
+                            c.ContactgegevenId,
+                            ContactgegevenType.Parse(c.Type),
+                            c.Waarde,
+                            c.Beschrijving,
+                            c.IsPrimair))
+                    .ToArray()
             ),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
@@ -138,7 +161,8 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(ContactgegevenWerdToegevoegd @event)
         => this with
         {
-            Contactgegevens = Contactgegevens.Append(
+            Contactgegevens =
+            Contactgegevens.Append(
                 Contactgegeven.Hydrate(
                     @event.ContactgegevenId,
                     ContactgegevenType.Parse(@event.Type),
@@ -231,5 +255,29 @@ public record VerenigingState : IHasVersion
         => this with
         {
             IsUitgeschrevenUitPubliekeDatastroom = false,
+        };
+
+    public VerenigingState Apply(LocatieWerdToegevoegd @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties.ToArray().Append(
+                    Locatie.Hydrate(
+                        @event.Locatie.LocatieId,
+                        @event.Locatie.Naam,
+                        @event.Locatie.IsPrimair,
+                        @event.Locatie.Locatietype,
+                        @event.Locatie.Adres is null
+                            ? null
+                            : Adres.Hydrate(
+                                @event.Locatie.Adres.Straatnaam,
+                                @event.Locatie.Adres.Huisnummer,
+                                @event.Locatie.Adres.Busnummer,
+                                @event.Locatie.Adres.Postcode,
+                                @event.Locatie.Adres.Gemeente,
+                                @event.Locatie.Adres.Land),
+                        @event.Locatie.AdresId is null ? null : AdresId.Hydrate(@event.Locatie.AdresId.Broncode, @event.Locatie.AdresId.Bronwaarde))
+                ).ToArray(),
+                @event.Locatie.LocatieId+1),
         };
 }
