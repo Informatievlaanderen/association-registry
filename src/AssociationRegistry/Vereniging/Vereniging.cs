@@ -24,6 +24,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         IClock clock)
     {
         MustNotBeInFuture(startdatum, clock.Today);
+
         var vereniging = new Vereniging();
         vereniging.AddEvent(
             new FeitelijkeVerenigingWerdGeregistreerd(
@@ -33,7 +34,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
                 uitgeschrevenUitPubliekeDatastroom,
-                ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
+                ToEventContactgegevens(Contactgegevens.Create(contactgegevens).ToArray()),
                 ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
                 ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
@@ -67,7 +68,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startdatum.Datum,
-                ToEventContactgegevens(Contactgegevens.FromArray(contactgegevens).ToArray()),
+                ToEventContactgegevens(Contactgegevens.Create(contactgegevens).ToArray()),
                 ToLocatieLijst(Locaties.FromArray(locaties).ToArray()),
                 ToVertegenwoordigersLijst(Vertegenwoordigers.FromArray(vertegenwoordigers).ToArray()),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
@@ -212,5 +213,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         if (!State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
+    }
+
+    public void VoegLocatieToe(Locatie locatie)
+    {
+        State.Locaties.ThrowIfCannotAppend(locatie);
+
+        locatie = locatie with { LocatieId = State.Locaties.NextId };
+
+        AddEvent(LocatieWerdToegevoegd.With(locatie));
     }
 }

@@ -170,6 +170,8 @@ public class With_Same_Naam_And_Postcode
                 {
                     new Registratiedata.Locatie(
                         1,
+                        Request.Locaties.First().Locatietype,
+                        Request.Locaties.First().IsPrimair,
                         Request.Locaties.First().Naam ?? string.Empty,
                         new Registratiedata.Adres(
                             Request.Locaties.First().Adres!.Straatnaam,
@@ -178,8 +180,7 @@ public class With_Same_Naam_And_Postcode
                             Request.Locaties.First().Adres!.Postcode,
                             Request.Locaties.First().Adres!.Gemeente,
                             Request.Locaties.First().Adres!.Land),
-                        Request.Locaties.First().IsPrimair,
-                        Request.Locaties.First().Locatietype),
+                        null),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()

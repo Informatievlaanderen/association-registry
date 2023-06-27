@@ -33,12 +33,32 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public Locaties Append(Locatie locatie)
     {
-        Throw<DuplicateLocatieProvided>.If(Items.Contains(locatie));
-        Throw<DuplicatePrimaireLocatieProvided>.If(locatie.IsPrimair && HasPrimairelocatie);
-        Throw<DuplicateCorrespondentielocatieProvided>.If(locatie.Locatietype == Locatietype.Correspondentie && HasCorrespondentieLocatie);
+        ThrowIfCannotAppend(locatie);
 
         var nextId = Math.Max(locatie.LocatieId + 1, NextId);
         return new Locaties(Items.Append(locatie).ToArray(), nextId);
+    }
+
+    public void ThrowIfCannotAppend(Locatie locatie)
+    {
+        MustNotHaveDuplicateOf(locatie);
+        MustNotHaveMultiplePrimaireLocaties(locatie);
+        MustNotHaveMultipleCorrespondentieLocaties(locatie);
+    }
+
+    private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
+    {
+        Throw<DuplicateCorrespondentielocatieProvided>.If(locatie.Locatietype == Locatietype.Correspondentie && HasCorrespondentieLocatie);
+    }
+
+    private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
+    {
+        Throw<DuplicatePrimaireLocatieProvided>.If(locatie.IsPrimair && HasPrimairelocatie);
+    }
+
+    private void MustNotHaveDuplicateOf(Locatie locatie)
+    {
+        Throw<DuplicateLocatieProvided>.If(Items.Contains(locatie));
     }
 
     public Locaties Remove(int locatieId)
@@ -46,4 +66,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public new Locatie this[int locatieId]
         => this.Single(l => l.LocatieId == locatieId);
+
+    public static Locaties Hydrate(Locatie[] locaties, int nextId)
+        => new Locaties(locaties, nextId);
 }

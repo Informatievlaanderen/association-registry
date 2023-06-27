@@ -31,16 +31,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
-                Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingZoekDocument.Locatie
-                    {
-                        Locatietype = loc.Locatietype,
-                        Naam = loc.Naam,
-                        Adresvoorstelling = loc.Adres.ToAdresString(),
-                        IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres?.Postcode ?? string.Empty,
-                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
-                    }).ToArray(),
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
@@ -68,16 +59,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
-                Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingZoekDocument.Locatie
-                    {
-                        Locatietype = loc.Locatietype,
-                        Naam = loc.Naam,
-                        Adresvoorstelling = loc.Adres.ToAdresString(),
-                        IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres?.Postcode ?? string.Empty,
-                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
-                    }).ToArray(),
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
@@ -171,4 +153,22 @@ public class ElasticEventHandler
                 IsUitgeschrevenUitPubliekeDatastroom = false,
             });
     }
+
+    public void Handle(EventEnvelope<LocatieWerdToegevoegd> message)
+    {
+        _elasticRepository.AppendLocatie(
+            message.VCode,
+            Map(message.Data.Locatie));
+    }
+
+    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
+        => new()
+        {
+            Locatietype = locatie.Locatietype,
+            Naam = locatie.Naam,
+            Adresvoorstelling = locatie.Adres.ToAdresString(),
+            IsPrimair = locatie.IsPrimair,
+            Postcode = locatie.Adres?.Postcode ?? string.Empty,
+            Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
+        };
 }

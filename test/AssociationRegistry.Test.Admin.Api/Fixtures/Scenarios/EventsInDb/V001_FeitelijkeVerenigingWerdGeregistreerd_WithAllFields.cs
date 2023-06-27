@@ -37,35 +37,35 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                 new Registratiedata.Locatie(
                     1,
                     "Correspondentie",
-                    new Registratiedata.Adres(
+                    IsPrimair: true,
+                    Naam: "Correspondentie",
+                    Adres: new Registratiedata.Adres(
                         "Stationsstraat",
                         "1",
                         "B",
                         "1790",
                         "Affligem",
                         "België"),
-                    IsPrimair: true,
-                    "Correspondentie",
-                    new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
                     2,
                     "Activiteiten",
-                    Adres: null,
                     IsPrimair: false,
-                    "Activiteiten",
-                    new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    Naam: "Activiteiten",
+                    Adres: null,
+                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
                     3,
                     "Activiteiten",
-                    new Registratiedata.Adres(
+                    IsPrimair: false,
+                    Naam: "Activiteiten",
+                    Adres: new Registratiedata.Adres(
                         "Dorpstraat",
                         "1",
                         "B",
                         "1790",
                         "Affligem",
                         "België"),
-                    IsPrimair: false,
-                    "Activiteiten",
                     AdresId: null),
             },
             new[]

@@ -121,6 +121,13 @@ public class AdminApiClient : IDisposable
         return await HttpClient.SendAsync(request);
     }
 
+    public async Task<HttpResponseMessage> PostLocatie(string vCode, string content, long? version = null, string? initiator = "OVO000001")
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
+        return await HttpClient.PostAsync($"/v1/verenigingen/{vCode}/locaties", content.AsJsonContent());
+    }
+
     public async Task<HttpResponseMessage> GetDocsJson()
         => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
 

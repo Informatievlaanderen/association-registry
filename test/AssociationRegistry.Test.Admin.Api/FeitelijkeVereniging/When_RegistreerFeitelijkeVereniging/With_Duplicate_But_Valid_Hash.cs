@@ -58,15 +58,15 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 {
                     new Registratiedata.Locatie(
                         1,
+                        _setup.RequestLocatie.Locatietype,
+                        _setup.RequestLocatie.IsPrimair,
                         _setup.RequestLocatie.Naam ?? string.Empty,
                         new Registratiedata.Adres(_setup.RequestLocatie.Adres!.Straatnaam,
-                        _setup.RequestLocatie.Adres.Huisnummer,
-                        _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
-                        _setup.RequestLocatie.Adres.Postcode,
-                        _setup.RequestLocatie.Adres.Gemeente,
-                        _setup.RequestLocatie.Adres.Land),
-                        _setup.RequestLocatie.IsPrimair,
-                        _setup.RequestLocatie.Locatietype,
+                            _setup.RequestLocatie.Adres.Huisnummer,
+                            _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
+                            _setup.RequestLocatie.Adres.Postcode,
+                            _setup.RequestLocatie.Adres.Gemeente,
+                            _setup.RequestLocatie.Adres.Land),
                         new Registratiedata.AdresId(
                             _setup.RequestLocatie.AdresId!.Broncode,
                             _setup.RequestLocatie.AdresId.Bronwaarde)),

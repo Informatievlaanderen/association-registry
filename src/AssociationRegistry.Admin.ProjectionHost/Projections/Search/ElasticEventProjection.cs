@@ -172,4 +172,22 @@ public class ElasticEventHandler
                 IsUitgeschrevenUitPubliekeDatastroom = false,
             });
     }
+
+    public void Handle(EventEnvelope<LocatieWerdToegevoegd> message)
+    {
+        _elasticRepository.AppendLocatie(
+            message.VCode,
+            Map(message.Data.Locatie));
+    }
+
+    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
+        => new()
+        {
+            Locatietype = locatie.Locatietype,
+            Naam = locatie.Naam,
+            Adresvoorstelling = locatie.Adres.ToAdresString(),
+            IsPrimair = locatie.IsPrimair,
+            Postcode = locatie.Adres?.Postcode ?? string.Empty,
+            Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
+        };
 }

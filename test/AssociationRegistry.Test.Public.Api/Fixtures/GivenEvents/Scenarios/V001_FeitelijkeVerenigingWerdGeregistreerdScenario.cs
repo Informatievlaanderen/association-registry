@@ -17,41 +17,41 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
     private readonly Registratiedata.Locatie _locatie = new(
         1,
         "Correspondentie",
-        new Registratiedata.Adres(
+        IsPrimair: true,
+        Naam: "Correspondentie",
+        Adres: new Registratiedata.Adres(
             "Stationsstraat",
             "1",
             "B",
             "1790",
             "Affligem",
             "België"),
-        IsPrimair: true,
-        "Correspondentie",
-        new Registratiedata.AdresId(
+        AdresId: new Registratiedata.AdresId(
             Adresbron.AR,
             "https://data.vlaanderen.be/id/adres/0"));
 
     private readonly Registratiedata.Locatie _locatie2 = new(
         2,
         "Activiteiten",
-        Adres: null,
         IsPrimair: false,
-        "Activiteiten",
-        new Registratiedata.AdresId(
+        Naam: "Activiteiten",
+        Adres: null,
+        AdresId: new Registratiedata.AdresId(
             Adresbron.AR,
             "https://data.vlaanderen.be/id/adres/0"));
 
     private readonly Registratiedata.Locatie _locatie3 = new(
         3,
         "Activiteiten",
-        new Registratiedata.Adres(
+        IsPrimair: false,
+        Naam: "Activiteiten",
+        Adres: new Registratiedata.Adres(
             "Dorpstraat",
             "1",
             "B",
             "1790",
             "Affligem",
             "België"),
-        IsPrimair: false,
-        "Activiteiten",
         AdresId: null);
 
     private readonly DateOnly? _startdatum = DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9));

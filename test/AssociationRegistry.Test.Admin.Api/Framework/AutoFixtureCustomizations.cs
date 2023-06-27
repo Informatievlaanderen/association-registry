@@ -22,6 +22,7 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
+using AdresId = Vereniging.AdresId;
 using Contactgegeven = Vereniging.Contactgegeven;
 using ToeTeVoegenContactgegeven = AssociationRegistry.Admin.Api.Verenigingen.Common.ToeTeVoegenContactgegeven;
 using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
@@ -42,6 +43,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeHoofdactiviteitenVerenigingsloket();
         fixture.CustomizeVoornaam();
         fixture.CustomizeAchternaam();
+        fixture.CustomizeLocatie();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
         fixture.CustomizeRegistreerAfdelingRequest();
@@ -76,6 +78,42 @@ public static class AutoFixtureCustomizations
     public static void CustomizeDateOnly(this IFixture fixture)
     {
         fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
+    }
+
+    public static void CustomizeLocatie(this IFixture fixture)
+    {
+        fixture.Customize<Locatietype>(
+            composer =>
+                composer.FromFactory<int>(i => Locatietype.Activiteiten)
+                    .OmitAutoProperties()
+        );
+
+        fixture.Customize<Adresbron>(
+            composer =>
+                composer.FromFactory<int>(i => Adresbron.All[i % Adresbron.All.Length])
+                    .OmitAutoProperties()
+        );
+
+
+        fixture.Customize<AdresId>(
+            composer =>
+                composer.FromFactory<int>(i => AdresId.Create(
+                        fixture.Create<Adresbron>(),
+                        AdresId.DataVlaanderenAdresPrefix + i))
+                    .OmitAutoProperties()
+        );
+
+        fixture.Customize<Locatie>(
+            composer => composer.FromFactory(
+                () =>
+                    Locatie.Create(
+                        fixture.Create<string>(),
+                        false,
+                        Locatietype.Activiteiten,
+                        fixture.Create<AdresId>(),
+                        fixture.Create<Adres>())
+            ).OmitAutoProperties()
+        );
     }
 
     public static void CustomizeVCode(this IFixture fixture)
@@ -151,7 +189,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                 value => new ToeTeVoegenLocatie
                 {
-                    Locatietype = Locatietype.All[value % Locatietype.All.Length],
+                    Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),
                     Adres = new ToeTeVoegenAdres
                     {
@@ -246,17 +284,17 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                     value => new Registratiedata.Locatie(
                         LocatieId: fixture.Create<int>(),
+                        Locatietype: fixture.Create<Locatietype>(),
+                        IsPrimair: false,
                         Naam: fixture.Create<string>(),
-                        new Registratiedata.Adres(
+                        Adres: new Registratiedata.Adres(
                             Straatnaam: fixture.Create<string>(),
                             Huisnummer: fixture.Create<int>().ToString(),
                             Busnummer: fixture.Create<string>(),
                             Postcode: (fixture.Create<int>() % 10000).ToString(),
                             Gemeente: fixture.Create<string>(),
                             Land: fixture.Create<string>()),
-                        IsPrimair: false,
-                        Locatietype: Locatietype.All[value % Locatietype.All.Length]
-                    ))
+                        null))
                 .OmitAutoProperties());
 
         fixture.Customize<Registratiedata.HoofdactiviteitVerenigingsloket>(
@@ -414,7 +452,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Contactgegevens>(
             composer => composer.FromFactory(
-                () => Contactgegevens.FromArray(
+                () => Contactgegevens.Create(
                     fixture.CreateMany<Contactgegeven>().ToArray())));
     }
 

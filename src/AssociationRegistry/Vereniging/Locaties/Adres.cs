@@ -32,4 +32,7 @@ public record Adres
     public string Postcode { get; set; }
     public string Gemeente { get; }
     public string Land { get; }
+
+    public static Adres Hydrate(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
+        => new(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
 }

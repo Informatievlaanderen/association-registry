@@ -8,7 +8,7 @@ public record Locatie
     public int LocatieId { get; init; }
     public string? Naam { get; init; }
     public bool IsPrimair { get; init; }
-    public string Locatietype { get; init; }
+    public Locatietype Locatietype { get; init; }
     public AdresId? AdresId { get; init; }
     public Adres? Adres { get; init; }
 
@@ -28,8 +28,8 @@ public record Locatie
         return new Locatie(naam, isPrimair, locatieType, adresId, adres);
     }
 
-    public static Locatie Hydrate(int locatieId, string? naam, string straatnaam, string huisnummer, string? busnummer, string postcode, string gemeente, string land, bool isPrimair, string locatieType, AdresId? adresId = null)
-        => new(naam, isPrimair, locatieType, adresId, Adres.Create(straatnaam, huisnummer, busnummer, postcode, gemeente, land)) { LocatieId = locatieId };
+    public static Locatie Hydrate(int locatieId, string? naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
+        => new(naam, isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
     public virtual bool Equals(Locatie? other)
     {

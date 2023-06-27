@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.RequestMapping;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using Framework;
 using Vereniging;
@@ -8,6 +9,7 @@ using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
+using JasperFx.Core;
 using Xunit;
 using Xunit.Categories;
 
@@ -81,11 +83,24 @@ public class To_A_RegistreerAfdelingCommand
 
     private static void AssertLocaties(Locatie[] locaties, RegistreerAfdelingRequest request)
     {
-        locaties.Should().BeEquivalentTo(request.Locaties, options => options.Excluding(x => x.AdresId));
         foreach (var (locatie, i) in locaties.Select((l, i) => (l, i)))
         {
-            locatie.AdresId!.Bronwaarde.Should().Be(request.Locaties[i].AdresId!.Bronwaarde);
-            locatie.AdresId!.Adresbron.Should().BeEquivalentTo(Adresbron.Parse(request.Locaties[i].AdresId!.Broncode));
+            AssertLocatie(locatie, request.Locaties[i]);
         }
+    }
+
+    private static void AssertLocatie(Locatie locatie, ToeTeVoegenLocatie requestLocatie)
+    {
+        locatie.Locatietype.Waarde.Should().Be(requestLocatie.Locatietype);
+        locatie.Naam.Should().Be(requestLocatie.Naam);
+        locatie.IsPrimair.Should().Be(requestLocatie.IsPrimair);
+        locatie.Adres!.Straatnaam.Should().Be(requestLocatie.Adres!.Straatnaam);
+        locatie.Adres!.Huisnummer.Should().Be(requestLocatie.Adres!.Huisnummer);
+        locatie.Adres!.Busnummer.Should().Be(requestLocatie.Adres!.Busnummer);
+        locatie.Adres!.Postcode.Should().Be(requestLocatie.Adres!.Postcode);
+        locatie.Adres!.Gemeente.Should().Be(requestLocatie.Adres!.Gemeente);
+        locatie.Adres!.Land.Should().Be(requestLocatie.Adres!.Land);
+        locatie.AdresId!.Adresbron.Code.Should().Be(requestLocatie.AdresId!.Broncode);
+        locatie.AdresId!.Bronwaarde.Should().Be(requestLocatie.AdresId!.Bronwaarde);
     }
 }

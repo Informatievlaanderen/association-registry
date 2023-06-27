@@ -1,0 +1,80 @@
+{
+  "@context": "http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {
+      "vCode": "V9999023",
+      "type":{
+        "code":"FV",
+        "beschrijving": "Feitelijke vereniging"
+      },
+      "naam": "Party in Brakeldorp",
+      "korteNaam": "FBD",
+      "hoofdactiviteitenVerenigingsloket": [
+        {
+          "code": "BLA",
+          "beschrijving": "Buitengewoon Leuke Afkortingen"
+        }
+      ],
+      "doelgroep": "+18",
+      "locaties": [
+        {
+          "locatietype": "Correspondentie",
+          "isPrimair": true,
+          "adresvoorstelling": "Stationsstraat 1 bus B, 1790 Affligem, België",
+          "naam": "Correspondentie",
+          "postcode": "1790",
+          "gemeente": "Affligem"
+        },
+        {
+          "locatietype": "Activiteiten",
+          "isPrimair": false,
+          "adresvoorstelling": "",
+          "naam": "Activiteiten",
+          "postcode": "",
+          "gemeente": ""
+        },
+        {
+          "locatietype": "Activiteiten",
+          "isPrimair": false,
+          "adresvoorstelling": "Dorpstraat 1 bus B, 1790 Affligem, België",
+          "naam": "Activiteiten",
+          "postcode": "1790",
+          "gemeente": "Affligem"
+        },
+        {
+          "locatietype": "Activiteiten",
+          "isPrimair": false,
+          "adresvoorstelling": "straatnaam 1 bus B, 0123 Zonnedorp, Frankrijk",
+          "naam": "Toegevoegd",
+          "postcode": "0123",
+          "gemeente": "Zonnedorp"
+        }
+      ],
+      "activiteiten": [
+        {
+          "id": -1,
+          "categorie": "Basketbal"
+        },
+        {
+          "id": -1,
+          "categorie": "Tennis"
+        },
+        {
+          "id": -1,
+          "categorie": "Padel"
+        }
+      ],
+      "sleutels":[],
+      "links": {
+        "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999023"
+      }
+    }
+  ],
+  "metadata": {
+    "pagination": {
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 50
+    }
+  }
+}

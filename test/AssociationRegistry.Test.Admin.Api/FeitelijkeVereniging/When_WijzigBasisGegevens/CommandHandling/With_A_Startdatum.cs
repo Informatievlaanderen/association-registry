@@ -7,6 +7,7 @@ using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Vereniging;
 using AutoFixture;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,7 +24,7 @@ public class With_A_Startdatum
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture();
+        var fixture = new Fixture().CustomizeAll();
         _nieuweStartdatum = new DateOnly(2023, 3, 6).AddDays(-1);
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Create(_nieuweStartdatum));
         var commandMetadata = fixture.Create<CommandMetadata>();

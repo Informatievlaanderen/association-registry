@@ -1,0 +1,39 @@
+﻿{
+  "@context": "https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json",
+  "vereniging": {
+    "vCode": "V0001011",
+    "type": {
+      "code": "FV",
+      "beschrijving": "Feitelijke vereniging"
+    },
+    "naam": "Feesten Hulste",
+    "korteNaam": "",
+    "korteBeschrijving": "",
+    "startdatum": null,
+    "status": "Actief",
+    "contactgegevens": [
+    ],
+    "locaties": [
+      {
+        "locatietype": "Activiteiten",
+        "isPrimair": false,
+        "naam": "Naam locatie",
+        "adres": null,
+        "adresvoorstelling": "",
+        "adresId": {
+          "broncode": "AR",
+          "bronwaarde": "https://data.vlaanderen.be/id/adres/"
+        }
+      }
+    ],
+    "hoofdactiviteitenVerenigingsloket": [
+    ],
+    "sleutels": [
+    ],
+    "relaties": [
+    ]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": "2023-01-25"
+  }
+}

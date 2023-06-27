@@ -28,4 +28,7 @@ public record AdresId
 
     private static bool IsValidArBronwaarde(string bronwaarde)
         => bronwaarde.StartsWith(DataVlaanderenAdresPrefix);
+
+    public static AdresId? Hydrate(Adresbron adresbron, string bronwaarde)
+        => new(adresbron, bronwaarde);
 }
