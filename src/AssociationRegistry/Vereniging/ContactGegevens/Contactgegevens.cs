@@ -102,7 +102,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     private void MustNotHavePrimairOfTheSameTypeAs(Contactgegeven updatedContactgegeven)
     {
-        Throw<MultiplePrimaryContactgegevens>.If(
+        Throw<MultiplePrimairContactgegevens>.If(
             updatedContactgegeven.IsPrimair &&
             this.Without(updatedContactgegeven)
                 .HasPrimairForType(updatedContactgegeven.Type),

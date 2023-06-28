@@ -10,10 +10,10 @@ using Websites;
 public record Contactgegeven
 {
     public int ContactgegevenId { get; init; }
-    public ContactgegevenType Type { get; }
+    public ContactgegevenType Type { get; init; }
     public string Waarde { get; }
     public string Beschrijving { get; init; }
-    public bool IsPrimair { get; }
+    public bool IsPrimair { get; init;  }
 
     protected Contactgegeven(ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
     {

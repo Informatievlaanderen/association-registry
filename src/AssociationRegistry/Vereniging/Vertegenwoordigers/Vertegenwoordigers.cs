@@ -82,7 +82,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         var vertegenwoordigers = this.Append(vertegenwoordiger).ToArray();
 
         Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigers));
-        Throw<MultiplePrimaryVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
+        Throw<MultiplePrimaireVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
     }
 
 
@@ -102,7 +102,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
     private void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
     {
-        Throw<MultiplePrimaryVertegenwoordigers>.If(
+        Throw<MultiplePrimaireVertegenwoordigers>.If(
             Primair is not null && // there is a primair vertegenwoordiger
             Primair.VertegenwoordigerId != vertegenwoordiger.VertegenwoordigerId && // it is not the same
             vertegenwoordiger.IsPrimair); // we want to make it primair

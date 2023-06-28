@@ -40,6 +40,6 @@ public class Given_Multiple_Primair_Contactgegeven
                 true)); // <== changed value
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
-        await handle.Should().ThrowAsync<MultiplePrimaryContactgegevens>();
+        await handle.Should().ThrowAsync<MultiplePrimairContactgegevens>();
     }
 }

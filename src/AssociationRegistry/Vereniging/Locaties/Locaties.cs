@@ -68,11 +68,11 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
     {
-        Throw<DuplicatePrimaireLocatieProvided>.If(locatie.IsPrimair && HasPrimairelocatie);
+        Throw<MultiplePrimaireLocaties>.If(locatie.IsPrimair && HasPrimairelocatie);
     }
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
     {
-        Throw<DuplicateLocatieProvided>.If(Items.Contains(locatie));
+        Throw<DuplicateLocatie>.If(Items.Contains(locatie));
     }
 }
