@@ -128,6 +128,18 @@ public class AdminApiClient : IDisposable
         return await HttpClient.PostAsync($"/v1/verenigingen/{vCode}/locaties", content.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> DeleteLocatie(string vCode, int locatieId, string jsonBody, long? version = null, string? initiator = "OVO000001")
+    {
+        AddOrRemoveHeader(HeaderNames.IfMatch, GetIfMatchHeaderValue(version));
+        AddOrRemoveHeader(WellknownHeaderNames.Initiator, initiator);
+
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Delete,
+            RequestUri = new Uri($"/v1/verenigingen/{vCode}/locaties/{locatieId}", UriKind.Relative),
+        };
+        return await HttpClient.SendAsync(request);    }
+
     public async Task<HttpResponseMessage> GetDocsJson()
         => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
 

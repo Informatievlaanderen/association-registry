@@ -17,13 +17,13 @@ using Xunit.Categories;
 [UnitTest]
 public class With_An_Unknown_VertegenwoordigerId
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields _scenario;
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
     private readonly Fixture _fixture;
 
     public With_An_Unknown_VertegenwoordigerId()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
