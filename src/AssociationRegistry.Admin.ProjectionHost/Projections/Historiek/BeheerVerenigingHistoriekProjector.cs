@@ -220,9 +220,9 @@ public class BeheerVerenigingHistoriekProjector
 
         AddHistoriekEntry(
             locatieWerdToegevoegd,
-            locatieWerdToegevoegd.Data,
+            locatieWerdToegevoegd.Data.Locatie,
             document,
-            $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd als vertegenwoordiger."
+            $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd."
         );
 
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);

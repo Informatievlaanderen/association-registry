@@ -31,7 +31,7 @@ public class Given_LocatieWerdToegevoegd
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd als vertegenwoordiger.",
                 nameof(LocatieWerdToegevoegd),
-                locatieWerdToegevoegd.Data,
+                locatieWerdToegevoegd.Data.Locatie,
                 locatieWerdToegevoegd.Initiator,
                 locatieWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
     }
