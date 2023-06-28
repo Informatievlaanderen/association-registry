@@ -1,8 +1,11 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using Emails;
 using Exceptions;
 using Framework;
+using SocialMedias;
+using TelefoonNummers;
 
 public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
@@ -38,15 +41,33 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
         foreach (var toeTeVoegenVertegenwoordiger in toeTeVoegenVertegenwoordigers)
         {
-            var vertegenwoordigerMetId = toeTeVoegenVertegenwoordiger with { VertegenwoordigerId = vertegenwoordigers.NextId };
+            var vertegenwoordigerMetId = vertegenwoordigers.VoegToe(toeTeVoegenVertegenwoordiger);
 
-            vertegenwoordigers.ThrowIfCannotAppend(vertegenwoordigerMetId);
             vertegenwoordigers = new Vertegenwoordigers(vertegenwoordigers.Append(vertegenwoordigerMetId), vertegenwoordigers.NextId + 1);
 
             toegevoegdeVertegenwoordigers = toegevoegdeVertegenwoordigers.Append(vertegenwoordigerMetId).ToArray();
         }
 
         return toegevoegdeVertegenwoordigers;
+    }
+
+    public Vertegenwoordiger VoegToe(Vertegenwoordiger toeTeVoegenVertegenwoordiger)
+    {
+        ThrowIfCannotAppend(toeTeVoegenVertegenwoordiger);
+
+        return toeTeVoegenVertegenwoordiger with { VertegenwoordigerId = NextId };
+    }
+
+    public Vertegenwoordiger? Wijzig(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    {
+        MustContain(vertegenwoordigerId);
+
+        if (this[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var gewijzigdeVertegenwoordiger))
+            return null;
+
+        MustNotHaveMultiplePrimary(gewijzigdeVertegenwoordiger);
+
+        return gewijzigdeVertegenwoordiger;
     }
 
     public Vertegenwoordiger Verwijder(int vertegenwoordigerId)
@@ -79,7 +100,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         => Throw<DuplicateInszProvided>.If(
             HasDuplicateInsz(Items.Append(vertegenwoordiger).ToArray()));
 
-    public void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
+    private void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
     {
         Throw<MultiplePrimaryVertegenwoordigers>.If(
             Primair is not null && // there is a primair vertegenwoordiger
@@ -87,7 +108,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
             vertegenwoordiger.IsPrimair); // we want to make it primair
     }
 
-    public void MustContain(int vertegenwoordigerId)
+    private void MustContain(int vertegenwoordigerId)
     {
         Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId));
     }

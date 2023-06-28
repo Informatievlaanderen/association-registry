@@ -5,6 +5,7 @@ using Events;
 using EventStore;
 using Exceptions;
 using Framework;
+using JasperFx.Core;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -136,25 +137,19 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
-        State.Contactgegevens.MustNotHaveDuplicates(contactgegeven);
-        State.Contactgegevens.MustNotHaveMultiplePrimaryOfTheSameType(contactgegeven);
+        var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
-        contactgegeven = contactgegeven with { ContactgegevenId = State.Contactgegevens.NextId };
-
-        AddEvent(ContactgegevenWerdToegevoegd.With(contactgegeven));
+        AddEvent(ContactgegevenWerdToegevoegd.With(toegevoegdContactgegeven));
     }
 
     public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)
     {
-        State.Contactgegevens.MustContain(contactgegevenId);
+        var gewijzigdContactgegeven = State.Contactgegevens.Wijzig(contactgegevenId, waarde, beschrijving, isPrimair);
 
-        if (State.Contactgegevens[contactgegevenId].WouldBeEquivalent(waarde, beschrijving, isPrimair, out var updatedContactgegeven))
+        if (gewijzigdContactgegeven is null)
             return;
 
-        State.Contactgegevens.MustNotHaveDuplicates(updatedContactgegeven);
-        State.Contactgegevens.MustNotHaveMultiplePrimaryOfTheSameType(updatedContactgegeven);
-
-        AddEvent(ContactgegevenWerdGewijzigd.With(updatedContactgegeven));
+        AddEvent(ContactgegevenWerdGewijzigd.With(gewijzigdContactgegeven));
     }
 
     public void VerwijderContactgegeven(int contactgegevenId)
@@ -174,31 +169,24 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
     {
-        State.Vertegenwoordigers.MustNotHaveDuplicateOf(vertegenwoordiger);
-        State.Vertegenwoordigers.MustNotHaveMultiplePrimary(vertegenwoordiger);
+        var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        vertegenwoordiger = vertegenwoordiger with { VertegenwoordigerId = State.Vertegenwoordigers.NextId };
-        AddEvent(VertegenwoordigerWerdToegevoegd.With(vertegenwoordiger));
+        AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
     }
 
     public void WijzigVertegenwoordiger(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
     {
-        State.Vertegenwoordigers.MustContain(vertegenwoordigerId);
+        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
 
-        if (State.Vertegenwoordigers[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var updatedVertegenwoordiger))
+        if (gewijzigdeVertegenwoordiger is null)
             return;
 
-        State.Vertegenwoordigers.MustNotHaveMultiplePrimary(updatedVertegenwoordiger);
-
-        AddEvent(VertegenwoordigerWerdGewijzigd.With(updatedVertegenwoordiger));
+        AddEvent(VertegenwoordigerWerdGewijzigd.With(gewijzigdeVertegenwoordiger));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
     {
-        State.Vertegenwoordigers.MustContain(vertegenwoordigerId);
-
-        var vertegenwoordiger = State.Vertegenwoordigers[vertegenwoordigerId];
-
+        var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
 

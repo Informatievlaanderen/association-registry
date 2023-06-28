@@ -21,7 +21,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         locaties = locaties.ToArray();
 
-        return new(locaties, locaties.Max(x => x.LocatieId) + 1);
+        return new Locaties(locaties, locaties.Max(x => x.LocatieId) + 1);
     }
 
     public Locatie[] VoegToe(params Locatie[] toeTeVoegenLocaties)
@@ -31,9 +31,8 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
         foreach (var toeTeVoegenLocatie in toeTeVoegenLocaties)
         {
-            var locatieMetId = toeTeVoegenLocatie with { LocatieId = locaties.NextId };
+            var locatieMetId = locaties.VoegToe(toeTeVoegenLocatie);
 
-            locaties.ThrowIfCannotAppend(locatieMetId);
             locaties = new Locaties(locaties.Append(locatieMetId), locaties.NextId + 1);
 
             toegevoegdeLocaties = toegevoegdeLocaties.Append(locatieMetId).ToArray();
