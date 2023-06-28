@@ -7,7 +7,7 @@ using Exceptions;
 public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 {
     private const int InitialId = 1;
-    public int NextId { get; }
+    private int NextId { get; }
 
     public static Contactgegevens Empty
         => new(Array.Empty<Contactgegeven>(), InitialId);
@@ -22,9 +22,9 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         contactgegevens = contactgegevens.ToArray();
 
         if (!contactgegevens.Any())
-            return new(Empty, Math.Max(InitialId, NextId));
+            return new Contactgegevens(Empty, Math.Max(InitialId, NextId));
 
-        return new(contactgegevens, Math.Max(contactgegevens.Max(x => x.ContactgegevenId) + 1, NextId));
+        return new Contactgegevens(contactgegevens, Math.Max(contactgegevens.Max(x => x.ContactgegevenId) + 1, NextId));
     }
 
     public Contactgegeven[] VoegToe(params Contactgegeven[] toeTeVoegenContactgegevens)
@@ -34,9 +34,8 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
         foreach (var toeTeVoegenContactgegeven in toeTeVoegenContactgegevens)
         {
-            var contactgegevenMetId = toeTeVoegenContactgegeven with { ContactgegevenId = contactgegevens.NextId };
+            var contactgegevenMetId = contactgegevens.VoegToe(toeTeVoegenContactgegeven);
 
-            contactgegevens.ThrowIfCannotAppend(contactgegevenMetId);
             contactgegevens = new Contactgegevens(contactgegevens.Append(contactgegevenMetId), contactgegevens.NextId + 1);
 
             toegevoegdeContactgegevens = toegevoegdeContactgegevens.Append(contactgegevenMetId).ToArray();
@@ -52,6 +51,20 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return toeTeVoegenContactgegeven with { ContactgegevenId = NextId };
     }
 
+    public Contactgegeven? Wijzig(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)
+    {
+        MustContain(contactgegevenId);
+
+        var teWijzigenContactgegeven = this[contactgegevenId];
+        if (teWijzigenContactgegeven.WouldBeEquivalent(waarde, beschrijving, isPrimair, out var gewijzigdContactgegeven))
+            return null;
+
+        MustNotHaveDuplicateOf(gewijzigdContactgegeven);
+        MustNotHavePrimairOfTheSameTypeAs(gewijzigdContactgegeven);
+
+        return gewijzigdContactgegeven;
+    }
+
     public Contactgegeven Verwijder(int contactgegevenId)
     {
         MustContain(contactgegevenId);
@@ -59,42 +72,41 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return this[contactgegevenId];
     }
 
-    private bool HasPrimairContactgegeven
-        => Items.Any(l => l.IsPrimair);
-
     private void ThrowIfCannotAppend(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(ContainsMetZelfdeWaarden(contactgegeven), contactgegeven.Type);
-        Throw<MultiplePrimaryContactgegevens>.If(contactgegeven.IsPrimair && this.HasPrimairForType(contactgegeven.Type), contactgegeven.Type);
+        MustNotHaveDuplicateOf(contactgegeven);
+        MustNotHavePrimairOfTheSameTypeAs(contactgegeven);
     }
 
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.MetZelfdeWaarden);
 
-    public new Contactgegeven this[int contactgegevenId]
+    private new Contactgegeven this[int contactgegevenId]
         => this.Single(x => x.ContactgegevenId == contactgegevenId);
 
-    public bool HasKey(int contactgegevenId)
+    private bool HasKey(int contactgegevenId)
         => this.Any(contactgegeven => contactgegeven.ContactgegevenId == contactgegevenId);
 
-    public bool ContainsOther(Contactgegeven contactgegeven)
-        => Items
-            .Without(contactgegeven)
-            .Any(contactgegeven.MetZelfdeWaarden);
-
-    public void MustContain(int contactgegevenId)
+    private void MustContain(int contactgegevenId)
     {
         Throw<OnbekendContactgegeven>.If(!HasKey(contactgegevenId), contactgegevenId.ToString());
     }
 
-    public void MustNotHaveDuplicates(Contactgegeven updatedContactgegeven)
+    private void MustNotHaveDuplicateOf(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(ContainsOther(updatedContactgegeven), updatedContactgegeven.Type);
+        Throw<DuplicateContactgegeven>.If(
+            this.Without(contactgegeven)
+                .ContainsMetZelfdeWaarden(contactgegeven),
+            contactgegeven.Type);
     }
 
-    public void MustNotHaveMultiplePrimaryOfTheSameType(Contactgegeven updatedContactgegeven)
+    private void MustNotHavePrimairOfTheSameTypeAs(Contactgegeven updatedContactgegeven)
     {
-        Throw<MultiplePrimaryContactgegevens>.If(updatedContactgegeven.IsPrimair && this.WouldGiveMultiplePrimaryOfType(updatedContactgegeven), updatedContactgegeven.Type);
+        Throw<MultiplePrimaryContactgegevens>.If(
+            updatedContactgegeven.IsPrimair &&
+            this.Without(updatedContactgegeven)
+                .HasPrimairForType(updatedContactgegeven.Type),
+            updatedContactgegeven.Type);
     }
 }
 
@@ -112,6 +124,9 @@ public static class ContactgegevenEnumerableExtensions
 
     public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)
         => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
+
+    public static bool ContainsMetZelfdeWaarden(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
+        => source.Any(contactgegeven.MetZelfdeWaarden);
 
     public static bool WouldGiveMultiplePrimaryOfType(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegevenToEvaluate)
         => source.Without(contactgegevenToEvaluate).Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);
