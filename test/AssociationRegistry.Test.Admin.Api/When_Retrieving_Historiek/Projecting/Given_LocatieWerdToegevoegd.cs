@@ -29,7 +29,7 @@ public class Given_LocatieWerdToegevoegd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd als vertegenwoordiger.",
+                $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd.",
                 nameof(LocatieWerdToegevoegd),
                 locatieWerdToegevoegd.Data.Locatie,
                 locatieWerdToegevoegd.Initiator,
