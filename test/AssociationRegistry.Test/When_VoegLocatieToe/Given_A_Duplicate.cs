@@ -24,7 +24,7 @@ public class Given_A_Duplicate
                 Locaties = new [] { locatie },
             }));
 
-        Assert.Throws<DuplicateLocatieProvided>(() => vereniging.VoegLocatieToe(
+        Assert.Throws<DuplicateLocatie>(() => vereniging.VoegLocatieToe(
             Locatie.Create(
                 locatie.Naam,
                 locatie.IsPrimair,

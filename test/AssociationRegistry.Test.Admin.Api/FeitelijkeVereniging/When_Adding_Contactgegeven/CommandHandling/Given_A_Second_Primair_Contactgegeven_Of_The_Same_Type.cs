@@ -43,7 +43,7 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
         var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         await handleCall.Should()
-            .ThrowAsync<MultiplePrimaryContactgegevens>()
-            .WithMessage(new MultiplePrimaryContactgegevens(ContactgegevenType.Email.ToString()).Message);
+            .ThrowAsync<MultiplePrimairContactgegevens>()
+            .WithMessage(new MultiplePrimairContactgegevens(ContactgegevenType.Email.ToString()).Message);
     }
 }

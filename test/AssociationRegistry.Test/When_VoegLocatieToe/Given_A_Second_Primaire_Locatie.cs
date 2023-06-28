@@ -26,6 +26,6 @@ public class Given_A_Second_Primaire_Locatie
 
         var locatie = fixture.Create<Locatie>() with { IsPrimair = true };
 
-        Assert.Throws<DuplicatePrimaireLocatieProvided>(() => vereniging.VoegLocatieToe(locatie));
+        Assert.Throws<MultiplePrimaireLocaties>(() => vereniging.VoegLocatieToe(locatie));
     }
 }
