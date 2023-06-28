@@ -54,46 +54,46 @@ public record VerenigingState : IHasVersion
                 Vertegenwoordigers.Empty,
                 (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
-                    Vertegenwoordiger.Hydrate(
-                        v.VertegenwoordigerId,
-                        Insz.Hydrate(v.Insz),
-                        v.Rol,
-                        v.Roepnaam,
-                        Voornaam.Hydrate(v.Voornaam),
-                        Achternaam.Hydrate(v.Achternaam),
-                        v.IsPrimair,
-                        Email.Hydrate(v.Email),
-                        TelefoonNummer.Hydrate(v.Telefoon),
-                        TelefoonNummer.Hydrate(v.Mobiel),
-                        SocialMedia.Hydrate(v.SocialMedia)
-                    )))),
+                        Vertegenwoordiger.Hydrate(
+                            v.VertegenwoordigerId,
+                            Insz.Hydrate(v.Insz),
+                            v.Rol,
+                            v.Roepnaam,
+                            Voornaam.Hydrate(v.Voornaam),
+                            Achternaam.Hydrate(v.Achternaam),
+                            v.IsPrimair,
+                            Email.Hydrate(v.Email),
+                            TelefoonNummer.Hydrate(v.Telefoon),
+                            TelefoonNummer.Hydrate(v.Mobiel),
+                            SocialMedia.Hydrate(v.SocialMedia)
+                        )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
                 (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
-                    Locatie.Hydrate(
-                        l.LocatieId,
-                        l.Naam,
-                        l.IsPrimair,
-                        l.Locatietype,
-                        l.Adres is null
-                            ? null
-                            : Adres.Hydrate(
-                                l.Adres.Straatnaam,
-                                l.Adres.Huisnummer,
-                                l.Adres.Busnummer,
-                                l.Adres.Postcode,
-                                l.Adres.Gemeente,
-                                l.Adres.Land),
-                        l.AdresId is null
-                            ? null
-                            : AdresId.Hydrate(
-                                Adresbron.Parse(l.AdresId.Broncode),
-                                l.AdresId.Bronwaarde))))),
-                HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
-                    @event.HoofdactiviteitenVerenigingsloket.Select(
-                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
-                        .ToArray()),
+                        Locatie.Hydrate(
+                            l.LocatieId,
+                            l.Naam,
+                            l.IsPrimair,
+                            l.Locatietype,
+                            l.Adres is null
+                                ? null
+                                : Adres.Hydrate(
+                                    l.Adres.Straatnaam,
+                                    l.Adres.Huisnummer,
+                                    l.Adres.Busnummer,
+                                    l.Adres.Postcode,
+                                    l.Adres.Gemeente,
+                                    l.Adres.Land),
+                            l.AdresId is null
+                                ? null
+                                : AdresId.Hydrate(
+                                    Adresbron.Parse(l.AdresId.Broncode),
+                                    l.AdresId.Bronwaarde))))),
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                @event.HoofdactiviteitenVerenigingsloket.Select(
+                        h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                    .ToArray()),
         };
 
     public VerenigingState Apply(AfdelingWerdGeregistreerd @event)
@@ -114,23 +114,24 @@ public record VerenigingState : IHasVersion
                             ContactgegevenType.Parse(c.Type),
                             c.Waarde,
                             c.Beschrijving,
-                            c.IsPrimair)))),            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
+                            c.IsPrimair)))),
+            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
                 (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
-                    Vertegenwoordiger.Hydrate(
-                        v.VertegenwoordigerId,
-                        Insz.Hydrate(v.Insz),
-                        v.Rol,
-                        v.Roepnaam,
-                        Voornaam.Hydrate(v.Voornaam),
-                        Achternaam.Hydrate(v.Achternaam),
-                        v.IsPrimair,
-                        Email.Hydrate(v.Email),
-                        TelefoonNummer.Hydrate(v.Telefoon),
-                        TelefoonNummer.Hydrate(v.Mobiel),
-                        SocialMedia.Hydrate(v.SocialMedia)
-                    )))),
+                        Vertegenwoordiger.Hydrate(
+                            v.VertegenwoordigerId,
+                            Insz.Hydrate(v.Insz),
+                            v.Rol,
+                            v.Roepnaam,
+                            Voornaam.Hydrate(v.Voornaam),
+                            Achternaam.Hydrate(v.Achternaam),
+                            v.IsPrimair,
+                            Email.Hydrate(v.Email),
+                            TelefoonNummer.Hydrate(v.Telefoon),
+                            TelefoonNummer.Hydrate(v.Mobiel),
+                            SocialMedia.Hydrate(v.SocialMedia)
+                        )))),
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                         h => HoofdactiviteitVerenigingsloket.Create(h.Code))
@@ -209,18 +210,18 @@ public record VerenigingState : IHasVersion
                 Vertegenwoordigers
                     .Append(
                         Vertegenwoordiger.Hydrate(
-                    @event.VertegenwoordigerId,
-                    Insz.Hydrate(@event.Insz),
-                    @event.Rol,
-                    @event.Roepnaam,
-                    Voornaam.Hydrate(@event.Voornaam),
-                    Achternaam.Hydrate(@event.Achternaam),
-                    @event.IsPrimair,
-                    Email.Hydrate(@event.Email),
-                    TelefoonNummer.Hydrate(@event.Telefoon),
-                    TelefoonNummer.Hydrate(@event.Mobiel),
-                    SocialMedia.Hydrate(@event.SocialMedia)
-                ))),
+                            @event.VertegenwoordigerId,
+                            Insz.Hydrate(@event.Insz),
+                            @event.Rol,
+                            @event.Roepnaam,
+                            Voornaam.Hydrate(@event.Voornaam),
+                            Achternaam.Hydrate(@event.Achternaam),
+                            @event.IsPrimair,
+                            Email.Hydrate(@event.Email),
+                            TelefoonNummer.Hydrate(@event.Telefoon),
+                            TelefoonNummer.Hydrate(@event.Mobiel),
+                            SocialMedia.Hydrate(@event.SocialMedia)
+                        ))),
         };
 
     public VerenigingState Apply(VertegenwoordigerWerdGewijzigd @event)
@@ -289,5 +290,13 @@ public record VerenigingState : IHasVersion
                                 @event.Locatie.Adres.Land),
                         @event.Locatie.AdresId is null ? null : AdresId.Hydrate(@event.Locatie.AdresId.Broncode, @event.Locatie.AdresId.Bronwaarde))
                 ).ToArray()),
+        };
+
+    public VerenigingState Apply(LocatieWerdVerwijderd @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                    .Without(@event.Locatie.LocatieId)),
         };
 }

@@ -4,7 +4,7 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging;
 
-public class FeitelijkeVerenigingWerdGeregistreerdWithoutVertegenwoordigers : CommandhandlerScenarioBase
+public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : CommandhandlerScenarioBase
 {
     public const string Naam = "Hulste Huldigt";
     public const string KorteNaam = "FOud";

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Events;
 using Exceptions;
 using Framework;
 

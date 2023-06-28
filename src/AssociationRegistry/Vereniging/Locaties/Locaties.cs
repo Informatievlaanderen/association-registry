@@ -17,11 +17,12 @@ public class Locaties : ReadOnlyCollection<Locatie>
         NextId = nextId;
     }
 
-    public static Locaties Hydrate(IEnumerable<Locatie> locaties)
+    public Locaties Hydrate(IEnumerable<Locatie> locaties)
     {
         locaties = locaties.ToArray();
-
-        return new Locaties(locaties, locaties.Max(x => x.LocatieId) + 1);
+        if (!locaties.Any())
+            return new(Empty, Math.Max(InitialId, NextId));
+        return new(locaties, Math.Max(locaties.Max(x => x.LocatieId) + 1, NextId));
     }
 
     public Locatie[] VoegToe(params Locatie[] toeTeVoegenLocaties)
@@ -75,4 +76,28 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         Throw<DuplicateLocatie>.If(Items.Contains(locatie));
     }
+
+    public Locatie Verwijder(int locatieId)
+    {
+        MustContain(locatieId);
+
+        return this[locatieId];
+    }
+
+    public new Locatie this[int locatieId]
+        => this.Single(l => l.LocatieId == locatieId);
+
+    private void MustContain(int locatieId)
+    {
+        Throw<UnknownLocatie>.If(!HasKey(locatieId));
+    }
+
+    private bool HasKey(int locatieId)
+        => this.Any(locatie => locatie.LocatieId == locatieId);
+}
+
+public static class LocatieEnumerbleExtentions
+{
+    public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, int locatieId)
+        => locaties.Where(l => l.LocatieId != locatieId);
 }

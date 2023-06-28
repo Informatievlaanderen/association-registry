@@ -45,7 +45,7 @@ public class Given_LocatieWerdToegevoegd
                 Adresvoorstelling = locatieWerdToegevoegd.Data.Locatie.Adres.ToAdresString(),
                 AdresId = locatieWerdToegevoegd.Data.Locatie.AdresId is null
                     ? null
-                    : new AdresId()
+                    : new AdresId
                     {
                         Broncode = locatieWerdToegevoegd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
