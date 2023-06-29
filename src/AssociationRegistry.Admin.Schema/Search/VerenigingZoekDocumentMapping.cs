@@ -49,6 +49,9 @@ public static class VerenigingZoekDocumentMapping
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
                 .Text(
+                    descriptor => descriptor
+                        .Name(document=>document.LocatieId))
+                .Text(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Naam))
                 .Text(

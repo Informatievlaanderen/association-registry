@@ -10,6 +10,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom
         public bool IsPrimair { get; init; }
         public string Postcode { get; init; } = null!;
         public string Gemeente { get; init; } = null!;
+        public int LocatieId { get; set; }
     }
 
     public class HoofdactiviteitVerenigingsloket

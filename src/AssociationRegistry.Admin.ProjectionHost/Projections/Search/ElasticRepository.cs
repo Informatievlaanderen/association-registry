@@ -73,4 +73,20 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
         }
     }
+
+    public async Task RemoveLocatie(string id, int locatieId)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            u => u.Script(
+                s => s
+                    .Source("ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId)")
+                    .Params(objects => objects.Add("locatieId", locatieId))));
+
+        if (!response.IsValid)
+        {
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+        }
+    }
 }
