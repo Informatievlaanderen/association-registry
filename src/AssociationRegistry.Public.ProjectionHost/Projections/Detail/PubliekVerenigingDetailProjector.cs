@@ -276,4 +276,10 @@ public static class PubliekVerenigingDetailProjector
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
         document.DatumLaatsteAanpassing = verenigingWerdToegevoegdAanPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
+
+    public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties.Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId).ToArray();
+        document.DatumLaatsteAanpassing = locatieWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
 }

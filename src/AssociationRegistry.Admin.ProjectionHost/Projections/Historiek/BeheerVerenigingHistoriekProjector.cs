@@ -228,6 +228,22 @@ public class BeheerVerenigingHistoriekProjector
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
 
+    public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    {
+        var naam = string.IsNullOrEmpty(locatieWerdVerwijderd.Data.Locatie.Naam)
+            ? string.Empty
+            : $"'{locatieWerdVerwijderd.Data.Locatie.Naam}' ";
+
+        AddHistoriekEntry(
+            locatieWerdVerwijderd,
+            locatieWerdVerwijderd.Data.Locatie,
+            document,
+            $"'{locatieWerdVerwijderd.Data.Locatie.Locatietype}' locatie {naam}werd verwijderd."
+        );
+
+        document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);
+    }
+
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
@@ -259,4 +275,6 @@ public class BeheerVerenigingHistoriekProjector
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+
 }

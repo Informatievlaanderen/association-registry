@@ -174,4 +174,13 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdVerwijderd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(locatieWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
 }

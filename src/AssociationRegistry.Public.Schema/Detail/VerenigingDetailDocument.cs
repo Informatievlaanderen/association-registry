@@ -40,6 +40,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
     public record Locatie
     {
+        public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
         public string Adresvoorstelling { get; set; } = null!;
@@ -75,6 +76,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
             public string Naam { get; set; } = null!;
         }
     }
+
     public class AdresId
     {
         public string? Broncode { get; set; }

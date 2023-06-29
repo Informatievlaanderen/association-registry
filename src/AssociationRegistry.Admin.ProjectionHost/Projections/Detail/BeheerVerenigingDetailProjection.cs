@@ -173,4 +173,13 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
+
+        BeheerVerenigingDetailProjector.Apply(@event, doc);
+
+        ops.Store(doc);
+    }
 }

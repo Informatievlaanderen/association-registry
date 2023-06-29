@@ -31,16 +31,7 @@ public class ElasticEventHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
-                Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingZoekDocument.Locatie
-                    {
-                        Locatietype = loc.Locatietype,
-                        Naam = loc.Naam,
-                        Adresvoorstelling = loc.Adres.ToAdresString(),
-                        IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres?.Postcode ?? string.Empty,
-                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
-                    }).ToArray(),
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -68,16 +59,7 @@ public class ElasticEventHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
-                Locaties = message.Data.Locaties.Select(
-                    loc => new VerenigingZoekDocument.Locatie
-                    {
-                        Locatietype = loc.Locatietype,
-                        Naam = loc.Naam,
-                        Adresvoorstelling = loc.Adres.ToAdresString(),
-                        IsPrimair = loc.IsPrimair,
-                        Postcode = loc.Adres?.Postcode ?? string.Empty,
-                        Gemeente = loc.Adres?.Gemeente ?? string.Empty,
-                    }).ToArray(),
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
                         hoofdactiviteitVerenigingsloket =>
@@ -180,9 +162,17 @@ public class ElasticEventHandler
             Map(message.Data.Locatie));
     }
 
+    public void Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+    {
+        _elasticRepository.RemoveLocatie(
+            message.VCode,
+            message.Data.Locatie.LocatieId);
+    }
+
     private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
         {
+            LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
             Adresvoorstelling = locatie.Adres.ToAdresString(),

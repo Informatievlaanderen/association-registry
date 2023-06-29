@@ -161,9 +161,17 @@ public class ElasticEventHandler
             Map(message.Data.Locatie));
     }
 
+    public void Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+    {
+        _elasticRepository.RemoveLocatie(
+            message.VCode,
+            message.Data.Locatie.LocatieId);
+    }
+
     private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
         {
+            LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
             Adresvoorstelling = locatie.Adres.ToAdresString(),
