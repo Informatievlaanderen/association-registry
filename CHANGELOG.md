@@ -1,3 +1,11 @@
+## [3.30.1](https://github.com/informatievlaanderen/association-registry/compare/v3.30.0...v3.30.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* OR-1777 fix locatieWerdToegevoegd Historiek ([b5bc769](https://github.com/informatievlaanderen/association-registry/commit/b5bc769e1484690aa2628d82edcd1f84befface9))
+* or-1777 fix unit test for historiek ([b84921f](https://github.com/informatievlaanderen/association-registry/commit/b84921f26d118de8aa79d9cbc3130b497d7abc69))
+
 # [3.30.0](https://github.com/informatievlaanderen/association-registry/compare/v3.29.1...v3.30.0) (2023-06-27)
 
 
