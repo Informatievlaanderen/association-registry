@@ -87,6 +87,9 @@ jobs:
       - name: .NET version
         shell: bash
         run: dotnet --info
+        
+      - name: Clean
+        run: dotnet clean --configuration Release && dotnet nuget locals all --clear
 
       - name: Restore dotnet tools
         shell: bash
