@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;
@@ -11,6 +12,7 @@ public class AdminApiClient : IDisposable
     public AdminApiClient(HttpClient httpClient)
     {
         HttpClient = httpClient;
+        HttpClient.DefaultRequestHeaders.Add(CorrelationIdMiddleware.CorrelationIdHeader, Guid.NewGuid().ToString());
     }
 
     public async Task<HttpResponseMessage> GetRoot()
@@ -138,7 +140,8 @@ public class AdminApiClient : IDisposable
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/locaties/{locatieId}", UriKind.Relative),
         };
-        return await HttpClient.SendAsync(request);    }
+        return await HttpClient.SendAsync(request);
+    }
 
     public async Task<HttpResponseMessage> GetDocsJson()
         => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
