@@ -249,8 +249,7 @@ public class Program
     {
         app
             .UseMiddleware<EnableRequestRewindMiddleware>()
-            .UseMiddleware<AddCorrelationIdToResponseMiddleware>()
-            .UseMiddleware<AddCorrelationIdMiddleware>()
+            .UseMiddleware<CorrelationIdMiddleware>()
             .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()
             .UseMiddleware<AddHttpSecurityHeadersMiddleware>()
             .UseMiddleware<AddRemoteIpAddressMiddleware>(AddRemoteIpAddressMiddleware.UrnBasisregistersVlaanderenIp)

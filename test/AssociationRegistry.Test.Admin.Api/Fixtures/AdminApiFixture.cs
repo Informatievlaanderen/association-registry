@@ -284,12 +284,15 @@ public class Clients : IDisposable
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
 
-        Authenticated = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", Security.Scopes.Admin, "secret").GetAwaiter().GetResult());
+        Authenticated = new AdminApiClient(GetAuthenticatedHttpClient());
 
         Unauthenticated = new AdminApiClient(_createClientFunc());
 
         Unauthorized = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
     }
+
+    public HttpClient GetAuthenticatedHttpClient()
+        => CreateMachine2MachineClientFor("vloketClient", Security.Scopes.Admin, "secret").GetAwaiter().GetResult();
 
     public AdminApiClient Authenticated { get; }
 
