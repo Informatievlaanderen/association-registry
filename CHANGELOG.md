@@ -1,3 +1,11 @@
+# [3.32.0](https://github.com/informatievlaanderen/association-registry/compare/v3.31.0...v3.32.0) (2023-06-30)
+
+
+### Features
+
+* or-1778 allow remove locatie (no projections) ([3f33403](https://github.com/informatievlaanderen/association-registry/commit/3f33403c43801e9dd3d6e89c0ae064ba3cab3ee1))
+* or-1778 verwijderLocatie in projections ([492789c](https://github.com/informatievlaanderen/association-registry/commit/492789caeb05eead938d7dcd89a12ad1d57eccc1))
+
 # [3.31.0](https://github.com/informatievlaanderen/association-registry/compare/v3.30.1...v3.31.0) (2023-06-30)
 
 
