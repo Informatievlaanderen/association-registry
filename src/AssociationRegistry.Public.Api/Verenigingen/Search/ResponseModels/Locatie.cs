@@ -6,7 +6,12 @@ using System.Runtime.Serialization;
 public class Locatie
 {
     /// <summary>
-    /// Het type van deze locatie
+    ///     Het soort locatie dat beschreven wordt<br />
+    ///     <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Activiteiten<br />
+    ///     - Correspondentie - Slechts één maal mogelijk<br />
+    ///     - Maatschappelijke zetel - Enkel mogelijk voor KBO verenigingen<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
