@@ -1,3 +1,10 @@
+# [3.31.0](https://github.com/informatievlaanderen/association-registry/compare/v3.30.1...v3.31.0) (2023-06-30)
+
+
+### Features
+
+* OR-1806 add maatschappelijke zetel as locatietype to response models ([916cd25](https://github.com/informatievlaanderen/association-registry/commit/916cd2576f14b256e2b7160dd54a69512f84bac5))
+
 ## [3.30.1](https://github.com/informatievlaanderen/association-registry/compare/v3.30.0...v3.30.1) (2023-06-29)
 
 
