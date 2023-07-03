@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
 using Acties.WijzigVertegenwoordiger;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
 using Framework;
@@ -39,7 +40,7 @@ public class With_Valid_ETag : IAsyncLifetime
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigVertegenwoordigerRequest>(),
-            _fixture.Create<string>(),
+            _fixture.Create<InitiatorProvider>(),
             $"W/\"{ETagNumber}\"");
     }
 

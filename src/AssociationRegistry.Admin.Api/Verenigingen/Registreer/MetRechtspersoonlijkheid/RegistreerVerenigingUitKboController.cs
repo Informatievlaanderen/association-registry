@@ -12,6 +12,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DuplicateVerenigingDetection;
 using FluentValidation;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -72,7 +73,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingUitKboRequest? request,
-        [InitiatorHeader] string initiator)
+        [FromServices] InitiatorProvider initiator)
     {
         await _validator.NullValidateAndThrowAsync(request);
 

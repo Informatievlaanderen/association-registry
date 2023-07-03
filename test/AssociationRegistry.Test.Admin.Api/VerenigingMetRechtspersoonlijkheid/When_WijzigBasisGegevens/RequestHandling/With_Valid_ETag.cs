@@ -2,6 +2,7 @@
 
 using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using AssociationRegistry.Framework;
 using Framework;
@@ -38,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
             new WijzigBasisgegevensRequestValidator(),
             new WijzigBasisgegevensRequest { KorteBeschrijving = "Korte naam" },
             "V0001001",
-            "OVO0001000",
+            new InitiatorProvider { Value = "OVO0001000"},
             $"W/\"{ETagNumber}\"");
     }
 

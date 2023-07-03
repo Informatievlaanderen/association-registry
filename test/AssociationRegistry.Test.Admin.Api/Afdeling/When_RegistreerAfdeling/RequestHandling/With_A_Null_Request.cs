@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using Fakes;
 using Xunit;
@@ -22,6 +23,6 @@ public class With_A_Null_Request
     public async Task Then_it_throws_a_CouldNotParseRequestException()
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
-            async () => await _controller.Post(request: null, string.Empty));
+            async () => await _controller.Post(request: null, new InitiatorProvider { Value = "OVO000001"}, string.Empty));
     }
 }

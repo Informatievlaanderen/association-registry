@@ -3,6 +3,7 @@
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -37,6 +38,7 @@ public class Without_Changes : IAsyncLifetime
             new WijzigBasisgegevensRequestValidator(),
             new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
             "V0001001",
+            new InitiatorProvider { Value = "OVO0001001"},
             "W/\"1\"");
     }
 

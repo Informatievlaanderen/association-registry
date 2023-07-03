@@ -9,6 +9,7 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -67,7 +68,7 @@ public class WijzigVertegenwoordigerController : ApiController
         [FromRoute] string vCode,
         [FromRoute] int vertegenwoordigerId,
         [FromBody] WijzigVertegenwoordigerRequest request,
-        [InitiatorHeader] string initiator,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);

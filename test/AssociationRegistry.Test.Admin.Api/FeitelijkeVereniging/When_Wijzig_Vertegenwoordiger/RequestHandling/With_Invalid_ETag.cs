@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using Framework;
 using AutoFixture;
@@ -37,6 +38,7 @@ public class With_Invalid_ETag
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
                 _fixture.Create<WijzigVertegenwoordigerRequest>(),
+                new InitiatorProvider { Value = "OVO0001000"},
                 eTagValue);
         };
 

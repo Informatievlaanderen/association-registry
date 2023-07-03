@@ -2,6 +2,7 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
 using Framework;
@@ -46,7 +47,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigVertegenwoordigerRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<InitiatorProvider>());
 
         using (new AssertionScope())
         {
@@ -62,7 +63,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigVertegenwoordigerRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<InitiatorProvider>());
 
         using (new AssertionScope())
         {
@@ -77,7 +78,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigVertegenwoordigerRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<InitiatorProvider>());
 
         using (new AssertionScope())
         {

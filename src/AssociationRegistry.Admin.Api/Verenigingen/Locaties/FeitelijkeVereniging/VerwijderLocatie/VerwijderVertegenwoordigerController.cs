@@ -8,6 +8,7 @@ using Framework;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -59,7 +60,7 @@ public class VerwijderLocatieController : ApiController
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int locatieId,
-        [InitiatorHeader] string initiator,
+        [FromServices] InitiatorProvider initiator,
         [IfMatchHeader] string? ifMatch = null)
     {
         var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));

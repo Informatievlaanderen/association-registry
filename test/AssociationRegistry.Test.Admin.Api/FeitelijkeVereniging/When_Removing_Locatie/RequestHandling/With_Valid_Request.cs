@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Locatie.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 using Framework;
 using Vereniging;
@@ -20,7 +21,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Valid_Request
 {
-    private const string Initiator = "OVO000001";
+    private readonly InitiatorProvider _initiator = new() { Value = "OVO000001"};
     private readonly VerwijderLocatieController _controller;
     private readonly Fixture _fixture;
     private readonly CommandResult _commandResult;
@@ -44,7 +45,7 @@ public class With_Valid_Request
         var response = await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {
@@ -59,7 +60,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {
@@ -73,7 +74,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {

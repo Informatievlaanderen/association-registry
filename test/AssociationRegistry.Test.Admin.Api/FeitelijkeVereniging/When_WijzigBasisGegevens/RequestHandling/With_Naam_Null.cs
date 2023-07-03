@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Fakes;
 using FluentValidation;
@@ -28,6 +29,7 @@ public class With_Naam_Null
                 new WijzigBasisgegevensRequestValidator(),
                 _requestWithNaamNull,
                 VCode,
+                new InitiatorProvider { Value = "OVO0001001"},
                 "M/\"1\""));
     }
 }

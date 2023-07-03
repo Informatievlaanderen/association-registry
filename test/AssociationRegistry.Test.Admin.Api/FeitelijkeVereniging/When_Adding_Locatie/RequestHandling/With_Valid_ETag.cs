@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Locatie.RequestHandling;
 
 using Acties.VoegLocatieToe;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Framework;
 using Framework;
@@ -38,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _controller.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegLocatieToeRequest>(),
-            _fixture.Create<string>(),
+            _fixture.Create<InitiatorProvider>(),
             $"W/\"{ETagNumber}\"");
     }
 
