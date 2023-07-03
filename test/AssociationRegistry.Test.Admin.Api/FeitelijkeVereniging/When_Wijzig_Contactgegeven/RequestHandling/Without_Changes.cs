@@ -39,7 +39,7 @@ public class Without_Changes : IAsyncLifetime
             "V0001001",
             1,
             new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven() },
-            new Initiator(),
+            new InitiatorProvider(),
             "W/\"1\"");
     }
 

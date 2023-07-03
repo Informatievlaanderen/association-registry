@@ -27,7 +27,7 @@ public class With_Null_Request
                 "V001001",
                 1,
                 null!,
-                new Initiator(),
+                new InitiatorProvider(),
                 "M/\"1\""));
     }
 }

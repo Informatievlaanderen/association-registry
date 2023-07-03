@@ -36,6 +36,6 @@ public class When_Initiator_Is_Empty
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Should().NotBeNull();
-        problemDetails!.Detail.Should().Be($"{WellknownHeaderNames.Initiator} mag niet leeg zijn.");
+        problemDetails!.Detail.Should().Be($"{WellknownHeaderNames.Initiator} is verplicht.");
     }
 }

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Validating_Initiator_Header;
+namespace AssociationRegistry.Test.Admin.Api.Given_A_InitiatorMiddleware;
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
@@ -15,7 +15,7 @@ using Xunit.Categories;
 
 [IntegrationTest]
 [Category("Middleware")]
-public class Given_A_Http_Method : IAsyncLifetime
+public class When_Matching_Http_Methods : IAsyncLifetime
 {
     private IHost _host = null!;
 
@@ -25,8 +25,17 @@ public class Given_A_Http_Method : IAsyncLifetime
                 webBuilder =>
                 {
                     webBuilder.UseTestServer()
-                        .ConfigureServices(services => { services.AddSingleton(new ProblemDetailsHelper(null)); })
-                        .Configure(app => { app.UseMiddleware<InitiatorHeaderMiddleware>(); });
+                        .ConfigureServices(
+                            services =>
+                            {
+                                services.AddScoped<InitiatorProvider>();
+                                services.AddSingleton(new ProblemDetailsHelper(null));
+                            })
+                        .Configure(
+                            app =>
+                            {
+                                app.UseMiddleware<InitiatorHeaderMiddleware>();
+                            });
                 })
             .StartAsync();
     }
@@ -35,13 +44,14 @@ public class Given_A_Http_Method : IAsyncLifetime
     [InlineData("DELETE")]
     [InlineData("POST")]
     [InlineData("PUT")]
+    [InlineData("GET")]
     [InlineData("PATCH")]
     public async Task Methods_Without_Initiator_Header_Return_400BadRequest(string methodAsString)
     {
         var httpMethod = new HttpMethod(methodAsString);
 
         var testClient = _host.GetTestClient();
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
@@ -52,7 +62,6 @@ public class Given_A_Http_Method : IAsyncLifetime
     [InlineData("PUT")]
     [InlineData("PATCH")]
     [InlineData("OPTIONS")]
-    [InlineData("GET")]
     [InlineData("HEAD")]
     public async Task Methods_With_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
     {
@@ -60,21 +69,20 @@ public class Given_A_Http_Method : IAsyncLifetime
         testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, "Koen");
 
         var httpMethod = new HttpMethod(methodAsString);
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
 
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
 
     [Theory]
     [InlineData("OPTIONS")]
-    [InlineData("GET")]
     [InlineData("HEAD")]
     public async Task Methods_Without_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
     {
         var testClient = _host.GetTestClient();
 
         var httpMethod = new HttpMethod(methodAsString);
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
 
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
