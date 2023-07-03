@@ -5,6 +5,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Examples;
+using Infrastructure;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
@@ -36,14 +37,17 @@ public class VerenigingenHistoriekController : ApiController
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">De historiek van een vereniging</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="404">De historiek van de gevraagde vereniging is niet gevonden</response>
     /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}/historiek")]
-    [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,

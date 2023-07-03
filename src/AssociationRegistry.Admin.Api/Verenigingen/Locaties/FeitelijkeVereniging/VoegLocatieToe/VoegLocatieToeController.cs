@@ -54,7 +54,7 @@ public class VoegLocatieToeController : ApiController
     [Produces("application/json")]
     [SwaggerRequestExample(typeof(VoegLocatieToeRequest), typeof(VoegLocatieToeRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]

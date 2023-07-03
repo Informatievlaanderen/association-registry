@@ -54,16 +54,15 @@ public class WijzigContactgegevenController : ApiController
     [HttpPatch("{vCode}/contactgegevens/{contactgegevenId}")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [SwaggerRequestExample(typeof(WijzigContactgegevenRequest), typeof(WijzigContactgegevenRequestExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerRequestExample(typeof(WijzigContactgegevenRequest), typeof(WijzigContactgegevenRequestExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,

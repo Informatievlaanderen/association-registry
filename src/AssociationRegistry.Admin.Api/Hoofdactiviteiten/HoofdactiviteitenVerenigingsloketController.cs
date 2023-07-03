@@ -4,6 +4,7 @@ using System.Linq;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
@@ -19,12 +20,15 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
     ///     Vraag alle mogelijke waarden op voor de hoofdactiviteiten.
     /// </summary>
     /// <response code="200">De gekende waarden voor hoofdactiviteit</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("")]
-    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public IActionResult GetAll()
         => Ok(
             new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
