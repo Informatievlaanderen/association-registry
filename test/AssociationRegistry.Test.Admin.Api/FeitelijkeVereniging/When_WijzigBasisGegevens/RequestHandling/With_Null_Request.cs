@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Fakes;
 using Xunit;
@@ -26,6 +27,7 @@ public class With_Null_Request
                 new WijzigBasisgegevensRequestValidator(),
                 null,
                 "V0001001",
+                new InitiatorProvider { Value = "OVO0001001"},
                 "M/\"1\""));
     }
 }

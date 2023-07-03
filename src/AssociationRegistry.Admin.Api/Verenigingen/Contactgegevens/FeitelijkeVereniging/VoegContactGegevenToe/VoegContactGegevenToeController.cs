@@ -43,7 +43,7 @@ public class VoegContactgegevenToeController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="request">Het toe te voegen contactgegeven</param>
-    /// <param name="initiatorProvider"></param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd goedgekeurd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -64,12 +64,12 @@ public class VoegContactgegevenToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromBody] VoegContactgegevenToeRequest request,
-        [FromServices] InitiatorProvider initiatorProvider,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var metaData = new CommandMetadata(initiatorProvider, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 

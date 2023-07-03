@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestHandling;
 
 using Acties.VoegVertegenwoordigerToe;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using AssociationRegistry.Framework;
 using Framework;
@@ -38,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _toeController.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegVertegenwoordigerToeRequest>(),
-            _fixture.Create<string>(),
+            _fixture.Create<InitiatorProvider>(),
             $"W/\"{ETagNumber}\"");
     }
 

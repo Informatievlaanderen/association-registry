@@ -9,6 +9,7 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -63,7 +64,7 @@ public class VoegVertegenwoordigerToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromBody] VoegVertegenwoordigerToeRequest request,
-        [InitiatorHeader] string initiator,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);

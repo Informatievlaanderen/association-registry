@@ -8,6 +8,7 @@ using FluentValidation;
 using Framework;
 using Infrastructure;
 using Infrastructure.Extensions;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -63,7 +64,7 @@ public class VoegLocatieToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromBody] VoegLocatieToeRequest request,
-        [InitiatorHeader] string initiator,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Locatie.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using Moq;
 using Wolverine;
@@ -25,6 +26,7 @@ public class With_Null_Request
             async () => await _controller.Post(
                 "V001001",
                 null!,
+                new InitiatorProvider { Value = "OVO0001000"},
                 "M/\"1\""));
     }
 }

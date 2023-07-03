@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Locatie.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 using Framework;
 using AutoFixture;
@@ -36,6 +37,7 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
+                 new InitiatorProvider { Value = "OVO000001"},
                 eTagValue);
         };
 

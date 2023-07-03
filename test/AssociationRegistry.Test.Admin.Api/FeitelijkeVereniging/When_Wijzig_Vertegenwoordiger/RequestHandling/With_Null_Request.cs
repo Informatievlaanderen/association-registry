@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using Framework;
 using Moq;
@@ -27,6 +28,7 @@ public class With_Null_Request
                 "V001001",
                 1,
                 null!,
+                new InitiatorProvider { Value = "OVO0001000"},
                 "M/\"1\""));
     }
 }

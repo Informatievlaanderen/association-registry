@@ -12,6 +12,7 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -76,7 +77,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
-        [InitiatorHeader] string initiator,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
         string? bevestigingsToken = null)
     {

@@ -44,7 +44,7 @@ public class WijzigContactgegevenController : ApiController
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
     /// <param name="request">Het te wijzigen contactgegeven</param>
-    /// <param name="initiatorProvider"></param>
+    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De wijziging werd aanvaard.</response>
@@ -68,12 +68,12 @@ public class WijzigContactgegevenController : ApiController
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,
         [FromBody] WijzigContactgegevenRequest request,
-        [FromServices] InitiatorProvider initiatorProvider,
+        [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var metaData = new CommandMetadata(initiatorProvider, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigContactgegevenCommand>(request.ToCommand(vCode, contactgegevenId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
