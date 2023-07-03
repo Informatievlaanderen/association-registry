@@ -1,18 +1,15 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
+using System;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
-using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using Extensions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
 
 public class CorrelationIdMiddleware
 {
     private readonly RequestDelegate _next;
-    public const string CorrelationIdHeader = "X-Correlation-Id";
 
     public CorrelationIdMiddleware(RequestDelegate next)
     {
@@ -27,7 +24,13 @@ public class CorrelationIdMiddleware
 
             if (correlationId is null)
             {
-                await WriteProblemDetails(context, helper, $"{CorrelationIdHeader} is een verplichte header.");
+                await context.Response.WriteProblemDetailsAsync(helper, $"{WellknownHeaderNames.CorrelationId} is verplicht.");
+                return;
+            }
+
+            if (!Guid.TryParse(correlationId.Value.ToString(), out _))
+            {
+                await context.Response.WriteProblemDetailsAsync(helper, $"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn.");
                 return;
             }
 
@@ -39,7 +42,7 @@ public class CorrelationIdMiddleware
 
     private static StringValues? GetCorrelationId(HttpContext context)
     {
-        if (context.Request.Headers.TryGetValue(CorrelationIdHeader, out var correlationId))
+        if (context.Request.Headers.TryGetValue(WellknownHeaderNames.CorrelationId, out var correlationId))
         {
             return correlationId;
         }
@@ -52,25 +55,9 @@ public class CorrelationIdMiddleware
         context.Response.OnStarting(
             () =>
             {
-                context.Response.Headers.Remove(CorrelationIdHeader);
-                context.Response.Headers.Add(CorrelationIdHeader, new[] { correlationId.ToString() });
+                context.Response.Headers.Remove(WellknownHeaderNames.CorrelationId);
+                context.Response.Headers.Add(WellknownHeaderNames.CorrelationId, new[] { correlationId.ToString() });
                 return Task.CompletedTask;
             });
-    }
-
-    private static async Task WriteProblemDetails(HttpContext context, ProblemDetailsHelper problemDetailsHelper, string problemDetailsMessage)
-    {
-        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await context.Response.WriteAsync(
-            JsonConvert.SerializeObject(
-                new ProblemDetails
-                {
-                    HttpStatus = StatusCodes.Status400BadRequest,
-                    Title = ProblemDetails.DefaultTitle,
-                    Detail = problemDetailsMessage,
-                    ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
-                },
-                JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi()));
     }
 }

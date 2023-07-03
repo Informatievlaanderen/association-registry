@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-public class AppendCorrelationIdToHeaders : IOperationFilter
+public class AppendInitiatorToHeaders : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
@@ -13,14 +13,13 @@ public class AppendCorrelationIdToHeaders : IOperationFilter
         operation.Parameters.Add(
             new OpenApiParameter
             {
-                Name = WellknownHeaderNames.CorrelationId,
+                Name = WellknownHeaderNames.Initiator,
                 In = ParameterLocation.Header,
-                Description = "Deze id identificeert de request.",
+                Description = "Initiator header met als waarde de instantie die de wijziging uitvoert.",
                 Required = true,
                 Schema = new OpenApiSchema
                 {
-                    Type = "guid",
-                    Format = "00000000-0000-0000-0000-00000000",
+                    Type = "string",
                     Nullable = false,
                 },
             });

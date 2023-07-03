@@ -3,17 +3,13 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using System.Linq;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
-using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using Extensions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Newtonsoft.Json;
 
 public class InitiatorHeaderMiddleware
 {
     private readonly string[] _methodsNotRequiringInitiator =
     {
-        HttpMethods.Get,
         HttpMethods.Options,
         HttpMethods.Head,
     };
@@ -25,33 +21,32 @@ public class InitiatorHeaderMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper)
+    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper, Initiator initiator)
     {
+        var isV1Route = context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1");
         var initiatorHeaderNotRequired = _methodsNotRequiringInitiator.Contains(context.Request.Method);
         var initiatorHeaderMissing = !context.Request.Headers.ContainsKey(WellknownHeaderNames.Initiator);
         var initiatorHeaderEmpty = string.IsNullOrWhiteSpace(context.Request.Headers[WellknownHeaderNames.Initiator]);
 
-        if (initiatorHeaderNotRequired)
+
+        if (!isV1Route || initiatorHeaderNotRequired)
             await _next(context);
         else if (initiatorHeaderMissing)
-            await WriteProblemDetails(context, problemDetailsHelper, "Initiator is verplicht.");
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"{WellknownHeaderNames.Initiator} is verplicht.");
         else if (initiatorHeaderEmpty)
-            await WriteProblemDetails(context, problemDetailsHelper, "Initiator mag niet leeg zijn.");
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"{WellknownHeaderNames.Initiator} mag niet leeg zijn.");
         else
+        {
+            initiator.Value = context.Request.Headers[WellknownHeaderNames.Initiator];
             await _next(context);
+        }
     }
+}
 
-    private static async Task WriteProblemDetails(HttpContext context, ProblemDetailsHelper problemDetailsHelper, string problemDetailsMessage)
-    {
-        context.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await context.Response.WriteAsync(
-            JsonConvert.SerializeObject(new ProblemDetails
-            {
-                HttpStatus = StatusCodes.Status400BadRequest,
-                Title = ProblemDetails.DefaultTitle,
-                Detail = problemDetailsMessage,
-                ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                ProblemInstanceUri = $"{problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
-            }, JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi()));
-    }
+public class Initiator
+{
+    public string Value { get; set; } = string.Empty;
+
+    public static implicit operator string(Initiator initiator)
+        => initiator.Value;
 }

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Contactgegeven.RequestHandling;
 
 using Acties.VerwijderContactgegeven;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using Framework;
@@ -20,7 +21,7 @@ public class With_Valid_ETag : IAsyncLifetime
     private readonly VerwijderContactgegevenController _toeController;
     private readonly Fixture _fixture;
     private const int ETagNumber = 1;
-    private const string Initiator = "OVO000001";
+    private readonly Initiator _initiator = new() { Value = "OVO000001" };
 
     public With_Valid_ETag()
     {
@@ -39,7 +40,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _toeController.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator,
+            _initiator,
             $"W/\"{ETagNumber}\"");
     }
 

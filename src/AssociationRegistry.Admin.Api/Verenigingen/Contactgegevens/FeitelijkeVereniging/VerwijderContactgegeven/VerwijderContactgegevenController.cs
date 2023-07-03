@@ -8,6 +8,7 @@ using Framework;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -39,7 +40,7 @@ public class VerwijderContactgegevenController : ApiController
     /// </remarks>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="initiator"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd verwijderd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -59,7 +60,7 @@ public class VerwijderContactgegevenController : ApiController
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,
-        [InitiatorHeader] string initiator,
+        [FromServices] Initiator initiator,
         [IfMatchHeader] string? ifMatch = null)
     {
         var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));

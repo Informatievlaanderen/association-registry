@@ -2,6 +2,7 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -38,6 +39,7 @@ public class Without_Changes : IAsyncLifetime
             "V0001001",
             1,
             new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven() },
+            new Initiator(),
             "W/\"1\"");
     }
 

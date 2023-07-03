@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Contactgegeven.RequestHandling;
 
 using Acties.WijzigContactgegeven;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using Framework;
@@ -39,7 +40,7 @@ public class With_Valid_ETag : IAsyncLifetime
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigContactgegevenRequest>(),
-            _fixture.Create<string>(),
+            _fixture.Create<Initiator>(),
             $"W/\"{ETagNumber}\"");
     }
 

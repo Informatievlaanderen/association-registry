@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_CorelationIdMiddleware;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.Admin.Api.Infrastructure;
 using Fixtures;
 using FluentAssertions;
 using Xunit;
@@ -22,10 +22,11 @@ public class When_A_CorrelationId_Is_Given
     [Fact]
     public async Task Then_It_Does_Not_Returns_A_400_Response()
     {
-        var testClient = _fixture.Clients.GetAuthenticatedHttpClient();
+        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
 
         var correlationId = Guid.NewGuid().ToString();
-        testClient.DefaultRequestHeaders.Add(CorrelationIdMiddleware.CorrelationIdHeader, correlationId);
+        testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);
+        testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.CorrelationId, correlationId);
 
         var response = await testClient.GetAsync("/v1/verenigingen/zoeken");
 
@@ -35,14 +36,15 @@ public class When_A_CorrelationId_Is_Given
     [Fact]
     public async Task Then_It_Returns_The_CorrelationId()
     {
-        var testClient = _fixture.Clients.GetAuthenticatedHttpClient();
+        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
 
         var correlationId = Guid.NewGuid().ToString();
-        testClient.DefaultRequestHeaders.Add(CorrelationIdMiddleware.CorrelationIdHeader, correlationId);
+        testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);
+        testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.CorrelationId, correlationId);
 
         var response = await testClient.GetAsync("/v1/verenigingen/zoeken");
 
-        response.Headers.TryGetValues(CorrelationIdMiddleware.CorrelationIdHeader, out var value);
+        response.Headers.TryGetValues(WellknownHeaderNames.CorrelationId, out var value);
 
         value!.SingleOrDefault().Should().BeEquivalentTo(correlationId);
     }

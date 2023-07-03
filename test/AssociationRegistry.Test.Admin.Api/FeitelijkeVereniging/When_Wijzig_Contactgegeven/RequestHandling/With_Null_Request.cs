@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Contactgegeven.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using Moq;
 using Wolverine;
@@ -26,6 +27,7 @@ public class With_Null_Request
                 "V001001",
                 1,
                 null!,
+                new Initiator(),
                 "M/\"1\""));
     }
 }
