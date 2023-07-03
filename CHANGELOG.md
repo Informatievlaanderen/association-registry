@@ -1,3 +1,16 @@
+# [4.0.0](https://github.com/informatievlaanderen/association-registry/compare/v3.32.0...v4.0.0) (2023-07-03)
+
+
+### Features
+
+* or-1765 add correlationId ([4217c09](https://github.com/informatievlaanderen/association-registry/commit/4217c09b67f42b0efa4da51e8dd9927189d4d7ee))
+* or-1765 add correlationId to documentation ([fb57447](https://github.com/informatievlaanderen/association-registry/commit/fb57447dade9c009ee45499927504f27ae9d4125))
+
+
+### BREAKING CHANGES
+
+* all request now require x-correlation-id header
+
 # [3.32.0](https://github.com/informatievlaanderen/association-registry/compare/v3.31.0...v3.32.0) (2023-06-30)
 
 
