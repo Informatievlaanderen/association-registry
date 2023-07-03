@@ -77,6 +77,17 @@ public class Locaties : ReadOnlyCollection<Locatie>
         Throw<DuplicateLocatie>.If(Items.Contains(locatie));
     }
 
+    public Locatie Wijzig(int locatieId, string? naam, Locatietype? locatietype)
+    {
+        // musts
+
+        var teWijzigenLocatie = this[locatieId];
+        if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, out var gewijzigdeLocatie))
+            return null;
+
+        return gewijzigdeLocatie;
+    }
+
     public Locatie Verwijder(int locatieId)
     {
         MustContain(locatieId);

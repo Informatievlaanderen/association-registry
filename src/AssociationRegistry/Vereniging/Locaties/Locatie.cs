@@ -62,4 +62,13 @@ public record Locatie
 
     public override int GetHashCode()
         => HashCode.Combine(LocatieId, Naam, IsPrimair, Locatietype, AdresId, Adres);
+
+    public bool WouldBeEquivalent(string? naam, Locatietype? locatietype, out Locatie locatie)
+    {
+        locatie = CopyWithValuesIfNotNull(naam, locatietype);
+        return this == locatie;
+    }
+
+    private Locatie CopyWithValuesIfNotNull(string? naam, Locatietype? locatietype)
+        => Create(naam ?? Naam, IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 }

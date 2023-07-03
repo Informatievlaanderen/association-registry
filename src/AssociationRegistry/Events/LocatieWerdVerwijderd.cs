@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Events;
+namespace AssociationRegistry.Events;
 
 using Framework;
 using Vereniging;
 
-public record LocatieWerdToegevoegd(
+public record LocatieWerdVerwijderd(
     Registratiedata.Locatie Locatie) : IEvent
 {
-    public static LocatieWerdToegevoegd With(Locatie locatie)
+    public static LocatieWerdVerwijderd With(Locatie locatie)
         => new(Registratiedata.Locatie.With(locatie));
 }

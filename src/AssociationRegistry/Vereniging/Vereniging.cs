@@ -189,10 +189,28 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
 
-    public void Hydrate(VerenigingState obj)
+    public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
-        State = obj;
+        var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
+
+        AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
+    }
+
+    public void WijzigLocatie(int locatieId, string? naam, Locatietype locatietype)
+    {
+        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype);
+
+        if (gewijzigdeLocatie is null)
+            return;
+
+        AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
+
+    }
+
+    public void VerwijderLocatie(int locatieId)
+    {
+        var locatie = State.Locaties.Verwijder(locatieId);
+        AddEvent(LocatieWerdVerwijderd.With(locatie));
     }
 
     public void SchrijfUitUitPubliekeDatastroom()
@@ -208,15 +226,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 
-    public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
+    public void Hydrate(VerenigingState obj)
     {
-        var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
-        AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
-    }
-
-    public void VerwijderLocatie(int locatieId)
-    {
-        var locatie = State.Locaties.Verwijder(locatieId);
-        AddEvent(LocatieWerdVerwijderd.With(locatie));
+        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
+        State = obj;
     }
 }
