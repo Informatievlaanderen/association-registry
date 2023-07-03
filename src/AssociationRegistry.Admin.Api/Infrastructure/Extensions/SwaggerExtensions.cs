@@ -75,6 +75,8 @@ public static class SwaggerExtensions
                     options.OperationFilter<AuthorizationResponseOperationFilter>();
 
                     options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
+                    options.OperationFilter<AppendCorrelationIdToHeaders>();
                     options.OrderActionsBy(SortByTag.Sort);
 
                     options.DocInclusionPredicate((_, _) => true);
