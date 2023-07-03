@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Infrastructure;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
@@ -32,15 +33,18 @@ public class DetailVerenigingenController : ApiController
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="404">De gevraagde vereniging werd niet gevonden</response>
     /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}")]
-    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status200OK, "ETag", "string", "De versie van de aangepaste vereniging.")]
+    [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,

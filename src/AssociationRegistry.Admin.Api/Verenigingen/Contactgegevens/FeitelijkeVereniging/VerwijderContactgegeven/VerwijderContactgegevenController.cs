@@ -49,14 +49,13 @@ public class VerwijderContactgegevenController : ApiController
     [HttpDelete("{vCode}/contactgegevens/{contactgegevenId:int}")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,

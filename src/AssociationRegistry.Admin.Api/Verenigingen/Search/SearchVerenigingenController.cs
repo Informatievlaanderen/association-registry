@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
+using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -14,6 +15,7 @@ using ResponseModels;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
+using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 using WellknownMediaTypes = Constants.WellknownMediaTypes;
 
 [ApiVersion("1.0")]
@@ -61,12 +63,15 @@ public class SearchVerenigingenController : ApiController
     /// <param name="validator"></param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("zoeken")]
-    [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromQuery] string? q,
