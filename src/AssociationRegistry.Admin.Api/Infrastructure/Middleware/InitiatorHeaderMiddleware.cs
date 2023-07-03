@@ -21,7 +21,7 @@ public class InitiatorHeaderMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper, Initiator initiator)
+    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper, InitiatorProvider initiatorProvider)
     {
         var isV1Route = context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1");
         var initiatorHeaderNotRequired = _methodsNotRequiringInitiator.Contains(context.Request.Method);
@@ -37,16 +37,16 @@ public class InitiatorHeaderMiddleware
             await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"{WellknownHeaderNames.Initiator} mag niet leeg zijn.");
         else
         {
-            initiator.Value = context.Request.Headers[WellknownHeaderNames.Initiator];
+            initiatorProvider.Value = context.Request.Headers[WellknownHeaderNames.Initiator];
             await _next(context);
         }
     }
 }
 
-public class Initiator
+public class InitiatorProvider
 {
     public string Value { get; set; } = string.Empty;
 
-    public static implicit operator string(Initiator initiator)
-        => initiator.Value;
+    public static implicit operator string(InitiatorProvider initiatorProvider)
+        => initiatorProvider.Value;
 }

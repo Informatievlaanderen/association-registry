@@ -46,7 +46,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
 
     public AdminApiClient AdminApiClient
-        => Clients.Authenticated;
+        => new(Clients.GetAuthenticatedHttpClient());
 
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
@@ -283,28 +283,22 @@ public class Clients : IDisposable
     {
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
-
-        Authenticated = new AdminApiClient(GetAuthenticatedHttpClient());
-
-        Unauthenticated = new AdminApiClient(_createClientFunc());
-
-        Unauthorized = new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
     }
 
     public HttpClient GetAuthenticatedHttpClient()
         => CreateMachine2MachineClientFor("vloketClient", Security.Scopes.Admin, "secret").GetAwaiter().GetResult();
 
-    public AdminApiClient Authenticated { get; }
+    public AdminApiClient Authenticated
+        => new(GetAuthenticatedHttpClient());
 
-    public AdminApiClient Unauthenticated { get; }
+    public AdminApiClient Unauthenticated
+        => new(_createClientFunc());
 
-    public AdminApiClient Unauthorized { get; }
+    public AdminApiClient Unauthorized
+        => new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
 
     public void Dispose()
     {
-        Authenticated.SafeDispose();
-        Unauthenticated.SafeDispose();
-        Unauthorized.SafeDispose();
     }
 
     private async Task<HttpClient> CreateMachine2MachineClientFor(

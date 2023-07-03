@@ -26,7 +26,7 @@ public class With_Null_Request
             async () => await _controller.Post(
                 "V001001",
                 null!,
-                new Initiator(),
+                new InitiatorProvider(),
                 "M/\"1\""));
     }
 }

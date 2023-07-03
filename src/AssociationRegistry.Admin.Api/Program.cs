@@ -270,7 +270,7 @@ public class Program
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
-            .AddTransient<Initiator>()
+            .AddScoped<InitiatorProvider>()
             .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
