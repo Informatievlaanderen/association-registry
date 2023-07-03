@@ -1,3 +1,20 @@
+# [5.0.0](https://github.com/informatievlaanderen/association-registry/compare/v4.1.0...v5.0.0) (2023-07-03)
+
+
+### Bug Fixes
+
+* OR-1796 remove duplicate initiator header from swagger documentation ([72aa62c](https://github.com/informatievlaanderen/association-registry/commit/72aa62ca4f1d1930d75d7a5fd830adbe53fa28e5))
+
+
+### Features
+
+* or-1796 add initiator to all calls ([034863c](https://github.com/informatievlaanderen/association-registry/commit/034863c4e836902f424cbdcaa451549248fac2cb))
+
+
+### BREAKING CHANGES
+
+* Initiator header is now required on all requests
+
 # [4.1.0](https://github.com/informatievlaanderen/association-registry/compare/v4.0.0...v4.1.0) (2023-07-03)
 
 
