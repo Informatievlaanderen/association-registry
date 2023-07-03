@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Contactgegeven.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using Framework;
 using AutoFixture;
@@ -37,6 +38,7 @@ public class With_Invalid_ETag
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
                 _fixture.Create<WijzigContactgegevenRequest>(),
+                _fixture.Create<Initiator>(),
                 eTagValue);
         };
 

@@ -2,6 +2,7 @@
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Framework;
 using Framework;
@@ -45,7 +46,7 @@ public class With_Valid_Request
         var response = await _controller.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<Initiator>());
 
         using (new AssertionScope())
         {
@@ -60,7 +61,7 @@ public class With_Valid_Request
         await _controller.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<Initiator>());
 
         using (new AssertionScope())
         {
@@ -74,7 +75,7 @@ public class With_Valid_Request
         await _controller.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegContactgegevenToeRequest>(),
-            _fixture.Create<string>());
+            _fixture.Create<Initiator>());
 
         using (new AssertionScope())
         {

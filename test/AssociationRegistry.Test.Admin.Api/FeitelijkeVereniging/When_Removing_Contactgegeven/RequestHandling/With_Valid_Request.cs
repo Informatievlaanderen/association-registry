@@ -2,6 +2,7 @@
 
 using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using Framework;
@@ -22,7 +23,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Valid_Request
 {
-    private const string Initiator = "OVO000001";
+    private readonly Initiator _initiator = new() { Value = "OVO000001" };
     private readonly VerwijderContactgegevenController _controller;
     private readonly Fixture _fixture;
     private readonly CommandResult _commandResult;
@@ -45,7 +46,7 @@ public class With_Valid_Request
         var response = await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {
@@ -60,7 +61,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {
@@ -74,7 +75,7 @@ public class With_Valid_Request
         await _controller.Delete(
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
-            Initiator);
+            _initiator);
 
         using (new AssertionScope())
         {

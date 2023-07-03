@@ -2,23 +2,24 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Categories;
-using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [UnitTest]
 [Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
-public class When_No_CorrelationId_Is_Given
+public class When_CorrelationId_Is_Invalid
 {
     private readonly EventsInDbScenariosFixture _fixture;
 
-    public When_No_CorrelationId_Is_Given(EventsInDbScenariosFixture fixture)
+    public When_CorrelationId_Is_Invalid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
+
     }
 
     [Fact]
@@ -26,7 +27,9 @@ public class When_No_CorrelationId_Is_Given
     {
         var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
 
+        const string correlationId = "not_a_guid";
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);
+        testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.CorrelationId, correlationId);
 
         var response = await testClient.GetAsync("/v1/verenigingen/zoeken");
 
@@ -35,6 +38,6 @@ public class When_No_CorrelationId_Is_Given
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Should().NotBeNull();
-        problemDetails!.Detail.Should().Be($"{WellknownHeaderNames.CorrelationId} is verplicht.");
+        problemDetails!.Detail.Should().Be($"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn.");
     }
 }

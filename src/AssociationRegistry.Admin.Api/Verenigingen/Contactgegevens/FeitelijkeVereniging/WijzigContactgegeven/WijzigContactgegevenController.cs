@@ -9,6 +9,7 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
+using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NodaTime;
@@ -42,8 +43,8 @@ public class WijzigContactgegevenController : ApiController
     /// </remarks>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="request">Het te wijzigen contactgegeven</param>
+    /// <param name="initiator"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De wijziging werd aanvaard.</response>
@@ -67,7 +68,7 @@ public class WijzigContactgegevenController : ApiController
         [FromRoute] string vCode,
         [FromRoute] int contactgegevenId,
         [FromBody] WijzigContactgegevenRequest request,
-        [InitiatorHeader] string initiator,
+        [FromServices] Initiator initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);

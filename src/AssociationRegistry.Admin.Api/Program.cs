@@ -95,10 +95,7 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseWolverine(
             options => options.Handlers.Discovery(
-                source =>
-                {
-                    source.IncludeAssembly(typeof(Vereniging).Assembly);
-                }));
+                source => { source.IncludeAssembly(typeof(Vereniging).Assembly); }));
 
         var app = builder.Build();
 
@@ -273,6 +270,7 @@ public class Program
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
+            .AddTransient<Initiator>()
             .AddSingleton(postgreSqlOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
