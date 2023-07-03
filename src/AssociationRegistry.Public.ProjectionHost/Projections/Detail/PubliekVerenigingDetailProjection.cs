@@ -143,4 +143,13 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(locatieWerdVerwijderd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(locatieWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
 }
