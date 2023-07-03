@@ -21,15 +21,18 @@ public class CorrelationIdMiddleware
 
     public async Task Invoke(HttpContext context, ProblemDetailsHelper helper)
     {
-        var correlationId = GetCorrelationId(context);
-
-        if (correlationId is null)
+        if (!context.Request.Path.Value!.ToLowerInvariant().StartsWith("/docs"))
         {
-            await WriteProblemDetails(context, helper, "");
-            return;
-        }
+            var correlationId = GetCorrelationId(context);
 
-        AddCorrelationIdHeaderToResponse(context, correlationId.Value);
+            if (correlationId is null)
+            {
+                await WriteProblemDetails(context, helper, $"{CorrelationIdHeader} is een verplichte header.");
+                return;
+            }
+
+            AddCorrelationIdHeaderToResponse(context, correlationId.Value);
+        }
 
         await _next(context);
     }

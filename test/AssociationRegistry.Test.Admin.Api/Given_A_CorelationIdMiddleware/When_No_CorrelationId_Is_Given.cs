@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_CorelationIdMiddleware;
 
 using System.Net;
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -9,7 +10,7 @@ using Xunit.Categories;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [UnitTest]
-[System.ComponentModel.Category("Middleware")]
+[Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
 public class When_No_CorrelationId_Is_Given
 {
@@ -32,6 +33,6 @@ public class When_No_CorrelationId_Is_Given
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Should().NotBeNull();
-        problemDetails!.Detail.Should().Be("");
+        problemDetails!.Detail.Should().Be($"{CorrelationIdMiddleware.CorrelationIdHeader} is een verplichte header.");
     }
 }
