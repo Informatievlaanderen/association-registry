@@ -21,7 +21,7 @@ public class CorrelationIdMiddleware
 
     public async Task Invoke(HttpContext context, ProblemDetailsHelper helper)
     {
-        if (!context.Request.Path.Value!.ToLowerInvariant().StartsWith("/docs"))
+        if (context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1"))
         {
             var correlationId = GetCorrelationId(context);
 
