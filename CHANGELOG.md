@@ -1,3 +1,11 @@
+# [4.1.0](https://github.com/informatievlaanderen/association-registry/compare/v4.0.0...v4.1.0) (2023-07-03)
+
+
+### Features
+
+* or-1777 fix documentation + add example ([7822c89](https://github.com/informatievlaanderen/association-registry/commit/7822c89babf6a7c7e4f324f5e40fb07b283e661b))
+* or-1778 update publiek detail projection ([9423266](https://github.com/informatievlaanderen/association-registry/commit/9423266f06fadfb81472d6956edf868ab3fde4d2))
+
 # [4.0.0](https://github.com/informatievlaanderen/association-registry/compare/v3.32.0...v4.0.0) (2023-07-03)
 
 
