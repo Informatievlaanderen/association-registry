@@ -23,6 +23,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeVoornaam();
         fixture.CustomizeAchternaam();
         fixture.CustomizeLocatie();
+        fixture.CustomizeKboNummer();
 
         fixture.CustomizeVerenigingWerdGeregistreerd();
         return fixture;
@@ -145,6 +146,20 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 
+    public static void CustomizeKboNummer(this IFixture fixture)
+    {
+        fixture.Customize<KboNummer>(
+            composerTransformation: composer => composer.FromFactory(
+                    factory: () =>
+                    {
+                        var kboBase = new Random().Next(0, 99999999);
+                        var kboModulo = 97 - (kboBase % 97);
+                        return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
+                    })
+                .OmitAutoProperties()
+        );
+    }
+
     public static void CustomizeVerenigingWerdGeregistreerd(this IFixture fixture)
     {
 
@@ -216,6 +231,24 @@ public static class AutoFixtureCustomizations
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>(),
                     false,
+                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
+                )).OmitAutoProperties());
+
+        fixture.Customize<AfdelingWerdGeregistreerd>(
+            composer => composer.FromFactory(
+                () => new AfdelingWerdGeregistreerd(
+                    fixture.Create<VCode>().ToString(),
+                    fixture.Create<string>(),
+                    new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                        fixture.Create<KboNummer>(),
+                        fixture.Create<VCode>(),
+                        fixture.Create<VerenigingsNaam>()),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>(),
                     fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
                     fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
