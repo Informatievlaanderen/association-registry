@@ -23,8 +23,9 @@ public class With_Null_Request
     public async Task Then_it_throws_a_CouldNotParseRequestException()
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
-            async () => await _controller.Post(
+            async () => await _controller.Patch(
                 "V001001",
+                1,
                 null!,
                 new InitiatorProvider { Value = "OVO0001000"},
                 "M/\"1\""));

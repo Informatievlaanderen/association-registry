@@ -14,11 +14,11 @@ public class WijzigVertegenwoordigerRequest
     [DataMember(Name = "vertegenwoordiger")]
     public TeWijzigenVertegenwoordiger Vertegenwoordiger { get; set; } = null!;
 
-    public WijzigVertegenwoordigerCommand ToCommand(string vCode, int veretegenwoordigerId)
+    public WijzigVertegenwoordigerCommand ToCommand(string vCode, int vertegenwoordigerId)
         => new(
             VCode: VCode.Create(vCode),
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-                VertegenwoordigerId: veretegenwoordigerId,
+                VertegenwoordigerId: vertegenwoordigerId,
                 Rol: Vertegenwoordiger.Rol,
                 Roepnaam: Vertegenwoordiger.Roepnaam,
                 Email: Vertegenwoordiger.Email is null ? null : Email.Create(Vertegenwoordiger.Email),

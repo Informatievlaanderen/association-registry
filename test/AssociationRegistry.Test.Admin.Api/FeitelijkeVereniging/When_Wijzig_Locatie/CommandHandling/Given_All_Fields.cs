@@ -1,0 +1,62 @@
+namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.CommandHandling;
+
+using Acties.WijzigLocatie;
+using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
+using Vereniging;
+using Vereniging.Emails;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class Given_All_Fields
+{
+    private readonly WijzigLocatieCommandHandler _commandHandler;
+    private readonly Fixture _fixture;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private WijzigLocatieCommand.CommandLocatie _commandLocatie;
+
+    public Given_All_Fields()
+    {
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+
+        _fixture = new Fixture().CustomizeAll();
+
+        _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock);
+        _commandLocatie = new WijzigLocatieCommand.CommandLocatie(
+            _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
+            Locatietype.Correspondentie,
+            !_scenario.LocatieWerdToegevoegd.Locatie.IsPrimair,
+            _fixture.Create<string>(),
+            _fixture.Create<Adres>(),
+            _fixture.Create<AdresId>());
+
+    }
+
+    [Fact]
+    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
+    {
+        var command = new WijzigLocatieCommand(
+            _scenario.VCode,
+            _commandLocatie);
+
+        await _commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        _verenigingRepositoryMock.ShouldHaveSaved(
+            new LocatieWerdGewijzigd(
+                new Registratiedata.Locatie(
+                    _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
+                    _commandLocatie.Locatietype!,
+                    _commandLocatie.IsPrimair!.Value,
+                    _commandLocatie.Naam!,
+                    Registratiedata.Adres.With(_commandLocatie.Adres),
+                    Registratiedata.AdresId.With(_commandLocatie.AdresId))
+            ));
+    }
+}

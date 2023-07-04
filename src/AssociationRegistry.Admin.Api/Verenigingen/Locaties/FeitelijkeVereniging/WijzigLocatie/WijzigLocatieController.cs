@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
 using System.Threading.Tasks;
-using AssociationRegistry.Acties.VoegLocatieToe;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Acties.WijzigLocatie;
+using Infrastructure;
+using Infrastructure.Extensions;
+using Infrastructure.Middleware;
+using Framework;
+using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
@@ -25,6 +25,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class WijzigLocatieController : ApiController
 {
     private readonly IMessageBus _messageBus;
+
     private readonly IValidator<WijzigLocatieRequest> _validator;
 
     public WijzigLocatieController(IMessageBus messageBus, IValidator<WijzigLocatieRequest> validator)
@@ -42,6 +43,7 @@ public class WijzigLocatieController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
+    /// <param name="locatieId">De unieke identificatie code van deze locatie binnen de vereniging.</param>
     /// <param name="request">De toe te voegen locatie</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
@@ -49,20 +51,20 @@ public class WijzigLocatieController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("{vCode}/locaties")]
+    [HttpPatch("{vCode}/locaties/{locatieId}")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [SwaggerRequestExample(typeof(WijzigLocatieRequest), typeof(WijzigLocatieRequestExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [SwaggerRequestExample(typeof(WijzigLocatieRequest), typeof(WijzigLocatieRequestExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [ProducesResponseType(typeof(EmptyResult), StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> Patch(
         [FromRoute] string vCode,
+        [FromRoute] int locatieId,
         [FromBody] WijzigLocatieRequest request,
         [FromServices] InitiatorProvider initiator,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
@@ -70,7 +72,7 @@ public class WijzigLocatieController : ApiController
         await _validator.NullValidateAndThrowAsync(request);
 
         var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<VoegLocatieToeCommand>(request.ToCommand(vCode), metaData);
+        var envelope = new CommandEnvelope<WijzigLocatieCommand>(request.ToCommand(vCode, locatieId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);

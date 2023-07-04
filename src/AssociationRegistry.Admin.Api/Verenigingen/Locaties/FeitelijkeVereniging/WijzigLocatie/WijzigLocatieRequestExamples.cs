@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Vereniging;
+using Common;
+using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using AdresId = Common.AdresId;
 

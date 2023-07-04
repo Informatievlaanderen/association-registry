@@ -36,8 +36,9 @@ public class With_Valid_ETag : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await _controller.Post(
+        await _controller.Patch(
             _fixture.Create<VCode>(),
+            _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
             _fixture.Create<InitiatorProvider>(),
             $"W/\"{ETagNumber}\"");

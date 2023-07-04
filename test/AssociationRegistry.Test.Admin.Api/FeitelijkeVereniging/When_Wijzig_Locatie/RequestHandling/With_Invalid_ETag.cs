@@ -35,8 +35,9 @@ public class With_Invalid_ETag
     {
         var method = async () =>
         {
-            await _controller.Post(
+            await _controller.Patch(
                 _fixture.Create<string>(),
+                _fixture.Create<int>(),
                 _fixture.Create<WijzigLocatieRequest>(),
                 new InitiatorProvider { Value = "OVO0001000"},
                 eTagValue);

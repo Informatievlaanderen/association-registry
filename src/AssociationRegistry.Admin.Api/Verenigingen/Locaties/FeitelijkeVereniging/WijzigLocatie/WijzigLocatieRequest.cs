@@ -1,26 +1,23 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
-using AssociationRegistry.Acties.VoegLocatieToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Vereniging;
+using Acties.WijzigLocatie;
+using Acties.WijzigVertegenwoordiger;
+using Common;
+using Vereniging;
 using AdresId = Vereniging.AdresId;
 
 public class WijzigLocatieRequest
 {
     public ToeTeVoegenLocatie Locatie { get; set; } = null!;
 
-    public VoegLocatieToeCommand ToCommand(string vCode)
+    public WijzigLocatieCommand ToCommand(string vCode, int locatieId)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Vereniging.Locatie.Create(
-                Locatie.Naam,
-                Locatie.IsPrimair,
+            new WijzigLocatieCommand.CommandLocatie(
+                locatieId,
                 Locatie.Locatietype,
-                Locatie.AdresId is not null
-                    ? AdresId.Create(
-                        Locatie.AdresId.Broncode,
-                        Locatie.AdresId.Bronwaarde)
-                    : null,
+                Locatie.IsPrimair,
+                Locatie.Naam,
                 Locatie.Adres is not null
                     ? Adres.Create(
                         Locatie.Adres.Straatnaam,
@@ -29,5 +26,10 @@ public class WijzigLocatieRequest
                         Locatie.Adres.Postcode,
                         Locatie.Adres.Gemeente,
                         Locatie.Adres.Land)
+                    : null,
+                Locatie.AdresId is not null
+                    ? AdresId.Create(
+                        Locatie.AdresId.Broncode,
+                        Locatie.AdresId.Bronwaarde)
                     : null));
 }

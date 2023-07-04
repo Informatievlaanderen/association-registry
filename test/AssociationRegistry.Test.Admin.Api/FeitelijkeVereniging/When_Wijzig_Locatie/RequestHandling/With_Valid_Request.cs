@@ -43,8 +43,9 @@ public class With_Valid_Request
     [Fact]
     public async Task Then_it_returns_an_acceptedResponse()
     {
-        var response = await _controller.Post(
+        var response = await _controller.Patch(
             _fixture.Create<VCode>(),
+            _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
             _fixture.Create<InitiatorProvider>());
 
@@ -58,8 +59,9 @@ public class With_Valid_Request
     [Fact]
     public async Task Then_it_returns_a_sequence_header()
     {
-        await _controller.Post(
+        await _controller.Patch(
             _fixture.Create<VCode>(),
+            _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
             _fixture.Create<InitiatorProvider>());
 
@@ -72,8 +74,9 @@ public class With_Valid_Request
     [Fact]
     public async Task Then_it_returns_a_etag_header()
     {
-        await _controller.Post(
+        await _controller.Patch(
             _fixture.Create<VCode>(),
+            _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
             _fixture.Create<InitiatorProvider>());
 
