@@ -132,6 +132,29 @@ public record VerenigingState : IHasVersion
                             TelefoonNummer.Hydrate(v.Mobiel),
                             SocialMedia.Hydrate(v.SocialMedia)
                         )))),
+            Locaties = @event.Locaties.Aggregate(
+                Locaties.Empty,
+                (lijst, l) => Locaties.Hydrate(
+                    lijst.Append(
+                        Locatie.Hydrate(
+                            l.LocatieId,
+                            l.Naam,
+                            l.IsPrimair,
+                            l.Locatietype,
+                            l.Adres is null
+                                ? null
+                                : Adres.Hydrate(
+                                    l.Adres.Straatnaam,
+                                    l.Adres.Huisnummer,
+                                    l.Adres.Busnummer,
+                                    l.Adres.Postcode,
+                                    l.Adres.Gemeente,
+                                    l.Adres.Land),
+                            l.AdresId is null
+                                ? null
+                                : AdresId.Hydrate(
+                                    Adresbron.Parse(l.AdresId.Broncode),
+                                    l.AdresId.Bronwaarde))))),
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                         h => HoofdactiviteitVerenigingsloket.Create(h.Code))

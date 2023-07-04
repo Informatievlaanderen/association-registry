@@ -52,6 +52,7 @@ public class Given_AfdelingWerdGeregistreerd
                 Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new PubliekVerenigingDetailDocument.Locatie
                     {
+                        LocatieId = loc.LocatieId,
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
                         Locatietype = loc.Locatietype,

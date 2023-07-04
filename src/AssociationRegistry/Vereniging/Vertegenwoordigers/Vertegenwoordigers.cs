@@ -110,7 +110,9 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
     private void MustContain(int vertegenwoordigerId)
     {
-        Throw<UnknownVertegenwoordiger>.IfNot(Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId));
+        Throw<UnknownVertegenwoordiger>.IfNot(
+            Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId),
+            vertegenwoordigerId.ToString());
     }
 }
 

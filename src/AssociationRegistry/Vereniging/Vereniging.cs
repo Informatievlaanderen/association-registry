@@ -211,12 +211,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
-
         AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
     }
 
     public void VerwijderLocatie(int locatieId)
     {
         var locatie = State.Locaties.Verwijder(locatieId);
-        AddEvent(LocatieWerdVerwijderd.With(locatie));    }
+        AddEvent(LocatieWerdVerwijderd.With(locatie));
+    }
 }

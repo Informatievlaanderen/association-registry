@@ -6,7 +6,9 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class UnknownVertegenwoordiger : DomainException
 {
-    public UnknownVertegenwoordiger() : base("Vertegenwoordiger is niet gekend.")
+    public UnknownVertegenwoordiger(
+        string vertegenwoordigerId) : base(
+        $"Vertegenwoordiger met vertegenwoordigerId '{vertegenwoordigerId}' is niet gekend.")
     {
     }
 

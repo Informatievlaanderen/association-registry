@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class UnknownLocatie : DomainException
 {
-    public UnknownLocatie() : base("Locatie is niet gekend")
+    public UnknownLocatie(string locatieId) : base($"Locatie met locatieId '{locatieId}' is niet gekend")
     {
     }
 

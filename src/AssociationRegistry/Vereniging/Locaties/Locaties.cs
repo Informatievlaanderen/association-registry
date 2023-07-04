@@ -89,7 +89,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private void MustContain(int locatieId)
     {
-        Throw<UnknownLocatie>.If(!HasKey(locatieId));
+        Throw<UnknownLocatie>.If(!HasKey(locatieId), locatieId.ToString());
     }
 
     private bool HasKey(int locatieId)
