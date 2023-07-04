@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using DuplicateVerenigingDetection;
 using Events;
 using Exceptions;
 using Framework;
@@ -45,46 +46,20 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public Locatie VoegToe(Locatie toeTeVoegenLocatie)
     {
-        ThrowIfCannotAppend(toeTeVoegenLocatie);
+        ThrowIfCannotAppendOrUpdate(toeTeVoegenLocatie);
 
         return toeTeVoegenLocatie with { LocatieId = NextId };
     }
 
-    private bool HasPrimairelocatie
-        => Items.Any(l => l.IsPrimair);
-
-    private bool HasCorrespondentieLocatie
-        => Items.Any(l => l.Locatietype == Locatietype.Correspondentie);
-
-    private void ThrowIfCannotAppend(Locatie locatie)
-    {
-        MustNotHaveDuplicateOf(locatie);
-        MustNotHaveMultiplePrimaireLocaties(locatie);
-        MustNotHaveMultipleCorrespondentieLocaties(locatie);
-    }
-
-    private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
-    {
-        Throw<DuplicateCorrespondentielocatieProvided>.If(locatie.Locatietype == Locatietype.Correspondentie && HasCorrespondentieLocatie);
-    }
-
-    private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
-    {
-        Throw<MultiplePrimaireLocaties>.If(locatie.IsPrimair && HasPrimairelocatie);
-    }
-
-    private void MustNotHaveDuplicateOf(Locatie locatie)
-    {
-        Throw<DuplicateLocatie>.If(Items.Contains(locatie));
-    }
-
     public Locatie? Wijzig(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        // musts
+        MustContain(locatieId);
 
         var teWijzigenLocatie = this[locatieId];
         if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, isPrimair, adresId,adres, out var gewijzigdeLocatie))
             return null;
+
+        ThrowIfCannotAppendOrUpdate(teWijzigenLocatie);
 
         return gewijzigdeLocatie;
     }
@@ -106,10 +81,39 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private bool HasKey(int locatieId)
         => this.Any(locatie => locatie.LocatieId == locatieId);
+
+    private void ThrowIfCannotAppendOrUpdate(Locatie locatie)
+    {
+        MustNotHaveDuplicateOf(locatie);
+        MustNotHaveMultiplePrimaireLocaties(locatie);
+        MustNotHaveMultipleCorrespondentieLocaties(locatie);
+    }
+
+    private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
+        => Throw<DuplicateCorrespondentielocatieProvided>.If(
+            locatie.Locatietype == Locatietype.Correspondentie &&
+            this.Without(locatie).HasCorrespondentieLocatie());
+
+    private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
+        => Throw<MultiplePrimaireLocaties>.If(
+            locatie.IsPrimair &&
+            this.Without(locatie).HasPrimairelocatie());
+
+    private void MustNotHaveDuplicateOf(Locatie locatie)
+        => Throw<DuplicateLocatie>.If(this.Without(locatie).Contains(locatie));
 }
 
 public static class LocatieEnumerbleExtentions
 {
+    public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, Locatie locatie)
+        => locaties.Without(locatie.LocatieId);
+
     public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, int locatieId)
         => locaties.Where(l => l.LocatieId != locatieId);
+
+    public static bool HasPrimairelocatie(this IEnumerable<Locatie> locaties)
+        => locaties.Any(l => l.IsPrimair);
+
+    public static bool HasCorrespondentieLocatie(this IEnumerable<Locatie> locaties)
+        => locaties.Any(l => l.Locatietype == Locatietype.Correspondentie);
 }

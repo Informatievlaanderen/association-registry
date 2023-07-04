@@ -46,7 +46,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     public Contactgegeven VoegToe(Contactgegeven toeTeVoegenContactgegeven)
     {
-        ThrowIfCannotAppend(toeTeVoegenContactgegeven);
+        ThrowIfCannotAppendOrUpdate(toeTeVoegenContactgegeven);
 
         return toeTeVoegenContactgegeven with { ContactgegevenId = NextId };
     }
@@ -59,8 +59,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         if (teWijzigenContactgegeven.WouldBeEquivalent(waarde, beschrijving, isPrimair, out var gewijzigdContactgegeven))
             return null;
 
-        MustNotHaveDuplicateOf(gewijzigdContactgegeven);
-        MustNotHavePrimairOfTheSameTypeAs(gewijzigdContactgegeven);
+        ThrowIfCannotAppendOrUpdate(teWijzigenContactgegeven);
 
         return gewijzigdContactgegeven;
     }
@@ -72,7 +71,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return this[contactgegevenId];
     }
 
-    private void ThrowIfCannotAppend(Contactgegeven contactgegeven)
+    private void ThrowIfCannotAppendOrUpdate(Contactgegeven contactgegeven)
     {
         MustNotHaveDuplicateOf(contactgegeven);
         MustNotHavePrimairOfTheSameTypeAs(contactgegeven);
@@ -113,14 +112,10 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 public static class ContactgegevenEnumerableExtensions
 {
     public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
-    {
-        return source.Where(c => c.ContactgegevenId != contactgegeven.ContactgegevenId);
-    }
+        => source.Without(contactgegeven.ContactgegevenId);
 
     public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, int contactgegevenId)
-    {
-        return source.Where(c => c.ContactgegevenId != contactgegevenId);
-    }
+        => source.Where(c => c.ContactgegevenId != contactgegevenId);
 
     public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)
         => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);

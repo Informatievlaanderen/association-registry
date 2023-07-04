@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.When_WijzigLocatie;
+﻿namespace AssociationRegistry.Test.When_WijzigLocatie;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_No_Adres_And_An_AdresId
+public class Given_An_Adres_And_An_AdresId
 {
     [Theory]
     [MemberData(nameof(Data))]
@@ -20,13 +20,26 @@ public class Given_No_Adres_And_An_AdresId
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);
-        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, null);
+        var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
+        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
 
         vereniging.UncommittedEvents.ToArray().ShouldCompare(
             new IEvent[]
             {
                 new LocatieWerdGewijzigd(gewijzigdeLocatie),
             });
+    }
+
+    private static Adres HydrateAdres(Registratiedata.Adres gewijzigdeLocatieAdres)
+    {
+        gewijzigdeLocatieAdres.Deconstruct(
+            out var straatnaam,
+            out var huisnummer,
+            out var busnummer,
+            out var postcode,
+            out var gemeente,
+            out var land);
+        return Adres.Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
     }
 
     public static IEnumerable<object[]> Data
@@ -38,7 +51,7 @@ public class Given_No_Adres_And_An_AdresId
             var gewijzigdeLocatie = locatie with
             {
                 AdresId = fixture.Create<Registratiedata.AdresId>(),
-                Adres = null,
+                Adres = fixture.Create<Registratiedata.Adres>(),
             };
 
             return new List<object[]>
