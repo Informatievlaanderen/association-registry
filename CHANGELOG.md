@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/informatievlaanderen/association-registry/compare/v5.0.0...v5.0.1) (2023-07-04)
+
+
+### Bug Fixes
+
+* OR-1778 add locatieId to publiekDetailProjectie and add locaties to afdelingWerdGeregistreerd event apply ([b13ea4e](https://github.com/informatievlaanderen/association-registry/commit/b13ea4e1658411c96521fc3aa5f5fe00e7eaf778))
+
 # [5.0.0](https://github.com/informatievlaanderen/association-registry/compare/v4.1.0...v5.0.0) (2023-07-03)
 
 
