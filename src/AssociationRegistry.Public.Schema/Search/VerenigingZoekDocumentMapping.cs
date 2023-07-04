@@ -31,12 +31,6 @@ public static class VerenigingZoekDocumentMapping
                         .Name(document => document.HoofdactiviteitenVerenigingsloket)
                         .IncludeInRoot()
                         .Properties(HoofdactiviteitMapping.Get))
-                .Text(
-                    propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Doelgroep))
-                .Text(
-                    propertyDescriptor => propertyDescriptor
-                        .Name(document => document.Activiteiten))
                 .Nested<VerenigingZoekDocument.Sleutel>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Type)

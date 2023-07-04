@@ -41,11 +41,7 @@ public class SearchVerenigingenResponseMapper
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                 .Select(Map)
                 .ToArray(),
-            Doelgroep = verenigingZoekDocument.Doelgroep,
             Locaties = verenigingZoekDocument.Locaties
-                .Select(Map)
-                .ToArray(),
-            Activiteiten = verenigingZoekDocument.Activiteiten
                 .Select(Map)
                 .ToArray(),
             Sleutels = verenigingZoekDocument.Sleutels
@@ -56,9 +52,6 @@ public class SearchVerenigingenResponseMapper
 
     private static VerenigingLinks Map(string vCode, AppSettings appSettings)
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
-
-    private static Activiteit Map(string activiteit)
-        => new() { Id = -1, Categorie = activiteit };
 
     private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
         => new() { Code = h.Code, Beschrijving = h.Naam };

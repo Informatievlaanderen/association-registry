@@ -11,7 +11,6 @@
       "korteNaam": "",
       "hoofdactiviteitenVerenigingsloket": [
       ],
-      "doelgroep": "+18",
       "locaties": [
         {
           "locatietype": "Activiteiten",
@@ -20,20 +19,6 @@
           "adresvoorstelling": "",
           "gemeente": "",
           "postcode": ""
-        }
-      ],
-      "activiteiten": [
-        {
-          "id": -1,
-          "categorie": "Basketbal"
-        },
-        {
-          "id": -1,
-          "categorie": "Tennis"
-        },
-        {
-          "id": -1,
-          "categorie": "Padel"
         }
       ],
       "sleutels": [],

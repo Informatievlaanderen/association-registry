@@ -8,9 +8,7 @@ public record DuplicaatVereniging(
     string Naam,
     string KorteNaam,
     ImmutableArray<DuplicaatVereniging.HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket,
-    string Doelgroep,
-    ImmutableArray<DuplicaatVereniging.Locatie> Locaties,
-    ImmutableArray<DuplicaatVereniging.Activiteit> Activiteiten)
+    ImmutableArray<DuplicaatVereniging.Locatie> Locaties)
 {
     public record Locatie(
         string Locatietype,

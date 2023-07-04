@@ -47,9 +47,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             document.Naam,
             document.KorteNaam ?? string.Empty,
             document.HoofdactiviteitenVerenigingsloket.Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)).ToImmutableArray(),
-            string.Empty,
-            document.Locaties.Select(ToLocatie).ToImmutableArray(),
-            ImmutableArray<DuplicaatVereniging.Activiteit>.Empty);
+            document.Locaties.Select(ToLocatie).ToImmutableArray());
 
     private static DuplicaatVereniging.Locatie ToLocatie(BeheerVerenigingDetailDocument.Locatie loc)
         => new(

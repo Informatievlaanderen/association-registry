@@ -39,8 +39,6 @@ public class VerenigingZoekDocument
     public string KorteNaam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public string Doelgroep { get; set; } = null!;
-    public string[] Activiteiten { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }

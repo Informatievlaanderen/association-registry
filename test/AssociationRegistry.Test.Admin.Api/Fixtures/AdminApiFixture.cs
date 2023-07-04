@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Framework;
 using EventStore;
 using Framework.Helpers;
@@ -108,7 +107,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 });
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
-        ConfigureBrolFeeder(_projectionHostServer.Services);
 
         Clients = new Clients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
@@ -174,9 +172,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
             throw new NullReferenceException("Root directory cannot be null");
         return rootDirectory;
     }
-
-    private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
-        => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
     {
@@ -295,7 +290,7 @@ public class Clients : IDisposable
         => new(_createClientFunc());
 
     public AdminApiClient Unauthorized
-        => new AdminApiClient(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
+        => new(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
 
     public void Dispose()
     {

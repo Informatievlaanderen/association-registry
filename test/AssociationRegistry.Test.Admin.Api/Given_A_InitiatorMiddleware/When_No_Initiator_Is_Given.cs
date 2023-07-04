@@ -2,7 +2,7 @@
 
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;

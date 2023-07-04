@@ -11,12 +11,10 @@ using Schema.Search;
 public class ElasticEventHandler
 {
     private readonly IElasticRepository _elasticRepository;
-    private readonly IVerenigingBrolFeeder _brolFeeder;
 
-    public ElasticEventHandler(IElasticRepository elasticRepository, IVerenigingBrolFeeder brolFeeder)
+    public ElasticEventHandler(IElasticRepository elasticRepository)
     {
         _elasticRepository = elasticRepository;
-        _brolFeeder = brolFeeder;
     }
 
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message)
@@ -42,8 +40,6 @@ public class ElasticEventHandler
                                 Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
                             })
                     .ToArray(),
-                Doelgroep = _brolFeeder.Doelgroep,
-                Activiteiten = _brolFeeder.Activiteiten.ToArray(),
             }
         );
 
@@ -70,8 +66,6 @@ public class ElasticEventHandler
                             })
                     .ToArray(),
                 IsUitgeschrevenUitPubliekeDatastroom = false,
-                Doelgroep = _brolFeeder.Doelgroep,
-                Activiteiten = _brolFeeder.Activiteiten.ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );
@@ -86,8 +80,6 @@ public class ElasticEventHandler
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
-                Doelgroep = "",
-                Activiteiten = Array.Empty<string>(),
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel

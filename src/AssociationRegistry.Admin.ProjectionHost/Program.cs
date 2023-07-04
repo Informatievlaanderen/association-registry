@@ -31,7 +31,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Extensions;
-using Projections.Search;
 
 public class Program
 {
@@ -67,7 +66,6 @@ public class Program
             });
 
         builder.Services
-            .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .ConfigureRequestLocalization()
             .AddOpenTelemetry()
             .ConfigureProjectionsWithMarten(builder.Configuration)

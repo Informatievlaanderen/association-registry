@@ -5,7 +5,6 @@ using Framework.Helpers;
 using EventStore;
 using global::AssociationRegistry.Framework;
 using global::AssociationRegistry.Public.Api.Infrastructure.Extensions;
-using global::AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -54,7 +53,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
         ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
         DocumentStore = ProjectionHost.Services.GetRequiredService<IDocumentStore>();
-        ConfigureBrolFeeder(ProjectionHost.Services);
     }
 
 
@@ -74,9 +72,6 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
         return tempConfiguration;
     }
-
-    private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
-        => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
     protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
     {

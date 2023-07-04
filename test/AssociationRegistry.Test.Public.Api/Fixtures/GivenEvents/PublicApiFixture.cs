@@ -5,7 +5,6 @@ using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;
-using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using Fixtures;
 using Framework.Helpers;
 using Marten;
@@ -74,7 +73,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        ConfigureBrolFeeder(_projectionHostServer.Services);
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
     }
 
@@ -98,9 +96,6 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             throw new NullReferenceException("Root directory cannot be null");
         return rootDirectory;
     }
-
-    private static void ConfigureBrolFeeder(IServiceProvider projectionServices)
-        => projectionServices.GetRequiredService<IVerenigingBrolFeeder>().SetStatic();
 
     protected async Task AddEvents(string vCode, IEvent[] eventsToAdd, CommandMetadata? metadata = null)
     {
