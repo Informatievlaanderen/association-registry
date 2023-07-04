@@ -1,32 +1,29 @@
-﻿namespace AssociationRegistry.Test.When_WijzigLocatie;
+namespace AssociationRegistry.Test.When_WijzigLocatie;
 
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
-using JasperFx.Core;
-using KellermanSoftware.CompareNetObjects;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Duplicate
+public class Given_No_Changes
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public void Then_It_Throws_DuplicateLocatie(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
+    public void Then_It_Does_Not_Emit_Events(VerenigingState givenState, Registratiedata.Locatie duplicateLocatie)
     {
         var vereniging = new Vereniging();
         vereniging.Hydrate(givenState);
 
-        var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);
-        var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
-        var wijzigLocatie = () => vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
+        var adresId = AdresId.Hydrate(Adresbron.Parse(duplicateLocatie.AdresId!.Broncode), duplicateLocatie.AdresId.Bronwaarde);
+        var adres = HydrateAdres(duplicateLocatie.Adres!);
 
-        wijzigLocatie.Should().Throw<DuplicateLocatie>();
+        vereniging.WijzigLocatie(duplicateLocatie.LocatieId, duplicateLocatie.Naam, duplicateLocatie.Locatietype, duplicateLocatie.IsPrimair, adresId, adres);
+
+        vereniging.UncommittedEvents.Should().BeEmpty();
     }
 
     private static Adres HydrateAdres(Registratiedata.Adres gewijzigdeLocatieAdres)
@@ -46,17 +43,8 @@ public class Given_A_Duplicate
         get
         {
             var fixture = new Fixture().CustomizeAll();
-            var locaties = fixture.CreateMany<Registratiedata.Locatie>().ToArray();
-            var locatie1 = locaties[0];
-            var locatie2 = locaties[1];
-            var gewijzigdeLocatie = locatie2 with
-            {
-                Naam = locatie1.Naam,
-                Locatietype = locatie1.Locatietype,
-                IsPrimair = locatie1.IsPrimair,
-                AdresId = locatie1.AdresId,
-                Adres = locatie1.Adres,
-            };
+            var locatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Activiteiten };
+            var gewijzigdeLocatie = locatie;
 
             return new List<object[]>
             {
@@ -65,7 +53,7 @@ public class Given_A_Duplicate
                     new VerenigingState().Apply(
                         fixture.Create<AfdelingWerdGeregistreerd>() with
                         {
-                            Locaties = locaties,
+                            Locaties = new[] { locatie },
                         }),
                     gewijzigdeLocatie,
                 },
@@ -74,7 +62,7 @@ public class Given_A_Duplicate
                     new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
-                            Locaties = locaties,
+                            Locaties = new[] { locatie },
                         }),
                     gewijzigdeLocatie,
                 },

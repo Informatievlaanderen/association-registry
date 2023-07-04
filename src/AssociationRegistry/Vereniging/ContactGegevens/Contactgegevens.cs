@@ -59,7 +59,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         if (teWijzigenContactgegeven.WouldBeEquivalent(waarde, beschrijving, isPrimair, out var gewijzigdContactgegeven))
             return null;
 
-        ThrowIfCannotAppendOrUpdate(teWijzigenContactgegeven);
+        ThrowIfCannotAppendOrUpdate(gewijzigdContactgegeven);
 
         return gewijzigdContactgegeven;
     }

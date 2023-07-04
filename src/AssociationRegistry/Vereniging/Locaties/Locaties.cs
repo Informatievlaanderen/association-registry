@@ -59,7 +59,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
         if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, isPrimair, adresId,adres, out var gewijzigdeLocatie))
             return null;
 
-        ThrowIfCannotAppendOrUpdate(teWijzigenLocatie);
+        ThrowIfCannotAppendOrUpdate(gewijzigdeLocatie);
 
         return gewijzigdeLocatie;
     }
