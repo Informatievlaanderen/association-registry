@@ -1,3 +1,15 @@
+# [6.0.0](https://github.com/informatievlaanderen/association-registry/compare/v5.0.1...v6.0.0) (2023-07-04)
+
+
+### Features
+
+* OR-1794 remove doelgroep and activiteiten ([8800f00](https://github.com/informatievlaanderen/association-registry/commit/8800f00dc42b6489d72de4db2e056dbb7a39f883))
+
+
+### BREAKING CHANGES
+
+* doelgroep and activiteiten are removed from the search and potential duplicates results
+
 ## [5.0.1](https://github.com/informatievlaanderen/association-registry/compare/v5.0.0...v5.0.1) (2023-07-04)
 
 
