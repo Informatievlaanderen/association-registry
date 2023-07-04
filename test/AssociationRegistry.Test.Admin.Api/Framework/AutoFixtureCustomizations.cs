@@ -58,6 +58,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeVerenigingWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
+        fixture.CustomizeRegistratiedata();
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
         fixture.Customizations.Add(new TestEventSpecimenBuilder());
@@ -97,9 +98,10 @@ public static class AutoFixtureCustomizations
 
         fixture.Customize<AdresId>(
             composer =>
-                composer.FromFactory<int>(i => AdresId.Create(
-                        fixture.Create<Adresbron>(),
-                        AdresId.DataVlaanderenAdresPrefix + i))
+                composer.FromFactory<int>(
+                        i => AdresId.Create(
+                            fixture.Create<Adresbron>(),
+                            AdresId.DataVlaanderenAdresPrefix + i))
                     .OmitAutoProperties()
         );
 
@@ -287,13 +289,7 @@ public static class AutoFixtureCustomizations
                         Locatietype: fixture.Create<Locatietype>(),
                         IsPrimair: false,
                         Naam: fixture.Create<string>(),
-                        Adres: new Registratiedata.Adres(
-                            Straatnaam: fixture.Create<string>(),
-                            Huisnummer: fixture.Create<int>().ToString(),
-                            Busnummer: fixture.Create<string>(),
-                            Postcode: (fixture.Create<int>() % 10000).ToString(),
-                            Gemeente: fixture.Create<string>(),
-                            Land: fixture.Create<string>()),
+                        Adres: fixture.Create<Registratiedata.Adres>(),
                         null))
                 .OmitAutoProperties());
 
@@ -343,6 +339,27 @@ public static class AutoFixtureCustomizations
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>()
+                )).OmitAutoProperties());
+    }
+
+    public static void CustomizeRegistratiedata(this IFixture fixture)
+    {
+        fixture.Customize<Registratiedata.Adres>(
+            composer => composer.FromFactory(
+                () => new Registratiedata.Adres(
+                    Straatnaam: fixture.Create<string>(),
+                    Huisnummer: fixture.Create<int>().ToString(),
+                    Busnummer: fixture.Create<string>(),
+                    Postcode: (fixture.Create<int>() % 10000).ToString(),
+                    Gemeente: fixture.Create<string>(),
+                    Land: fixture.Create<string>()
+                )).OmitAutoProperties());
+
+        fixture.Customize<Registratiedata.AdresId>(
+            composer => composer.FromFactory(
+                () => new Registratiedata.AdresId(
+                    Broncode: fixture.Create<Adresbron>().Code,
+                    Bronwaarde: fixture.Create<string>()
                 )).OmitAutoProperties());
     }
 

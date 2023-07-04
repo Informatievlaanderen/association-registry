@@ -1,11 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie;
 
 using System.Net;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Framework;
 using Marten;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,31 +25,39 @@ public class Patch_A_Locatie : IAsyncLifetime
     public Patch_A_Locatie(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
+        var autofixture = new Fixture().CustomizeAll();
 
         Scenario = fixture.V026FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigen;
         DocumentStore = _fixture.DocumentStore;
 
         var locatie = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
-        _jsonBody = @"{
-            ""locatie"": {
-                ""locatietype"": ""Correspondentie"",
-                ""isPrimair"": true,
-                ""naam"": ""nieuwe locatie"",
-                ""adres"": {
-                    ""straatnaam"": ""Stationsstraat"",
-                    ""huisnummer"": ""1"",
-                    ""busnummer"": ""B"",
-                    ""postcode"": ""1790"",
-                    ""gemeente"": ""Affligem"",
-                    ""land"": ""België"",
-                },
-                ""adresId"": {
-                    ""broncode"": ""AR"",
-                    ""bronwaarde"": ""https://data.vlaanderen.be/id/adres/0"",
-                }
-            }
-        }";
-        TeWijzigenLocatie = locatie;
+        TeWijzigenLocatie = locatie with
+        {
+            Locatietype = Locatietype.Correspondentie,
+            IsPrimair = !locatie.IsPrimair,
+            Naam = autofixture.Create<string>(),
+            Adres = autofixture.Create<Registratiedata.Adres>(),
+            AdresId = autofixture.Create<Registratiedata.AdresId>(),
+        };
+        _jsonBody = $@"{{
+            ""locatie"": {{
+                ""locatietype"": ""{TeWijzigenLocatie.Locatietype}"",
+                ""isPrimair"": {TeWijzigenLocatie.IsPrimair.ToString().ToLower()},
+                ""naam"": ""{TeWijzigenLocatie.Naam}"",
+                ""adres"": {{
+                    ""straatnaam"": ""{TeWijzigenLocatie.Adres.Straatnaam}"",
+                    ""huisnummer"": ""{TeWijzigenLocatie.Adres.Huisnummer}"",
+                    ""busnummer"": ""{TeWijzigenLocatie.Adres.Busnummer}"",
+                    ""postcode"": ""{TeWijzigenLocatie.Adres.Postcode}"",
+                    ""gemeente"": ""{TeWijzigenLocatie.Adres.Gemeente}"",
+                    ""land"": ""{TeWijzigenLocatie.Adres.Land}"",
+                }},
+                ""adresId"": {{
+                    ""broncode"": ""{TeWijzigenLocatie.AdresId.Broncode}"",
+                    ""bronwaarde"": ""{TeWijzigenLocatie.AdresId.Bronwaarde}"",
+                }}
+            }}
+        }}";
     }
 
     public async Task InitializeAsync()

@@ -198,13 +198,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair,adresId,adres);
+        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
         if (gewijzigdeLocatie is null)
             return;
 
         AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
-
     }
 
     public void VerwijderLocatie(int locatieId)

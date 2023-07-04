@@ -15,6 +15,12 @@ public class WijzigLocatieCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<WijzigLocatieCommand> envelope, CancellationToken cancellationToken = default)
     {
-        return null;
+        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+
+        var (locatieId, locatietype, isPrimair, naam, adres, adresId) = envelope.Command.Locatie;
+        vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
+
+        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+        return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }
