@@ -15,7 +15,6 @@
           "beschrijving": "Buitengewoon Leuke Afkortingen"
         }
       ],
-      "doelgroep": "+18",
       "locaties": [
         {
           "locatietype": "Correspondentie",
@@ -24,20 +23,6 @@
           "naam": "Correspondentie",
           "postcode": "2000",
           "gemeente": "Antwerpen"
-        }
-      ],
-      "activiteiten": [
-        {
-          "id": -1,
-          "categorie": "Basketbal"
-        },
-        {
-          "id": -1,
-          "categorie": "Tennis"
-        },
-        {
-          "id": -1,
-          "categorie": "Padel"
         }
       ],
       "sleutels": [],

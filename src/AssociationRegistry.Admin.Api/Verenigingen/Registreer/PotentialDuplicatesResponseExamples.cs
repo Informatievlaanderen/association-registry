@@ -31,12 +31,8 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         ImmutableArray.Create(
                             new DuplicaatVereniging.HoofdactiviteitVerenigingsloket("CODE", "Beschrijving")
                         ),
-                        "Doelgroep",
                         ImmutableArray.Create(
                             new DuplicaatVereniging.Locatie("Locatietype", IsPrimair: true, "Adresvoorstelling", "Naam", "Postcode", "Gemeente")
-                        ),
-                        ImmutableArray.Create(
-                            new DuplicaatVereniging.Activiteit(Id: 1, "Categorie")
                         )),
                 }),
             _appSettings);

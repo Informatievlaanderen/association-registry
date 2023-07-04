@@ -33,9 +33,7 @@ public class PotentialDuplicatesResponse
             document.KorteNaam,
             new DuplicaatVerenigingContract.VerenigingsType(document.Type.Code, document.Type.Beschrijving),
             document.HoofdactiviteitenVerenigingsloket.Select(DuplicaatVerenigingContract.HoofdactiviteitVerenigingsloket.FromDuplicaatVereniging).ToImmutableArray(),
-            document.Doelgroep,
             document.Locaties.Select(DuplicaatVerenigingContract.Locatie.FromDuplicaatVereniging).ToImmutableArray(),
-            document.Activiteiten.Select(DuplicaatVerenigingContract.Activiteit.FromDuplicaatVereniging).ToImmutableArray(),
             new DuplicaatVerenigingContract.VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)document.VCode}")));
 
     /// <summary>Een mogelijke duplicaat van de te registreren vereniging</summary>
@@ -47,9 +45,7 @@ public class PotentialDuplicatesResponse
             string korteNaam,
             VerenigingsType type,
             ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
-            string doelgroep,
             ImmutableArray<Locatie> locaties,
-            ImmutableArray<Activiteit> activiteiten,
             VerenigingLinks links)
         {
             VCode = vCode;
@@ -57,9 +53,7 @@ public class PotentialDuplicatesResponse
             KorteNaam = korteNaam;
             Type = type;
             HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
-            Doelgroep = doelgroep;
             Locaties = locaties;
-            Activiteiten = activiteiten;
             Links = links;
         }
 
@@ -83,17 +77,9 @@ public class PotentialDuplicatesResponse
         [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
         public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
 
-        /// <summary>De doelgroep waarop de vereniging zich richt</summary>
-        [DataMember(Name = "Doelgroep")]
-        public string Doelgroep { get; init; }
-
         /// <summary>Alle locaties waar deze vereniging actief is</summary>
         [DataMember(Name = "Locaties")]
         public ImmutableArray<Locatie> Locaties { get; init; }
-
-        /// <summary>De activiteiten die de vereniging uitvoert</summary>
-        [DataMember(Name = "Activiteiten")]
-        public ImmutableArray<Activiteit> Activiteiten { get; init; }
 
         /// <summary>Weblinks i.v.m. deze vereniging</summary>
         [DataMember(Name = "Links")]

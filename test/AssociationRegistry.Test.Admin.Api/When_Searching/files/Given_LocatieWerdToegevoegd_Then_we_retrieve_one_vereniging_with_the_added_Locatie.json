@@ -15,7 +15,6 @@
           "beschrijving": "Buitengewoon Leuke Afkortingen"
         }
       ],
-      "doelgroep": "+18",
       "locaties": [
         {
           "locatietype": "Correspondentie",
@@ -48,20 +47,6 @@
           "naam": "Toegevoegd",
           "postcode": "0123",
           "gemeente": "Zonnedorp"
-        }
-      ],
-      "activiteiten": [
-        {
-          "id": -1,
-          "categorie": "Basketbal"
-        },
-        {
-          "id": -1,
-          "categorie": "Tennis"
-        },
-        {
-          "id": -1,
-          "categorie": "Padel"
         }
       ],
       "sleutels":[],

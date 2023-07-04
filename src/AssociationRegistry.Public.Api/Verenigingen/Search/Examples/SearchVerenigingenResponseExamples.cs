@@ -26,7 +26,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
-                    Doelgroep = "18+",
                     Locaties = new[]
                     {
                         new Locatie
@@ -37,14 +36,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Naam = null,
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
-                        },
-                    },
-                    Activiteiten = new[]
-                    {
-                        new Activiteit
-                        {
-                            Id = 123,
-                            Categorie = "Badminton",
                         },
                     },
                     Links = new VerenigingLinks
@@ -65,7 +56,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Beschrijving = "Sport",
                         },
                     },
-                    Doelgroep = "Alle leeftijden",
                     Locaties = new[]
                     {
                         new Locatie
@@ -77,10 +67,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Postcode = "9000",
                             Gemeente = "Gent",
                         },
-                    },
-                    Activiteiten = new[]
-                    {
-                        new Activiteit { Id = 456, Categorie = "Tennis" },
                     },
                     Links = new VerenigingLinks
                     {

@@ -58,7 +58,6 @@ public class Program
                     source.IncludeType<ElasticEventHandler>());
             });
         builder.Services
-            .AddSingleton<IVerenigingBrolFeeder, VerenigingBrolFeeder>()
             .ConfigureRequestLocalization()
             .AddOpenTelemetry()
             .ConfigureProjectionsWithMarten(builder.Configuration)

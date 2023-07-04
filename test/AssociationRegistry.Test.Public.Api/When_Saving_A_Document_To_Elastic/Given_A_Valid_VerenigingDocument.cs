@@ -36,8 +36,6 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
                     KorteNaam = fixture.Create<string>(),
                     Locaties = new[] { fixture.Create<VerenigingZoekDocument.Locatie>() },
                     HoofdactiviteitenVerenigingsloket = new[] { fixture.Create<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>() },
-                    Doelgroep = fixture.Create<string>(),
-                    Activiteiten = new[] { fixture.Create<string>() },
                 });
     }
 }

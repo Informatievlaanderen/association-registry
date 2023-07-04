@@ -106,7 +106,6 @@ public class With_Same_Naam_And_Gemeente
           ""beschrijving"": ""{hoofdactiviteit.Beschrijving}""
         }}"))}
       ],
-      ""doelgroep"": """",
       ""locaties"": [{string.Join(",",
           FeitelijkeVerenigingWerdGeregistreerd.Locaties
               .Select(locatie => $@"{{
@@ -118,7 +117,6 @@ public class With_Same_Naam_And_Gemeente
           ""gemeente"": ""{locatie.Adres?.Gemeente ?? string.Empty}""
         }}"))}
       ],
-      ""activiteiten"": [],
       ""links"": {{
         ""detail"": ""http://127.0.0.1:11004/v1/verenigingen/{FeitelijkeVerenigingWerdGeregistreerd.VCode}""
       }}

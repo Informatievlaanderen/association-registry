@@ -25,17 +25,9 @@ public class Vereniging
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
-    /// <summary>De doelgroep waarop de vereniging zich richt</summary>
-    [DataMember(Name = "Doelgroep")]
-    public string Doelgroep { get; init; } = null!;
-
     /// <summary>De locaties waar de vereniging actief is</summary>
     [DataMember(Name = "Locaties")]
     public Locatie[] Locaties { get; init; } = null!;
-
-    /// <summary>De activiteiten die de vereniging uitvoert</summary>
-    [DataMember(Name = "Activiteiten")]
-    public Activiteit[] Activiteiten { get; init; } = null!;
 
     /// <summary>De sleutels van deze vereniging</summary>
     [DataMember(Name = "Sleutels")]
