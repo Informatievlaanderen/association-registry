@@ -38,6 +38,8 @@
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FeitelijkeVereniging\When_Wijzig_Locatie\CommandHandling" />
+    <Folder Include="FeitelijkeVereniging\When_Wijzig_Locatie\RequestMapping" />
     <Folder Include="Framework\MagdaMocks\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using Events;
 using Exceptions;
 using Framework;
 
@@ -77,12 +78,12 @@ public class Locaties : ReadOnlyCollection<Locatie>
         Throw<DuplicateLocatie>.If(Items.Contains(locatie));
     }
 
-    public Locatie Wijzig(int locatieId, string? naam, Locatietype? locatietype)
+    public Locatie? Wijzig(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
         // musts
 
         var teWijzigenLocatie = this[locatieId];
-        if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, out var gewijzigdeLocatie))
+        if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, isPrimair, adresId,adres, out var gewijzigdeLocatie))
             return null;
 
         return gewijzigdeLocatie;

@@ -4,19 +4,16 @@ using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
 using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Patch_A_Locatie: IAsyncLifetime
+public class Patch_A_Locatie : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public string WaardeVolgensType { get; }
-    public Registratiedata.Locatie AanTePassenContactGegeven { get; }
+    public Registratiedata.Locatie TeWijzigenLocatie { get; }
     public V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
@@ -24,30 +21,37 @@ public class Patch_A_Locatie: IAsyncLifetime
 
     public Patch_A_Locatie(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
-
         _fixture = fixture;
 
         Scenario = fixture.V026FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigen;
         DocumentStore = _fixture.DocumentStore;
 
-        var contactgegeven = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
-        WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(contactgegeven.Type).Waarde;
-        _jsonBody = $@"{{
-            ""contactgegeven"":
-                {{
-                    ""waarde"": ""{WaardeVolgensType}"",
-                    ""beschrijving"": ""algemeen"",
-                    ""isPrimair"": false
-                }},
-            ""initiator"": ""OVO000001""
-        }}";
-        AanTePassenContactGegeven = contactgegeven;
+        var locatie = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
+        _jsonBody = @"{
+            ""locatie"": {
+                ""locatietype"": ""Correspondentie"",
+                ""isPrimair"": true,
+                ""naam"": ""nieuwe locatie"",
+                ""adres"": {
+                    ""straatnaam"": ""Stationsstraat"",
+                    ""huisnummer"": ""1"",
+                    ""busnummer"": ""B"",
+                    ""postcode"": ""1790"",
+                    ""gemeente"": ""Affligem"",
+                    ""land"": ""België"",
+                },
+                ""adresId"": {
+                    ""broncode"": ""AR"",
+                    ""bronwaarde"": ""https://data.vlaanderen.be/id/adres/0"",
+                }
+            }
+        }";
+        TeWijzigenLocatie = locatie;
     }
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.PatchLocaties(Scenario.VCode, AanTePassenContactGegeven.LocatieId, _jsonBody);
+        Response = await _fixture.AdminApiClient.PatchLocatie(Scenario.VCode, TeWijzigenLocatie.LocatieId, _jsonBody);
     }
 
     public Task DisposeAsync()
@@ -70,12 +74,12 @@ public class Given_An_Existing_Locatie : IClassFixture<Patch_A_Locatie>
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdAangepast = (await session.Events
+        var locatieWerdGewijzigd = (await session.Events
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
             .Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
 
-        contactgegevenWerdAangepast.Data.Should()
-            .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.AanTePassenContactGegeven.LocatieId, _classFixture.AanTePassenContactGegeven.Type, _classFixture.WaardeVolgensType, "algemeen", false));
+        locatieWerdGewijzigd.Data.Should()
+            .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));
     }
 
     [Fact]
