@@ -10,11 +10,11 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Second_Primair
+public class Given_A_Second_CorrespondentieLocatie
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public void Then_It_Throws_MultiplePrimaireLocaties(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
+    public void Then_It_Throws_MultipleCorrespondentieLocaties(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
     {
         var vereniging = new Vereniging();
         vereniging.Hydrate(givenState);
@@ -22,12 +22,12 @@ public class Given_A_Second_Primair
         var wijzigLocatie = () => vereniging.WijzigLocatie(
             gewijzigdeLocatie.LocatieId,
             null,
+            gewijzigdeLocatie.Locatietype,
             null,
-            gewijzigdeLocatie.IsPrimair,
             null,
             null);
 
-        wijzigLocatie.Should().Throw<MultiplePrimaireLocaties>();
+        wijzigLocatie.Should().Throw<MultipleCorrespondentieLocaties>();
     }
 
     public static IEnumerable<object[]> Data
@@ -35,11 +35,11 @@ public class Given_A_Second_Primair
         get
         {
             var fixture = new Fixture().CustomizeAll();
-            var primaireLocatie = fixture.Create<Registratiedata.Locatie>() with { IsPrimair = true };
+            var correspondentieLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
             var gewijzigdeLocatie = teWijzigenLocatie with
             {
-                IsPrimair = true,
+                Locatietype = Locatietype.Correspondentie,
             };
 
             return new List<object[]>
@@ -49,7 +49,7 @@ public class Given_A_Second_Primair
                     new VerenigingState().Apply(
                         fixture.Create<AfdelingWerdGeregistreerd>() with
                         {
-                            Locaties = new[] { primaireLocatie, teWijzigenLocatie },
+                            Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },
                         }),
                     gewijzigdeLocatie,
                 },
@@ -58,7 +58,7 @@ public class Given_A_Second_Primair
                     new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
-                            Locaties = new[] { primaireLocatie, teWijzigenLocatie },
+                            Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },
                         }),
                     gewijzigdeLocatie,
                 },

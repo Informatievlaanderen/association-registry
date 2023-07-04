@@ -25,6 +25,6 @@ public class Given_A_Second_CorrespondentieLocatie
             }));
 
         var locatie = fixture.Create<Locatie>() with { Locatietype = Locatietype.Correspondentie };
-        Assert.Throws<DuplicateCorrespondentielocatieProvided>(() => vereniging.VoegLocatieToe(locatie));
+        Assert.Throws<MultipleCorrespondentieLocaties>(() => vereniging.VoegLocatieToe(locatie));
     }
 }

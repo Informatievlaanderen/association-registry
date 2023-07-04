@@ -55,6 +55,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         MustContain(locatieId);
 
+
         var teWijzigenLocatie = this[locatieId];
         if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, isPrimair, adresId,adres, out var gewijzigdeLocatie))
             return null;
@@ -90,7 +91,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
     }
 
     private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
-        => Throw<DuplicateCorrespondentielocatieProvided>.If(
+        => Throw<MultipleCorrespondentieLocaties>.If(
             locatie.Locatietype == Locatietype.Correspondentie &&
             this.Without(locatie).HasCorrespondentieLocatie());
 

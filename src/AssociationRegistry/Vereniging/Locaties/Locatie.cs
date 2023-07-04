@@ -42,6 +42,9 @@ public record Locatie
         if (Locatietype != other.Locatietype)
             return false;
 
+        if (IsPrimair != other.IsPrimair)
+            return false;
+
         return HasSameAdresId(other.AdresId) ||
                HasSameAdres(other.Adres);
     }
