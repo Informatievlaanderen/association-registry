@@ -2,9 +2,9 @@
 
 using Vereniging;
 
-public record WijzigLocatieCommand(VCode VCode, WijzigLocatieCommand.CommandLocatie Locatie)
+public record WijzigLocatieCommand(VCode VCode, WijzigLocatieCommand.Locatie TeWijzigenLocatie)
 {
-    public record CommandLocatie(
+    public record Locatie(
         int LocatieId,
         Locatietype? Locatietype,
         bool? IsPrimair,

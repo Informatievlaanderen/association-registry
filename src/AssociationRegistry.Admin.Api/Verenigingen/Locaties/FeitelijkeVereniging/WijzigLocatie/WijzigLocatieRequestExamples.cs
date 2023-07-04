@@ -4,22 +4,23 @@ using Common;
 using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using AdresId = Common.AdresId;
+using Adres = Common.Adres;
 
 public class WijzigLocatieRequestExamples : IExamplesProvider<WijzigLocatieRequest>
 {
     public WijzigLocatieRequest GetExamples()
         => new()
         {
-            Locatie = new ToeTeVoegenLocatie
+            Locatie = new WijzigLocatieRequest.TeWijzigenLocatie()
             {
                 Naam = "Naam locatie",
                 IsPrimair = true,
-                AdresId = new AdresId
+                AdresId = new Common.AdresId
                 {
                     Broncode = "AR",
                     Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
                 },
-                Adres = new ToeTeVoegenAdres
+                Adres = new Common.Adres
                 {
                     Busnummer = "12",
                     Gemeente = "Gemeente",

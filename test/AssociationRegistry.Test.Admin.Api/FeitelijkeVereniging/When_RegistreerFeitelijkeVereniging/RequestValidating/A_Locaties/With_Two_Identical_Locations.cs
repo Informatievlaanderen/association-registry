@@ -19,7 +19,7 @@ public class With_Two_Identical_Locations : ValidatorTest
         var identiekLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
-            Adres = new ToeTeVoegenAdres
+            Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
             {
                 Huisnummer = "23",
                 Gemeente = "Zonnedorp",

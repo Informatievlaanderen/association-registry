@@ -4,6 +4,7 @@ using Acties.VoegLocatieToe;
 using Common;
 using Vereniging;
 using AdresId = Vereniging.AdresId;
+using Adres = Vereniging.Adres;
 
 public class VoegLocatieToeRequest
 {

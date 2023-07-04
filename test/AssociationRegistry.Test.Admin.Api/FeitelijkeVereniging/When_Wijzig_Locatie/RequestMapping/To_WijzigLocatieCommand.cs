@@ -25,17 +25,17 @@ public class To_WijzigLocatieCommand
         var command = request.ToCommand(vCode, locatieId);
 
         command.VCode.Should().Be(vCode);
-        command.Locatie.LocatieId.Should().Be(locatieId);
-        command.Locatie.Locatietype.Should().Be(Locatietype.Parse(request.Locatie.Locatietype));
-        command.Locatie.Naam.Should().Be(request.Locatie.Naam);
-        command.Locatie.IsPrimair.Should().Be(request.Locatie.IsPrimair);
-        command.Locatie.Adres!.Straatnaam.Should().Be(request.Locatie.Adres!.Straatnaam);
-        command.Locatie.Adres.Huisnummer.Should().Be(request.Locatie.Adres.Huisnummer);
-        command.Locatie.Adres.Busnummer.Should().Be(request.Locatie.Adres.Busnummer);
-        command.Locatie.Adres.Postcode.Should().Be(request.Locatie.Adres.Postcode);
-        command.Locatie.Adres.Gemeente.Should().Be(request.Locatie.Adres.Gemeente);
-        command.Locatie.Adres.Land.Should().Be(request.Locatie.Adres.Land);
-        command.Locatie.AdresId!.Adresbron.Should().BeEquivalentTo(Adresbron.Parse(request.Locatie.AdresId!.Broncode));
-        command.Locatie.AdresId.Bronwaarde.Should().BeEquivalentTo(request.Locatie.AdresId.Bronwaarde);
+        command.TeWijzigenLocatie.LocatieId.Should().Be(locatieId);
+        command.TeWijzigenLocatie.Locatietype.Should().Be(Locatietype.Parse(request.Locatie.Locatietype!));
+        command.TeWijzigenLocatie.Naam.Should().Be(request.Locatie.Naam);
+        command.TeWijzigenLocatie.IsPrimair.Should().Be(request.Locatie.IsPrimair);
+        command.TeWijzigenLocatie.Adres!.Straatnaam.Should().Be(request.Locatie.Adres!.Straatnaam);
+        command.TeWijzigenLocatie.Adres.Huisnummer.Should().Be(request.Locatie.Adres.Huisnummer);
+        command.TeWijzigenLocatie.Adres.Busnummer.Should().Be(request.Locatie.Adres.Busnummer);
+        command.TeWijzigenLocatie.Adres.Postcode.Should().Be(request.Locatie.Adres.Postcode);
+        command.TeWijzigenLocatie.Adres.Gemeente.Should().Be(request.Locatie.Adres.Gemeente);
+        command.TeWijzigenLocatie.Adres.Land.Should().Be(request.Locatie.Adres.Land);
+        command.TeWijzigenLocatie.AdresId!.Adresbron.Should().BeEquivalentTo(Adresbron.Parse(request.Locatie.AdresId!.Broncode));
+        command.TeWijzigenLocatie.AdresId.Bronwaarde.Should().BeEquivalentTo(request.Locatie.AdresId.Bronwaarde);
     }
 }

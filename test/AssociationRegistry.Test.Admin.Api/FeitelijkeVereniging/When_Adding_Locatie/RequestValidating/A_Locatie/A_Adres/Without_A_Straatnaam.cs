@@ -21,7 +21,7 @@ public class Without_A_Straatnaam : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Huisnummer = "23",
                         Gemeente = "Zonnedorp",

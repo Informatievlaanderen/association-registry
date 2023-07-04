@@ -19,7 +19,7 @@ public class Given_All_Fields
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private WijzigLocatieCommand.CommandLocatie _commandLocatie;
+    private WijzigLocatieCommand.Locatie _locatie;
 
     public Given_All_Fields()
     {
@@ -29,7 +29,7 @@ public class Given_All_Fields
         _fixture = new Fixture().CustomizeAll();
 
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock);
-        _commandLocatie = new WijzigLocatieCommand.CommandLocatie(
+        _locatie = new WijzigLocatieCommand.Locatie(
             _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
             Locatietype.Correspondentie,
             !_scenario.LocatieWerdToegevoegd.Locatie.IsPrimair,
@@ -44,7 +44,7 @@ public class Given_All_Fields
     {
         var command = new WijzigLocatieCommand(
             _scenario.VCode,
-            _commandLocatie);
+            _locatie);
 
         await _commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, _fixture.Create<CommandMetadata>()));
 
@@ -52,11 +52,11 @@ public class Given_All_Fields
             new LocatieWerdGewijzigd(
                 new Registratiedata.Locatie(
                     _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
-                    _commandLocatie.Locatietype!,
-                    _commandLocatie.IsPrimair!.Value,
-                    _commandLocatie.Naam!,
-                    Registratiedata.Adres.With(_commandLocatie.Adres),
-                    Registratiedata.AdresId.With(_commandLocatie.AdresId))
+                    _locatie.Locatietype!,
+                    _locatie.IsPrimair!.Value,
+                    _locatie.Naam!,
+                    Registratiedata.Adres.With(_locatie.Adres),
+                    Registratiedata.AdresId.With(_locatie.AdresId))
             ));
     }
 }

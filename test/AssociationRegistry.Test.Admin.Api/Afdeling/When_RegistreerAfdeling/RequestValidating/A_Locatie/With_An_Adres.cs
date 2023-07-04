@@ -16,7 +16,7 @@ public class With_An_Adres : ValidatorTest
     {
         var validator = new RegistreerAfdelingRequestValidator();
         var request = new Fixture().CustomizeAll().Create<RegistreerAfdelingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        request.Locaties[0].Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
 
         var result = validator.TestValidate(request);
         result.ShouldHaveAnyValidationError();

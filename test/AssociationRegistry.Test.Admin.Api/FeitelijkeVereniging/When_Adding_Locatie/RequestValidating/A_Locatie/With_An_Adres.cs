@@ -16,7 +16,7 @@ public class With_An_Adres : ValidatorTest
     {
         var validator = new VoegLocatieToeValidator();
         var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
-        request.Locatie.Adres = new ToeTeVoegenAdres();
+        request.Locatie.Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
 
         var result = validator.TestValidate(request);
         result.ShouldHaveAnyValidationError();

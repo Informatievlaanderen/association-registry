@@ -16,7 +16,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
         var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        request.Locaties[0].Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
         request.Locaties[0].AdresId = null;
 
         var result = validator.TestValidate(request);
@@ -42,7 +42,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
         var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        request.Locaties[0].Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
         request.Locaties[0].AdresId = new AdresId();
 
         var result = validator.TestValidate(request);

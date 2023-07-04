@@ -5,6 +5,7 @@ using Acties.RegistreerAfdeling;
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
@@ -23,6 +24,7 @@ using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
 using AdresId = Vereniging.AdresId;
+using Adres = Vereniging.Adres;
 using Contactgegeven = Vereniging.Contactgegeven;
 using ToeTeVoegenContactgegeven = AssociationRegistry.Admin.Api.Verenigingen.Common.ToeTeVoegenContactgegeven;
 using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
@@ -51,6 +53,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeVoegContactgegevenToeRequest();
         fixture.CustomizeWijzigVertegenwoordigerRequest();
         fixture.CustomizeRegistreerVerenigingUitKboRequest();
+        fixture.CustomizeWijzigLocatieRequest();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingCommand();
         fixture.CustomizeRegistreerAfdelingCommand();
@@ -193,7 +196,7 @@ public static class AutoFixtureCustomizations
                 {
                     Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Straatnaam = fixture.Create<string>(),
                         Huisnummer = fixture.Create<int>().ToString(),
@@ -598,6 +601,32 @@ public static class AutoFixtureCustomizations
                         },
                     })
                 .OmitAutoProperties());
+    }
+
+    public static void CustomizeWijzigLocatieRequest(this IFixture fixture)
+    {
+        fixture.Customize<WijzigLocatieRequest.TeWijzigenLocatie>(
+            composer => composer.FromFactory<int>(
+                value => new WijzigLocatieRequest.TeWijzigenLocatie
+                {
+                    Locatietype = fixture.Create<Locatietype>(),
+                    Naam = fixture.Create<string>(),
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    {
+                        Straatnaam = fixture.Create<string>(),
+                        Huisnummer = fixture.Create<int>().ToString(),
+                        Busnummer = fixture.Create<string?>(),
+                        Postcode = (fixture.Create<int>() % 10000).ToString(),
+                        Gemeente = fixture.Create<string>(),
+                        Land = fixture.Create<string>(),
+                    },
+                    AdresId = new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId
+                    {
+                        Broncode = Adresbron.All[value % Adresbron.All.Length],
+                        Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
+                    },
+                    IsPrimair = false,
+                }).OmitAutoProperties());
     }
 
     private static void CustomizeRegistreerVerenigingUitKboRequest(this IFixture fixture)

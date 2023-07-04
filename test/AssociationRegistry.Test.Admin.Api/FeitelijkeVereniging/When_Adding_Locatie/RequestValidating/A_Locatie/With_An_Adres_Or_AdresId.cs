@@ -16,7 +16,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     {
         var validator = new VoegLocatieToeValidator();
         var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
-        request.Locatie.Adres = new ToeTeVoegenAdres();
+        request.Locatie.Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
         request.Locatie.AdresId = null;
 
         var result = validator.TestValidate(request);
@@ -42,7 +42,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     {
         var validator = new VoegLocatieToeValidator();
         var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
-        request.Locatie.Adres = new ToeTeVoegenAdres();
+        request.Locatie.Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres();
         request.Locatie.AdresId = new AdresId();
 
         var result = validator.TestValidate(request);
