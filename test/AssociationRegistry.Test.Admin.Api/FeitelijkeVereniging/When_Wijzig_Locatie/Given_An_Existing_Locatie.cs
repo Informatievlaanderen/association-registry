@@ -6,6 +6,7 @@ using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Framework;
 using Marten;
 using Vereniging;
@@ -94,8 +95,8 @@ public class Given_An_Existing_Locatie : IClassFixture<Patch_A_Locatie>
     }
 
     [Fact]
-    public void Then_it_returns_an_accepted_response()
+    public async Task Then_it_returns_an_accepted_response()
     {
-        _classFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        _classFixture.Response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _classFixture.Response.Content.ReadAsStringAsync());
     }
 }

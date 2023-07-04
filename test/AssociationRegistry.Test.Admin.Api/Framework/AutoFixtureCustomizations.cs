@@ -359,7 +359,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => new Registratiedata.AdresId(
                     Broncode: fixture.Create<Adresbron>().Code,
-                    Bronwaarde: fixture.Create<string>()
+                    Bronwaarde: AdresId.DataVlaanderenAdresPrefix + fixture.Create<int>()
                 )).OmitAutoProperties());
     }
 

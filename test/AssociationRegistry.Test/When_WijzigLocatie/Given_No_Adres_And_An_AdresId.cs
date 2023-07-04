@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.When_WijzigLocatie;
+﻿namespace AssociationRegistry.Test.When_WijzigLocatie;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -10,7 +10,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_LocatieWerdGewijzigd
+public class Given_No_Adres_And_An_AdresId
 {
     [Theory]
     [MemberData(nameof(Data))]
@@ -20,8 +20,7 @@ public class Given_A_LocatieWerdGewijzigd
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);
-        var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
-        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
+        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, null);
 
         vereniging.UncommittedEvents.ToArray().ShouldCompare(
             new IEvent[]
@@ -54,7 +53,7 @@ public class Given_A_LocatieWerdGewijzigd
                 Locatietype = Locatietype.Correspondentie,
                 IsPrimair = !locatie.IsPrimair,
                 AdresId = fixture.Create<Registratiedata.AdresId>(),
-                Adres = fixture.Create<Registratiedata.Adres>(),
+                Adres = null,
             };
 
             return new List<object[]>

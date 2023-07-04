@@ -70,5 +70,12 @@ public record Locatie
     }
 
     private Locatie CopyWithValuesIfNotNull(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
-        => Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId ?? AdresId, adres ?? Adres) with { LocatieId = LocatieId };
+    {
+        if (adresId is null && adres is not null)
+        {
+            return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, null, adres) with { LocatieId = LocatieId };
+        }
+
+        return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId ?? AdresId, adres ?? Adres) with { LocatieId = LocatieId };
+    }
 }
