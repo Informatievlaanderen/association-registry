@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +24,7 @@ public class With_Invalid_ETag
     {
         _fixture = new Fixture().CustomizeAll();
         var messageBusMock = new Mock<IMessageBus>();
-        _controller = new WijzigLocatieController(messageBusMock.Object, new WijzigLocatieValidator())
+        _controller = new WijzigLocatieController(messageBusMock.Object, new WijzigLocatieRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 

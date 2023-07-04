@@ -14,7 +14,7 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 
         RuleFor(locatie => locatie.Locatietype)
             .Must(BeAValidLocationTypeValue)
-            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten}")
+            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
             .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
         RuleFor(locatie => locatie.Adres)

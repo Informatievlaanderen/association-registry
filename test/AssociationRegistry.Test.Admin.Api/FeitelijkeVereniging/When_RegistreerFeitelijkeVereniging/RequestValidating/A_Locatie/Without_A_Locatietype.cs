@@ -20,7 +20,7 @@ public class Without_A_Locatietype : ValidatorTest
             {
                 new ToeTeVoegenLocatie
                 {
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "dezeStraat",
                     },

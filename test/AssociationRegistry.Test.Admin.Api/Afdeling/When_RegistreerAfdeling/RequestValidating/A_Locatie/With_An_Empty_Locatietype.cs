@@ -21,7 +21,7 @@ public class With_An_Empty_Locatietype : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = string.Empty,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "dezeStraat",
                     },

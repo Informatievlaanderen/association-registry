@@ -16,7 +16,7 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBus = Mock.Of<IMessageBus>();
-        _controller = new WijzigLocatieController(messageBus, new WijzigLocatieValidator());
+        _controller = new WijzigLocatieController(messageBus, new WijzigLocatieRequestValidator());
     }
 
     [Fact]

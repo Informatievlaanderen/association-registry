@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.RequestHandling;
 
-using AssociationRegistry.Acties.WijzigLocatie;
+using Acties.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -36,7 +36,7 @@ public class With_Valid_Request
         messageBusMock
             .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigLocatieCommand>>(), default, null))
             .ReturnsAsync(_commandResult);
-        _controller = new WijzigLocatieController(messageBusMock.Object, new WijzigLocatieValidator())
+        _controller = new WijzigLocatieController(messageBusMock.Object, new WijzigLocatieRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 

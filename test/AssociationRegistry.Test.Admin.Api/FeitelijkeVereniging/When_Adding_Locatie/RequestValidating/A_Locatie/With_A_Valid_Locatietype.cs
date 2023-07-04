@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Locatie.RequestValidating.A_Locatie;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using Framework;
 using Vereniging;
@@ -23,6 +22,6 @@ public class With_A_Valid_Locatietype : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}");
+        result.ShouldNotHaveValidationErrorFor(x => x.Locatie.Locatietype);
     }
 }

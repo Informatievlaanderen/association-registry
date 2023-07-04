@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.RequestHandling;
 
-using AssociationRegistry.Acties.WijzigLocatie;
+using Acties.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,7 @@ public class With_Valid_ETag : IAsyncLifetime
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigLocatieCommand>>(), default, null))
             .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
 
-        _controller = new WijzigLocatieController(_messageBusMock.Object, new WijzigLocatieValidator())
+        _controller = new WijzigLocatieController(_messageBusMock.Object, new WijzigLocatieRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
