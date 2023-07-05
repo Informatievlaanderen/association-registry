@@ -1,3 +1,16 @@
+# [6.1.0](https://github.com/informatievlaanderen/association-registry/compare/v6.0.0...v6.1.0) (2023-07-05)
+
+
+### Bug Fixes
+
+* or-1779 introduce IsEquivalentTo in locatie for wijzig locatie ([af73787](https://github.com/informatievlaanderen/association-registry/commit/af737877550fabb3d40329160175d168e2f0696c))
+
+
+### Features
+
+* or-1709 ensure locaties, contactgegevens and vertegenwoordigers are sorted by their Id in all projections ([2311cc1](https://github.com/informatievlaanderen/association-registry/commit/2311cc1f24b9370c68e52ef0c45537ee0f7134f6))
+* or-1779 allow wijzig locatie ([621ba50](https://github.com/informatievlaanderen/association-registry/commit/621ba50fecf10664193ae8513f7da126353b6767))
+
 # [6.0.0](https://github.com/informatievlaanderen/association-registry/compare/v5.0.1...v6.0.0) (2023-07-04)
 
 
