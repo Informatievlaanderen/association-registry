@@ -31,6 +31,18 @@ public record Locatie
     public static Locatie Hydrate(int locatieId, string? naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
         => new(naam, isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
+    public bool IsEquivalentTo(Locatie other)
+    {
+        if (Naam != other.Naam)
+            return false;
+
+        if (Locatietype != other.Locatietype)
+            return false;
+
+        return HasSameAdresId(other.AdresId) ||
+               HasSameAdres(other.Adres);
+    }
+
     public virtual bool Equals(Locatie? other)
     {
         if (ReferenceEquals(null, other)) return false;
