@@ -7,6 +7,10 @@ using System.Runtime.Serialization;
 [DataContract]
 public class HistoriekResponse
 {
+    /// <summary>De JSON-LD open data context</summary>
+    [DataMember(Name = "@context")]
+    public string Context { get; init; } = null!;
+
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "vCode")]
     public string VCode { get; init; } = null!;

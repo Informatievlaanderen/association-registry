@@ -1,14 +1,22 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using System.Linq;
+using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Historiek;
 
 public class VerenigingHistoriekResponseMapper
 {
+    private readonly AppSettings _appSettings;
+
+    public VerenigingHistoriekResponseMapper(AppSettings appSettings)
+    {
+        _appSettings = appSettings;
+    }
     public HistoriekResponse Map(string vCode, BeheerVerenigingHistoriekDocument historiek)
         => new()
         {
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/historiek-vereniging-context.json",
             VCode = vCode,
             Gebeurtenissen = historiek.Gebeurtenissen
                 .Select(Map)
