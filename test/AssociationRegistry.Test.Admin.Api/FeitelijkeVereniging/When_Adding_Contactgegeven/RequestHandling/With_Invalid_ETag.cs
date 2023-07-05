@@ -21,7 +21,7 @@ public class With_Invalid_ETag
 
     public With_Invalid_ETag()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
         _controller = new VoegContactgegevenToeController(messageBusMock.Object, new VoegContactgegevenToeValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };

@@ -28,7 +28,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 
     private When_RegistreerFeitelijkeVereniging_WithAllFields(AdminApiFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = autoFixture.Create<string>(),
@@ -51,7 +51,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Kantoor",
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Straatnaam = "dorpstraat",
                         Huisnummer = "69",
@@ -71,7 +71,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Broncode = "AR",
                         Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
                     },
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Straatnaam = "dorpelstraat",
                         Huisnummer = "169",

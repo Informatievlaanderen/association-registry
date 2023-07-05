@@ -27,7 +27,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
     {
         Scenario = fixture.V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens;
 
-        Request = new Fixture().CustomizeAll().Create<WijzigBasisgegevensRequest>();
+        Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
         var jsonBody = $@"{{
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",

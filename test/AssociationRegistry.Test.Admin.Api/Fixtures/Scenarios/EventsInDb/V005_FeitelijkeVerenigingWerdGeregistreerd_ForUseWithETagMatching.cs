@@ -13,7 +13,7 @@ public class V005_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithETagMatching :
 
     public V005_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithETagMatching()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999005";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {

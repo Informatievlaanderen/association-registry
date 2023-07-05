@@ -15,7 +15,7 @@ public class To_WijzigVertegenwoordigerCommand
     [Fact]
     public void Then_We_Get_A_Correct_Command()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<WijzigVertegenwoordigerRequest>();
 

@@ -25,7 +25,7 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithKboNum
     {
         UitKboRequest = new RegistreerVerenigingUitKboRequest
         {
-            KboNummer = new Fixture().CustomizeAll().Create<KboNummer>(),
+            KboNummer = new Fixture().CustomizeAdminApi().Create<KboNummer>(),
         };
         Response ??= fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(UitKboRequest)).GetAwaiter().GetResult();
     }

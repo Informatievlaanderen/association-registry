@@ -16,7 +16,7 @@ public class Given_VerenigingWerdVerwijderdUitPubliekeDatastroom
     [Fact]
     public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_true()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var verenigingWerdVerwijderdUitPubliekeDatastroom = new TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>(fixture.Create<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>());
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

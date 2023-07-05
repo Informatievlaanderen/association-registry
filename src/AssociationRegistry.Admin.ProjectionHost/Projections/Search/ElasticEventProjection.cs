@@ -154,6 +154,13 @@ public class ElasticEventHandler
             Map(message.Data.Locatie));
     }
 
+    public void Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+    {
+        _elasticRepository.ReplaceLocatie(
+            message.VCode,
+            Map(message.Data.Locatie));
+    }
+
     public void Handle(EventEnvelope<LocatieWerdVerwijderd> message)
     {
         _elasticRepository.RemoveLocatie(

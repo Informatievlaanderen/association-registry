@@ -23,7 +23,7 @@ public class With_A_Startdatum_On_Today
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         var vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var command = fixture.Create<RegistreerAfdelingCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();

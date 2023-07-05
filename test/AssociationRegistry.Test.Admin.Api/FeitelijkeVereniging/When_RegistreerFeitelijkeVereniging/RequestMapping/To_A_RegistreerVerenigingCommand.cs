@@ -18,7 +18,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
     [Fact]
     public void Then_We_Get_A_RegistreerFeitelijkeVerenigingCommand()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
 

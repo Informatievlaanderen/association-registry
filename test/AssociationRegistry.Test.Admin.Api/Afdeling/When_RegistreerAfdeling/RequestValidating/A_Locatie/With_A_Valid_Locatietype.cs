@@ -24,7 +24,7 @@ public class With_A_Valid_Locatietype : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = locationType,
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Straatnaam = "dezeStraat",
                         Huisnummer = "23",

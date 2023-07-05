@@ -23,7 +23,7 @@ public class With_The_Same_HoofdactiviteitenVerenigingsloket
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
             HoofdactiviteitenVerenigingsloket: _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(h => HoofdactiviteitVerenigingsloket.Create(h.Code)).ToArray());

@@ -18,7 +18,7 @@ public class With_Two_Different_Locations : ValidatorTest
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
-            Adres = new ToeTeVoegenAdres
+            Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
             {
                 Huisnummer = "23",
                 Gemeente = "Zonnedorp",
@@ -30,7 +30,7 @@ public class With_Two_Different_Locations : ValidatorTest
         var andereLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
-            Adres = new ToeTeVoegenAdres
+            Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
             {
                 Huisnummer = "23",
                 Gemeente = "Anderdorp",

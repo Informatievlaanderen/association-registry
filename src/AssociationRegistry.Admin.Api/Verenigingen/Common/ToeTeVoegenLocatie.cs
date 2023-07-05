@@ -31,7 +31,7 @@ public class ToeTeVoegenLocatie
 
     /// <summary>Het adres van de locatie</summary>
     [DataMember]
-    public ToeTeVoegenAdres? Adres { get; set; }
+    public Adres? Adres { get; set; }
 
     public static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(
@@ -48,46 +48,4 @@ public class ToeTeVoegenLocatie
                     loc.Adres.Gemeente,
                     loc.Adres.Land)
                 : null);
-}
-
-/// <summary>Een adres van een locatie</summary>
-[DataContract]
-public class ToeTeVoegenAdres
-{
-    /// <summary>De straat van het adres</summary>
-    [DataMember]
-    public string Straatnaam { get; set; } = null!;
-
-    /// <summary>Het huisnummer van het adres</summary>
-    [DataMember]
-    public string Huisnummer { get; set; } = null!;
-
-    /// <summary>Het busnummer van het adres</summary>
-    [DataMember]
-    public string? Busnummer { get; set; }
-
-    /// <summary>De postcode van het adres</summary>
-    [DataMember]
-    public string Postcode { get; set; } = null!;
-
-    /// <summary>De gemeente van het adres</summary>
-    [DataMember]
-    public string Gemeente { get; set; } = null!;
-
-    /// <summary>Het land van het adres</summary>
-    [DataMember]
-    public string Land { get; set; } = null!;
-}
-
-/// <summary>De unieke identificator van het adres in een andere bron</summary>
-[DataContract]
-public class AdresId
-{
-    /// <summary>De code van de bron van het adres</summary>
-    [DataMember]
-    public string Broncode { get; set; } = null!;
-
-    /// <summary>De unieke identificator volgens de bron</summary>
-    [DataMember]
-    public string Bronwaarde { get; set; } = null!;
 }

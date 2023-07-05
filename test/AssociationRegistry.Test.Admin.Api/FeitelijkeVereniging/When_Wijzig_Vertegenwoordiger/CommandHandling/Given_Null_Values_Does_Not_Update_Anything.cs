@@ -22,7 +22,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
     }

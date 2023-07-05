@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
@@ -16,7 +17,7 @@ public class Given_LocatieWerdToegevoegd
     [Fact]
     public void Then_it_adds_a_locatie()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var locatieWerdToegevoegd = new TestEvent<LocatieWerdToegevoegd>(fixture.Create<LocatieWerdToegevoegd>());
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
@@ -27,6 +28,7 @@ public class Given_LocatieWerdToegevoegd
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
+                LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
                 IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
                 Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
                 Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
@@ -50,5 +52,6 @@ public class Given_LocatieWerdToegevoegd
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdToegevoegd.Tijdstip.ToBelgianDate());
     }
 }

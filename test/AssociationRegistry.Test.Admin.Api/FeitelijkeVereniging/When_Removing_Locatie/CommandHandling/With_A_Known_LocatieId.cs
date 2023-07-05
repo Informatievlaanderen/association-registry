@@ -23,7 +23,7 @@ public class With_A_Known_LocatieId
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock);

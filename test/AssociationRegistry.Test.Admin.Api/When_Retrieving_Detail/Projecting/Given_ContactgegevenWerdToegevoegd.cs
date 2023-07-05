@@ -17,7 +17,7 @@ public class Given_ContactgegevenWerdToegevoegd
     [Fact]
     public void Then_it_adds_the_contactgegeven_to_the_detail()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdToegevoegd>>();
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 

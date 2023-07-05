@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.When_Creating_A_Locatie;
 
 using AutoFixture;
 using FluentAssertions;
-using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -14,7 +14,7 @@ public class Given_No_Adres_And_No_AdresId
     [Fact]
     public void Then_It_Throws_An_MissingAdresException()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeDomain();
         var ctor = () => Locatie.Create(
             fixture.Create<string>(),
             fixture.Create<bool>(),

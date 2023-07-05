@@ -84,7 +84,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
 
         public Setup(EventsInDbScenariosFixture fixture)
         {
-            var autoFixture = new Fixture().CustomizeAll();
+            var autoFixture = new Fixture().CustomizeAdminApi();
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
             RequestLocatie.Adres!.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce

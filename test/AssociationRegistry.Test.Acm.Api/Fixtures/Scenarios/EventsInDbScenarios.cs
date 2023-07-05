@@ -21,7 +21,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
 
     public FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003001";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -49,7 +49,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
 
     public VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003002";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
@@ -90,7 +90,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
 
     public NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003003";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
@@ -134,7 +134,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003004";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         FeitelijkeVerenigingWerdGeregistreerd = FeitelijkeVerenigingWerdGeregistreerd with { Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
@@ -172,7 +172,7 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
 
     public VertegenwoordigerWerdVerwijderd_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003005";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
@@ -217,7 +217,7 @@ public class AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEvent
 
     public AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003006";
         AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with { VCode = VCode };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

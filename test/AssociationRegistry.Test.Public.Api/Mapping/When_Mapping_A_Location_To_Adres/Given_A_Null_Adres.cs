@@ -15,7 +15,7 @@ public class Given_A_Null_Adres
     [Fact]
     public void Then_Adres_Is_Null()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var publiekVerenigingDetailDocument = fixture.Create<PubliekVerenigingDetailDocument>();
         publiekVerenigingDetailDocument.Locaties.First().Adres = null;
         var publiekVerenigingDetailResponse = PubliekVerenigingDetailMapper.Map(publiekVerenigingDetailDocument, new AppSettings());

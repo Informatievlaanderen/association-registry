@@ -16,7 +16,7 @@ public class Given_LocatieWerdVerwijderd
     [Fact]
     public void Then_it_adds_the_locatie_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var locatieWerdVerwijderd = fixture.Create<TestEvent<LocatieWerdVerwijderd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

@@ -25,7 +25,7 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
     }

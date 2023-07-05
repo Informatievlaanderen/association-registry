@@ -15,7 +15,7 @@ public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
 
     public V025_LocatieWerdVerwijderd()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999025";
         var teVerwijderenLocatie = new Registratiedata.Locatie(
             1,

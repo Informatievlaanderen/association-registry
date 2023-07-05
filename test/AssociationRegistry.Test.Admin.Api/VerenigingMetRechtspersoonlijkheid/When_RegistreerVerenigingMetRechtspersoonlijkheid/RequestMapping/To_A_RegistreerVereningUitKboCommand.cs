@@ -13,7 +13,7 @@ public class To_A_RegistreerVereningUitKboCommand
     [Fact]
     public void Then_We_Get_A_RegistreerVerenigingUitKboCommand()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<RegistreerVerenigingUitKboRequest>();
 

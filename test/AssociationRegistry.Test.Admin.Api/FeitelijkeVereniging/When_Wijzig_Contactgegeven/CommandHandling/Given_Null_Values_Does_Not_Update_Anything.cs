@@ -25,7 +25,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
     }
@@ -60,7 +60,7 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigContactgegevenCommandHandler(_verenigingRepositoryMock);
     }

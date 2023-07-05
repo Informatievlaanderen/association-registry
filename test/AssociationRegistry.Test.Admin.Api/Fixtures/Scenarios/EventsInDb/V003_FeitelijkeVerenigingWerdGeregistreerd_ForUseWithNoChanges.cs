@@ -13,7 +13,7 @@ public class V003_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithNoChanges : IE
 
     public V003_FeitelijkeVerenigingWerdGeregistreerd_ForUseWithNoChanges()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999003";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {

@@ -22,7 +22,7 @@ public class With_An_Empty_Postcode : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
                     {
                         Straatnaam = "Dezestraat",
                         Gemeente = "Zonnedorp",

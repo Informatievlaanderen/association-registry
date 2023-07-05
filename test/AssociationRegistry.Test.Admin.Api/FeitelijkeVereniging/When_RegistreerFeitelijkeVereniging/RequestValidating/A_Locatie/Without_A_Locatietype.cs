@@ -20,7 +20,7 @@ public class Without_A_Locatietype : ValidatorTest
             {
                 new ToeTeVoegenLocatie
                 {
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new Adres
                     {
                         Straatnaam = "dezeStraat",
                     },

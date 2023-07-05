@@ -13,7 +13,7 @@ public class V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce : IEve
 
     public V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999009";
         Naam = "Vereniging 009";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

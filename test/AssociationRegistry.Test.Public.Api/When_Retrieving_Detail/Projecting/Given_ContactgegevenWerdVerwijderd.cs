@@ -15,7 +15,7 @@ public class Given_ContactgegevenWerdVerwijderd
     [Fact]
     public void Then_it_removes_the_contactgegeven()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

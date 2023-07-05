@@ -13,7 +13,7 @@ public class V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplica
 
     public V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateDetection()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999020";
         Naam = "Dee coolste club";
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with

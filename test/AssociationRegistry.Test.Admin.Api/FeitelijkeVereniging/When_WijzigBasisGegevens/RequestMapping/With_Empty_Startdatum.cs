@@ -16,7 +16,7 @@ public class With_Empty_Startdatum
     [Fact]
     public void Then_We_Get_An_Empty_Startdatum()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<WijzigBasisgegevensRequest>();
         request.Startdatum = NullOrEmpty<DateOnly>.Empty;

@@ -5,6 +5,7 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -18,7 +19,7 @@ public class Given_A_VCode
 
     public Given_A_VCode()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeDomain();
         _vCode = fixture.Create<VCode>();
         var eventStoreMock = new EventStoreMock(
             fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with {VCode = _vCode});

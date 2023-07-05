@@ -14,7 +14,7 @@ public class V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moe
 
     public V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moeder()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         VCodeMoeder = "V9999017";
         NaamMoeder = "Dee coolste moeder";

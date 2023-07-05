@@ -15,7 +15,7 @@ public class Given_A_Null_AdresId
     [Fact]
     public void Then_AdresId_Is_Null()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var beheerVerenigingDetailDocument = fixture.Create<BeheerVerenigingDetailDocument>();
         beheerVerenigingDetailDocument.Locaties.First().AdresId = null;
         var beheerVerenigingDetailResponse = new BeheerVerenigingDetailMapper(new AppSettings()).Map(beheerVerenigingDetailDocument);

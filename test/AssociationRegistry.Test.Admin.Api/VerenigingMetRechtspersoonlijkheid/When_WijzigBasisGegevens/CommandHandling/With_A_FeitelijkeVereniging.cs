@@ -24,7 +24,7 @@ public class With_A_FeitelijkeVereniging
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, KorteBeschrijving: NieuweKorteBeschrijving);
         var commandMetadata = fixture.Create<CommandMetadata>();
         _commandHandler = new WijzigBasisgegevensCommandHandler();

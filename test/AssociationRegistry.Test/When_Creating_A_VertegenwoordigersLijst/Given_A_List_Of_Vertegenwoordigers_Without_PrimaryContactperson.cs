@@ -2,7 +2,7 @@
 
 using AutoFixture;
 using FluentAssertions;
-using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -13,7 +13,7 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
     [Fact]
     public void Then_It_Returns_A_Filled_VertegenwoordigersLijst()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeDomain();
         var vertegenwoordiger1 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
         var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
         var listOfVertegenwoordigers = new[]

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Vereniging;
 using Emails;
 using Events;
 using Framework;
+using JasperFx.CodeGeneration.Frames;
 using Marten.Schema;
 using SocialMedias;
 using TelefoonNummers;
@@ -314,6 +315,9 @@ public record VerenigingState : IHasVersion
                         @event.Locatie.AdresId is null ? null : AdresId.Hydrate(@event.Locatie.AdresId.Broncode, @event.Locatie.AdresId.Bronwaarde))
                 ).ToArray()),
         };
+
+    public VerenigingState Apply(LocatieWerdGewijzigd @event)
+        => this;
 
     public VerenigingState Apply(LocatieWerdVerwijderd @event)
         => this with

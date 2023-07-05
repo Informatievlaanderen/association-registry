@@ -30,7 +30,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
     {
         Scenario = fixture.V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens;
 
-        Request = new Fixture().CustomizeAll().Create<WijzigBasisgegevensRequest>();
+        Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
         var startdatumInHetVerleden = fixture.ServiceProvider.GetRequiredService<IClock>().Today.AddDays(-1);
         Request.Startdatum = NullOrEmpty<DateOnly>.Create(startdatumInHetVerleden);

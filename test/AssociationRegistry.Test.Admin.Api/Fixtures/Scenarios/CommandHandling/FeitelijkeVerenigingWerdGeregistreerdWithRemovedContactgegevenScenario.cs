@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
 
     public FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario()
     {
-        Contactgegevens = new[] { new Fixture().CustomizeAll().Create<Registratiedata.Contactgegeven>() with { ContactgegevenId = 1 } };
+        Contactgegevens = new[] { new Fixture().CustomizeAdminApi().Create<Registratiedata.Contactgegeven>() with { ContactgegevenId = 1 } };
     }
 
     public Registratiedata.Contactgegeven[] Contactgegevens { get; }

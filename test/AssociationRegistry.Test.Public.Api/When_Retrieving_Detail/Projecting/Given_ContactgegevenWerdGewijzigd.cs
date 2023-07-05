@@ -16,7 +16,7 @@ public class Given_ContactgegevenWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_contactgegeven()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

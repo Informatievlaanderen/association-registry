@@ -16,7 +16,7 @@ public class Given_LocatieWerdVerwijderd
     [Fact]
     public void Then_it_removes_the_locatie()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var locatieWerdVerwijderd = fixture.Create<TestEvent<LocatieWerdVerwijderd>>();
 
         var teVerwijderenLocatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>();

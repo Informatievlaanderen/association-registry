@@ -25,11 +25,11 @@ public class With_Valid_ETag : IAsyncLifetime
 
     public With_Valid_ETag()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
         _messageBusMock = new Mock<IMessageBus>();
         _messageBusMock
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VerwijderContactgegevenCommand>>(), default, null))
-            .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
+            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
         _toeController = new VerwijderContactgegevenController(_messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };

@@ -19,7 +19,7 @@ public class With_Two_Duplicate_Contactgegevens
 
     public With_Two_Duplicate_Contactgegevens()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
 
         var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), isPrimair: true);

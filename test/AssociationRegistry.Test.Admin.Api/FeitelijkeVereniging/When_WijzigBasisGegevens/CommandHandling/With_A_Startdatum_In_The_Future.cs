@@ -21,7 +21,7 @@ public class With_A_Startdatum_In_The_Future
 
     public With_A_Startdatum_In_The_Future()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 

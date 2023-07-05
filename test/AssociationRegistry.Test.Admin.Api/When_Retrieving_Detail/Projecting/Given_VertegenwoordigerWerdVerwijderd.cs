@@ -17,7 +17,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
     [Fact]
     public void Then_it_removes_the_vertegenwoordiger_from_the_detail()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var vertegenwoordigerWerdVerwijderd = fixture.Create<TestEvent<VertegenwoordigerWerdVerwijderd>>();
 
         var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with

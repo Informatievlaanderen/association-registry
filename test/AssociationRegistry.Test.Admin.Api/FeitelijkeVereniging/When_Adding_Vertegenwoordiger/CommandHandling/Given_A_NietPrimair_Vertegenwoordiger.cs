@@ -20,7 +20,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
         var command = new VoegVertegenwoordigerToeCommand(

@@ -22,7 +22,7 @@ public sealed class When_RegistreerAfdeling_With_An_Existing_Moeder
 
     public When_RegistreerAfdeling_With_An_Existing_Moeder(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
 
         Request = new RegistreerAfdelingRequest
         {

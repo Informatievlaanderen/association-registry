@@ -13,7 +13,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
 
     public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999002";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {

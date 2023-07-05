@@ -8,6 +8,7 @@ using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
+using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,7 +25,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
 
     public Patch_A_New_Contactgegeven(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
 
         _fixture = fixture;
 

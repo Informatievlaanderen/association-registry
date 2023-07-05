@@ -15,6 +15,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario = new();
     public readonly V011_LocatieWerdToegevoegdScenario V011LocatieWerdToegevoegdScenario = new();
     public readonly V012_LocatieWerdVerwijderdScenario V012LocatieWerdVerwijderdScenario = new();
+    public readonly V013_LocatieWerdGewijzigdScenario V013LocatieWerdGewijzigdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -30,6 +31,7 @@ public class GivenEventsFixture : PublicApiFixture
             V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario,
             V011LocatieWerdToegevoegdScenario,
             V012LocatieWerdVerwijderdScenario,
+            V013LocatieWerdGewijzigdScenario,
         };
 
     public override async Task InitializeAsync()
