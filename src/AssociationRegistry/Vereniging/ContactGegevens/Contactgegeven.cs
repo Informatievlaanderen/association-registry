@@ -55,8 +55,10 @@ public record Contactgegeven
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
         return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
-    public bool MetZelfdeWaarden(Contactgegeven contactgegeven)
-        => Type == contactgegeven.Type && Waarde == contactgegeven.Waarde && Beschrijving == contactgegeven.Beschrijving;
+    public bool IsEquivalentTo(Contactgegeven contactgegeven)
+        => Type == contactgegeven.Type &&
+           Waarde == contactgegeven.Waarde &&
+           Beschrijving == contactgegeven.Beschrijving;
 
 
     private static bool IsKnownType(string type)

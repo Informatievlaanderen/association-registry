@@ -78,7 +78,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     }
 
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
-        => this.Any(contactgegeven.MetZelfdeWaarden);
+        => this.Any(contactgegeven.IsEquivalentTo);
 
     private new Contactgegeven this[int contactgegevenId]
         => this.Single(x => x.ContactgegevenId == contactgegevenId);
@@ -121,7 +121,7 @@ public static class ContactgegevenEnumerableExtensions
         => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
 
     public static bool ContainsMetZelfdeWaarden(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
-        => source.Any(contactgegeven.MetZelfdeWaarden);
+        => source.Any(contactgegeven.IsEquivalentTo);
 
     public static bool WouldGiveMultiplePrimaryOfType(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegevenToEvaluate)
         => source.Without(contactgegevenToEvaluate).Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);

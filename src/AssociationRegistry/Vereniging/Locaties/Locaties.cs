@@ -101,7 +101,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
             this.Without(locatie).HasPrimairelocatie());
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
-        => Throw<DuplicateLocatie>.If(this.Without(locatie).Contains(locatie));
+        => Throw<DuplicateLocatie>.If(this.Without(locatie).ContainsEquivalient(locatie));
 }
 
 public static class LocatieEnumerbleExtentions
@@ -111,7 +111,8 @@ public static class LocatieEnumerbleExtentions
 
     public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, int locatieId)
         => locaties.Where(l => l.LocatieId != locatieId);
-
+    public static bool ContainsEquivalient(this IEnumerable<Locatie> source, Locatie locatie)
+        => source.Any(locatie.IsEquivalentTo);
     public static bool HasPrimairelocatie(this IEnumerable<Locatie> locaties)
         => locaties.Any(l => l.IsPrimair);
 
