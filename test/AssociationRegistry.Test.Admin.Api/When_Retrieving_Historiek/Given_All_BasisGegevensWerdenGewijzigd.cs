@@ -69,6 +69,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 
         var expected = $@"
             {{
+                ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/historiek-vereniging-context.json"}"",
                 ""vCode"": ""{VCode}"",
                 ""gebeurtenissen"": [
                     {{
