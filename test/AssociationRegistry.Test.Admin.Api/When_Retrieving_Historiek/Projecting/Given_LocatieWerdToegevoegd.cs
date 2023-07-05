@@ -16,7 +16,7 @@ public class Given_LocatieWerdToegevoegd
     [Fact]
     public void Then_it_adds_the_locatie_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var locatieWerdToegevoegd = fixture.Create<TestEvent<LocatieWerdToegevoegd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.When_WijzigLocatie;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
-using Framework;
+using Framework.Customizations;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Xunit;
@@ -45,7 +45,7 @@ public class Given_An_Adres_And_No_AdresId
     {
         get
         {
-            var fixture = new Fixture().CustomizeAll();
+            var fixture = new Fixture().CustomizeDomain();
             var locatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Activiteiten };
             var gewijzigdeLocatie = locatie with
             {

@@ -8,7 +8,6 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using Vereniging.Emails;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,7 +25,7 @@ public class Given_All_Fields
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock);
         _locatie = new WijzigLocatieCommand.Locatie(

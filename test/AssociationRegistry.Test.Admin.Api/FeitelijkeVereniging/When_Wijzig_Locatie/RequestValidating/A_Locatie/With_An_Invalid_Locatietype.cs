@@ -14,7 +14,7 @@ public class With_An_Invalid_Locatietype: ValidatorTest
     public void Has_ValidationError_For_Locatietype(string locatietype)
     {
         var validator = new TeWijzigenLocatieValidator();
-        var locatie = new Fixture().CustomizeAll().Create<WijzigLocatieRequest.TeWijzigenLocatie>();
+        var locatie = new Fixture().CustomizeAdminApi().Create<WijzigLocatieRequest.TeWijzigenLocatie>();
         locatie.Locatietype = locatietype;
 
         var result = validator.TestValidate(locatie);

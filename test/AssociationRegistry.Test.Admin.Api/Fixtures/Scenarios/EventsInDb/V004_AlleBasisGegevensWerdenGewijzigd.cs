@@ -19,7 +19,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
 
     public V004_AlleBasisGegevensWerdenGewijzigd()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999004";
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,

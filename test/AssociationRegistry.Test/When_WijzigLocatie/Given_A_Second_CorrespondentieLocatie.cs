@@ -3,7 +3,7 @@
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -34,7 +34,7 @@ public class Given_A_Second_CorrespondentieLocatie
     {
         get
         {
-            var fixture = new Fixture().CustomizeAll();
+            var fixture = new Fixture().CustomizeDomain();
             var correspondentieLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
             var gewijzigdeLocatie = teWijzigenLocatie with

@@ -14,7 +14,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
     }
 

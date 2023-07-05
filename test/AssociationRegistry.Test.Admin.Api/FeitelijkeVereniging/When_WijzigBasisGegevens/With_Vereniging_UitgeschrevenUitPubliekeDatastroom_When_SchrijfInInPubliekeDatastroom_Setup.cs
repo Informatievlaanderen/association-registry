@@ -25,7 +25,7 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
     {
         Scenario = fixture.V021FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroom;
 
-        Request = new Fixture().CustomizeAll().Create<WijzigBasisgegevensRequest>();
+        Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
         var jsonBody = $@"{{
             ""isUitgeschrevenUitPubliekeDatastroom"":false,

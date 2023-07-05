@@ -28,7 +28,7 @@ public sealed class When_RegistreerAfdeling_WithAllFields
 
     private When_RegistreerAfdeling_WithAllFields(AdminApiFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
         Request = new RegistreerAfdelingRequest
         {
             Naam = autoFixture.Create<string>(),

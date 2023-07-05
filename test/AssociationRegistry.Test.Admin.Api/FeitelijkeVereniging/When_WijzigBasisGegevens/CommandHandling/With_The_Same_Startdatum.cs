@@ -24,7 +24,7 @@ public class With_The_Same_Startdatum
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();

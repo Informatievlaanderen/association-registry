@@ -13,7 +13,7 @@ public class V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAdd
 
     public V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999022";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {

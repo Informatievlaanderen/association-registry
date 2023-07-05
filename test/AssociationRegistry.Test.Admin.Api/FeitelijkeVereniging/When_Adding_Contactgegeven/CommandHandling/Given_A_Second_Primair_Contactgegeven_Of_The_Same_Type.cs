@@ -24,7 +24,7 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new VoegContactgegevenToeCommandHandler(verenigingRepositoryMock);
     }

@@ -31,7 +31,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
 
     private When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postcode(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
         locatie.Adres!.Postcode = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
             .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()

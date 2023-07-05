@@ -5,6 +5,7 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -17,7 +18,7 @@ public class Given_A_VCode_And_ExpectedVersion
 
     public Given_A_VCode_And_ExpectedVersion()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeDomain();
         _vCode = fixture.Create<VCode>();
         var eventStoreMock = new EventStoreMock(
             fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });

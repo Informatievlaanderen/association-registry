@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.RequestMapping;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using Framework;
 using Vereniging;
@@ -16,7 +15,7 @@ public class To_WijzigLocatieCommand
     [Fact]
     public void Then_We_Get_A_Correct_Command()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<WijzigLocatieRequest>();
 

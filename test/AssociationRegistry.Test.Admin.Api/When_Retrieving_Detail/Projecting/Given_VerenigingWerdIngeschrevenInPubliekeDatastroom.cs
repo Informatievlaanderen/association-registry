@@ -17,7 +17,7 @@ public class Given_VerenigingWerdIngeschrevenInPubliekeDatastroom
     [Fact]
     public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_false()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var verenigingWerdToegevoegdAanPubliekeDatastroom = fixture.Create<TestEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

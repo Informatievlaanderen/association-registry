@@ -17,7 +17,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
     [Fact]
     public void Then_it_adds_the_vertegenwoordiger_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var vertegenwoordigerWerdToegevoegd = fixture.Create<TestEvent<VertegenwoordigerWerdToegevoegd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

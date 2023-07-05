@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using Framework;
 using AutoFixture;
@@ -22,7 +21,7 @@ public class With_Invalid_ETag
 
     public With_Invalid_ETag()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
         _controller = new WijzigLocatieController(messageBusMock.Object, new WijzigLocatieRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };

@@ -14,7 +14,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScena
 
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
     }
 
@@ -33,7 +33,7 @@ public class VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario : Commandhan
 
     public VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
     }
 

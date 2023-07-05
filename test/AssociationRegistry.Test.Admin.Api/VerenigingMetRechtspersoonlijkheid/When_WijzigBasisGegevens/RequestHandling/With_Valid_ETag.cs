@@ -27,7 +27,7 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock = new Mock<IMessageBus>();
         _messageBusMock
             .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigBasisgegevensCommand>>(), default, null))
-            .ReturnsAsync(new Fixture().CustomizeAll().Create<CommandResult>());
+            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
         _controller = new WijzigBasisgegevensController(_messageBusMock.Object, new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };

@@ -15,7 +15,7 @@ public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
 
     public V023_LocatieWerdToegevoegd()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999023";
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,

@@ -16,7 +16,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
     public void Has_validation_error__locatieType_moet_juiste_waarde_hebben()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Locatietype = new Fixture().Create<string>()
             ;
         var result = validator.TestValidate(request);

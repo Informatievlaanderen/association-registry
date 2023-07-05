@@ -15,7 +15,7 @@ public class To_A_WijzigBasisgegevensCommand
     [Fact]
     public void Then_We_Get_A_WijzigBasisgegevensCommand()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var request = fixture.Create<WijzigBasisgegevensRequest>();
 

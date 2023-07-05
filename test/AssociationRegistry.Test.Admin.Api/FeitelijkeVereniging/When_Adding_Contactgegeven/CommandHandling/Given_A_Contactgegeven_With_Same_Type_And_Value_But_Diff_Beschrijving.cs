@@ -23,7 +23,7 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new VoegContactgegevenToeCommandHandler(verenigingRepositoryMock);
     }

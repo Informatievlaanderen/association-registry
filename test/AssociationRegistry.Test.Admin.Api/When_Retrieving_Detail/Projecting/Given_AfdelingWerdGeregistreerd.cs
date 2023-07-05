@@ -22,7 +22,7 @@ public class Given_AfdelingWerdGeregistreerd
     [Fact]
     public void Then_it_creates_a_new_vereniging()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var afdelingWerdGeregistreerd = fixture.Create<TestEvent<AfdelingWerdGeregistreerd>>();
 
         var doc = BeheerVerenigingDetailProjector.Create(afdelingWerdGeregistreerd);

@@ -3,7 +3,7 @@
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -34,7 +34,7 @@ public class Given_A_Second_Primair
     {
         get
         {
-            var fixture = new Fixture().CustomizeAll();
+            var fixture = new Fixture().CustomizeDomain();
             var primaireLocatie = fixture.Create<Registratiedata.Locatie>() with { IsPrimair = true };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
             var gewijzigdeLocatie = teWijzigenLocatie with

@@ -10,7 +10,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerS
 {
     public FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = fixture.Create<VCode>();
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>() with { IsPrimair = true };

@@ -14,7 +14,7 @@ public class V019_AfdelingWerdGeregistreerd_WithMinimalFields : IEventsInDbScena
 
     public V019_AfdelingWerdGeregistreerd_WithMinimalFields()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         KboNummerMoeder = fixture.Create<KboNummer>();
         VCode = "V9999019";

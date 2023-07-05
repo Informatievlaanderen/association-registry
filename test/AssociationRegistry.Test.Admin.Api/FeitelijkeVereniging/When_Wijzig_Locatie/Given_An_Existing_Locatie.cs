@@ -6,7 +6,6 @@ using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
-using FluentAssertions.Execution;
 using Framework;
 using Marten;
 using Vereniging;
@@ -26,7 +25,7 @@ public class Patch_A_Locatie : IAsyncLifetime
     public Patch_A_Locatie(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        var autofixture = new Fixture().CustomizeAll();
+        var autofixture = new Fixture().CustomizeAdminApi();
 
         Scenario = fixture.V026FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigen;
         DocumentStore = _fixture.DocumentStore;

@@ -15,7 +15,7 @@ public class With_An_Empty_Broncode : ValidatorTest
     public void Has_validation_error__broncode_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Broncode = string.Empty;
 
         var result = validator.TestValidate(request);

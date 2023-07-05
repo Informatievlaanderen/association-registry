@@ -23,7 +23,7 @@ public class With_An_Existing_Moeder
 
     public With_An_Existing_Moeder()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         _kboNummerMoedervereniging = fixture.Create<KboNummer>();
         _verenigingsNaam = fixture.Create<VerenigingsNaam>();
 

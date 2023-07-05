@@ -18,7 +18,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     [Fact]
     public void Then_it_creates_a_new_document()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<TestEvent<FeitelijkeVerenigingWerdGeregistreerd>>();
 
         var document = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);

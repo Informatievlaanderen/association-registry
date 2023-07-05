@@ -19,7 +19,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
 
     public With_Two_Primair_Contactgegevens_Of_The_Same_Type()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
 
         var contactgegeven = Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), isPrimair: true);

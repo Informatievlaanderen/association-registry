@@ -15,7 +15,7 @@ public class With_A_Null_Bronwaarde : ValidatorTest
     public void Has_validation_error__bronwaarde_mag_niet_null_zijn()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Bronwaarde = null!;
 
         var result = validator.TestValidate(request);

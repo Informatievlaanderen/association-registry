@@ -15,7 +15,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_With_Only_Adres()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = new Adres();
         request.Locatie.AdresId = null;
 
@@ -28,7 +28,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_With_Only_AdresId()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = null;
         request.Locatie.AdresId = new AdresId();
 
@@ -41,7 +41,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_0_With_Both()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = new Adres();
         request.Locatie.AdresId = new AdresId();
 
@@ -54,7 +54,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_validation_error_for_locatie_0_With_Neither()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = null;
         request.Locatie.AdresId = null;
 

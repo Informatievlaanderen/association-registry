@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.When_WijzigLocatie;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -42,7 +42,7 @@ public class Given_No_Changes
     {
         get
         {
-            var fixture = new Fixture().CustomizeAll();
+            var fixture = new Fixture().CustomizeDomain();
             var locatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Activiteiten };
             var gewijzigdeLocatie = locatie;
 

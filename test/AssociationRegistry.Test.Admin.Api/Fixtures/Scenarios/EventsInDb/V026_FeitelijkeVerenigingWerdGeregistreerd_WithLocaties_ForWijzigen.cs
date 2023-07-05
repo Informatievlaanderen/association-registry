@@ -13,7 +13,7 @@ public class V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen
 
     public V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999026";
         Naam = "Dee sjiekste club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

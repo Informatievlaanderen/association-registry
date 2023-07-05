@@ -24,7 +24,7 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigContactgegevenCommandHandler(verenigingRepositoryMock);
     }

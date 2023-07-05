@@ -24,7 +24,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
     }

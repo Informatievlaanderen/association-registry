@@ -1,12 +1,9 @@
 ﻿namespace AssociationRegistry.Test.When_WijzigLocatie;
 
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Framework;
-using JasperFx.Core;
-using KellermanSoftware.CompareNetObjects;
+using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -45,7 +42,7 @@ public class Given_A_Duplicate
     {
         get
         {
-            var fixture = new Fixture().CustomizeAll();
+            var fixture = new Fixture().CustomizeDomain();
             var locaties = fixture.CreateMany<Registratiedata.Locatie>().ToArray();
             var locatie1 = locaties[0];
             var locatie2 = locaties[1];

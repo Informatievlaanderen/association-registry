@@ -28,7 +28,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 
     private When_RegistreerFeitelijkeVereniging_WithAllFields(AdminApiFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = autoFixture.Create<string>(),

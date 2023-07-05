@@ -13,7 +13,7 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFie
 
     public V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999015";
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
             VCode,

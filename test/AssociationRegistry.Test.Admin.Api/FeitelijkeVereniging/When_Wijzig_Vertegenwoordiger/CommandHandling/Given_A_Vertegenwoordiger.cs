@@ -23,7 +23,7 @@ public class Given_A_Vertegenwoordiger
 
     public Given_A_Vertegenwoordiger()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());

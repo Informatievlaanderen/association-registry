@@ -15,7 +15,7 @@ public class With_An_Adres : ValidatorTest
     public void Has_validation_error_for_locatie_Adres_When_Present_But_Invalid()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = new Adres();
 
         var result = validator.TestValidate(request);
@@ -26,7 +26,7 @@ public class With_An_Adres : ValidatorTest
     public void Has_no_validation_error_for_locatie_Adres_When_Null()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Adres = null;
 
         var result = validator.TestValidate(request);

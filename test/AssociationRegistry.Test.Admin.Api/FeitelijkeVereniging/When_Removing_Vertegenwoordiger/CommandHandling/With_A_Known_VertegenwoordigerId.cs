@@ -23,7 +23,7 @@ public class With_A_Known_VertegenwoordigerId
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock);

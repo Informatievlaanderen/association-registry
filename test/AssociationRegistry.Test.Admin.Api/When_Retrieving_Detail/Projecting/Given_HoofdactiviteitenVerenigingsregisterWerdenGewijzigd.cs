@@ -17,7 +17,7 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
     [Fact]
     public void Then_it_replaces_the_hoofdactiviteitenVerenigingsLoket()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

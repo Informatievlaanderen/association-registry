@@ -13,7 +13,7 @@ public class V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplica
 
     public V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplicateCheck()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999013";
         Naam = "De absoluut coolste club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
