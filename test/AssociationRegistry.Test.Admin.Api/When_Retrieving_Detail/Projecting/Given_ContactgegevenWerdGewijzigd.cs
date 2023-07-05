@@ -48,6 +48,7 @@ public class Given_ContactgegevenWerdGewijzigd
                 },
             });
         doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdGewijzigd.Tijdstip.ToBelgianDate());
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
         doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version));
     }
 }

@@ -98,14 +98,16 @@ public class Given_ContactgegevenWerdToegevoegd
                     ""startdatum"": ""{_feitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
                     ""status"": ""Actief"",
                     ""isUitgeschrevenUitPubliekeDatastroom"": false,
-                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
+                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens
+                        .OrderBy(c => c.ContactgegevenId).Select(y => $@"{{
                         ""contactgegevenId"": {y.ContactgegevenId},
                         ""type"": ""{y.Type}"",
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
                     }}"))}],
-                    ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
+                    ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties
+                        .Select(x => $@"{{
                         ""locatieId"": {x.LocatieId},
                         ""locatietype"": ""{x.Locatietype}"",
                         ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
@@ -125,7 +127,8 @@ public class Given_ContactgegevenWerdToegevoegd
                         }}")}
                     }}"))}
                     ],
-                    ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
+                    ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers
+                        .Select(x => $@"{{
                             ""vertegenwoordigerId"": {x.VertegenwoordigerId},
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",

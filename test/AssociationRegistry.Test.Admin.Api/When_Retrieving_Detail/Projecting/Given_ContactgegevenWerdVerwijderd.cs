@@ -43,6 +43,7 @@ public class Given_ContactgegevenWerdVerwijderd
                 Beschrijving = contactgegevenWerdVerwijderd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdVerwijderd.Data.IsPrimair,
             });
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
         doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version));
     }

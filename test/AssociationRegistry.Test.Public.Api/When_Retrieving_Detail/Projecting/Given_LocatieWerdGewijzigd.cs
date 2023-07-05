@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using System.ComponentModel.Design;
 using AssociationRegistry.Events;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
@@ -59,6 +60,7 @@ public class Given_LocatieWerdGewijzigd
                         Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
         doc.DatumLaatsteAanpassing.Should().Be(locatieWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

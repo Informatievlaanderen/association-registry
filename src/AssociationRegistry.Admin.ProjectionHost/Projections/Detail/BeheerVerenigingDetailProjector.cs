@@ -133,7 +133,10 @@ public class BeheerVerenigingDetailProjector
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
-            }).ToArray();
+            })
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
@@ -163,6 +166,7 @@ public class BeheerVerenigingDetailProjector
         document.Contactgegevens = document.Contactgegevens
             .Where(
                 c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
+            .OrderBy(c => c.ContactgegevenId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -196,7 +200,9 @@ public class BeheerVerenigingDetailProjector
                 Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-            }).ToArray();
+            })
+            .OrderBy(v => v.VertegenwoordigerId)
+            .ToArray();
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
@@ -233,6 +239,7 @@ public class BeheerVerenigingDetailProjector
         document.Vertegenwoordigers = document.Vertegenwoordigers
             .Where(
                 c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
+            .OrderBy(v => v.VertegenwoordigerId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -273,6 +280,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
             .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie))
+            .OrderBy(l => l.LocatieId)
             .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
@@ -293,6 +301,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
             .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
+            .OrderBy(l => l.LocatieId)
             .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);

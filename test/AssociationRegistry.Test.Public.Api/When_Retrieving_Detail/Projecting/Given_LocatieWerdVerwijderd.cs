@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
@@ -29,5 +30,7 @@ public class Given_LocatieWerdVerwijderd
         PubliekVerenigingDetailProjector.Apply(locatieWerdVerwijderd, doc);
 
         doc.Locaties.Should().NotContain(teVerwijderenLocatie);
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
+        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdVerwijderd.Tijdstip.ToBelgianDate());
     }
 }
