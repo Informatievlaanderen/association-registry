@@ -10,8 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 [ApiExplorerSettings(GroupName = "Contexten")]
 public class ContextenController : ApiController
 {
+    /// <summary>
+    ///     Vraag de JSON-LD context op voor een specifiek object
+    /// </summary>
+    /// <param name="name">Dit is de naam van de specifieke context</param>
+    /// <returns></returns>
     [HttpGet("{name}")]
-    [ApiExplorerSettings(IgnoreApi = true)]
     public IActionResult Detail([FromRoute] string name)
         => Content(
             JsonLdContexts.GetContext(name),
