@@ -87,7 +87,7 @@ jobs:
       - name: .NET version
         shell: bash
         run: dotnet --info
-        
+
       - name: Clean
         run: dotnet nuget locals all --clear
 
@@ -110,7 +110,7 @@ jobs:
 
       - name: Dotnet build tests
         shell: bash
-        run: dotnet build --no-restore --runtime 'linux-x64' --self-contained test/${{ inputs.test-project }}
+        run: dotnet build --no-restore --runtime 'linux-x64' test/${{ inputs.test-project }}
 
       - name: Wait for db container
         shell: bash
