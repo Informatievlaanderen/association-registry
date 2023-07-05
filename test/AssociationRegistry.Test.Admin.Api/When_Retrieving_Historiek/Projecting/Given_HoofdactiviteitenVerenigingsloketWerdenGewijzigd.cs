@@ -16,7 +16,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

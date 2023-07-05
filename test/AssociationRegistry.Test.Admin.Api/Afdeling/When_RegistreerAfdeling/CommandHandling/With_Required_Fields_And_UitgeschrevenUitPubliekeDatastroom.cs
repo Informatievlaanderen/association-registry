@@ -24,7 +24,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var today = fixture.Create<DateOnly>();
 
         var clock = new ClockStub(today);

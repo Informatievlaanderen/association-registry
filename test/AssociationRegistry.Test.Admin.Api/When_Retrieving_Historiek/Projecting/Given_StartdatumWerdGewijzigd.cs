@@ -17,7 +17,7 @@ public class Given_StartdatumWerdGewijzigd
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
@@ -41,7 +41,7 @@ public class Given_StartdatumWerdGewijzigd_With_Null
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis_with_null()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
         startdatumWerdGewijzigd.Data = fixture.Create<StartdatumWerdGewijzigd>() with
         {

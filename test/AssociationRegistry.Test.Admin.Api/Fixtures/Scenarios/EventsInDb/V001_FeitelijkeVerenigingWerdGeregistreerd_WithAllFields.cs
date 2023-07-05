@@ -14,7 +14,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
 
     public V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999001";
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,

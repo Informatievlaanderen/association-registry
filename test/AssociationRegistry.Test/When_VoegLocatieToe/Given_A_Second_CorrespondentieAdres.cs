@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_VoegLocatieToe;
 
 using Events;
-using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
+using Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,7 +14,7 @@ public class Given_A_Second_CorrespondentieLocatie
     [Fact]
     public void Then_it_throws()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeDomain();
 
         var vereniging = new Vereniging();
         var primaireLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
@@ -25,6 +25,6 @@ public class Given_A_Second_CorrespondentieLocatie
             }));
 
         var locatie = fixture.Create<Locatie>() with { Locatietype = Locatietype.Correspondentie };
-        Assert.Throws<DuplicateCorrespondentielocatieProvided>(() => vereniging.VoegLocatieToe(locatie));
+        Assert.Throws<MultipleCorrespondentieLocaties>(() => vereniging.VoegLocatieToe(locatie));
     }
 }

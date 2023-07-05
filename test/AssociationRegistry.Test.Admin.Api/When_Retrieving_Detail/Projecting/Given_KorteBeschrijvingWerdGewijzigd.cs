@@ -17,7 +17,7 @@ public class Given_KorteBeschrijvingWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_korteBeschrijving()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var korteBeschrijvingWerdGewijzigd = fixture.Create<TestEvent<KorteBeschrijvingWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

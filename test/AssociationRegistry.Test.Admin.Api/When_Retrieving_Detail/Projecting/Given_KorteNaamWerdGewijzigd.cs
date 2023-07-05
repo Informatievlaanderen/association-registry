@@ -17,7 +17,7 @@ public class Given_KorteNaamWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_korteNaam()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var korteNaamWerdGewijzigd = fixture.Create<TestEvent<KorteNaamWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

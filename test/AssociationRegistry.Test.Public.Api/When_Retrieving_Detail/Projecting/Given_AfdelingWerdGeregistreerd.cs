@@ -19,7 +19,7 @@ public class Given_AfdelingWerdGeregistreerd
     [Fact]
     public void Then_it_creates_a_new_vereniging()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var afdelingWerdGeregistreerd = new TestEvent<AfdelingWerdGeregistreerd>(fixture.Create<AfdelingWerdGeregistreerd>());
 
         var doc = PubliekVerenigingDetailProjector.Create(afdelingWerdGeregistreerd);

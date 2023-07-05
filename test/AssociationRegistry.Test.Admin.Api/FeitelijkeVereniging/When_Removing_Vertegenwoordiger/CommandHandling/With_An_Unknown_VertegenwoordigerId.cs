@@ -24,7 +24,7 @@ public class With_An_Unknown_VertegenwoordigerId
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
         _commandHandler = new VerwijderVertegenwoordigerCommandHandler(verenigingRepositoryMock);
     }
 

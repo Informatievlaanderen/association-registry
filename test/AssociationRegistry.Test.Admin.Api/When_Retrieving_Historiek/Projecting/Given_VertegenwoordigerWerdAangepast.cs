@@ -16,7 +16,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
     [Fact]
     public void Then_it_updates_the_vertegenwoordiger_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var vertegenwoordigerWerdGewijzigd = fixture.Create<TestEvent<VertegenwoordigerWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

@@ -32,7 +32,7 @@ public sealed class When_RegistreerAfdeling_With_Same_Naam_And_Gemeente
 
     private When_RegistreerAfdeling_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Adres!.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck

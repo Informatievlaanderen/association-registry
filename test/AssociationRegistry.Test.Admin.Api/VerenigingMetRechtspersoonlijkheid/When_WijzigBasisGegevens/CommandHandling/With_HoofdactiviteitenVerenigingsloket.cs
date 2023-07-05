@@ -24,7 +24,7 @@ public class With_HoofdactiviteitenVerenigingsloket
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         _hoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, HoofdactiviteitenVerenigingsloket: _hoofdactiviteitenVerenigingsloket);
         var commandMetadata = fixture.Create<CommandMetadata>();

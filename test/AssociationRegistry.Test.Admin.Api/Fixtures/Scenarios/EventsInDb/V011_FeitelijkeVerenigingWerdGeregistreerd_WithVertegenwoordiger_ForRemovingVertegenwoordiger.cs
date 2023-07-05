@@ -13,7 +13,7 @@ public class V011_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_Fo
 
     public V011_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForRemovingVertegenwoordiger()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999011";
         Naam = "Dee coolste club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

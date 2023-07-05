@@ -17,7 +17,7 @@ public class With_A_Valid_Broncode : ValidatorTest
     public void Has_no_validation_errors(string adresBroncode)
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Broncode = Adresbron.Parse(adresBroncode);
         var result = validator.TestValidate(request);
 

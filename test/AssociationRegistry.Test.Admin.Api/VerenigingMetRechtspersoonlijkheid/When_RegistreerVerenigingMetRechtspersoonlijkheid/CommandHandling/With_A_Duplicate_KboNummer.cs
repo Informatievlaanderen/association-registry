@@ -22,7 +22,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
 
     public With_A_Duplicate_KboNummer()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam), new InMemorySequentialVCodeService());

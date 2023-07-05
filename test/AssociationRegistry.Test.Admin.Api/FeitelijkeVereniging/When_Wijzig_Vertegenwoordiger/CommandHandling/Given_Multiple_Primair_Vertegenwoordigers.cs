@@ -23,7 +23,7 @@ public class Given_Multiple_Primair_Vertegenwoordigers
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(verenigingRepositoryMock);
     }

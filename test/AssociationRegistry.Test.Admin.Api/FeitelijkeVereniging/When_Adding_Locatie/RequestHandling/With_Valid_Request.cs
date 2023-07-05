@@ -29,10 +29,10 @@ public class With_Valid_Request
 
     public With_Valid_Request()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         var messageBusMock = new Mock<IMessageBus>();
-        _commandResult = new Fixture().CustomizeAll().Create<CommandResult>();
+        _commandResult = new Fixture().CustomizeAdminApi().Create<CommandResult>();
         messageBusMock
             .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegLocatieToeCommand>>(), default, null))
             .ReturnsAsync(_commandResult);

@@ -151,6 +151,7 @@ public class BeheerVerenigingDetailProjector
                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 })
+            .OrderBy(c => c.ContactgegevenId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -220,6 +221,7 @@ public class BeheerVerenigingDetailProjector
                     Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                     SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
                 })
+            .OrderBy(v => v.VertegenwoordigerId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = vertegenwoordigerWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -269,14 +271,29 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
-        document.Locaties = document.Locaties.Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie)).ToArray();
+        document.Locaties = document.Locaties
+            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie))
+            .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
 
+    public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+            .Where(l => l.LocatieId != locatieWerdGewijzigd.Data.Locatie.LocatieId)
+            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdGewijzigd.Data.Locatie))
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+        document.DatumLaatsteAanpassing = locatieWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
+    }
+
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingDetailDocument document)
     {
-        document.Locaties = document.Locaties.Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId).ToArray();
+        document.Locaties = document.Locaties
+            .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
+            .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);
     }

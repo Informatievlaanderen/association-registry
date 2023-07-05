@@ -21,7 +21,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 
     public With_Two_Primair_Contactgegevens_Of_Different_Type()
     {
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
         _repositoryMock = new VerenigingRepositoryMock();
         _command = _fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {

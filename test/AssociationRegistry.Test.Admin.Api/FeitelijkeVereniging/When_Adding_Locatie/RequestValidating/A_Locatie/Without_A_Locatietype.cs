@@ -15,7 +15,7 @@ public class Without_A_Locatietype : ValidatorTest
     public void Has_validation_error__locatieType_is_verplicht()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.Locatietype = null!;
 
         var result = validator.TestValidate(request);

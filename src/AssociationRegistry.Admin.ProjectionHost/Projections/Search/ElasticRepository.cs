@@ -47,6 +47,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
         }
     }
+
     public async Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(id, u => u.Doc(update));
@@ -66,6 +67,25 @@ public class ElasticRepository : IElasticRepository
                 s => s
                     .Source("ctx._source.locaties.add(params.item)")
                     .Params(objects => objects.Add("item", locatie))));
+
+        if (!response.IsValid)
+        {
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+        }
+    }
+
+    public async Task ReplaceLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            u => u.Script(
+                s => s
+                    .Source(
+                        "ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId);" +
+                        "ctx._source.locaties.add(params.item);" +
+                        "ctx._source.locaties.sort((x,y)->x.locatieId-y.locatieId);")
+                    .Params(objects => objects.Add("locatieId", locatie.LocatieId).Add("item", locatie))));
 
         if (!response.IsValid)
         {

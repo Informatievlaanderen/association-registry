@@ -119,6 +119,24 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(locatieWerdGewijzigd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(locatieWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(locatieWerdVerwijderd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(locatieWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!))!;
@@ -140,15 +158,6 @@ public class PubliekVerenigingDetailProjection : EventProjection
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
 
         PubliekVerenigingDetailProjector.Apply(verenigingWerdIngeschrevenInPubliekeDatastroom, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(locatieWerdVerwijderd.StreamKey!))!;
-
-        PubliekVerenigingDetailProjector.Apply(locatieWerdVerwijderd, doc);
 
         ops.Store(doc);
     }

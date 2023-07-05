@@ -15,8 +15,8 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_0_With_Only_Adres()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
+        request.Locaties[0].Adres = new Adres();
         request.Locaties[0].AdresId = null;
 
         var result = validator.TestValidate(request);
@@ -28,7 +28,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_0_With_Only_AdresId()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].Adres = null;
         request.Locaties[0].AdresId = new AdresId();
 
@@ -41,8 +41,8 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_no_validation_error_for_locatie_0_With_Both()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
+        request.Locaties[0].Adres = new Adres();
         request.Locaties[0].AdresId = new AdresId();
 
         var result = validator.TestValidate(request);
@@ -54,7 +54,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     public void Has_validation_error_for_locatie_0_With_Neither()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].Adres = null;
         request.Locaties[0].AdresId = null;
 

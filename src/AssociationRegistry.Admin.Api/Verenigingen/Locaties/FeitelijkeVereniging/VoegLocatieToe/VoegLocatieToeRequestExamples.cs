@@ -4,6 +4,7 @@ using Common;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using AdresId = Common.AdresId;
+using Adres = Common.Adres;
 
 public class VoegLocatieToeRequestExamples : IExamplesProvider<VoegLocatieToeRequest>
 {
@@ -19,7 +20,7 @@ public class VoegLocatieToeRequestExamples : IExamplesProvider<VoegLocatieToeReq
                     Broncode = "AR",
                     Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
                 },
-                Adres = new ToeTeVoegenAdres
+                Adres = new Adres
                 {
                     Busnummer = "12",
                     Gemeente = "Gemeente",

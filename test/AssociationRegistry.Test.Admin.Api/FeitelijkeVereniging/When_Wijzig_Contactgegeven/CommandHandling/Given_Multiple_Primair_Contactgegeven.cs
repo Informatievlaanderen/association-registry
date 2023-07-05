@@ -23,7 +23,7 @@ public class Given_Multiple_Primair_Contactgegeven
         _scenario = new FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigContactgegevenCommandHandler(verenigingRepositoryMock);
     }

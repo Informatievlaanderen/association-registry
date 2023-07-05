@@ -15,7 +15,7 @@ public class With_An_Empty_Bronwaarde : ValidatorTest
     public void Has_validation_error__bronwaarde_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Bronwaarde = string.Empty;
 
         var result = validator.TestValidate(request);

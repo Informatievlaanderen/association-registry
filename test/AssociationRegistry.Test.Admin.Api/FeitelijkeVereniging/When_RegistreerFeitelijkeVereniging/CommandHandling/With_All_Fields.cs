@@ -21,7 +21,7 @@ public class With_All_Fields
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>();
         var clock = new ClockStub(_command.Startdatum.Datum!.Value);

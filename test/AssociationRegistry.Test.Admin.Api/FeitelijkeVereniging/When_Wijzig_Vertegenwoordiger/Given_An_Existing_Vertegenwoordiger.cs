@@ -32,7 +32,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
 
     public Patch_A_New_Vertegenwoordiger(EventsInDbScenariosFixture fixture)
     {
-        var autoFixture = new Fixture().CustomizeAll();
+        var autoFixture = new Fixture().CustomizeAdminApi();
 
         _fixture = fixture;
 

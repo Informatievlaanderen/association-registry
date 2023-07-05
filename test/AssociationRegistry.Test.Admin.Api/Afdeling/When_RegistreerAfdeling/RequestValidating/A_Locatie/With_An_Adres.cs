@@ -15,8 +15,8 @@ public class With_An_Adres : ValidatorTest
     public void Has_validation_error_for_locatie_0_Adres_When_Present_But_Invalid()
     {
         var validator = new RegistreerAfdelingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerAfdelingRequest>();
-        request.Locaties[0].Adres = new ToeTeVoegenAdres();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
+        request.Locaties[0].Adres = new Adres();
 
         var result = validator.TestValidate(request);
         result.ShouldHaveAnyValidationError();
@@ -26,7 +26,7 @@ public class With_An_Adres : ValidatorTest
     public void Has_no_validation_error_for_locatie_0_Adres_When_Null()
     {
         var validator = new RegistreerAfdelingRequestValidator();
-        var request = new Fixture().CustomizeAll().Create<RegistreerAfdelingRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
         request.Locaties[0].Adres = null;
 
         var result = validator.TestValidate(request);

@@ -24,7 +24,7 @@ public class Given_A_NietPrimair_Contactgegeven
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var commandHandler = new VoegContactgegevenToeCommandHandler(verenigingRepositoryMock);
         var command = new VoegContactgegevenToeCommand(

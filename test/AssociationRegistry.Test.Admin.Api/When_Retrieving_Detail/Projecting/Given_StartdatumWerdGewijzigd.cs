@@ -18,7 +18,7 @@ public class Given_StartdatumWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_startdatum()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

@@ -227,7 +227,21 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
+    public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        var naam = string.IsNullOrEmpty(locatieWerdGewijzigd.Data.Locatie.Naam)
+            ? string.Empty
+            : $"'{locatieWerdGewijzigd.Data.Locatie.Naam}' ";
 
+        AddHistoriekEntry(
+            locatieWerdGewijzigd,
+            locatieWerdGewijzigd.Data.Locatie,
+            document,
+            $"'{locatieWerdGewijzigd.Data.Locatie.Locatietype}' locatie {naam}werd gewijzigd."
+        );
+
+        document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
+    }
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
     {
         var naam = string.IsNullOrEmpty(locatieWerdVerwijderd.Data.Locatie.Naam)
@@ -275,6 +289,7 @@ public class BeheerVerenigingHistoriekProjector
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
 
 
 }

@@ -19,7 +19,7 @@ public class With_A_Startdatum_Null
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(scenario.VCode, Startdatum: null);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();

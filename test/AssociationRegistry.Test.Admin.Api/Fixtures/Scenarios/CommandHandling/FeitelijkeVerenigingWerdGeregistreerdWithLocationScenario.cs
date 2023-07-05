@@ -18,7 +18,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
 
     public FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         Locatie = fixture.Create<Registratiedata.Locatie>();
     }
 

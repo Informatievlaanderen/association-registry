@@ -14,7 +14,7 @@ public class V006_ContactgegevenWerdToegevoegd : IEventsInDbScenario
 
     public V006_ContactgegevenWerdToegevoegd()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999006";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
         ContactgegevenWerdToegevoegd = fixture.Create<ContactgegevenWerdToegevoegd>() with {ContactgegevenId = 1};

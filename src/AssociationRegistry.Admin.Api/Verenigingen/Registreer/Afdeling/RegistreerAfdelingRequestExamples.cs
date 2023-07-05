@@ -6,6 +6,7 @@ using FeitelijkeVereniging;
 using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using AdresId = Common.AdresId;
+using Adres = Common.Adres;
 
 public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFeitelijkeVerenigingRequest>
 {
@@ -27,7 +28,7 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                         Broncode = "AR",
                         Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
                     },
-                    Adres = new ToeTeVoegenAdres
+                    Adres = new Adres
                     {
                         Busnummer = "12",
                         Gemeente = "Gemeente",

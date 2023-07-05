@@ -23,7 +23,7 @@ public class With_UitgeschrevenUitPubliekeDatastroom
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var command = new WijzigBasisgegevensCommand(_scenario.VCode, IsUitgeschrevenUitPubliekeDatastroom: true);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();

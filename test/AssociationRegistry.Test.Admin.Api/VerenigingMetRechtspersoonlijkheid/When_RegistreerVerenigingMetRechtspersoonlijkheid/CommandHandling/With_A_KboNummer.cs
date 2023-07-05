@@ -21,7 +21,7 @@ public class With_A_KboNummer
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerVerenigingUitKboCommand>();
 

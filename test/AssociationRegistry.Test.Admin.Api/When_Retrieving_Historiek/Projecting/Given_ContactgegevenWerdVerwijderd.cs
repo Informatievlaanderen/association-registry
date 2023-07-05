@@ -16,7 +16,7 @@ public class Given_ContactgegevenWerdVerwijderd
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();

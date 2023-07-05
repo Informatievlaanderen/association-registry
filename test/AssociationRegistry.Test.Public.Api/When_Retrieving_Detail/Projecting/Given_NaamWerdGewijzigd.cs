@@ -16,7 +16,7 @@ public class Given_NaamWerdGewijzigd
     [Fact]
     public void Then_it_modifies_the_naam()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizePublicApi();
         var naamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

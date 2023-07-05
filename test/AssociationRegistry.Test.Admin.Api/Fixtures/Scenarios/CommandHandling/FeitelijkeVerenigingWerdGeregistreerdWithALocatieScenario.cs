@@ -10,7 +10,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario : Command
 {
     public FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = fixture.Create<VCode>();
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode, Locaties = Array.Empty<Registratiedata.Locatie>()};
         LocatieWerdToegevoegd = fixture.Create<LocatieWerdToegevoegd>();

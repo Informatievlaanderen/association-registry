@@ -28,7 +28,7 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        _fixture = new Fixture().CustomizeAll();
+        _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
     }

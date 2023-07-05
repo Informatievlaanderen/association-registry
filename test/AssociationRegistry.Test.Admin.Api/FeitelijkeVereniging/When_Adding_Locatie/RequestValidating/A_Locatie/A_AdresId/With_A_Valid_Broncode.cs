@@ -17,7 +17,7 @@ public class With_A_Valid_Broncode : ValidatorTest
     public void Has_no_validation_errors(string adresBroncode)
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAll().Create<VoegLocatieToeRequest>();
+        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
         request.Locatie.AdresId!.Broncode = Adresbron.Parse(adresBroncode);
         var result = validator.TestValidate(request);
 

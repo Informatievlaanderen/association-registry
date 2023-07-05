@@ -28,6 +28,7 @@
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Public.ProjectionHost\AssociationRegistry.Public.ProjectionHost.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry\AssociationRegistry.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

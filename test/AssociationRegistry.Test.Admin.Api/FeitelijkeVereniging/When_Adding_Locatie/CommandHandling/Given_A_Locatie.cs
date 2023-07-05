@@ -20,7 +20,7 @@ public class Given_A_Locatie
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock);
         var command = new VoegLocatieToeCommand(scenario.VCode, fixture.Create<Locatie>());

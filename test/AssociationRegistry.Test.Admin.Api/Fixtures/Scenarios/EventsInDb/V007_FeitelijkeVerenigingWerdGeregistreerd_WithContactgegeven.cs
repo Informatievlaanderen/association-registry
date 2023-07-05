@@ -13,7 +13,7 @@ public class V007_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven : IEv
 
     public V007_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven()
     {
-        var fixture = new Fixture().CustomizeAll();
+        var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999007";
         Naam = "Dee coolste club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

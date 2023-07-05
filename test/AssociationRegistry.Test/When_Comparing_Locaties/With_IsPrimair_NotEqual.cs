@@ -9,7 +9,7 @@ using Xunit.Categories;
 public class With_IsPrimair_NotEqual
 {
     [Fact]
-    public void Then_it_returns_true()
+    public void Then_They_Are_Not_Equal()
     {
         var locatie1 = Locatie.Create(
             "naam",
@@ -35,6 +35,6 @@ public class With_IsPrimair_NotEqual
                 "gemeente",
                 "land"));
 
-        locatie1.Equals(locatie2).Should().BeTrue();
+        locatie1.Equals(locatie2).Should().BeFalse();
     }
 }
