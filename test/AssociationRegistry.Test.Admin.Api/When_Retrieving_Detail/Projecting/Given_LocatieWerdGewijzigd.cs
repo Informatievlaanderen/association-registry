@@ -59,6 +59,7 @@ public class Given_LocatieWerdGewijzigd
                         Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
         doc.DatumLaatsteAanpassing.Should().Be(locatieWerdGewijzigd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version));
     }

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
@@ -32,5 +33,7 @@ public class Given_ContactgegevenWerdVerwijderd
         PubliekVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
         doc.Contactgegevens.Should().NotContain(c => c.ContactgegevenId == contactgegevenWerdVerwijderd.Data.ContactgegevenId);
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDate());
     }
 }

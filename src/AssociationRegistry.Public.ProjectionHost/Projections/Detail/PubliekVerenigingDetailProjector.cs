@@ -170,6 +170,7 @@ public static class PubliekVerenigingDetailProjector
                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 })
+            .OrderBy(c => c.ContactgegevenId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -198,6 +199,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Contactgegevens = document.Contactgegevens
             .Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
+            .OrderBy(c => c.ContactgegevenId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -207,6 +209,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
             .Append(MapLocatie(locatieWerdToegevoegd.Data.Locatie))
+            .OrderBy(l => l.LocatieId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -227,6 +230,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
             .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
+            .OrderBy(l => l.LocatieId)
             .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();

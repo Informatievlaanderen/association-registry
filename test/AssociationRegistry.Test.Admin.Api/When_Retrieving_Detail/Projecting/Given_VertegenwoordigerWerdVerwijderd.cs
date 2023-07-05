@@ -38,6 +38,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
             {
                 VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
             });
+        doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version));
     }

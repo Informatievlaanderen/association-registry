@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using Events;
 using AutoFixture;
@@ -51,5 +53,8 @@ public class Given_LocatieWerdToegevoegd
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
+        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdToegevoegd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version));
     }
 }

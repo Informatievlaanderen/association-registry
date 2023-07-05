@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using AssociationRegistry.Public.Schema.Detail;
@@ -33,5 +34,7 @@ public class Given_ContactgegevenWerdToegevoegd
                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 });
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());
     }
 }

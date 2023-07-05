@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using Events;
 using AutoFixture;
@@ -28,5 +30,8 @@ public class Given_LocatieWerdVerwijderd
 
         doc.Locaties.Should().HaveCount(3);
         doc.Locaties.Should().NotContainEquivalentOf(teVerwidjerenLocatie);
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
+        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdVerwijderd.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version));
     }
 }

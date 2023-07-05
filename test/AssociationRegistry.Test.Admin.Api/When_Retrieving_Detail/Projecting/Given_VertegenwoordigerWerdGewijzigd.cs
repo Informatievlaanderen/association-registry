@@ -46,6 +46,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
             });
+        doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version));}
 }
