@@ -35,7 +35,7 @@ public class WijzigLocatieController : ApiController
     }
 
     /// <summary>
-    /// Voeg een locatie toe.
+    /// Wijzig een locatie.
     /// </summary>
     /// <remarks>
     /// Na het uitvoeren van deze call wordt een sequentie teruggegeven via de `VR-Sequence` header.
@@ -44,9 +44,10 @@ public class WijzigLocatieController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="locatieId">De unieke identificatie code van deze locatie binnen de vereniging.</param>
-    /// <param name="request">De toe te voegen locatie</param>
+    /// <param name="request">De toe te wijzigen locatie</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De locatie werd goedgekeurd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
@@ -74,6 +75,8 @@ public class WijzigLocatieController : ApiController
         var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigLocatieCommand>(request.ToCommand(vCode, locatieId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
+
+        if (!commandResult.HasChanges()) return Ok();
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
