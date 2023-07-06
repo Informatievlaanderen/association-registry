@@ -1,3 +1,10 @@
+# [6.3.0](https://github.com/informatievlaanderen/association-registry/compare/v6.2.1...v6.3.0) (2023-07-06)
+
+
+### Features
+
+* or-1763 allow doelgroep when registreer vereniging ([963ebeb](https://github.com/informatievlaanderen/association-registry/commit/963ebeb5beb0362816c00757b4c2062784c9635b))
+
 ## [6.2.1](https://github.com/informatievlaanderen/association-registry/compare/v6.2.0...v6.2.1) (2023-07-06)
 
 
