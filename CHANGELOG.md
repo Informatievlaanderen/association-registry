@@ -1,3 +1,11 @@
+# [6.2.0](https://github.com/informatievlaanderen/association-registry/compare/v6.1.1...v6.2.0) (2023-07-06)
+
+
+### Features
+
+* or-1772 add json-ld context for beheer historiek ([f8c1756](https://github.com/informatievlaanderen/association-registry/commit/f8c1756b9656f170ea249c973ce26bb99bb1aa59))
+* or-1815 add contexten route to the swagger documentation for beheer and publieke API ([e4cf721](https://github.com/informatievlaanderen/association-registry/commit/e4cf721198465129877d76244b0c757b2b23b82e))
+
 ## [6.1.1](https://github.com/informatievlaanderen/association-registry/compare/v6.1.0...v6.1.1) (2023-07-06)
 
 
