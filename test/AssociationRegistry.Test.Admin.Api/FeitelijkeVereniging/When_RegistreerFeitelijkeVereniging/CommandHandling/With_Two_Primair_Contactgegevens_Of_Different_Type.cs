@@ -60,6 +60,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
+                Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 new[]
                 {

@@ -40,6 +40,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+                {
+                    Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
+                },
                 DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = "Actief",
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(

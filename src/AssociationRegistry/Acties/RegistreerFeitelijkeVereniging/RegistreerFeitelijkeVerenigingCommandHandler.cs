@@ -42,6 +42,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
+            command.Doelgroep,
             command.IsUitgeschrevenUitPubliekeDatastroom,
             command.Contactgegevens,
             command.Locaties,

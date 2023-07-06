@@ -47,6 +47,7 @@ public class SearchVerenigingenResponseMapper
             Type = Map(verenigingZoekDocument.Type),
             Naam = verenigingZoekDocument.Naam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
+            Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                 .Select(Map)
                 .ToArray(),
@@ -57,6 +58,13 @@ public class SearchVerenigingenResponseMapper
                 .Select(Map)
                 .ToArray(),
             Links = Map(verenigingZoekDocument.VCode, appSettings),
+        };
+
+    private static DoelgroepResponse Map(Doelgroep doelgroep)
+        => new()
+        {
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 
     private static VerenigingLinks Map(string vCode, AppSettings appSettings)

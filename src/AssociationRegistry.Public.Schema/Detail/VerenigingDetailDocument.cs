@@ -3,6 +3,12 @@
 using System;
 using Marten.Schema;
 
+public record Doelgroep
+{
+    public int Minimumleeftijd { get; set; }
+    public int Maximumleeftijd { get; set; }
+}
+
 public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     [Identity] public string VCode { get; set; } = null!;
@@ -12,7 +18,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public string KorteNaam { get; set; } = null!;
     public string KorteBeschrijving { get; set; } = null!;
     public DateOnly? Startdatum { get; set; }
-
+    public Doelgroep Doelgroep { get; set; } = null!;
     public string? Rechtsvorm { get; set; }
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;

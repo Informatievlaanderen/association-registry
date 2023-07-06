@@ -38,6 +38,7 @@ public class V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenari
             string.Empty,
             string.Empty,
             Startdatum: null,
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),

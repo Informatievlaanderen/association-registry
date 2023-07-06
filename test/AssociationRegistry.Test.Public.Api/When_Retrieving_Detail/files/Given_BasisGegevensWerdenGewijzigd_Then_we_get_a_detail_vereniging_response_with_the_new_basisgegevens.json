@@ -10,6 +10,10 @@
     "korteNaam": "OW",
     "korteBeschrijving": "Harelbeke",
     "startdatum": "2023-06-03",
+    "doelgroep": {
+      "minimumleeftijd": 0,
+      "maximumleeftijd": 150,
+    },
     "status": "Actief",
     "contactgegevens": [],
     "locaties": [],

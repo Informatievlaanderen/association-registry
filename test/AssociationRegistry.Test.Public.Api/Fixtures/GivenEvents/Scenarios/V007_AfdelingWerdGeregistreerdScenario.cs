@@ -67,6 +67,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
                 KorteNaam ?? string.Empty,
                 KorteBeschrijving ?? string.Empty,
                 _startdatum,
+                Registratiedata.Doelgroep.With(Doelgroep.Null),
                 new[] { _contactgegeven },
                 new[] { _locatie },
                 new[] { _vertegenwoordiger },

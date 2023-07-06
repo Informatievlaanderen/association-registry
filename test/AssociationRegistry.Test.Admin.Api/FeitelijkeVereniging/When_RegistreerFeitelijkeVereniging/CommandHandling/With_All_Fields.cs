@@ -45,6 +45,7 @@ public class With_All_Fields
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
+                Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(
                     (c, i) =>

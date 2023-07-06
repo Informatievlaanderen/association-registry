@@ -16,6 +16,11 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
             KorteNaam = "Korte naam",
             KorteBeschrijving = "Beschrijving",
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
+            Doelgroep = new DoelgroepRequest
+            {
+                Minimumleeftijd = 0,
+                Maximumleeftijd = 150,
+            },
             Locaties = new[]
             {
                 new ToeTeVoegenLocatie

@@ -23,6 +23,7 @@ public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
             "FBD",
             "De party van Brakeldorp",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             false,
             new[]
             {

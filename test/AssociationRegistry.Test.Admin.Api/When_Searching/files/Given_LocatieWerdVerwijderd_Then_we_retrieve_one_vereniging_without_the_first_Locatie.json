@@ -8,7 +8,10 @@
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Party in Brakeldorp",
-      "korteNaam": "FBD",
+      "korteNaam": "FBD","doelgroep": {
+      "minimumleeftijd": 0,
+      "maximumleeftijd": 150
+    },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",

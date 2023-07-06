@@ -7,12 +7,13 @@ using Events;
 using Formatters;
 using Vereniging;
 using Schema.Search;
+using Doelgroep = Schema.Search.Doelgroep;
 
-public class ElasticEventHandler
+public class BeheerZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
 
-    public ElasticEventHandler(IElasticRepository elasticRepository)
+    public BeheerZoekProjectionHandler(IElasticRepository elasticRepository)
     {
         _elasticRepository = elasticRepository;
     }
@@ -30,6 +31,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                Doelgroep = Map(message.Data.Doelgroep),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -55,6 +57,7 @@ public class ElasticEventHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -75,10 +78,19 @@ public class ElasticEventHandler
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
+                Type = new VerenigingZoekDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving =
+                        Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                Doelgroep = new Doelgroep
+                {
+                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                    Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                },
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Sleutels = new[]
                 {
@@ -178,5 +190,12 @@ public class ElasticEventHandler
             IsPrimair = locatie.IsPrimair,
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
+        };
+
+    private static Doelgroep Map(Registratiedata.Doelgroep doelgroep)
+        => new()
+        {
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 }

@@ -36,8 +36,14 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom
     public string Naam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+}
 
+public class Doelgroep
+{
+    public int Minimumleeftijd { get; set; }
+    public int Maximumleeftijd { get; set; }
 }

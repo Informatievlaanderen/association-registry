@@ -49,6 +49,7 @@ public class RegistreerAfdelingCommandHandler
             command.KorteNaam,
             command.KorteBeschrijving,
             command.Startdatum,
+            command.Doelgroep,
             command.Contactgegevens,
             command.Locaties,
             message.Command.Vertegenwoordigers,

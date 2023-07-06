@@ -30,6 +30,7 @@ public class To_A_RegistreerAfdelingCommand
             out var korteNaam,
             out var korteBeschrijving,
             out var startdatum,
+            out var doelgroep,
             out var contactgegevens,
             out var locaties,
             out var vertegenwoordigers,
@@ -39,6 +40,7 @@ public class To_A_RegistreerAfdelingCommand
         naam.ToString().Should().Be(request.Naam);
         kboNummerMoedervereniging.ToString().Should().Be(request.KboNummerMoedervereniging);
         korteNaam.Should().Be(request.KorteNaam);
+        doelgroep.Should().Be(Doelgroep.Create(doelgroep.Minimumleeftijd, doelgroep.Maximumleeftijd));
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
 

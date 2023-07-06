@@ -12,6 +12,7 @@ public static class RegistratiedataCustomizations
         fixture.CustomizeLocatie();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
         fixture.CustomizeContactgegeven();
+        fixture.CustomizeDoelgroep();
     }
 
     private static void CustomizeContactgegeven(this IFixture fixture)
@@ -68,6 +69,17 @@ public static class RegistratiedataCustomizations
                 composer.FromFactory<int>(
                         _ => Registratiedata.AdresId.With(
                             fixture.Create<AdresId>())!)
+                    .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeDoelgroep(this IFixture fixture)
+    {
+        fixture.Customize<Registratiedata.Doelgroep>(
+            composer =>
+                composer.FromFactory(
+                        () => Registratiedata.Doelgroep.With(
+                            fixture.Create<Doelgroep>()))
                     .OmitAutoProperties()
         );
     }

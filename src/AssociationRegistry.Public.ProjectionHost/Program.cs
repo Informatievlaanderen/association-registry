@@ -55,7 +55,7 @@ public class Program
             options =>
             {
                 options.Handlers.Discovery(source =>
-                    source.IncludeType<ElasticEventHandler>());
+                    source.IncludeType<PubliekZoekProjectionHandler>());
             });
         builder.Services
             .ConfigureRequestLocalization()

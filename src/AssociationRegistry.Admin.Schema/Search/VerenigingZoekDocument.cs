@@ -33,13 +33,22 @@ public class VerenigingZoekDocument
         public string Waarde { get; set; } = null!;
     }
 
+
+
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
+    public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+}
+
+public class Doelgroep
+{
+    public int Minimumleeftijd { get; set; }
+    public int Maximumleeftijd { get; set; }
 }

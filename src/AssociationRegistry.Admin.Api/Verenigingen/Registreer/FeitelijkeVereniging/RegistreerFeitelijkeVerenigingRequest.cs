@@ -29,6 +29,12 @@ public class RegistreerFeitelijkeVerenigingRequest
     public DateOnly? Startdatum { get; init; }
 
     /// <summary>
+    /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
+    /// </summary>
+    [DataMember]
+    public DoelgroepRequest? Doelgroep { get; set; }
+
+    /// <summary>
     /// Is deze vereniging uitgeschreven uit de publieke datastroom
     /// </summary>
     [DataMember]
@@ -56,6 +62,7 @@ public class RegistreerFeitelijkeVerenigingRequest
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            DoelgroepRequest.Map(Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),

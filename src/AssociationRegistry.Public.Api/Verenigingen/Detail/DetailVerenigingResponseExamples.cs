@@ -30,7 +30,11 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 KorteNaam = "DVB",
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
                 Startdatum = new DateOnly(2020, 05, 15),
-                Status = "Actief",
+                Doelgroep = new DoelgroepResponse
+                {
+                    Minimumleeftijd = 0,
+                    Maximumleeftijd = 150,
+                },Status = "Actief",
                 Contactgegevens = new[]
                 {
                     new Contactgegeven

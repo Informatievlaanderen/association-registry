@@ -22,6 +22,7 @@ public class V013_LocatieWerdGewijzigdScenario : IScenario
         string.Empty,
         string.Empty,
         Startdatum: null,
+        Registratiedata.Doelgroep.With(Doelgroep.Null),
         false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         new [] { new Registratiedata.Locatie(

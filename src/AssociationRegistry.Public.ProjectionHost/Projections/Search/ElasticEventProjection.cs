@@ -6,12 +6,13 @@ using Events;
 using Formatters;
 using Schema.Search;
 using Vereniging;
+using Doelgroep = Schema.Search.Doelgroep;
 
-public class ElasticEventHandler
+public class PubliekZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
 
-    public ElasticEventHandler(IElasticRepository elasticRepository)
+    public PubliekZoekProjectionHandler(IElasticRepository elasticRepository)
     {
         _elasticRepository = elasticRepository;
     }
@@ -29,6 +30,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
+                Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -55,6 +57,7 @@ public class ElasticEventHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
+                Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                     .Select(
@@ -77,6 +80,11 @@ public class ElasticEventHandler
                 Type = new VerenigingZoekDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Doelgroep = new Doelgroep()
+                {
+                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                    Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                },
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Sleutels = new[]
@@ -177,5 +185,12 @@ public class ElasticEventHandler
             IsPrimair = locatie.IsPrimair,
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
+        };
+
+    private static Doelgroep Map(Registratiedata.Doelgroep doelgroep)
+        => new()
+        {
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 }

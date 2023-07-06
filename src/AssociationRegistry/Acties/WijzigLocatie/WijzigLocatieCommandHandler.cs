@@ -2,7 +2,6 @@ namespace AssociationRegistry.Acties.WijzigLocatie;
 
 using Framework;
 using Vereniging;
-using WijzigContactgegeven;
 
 public class WijzigLocatieCommandHandler
 {

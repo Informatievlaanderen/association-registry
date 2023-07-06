@@ -162,6 +162,7 @@ public class With_Same_Naam_And_Postcode
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,
                 Request.Startdatum,
+                Registratiedata.Doelgroep.With(Doelgroep.Null),
                 Request.IsUitgeschrevenUitPubliekeDatastroom,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]

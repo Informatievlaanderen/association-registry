@@ -93,6 +93,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                 KorteNaam ?? string.Empty,
                 KorteBeschrijving ?? string.Empty,
                 _startdatum,
+                new Registratiedata.Doelgroep(20,71),
                 false,
                 new[] { _contactgegeven },
                 new[] { _locatie, _locatie2, _locatie3 },

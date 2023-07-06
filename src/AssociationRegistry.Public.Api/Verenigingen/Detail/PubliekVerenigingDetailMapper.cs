@@ -19,6 +19,11 @@ public static class PubliekVerenigingDetailMapper
                 KorteNaam = document.KorteNaam,
                 KorteBeschrijving = document.KorteBeschrijving,
                 Startdatum = document.Startdatum,
+                Doelgroep = new DoelgroepResponse
+                {
+                    Minimumleeftijd = document.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = document.Doelgroep.Maximumleeftijd,
+                },
                 Status = document.Status,
                 Contactgegevens = document.Contactgegevens.Select(Map).ToArray(),
                 Locaties = document.Locaties.Select(Map).ToArray(),
