@@ -16,8 +16,8 @@
         }
       ],
       "doelgroep": {
-        "minimumleeftijd": 0,
-        "maximumleeftijd": 150
+        "minimumleeftijd": 12,
+        "maximumleeftijd": 18
       },
       "locaties": [],
       "sleutels": [],

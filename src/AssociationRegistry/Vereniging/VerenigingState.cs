@@ -24,11 +24,13 @@ public record VerenigingState : IHasVersion
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
     public Startdatum? Startdatum { get; private init; }
+    public Doelgroep? Doelgroep { get; private init; }
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public Locaties Locaties { get; init; } = Locaties.Empty;
-    public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } = HoofdactiviteitenVerenigingsloket.Empty;
+    public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
+        HoofdactiviteitenVerenigingsloket.Empty;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
@@ -39,6 +41,7 @@ public record VerenigingState : IHasVersion
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
@@ -105,6 +108,7 @@ public record VerenigingState : IHasVersion
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
             Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
                 (lijst, c) => Contactgegevens.Hydrate(
@@ -181,6 +185,14 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(StartdatumWerdGewijzigd @event)
         => this with { Startdatum = Startdatum.Hydrate(@event.Startdatum) };
+
+    public VerenigingState Apply(DoelgroepWerdGewijzigd @event)
+        => this with
+        {
+            Doelgroep = Doelgroep.Hydrate(
+                @event.Doelgroep.Minimumleeftijd,
+                @event.Doelgroep.Maximumleeftijd),
+        };
 
     public VerenigingState Apply(ContactgegevenWerdToegevoegd @event)
         => this with

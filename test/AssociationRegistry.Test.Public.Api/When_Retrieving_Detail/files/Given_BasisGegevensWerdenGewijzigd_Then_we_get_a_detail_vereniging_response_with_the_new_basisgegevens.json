@@ -11,8 +11,8 @@
     "korteBeschrijving": "Harelbeke",
     "startdatum": "2023-06-03",
     "doelgroep": {
-      "minimumleeftijd": 0,
-      "maximumleeftijd": 150,
+      "minimumleeftijd": 12,
+      "maximumleeftijd": 18,
     },
     "status": "Actief",
     "contactgegevens": [],

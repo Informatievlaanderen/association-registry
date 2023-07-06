@@ -8,5 +8,6 @@ public record WijzigBasisgegevensCommand(
     string? KorteNaam = null,
     string? KorteBeschrijving = null,
     Startdatum? Startdatum = default,
+    Doelgroep? Doelgroep = null,
     HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null,
     bool? IsUitgeschrevenUitPubliekeDatastroom = null);

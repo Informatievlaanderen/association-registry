@@ -84,8 +84,8 @@ public class BeheerVerenigingDetailProjector
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
             {
-                Minimumleeftijd  = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
-                Maximumleeftijd  = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+                Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
@@ -130,17 +130,28 @@ public class BeheerVerenigingDetailProjector
         document.Metadata = new Metadata(startdatumWerdGewijzigd.Sequence, startdatumWerdGewijzigd.Version);
     }
 
+    public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+        {
+            Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
+        };
+        document.DatumLaatsteAanpassing = doelgroepWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(doelgroepWerdGewijzigd.Sequence, doelgroepWerdGewijzigd.Version);
+    }
+
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.Append(
-            new BeheerVerenigingDetailDocument.Contactgegeven
-            {
-                ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
-                Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
-            })
+                new BeheerVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
+                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                })
             .OrderBy(c => c.ContactgegevenId)
             .ToArray();
 
@@ -195,19 +206,19 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
-            new BeheerVerenigingDetailDocument.Vertegenwoordiger
-            {
-                VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
-                Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
-                Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
-                Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,
-                Rol = vertegenwoordigerWerdToegevoegd.Data.Rol,
-                IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
-                Email = vertegenwoordigerWerdToegevoegd.Data.Email,
-                Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
-                Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
-                SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-            })
+                new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                {
+                    VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
+                    Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
+                    Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
+                    Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,
+                    Rol = vertegenwoordigerWerdToegevoegd.Data.Rol,
+                    IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
+                    Email = vertegenwoordigerWerdToegevoegd.Data.Email,
+                    Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
+                    Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
+                    SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
+                })
             .OrderBy(v => v.VertegenwoordigerId)
             .ToArray();
 

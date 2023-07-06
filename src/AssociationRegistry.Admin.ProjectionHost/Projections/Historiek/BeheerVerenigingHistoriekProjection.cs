@@ -83,6 +83,15 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(doelgroepWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(doelgroepWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(
         IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
         IDocumentOperations ops)

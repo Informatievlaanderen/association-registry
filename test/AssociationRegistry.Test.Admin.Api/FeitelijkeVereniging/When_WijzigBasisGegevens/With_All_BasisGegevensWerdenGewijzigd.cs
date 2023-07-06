@@ -40,7 +40,12 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
             ""korteNaam"":""{Request.KorteNaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
             ""startdatum"":""{Request.Startdatum.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}],
+            ""doelgroep"": {{
+                ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
+                ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
+            }},
+            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!
+                .Select(h => $@"""{h}""").Join(",")}],
             ""isUitgeschrevenUitPubliekeDatastroom"":true,
             ""initiator"": ""OVO000001""}}";
 
@@ -104,10 +109,8 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     }
 
     [Fact]
-    public void Then_it_returns_an_accepted_response()
-    {
-        _response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
+    public async Task Then_it_returns_an_accepted_response()
+        => _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
 
     [Fact]
     public void Then_it_returns_a_location_header()

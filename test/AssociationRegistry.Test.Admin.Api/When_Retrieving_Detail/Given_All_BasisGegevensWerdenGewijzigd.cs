@@ -30,6 +30,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
     private readonly string _vCode;
     private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
+    private readonly DoelgroepWerdGewijzigd _doelgroepWerdGewijzigd;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
@@ -40,6 +41,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         _korteNaamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteNaamWerdGewijzigd;
         _korteBeschrijvingWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteBeschrijvingWerdGewijzigd;
         _startdatumWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.StartdatumWerdGewijzigd;
+        _doelgroepWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.DoelgroepWerdGewijzigd;
         _metadata = fixture.V004AlleBasisGegevensWerdenGewijzigd.Metadata;
         _result = fixture.V004AlleBasisGegevensWerdenGewijzigd.Result;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
@@ -91,7 +93,10 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-                    ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
+                    ""doelgroep"" : {{
+                        ""minimumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd},
+                        ""maximumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}
+                    }},
                     ""isUitgeschrevenUitPubliekeDatastroom"": false,
                     ""status"": ""Actief"",
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{

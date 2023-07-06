@@ -116,6 +116,19 @@ public class PubliekZoekProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<DoelgroepWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Doelgroep = new Doelgroep
+                {
+                    Minimumleeftijd = message.Data.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = message.Data.Doelgroep.Maximumleeftijd,
+                },
+            }
+        );
+
     public void Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
     {
         _elasticRepository.UpdateAsync(

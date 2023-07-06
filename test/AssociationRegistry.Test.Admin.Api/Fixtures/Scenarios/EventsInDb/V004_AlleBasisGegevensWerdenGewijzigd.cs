@@ -16,6 +16,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     public readonly StartdatumWerdGewijzigd StartdatumWerdGewijzigd;
     public readonly VerenigingWerdUitgeschrevenUitPubliekeDatastroom VerenigingWerdUitgeschrevenUitPubliekeDatastroom;
     public readonly VerenigingWerdIngeschrevenInPubliekeDatastroom VerenigingWerdIngeschrevenInPubliekeDatastroom;
+    public readonly DoelgroepWerdGewijzigd DoelgroepWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
     public V004_AlleBasisGegevensWerdenGewijzigd()
@@ -42,6 +43,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
         KorteNaamWerdGewijzigd = new KorteNaamWerdGewijzigd(VCode, "VVVVV");
         KorteBeschrijvingWerdGewijzigd = new KorteBeschrijvingWerdGewijzigd(VCode, "Een vereniging voor vrij vogels");
         StartdatumWerdGewijzigd = new StartdatumWerdGewijzigd(VCode, new DateOnly(2023, 6, 14));
+        DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(12,18));
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = new VerenigingWerdUitgeschrevenUitPubliekeDatastroom();
         VerenigingWerdIngeschrevenInPubliekeDatastroom = new VerenigingWerdIngeschrevenInPubliekeDatastroom();
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -60,6 +62,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
             StartdatumWerdGewijzigd,
             VerenigingWerdUitgeschrevenUitPubliekeDatastroom,
             VerenigingWerdIngeschrevenInPubliekeDatastroom,
+            DoelgroepWerdGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.WijzigBasisgegevens;
+using Common;
 using Primitives;
 using Vereniging;
 
@@ -27,6 +28,12 @@ public class WijzigBasisgegevensRequest
     public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
     /// <summary>
+    /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
+    /// </summary>
+    [DataMember]
+    public DoelgroepRequest? Doelgroep { get; set; }
+
+    /// <summary>
     /// De codes van de nieuwe hoofdactiviteiten volgens het verenigingsloket
     /// </summary>
     [DataMember]
@@ -47,6 +54,7 @@ public class WijzigBasisgegevensRequest
             Startdatum.IsNull ? null :
             Startdatum.IsEmpty ? AssociationRegistry.Vereniging.Startdatum.Leeg :
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value),
+            DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom
         );

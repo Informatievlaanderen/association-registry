@@ -84,6 +84,15 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(doelgroepWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingDetailProjector.Apply(doelgroepWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(contactgegevenWerdToegevoegd.StreamKey!))!;

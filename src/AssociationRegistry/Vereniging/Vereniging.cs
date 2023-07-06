@@ -5,6 +5,7 @@ using Events;
 using EventStore;
 using Exceptions;
 using Framework;
+using JasperFx.Core;
 using SocialMedias;
 using TelefoonNummers;
 
@@ -136,6 +137,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         MustNotBeInFuture(startdatum, clock.Today);
 
         AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum.Datum));
+    }
+
+    public void WijzigDoelgroep(Doelgroep doelgroep)
+    {
+        if (Doelgroep.Equals(State.Doelgroep, doelgroep)) return;
+
+        AddEvent(DoelgroepWerdGewijzigd.With(doelgroep));
     }
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
