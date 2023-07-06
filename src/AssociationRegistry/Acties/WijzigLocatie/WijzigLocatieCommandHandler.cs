@@ -13,9 +13,13 @@ public class WijzigLocatieCommandHandler
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<WijzigLocatieCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(
+        CommandEnvelope<WijzigLocatieCommand> envelope,
+        CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingRepository.Load<Vereniging>(
+            VCode.Create(envelope.Command.VCode),
+            envelope.Metadata.ExpectedVersion);
 
         var (locatieId, locatietype, isPrimair, naam, adres, adresId) = envelope.Command.TeWijzigenLocatie;
         vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
