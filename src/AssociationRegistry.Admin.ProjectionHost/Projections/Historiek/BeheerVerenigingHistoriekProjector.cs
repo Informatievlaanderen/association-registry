@@ -114,6 +114,13 @@ public class BeheerVerenigingHistoriekProjector
         }
     }
 
+    public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            doelgroepWerdGewijzigd,
+            document,
+            $"Doelgroep werd gewijzigd naar '{doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd} " +
+            $"- {doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd}'.");
+
     public static void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             hoofdactiviteitenVerenigingsloketWerdenGewijzigd,

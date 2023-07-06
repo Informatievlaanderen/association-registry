@@ -55,6 +55,11 @@ public static class AutoFixtureCustomizations
                     KorteNaam = fixture.Create<string>(),
                     KorteBeschrijving = fixture.Create<string>(),
                     Startdatum = NullOrEmpty<DateOnly>.Create(fixture.Create<DateOnly>()),
+                    Doelgroep = new DoelgroepRequest
+                    {
+                        Minimumleeftijd = fixture.Create<int>() % 50,
+                        Maximumleeftijd = 50 + fixture.Create<int>() % 50,
+                    },
                     HoofdactiviteitenVerenigingsloket = fixture
                         .CreateMany<HoofdactiviteitVerenigingsloket>()
                         .Distinct()

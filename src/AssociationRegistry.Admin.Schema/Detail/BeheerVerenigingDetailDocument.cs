@@ -5,8 +5,8 @@ using Marten.Schema;
 
 public record Doelgroep
 {
-    public int Minimumleeftijd { get; set; }
-    public int Maximumleeftijd { get; set; }
+    public int Minimumleeftijd { get; init; }
+    public int Maximumleeftijd { get; init; }
 }
 
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata

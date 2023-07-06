@@ -120,6 +120,13 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdIngeschrevenInPubliekeDatastroom)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},
+                    {{
+                        ""beschrijving"": ""Doelgroep werd gewijzigd naar '{_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd} - {_scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}'."",
+                        ""gebeurtenis"":""DoelgroepWerdGewijzigd"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.DoelgroepWerdGewijzigd)},
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]
             }}

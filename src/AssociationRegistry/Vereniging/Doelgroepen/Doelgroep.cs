@@ -12,9 +12,14 @@ public record Doelgroep
     public int Minimumleeftijd { get; init; }
     public int Maximumleeftijd { get; init; }
 
+    private Doelgroep()
+    {
+
+    }
+
     public static Doelgroep Create(int? minimumleeftijd, int? maximumleeftijd)
     {
-        var min =minimumleeftijd ?? StandaardMinimumleeftijd;
+        var min = minimumleeftijd ?? StandaardMinimumleeftijd;
         var max = maximumleeftijd ?? StandaardMaximumleeftijd;
 
         Throw<DoelgroepOutOfRange>.If(IsBelowStandaard(min));
@@ -29,6 +34,23 @@ public record Doelgroep
             Minimumleeftijd = min,
             Maximumleeftijd = max,
         };
+    }
+
+    public static Doelgroep Hydrate(int doelgroepMinimumleeftijd, int doelgroepMaximumleeftijd)
+        => new()
+        {
+            Minimumleeftijd = doelgroepMinimumleeftijd,
+            Maximumleeftijd = doelgroepMaximumleeftijd,
+        };
+
+    public static bool Equals(Doelgroep? oudeDoelgroep, Doelgroep? nieuweDoelgroep)
+    {
+        if (oudeDoelgroep is null && nieuweDoelgroep is null) return true;
+
+        return oudeDoelgroep is not null &&
+               nieuweDoelgroep is not null &&
+               nieuweDoelgroep.Minimumleeftijd == oudeDoelgroep.Minimumleeftijd &&
+               nieuweDoelgroep.Maximumleeftijd == oudeDoelgroep.Maximumleeftijd;
     }
 
     private static bool IsAboveStandaard(int leeftijd)

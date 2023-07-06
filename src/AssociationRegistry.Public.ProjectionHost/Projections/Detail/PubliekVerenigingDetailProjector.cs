@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using Formatters;
 using Framework;
+using Grpc.Core;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Schema.Detail;
@@ -164,6 +165,16 @@ public static class PubliekVerenigingDetailProjector
     {
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
         document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
+    public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.Doelgroep = new Doelgroep
+        {
+            Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
+        };
+        document.DatumLaatsteAanpassing = doelgroepWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)

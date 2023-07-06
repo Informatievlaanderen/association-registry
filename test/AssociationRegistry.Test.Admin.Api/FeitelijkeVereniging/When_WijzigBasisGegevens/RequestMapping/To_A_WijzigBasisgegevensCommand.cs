@@ -28,6 +28,7 @@ public class To_A_WijzigBasisgegevensCommand
             out var korteNaam,
             out var korteBeschrijving,
             out var startdatum,
+            out var doelgroep,
             out var hoofdactiviteitenVerenigingsloket,
             out var isUitgeschrevenUitPubliekeDatastroom);
 

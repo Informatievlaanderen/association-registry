@@ -42,6 +42,7 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
             new NaamWerdGewijzigd(VCode, Naam),
             new KorteNaamWerdGewijzigd(VCode, KorteNaam),
             new StartdatumWerdGewijzigd(VCode, Startdatum),
+            new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(12, 18)),
         };
     }
 
