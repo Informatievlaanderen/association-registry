@@ -35,12 +35,12 @@ public class WijzigLocatieController : ApiController
     }
 
     /// <summary>
-    /// Wijzig een locatie.
+    ///     Wijzig een locatie.
     /// </summary>
     /// <remarks>
-    /// Na het uitvoeren van deze call wordt een sequentie teruggegeven via de `VR-Sequence` header.
-    /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
-    /// al is doorgestroomd naar deze endpoints.
+    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
+    ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="locatieId">De unieke identificatie code van deze locatie binnen de vereniging.</param>

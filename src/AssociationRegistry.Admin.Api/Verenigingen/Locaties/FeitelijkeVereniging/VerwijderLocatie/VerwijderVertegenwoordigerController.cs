@@ -31,12 +31,12 @@ public class VerwijderLocatieController : ApiController
     }
 
     /// <summary>
-    /// Verwijder een locatie.
+    ///     Verwijder een locatie.
     /// </summary>
     /// <remarks>
-    /// Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
-    /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
-    /// al is doorgestroomd naar deze endpoints.
+    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
+    ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="locatieId">De unieke identificatie code van deze locatie die verwijderd moet worden</param>

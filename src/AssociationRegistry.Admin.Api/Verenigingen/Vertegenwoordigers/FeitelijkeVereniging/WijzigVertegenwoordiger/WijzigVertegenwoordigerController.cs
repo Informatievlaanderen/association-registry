@@ -34,12 +34,12 @@ public class WijzigVertegenwoordigerController : ApiController
     }
 
     /// <summary>
-    /// Wijzig een vertegenwoordiger.
+    ///     Wijzig een vertegenwoordiger.
     /// </summary>
     /// <remarks>
-    /// Na het uitvoeren van deze call wordt een sequentie teruggegeven via de `VR-Sequence` header.
-    /// Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
-    /// al is doorgestroomd naar deze endpoints.
+    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
+    ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging</param>
     /// <param name="request">De gegevens van de vertegenwoordiger die gewijzigd moeten worden</param>
