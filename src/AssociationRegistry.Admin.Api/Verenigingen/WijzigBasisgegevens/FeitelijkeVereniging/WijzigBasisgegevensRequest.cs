@@ -54,7 +54,7 @@ public class WijzigBasisgegevensRequest
             Startdatum.IsNull ? null :
             Startdatum.IsEmpty ? AssociationRegistry.Vereniging.Startdatum.Leeg :
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value),
-            DoelgroepRequest.Map(Doelgroep),
+            Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom
         );
