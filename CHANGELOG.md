@@ -1,3 +1,11 @@
+## [6.1.1](https://github.com/informatievlaanderen/association-registry/compare/v6.1.0...v6.1.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* or-1779 correct swagger documentation and return 200 when no changes were detected ([9134ed8](https://github.com/informatievlaanderen/association-registry/commit/9134ed8c1707fe9d16b726f28ec9b1222daac2d3))
+* OR-1779 fix typo ([62f87e1](https://github.com/informatievlaanderen/association-registry/commit/62f87e19301f84bcee96b5c6366be07cb881ea5b))
+
 # [6.1.0](https://github.com/informatievlaanderen/association-registry/compare/v6.0.0...v6.1.0) (2023-07-05)
 
 
