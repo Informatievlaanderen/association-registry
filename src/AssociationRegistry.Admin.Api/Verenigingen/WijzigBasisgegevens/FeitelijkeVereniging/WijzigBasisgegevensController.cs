@@ -40,6 +40,10 @@ public class WijzigBasisgegevensController : ApiController
     /// <remarks>
     ///     Enkel velden die worden doorgestuurd in de request worden verwerkt. Null waarden worden niet verwerkt.
     ///     Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
+    ///
+    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
+    ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
