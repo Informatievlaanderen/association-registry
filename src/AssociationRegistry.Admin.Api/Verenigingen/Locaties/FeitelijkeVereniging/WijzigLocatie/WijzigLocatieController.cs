@@ -44,7 +44,7 @@ public class WijzigLocatieController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="locatieId">De unieke identificatie code van deze locatie binnen de vereniging.</param>
-    /// <param name="request">De toe te wijzigen locatie</param>
+    /// <param name="request">De te wijzigen locatie</param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
