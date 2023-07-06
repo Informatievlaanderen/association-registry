@@ -39,6 +39,40 @@ public class To_A_WijzigBasisgegevensCommand
         startdatum.Should().Be(
             request.Startdatum.IsNull ? null :
             request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
+        doelgroep.Should().BeEquivalentTo(request.Doelgroep);
+        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+        isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
+    }
+
+    [Fact]
+    public void Without_Doelgroep_Then_We_Get_A_WijzigBasisgegevensCommand_With_Doelgroep_Null()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        var request = fixture.Create<WijzigBasisgegevensRequest>();
+        request.Doelgroep = null;
+
+        var actualVCode = fixture.Create<VCode>();
+        var actual = request.ToCommand(actualVCode);
+
+        actual.Deconstruct(
+            out var vCode,
+            out var naam,
+            out var korteNaam,
+            out var korteBeschrijving,
+            out var startdatum,
+            out var doelgroep,
+            out var hoofdactiviteitenVerenigingsloket,
+            out var isUitgeschrevenUitPubliekeDatastroom);
+
+        vCode.Should().Be(actualVCode);
+        naam!.ToString().Should().Be(request.Naam);
+        korteNaam.Should().Be(request.KorteNaam);
+        korteBeschrijving.Should().Be(request.KorteBeschrijving);
+        startdatum.Should().Be(
+            request.Startdatum.IsNull ? null :
+            request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
+        doelgroep.Should().BeNull();
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
