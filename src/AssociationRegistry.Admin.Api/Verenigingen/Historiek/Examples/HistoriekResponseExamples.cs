@@ -1,13 +1,21 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek.Examples;
 
+using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 
 public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
 {
+    private readonly AppSettings _appSettings;
+
+    public HistoriekResponseExamples(AppSettings appSettings)
+    {
+        _appSettings = appSettings;
+    }
     public HistoriekResponse GetExamples()
         => new()
         {
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/historiek-vereniging-context.json",
             VCode = "V0000123",
             Gebeurtenissen = new HistoriekGebeurtenisResponse[]
             {
