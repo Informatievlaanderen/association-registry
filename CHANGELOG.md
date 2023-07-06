@@ -1,3 +1,17 @@
+# [6.4.0](https://github.com/informatievlaanderen/association-registry/compare/v6.3.0...v6.4.0) (2023-07-06)
+
+
+### Bug Fixes
+
+* or-1813 add missing possible 200 status code to edit endopints ([8e1d41b](https://github.com/informatievlaanderen/association-registry/commit/8e1d41ba7e70d2cd6d972c9a09ae76621a8cda4e))
+* or-1813 correct documentation on the VR-sequence in edit endpoints ([a4b6ca2](https://github.com/informatievlaanderen/association-registry/commit/a4b6ca2ea3768d2de8abac782518d92aed7ee3c1))
+* or-1813 correct the summary of wijzig basisgegevens for vereniging met rechtspersoonlijkheid ([1a9b3f0](https://github.com/informatievlaanderen/association-registry/commit/1a9b3f0636f20f2fd39793f03041490123ca716b))
+
+
+### Features
+
+* or-1763 allow wijzig doelgroep as part of the wijzig basisgegevens endpoint ([5523f51](https://github.com/informatievlaanderen/association-registry/commit/5523f51eccc2254b97a099f98aa69c44316a7fef))
+
 # [6.3.0](https://github.com/informatievlaanderen/association-registry/compare/v6.2.1...v6.3.0) (2023-07-06)
 
 
