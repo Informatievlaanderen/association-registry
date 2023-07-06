@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/informatievlaanderen/association-registry/compare/v6.2.0...v6.2.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* or-1772 add json-ld context to historiek response examples ([a240f7c](https://github.com/informatievlaanderen/association-registry/commit/a240f7c16da79e9c3cfb8af3b99ed6c1d90db916))
+
 # [6.2.0](https://github.com/informatievlaanderen/association-registry/compare/v6.1.1...v6.2.0) (2023-07-06)
 
 
