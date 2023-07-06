@@ -1,3 +1,10 @@
+## [6.4.1](https://github.com/informatievlaanderen/association-registry/compare/v6.4.0...v6.4.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* or-1763 fix ignoring the doelgroep when it is not provided for a wijzig basisgegevens ([f65c1d9](https://github.com/informatievlaanderen/association-registry/commit/f65c1d9e0d9853f78fd4254b1a02af6a92e6e1e8))
+
 # [6.4.0](https://github.com/informatievlaanderen/association-registry/compare/v6.3.0...v6.4.0) (2023-07-06)
 
 
