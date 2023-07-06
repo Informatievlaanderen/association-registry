@@ -96,8 +96,6 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         var doelgroepWerdGewijzigd = session.Events
             .FetchStream(_vCode)
             .Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
-
-
         session.Events
             .FetchStream(_vCode)
             .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
@@ -111,12 +109,10 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(
                 _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create)
                     .ToArray()));
-        doelgroepWerdGewijzigd.Data.Should()
+        (doelgroepWerdGewijzigd.Data as DoelgroepWerdGewijzigd)!.Doelgroep.Should()
             .BeEquivalentTo(
-                Registratiedata.Doelgroep.With(
-                    Doelgroep.Hydrate(
-                        _request.Doelgroep!.Minimumleeftijd!.Value,
-                        _request.Doelgroep!.Maximumleeftijd!.Value)));
+                new Registratiedata.Doelgroep(_request.Doelgroep!.Minimumleeftijd!.Value,
+                        _request.Doelgroep!.Maximumleeftijd!.Value));
     }
 
     [Fact]
