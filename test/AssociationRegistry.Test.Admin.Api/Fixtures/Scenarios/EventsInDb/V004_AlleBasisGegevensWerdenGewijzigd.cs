@@ -5,6 +5,7 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using Vereniging;
 
 public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
 {
@@ -27,6 +28,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
             "VVVV",
             string.Empty,
             null,
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

@@ -33,6 +33,12 @@ public class RegistreerAfdelingRequest
     [DataMember]
     public DateOnly? Startdatum { get; init; }
 
+    /// <summary>
+    /// De doelgroep waar de activiteiten van deze afdeling zich op concentreert
+    /// </summary>
+    [DataMember]
+    public DoelgroepRequest? Doelgroep { get; set; }
+
     /// <summary>De contactgegevens van deze afdeling</summary>
     [DataMember]
     public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = Array.Empty<ToeTeVoegenContactgegeven>();
@@ -56,6 +62,7 @@ public class RegistreerAfdelingRequest
             KorteNaam,
             KorteBeschrijving,
             AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            DoelgroepRequest.Map(Doelgroep),
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),

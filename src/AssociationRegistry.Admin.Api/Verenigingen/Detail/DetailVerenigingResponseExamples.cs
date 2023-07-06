@@ -36,6 +36,11 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 KorteNaam = "DVB",
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
                 Startdatum = "2020-05-15",
+                Doelgroep = new DoelgroepResponse
+                {
+                    Minimumleeftijd = 0,
+                    Maximumleeftijd = 150,
+                },
                 Status = "Actief",
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = new[]

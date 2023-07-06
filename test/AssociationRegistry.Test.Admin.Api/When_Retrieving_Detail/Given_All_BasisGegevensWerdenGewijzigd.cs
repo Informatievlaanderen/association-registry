@@ -91,6 +91,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
                     ""isUitgeschrevenUitPubliekeDatastroom"": false,
                     ""status"": ""Actief"",
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{

@@ -3,6 +3,12 @@ namespace AssociationRegistry.Admin.Schema.Detail;
 using System;
 using Marten.Schema;
 
+public record Doelgroep
+{
+    public int Minimumleeftijd { get; set; }
+    public int Maximumleeftijd { get; set; }
+}
+
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; init; } = null!;
@@ -11,7 +17,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
-
+    public Doelgroep Doelgroep { get; set; } = null!;
     public string? Rechtsvorm { get; set; }
     public string Status { get; init; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;

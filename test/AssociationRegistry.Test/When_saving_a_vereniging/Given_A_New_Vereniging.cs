@@ -34,6 +34,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             null,
             null,
             Startdatum.Leeg,
+            Doelgroep.Null,
             false,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),

@@ -13,6 +13,10 @@
     "status": "Actief",
     "contactgegevens": [
     ],
+    "doelgroep": {
+      "minimumleeftijd": 0,
+      "maximumleeftijd": 150,
+    },
     "locaties": [
       {
         "locatietype": "Activiteiten",

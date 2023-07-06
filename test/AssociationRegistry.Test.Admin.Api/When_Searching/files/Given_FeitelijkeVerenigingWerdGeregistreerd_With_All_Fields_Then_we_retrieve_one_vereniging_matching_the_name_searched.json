@@ -8,7 +8,10 @@
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Feestcommittee Oudenaarde",
-      "korteNaam": "FOud",
+      "korteNaam": "FOud","doelgroep": {
+      "minimumleeftijd": 18,
+      "maximumleeftijd": 90
+    },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",

@@ -36,6 +36,11 @@ public sealed class When_RegistreerAfdeling_WithAllFields
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
+            Doelgroep = new DoelgroepRequest
+            {
+                Minimumleeftijd = 1,
+                Maximumleeftijd = 149,
+            },
             Contactgegevens = new ToeTeVoegenContactgegeven[]
             {
                 new()
@@ -141,6 +146,8 @@ public sealed class When_RegistreerAfdeling_WithAllFields
             .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
             .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
             .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
+            .Replace("{{vereniging.doelgroep.minimumleeftijd}}", request.Doelgroep!.Minimumleeftijd.ToString())
+            .Replace("{{vereniging.doelgroep.maximumleeftijd}}", request.Doelgroep!.Maximumleeftijd.ToString())
             .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
             .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
             .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
@@ -181,6 +188,9 @@ public class With_All_Fields
         savedEvent.Moedervereniging.Naam.Should().Be($"Moeder {Request.KboNummerMoedervereniging}");
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
+        savedEvent.Doelgroep.Should().BeEquivalentTo(new Registratiedata.Doelgroep(
+            Request.Doelgroep!.Minimumleeftijd!.Value,
+            Request.Doelgroep.Maximumleeftijd!.Value));
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
         savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
         savedEvent.Locaties.Should().HaveCount(expected: 3);

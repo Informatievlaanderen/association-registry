@@ -7,6 +7,7 @@ using Infrastructure.Extensions;
 using Marten.Events;
 using Schema.Detail;
 using Vereniging;
+using Doelgroep = Schema.Detail.Doelgroep;
 
 public static class PubliekVerenigingDetailProjector
 {
@@ -24,6 +25,7 @@ public static class PubliekVerenigingDetailProjector
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
+            Doelgroep = MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
@@ -52,6 +54,7 @@ public static class PubliekVerenigingDetailProjector
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
+            Doelgroep = MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom = false,
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
@@ -111,6 +114,11 @@ public static class PubliekVerenigingDetailProjector
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = string.Empty,
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
+            Doelgroep = new Doelgroep()
+            {
+                Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+            },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
@@ -292,4 +300,11 @@ public static class PubliekVerenigingDetailProjector
                 Bronwaarde = locAdresId.Bronwaarde,
                 Broncode = locAdresId.Broncode,
             };
+
+    private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)
+        => new()
+        {
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
+        };
 }

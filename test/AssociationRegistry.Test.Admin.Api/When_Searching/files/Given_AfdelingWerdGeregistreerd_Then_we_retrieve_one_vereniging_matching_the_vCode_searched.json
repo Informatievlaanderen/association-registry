@@ -9,6 +9,10 @@
       },
       "naam": "Antwerpse Bijscholing Clickers",
       "korteNaam": "",
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",

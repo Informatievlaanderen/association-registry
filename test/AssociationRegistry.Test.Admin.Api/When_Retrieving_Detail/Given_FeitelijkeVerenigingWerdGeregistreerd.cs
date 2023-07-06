@@ -83,6 +83,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ""korteNaam"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving}"",
                     ""startdatum"": ""{_feitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""doelgroep"": {{
+                        ""minimumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd},
+                        ""maximumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd}
+                    }},
                     ""status"": ""Actief"",
                     ""isUitgeschrevenUitPubliekeDatastroom"": false,
                     ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{

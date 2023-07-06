@@ -4,6 +4,10 @@
   "korteNaam": "{{vereniging.korteNaam}}",
   "korteBeschrijving": "{{vereniging.korteBeschrijving}}",
   "startdatum": "{{vereniging.startdatum}}",
+  "doelgroep": {
+    "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+    "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}},
+  },
   "contactgegevens": {{vereniging.contactgegevens}},
   "locaties": {{vereniging.locaties}},
   "vertegenwoordigers" : {{vereniging.vertegenwoordigers}},

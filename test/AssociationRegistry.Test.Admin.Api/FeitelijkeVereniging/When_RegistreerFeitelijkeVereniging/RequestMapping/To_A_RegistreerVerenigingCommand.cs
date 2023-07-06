@@ -29,6 +29,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
             out var korteNaam,
             out var korteBeschrijving,
             out var startdatum,
+            out var doelgroep,
             out var isUitgeschrevenUitPubliekeDatastroom,
             out var contactgegevens,
             out var locaties,
@@ -40,6 +41,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         ((DateOnly?)startdatum).Should().Be(request.Startdatum);
+        doelgroep.Should().BeEquivalentTo(Doelgroep.Create(request.Doelgroep!.Minimumleeftijd, request.Doelgroep.Maximumleeftijd));
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
 
         AssertContactgegevens(contactgegevens, request);

@@ -72,6 +72,12 @@ public static class Registratiedata
         }
     }
 
+    public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd)
+    {
+        public static Doelgroep With(AssociationRegistry.Vereniging.Doelgroep doelgroep)
+            => new(doelgroep.Minimumleeftijd, doelgroep.Maximumleeftijd);
+    }
+
     public record Vertegenwoordiger(
         int VertegenwoordigerId,
         string Insz,

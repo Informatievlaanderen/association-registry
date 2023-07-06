@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
-using DuplicateVerenigingDetection;
-using Events;
 using Exceptions;
 using Framework;
 

@@ -8,6 +8,7 @@ public record RegistreerAfdelingCommand(
     string? KorteNaam,
     string? KorteBeschrijving,
     Startdatum Startdatum,
+    Doelgroep Doelgroep,
     Contactgegeven[] Contactgegevens,
     Locatie[] Locaties,
     Vertegenwoordiger[] Vertegenwoordigers,

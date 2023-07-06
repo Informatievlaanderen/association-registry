@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using System.Collections.Immutable;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
@@ -10,10 +9,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijk
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AutoFixture;
-using AutoFixture.Dsl;
-using AutoFixture.Kernel;
-using Marten.Events;
-using NodaTime;
 using Primitives;
 using Test.Framework.Customizations;
 using Vereniging;
@@ -37,6 +32,7 @@ public static class AutoFixtureCustomizations
 
         fixture.CustomizeVoegContactgegevenToeRequest();
 
+        fixture.CustomizeDoelgroepRequest();
         fixture.CustomizeToeTeVoegenLocatie();
         fixture.CustomizeToeTeVoegenContactgegeven();
         fixture.CustomizeToeTeVoegenVertegenwoordiger();
@@ -90,6 +86,7 @@ public static class AutoFixtureCustomizations
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
                     Naam = fixture.Create<string>(),
+                    Doelgroep = fixture.Create<DoelgroepRequest>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                         .Select(x => x.Code)
@@ -98,7 +95,6 @@ public static class AutoFixtureCustomizations
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
                 }).OmitAutoProperties());
-
     }
 
     private static void CustomizeToeTeVoegenContactgegeven(this IFixture fixture)
@@ -165,6 +161,17 @@ public static class AutoFixtureCustomizations
                 }).OmitAutoProperties());
     }
 
+    private static void CustomizeDoelgroepRequest(this IFixture fixture)
+    {
+        fixture.Customize<DoelgroepRequest>(
+            composer => composer.FromFactory(
+                () => new DoelgroepRequest
+                {
+                    Minimumleeftijd = fixture.Create<int>() % 50,
+                    Maximumleeftijd = 50 + fixture.Create<int>() % 50,
+                }).OmitAutoProperties());
+    }
+
     private static void CustomizeRegistreerAfdelingRequest(this IFixture fixture)
     {
         fixture.Customize<RegistreerAfdelingRequest>(
@@ -175,6 +182,7 @@ public static class AutoFixtureCustomizations
                     Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
                     Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
                     Startdatum = fixture.Create<Startdatum>(),
+                    Doelgroep = fixture.Create<DoelgroepRequest>(),
                     Naam = fixture.Create<string>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
@@ -255,4 +263,3 @@ public static class AutoFixtureCustomizations
                 .OmitAutoProperties());
     }
 }
-

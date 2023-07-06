@@ -76,6 +76,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
+                Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(
                     (g, index) => Registratiedata.Contactgegeven.With(g) with
@@ -85,7 +86,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.Locaties.Select(
                     (l, index) => Registratiedata.Locatie.With(l) with
                     {
-                        LocatieId = index +1,
+                        LocatieId = index + 1,
                     }).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, index) => Registratiedata.Vertegenwoordiger.With(v) with

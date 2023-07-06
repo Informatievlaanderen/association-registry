@@ -11,6 +11,10 @@
       "korteNaam": "",
       "hoofdactiviteitenVerenigingsloket": [
       ],
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
       "locaties": [
       ],
       "sleutels": [],

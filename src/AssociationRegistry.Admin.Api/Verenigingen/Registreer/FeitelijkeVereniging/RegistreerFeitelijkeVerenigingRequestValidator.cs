@@ -16,15 +16,22 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
         RuleFor(request => request.Locaties)
             .Must(ToeTeVoegenLocatieValidator.NotHaveDuplicates)
             .WithMessage("Identieke locaties zijn niet toegelaten.");
+
         RuleFor(request => request.Locaties)
             .Must(ToeTeVoegenLocatieValidator.NotHaveMultipleCorrespondentieLocaties)
             .WithMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
+
         RuleFor(request => request.Locaties)
             .Must(ToeTeVoegenLocatieValidator.NotHaveMultiplePrimairelocaties)
             .WithMessage("Er mag maximum één primaire locatie opgegeven worden.");
+
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
+
+        RuleFor(request => request.Doelgroep)
+            .SetValidator(new DoelgroepRequestValidator()!)
+            .When(r => r.Doelgroep is not null);
 
         RuleForEach(request => request.Contactgegevens)
             .SetValidator(new ToeTeVoegenContactgegevenValidator());

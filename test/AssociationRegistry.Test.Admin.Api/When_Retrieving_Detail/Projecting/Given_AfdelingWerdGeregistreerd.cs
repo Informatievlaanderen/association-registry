@@ -40,6 +40,11 @@ public class Given_AfdelingWerdGeregistreerd
                 KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+                {
+                    Minimumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
+                },
                 DatumLaatsteAanpassing = afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = "Actief",
                 Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(

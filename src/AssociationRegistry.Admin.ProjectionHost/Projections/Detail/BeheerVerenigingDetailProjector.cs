@@ -21,6 +21,7 @@ public class BeheerVerenigingDetailProjector
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
@@ -46,6 +47,7 @@ public class BeheerVerenigingDetailProjector
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",
             IsUitgeschrevenUitPubliekeDatastroom = false,
@@ -80,6 +82,11 @@ public class BeheerVerenigingDetailProjector
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = string.Empty,
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+            {
+                Minimumleeftijd  = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                Maximumleeftijd  = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
+            },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = "Actief",

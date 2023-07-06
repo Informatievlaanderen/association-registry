@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Events;
 using EventStore;
 using NodaTime;
+using Vereniging;
 
 public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroomScenario : IEventsInDbScenario
 {
@@ -20,6 +21,7 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliek
             string.Empty,
             string.Empty,
             Startdatum: null,
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             true,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

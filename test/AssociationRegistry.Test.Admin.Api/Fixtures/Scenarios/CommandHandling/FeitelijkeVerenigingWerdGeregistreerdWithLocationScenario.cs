@@ -32,6 +32,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
+                Registratiedata.Doelgroep.With(Doelgroep.Null),
                 false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Locatie },

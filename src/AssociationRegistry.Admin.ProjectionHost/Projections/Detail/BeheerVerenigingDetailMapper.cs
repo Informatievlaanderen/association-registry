@@ -6,6 +6,7 @@ using Schema.Detail;
 using Vereniging;
 using Adres = Schema.Detail.Adres;
 using AdresId = Schema.Detail.AdresId;
+using Doelgroep = Schema.Detail.Doelgroep;
 
 public class BeheerVerenigingDetailMapper
 {
@@ -99,5 +100,12 @@ public class BeheerVerenigingDetailMapper
         {
             Bron = Verenigingsbron.Kbo.Waarde,
             Waarde = kboNummer,
+        };
+
+    public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)
+        => new()
+        {
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 }

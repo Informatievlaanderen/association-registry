@@ -2,7 +2,6 @@
 
 using Common;
 using FluentValidation;
-using Microsoft.AspNetCore.Server.HttpSys;
 using Vereniging;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

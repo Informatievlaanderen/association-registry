@@ -21,6 +21,11 @@ public static class VerenigingZoekDocumentMapping
                         .Name(document => document.Type)
                         .IncludeInRoot()
                         .Properties(VerenigingsTypeMapping.Get))
+                .Nested<Doelgroep>(
+                    propertyDescriptor => propertyDescriptor
+                        .Name(document => document.Doelgroep)
+                        .IncludeInRoot()
+                        .Properties(DoelgroepMapping.Get))
                 .Nested<VerenigingZoekDocument.Locatie>(
                     propertyDescriptor => propertyDescriptor
                         .Name(document => document.Locaties)
@@ -89,6 +94,20 @@ public static class VerenigingZoekDocumentMapping
                 .Text(
                     propertiesDescriptor => propertiesDescriptor
                         .Name(document => document.Beschrijving));
+    }
+
+    private static class DoelgroepMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<Doelgroep> map)
+            => map
+                .Number(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Minimumleeftijd)
+                        .Type(NumberType.Integer))
+                .Number(
+                    propertiesDescriptor => propertiesDescriptor
+                        .Name(document => document.Maximumleeftijd)
+                        .Type(NumberType.Integer));
     }
 
     private static class SleutelMapping

@@ -40,6 +40,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
             korteNaam,
             string.Empty,
             Startdatum: null,
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

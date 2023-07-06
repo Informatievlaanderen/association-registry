@@ -10,6 +10,10 @@
       "naam": "VZW 0000000000",
       "korteNaam": "",
       "hoofdactiviteitenVerenigingsloket": [],
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
       "locaties": [],
       "sleutels": [
         {

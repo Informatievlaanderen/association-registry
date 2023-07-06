@@ -7,6 +7,7 @@ public record RegistreerFeitelijkeVerenigingCommand(
     string? KorteNaam,
     string? KorteBeschrijving,
     Startdatum Startdatum,
+    Doelgroep Doelgroep,
     bool IsUitgeschrevenUitPubliekeDatastroom,
     Contactgegeven[] Contactgegevens,
     Locatie[] Locaties,

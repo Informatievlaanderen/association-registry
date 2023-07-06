@@ -22,6 +22,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             "FOud",
             "Het feestcommittee van Oudenaarde",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
+            new Registratiedata.Doelgroep(18,90) ,
             false,
             new[]
             {

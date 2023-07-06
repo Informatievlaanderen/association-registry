@@ -25,6 +25,7 @@ public class V019_AfdelingWerdGeregistreerd_WithMinimalFields : IEventsInDbScena
             string.Empty,
             string.Empty,
             null,
+            Registratiedata.Doelgroep.With(Doelgroep.Null),
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),

@@ -26,7 +26,11 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
-                    Locaties = new[]
+                    Doelgroep = new DoelgroepResponse
+                    {
+                        Minimumleeftijd = 0,
+                        Maximumleeftijd = 150,
+                    },Locaties = new[]
                     {
                         new Locatie
                         {
@@ -56,7 +60,11 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Beschrijving = "Sport",
                         },
                     },
-                    Locaties = new[]
+                    Doelgroep = new DoelgroepResponse
+                    {
+                        Minimumleeftijd = 0,
+                        Maximumleeftijd = 150,
+                    },Locaties = new[]
                     {
                         new Locatie
                         {

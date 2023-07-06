@@ -8,6 +8,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     string KorteNaam,
     string KorteBeschrijving,
     DateOnly? Startdatum,
+    Registratiedata.Doelgroep Doelgroep,
     bool IsUitgeschrevenUitPubliekeDatastroom,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,

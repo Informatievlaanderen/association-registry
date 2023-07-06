@@ -49,6 +49,11 @@ public class BeheerVerenigingDetailMapper
             KorteNaam = vereniging.KorteNaam,
             KorteBeschrijving = vereniging.KorteBeschrijving,
             Startdatum = vereniging.Startdatum,
+            Doelgroep = new DoelgroepResponse
+            {
+                Minimumleeftijd = vereniging.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = vereniging.Doelgroep.Maximumleeftijd,
+            },
             Status = vereniging.Status,
             IsUitgeschrevenUitPubliekeDatastroom = vereniging.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = vereniging.Contactgegevens.Select(Map).ToArray(),

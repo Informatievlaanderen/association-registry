@@ -38,6 +38,11 @@ public class Given_AfdelingWerdGeregistreerd
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
+                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep()
+                {
+                    Minimumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
+                },
                 DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",
                 Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(

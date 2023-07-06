@@ -11,6 +11,7 @@ using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using Doelgroep = Vereniging.Doelgroep;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -36,6 +37,11 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = string.Empty,
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
+                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep()
+                {
+                    Minimumleeftijd = Doelgroep.StandaardMinimumleeftijd,
+                    Maximumleeftijd = Doelgroep.StandaardMaximumleeftijd,
+                },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = "Actief",

@@ -79,6 +79,7 @@ public static class EventCustomizations
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>(),
+                    fixture.Create<Registratiedata.Doelgroep>(),
                     IsUitgeschrevenUitPubliekeDatastroom: false,
                     fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
                     fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
@@ -92,19 +93,20 @@ public static class EventCustomizations
         fixture.Customize<AfdelingWerdGeregistreerd>(
             composer => composer.FromFactory(
                 () => new AfdelingWerdGeregistreerd(
-                    fixture.Create<VCode>().ToString(),
-                    fixture.Create<string>(),
-                    new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    VCode: fixture.Create<VCode>().ToString(),
+                    Naam: fixture.Create<string>(),
+                    Moedervereniging: new AfdelingWerdGeregistreerd.MoederverenigingsData(
                         fixture.Create<KboNummer>(),
                         fixture.Create<VCode>(),
                         fixture.Create<VerenigingsNaam>()),
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    fixture.Create<DateOnly?>(),
-                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
-                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
+                    KorteNaam: fixture.Create<string>(),
+                    KorteBeschrijving: fixture.Create<string>(),
+                    Startdatum: fixture.Create<DateOnly?>(),
+                    Doelgroep: fixture.Create<Registratiedata.Doelgroep>(),
+                    Contactgegevens: fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
+                    Locaties: fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
+                    Vertegenwoordigers: fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
+                    HoofdactiviteitenVerenigingsloket: fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
     }
 }

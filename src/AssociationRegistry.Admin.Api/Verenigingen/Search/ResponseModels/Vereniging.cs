@@ -21,6 +21,10 @@ public class Vereniging
     [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; } = null!;
 
+    /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
+    [DataMember(Name = "Doelgroep")]
+    public DoelgroepResponse Doelgroep { get; init; } = null!;
+
     /// <summary>De lijst van hoofdactiviteiten erkend door het vereningingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;

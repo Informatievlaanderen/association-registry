@@ -16,6 +16,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         string.Empty,
         string.Empty,
         Startdatum: null,
+        Registratiedata.Doelgroep.With(Doelgroep.Null),
         false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         new[] { teVerwijderenLocatie },
