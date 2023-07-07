@@ -1,3 +1,10 @@
+# [6.5.0](https://github.com/informatievlaanderen/association-registry/compare/v6.4.1...v6.5.0) (2023-07-07)
+
+
+### Features
+
+* or-1813 update swagger docs ([6c3a92b](https://github.com/informatievlaanderen/association-registry/commit/6c3a92ba9d5fe242b3882f88a500f6e36f5bbd37))
+
 ## [6.4.1](https://github.com/informatievlaanderen/association-registry/compare/v6.4.0...v6.4.1) (2023-07-06)
 
 
