@@ -35,7 +35,7 @@ public class DetailVerenigingenController : ApiController
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="404">De gevraagde vereniging werd niet gevonden</response>
-    /// <response code="412">De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
+    /// <response code="412">Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]

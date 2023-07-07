@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 
 using System;
+using System.Linq;
 using Common;
 using FeitelijkeVereniging;
 using Vereniging;
@@ -22,6 +23,8 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                 Minimumleeftijd = 0,
                 Maximumleeftijd = 150,
             },
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
+                .All().Take(5).Select(h=>h.Code).ToArray(),
             Locaties = new[]
             {
                 new ToeTeVoegenLocatie

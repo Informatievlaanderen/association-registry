@@ -65,20 +65,15 @@ public static class SwaggerExtensions
                     options.SchemaFilter<AutoRestSchemaFilter>();
 
                     options.OperationFilter<SwaggerDefaultValues>();
-
                     options.OperationFilter<DescriptionOperationFilter>();
-
                     options.OperationFilter<AddResponseHeadersFilter>();
-
                     options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
-
                     options.OperationFilter<AuthorizationResponseOperationFilter>();
-
                     options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-
                     options.OperationFilter<AppendCorrelationIdToHeaders>();
                     options.OperationFilter<AppendInitiatorToHeaders>();
-                    options.OrderActionsBy(SortByTag.Sort);
+
+                    options.OrderActionsBy(a => $"{a.RelativePath}.{a.HttpMethod}");
 
                     options.DocInclusionPredicate((_, _) => true);
                 })

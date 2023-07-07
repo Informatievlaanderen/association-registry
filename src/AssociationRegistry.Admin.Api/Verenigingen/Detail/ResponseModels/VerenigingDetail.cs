@@ -41,6 +41,10 @@ public class VerenigingDetail
     [DataMember(Name = "IsUitgeschrevenUitPubliekeDatastroom")]
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; init; }
 
+    /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
+    [DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
+
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember(Name = "Contactgegevens")]
     public Contactgegeven[] Contactgegevens { get; init; } = null!;
@@ -52,10 +56,6 @@ public class VerenigingDetail
     /// <summary>Alle vertegenwoordigers van deze vereniging</summary>
     [DataMember(Name = "Vertegenwoordigers")]
     public Vertegenwoordiger[] Vertegenwoordigers { get; init; } = null!;
-
-    /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
-    [DataMember(Name = "hoofdactiviteitenVerenigingsloket")]
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = null!;
 
     /// <summary>De sleutels van deze vereniging</summary>
     [DataMember(Name = "Sleutels")]

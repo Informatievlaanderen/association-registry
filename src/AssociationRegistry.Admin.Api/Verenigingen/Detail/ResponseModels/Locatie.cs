@@ -17,7 +17,7 @@ public class Locatie
     ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Activiteiten<br />
-    ///     - Correspondentie - Slecht één maal mogelijk<br />
+    ///     - Correspondentie - Slechtséén maal mogelijk<br />
     ///     - Maatschappelijke zetel - Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]

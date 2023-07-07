@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -13,12 +15,16 @@ public class DoelgroepRequest
     /// De minimum leeftijd voor de doelgroep
     /// </summary>
     [DataMember]
+    [Range(Doelgroep.StandaardMinimumleeftijd,Doelgroep.StandaardMaximumleeftijd)]
+    [DefaultValue(Doelgroep.StandaardMinimumleeftijd)]
     public int? Minimumleeftijd { get; set; }
 
     /// <summary>
     /// De maximum leeftijd voor de doelgroep
     /// </summary>
     [DataMember]
+    [Range(Doelgroep.StandaardMinimumleeftijd,Doelgroep.StandaardMaximumleeftijd)]
+    [DefaultValue(Doelgroep.StandaardMaximumleeftijd)]
     public int? Maximumleeftijd { get; set; }
 
     public static Doelgroep Map(DoelgroepRequest? request)

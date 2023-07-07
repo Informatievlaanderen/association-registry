@@ -50,7 +50,7 @@ public class ExampleSchemaFilter : ISchemaFilter
             if (list.Count > 1)
             {
                 prop.Value.Description += $"\r\n\r\n" +
-                                          $"Toegestane waarden:\r\n" +
+                                          $"Mogelijke waarden:\r\n" +
                                           $"- {string.Join("\r\n- ", list)}";
             }
         }

@@ -12,7 +12,7 @@ public class ToeTeVoegenLocatie
     ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Activiteiten<br />
-    ///     - Correspondentie - Slecht één maal mogelijk<br />
+    ///     - Correspondentie - Slechtséén maal mogelijk<br />
     /// </summary>
     [DataMember]
     public string Locatietype { get; set; } = null!;

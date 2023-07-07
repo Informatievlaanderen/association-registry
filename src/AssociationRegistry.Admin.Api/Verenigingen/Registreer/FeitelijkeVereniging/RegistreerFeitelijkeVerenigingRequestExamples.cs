@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 
 using System;
+using System.Linq;
 using Common;
 using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
@@ -21,6 +22,8 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
                 Minimumleeftijd = 0,
                 Maximumleeftijd = 150,
             },
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
+                .All().Take(5).Select(h => h.Code).ToArray(),
             Locaties = new[]
             {
                 new ToeTeVoegenLocatie
@@ -28,10 +31,10 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
                     Naam = "Naam locatie",
                     IsPrimair = true,
                     AdresId = new AdresId
-                        {
-                            Broncode = "AR",
-                            Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
-                        },
+                    {
+                        Broncode = "AR",
+                        Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
+                    },
                     Adres = new Adres
                     {
                         Busnummer = "12",
