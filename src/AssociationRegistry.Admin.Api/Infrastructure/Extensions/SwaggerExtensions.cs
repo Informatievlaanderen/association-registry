@@ -28,6 +28,7 @@ public static class SwaggerExtensions
                     options.DescribeAllParametersInCamelCase();
                     options.SupportNonNullableReferenceTypes();
                     options.SchemaFilter<ExampleSchemaFilter>();
+                    options.OperationFilter<CapitalizeParameterFilter>();
                     options.MapType<DateOnly>(
                         () => new OpenApiSchema
                         {
