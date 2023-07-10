@@ -1,3 +1,10 @@
+# [6.6.0](https://github.com/informatievlaanderen/association-registry/compare/v6.5.0...v6.6.0) (2023-07-10)
+
+
+### Features
+
+* or-1813 make capitalization uniform among request headers ([d205b2c](https://github.com/informatievlaanderen/association-registry/commit/d205b2cfa5f93452babf8ca34c8a53a4253d1b84))
+
 # [6.5.0](https://github.com/informatievlaanderen/association-registry/compare/v6.4.1...v6.5.0) (2023-07-07)
 
 
