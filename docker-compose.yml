@@ -31,6 +31,17 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
 
+  wiremock:
+    image: wiremock/wiremock:2.35.0-1
+    container_name: vr_wiremock
+    ports:
+      - 8080:8080
+    command:
+      - -verbose
+      - -global-response-templating
+    volumes:
+      - ./wiremock:/home/wiremock
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib
     command: [ "--config=/etc/otel-collector-config.yaml" ]

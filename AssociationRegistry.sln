@@ -78,6 +78,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Admin.ProjectionHost", "src\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj", "{C965617C-0230-4167-98E5-508436A09F93}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiremock", "wiremock", "{DBDE4EB5-760D-48AA-BDE4-59704B669084}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "files", "files", "{A30C8928-5F0D-459A-BB1B-0AE24A160CBB}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\RegistreerInschrijvingResponse.xml = wiremock\__files\RegistreerInschrijvingResponse.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E074A15-9B15-4B42-8D0B-8DA1A618330C}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__mappings\RegistreerInschrijvingDienst.json = wiremock\__mappings\RegistreerInschrijvingDienst.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,5 +174,8 @@ Global
 		{D6A46295-24F1-4B78-81B6-57DFE04EE1D3} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{586CF77B-1480-4CC4-9B46-708715D156F2} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{C965617C-0230-4167-98E5-508436A09F93} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{DBDE4EB5-760D-48AA-BDE4-59704B669084} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
+		{A30C8928-5F0D-459A-BB1B-0AE24A160CBB} = {DBDE4EB5-760D-48AA-BDE4-59704B669084}
+		{9E074A15-9B15-4B42-8D0B-8DA1A618330C} = {DBDE4EB5-760D-48AA-BDE4-59704B669084}
 	EndGlobalSection
 EndGlobal
