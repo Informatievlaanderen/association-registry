@@ -232,6 +232,12 @@ jobs:
         run: |
           docker logs elasticsearch
 
+      - name: Shows logs wiremock container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs wiremock
+
       - name: Shows logs db container
         if: ${{ failure() }}
         shell: bash
