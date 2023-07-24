@@ -126,7 +126,7 @@ jobs:
         shell: bash
         if: matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
         run: |
-          docker run -d --name wiremock -v ${{ GITHUB_WORKSPACE }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
+          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
 
       - name: Run ACM container
         shell: bash
