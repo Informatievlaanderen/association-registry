@@ -37,7 +37,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = string.Empty,
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
-                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep()
+                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep
                 {
                     Minimumleeftijd = Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = Doelgroep.StandaardMaximumleeftijd,

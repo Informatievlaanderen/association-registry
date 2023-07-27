@@ -18,14 +18,14 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private Result _result = null!;
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
-    private VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
+    private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
 
     public With_A_Duplicate_KboNummer()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
-        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam), new InMemorySequentialVCodeService());
+        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam), new InMemorySequentialVCodeService(), new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService());
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(), fixture.Create<CommandMetadata>());
     }
 

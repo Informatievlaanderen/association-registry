@@ -90,7 +90,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
                     builder.UseConfiguration(GetConfiguration());
                     // builder.ConfigureAppConfiguration(
                     //     cfg =>

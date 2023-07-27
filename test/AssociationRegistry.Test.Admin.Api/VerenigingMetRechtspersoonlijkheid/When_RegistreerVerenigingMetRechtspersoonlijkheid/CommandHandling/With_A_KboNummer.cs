@@ -26,7 +26,7 @@ public class With_A_KboNummer
         _command = fixture.Create<RegistreerVerenigingUitKboCommand>();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingUitKboCommandHandler(_verenigingRepositoryMock, _vCodeService);
+        var commandHandler = new RegistreerVerenigingUitKboCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService());
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)

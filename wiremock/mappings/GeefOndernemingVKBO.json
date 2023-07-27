@@ -2,10 +2,10 @@
   "priority": 2,
   "request": {
     "method": "POST",
-    "urlPath": "/RegistreerInschrijvingDienst-02.01/soap/WebService"
+    "urlPath": "/GeefOndernemingVKBODienst-02.00/soap/WebService"
   },
   "response": {
-    "bodyFileName": "RegistreerInschrijvingResponse.xml",
+    "bodyFileName": "GeefOndernemingVKBOResponse.xml",
     "transformers": [
       "response-template"
     ]

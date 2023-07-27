@@ -1,0 +1,16 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.0.3",
+  "ExtendedData": {
+    "inputs": [
+      "../../../../magda/Onderneming.GeefOndernemingVKBODienst-02.00/WebService/GeefOndernemingVKBO.wsdl"
+    ],
+    "messageContract": true,
+    "namespaceMappings": [
+      "*, AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO"
+    ],
+    "outputFile": "Onderneming.GeefOndernemingVKBO",
+    "targetFramework": "net6.0",
+    "typeReuseMode": "All"
+  }
+}

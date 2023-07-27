@@ -2,37 +2,61 @@
 
 using DuplicateVerenigingDetection;
 using Framework;
+using Kbo;
 using Vereniging;
 using ResultNet;
+using Vereniging.Exceptions;
 
 public class RegistreerVerenigingUitKboCommandHandler
 {
     private readonly IVCodeService _vCodeService;
+    private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public RegistreerVerenigingUitKboCommandHandler(
         IVerenigingsRepository verenigingsRepository,
-        IVCodeService vCodeService)
+        IVCodeService vCodeService,
+        IMagdaGeefVerenigingService magdaGeefVerenigingService)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
+        _magdaGeefVerenigingService = magdaGeefVerenigingService;
     }
 
     public async Task<Result> Handle(CommandEnvelope<RegistreerVerenigingUitKboCommand> message, CancellationToken cancellationToken = default)
     {
         var command = message.Command;
 
-        var duplicateKbo = await _verenigingsRepository.GetVCodeAndNaam(command.KboNummer);
-        if (duplicateKbo is not null)
-            return DuplicateKboFound.WithVcode(duplicateKbo.VCode!);
+        var duplicateResult = await CheckForDuplicate(command.KboNummer);
+        if (duplicateResult.IsFailure()) return duplicateResult;
 
+        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata.Initiator, cancellationToken);
+
+        return vereniging switch
+        {
+            Result<GeefVereniging.NietGevonden> => throw new GeenGeldigeVerenigingInKbo(),
+
+            Result<VerenigingVolgensKbo> x => Result.Success(await RegisteerVereniging(x, message.Metadata, cancellationToken)),
+
+            _ => throw new ArgumentOutOfRangeException(),
+        };
+    }
+
+    private async Task<Result> CheckForDuplicate(KboNummer kboNummer)
+    {
+        var duplicateKbo = await _verenigingsRepository.GetVCodeAndNaam(kboNummer);
+        return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
+    }
+
+    private async Task<CommandResult> RegisteerVereniging(VerenigingVolgensKbo verenigingVolgensKbo, CommandMetadata messageMetadata, CancellationToken cancellationToken)
+    {
         var vCode = await _vCodeService.GetNext();
 
         var vereniging = VerenigingMetRechtspersoonlijkheid.Registreer(
             vCode,
-            command.KboNummer);
+            verenigingVolgensKbo);
 
-        var result = await _verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
-        return Result.Success(CommandResult.Create(vCode, result));
+        var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
+        return CommandResult.Create(vCode, result);
     }
 }

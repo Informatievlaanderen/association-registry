@@ -3,7 +3,6 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using Formatters;
 using Framework;
-using Grpc.Core;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Schema.Detail;
@@ -115,7 +114,7 @@ public static class PubliekVerenigingDetailProjector
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = string.Empty,
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
-            Doelgroep = new Doelgroep()
+            Doelgroep = new Doelgroep
             {
                 Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,

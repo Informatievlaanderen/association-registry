@@ -11,6 +11,8 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Kbo;
+using AssociationRegistry.Magda;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -34,6 +36,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
+using Magda;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -267,17 +270,22 @@ public class Program
     {
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
+        var kboOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
             .AddScoped<InitiatorProvider>()
             .AddSingleton(postgreSqlOptionsSection)
+            .AddSingleton(kboOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
             .AddSingleton<IClock, Clock>()
             .AddTransient<IEventStore, EventStore>()
             .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
             .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
+            .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
+            .AddTransient<IMagdaFacade, MagdaFacade>()
+            .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddOpenTelemetry()

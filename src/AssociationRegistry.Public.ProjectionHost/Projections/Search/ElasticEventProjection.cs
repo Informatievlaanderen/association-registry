@@ -80,7 +80,7 @@ public class PubliekZoekProjectionHandler
                 Type = new VerenigingZoekDocument.VerenigingsType { Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
-                Doelgroep = new Doelgroep()
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,

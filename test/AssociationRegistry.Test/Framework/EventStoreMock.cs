@@ -31,12 +31,12 @@ public class EventStoreMock : IEventStore
         for (var i = 0; i < _events.Length; i++)
         {
             result = ((dynamic)result).Apply((dynamic)_events[i]);
-            result.Version = i+1;
+            result.Version = i + 1;
         }
 
         return Task.FromResult(result);
     }
 
-    public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
-        => throw new NotImplementedException();
+    public Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
+        => Task.FromException<T?>(new NotImplementedException());
 }
