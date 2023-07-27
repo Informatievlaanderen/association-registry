@@ -285,7 +285,6 @@ public class Program
             .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
             .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
             .AddTransient<IMagdaFacade, MagdaFacade>()
-            .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddOpenTelemetry()

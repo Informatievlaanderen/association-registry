@@ -8,7 +8,6 @@ using FluentAssertions;
 using Framework;
 using Kbo;
 using ResultNet;
-using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
@@ -38,6 +37,6 @@ public class With_An_Unknown_KboNummer
 
 public class MagdaGeefVerenigingNumberNotFoundMagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
-    public Task<Result> GeefVereniging(KboNummer kboNummer, string initiator, CancellationToken cancellationToken)
+    public Task<Result> GeefVereniging(string kboNummer)
         => Task.FromResult<Result>(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 }
