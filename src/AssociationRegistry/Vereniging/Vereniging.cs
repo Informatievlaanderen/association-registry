@@ -5,7 +5,6 @@ using Events;
 using EventStore;
 using Exceptions;
 using Framework;
-using JasperFx.Core;
 using SocialMedias;
 using TelefoonNummers;
 

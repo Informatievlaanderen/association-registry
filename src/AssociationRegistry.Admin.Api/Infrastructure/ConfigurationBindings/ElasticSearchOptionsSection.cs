@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 
 public class ElasticSearchOptionsSection
 {
+    public const string SectionName = "ElasticClientOptions";
     public string? Uri { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }

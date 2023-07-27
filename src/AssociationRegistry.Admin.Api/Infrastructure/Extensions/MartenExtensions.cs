@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
 using JasperFx.CodeGeneration;
@@ -32,6 +33,9 @@ public static class MartenExtentions
                 opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+
+                opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+
                 return opts;
             });
 

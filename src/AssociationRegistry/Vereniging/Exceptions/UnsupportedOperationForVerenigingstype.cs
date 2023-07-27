@@ -14,15 +14,3 @@ public class UnsupportedOperationForVerenigingstype : DomainException
     {
     }
 }
-
-[Serializable]
-public class AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom : DomainException
-{
-    public AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom() : base("Een afdeling kan niet uit de publieke stroom worden uitgeschreven.")
-    {
-    }
-
-    protected AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
-}

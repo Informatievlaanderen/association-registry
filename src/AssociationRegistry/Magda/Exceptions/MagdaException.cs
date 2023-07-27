@@ -13,6 +13,10 @@ public class MagdaException : Exception
     {
     }
 
+    public MagdaException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+
     protected MagdaException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }

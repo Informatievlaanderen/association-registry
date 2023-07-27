@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be"
+                  xmlns="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be"                  
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be"
+		            xmlns="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be"
+		            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		            elementFormDefault="unqualified" 
+		            attributeFormDefault="unqualified"
+		            version="2.00">
+		            
+			<xsd:include schemaLocation="GeefOndernemingVKBO.xsd"/>
+			<xsd:include schemaLocation="GeefOndernemingVKBOResponse.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	
+	<wsdl:message name="GeefOndernemingVKBORequest">
+		<wsdl:part name="Verzoek" element="GeefOndernemingVKBO"/>
+	</wsdl:message>
+	<wsdl:message name="GeefOndernemingVKBOResponse">
+		<wsdl:part name="Repliek" element="GeefOndernemingVKBOResponse"/>
+	</wsdl:message>
+	
+	<wsdl:portType name="Onderneming.GeefOndernemingVKBOPortType">
+		<wsdl:operation name="GeefOndernemingVKBO">
+			<wsdl:input name="GeefOndernemingVKBORequest" message="GeefOndernemingVKBORequest"/>
+			<wsdl:output name="GeefOndernemingVKBOResponse" message="GeefOndernemingVKBOResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="Onderneming.GeefOndernemingVKBOHttpBinding" type="Onderneming.GeefOndernemingVKBOPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GeefOndernemingVKBO">
+			<soap:operation soapAction="http://magdaondernemingdienst-intern-aip.vonet.be/GeefOndernemingVKBODienst-02.00/soap/WebService"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="Onderneming.GeefOndernemingVKBO">
+		<wsdl:port name="Onderneming.GeefOndernemingVKBOHttpPort" binding="Onderneming.GeefOndernemingVKBOHttpBinding">
+			<soap:address location="https://magdaondernemingdienst.vlaanderen.be/GeefOndernemingVKBODienst-02.00/soap/WebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

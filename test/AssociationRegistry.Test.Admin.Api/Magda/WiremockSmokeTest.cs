@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.Admin.Api.Magda;
 using System.Net;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class WiremockSmokeTest
 {
     [Fact]
@@ -11,7 +13,7 @@ public class WiremockSmokeTest
     {
         var client = new HttpClient();
 
-        var response = await client.PostAsync("http://localhost:8080/RegistreerInschrijvingDienst-02.01/soap/WebService", new StringContent(""));
+        var response = await client.PostAsync("http://localhost:8080/GeefOndernemingVKBODienst-02.00/soap/WebService", new StringContent(""));
 
         response.Should().HaveStatusCode(HttpStatusCode.OK);
     }

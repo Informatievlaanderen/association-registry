@@ -3,18 +3,19 @@
 using Events;
 using Exceptions;
 using Framework;
+using Kbo;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, KboNummer kboNummer)
+    public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
         vereniging.AddEvent(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
-                kboNummer,
+                verenigingVolgensKbo.KboNummer,
                 "VZW",
-                $"VZW {kboNummer}",
+                $"VZW {verenigingVolgensKbo.KboNummer}",
                 string.Empty,
                 null));
         return vereniging;

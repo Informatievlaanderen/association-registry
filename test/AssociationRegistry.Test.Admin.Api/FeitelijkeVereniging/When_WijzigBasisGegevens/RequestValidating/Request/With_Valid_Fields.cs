@@ -40,7 +40,7 @@ public class With_Valid_Fields
                 KorteNaam = korteNaam,
                 KorteBeschrijving = korteBeschrijving,
                 Startdatum = ToNullOrEmptyDateOnly(startdatum),
-                Doelgroep = new DoelgroepRequest()
+                Doelgroep = new DoelgroepRequest
                 {
                     Minimumleeftijd = minimumLeeftijd,
                     Maximumleeftijd = maximumLeeftijd,
