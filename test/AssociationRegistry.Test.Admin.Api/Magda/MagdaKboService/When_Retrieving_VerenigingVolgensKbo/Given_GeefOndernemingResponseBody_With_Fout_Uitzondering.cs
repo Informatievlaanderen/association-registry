@@ -6,13 +6,10 @@ using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Kbo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-using Test.Framework.Customizations;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,7 +22,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
 
     public Given_GeefOndernemingResponseBody_With_Fout_Uitzondering()
     {
-        _fixture = new Fixture().CustomizeDomain();
+        _fixture = new Fixture();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<Envelope<GeefOndernemingResponseBody>>();
@@ -44,31 +41,31 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         };
         _logger = new Mock<ILogger<MagdaGeefVerenigingService>>();
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>()))
             .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(),magdaFacade.Object, _logger.Object);
+        _service = new MagdaGeefVerenigingService(magdaFacade.Object, _logger.Object);
     }
 
     [Fact]
     public async Task Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(),_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<string>());
         result.IsFailure().Should().BeTrue();
     }
 
     [Fact]
     public async Task Then_It_Returns_A_NotFoundResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(),_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<string>());
         result.Should().BeOfType<Result<GeefVereniging.NietGevonden>>();
     }
 
     [Fact]
     public async Task Then_It_LogsTheUitzondering()
     {
-        var kboNummer = _fixture.Create<KboNummer>();
-        await _service.GeefVereniging(kboNummer,_fixture.Create<string>(), CancellationToken.None);
+        var kboNummer = _fixture.Create<string>();
+        await _service.GeefVereniging(kboNummer);
 
         _logger.Verify(
             x => x.Log(
