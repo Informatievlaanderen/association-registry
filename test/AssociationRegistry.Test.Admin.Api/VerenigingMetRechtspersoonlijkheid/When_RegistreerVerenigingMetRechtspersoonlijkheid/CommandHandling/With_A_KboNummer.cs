@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using Fakes;
 using Framework;
 using AutoFixture;
+using Kbo;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,7 +27,12 @@ public class With_A_KboNummer
         _command = fixture.Create<RegistreerVerenigingUitKboCommand>();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerVerenigingUitKboCommandHandler(_verenigingRepositoryMock, _vCodeService, new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService());
+        var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+                new VerenigingVolgensKbo { KboNummer = _command.KboNummer, Rechtsvorm = "VZW" }
+            ));
 
         commandHandler
             .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)

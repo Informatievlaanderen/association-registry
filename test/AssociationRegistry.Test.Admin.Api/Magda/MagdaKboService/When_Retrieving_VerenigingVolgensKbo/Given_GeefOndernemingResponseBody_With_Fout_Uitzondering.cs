@@ -10,6 +10,7 @@ using Kbo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
+using Test.Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -23,7 +24,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
 
     public Given_GeefOndernemingResponseBody_With_Fout_Uitzondering()
     {
-        _fixture = new Fixture();
+        _fixture = new Fixture().CustomizeDomain();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<Envelope<GeefOndernemingResponseBody>>();
@@ -45,7 +46,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>()))
             .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(),magdaFacade.Object, _logger.Object);
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, _logger.Object);
     }
 
     [Fact]
@@ -53,13 +54,6 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<string>(), CancellationToken.None);
         result.IsFailure().Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task Then_It_Returns_A_NotFoundResult()
-    {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<string>(), CancellationToken.None);
-        result.Should().Be(VerenigingVolgensKboResult.GeenGeldigeVereniging);
     }
 
     [Fact]

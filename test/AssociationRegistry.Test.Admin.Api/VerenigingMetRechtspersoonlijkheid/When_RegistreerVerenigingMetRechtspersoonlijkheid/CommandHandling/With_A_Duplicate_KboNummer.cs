@@ -8,6 +8,7 @@ using AutoFixture;
 using DuplicateVerenigingDetection;
 using EventStore;
 using FluentAssertions;
+using Kbo;
 using ResultNet;
 using Xunit;
 using Xunit.Categories;
@@ -25,8 +26,14 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         var fixture = new Fixture().CustomizeAdminApi();
 
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
-        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam), new InMemorySequentialVCodeService(), new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService());
+
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(), fixture.Create<CommandMetadata>());
+        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
+            new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
+            new InMemorySequentialVCodeService(),
+            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+                new VerenigingVolgensKbo { KboNummer = _envelope.Command.KboNummer, Rechtsvorm = "VZW" }
+            ));
     }
 
     public async Task InitializeAsync()

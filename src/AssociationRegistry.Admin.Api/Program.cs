@@ -270,13 +270,13 @@ public class Program
     {
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
-        var kboOptionsSection = builder.Configuration.GetMagdaOptionsSection();
+        var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
             .AddScoped<InitiatorProvider>()
             .AddSingleton(postgreSqlOptionsSection)
-            .AddSingleton(kboOptionsSection)
+            .AddSingleton(magdaOptionsSection)
             .AddSingleton(appSettings)
             .AddSingleton<IVCodeService, SequenceVCodeService>()
             .AddSingleton<IClock, Clock>()
@@ -285,6 +285,7 @@ public class Program
             .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
             .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
             .AddTransient<IMagdaFacade, MagdaFacade>()
+            .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
             .AddMarten(postgreSqlOptionsSection, builder.Configuration)
             .AddElasticSearch(elasticSearchOptionsSection)
             .AddOpenTelemetry()
