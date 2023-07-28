@@ -7,11 +7,15 @@ using Models;
 
 public static class MagdaXmlSignExtensions
 {
-    public static string SignEnvelope<T>(this Envelope<T> unsignedEnvelope, X509Certificate2 clientCertificate)
+    public static string SignEnvelope<T>(this Envelope<T> unsignedEnvelope, X509Certificate2? clientCertificate)
     {
         var unsignedXmlEnvelope = unsignedEnvelope
             .SerializeObject()
             .Replace("<s:Body>", @"<s:Body Id=""Body"">");
+
+        if (clientCertificate is null)
+            return GetXmlFromEnvelope(unsignedXmlEnvelope);
+
 
         var xmlBody = new XmlDocument();
         xmlBody.LoadXml(unsignedXmlEnvelope);
@@ -22,6 +26,11 @@ public static class MagdaXmlSignExtensions
         var signedXmlEnvelope = unsignedXmlEnvelope
             .Replace("<s:Header />", $"<s:Header>{signature}</s:Header>");
 
+        return GetXmlFromEnvelope(signedXmlEnvelope);
+    }
+
+    private static string GetXmlFromEnvelope(string signedXmlEnvelope)
+    {
         var signedXmlEnvelopeDocument = new XmlDocument();
         signedXmlEnvelopeDocument.LoadXml(signedXmlEnvelope);
         return signedXmlEnvelopeDocument.OuterXml;

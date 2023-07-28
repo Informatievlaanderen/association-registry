@@ -30,16 +30,16 @@ public class RegistreerVerenigingUitKboCommandHandler
         var duplicateResult = await CheckForDuplicate(command.KboNummer);
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer);
+        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata.Initiator, cancellationToken);
+        if (vereniging.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
+        ValidateVereniging(vereniging.Data);
 
-        return vereniging switch
-        {
-            Result<GeefVereniging.NietGevonden> => throw new GeenGeldigeVerenigingInKbo(),
+        return Result.Success(await RegisteerVereniging(vereniging, message.Metadata, cancellationToken));
+    }
 
-            Result<VerenigingVolgensKbo> x => Result.Success(await RegisteerVereniging(x, message.Metadata, cancellationToken)),
-
-            _ => throw new ArgumentOutOfRangeException(),
-        };
+    private static void ValidateVereniging(VerenigingVolgensKbo verenigingVolgensKbo)
+    {
+        Throw<GeenGeldigeVerenigingInKbo>.If(verenigingVolgensKbo.Rechtsvorm is not "VZW" or "iVZW" or "Private Stichting" or "Stichting van openbaar nut");
     }
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNummer)
