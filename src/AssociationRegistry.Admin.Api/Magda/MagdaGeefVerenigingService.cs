@@ -41,7 +41,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             if (HasFoutUitzonderingen(magdaResponse))
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
-            var magdaOnderneming = magdaResponse.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
+            var magdaOnderneming = magdaResponse.Body?.GeefOndernemingVKBOResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
             if (magdaOnderneming is null) return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
             return VerenigingVolgensKboResult.GeldigeVereniging(
@@ -57,17 +57,17 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    private Result<VerenigingVolgensKbo> HandleUitzonderingen(string kboNummer, Envelope<GeefOndernemingResponseBody>? magdaResponse)
+    private Result<VerenigingVolgensKbo> HandleUitzonderingen(string kboNummer, ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
     {
         _logger.LogInformation(
             "Uitzondering bij het aanroepen van de Magda GeefOndernemingVKBO service voor KBO-nummer {KboNummer}: '{Diagnose}'",
             kboNummer,
-            magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen.ConcatenateUitzonderingen("\n"));
+            magdaResponse?.Body?.GeefOndernemingVKBOResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen.ConcatenateUitzonderingen("\n"));
 
         return VerenigingVolgensKboResult.GeenGeldigeVereniging;
     }
 
-    private static bool HasFoutUitzonderingen([NotNullWhen(false)] Envelope<GeefOndernemingResponseBody>? magdaResponse)
+    private static bool HasFoutUitzonderingen([NotNullWhen(false)] ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
         => magdaResponse.HasUitzonderingenOfTypes(UitzonderingTypeType.FOUT);
 
     private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, CancellationToken cancellationToken)

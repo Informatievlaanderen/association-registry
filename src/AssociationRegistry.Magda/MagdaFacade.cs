@@ -21,7 +21,7 @@ public class MagdaFacade : IMagdaFacade
         _logger = logger;
     }
 
-    public async Task<Envelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kbonummer, MagdaCallReference reference)
+    public async Task<ResponseEnvelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kbonummer, MagdaCallReference reference)
     {
         var unsignedEnvelope = MakeEnvelope(GeefOndernemingBodyWith(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
@@ -45,7 +45,7 @@ public class MagdaFacade : IMagdaFacade
         return clientCertificate;
     }
 
-    private async Task<Envelope<T>?> PerformMagdaRequest<T>(string endpoint, X509Certificate? magdaClientCertificate, string signedEnvelope)
+    private async Task<ResponseEnvelope<T>?> PerformMagdaRequest<T>(string endpoint, X509Certificate? magdaClientCertificate, string signedEnvelope)
     {
         using var client = GetMagdaHttpClient(magdaClientCertificate);
         try
@@ -71,7 +71,7 @@ public class MagdaFacade : IMagdaFacade
         return client;
     }
 
-    private async Task<Envelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
+    private async Task<ResponseEnvelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
         var response = await client
             .PostAsync(
@@ -86,12 +86,12 @@ public class MagdaFacade : IMagdaFacade
 
         _logger.LogTrace("GeefOnderneming http response: {@Result}", response);
 
-        var serializer = new XmlSerializer(typeof(Envelope<T>));
+        var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
 
         var xml = await response.Content.ReadAsStringAsync();
         using var reader = new StringReader(xml);
         {
-            return (Envelope<T>?)serializer.Deserialize(reader);
+            return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
         }
     }
 

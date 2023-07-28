@@ -27,8 +27,8 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         _fixture = new Fixture().CustomizeDomain();
 
         var magdaFacade = new Mock<IMagdaFacade>();
-        var envelope = _fixture.Create<Envelope<GeefOndernemingResponseBody>>();
-        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Uitzonderingen = new[]
+        var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
+        envelope.Body!.GeefOndernemingVKBOResponse!.Repliek.Antwoorden.Antwoord.Uitzonderingen = new[]
         {
             new UitzonderingType
             {
