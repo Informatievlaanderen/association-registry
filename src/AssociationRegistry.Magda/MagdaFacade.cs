@@ -33,13 +33,9 @@ public class MagdaFacade : IMagdaFacade
             signedEnvelope);
     }
 
-    private Task<Guid> CreateAndStoreReference()
-        => Task.FromResult(Guid.NewGuid());
-
     private static MagdaClientCertificate? GetMagdaClientCertificate(MagdaOptionsSection magdaOptionsSection)
     {
-        if (magdaOptionsSection.ClientCertificate is null && magdaOptionsSection.ClientCertificatePassword is null)
-            return null;
+        if (magdaOptionsSection.ClientCertificate is null && magdaOptionsSection.ClientCertificatePassword is null) return null;
 
         var maybeClientCertificate = MagdaClientCertificate.Create(magdaOptionsSection.ClientCertificate!, magdaOptionsSection.ClientCertificatePassword!);
 
@@ -92,7 +88,8 @@ public class MagdaFacade : IMagdaFacade
 
         var serializer = new XmlSerializer(typeof(Envelope<T>));
 
-        using var reader = new StringReader(await response.Content.ReadAsStringAsync());
+        var xml = await response.Content.ReadAsStringAsync();
+        using var reader = new StringReader(xml);
         {
             return (Envelope<T>?)serializer.Deserialize(reader);
         }

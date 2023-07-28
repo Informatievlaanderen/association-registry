@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Magda;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO;
@@ -12,7 +13,7 @@ public static class MagdaResponseExtensions
             source.Where(type => type.Type == UitzonderingTypeType.FOUT)
                 .Select(type => type.Diagnose));
 
-    public static bool HasUitzonderingenOfTypes(this Envelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
+    public static bool HasUitzonderingenOfTypes([NotNullWhen(false)] this Envelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
     {
         return source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(type => type.Type == uitzonderingTypeType) ?? false;
     }

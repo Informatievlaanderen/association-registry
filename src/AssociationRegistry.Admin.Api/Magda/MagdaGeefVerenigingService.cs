@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Magda;
 
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Kbo;
@@ -14,21 +17,21 @@ using Vereniging;
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
-    private readonly IMagdaCallReferenceRepository _repository;
+    private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaFacade _magdaFacade;
     private readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
-        IMagdaCallReferenceRepository repository,
+        IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaFacade magdaFacade,
         ILogger<MagdaGeefVerenigingService> logger)
     {
-        _repository = repository;
+        _magdaCallReferenceRepository = magdaCallReferenceRepository;
         _magdaFacade = magdaFacade;
         _logger = logger;
     }
 
-    public async Task<Result> GeefVereniging(KboNummer kboNummer, string initiator,CancellationToken cancellationToken)
+    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, string initiator, CancellationToken cancellationToken)
     {
         try
         {
@@ -38,10 +41,14 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             if (HasFoutUitzonderingen(magdaResponse))
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
+            var magdaOnderneming = magdaResponse.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
+            if (magdaOnderneming is null) return VerenigingVolgensKboResult.GeenGeldigeVereniging;
+
             return VerenigingVolgensKboResult.GeldigeVereniging(
                 new VerenigingVolgensKbo
                 {
                     KboNummer = KboNummer.Create(kboNummer),
+                    Rechtsvorm = magdaOnderneming.Rechtsvorm.Code.Value,
                 });
         }
         catch(Exception e)
@@ -50,7 +57,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    private Result HandleUitzonderingen(string kboNummer, Envelope<GeefOndernemingResponseBody>? magdaResponse)
+    private Result<VerenigingVolgensKbo> HandleUitzonderingen(string kboNummer, Envelope<GeefOndernemingResponseBody>? magdaResponse)
     {
         _logger.LogInformation(
             "Uitzondering bij het aanroepen van de Magda GeefOndernemingVKBO service voor KBO-nummer {KboNummer}: '{Diagnose}'",
@@ -60,7 +67,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         return VerenigingVolgensKboResult.GeenGeldigeVereniging;
     }
 
-    private static bool HasFoutUitzonderingen(Envelope<GeefOndernemingResponseBody>? magdaResponse)
+    private static bool HasFoutUitzonderingen([NotNullWhen(false)] Envelope<GeefOndernemingResponseBody>? magdaResponse)
         => magdaResponse.HasUitzonderingenOfTypes(UitzonderingTypeType.FOUT);
 
     private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, CancellationToken cancellationToken)
