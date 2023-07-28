@@ -37,7 +37,7 @@ public class With_An_Unsupported_Rechtsvorm
     {
         _mockService.Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(
-                (KboNummer kboNummer) => VerenigingVolgensKboResult.GeldigeVereniging(
+                (KboNummer kboNummer, string _, CancellationToken _) => VerenigingVolgensKboResult.GeldigeVereniging(
                     new VerenigingVolgensKbo
                     {
                         KboNummer = kboNummer,

@@ -6,6 +6,13 @@ using Vereniging;
 
 public class MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
+    private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+
+    public MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(VerenigingVolgensKbo verenigingVolgensKbo)
+    {
+        _verenigingVolgensKbo = verenigingVolgensKbo;
+    }
+
     public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, string initiator, CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(new VerenigingVolgensKbo { KboNummer = kboNummer }));
+        => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
 }
