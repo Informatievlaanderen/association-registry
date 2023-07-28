@@ -13,8 +13,8 @@ public static class MagdaResponseExtensions
             source.Where(type => type.Type == UitzonderingTypeType.FOUT)
                 .Select(type => type.Diagnose));
 
-    public static bool HasUitzonderingenOfTypes([NotNullWhen(false)] this Envelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
+    public static bool HasUitzonderingenOfTypes([NotNullWhen(false)] this ResponseEnvelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
     {
-        return source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(type => type.Type == uitzonderingTypeType) ?? false;
+        return source?.Body?.GeefOndernemingVKBOResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(type => type.Type == uitzonderingTypeType) ?? false;
     }
 }
