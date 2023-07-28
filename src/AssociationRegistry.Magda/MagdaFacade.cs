@@ -104,7 +104,7 @@ public class MagdaFacade : IMagdaFacade
                 {
                     Context = new ContextType
                     {
-                        Naam = "GeefOnderneming",
+                        Naam = "GeefOndernemingVKBO",
                         Versie = "02.00.0000",
                         Bericht = new BerichtType
                         {
