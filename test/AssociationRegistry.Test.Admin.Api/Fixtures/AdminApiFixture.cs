@@ -223,23 +223,10 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     private IConfigurationRoot GetConfiguration()
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(GetRootDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
-        var tempConfiguration = builder.Build();
+        var tempConfiguration = ConfigurationHelper.GetConfiguration();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
         return tempConfiguration;
-    }
-
-    private static string GetRootDirectory()
-    {
-        var maybeRootDirectory = Directory
-            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-        return rootDirectory;
     }
 
     private void DropDatabase()

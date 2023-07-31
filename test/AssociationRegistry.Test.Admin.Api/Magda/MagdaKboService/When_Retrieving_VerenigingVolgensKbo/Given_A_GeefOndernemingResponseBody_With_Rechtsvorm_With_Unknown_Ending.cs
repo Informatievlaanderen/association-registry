@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
+using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -17,18 +18,31 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_GeefOndernemingResponseBody
+public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_With_Unknown_Ending
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
-    private ResponseEnvelope<GeefOndernemingResponseBody> _responseEnvelope;
+    private readonly ResponseEnvelope<GeefOndernemingResponseBody> _responseEnvelope;
 
-    public Given_A_GeefOndernemingResponseBody()
+    public Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_With_Unknown_Ending()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
 
         var magdaFacade = new Mock<IMagdaFacade>();
+        _responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
+        _responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
+        {
+            new RechtsvormExtentieType
+            {
+                Code = new CodeRechtsvormType
+                {
+                    Value = Rechtsvorm.VZW.CodeVolgensMagda,
+                },
+                DatumEinde = null,
+            },
+        };
+
+
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
             .ReturnsAsync(_responseEnvelope);
 
@@ -38,7 +52,7 @@ public class Given_A_GeefOndernemingResponseBody
     [Fact]
     public async Task Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(),_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<string>(), CancellationToken.None);
         result.IsSuccess().Should().BeTrue();
     }
 
@@ -46,7 +60,7 @@ public class Given_A_GeefOndernemingResponseBody
     public async Task Then_It_Returns_A_VerenigingVolgensKbo()
     {
         var kboNummer = _fixture.Create<KboNummer>();
-        var result = await _service.GeefVereniging(kboNummer,_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(kboNummer, _fixture.Create<string>(), CancellationToken.None);
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;

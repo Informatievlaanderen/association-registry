@@ -56,10 +56,10 @@ public static class ConfigurationExtensions
             .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
     }
 
-    public static MagdaOptionsSection GetMagdaOptionsSection(this IConfiguration configuration)
+    public static MagdaOptionsSection GetMagdaOptionsSection(this IConfiguration configuration, string magdaOptionsSectionName = MagdaOptionsSection.SectionName)
     {
         var magdaOptionsSection = configuration
-            .GetSection(MagdaOptionsSection.SectionName)
+            .GetSection(magdaOptionsSectionName)
             .Get<MagdaOptionsSection>();
 
         magdaOptionsSection.ThrowIfInvalid();
@@ -80,8 +80,5 @@ public static class ConfigurationExtensions
 
         Throw<ArgumentNullException>
             .IfNullOrWhiteSpace(magdaOptionsSection.Ontvanger, $"{sectionName}.{nameof(MagdaOptionsSection.Ontvanger)}");
-
-        Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(magdaOptionsSection.GeefOndernemingVkboEndpoint, $"{sectionName}.{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
     }
 }

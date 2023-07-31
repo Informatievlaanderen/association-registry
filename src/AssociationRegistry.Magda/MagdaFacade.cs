@@ -4,9 +4,11 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Serialization;
 using Configuration;
+using Framework;
 using Microsoft.Extensions.Logging;
 using Models;
-using Onderneming.GeefOndernemingVKBO;
+using Models.GeefOnderneming;
+using Models.GeefOndernemingVKBO;
 
 public class MagdaFacade : IMagdaFacade
 {
@@ -21,14 +23,33 @@ public class MagdaFacade : IMagdaFacade
         _logger = logger;
     }
 
+    public async Task<ResponseEnvelope<GeefOndernemingVKBOResponseBody>?> GeefOndernemingVKBO(string kbonummer, MagdaCallReference reference)
+    {
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
+
+        var unsignedEnvelope = MakeEnvelope(GeefOndernemingVKBOBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<GeefOndernemingVKBOResponseBody>(
+            _magdaOptions.GeefOndernemingVkboEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
+
+
     public async Task<ResponseEnvelope<GeefOndernemingResponseBody>?> GeefOnderneming(string kbonummer, MagdaCallReference reference)
     {
-        var unsignedEnvelope = MakeEnvelope(GeefOndernemingBodyWith(kbonummer, reference.Reference, _magdaOptions));
+        Throw<ArgumentNullException>
+            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingEndpoint)}");
+
+        var unsignedEnvelope = MakeEnvelope(GeefOndernemingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
 
         return await PerformMagdaRequest<GeefOndernemingResponseBody>(
-            _magdaOptions.GeefOndernemingVkboEndpoint,
+            _magdaOptions.GeefOndernemingEndpoint!,
             clientCertificate,
             signedEnvelope);
     }
@@ -94,51 +115,6 @@ public class MagdaFacade : IMagdaFacade
             return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
         }
     }
-
-    private static GeefOndernemingBody GeefOndernemingBodyWith(string kboNummer, Guid reference, MagdaOptionsSection magdaOptionsSection)
-        => new()
-        {
-            GeefOnderneming = new GeefOndernemingVKBO
-            {
-                Verzoek = new VerzoekType
-                {
-                    Context = new ContextType
-                    {
-                        Naam = "GeefOndernemingVKBO",
-                        Versie = "02.00.0000",
-                        Bericht = new BerichtType
-                        {
-                            Type = BerichtTypeType.VRAAG,
-                            Tijdstip = new TijdstipType
-                            {
-                                Datum = DateTime.Now.ToString("yyyy-MM-dd"),
-                                Tijd = DateTime.Now.ToString("HH:mm:ss.000"),
-                            },
-                            Afzender = new AfzenderAdresType
-                            {
-                                Identificatie = magdaOptionsSection.Afzender,
-                                Referte = reference.ToString(),
-                            },
-                            Ontvanger = new OntvangerAdresType
-                            {
-                                Identificatie = magdaOptionsSection.Ontvanger,
-                            },
-                        },
-                    },
-                    Vragen = new VragenType
-                    {
-                        Vraag = new VraagType
-                        {
-                            Referte = reference.ToString(),
-                            Inhoud = new VraagInhoudType
-                            {
-                                Ondernemingsnummer = kboNummer,
-                            },
-                        },
-                    },
-                },
-            },
-        };
 
     private static Envelope<T> MakeEnvelope<T>(T body)
         => new()

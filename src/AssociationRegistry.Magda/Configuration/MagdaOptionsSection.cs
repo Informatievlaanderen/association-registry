@@ -10,5 +10,6 @@ public class MagdaOptionsSection
     public string Afzender { get; set; } = null!;
     public string Hoedanigheid { get; set; } = null!;
     public string Ontvanger { get; set; } = null!;
-    public string GeefOndernemingVkboEndpoint { get; set; } = null!;
+    public string? GeefOndernemingVkboEndpoint { get; set; } = null!;
+    public string? GeefOndernemingEndpoint { get; set; } = null!;
 }

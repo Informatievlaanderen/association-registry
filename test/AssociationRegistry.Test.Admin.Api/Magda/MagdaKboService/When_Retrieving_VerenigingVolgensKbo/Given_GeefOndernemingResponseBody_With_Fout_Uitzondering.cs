@@ -3,10 +3,10 @@ namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrievi
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO;
+using AssociationRegistry.Magda.Models.GeefOnderneming;
+using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using FluentAssertions;
-using Kbo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
@@ -28,7 +28,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
-        envelope.Body!.GeefOndernemingVKBOResponse!.Repliek.Antwoorden.Antwoord.Uitzonderingen = new[]
+        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Uitzonderingen = new[]
         {
             new UitzonderingType
             {
@@ -43,7 +43,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         };
         _logger = new Mock<ILogger<MagdaGeefVerenigingService>>();
 
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>()))
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
             .ReturnsAsync(envelope);
 
         _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, _logger.Object);
@@ -66,7 +66,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
             x => x.Log(
                 It.Is<LogLevel>(l => l == LogLevel.Information),
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString() == $"Uitzondering bij het aanroepen van de Magda GeefOndernemingVKBO service voor KBO-nummer {kboNummer}: 'Er is een fout gebeurd\nEr is nog een fout gebeurd'"),
+                It.Is<It.IsAnyType>((v, t) => v.ToString() == $"Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {kboNummer}: 'Er is een fout gebeurd\nEr is nog een fout gebeurd'"),
                 It.IsAny<Exception>(),
                 It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!),
             Times.Once);

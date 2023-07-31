@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda;
 using Fakes;
 using Framework;
 using AutoFixture;
@@ -32,7 +33,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
             new InMemorySequentialVCodeService(),
             new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                new VerenigingVolgensKbo { KboNummer = _envelope.Command.KboNummer, Rechtsvorm = "VZW" }
+                new VerenigingVolgensKbo { KboNummer = _envelope.Command.KboNummer, Rechtsvorm = Rechtsvorm.VZW }
             ));
     }
 
