@@ -11,5 +11,8 @@
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.8.*" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

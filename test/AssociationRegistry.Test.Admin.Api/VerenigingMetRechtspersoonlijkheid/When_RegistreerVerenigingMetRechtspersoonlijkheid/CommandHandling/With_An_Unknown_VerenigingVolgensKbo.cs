@@ -14,12 +14,12 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_An_Unknown_KboNummer
+public class With_An_Unknown_VerenigingVolgensKbo
 {
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
 
-    public With_An_Unknown_KboNummer()
+    public With_An_Unknown_VerenigingVolgensKbo()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 

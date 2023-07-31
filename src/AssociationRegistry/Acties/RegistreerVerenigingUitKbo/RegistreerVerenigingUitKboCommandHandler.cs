@@ -32,14 +32,8 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata.Initiator, cancellationToken);
         if (vereniging.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
-        ValidateVereniging(vereniging.Data);
 
         return Result.Success(await RegisteerVereniging(vereniging, message.Metadata, cancellationToken));
-    }
-
-    private static void ValidateVereniging(VerenigingVolgensKbo verenigingVolgensKbo)
-    {
-        Throw<GeenGeldigeVerenigingInKbo>.If(verenigingVolgensKbo.Rechtsvorm is not "VZW" or "iVZW" or "Private Stichting" or "Stichting van openbaar nut");
     }
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNummer)

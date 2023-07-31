@@ -8,7 +8,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
-using AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO;
 using AutoFixture;
 using Primitives;
 using Test.Framework.Customizations;
@@ -46,24 +45,6 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeMagdaResponses();
 
         return fixture;
-    }
-
-    private static void CustomizeMagdaResponses(this IFixture fixture)
-    {
-        DoNotAutoGenerateUitzonderingen(fixture);
-    }
-
-    private static void DoNotAutoGenerateUitzonderingen(IFixture fixture)
-    {
-        fixture.Customize<AntwoordType>(
-            composer => composer.FromFactory(
-                () => new AntwoordType
-                {
-                    Inhoud = fixture.Create<AntwoordInhoudType>(),
-                    Referte = fixture.Create<string>(),
-                    Uitzonderingen = Array.Empty<UitzonderingType>(),
-                }
-            ).OmitAutoProperties());
     }
 
     private static void CustomizeWijzigBasisgegevensRequest(this IFixture fixture)

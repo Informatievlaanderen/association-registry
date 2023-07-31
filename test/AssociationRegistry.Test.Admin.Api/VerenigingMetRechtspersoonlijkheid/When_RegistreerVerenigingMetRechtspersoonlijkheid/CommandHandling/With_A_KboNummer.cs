@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using Acties.RegistreerVerenigingUitKbo;
 using Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda;
 using Fakes;
 using Framework;
 using AutoFixture;
@@ -31,7 +32,7 @@ public class With_A_KboNummer
             _verenigingRepositoryMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                new VerenigingVolgensKbo { KboNummer = _command.KboNummer, Rechtsvorm = "VZW" }
+                new VerenigingVolgensKbo { KboNummer = _command.KboNummer, Rechtsvorm = Rechtsvorm.VZW }
             ));
 
         commandHandler

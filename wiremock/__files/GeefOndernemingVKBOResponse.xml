@@ -8,12 +8,12 @@
         <Type>ANTWOORD</Type>
         <Tijdstip>
           <Datum>2023-07-28</Datum>
-          <Tijd>13:10:17.330</Tijd>
+          <Tijd>12:00:06.174</Tijd>
         </Tijdstip>
         <Afzender>
           <Identificatie>vip.vlaanderen.be</Identificatie>
           <Naam>MagdaGateway</Naam>
-          <Referte>65eda993-c92e-418e-ac38-7c29ffe28618</Referte>
+          <Referte>dfd39ed3-150f-42aa-99f8-0df1904af760</Referte>
         </Afzender>
         <Ontvanger>
           <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
@@ -24,7 +24,7 @@
     </Context>
     <Antwoorden>
       <Antwoord>
-        <Referte xmlns:web="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be">c01e550a-a8ce-4b62-8498-677fa74ee52f</Referte>
+        <Referte xmlns:web="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be">646bbd8f-a033-43c3-941c-1e32ebe956ca</Referte>
         <Inhoud>
           <Onderneming DatumModificatie="2022-06-10">
             <Ondernemingsnummer xmlns:web="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be">0563634435</Ondernemingsnummer>
