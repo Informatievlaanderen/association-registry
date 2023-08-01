@@ -34,6 +34,8 @@ public class Given_A_Valid_KboNummer
 
             var onderneming = repliek?.Antwoorden.Antwoord.Inhoud.Onderneming;
 
+            onderneming.Should().NotBeNull();
+
             onderneming?.Rechtsvormen.SingleOrDefault(r => r.Code.Value == Rechtsvorm.VZW.CodeVolgensMagda).Should().NotBeNull();
             onderneming?.Namen.MaatschappelijkeNamen.Should().ContainEquivalentOf(
                 new NaamOndernemingType

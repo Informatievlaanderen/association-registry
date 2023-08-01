@@ -2,10 +2,10 @@
   "priority": 2,
   "request": {
     "method": "POST",
-    "urlPath": "/GeefOndernemingVKBODienst-02.00/soap/WebService"
+    "urlPath": "/GeefOndernemingDienst-02.00/soap/WebService"
   },
   "response": {
-    "bodyFileName": "GeefOndernemingVKBOResponse.xml",
+    "bodyFileName": "GeefOndernemingResponses/fallback.xml",
     "transformers": [
       "response-template"
     ]
