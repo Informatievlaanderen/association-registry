@@ -6,6 +6,9 @@ on:
       run-docker-acm:
         required: true
         type: boolean
+      run-docker-wiremock:
+        required: true
+        type: boolean
       run-docker-db:
         required: true
         type: boolean
