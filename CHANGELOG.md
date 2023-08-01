@@ -1,3 +1,17 @@
+# [6.7.0](https://github.com/informatievlaanderen/association-registry/compare/v6.6.0...v6.7.0) (2023-08-01)
+
+
+### Features
+
+* or-1820 handle the fact that magda does not provide ns on header and body ([e98acf0](https://github.com/informatievlaanderen/association-registry/commit/e98acf0d113ed21796076102033026e11429245c))
+* or-1820 rebase onto or-1833 ([f9caa18](https://github.com/informatievlaanderen/association-registry/commit/f9caa181bf33db1faf5e37a0ad1c6649aa9ea396))
+* or-1820 use correct name ([b76204c](https://github.com/informatievlaanderen/association-registry/commit/b76204ce0d6678c56ec6ab525876f7857a7ec990))
+* or-1820 validate rechtsvorm from Kbo ([0585728](https://github.com/informatievlaanderen/association-registry/commit/05857285e063dbfea523521fd7103643a71e748c))
+* or-1820 Validate registratie via Magda Kbo ([9a13bfa](https://github.com/informatievlaanderen/association-registry/commit/9a13bfafbf71217f564af2b1318d07f2348c4e02))
+* or-1833 integrate magda to verify existance of kbonumber ([4e13825](https://github.com/informatievlaanderen/association-registry/commit/4e138258a8e1aa7184b0f4392410218ab6cac623))
+* or-1833 integrate magda to verify existance of kbonumber ([b15eb81](https://github.com/informatievlaanderen/association-registry/commit/b15eb8107d3ca17fd94a884b0177a72f89733adc))
+* or-1833 integrate magda to verify existance of kbonumber ([a439b1a](https://github.com/informatievlaanderen/association-registry/commit/a439b1ab18c5a2d500e40a16ed6fe168752a982a))
+
 # [6.6.0](https://github.com/informatievlaanderen/association-registry/compare/v6.5.0...v6.6.0) (2023-07-10)
 
 
