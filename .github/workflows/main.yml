@@ -156,6 +156,7 @@ jobs:
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
+      run-docker-wiremock: false
       run-docker-db: true
       pre-gen-marten: true
       run-docker-elasticsearch: false
@@ -174,6 +175,7 @@ jobs:
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
+      run-docker-wiremock: false
       run-docker-db: true
       pre-gen-marten: false
       run-docker-elasticsearch: true
@@ -192,6 +194,7 @@ jobs:
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
+      run-docker-wiremock: false
       run-docker-db: true
       pre-gen-marten: true
       run-docker-elasticsearch: true
@@ -210,6 +213,7 @@ jobs:
       build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
+      run-docker-wiremock: true
       run-docker-db: true
       run-docker-elasticsearch: true
       pre-gen-marten: true
@@ -228,6 +232,7 @@ jobs:
       build-project: AssociationRegistry.Admin.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
+      run-docker-wiremock: true
       run-docker-db: true
       pre-gen-marten: true
       run-docker-elasticsearch: true

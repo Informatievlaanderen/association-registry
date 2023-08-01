@@ -53,6 +53,12 @@ jobs:
         run: |
           docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 
+      - name: Run wiremock container
+        shell: bash
+        if: ${{ inputs.run-docker-wiremock }}
+        run: |
+          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
+
       - name: Run ACM container
         shell: bash
         if: ${{ inputs.run-docker-acm }}
@@ -194,6 +200,12 @@ jobs:
         shell: bash
         run: |
           docker logs elasticsearch
+
+      - name: Shows logs wiremock container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs wiremock
 
       - name: Shows logs db container
         if: ${{ failure() }}
