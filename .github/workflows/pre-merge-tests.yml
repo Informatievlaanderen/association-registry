@@ -211,6 +211,10 @@ jobs:
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
       - name: Run all tests
+        env:
+          LIVEMAGDAOPTIONS__CLIENTCERTIFICATE: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE }}
+          LIVEMAGDAOPTIONS__CLIENTCERTIFICATEPASSWORD: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATEPASSWORD }}
+          LIVEMAGDAOPTIONS__GEEFONDERNEMINGVKBOENDPOINT: ${{ secrets.LIVEMAGDAOPTIONS_GEEFONDERNEMINGVKBOENDPOINT }}
         run: dotnet test ${{matrix.projects}} --logger html
 
       - name: Archive code coverage results
