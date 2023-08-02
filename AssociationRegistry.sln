@@ -81,18 +81,22 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wiremock", "wiremock", "{DBDE4EB5-760D-48AA-BDE4-59704B669084}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__files", "__files", "{A30C8928-5F0D-459A-BB1B-0AE24A160CBB}"
-	ProjectSection(SolutionItems) = preProject
-		wiremock\__files\GeefOndernemingVKBOResponse.xml = wiremock\__files\GeefOndernemingVKBOResponse.xml
-		wiremock\__files\GeefOndernemingResponse.xml = wiremock\__files\GeefOndernemingResponse.xml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E074A15-9B15-4B42-8D0B-8DA1A618330C}"
 	ProjectSection(SolutionItems) = preProject
-		wiremock\mappings\GeefOndernemingVKBO.json = wiremock\mappings\GeefOndernemingVKBO.json
 		wiremock\mappings\GeefOnderneming.json = wiremock\mappings\GeefOnderneming.json
+		wiremock\mappings\GeefOnderneming.fallback.json = wiremock\mappings\GeefOnderneming.fallback.json
+		wiremock\mappings\unmapped.json = wiremock\mappings\unmapped.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefOndernemingResponses", "GeefOndernemingResponses", "{9C2CDA4C-FFF3-4AA1-B31A-8804D98F0469}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\GeefOndernemingResponses\0442528054.xml = wiremock\__files\GeefOndernemingResponses\0442528054.xml
+		wiremock\__files\GeefOndernemingResponses\0563634435.xml = wiremock\__files\GeefOndernemingResponses\0563634435.xml
+		wiremock\__files\GeefOndernemingResponses\fallback.xml = wiremock\__files\GeefOndernemingResponses\fallback.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -186,5 +190,6 @@ Global
 		{A30C8928-5F0D-459A-BB1B-0AE24A160CBB} = {DBDE4EB5-760D-48AA-BDE4-59704B669084}
 		{9E074A15-9B15-4B42-8D0B-8DA1A618330C} = {DBDE4EB5-760D-48AA-BDE4-59704B669084}
 		{85139412-485D-4B23-8423-A0C2021B60DE} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
+		{9C2CDA4C-FFF3-4AA1-B31A-8804D98F0469} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 	EndGlobalSection
 EndGlobal
