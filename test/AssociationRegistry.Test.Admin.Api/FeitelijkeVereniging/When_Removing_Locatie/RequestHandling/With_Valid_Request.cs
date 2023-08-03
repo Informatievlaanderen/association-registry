@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Locatie.RequestHandling;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 using Framework;
 using Vereniging;

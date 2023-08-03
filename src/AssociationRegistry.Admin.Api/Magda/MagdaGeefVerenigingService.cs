@@ -12,7 +12,6 @@ using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using Framework;
-using Infrastructure.Middleware;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Vereniging;
@@ -21,18 +20,15 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
     private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaFacade _magdaFacade;
-    private readonly ICorrelationIdProvider _correlationIdProvider;
     private readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaFacade magdaFacade,
-        ICorrelationIdProvider correlationIdProvider,
         ILogger<MagdaGeefVerenigingService> logger)
     {
         _magdaCallReferenceRepository = magdaCallReferenceRepository;
         _magdaFacade = magdaFacade;
-        _correlationIdProvider = correlationIdProvider;
         _logger = logger;
     }
 

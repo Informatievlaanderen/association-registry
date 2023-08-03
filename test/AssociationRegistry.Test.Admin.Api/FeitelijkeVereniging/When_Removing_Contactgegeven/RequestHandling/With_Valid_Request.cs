@@ -2,7 +2,6 @@
 
 using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using Framework;

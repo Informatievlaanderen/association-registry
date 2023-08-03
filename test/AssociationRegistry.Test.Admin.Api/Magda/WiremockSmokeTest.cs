@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Magda;
 
 using System.Net;
-using System.Text;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

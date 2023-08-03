@@ -2,7 +2,6 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using Framework;

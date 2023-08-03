@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.RequestHandling;
 
 using Acties.WijzigLocatie;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Framework;
 using Framework;
