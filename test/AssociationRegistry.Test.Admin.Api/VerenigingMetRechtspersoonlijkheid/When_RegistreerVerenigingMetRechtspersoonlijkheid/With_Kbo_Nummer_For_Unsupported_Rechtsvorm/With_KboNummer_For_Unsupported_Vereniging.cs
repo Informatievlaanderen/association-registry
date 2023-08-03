@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Rechtsvorm;
 
 using System.Net;
-using Events;
-using Fixtures;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -13,12 +13,12 @@ using Xunit.Categories;
 public abstract class With_KboNummer_For_Unsupported_Vereniging
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    private readonly RegistreerVereniginMetRechtspersoonlijkheidSetup _registreerVereniginMetRechtspersoonlijkheidSetup;
+    public readonly RegistreerVereniginMetRechtspersoonlijkheidSetup RegistreerVereniginMetRechtspersoonlijkheidSetup;
 
     public With_KboNummer_For_Unsupported_Vereniging(EventsInDbScenariosFixture fixture, RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
     {
         _fixture = fixture;
-        _registreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
+        RegistreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
     }
 
     [Fact]
@@ -28,13 +28,7 @@ public abstract class With_KboNummer_For_Unsupported_Vereniging
             .LightweightSession();
 
         session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Where(e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer)
+            .Where(e => e.KboNummer == RegistreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer)
             .Should().BeNullOrEmpty();
-    }
-
-    [Fact]
-    public void Then_it_returns_an_bad_request_response_with_correct_headers()
-    {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }

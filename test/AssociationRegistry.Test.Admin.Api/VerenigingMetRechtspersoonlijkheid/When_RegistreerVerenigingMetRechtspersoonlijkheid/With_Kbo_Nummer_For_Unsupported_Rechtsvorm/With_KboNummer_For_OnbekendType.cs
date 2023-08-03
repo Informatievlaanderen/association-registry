@@ -1,6 +1,8 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Rechtsvorm;
 
+using System.Net;
 using Fixtures;
+using FluentAssertions;
 using Xunit;
 
 public class RegistreerOnbekendTypeRegistreerSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
@@ -14,5 +16,11 @@ public class With_KboNummer_For_OnbekendType : With_KboNummer_For_Unsupported_Ve
 {
     public With_KboNummer_For_OnbekendType(EventsInDbScenariosFixture fixture, RegistreerOnbekendTypeRegistreerSetup registreerSetup) : base(fixture, registreerSetup)
     {
+    }
+
+    [Fact]
+    public void Then_it_returns_an_bad_request_response_with_correct_headers()
+    {
+        RegistreerVereniginMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 }
