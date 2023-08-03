@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
-using AssociationRegistry.Test.Admin.Api.Fixtures;
+using Fixtures;
 using Xunit;
 
 public class RegistreerStichtingVanOpenbaarNutSetup: RegistreerVereniginMetRechtspersoonlijkheidSetup

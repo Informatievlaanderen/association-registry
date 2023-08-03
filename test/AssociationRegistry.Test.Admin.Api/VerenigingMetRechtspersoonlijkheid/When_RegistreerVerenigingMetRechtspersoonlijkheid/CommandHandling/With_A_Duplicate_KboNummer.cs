@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Magda;
 using Fakes;
 using Framework;
 using AutoFixture;
@@ -12,7 +11,6 @@ using FluentAssertions;
 using Kbo;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
