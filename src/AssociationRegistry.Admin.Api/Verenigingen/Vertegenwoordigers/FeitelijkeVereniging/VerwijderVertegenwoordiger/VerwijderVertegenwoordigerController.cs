@@ -59,10 +59,10 @@ public class VerwijderVertegenwoordigerController : ApiController
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int vertegenwoordigerId,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [IfMatchHeader] string? ifMatch = null)
     {
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(new VerwijderVertegenwoordigerCommand(VCode.Create(vCode), vertegenwoordigerId), metaData);
 
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);

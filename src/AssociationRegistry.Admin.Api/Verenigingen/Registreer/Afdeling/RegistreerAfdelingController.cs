@@ -74,7 +74,7 @@ public class RegistreerAfdelingController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerAfdelingRequest? request,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
         string? bevestigingsToken = null)
     {
@@ -89,7 +89,7 @@ public class RegistreerAfdelingController : ApiController
                 SkipDuplicateDetection = skipDuplicateDetection,
             };
 
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant());
+        var metaData = metadataProvider.GetMetadata();
         var envelope = new CommandEnvelope<RegistreerAfdelingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 

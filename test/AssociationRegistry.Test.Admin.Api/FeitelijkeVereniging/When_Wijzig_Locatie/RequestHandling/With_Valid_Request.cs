@@ -47,7 +47,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
-            _fixture.Create<InitiatorProvider>());
+            _fixture.Create<CommandMetadataProviderStub>());
 
         using (new AssertionScope())
         {
@@ -63,7 +63,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
-            _fixture.Create<InitiatorProvider>());
+            _fixture.Create<CommandMetadataProviderStub>());
 
         using (new AssertionScope())
         {
@@ -78,7 +78,7 @@ public class With_Valid_Request
             _fixture.Create<VCode>(),
             _fixture.Create<int>(),
             _fixture.Create<WijzigLocatieRequest>(),
-            _fixture.Create<InitiatorProvider>());
+            _fixture.Create<CommandMetadataProviderStub>());
 
         using (new AssertionScope())
         {

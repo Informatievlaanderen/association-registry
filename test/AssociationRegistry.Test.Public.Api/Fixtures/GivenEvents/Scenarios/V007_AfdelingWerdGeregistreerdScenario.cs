@@ -76,5 +76,5 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant());
+        => new("OVO000001", new Instant(), Guid.NewGuid());
 }

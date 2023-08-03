@@ -37,7 +37,7 @@ public class With_Invalid_ETag
             await _controller.Post(
                 _fixture.Create<string>(),
                 _fixture.Create<VoegVertegenwoordigerToeRequest>(),
-                new InitiatorProvider { Value = "OVO000001"},
+                new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 eTagValue);
         };
 

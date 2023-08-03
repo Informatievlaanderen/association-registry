@@ -38,7 +38,7 @@ public class With_Invalid_ETag
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
                 _fixture.Create<WijzigContactgegevenRequest>(),
-                _fixture.Create<InitiatorProvider>(),
+                _fixture.Create<CommandMetadataProviderStub>(),
                 eTagValue);
         };
 

@@ -32,5 +32,5 @@ public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant());
+        => new("OVO000001", new Instant(), Guid.NewGuid());
 }

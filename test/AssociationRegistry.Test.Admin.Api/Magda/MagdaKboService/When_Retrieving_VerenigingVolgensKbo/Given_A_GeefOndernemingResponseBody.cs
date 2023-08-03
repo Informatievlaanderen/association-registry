@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Magda;
+using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
@@ -32,13 +34,13 @@ public class Given_A_GeefOndernemingResponseBody
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
             .ReturnsAsync(_responseEnvelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, Mock.Of<ICorrelationIdProvider>(), new NullLogger<MagdaGeefVerenigingService>());
     }
 
     [Fact]
     public async Task Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(),_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(),_fixture.Create<CommandMetadata>(), CancellationToken.None);
         result.IsSuccess().Should().BeTrue();
     }
 
@@ -46,7 +48,7 @@ public class Given_A_GeefOndernemingResponseBody
     public async Task Then_It_Returns_A_VerenigingVolgensKbo()
     {
         var kboNummer = _fixture.Create<KboNummer>();
-        var result = await _service.GeefVereniging(kboNummer,_fixture.Create<string>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(kboNummer,_fixture.Create<CommandMetadata>(), CancellationToken.None);
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;

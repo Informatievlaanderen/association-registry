@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
+using Framework;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -27,7 +28,7 @@ public class With_Null_Request
                 "V001001",
                 1,
                 null!,
-                new InitiatorProvider(),
+                new CommandMetadataProviderStub(),
                 "M/\"1\""));
     }
 }

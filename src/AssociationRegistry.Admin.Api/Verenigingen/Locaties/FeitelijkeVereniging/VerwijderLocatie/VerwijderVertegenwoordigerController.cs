@@ -60,10 +60,10 @@ public class VerwijderLocatieController : ApiController
     public async Task<IActionResult> Delete(
         [FromRoute] string vCode,
         [FromRoute] int locatieId,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [IfMatchHeader] string? ifMatch = null)
     {
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VerwijderLocatieCommand>(new VerwijderLocatieCommand(VCode.Create(vCode), locatieId), metaData);
 
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);

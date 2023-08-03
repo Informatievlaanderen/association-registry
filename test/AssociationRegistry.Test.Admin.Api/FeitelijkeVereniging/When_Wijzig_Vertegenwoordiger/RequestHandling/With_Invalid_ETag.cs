@@ -38,7 +38,7 @@ public class With_Invalid_ETag
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
                 _fixture.Create<WijzigVertegenwoordigerRequest>(),
-                new InitiatorProvider { Value = "OVO0001000"},
+                new CommandMetadataProviderStub { Initiator= "OVO0001000" },
                 eTagValue);
         };
 

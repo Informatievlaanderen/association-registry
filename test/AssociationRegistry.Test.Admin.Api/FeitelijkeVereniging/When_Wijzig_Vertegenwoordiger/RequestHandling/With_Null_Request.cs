@@ -28,7 +28,7 @@ public class With_Null_Request
                 "V001001",
                 1,
                 null!,
-                new InitiatorProvider { Value = "OVO0001000"},
+                new CommandMetadataProviderStub { Initiator= "OVO0001000" },
                 "M/\"1\""));
     }
 }

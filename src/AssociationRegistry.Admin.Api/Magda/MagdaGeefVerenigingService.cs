@@ -11,6 +11,8 @@ using AssociationRegistry.Magda.Exceptions;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using Framework;
+using Infrastructure.Middleware;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Vereniging;
@@ -19,23 +21,26 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
     private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaFacade _magdaFacade;
+    private readonly ICorrelationIdProvider _correlationIdProvider;
     private readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaFacade magdaFacade,
+        ICorrelationIdProvider correlationIdProvider,
         ILogger<MagdaGeefVerenigingService> logger)
     {
         _magdaCallReferenceRepository = magdaCallReferenceRepository;
         _magdaFacade = magdaFacade;
+        _correlationIdProvider = correlationIdProvider;
         _logger = logger;
     }
 
-    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, string initiator, CancellationToken cancellationToken)
+    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
     {
         try
         {
-            var reference = await CreateReference(_magdaCallReferenceRepository, initiator, cancellationToken);
+            var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer, cancellationToken);
             var magdaResponse = await _magdaFacade.GeefOnderneming(kboNummer, reference);
 
             if (HasFoutUitzonderingen(magdaResponse))
@@ -93,13 +98,18 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     private static bool HasFoutUitzonderingen(ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
         => magdaResponse.HasUitzonderingenOfTypes(UitzonderingTypeType.FOUT);
 
-    private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, CancellationToken cancellationToken)
+    private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, Guid correlationId, string opgevraagdOnderwerp, CancellationToken cancellationToken)
     {
         var magdaCallReference = new MagdaCallReference
         {
             Reference = Guid.NewGuid(),
             CalledAt = DateTimeOffset.UtcNow,
             Initiator = initiator,
+            OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+            Context = "Registreer vereniging met rechtspersoonlijkheid",
+            AanroependeDienst = "Verenigingsregister Beheer Api",
+            CorrelationId = correlationId,
+            OpgevraagdOnderwerp = opgevraagdOnderwerp,
         };
         await repository.Save(magdaCallReference, cancellationToken);
 

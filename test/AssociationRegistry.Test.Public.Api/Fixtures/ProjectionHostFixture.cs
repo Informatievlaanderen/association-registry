@@ -81,7 +81,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         if (_elasticClient is not { })
             throw new NullException("Elastic client cannot be null when adding an event");
 
-        metadata ??= new CommandMetadata(vCode, new DateTime(2022, 1, 1).ToUniversalTime().ToInstant());
+        metadata ??= new CommandMetadata(vCode, new DateTime(2022, 1, 1).ToUniversalTime().ToInstant(), Guid.NewGuid());
 
         var eventStore = new EventStore(DocumentStore);
         await eventStore.Save(vCode, metadata, CancellationToken.None, eventToAdd);

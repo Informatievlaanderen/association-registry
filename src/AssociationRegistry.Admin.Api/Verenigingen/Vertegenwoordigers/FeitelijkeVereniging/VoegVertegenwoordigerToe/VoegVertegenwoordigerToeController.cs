@@ -63,12 +63,12 @@ public class VoegVertegenwoordigerToeController : ApiController
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,
         [FromBody] VoegVertegenwoordigerToeRequest request,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 

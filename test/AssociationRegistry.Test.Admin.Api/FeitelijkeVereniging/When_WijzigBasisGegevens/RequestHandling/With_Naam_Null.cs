@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using Fakes;
 using FluentValidation;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,7 +30,7 @@ public class With_Naam_Null
                 new WijzigBasisgegevensRequestValidator(),
                 _requestWithNaamNull,
                 VCode,
-                new InitiatorProvider { Value = "OVO0001001"},
+                new CommandMetadataProviderStub { Initiator = "OVO0001001"},
                 "M/\"1\""));
     }
 }

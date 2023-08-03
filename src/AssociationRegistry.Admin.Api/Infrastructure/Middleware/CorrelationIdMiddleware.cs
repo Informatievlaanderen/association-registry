@@ -16,7 +16,7 @@ public class CorrelationIdMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, ProblemDetailsHelper helper)
+    public async Task Invoke(HttpContext context, ProblemDetailsHelper helper, ICorrelationIdProvider correlationIdProvider)
     {
         if (context.Request.Path.HasValue && context.Request.Path.Value.ToLowerInvariant().StartsWith("/v1"))
         {
@@ -34,6 +34,7 @@ public class CorrelationIdMiddleware
                 return;
             }
 
+            correlationIdProvider.CorrelationId = correlationId.Value;
             AddCorrelationIdHeaderToResponse(context, correlationId.Value);
         }
 

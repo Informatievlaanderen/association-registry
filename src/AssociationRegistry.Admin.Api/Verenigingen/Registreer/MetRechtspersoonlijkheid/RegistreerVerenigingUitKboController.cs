@@ -73,14 +73,15 @@ public class RegistreerVerenigingUitKboController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingUitKboRequest? request,
+        [FromServices] ICommandMetadataProvider commandMetadataProvider,
         [FromServices] InitiatorProvider initiator)
     {
         await _validator.NullValidateAndThrowAsync(request);
 
         var command = request.ToCommand();
 
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant());
-        var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, metaData);
+        var metadata = commandMetadataProvider.GetMetadata();
+        var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, metadata);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
         return registratieResult switch

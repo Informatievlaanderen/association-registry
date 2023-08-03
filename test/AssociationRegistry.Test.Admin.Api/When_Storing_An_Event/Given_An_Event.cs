@@ -38,7 +38,8 @@ public class Given_An_Event
             streamId,
             new CommandMetadata(
                 "SomeInitiator",
-                tijdstip),
+                tijdstip,
+                Guid.NewGuid()),
             CancellationToken.None,
             someEvent);
 

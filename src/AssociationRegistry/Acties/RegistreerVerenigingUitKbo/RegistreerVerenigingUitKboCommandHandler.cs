@@ -30,7 +30,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         var duplicateResult = await CheckForDuplicate(command.KboNummer);
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata.Initiator, cancellationToken);
+        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
         if (vereniging.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
 
         return Result.Success(await RegisteerVereniging(vereniging, message.Metadata, cancellationToken));

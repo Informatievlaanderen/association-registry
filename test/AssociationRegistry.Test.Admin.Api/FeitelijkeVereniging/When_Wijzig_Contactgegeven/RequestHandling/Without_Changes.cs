@@ -9,6 +9,7 @@ using AssociationRegistry.Framework;
 using Vereniging;
 using FluentAssertions;
 using FluentValidation;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -39,7 +40,7 @@ public class Without_Changes : IAsyncLifetime
             "V0001001",
             1,
             new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven() },
-            new InitiatorProvider(),
+            new CommandMetadataProviderStub(),
             "W/\"1\"");
     }
 

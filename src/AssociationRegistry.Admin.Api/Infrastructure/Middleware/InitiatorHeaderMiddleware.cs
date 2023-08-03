@@ -43,7 +43,13 @@ public class InitiatorHeaderMiddleware
     }
 }
 
-public class InitiatorProvider
+public interface IInitiatorProvider
+{
+    string Value { get; set; }
+
+}
+
+public class InitiatorProvider : IInitiatorProvider
 {
     public string Value { get; set; } = string.Empty;
 

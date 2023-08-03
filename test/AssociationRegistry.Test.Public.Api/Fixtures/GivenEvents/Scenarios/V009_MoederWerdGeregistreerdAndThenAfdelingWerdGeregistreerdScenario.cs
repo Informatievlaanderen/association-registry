@@ -55,5 +55,5 @@ public class V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenari
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant());
+        => new("OVO000001", new Instant(), Guid.NewGuid());
 }

@@ -37,7 +37,7 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
-                new InitiatorProvider { Value = "OVO000001"},
+                new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 eTagValue);
         };
 
