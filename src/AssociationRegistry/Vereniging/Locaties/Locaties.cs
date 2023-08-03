@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using Events;
 using Exceptions;
 using Framework;
 
@@ -109,6 +110,26 @@ public static class LocatieEnumerbleExtentions
 
     public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, int locatieId)
         => locaties.Where(l => l.LocatieId != locatieId);
+
+    public static IEnumerable<Locatie> AppendFromEventData(this IEnumerable<Locatie> locaties, Registratiedata.Locatie eventData)
+        => locaties.Append(
+            Locatie.Hydrate(
+                eventData.LocatieId,
+                eventData.Naam,
+                eventData.IsPrimair,
+                eventData.Locatietype,
+                eventData.Adres is null
+                    ? null
+                    : Adres.Hydrate(
+                        eventData.Adres.Straatnaam,
+                        eventData.Adres.Huisnummer,
+                        eventData.Adres.Busnummer,
+                        eventData.Adres.Postcode,
+                        eventData.Adres.Gemeente,
+                        eventData.Adres.Land),
+                eventData.AdresId is null ? null : AdresId.Hydrate(eventData.AdresId.Broncode, eventData.AdresId.Bronwaarde))
+        );
+
     public static bool ContainsEquivalient(this IEnumerable<Locatie> source, Locatie locatie)
         => source.Any(locatie.IsEquivalentTo);
     public static bool HasPrimairelocatie(this IEnumerable<Locatie> locaties)

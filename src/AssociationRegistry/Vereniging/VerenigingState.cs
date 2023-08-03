@@ -29,6 +29,7 @@ public record VerenigingState : IHasVersion
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public Locaties Locaties { get; init; } = Locaties.Empty;
+
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
@@ -308,27 +309,20 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Locaties = Locaties.Hydrate(
-                Locaties.ToArray().Append(
-                    Locatie.Hydrate(
-                        @event.Locatie.LocatieId,
-                        @event.Locatie.Naam,
-                        @event.Locatie.IsPrimair,
-                        @event.Locatie.Locatietype,
-                        @event.Locatie.Adres is null
-                            ? null
-                            : Adres.Hydrate(
-                                @event.Locatie.Adres.Straatnaam,
-                                @event.Locatie.Adres.Huisnummer,
-                                @event.Locatie.Adres.Busnummer,
-                                @event.Locatie.Adres.Postcode,
-                                @event.Locatie.Adres.Gemeente,
-                                @event.Locatie.Adres.Land),
-                        @event.Locatie.AdresId is null ? null : AdresId.Hydrate(@event.Locatie.AdresId.Broncode, @event.Locatie.AdresId.Bronwaarde))
-                ).ToArray()),
+                Locaties
+                    .AppendFromEventData(@event.Locatie)
+            ),
         };
 
     public VerenigingState Apply(LocatieWerdGewijzigd @event)
-        => this;
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                    .Without(@event.Locatie.LocatieId)
+                    .AppendFromEventData(@event.Locatie)
+            ),
+        };
 
     public VerenigingState Apply(LocatieWerdVerwijderd @event)
         => this with
