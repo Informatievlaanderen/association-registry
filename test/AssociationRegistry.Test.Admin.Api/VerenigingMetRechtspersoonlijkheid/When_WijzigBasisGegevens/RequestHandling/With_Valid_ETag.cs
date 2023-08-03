@@ -39,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
             new WijzigBasisgegevensRequestValidator(),
             new WijzigBasisgegevensRequest { KorteBeschrijving = "Korte naam" },
             "V0001001",
-            new InitiatorProvider { Value = "OVO0001000"},
+            new CommandMetadataProviderStub { Initiator= "OVO0001000" },
             $"W/\"{ETagNumber}\"");
     }
 

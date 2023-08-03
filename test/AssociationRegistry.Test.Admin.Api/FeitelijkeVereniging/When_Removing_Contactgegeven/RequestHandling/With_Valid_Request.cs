@@ -23,7 +23,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Valid_Request
 {
-    private readonly InitiatorProvider _initiatorProvider = new() { Value = "OVO000001" };
+    private readonly CommandMetadataProviderStub _initiatorProvider = new() { Initiator = "OVO000001" };
     private readonly VerwijderContactgegevenController _controller;
     private readonly Fixture _fixture;
     private readonly CommandResult _commandResult;

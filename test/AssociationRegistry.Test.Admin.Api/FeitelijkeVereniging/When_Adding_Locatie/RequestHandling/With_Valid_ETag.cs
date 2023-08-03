@@ -39,7 +39,7 @@ public class With_Valid_ETag : IAsyncLifetime
         await _controller.Post(
             _fixture.Create<VCode>(),
             _fixture.Create<VoegLocatieToeRequest>(),
-            _fixture.Create<InitiatorProvider>(),
+            _fixture.Create<CommandMetadataProviderStub>(),
             $"W/\"{ETagNumber}\"");
     }
 

@@ -4,8 +4,12 @@ using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Events;
+using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
+using Marten;
+using Marten.Linq;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Xunit;
@@ -58,5 +62,42 @@ public abstract class With_KboNummer_For_Supported_Vereniging
         sequenceValues.Should().HaveCount(expected: 1);
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(expected: 0);
+    }
+
+    [Fact]
+    public async Task Then_it_stores_a_call_reference()
+    {
+        var hasCorrelationIdHeader = _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(WellknownHeaderNames.CorrelationId, out var correlationIdValues);
+
+        hasCorrelationIdHeader.Should().BeTrue();
+
+        await using var lightweightSession = _fixture.DocumentStore.LightweightSession();
+
+
+        var callReferences = lightweightSession
+            .Query<MagdaCallReference>()
+            .ToList();
+
+        var correlationId = Guid.Parse(correlationIdValues.First());
+
+        var callReference = lightweightSession
+            .Query<MagdaCallReference>()
+            .Where(x => x.CorrelationId == correlationId)
+            .SingleOrDefault();
+
+        callReference.Should().NotBeNull();
+        callReference.Should().BeEquivalentTo(
+            new MagdaCallReference()
+            {
+                CorrelationId = correlationId,
+                Context = "Registreer vereniging met rechtspersoonlijkheid",
+                AanroependeDienst = "Verenigingsregister Beheer Api",
+                OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+                OpgevraagdOnderwerp = _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                Initiator = "OVO000001",
+            },
+            options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
+        callReference.Reference.Should().NotBeEmpty();
+        callReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
     }
 }

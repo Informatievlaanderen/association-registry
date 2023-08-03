@@ -114,7 +114,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (daemon is not { })
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
-        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
+        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(ProjectionsDocumentStore);
         foreach (var @event in eventsToAdd)

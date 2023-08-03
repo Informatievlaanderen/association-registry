@@ -21,7 +21,7 @@ public class With_Valid_ETag : IAsyncLifetime
     private readonly VerwijderContactgegevenController _toeController;
     private readonly Fixture _fixture;
     private const int ETagNumber = 1;
-    private readonly InitiatorProvider _initiatorProvider = new() { Value = "OVO000001" };
+    private readonly CommandMetadataProviderStub _initiatorProvider = new() { Initiator = "OVO000001" };
 
     public With_Valid_ETag()
     {

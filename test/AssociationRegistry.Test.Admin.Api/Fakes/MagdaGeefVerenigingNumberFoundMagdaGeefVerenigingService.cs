@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
+using AssociationRegistry.Framework;
 using Kbo;
 using ResultNet;
 using Vereniging;
@@ -13,6 +14,6 @@ public class MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService : IMagdaGe
         _verenigingVolgensKbo = verenigingVolgensKbo;
     }
 
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, string initiator, CancellationToken cancellationToken)
+    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
         => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
 }

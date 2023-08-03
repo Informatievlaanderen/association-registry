@@ -31,7 +31,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant());
+        => new("OVO000001", new Instant(), Guid.NewGuid());
 
     private static FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
         => new(

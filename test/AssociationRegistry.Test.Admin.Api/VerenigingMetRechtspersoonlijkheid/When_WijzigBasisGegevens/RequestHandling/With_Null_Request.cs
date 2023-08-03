@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using Fakes;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,7 +28,7 @@ public class With_Null_Request
                 new WijzigBasisgegevensRequestValidator(),
                 null,
                 "V0001001",
-                new InitiatorProvider { Value = "OVO000001"},
+                new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 "M/\"1\""));
     }
 }

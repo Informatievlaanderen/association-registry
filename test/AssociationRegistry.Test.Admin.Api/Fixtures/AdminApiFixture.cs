@@ -192,7 +192,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         if (daemon is null)
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
-        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant());
+        metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(ProjectionsDocumentStore);
         var result = StreamActionResult.Empty;

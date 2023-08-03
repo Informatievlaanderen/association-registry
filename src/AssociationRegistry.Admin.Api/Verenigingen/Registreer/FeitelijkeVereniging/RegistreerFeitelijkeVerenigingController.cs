@@ -77,7 +77,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> Post(
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
         string? bevestigingsToken = null)
     {
@@ -92,7 +92,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
                 SkipDuplicateDetection = skipDuplicateDetection,
             };
 
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant());
+        var metaData = metadataProvider.GetMetadata();
         var envelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 

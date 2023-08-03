@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
+using Framework;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -26,7 +27,7 @@ public class With_Null_Request
             async () => await _controller.Post(
                 "V001001",
                 null!,
-                new InitiatorProvider { Value = "OVO000001"},
+                new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 "M/\"1\""));
     }
 }

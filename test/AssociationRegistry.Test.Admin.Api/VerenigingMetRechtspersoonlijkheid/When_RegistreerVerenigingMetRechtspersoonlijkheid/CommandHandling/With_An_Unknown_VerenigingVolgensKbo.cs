@@ -38,6 +38,6 @@ public class With_An_Unknown_VerenigingVolgensKbo
 
 public class MagdaGeefVerenigingNumberNotFoundMagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, string? initiator, CancellationToken cancellationToken)
+    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
         => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 }

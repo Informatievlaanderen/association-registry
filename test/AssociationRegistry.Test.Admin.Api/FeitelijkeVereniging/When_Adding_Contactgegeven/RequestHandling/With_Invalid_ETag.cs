@@ -37,7 +37,7 @@ public class With_Invalid_ETag
             await _controller.Post(
                 _fixture.Create<string>(),
                 _fixture.Create<VoegContactgegevenToeRequest>(),
-                _fixture.Create<InitiatorProvider>(),
+                _fixture.Create<CommandMetadataProviderStub>(),
                 eTagValue);
         };
 

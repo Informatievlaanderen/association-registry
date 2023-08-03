@@ -72,14 +72,14 @@ public class WijzigBasisgegevensController : ApiController
         [FromServices] IValidator<WijzigBasisgegevensRequest> validator,
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode,
-        [FromServices] InitiatorProvider initiator,
+        [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await validator.NullValidateAndThrowAsync(request);
 
         var command = request.ToCommand(vCode);
 
-        var metaData = new CommandMetadata(initiator, SystemClock.Instance.GetCurrentInstant(), IfMatchParser.ParseIfMatch(ifMatch));
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);
         var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
 

@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
+using Framework;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -26,7 +27,7 @@ public class With_Null_Request
             async () => await _controller.Post(
                 "V001001",
                 null!,
-                new InitiatorProvider(),
+                new CommandMetadataProviderStub(),
                 "M/\"1\""));
     }
 }

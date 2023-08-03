@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -35,7 +36,7 @@ public class With_Invalid_ETag
                 new WijzigBasisgegevensRequestValidator(),
                 new WijzigBasisgegevensRequest { KorteBeschrijving = "Korte naam" },
                 "V0001001",
-                new InitiatorProvider { Value = "OVO000001"},
+                new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 eTagValue);
         };
 
