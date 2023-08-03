@@ -10,7 +10,9 @@ using DuplicateVerenigingDetection;
 using EventStore;
 using FluentAssertions;
 using Kbo;
+using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,6 +23,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
     private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
+    private Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
 
     public With_A_Duplicate_KboNummer()
     {
@@ -29,12 +32,11 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
 
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(), fixture.Create<CommandMetadata>());
+        _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
             new InMemorySequentialVCodeService(),
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                new VerenigingVolgensKbo { KboNummer = _envelope.Command.KboNummer, Rechtsvorm = Rechtsvorm.VZW }
-            ));
+            _magdaGeefVerenigingService.Object);
     }
 
     public async Task InitializeAsync()
@@ -54,6 +56,12 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     public void Then_The_Result_Contains_The_Duplicate_VCode()
     {
         ((Result<DuplicateKboFound>)_result).Data.VCode.Should().BeEquivalentTo(_moederVCodeAndNaam.VCode);
+    }
+
+    [Fact]
+    public void Then_The_MagdaService_Is_Not_Invoked()
+    {
+        _magdaGeefVerenigingService.Invocations.Should().BeEmpty();
     }
 
 
