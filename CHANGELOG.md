@@ -1,3 +1,11 @@
+# [6.8.0](https://github.com/informatievlaanderen/association-registry/compare/v6.7.0...v6.8.0) (2023-08-03)
+
+
+### Features
+
+* or-1820 add afzender, hoedaingheid en ontvanger to liveMagdaOptions ([0a57700](https://github.com/informatievlaanderen/association-registry/commit/0a577008f8c3ef27808f6c159a71b45a611138a2))
+* or-1820 add integratie testen die niet herhaalbaar zijn op postman ([94b2dcf](https://github.com/informatievlaanderen/association-registry/commit/94b2dcffce0583d2c29c0251e287c776ab271f56))
+
 # [6.7.0](https://github.com/informatievlaanderen/association-registry/compare/v6.6.0...v6.7.0) (2023-08-01)
 
 
