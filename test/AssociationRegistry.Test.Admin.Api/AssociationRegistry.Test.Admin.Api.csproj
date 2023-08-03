@@ -35,6 +35,7 @@
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Rechtsvorm\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="When_Retrieving_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
     <EmbeddedResource Include="When_Searching\files\*.json" />
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
