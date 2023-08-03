@@ -14,9 +14,10 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Categories;
 
-[UnitTest]
+[IntegrationTest]
 public class Given_A_Valid_KboNummer
 {
+    private const string KboNummer = "0442528054";
     private readonly Fixture _fixture = new();
 
     [Theory]
@@ -24,8 +25,8 @@ public class Given_A_Valid_KboNummer
     public async Task Then_It_Returns_GeefOndernemingResponseBody(MagdaOptionsSection magdaOptionsSection)
     {
         var facade = new MagdaFacade(magdaOptionsSection, new NullLogger<MagdaFacade>());
-        var kboNummer = "0442528054";
-        var response = await facade.GeefOnderneming(kboNummer, _fixture.Create<MagdaCallReference>());
+
+        var response = await facade.GeefOnderneming(KboNummer, _fixture.Create<MagdaCallReference>());
 
         using (new AssertionScope())
         {

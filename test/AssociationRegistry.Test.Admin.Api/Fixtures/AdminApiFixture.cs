@@ -92,17 +92,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
                     builder.UseConfiguration(GetConfiguration());
-                    // builder.ConfigureAppConfiguration(
-                    //     cfg =>
-                    //         cfg.SetBasePath(GetRootDirectoryOrThrow())
-                    //             .AddJsonFile("appsettings.json", optional: true)
-                    //             .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                    //             .AddInMemoryCollection(
-                    //                 new[]
-                    //                 {
-                    //                     new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
-                    //                 })
-                    // );
                     builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
