@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header />
+  <SOAP-ENV:Header/>
   <SOAP-ENV:Body>
     <geef:GeefOndernemingResponse
       xmlns:geef="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
       <Repliek>
-        test.c
         <Context
           xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
           <Naam>GeefOnderneming</Naam>
@@ -25,7 +23,7 @@
             <Ontvanger>
               <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
               <Referte>AREF_QT_610527_134233</Referte>
-              <Hoedanigheid />
+              <Hoedanigheid/>
             </Ontvanger>
           </Bericht>
         </Context>
@@ -61,13 +59,13 @@
                 <Namen
                   xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
                   <MaatschappelijkeNamen>
-                    <MaatschappelijkeNaam DatumBegin="1998-01-01">
-                      <Naam>Kometsoft</Naam>
+                    <MaatschappelijkeNaam DatumBegin="2015-10-13">
+                      <Naam>Kom op tegen Kanker</Naam>
                       <Taalcode>nl</Taalcode>
                     </MaatschappelijkeNaam>
                   </MaatschappelijkeNamen>
                   <AfgekorteNamen>
-                    <AfgekorteNaam DatumBegin="1998-01-01">
+                    <AfgekorteNaam DatumBegin="2015-10-13">
                       <Naam>V.L.K.</Naam>
                       <Taalcode>nl</Taalcode>
                     </AfgekorteNaam>
@@ -121,7 +119,7 @@
                 <Rechtsvormen
                   xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
                   <Rechtsvorm DatumBegin="1989-10-03">
-                    <Code>001</Code>
+                    <Code>029</Code>
                   </Rechtsvorm>
                 </Rechtsvormen>
               </Onderneming>

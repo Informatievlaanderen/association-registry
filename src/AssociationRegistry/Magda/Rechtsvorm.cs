@@ -6,8 +6,8 @@ public class Rechtsvorm : IEquatable<Rechtsvorm>
 {
     public static readonly Rechtsvorm VZW = new("vzw", "017");
     public static readonly Rechtsvorm IVZW = new("ivzw", "125");
-    public static readonly Rechtsvorm PrivateStichting = new("private strichting", "026");
-    public static readonly Rechtsvorm StichtingVanOpenbaarNut = new("stringting van openbaar nut", "029");
+    public static readonly Rechtsvorm PrivateStichting = new("private stichting", "026");
+    public static readonly Rechtsvorm StichtingVanOpenbaarNut = new("stichting van openbaar nut", "029");
 
     public static Rechtsvorm[] All = { VZW, IVZW, PrivateStichting, StichtingVanOpenbaarNut };
 
