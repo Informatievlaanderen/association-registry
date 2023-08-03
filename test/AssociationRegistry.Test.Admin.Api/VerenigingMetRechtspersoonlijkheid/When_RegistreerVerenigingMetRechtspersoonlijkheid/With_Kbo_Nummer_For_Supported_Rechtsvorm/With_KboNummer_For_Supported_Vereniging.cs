@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using Events;
 using AssociationRegistry.Magda.Models;
+using Events;
 using Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
