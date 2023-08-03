@@ -35,16 +35,19 @@ public class Given_Locaties_In_State
                 LocatieId = 1,
                 Locatietype = locatieToUpdate.Locatietype,
                 IsPrimair = !locatieToUpdate.IsPrimair,
+                AdresId = locatieToUpdate.AdresId,
             });
 
         var stateAfterApply = state.Apply(locatieWerdGewijzigd);
 
         stateAfterApply.Locaties.Should().HaveCount(3);
-        var geupdateLoactie = stateAfterApply.Locaties.Should().ContainSingle(l => l.LocatieId == locatieToUpdate.LocatieId).Subject;
-        geupdateLoactie.Locatietype.Waarde.Should().Be(locatieWerdGewijzigd.Locatie.Locatietype);
-        geupdateLoactie.IsPrimair.Should().Be(locatieWerdGewijzigd.Locatie.IsPrimair);
-        geupdateLoactie.Naam.Should().Be(locatieWerdGewijzigd.Locatie.Naam);
-        geupdateLoactie.Adres.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Adres);
-        geupdateLoactie.AdresId.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId);
+        var geupdateLocatie = stateAfterApply.Locaties.Should().ContainSingle(l => l.LocatieId == locatieToUpdate.LocatieId).Subject;
+        geupdateLocatie.Locatietype.Waarde.Should().Be(locatieWerdGewijzigd.Locatie.Locatietype);
+        geupdateLocatie.IsPrimair.Should().Be(locatieWerdGewijzigd.Locatie.IsPrimair);
+        geupdateLocatie.Naam.Should().Be(locatieWerdGewijzigd.Locatie.Naam);
+        geupdateLocatie.Adres.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Adres);
+        geupdateLocatie.AdresId.Adresbron.Code.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId.Broncode);
+        geupdateLocatie.AdresId.Bronwaarde.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId.Bronwaarde);
+        geupdateLocatie.AdresId.Adresbron.Beschrijving.Should().NotBeNullOrWhiteSpace();
     }
 }
