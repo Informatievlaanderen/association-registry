@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
@@ -48,7 +47,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
             .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, Mock.Of<ICorrelationIdProvider>(), _logger.Object);
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, _logger.Object);
     }
 
     [Fact]
