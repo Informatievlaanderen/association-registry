@@ -18,11 +18,11 @@ public class Given_Locaties_In_State
         var fixture = new Fixture().CustomizeDomain();
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
-            Locaties = new []
+            Locaties = new[]
             {
-                fixture.Create<Registratiedata.Locatie>() with{ LocatieId = 1},
-                fixture.Create<Registratiedata.Locatie>() with{ LocatieId = 2},
-                fixture.Create<Registratiedata.Locatie>() with{ LocatieId = 3},
+                fixture.Create<Registratiedata.Locatie>() with { LocatieId = 1 },
+                fixture.Create<Registratiedata.Locatie>() with { LocatieId = 2 },
+                fixture.Create<Registratiedata.Locatie>() with { LocatieId = 3 },
             },
         };
         var state = new VerenigingState()
@@ -39,3 +39,5 @@ public class Given_Locaties_In_State
         stateAfterApply.Locaties.NextId.Should().Be(5);
     }
 }
+
+

@@ -61,7 +61,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
         catch (Exception e)
         {
-            throw new MagdaException("Something went Wrong with magda. Look at inner exception for moer details", e);
+            throw new MagdaException("Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
         }
     }
 
