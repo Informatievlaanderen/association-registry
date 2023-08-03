@@ -36,6 +36,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
+using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -96,9 +97,11 @@ public class Program
         ConfigureServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
+        builder.Host.UseLamar();
         builder.Host.UseWolverine(
-            options => options.Handlers.Discovery(
-                source => { source.IncludeAssembly(typeof(Vereniging).Assembly); }));
+            options =>
+                options.Handlers.Discovery(
+                    source => { source.IncludeAssembly(typeof(Vereniging).Assembly); }));
 
         var app = builder.Build();
 

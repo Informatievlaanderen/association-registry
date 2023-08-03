@@ -41,10 +41,10 @@ public class Given_Locaties_In_State
 
         stateAfterApply.Locaties.Should().HaveCount(3);
         var geupdateLoactie = stateAfterApply.Locaties.Should().ContainSingle(l => l.LocatieId == locatieToUpdate.LocatieId).Subject;
-        geupdateLoactie.Locatietype.Should().Be(locatieWerdGewijzigd.Locatie.Locatietype);
+        geupdateLoactie.Locatietype.Waarde.Should().Be(locatieWerdGewijzigd.Locatie.Locatietype);
         geupdateLoactie.IsPrimair.Should().Be(locatieWerdGewijzigd.Locatie.IsPrimair);
         geupdateLoactie.Naam.Should().Be(locatieWerdGewijzigd.Locatie.Naam);
         geupdateLoactie.Adres.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Adres);
-        geupdateLoactie.AdresId.Should().Be(locatieWerdGewijzigd.Locatie.AdresId);
+        geupdateLoactie.AdresId.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId);
     }
 }
