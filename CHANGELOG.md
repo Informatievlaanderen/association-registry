@@ -1,3 +1,16 @@
+# [6.9.0](https://github.com/informatievlaanderen/association-registry/compare/v6.8.1...v6.9.0) (2023-08-04)
+
+
+### Bug Fixes
+
+* or-1852 add waarde to test ([3f7775e](https://github.com/informatievlaanderen/association-registry/commit/3f7775edc2df6c0883cc3e0e184b0b0eb0a74c31))
+
+
+### Features
+
+* or-1852 add test for bugfix ([2696d65](https://github.com/informatievlaanderen/association-registry/commit/2696d6571dbf6e5aa0704b9e7e9784c3226b71c2))
+* or-1852 apply LocatieWerdGewijzigd ([f850172](https://github.com/informatievlaanderen/association-registry/commit/f850172cbae48bf67176a00076b88f5e1ff19d47))
+
 ## [6.8.1](https://github.com/informatievlaanderen/association-registry/compare/v6.8.0...v6.8.1) (2023-08-03)
 
 # [6.8.0](https://github.com/informatievlaanderen/association-registry/compare/v6.7.0...v6.8.0) (2023-08-03)
