@@ -2,9 +2,11 @@
 
 public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
 {
+    public const string EmailLabel = "E-mail";
+
     public static readonly ContactgegevenType Email =
         new(
-            nameof(Email)
+            EmailLabel
         );
 
     public static readonly ContactgegevenType Website =

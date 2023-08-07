@@ -50,7 +50,7 @@ public static class AutoFixtureCustomizations
         {
             nameof(ContactgegevenType.Telefoon) => source.Create<TelefoonNummer>(),
             nameof(ContactgegevenType.SocialMedia) => source.Create<SocialMedia>(),
-            nameof(ContactgegevenType.Email) => source.Create<Email>(),
+            ContactgegevenType.EmailLabel => source.Create<Email>(),
             nameof(ContactgegevenType.Website) => source.Create<Website>(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
@@ -181,7 +181,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => (string)fixture.Create<ContactgegevenType>() switch
                     {
-                        nameof(ContactgegevenType.Email) => fixture.Create<Email>(),
+                        ContactgegevenType.EmailLabel => fixture.Create<Email>(),
                         nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
                         nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
                         nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),

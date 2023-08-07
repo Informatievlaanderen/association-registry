@@ -29,7 +29,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
         _jsonBody = $@"{{
             ""contactgegeven"":
                 {{
-                    ""type"":""email"",
+                    ""type"":""e-mail"",
                     ""waarde"": ""test@example.org"",
                     ""beschrijving"": ""algemeen"",
                     ""isPrimair"": false

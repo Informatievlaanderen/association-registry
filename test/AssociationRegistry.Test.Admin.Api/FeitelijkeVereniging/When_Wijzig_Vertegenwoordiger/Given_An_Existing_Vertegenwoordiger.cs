@@ -51,7 +51,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
                 {{
                     ""rol"": ""{Rol}"",
                     ""roepnaam"": ""{Roepnaam}"",
-                    ""email"": ""{Email}"",
+                    ""e-mail"": ""{Email}"",
                     ""socialMedia"": ""{SocialMedia}"",
                     ""telefoon"": ""{TelefoonNummer}"",
                     ""mobiel"": ""{Mobiel}"",

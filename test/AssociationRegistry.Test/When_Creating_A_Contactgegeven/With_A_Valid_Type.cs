@@ -14,7 +14,7 @@ using Xunit.Categories;
 public class With_A_Valid_Type
 {
     [Theory]
-    [InlineData("email", "test@example.org", typeof(Email))]
+    [InlineData("e-mail", "test@example.org", typeof(Email))]
     [InlineData("WeBsIte", "https://www.example.org", typeof(Website))]
     [InlineData("SOCIALMEDIA", "https://www.example.org", typeof(SocialMedia))]
     [InlineData("Telefoon", "0000112233", typeof(TelefoonNummer))]

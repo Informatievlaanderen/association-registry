@@ -136,7 +136,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""rol"": ""{x.Rol}"",
                             ""roepnaam"": ""{x.Roepnaam}"",
                             ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
-                            ""email"":""{x.Email}"",
+                            ""e-mail"":""{x.Email}"",
                             ""telefoon"":""{x.Telefoon}"",
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}""
