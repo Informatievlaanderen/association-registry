@@ -55,7 +55,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 {
                     new Contactgegeven
                     {
-                        Type = "Email",
+                        Type = "E-mail",
                         Beschrijving = "Info",
                         Waarde = "info@example.org",
                         ContactgegevenId = 1,

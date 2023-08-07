@@ -11,7 +11,7 @@ using Vereniging;
 public class ToeTeVoegenContactgegeven
 {
     /// <summary>Het type contactgegeven</summary>
-    [SwaggerParameterExample("Email")]
+    [SwaggerParameterExample("E-mail")]
     [SwaggerParameterExample("SocialMedia")]
     [SwaggerParameterExample("Telefoon")]
     [SwaggerParameterExample("Website")]

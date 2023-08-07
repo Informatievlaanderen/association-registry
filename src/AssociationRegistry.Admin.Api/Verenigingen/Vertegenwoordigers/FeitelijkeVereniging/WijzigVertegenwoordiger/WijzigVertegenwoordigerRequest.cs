@@ -46,8 +46,8 @@ public class WijzigVertegenwoordigerRequest
         [DataMember]
         public bool? IsPrimair { get; set; }
 
-        /// <summary>Het emailadres van de vertegenwoordiger</summary>
-        [DataMember]
+        /// <summary>Het e-mailadres van de vertegenwoordiger</summary>
+        [DataMember(Name = "E-mail")]
         public string? Email { get; set; }
 
         /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>

@@ -42,7 +42,7 @@ public record Contactgegeven
 
         return type switch
         {
-            { Waarde: nameof(ContactgegevenType.Email) } => Email.Create(waarde, beschrijving, isPrimair),
+            { Waarde: ContactgegevenType.EmailLabel } => Email.Create(waarde, beschrijving, isPrimair),
             { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
             { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, beschrijving, isPrimair),
             { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, beschrijving, isPrimair),

@@ -17,7 +17,7 @@
     "status": "Actief",
     "contactgegevens": [
       {
-        "type": "Email",
+        "type": "E-mail",
         "waarde": "test@example.org",
         "beschrijving": "de email om naar te sturen",
         "isPrimair": false

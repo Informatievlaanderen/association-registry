@@ -132,7 +132,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdToegevoegd,
             document,
-            $"'{contactgegevenWerdToegevoegd.Data.Type} {contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
+            $"{contactgegevenWerdToegevoegd.Data.Type} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);

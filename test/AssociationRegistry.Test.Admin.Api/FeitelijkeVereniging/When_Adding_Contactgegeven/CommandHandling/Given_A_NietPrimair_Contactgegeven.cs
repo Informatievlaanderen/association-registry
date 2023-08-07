@@ -15,7 +15,7 @@ using Xunit.Categories;
 public class Given_A_NietPrimair_Contactgegeven
 {
     [Theory]
-    [InlineData("Email", "email@example.org")]
+    [InlineData("E-mail", "email@example.org")]
     [InlineData("Website", "https://www.example.org")]
     [InlineData("SocialMedia", "https://www.example.org")]
     [InlineData("Telefoon", "0000112233")]

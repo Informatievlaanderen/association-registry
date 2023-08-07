@@ -30,7 +30,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     }
 
     [Theory]
-    [InlineData("Email", "email2@example.org")]
+    [InlineData("E-mail", "email2@example.org")]
     [InlineData("Website", "https://www.example.org")]
     [InlineData("SocialMedia", "https://www.example.org")]
     [InlineData("Telefoon", "0000112233")]
