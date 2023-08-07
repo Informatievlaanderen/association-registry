@@ -1,0 +1,18 @@
+{
+    "priority": 1,
+    "request": {
+      "method": "POST",
+      "urlPath": "/GeefOndernemingDienst-02.00/soap/WebService",
+      "bodyPatterns": [
+        {
+          "matchesXPath": {
+            "expression": "//Ondernemingsnummer/text()",
+            "matches": "0000000196"
+          }
+        }
+      ]
+    },
+    "response": {
+      "bodyFileName": "GeefOndernemingResponses/0000000196.notfound.xml"
+    }
+  }

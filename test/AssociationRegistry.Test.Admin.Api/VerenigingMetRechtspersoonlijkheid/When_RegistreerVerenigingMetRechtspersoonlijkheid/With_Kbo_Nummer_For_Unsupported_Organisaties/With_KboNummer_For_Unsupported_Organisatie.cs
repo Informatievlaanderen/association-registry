@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Rechtsvorm;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Organisaties;
 
-using Events;
-using Fixtures;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -9,12 +9,12 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public abstract class With_KboNummer_For_Unsupported_Vereniging
+public abstract class With_KboNummer_For_Unsupported_Organisatie
 {
     private readonly EventsInDbScenariosFixture _fixture;
     public readonly RegistreerVereniginMetRechtspersoonlijkheidSetup RegistreerVereniginMetRechtspersoonlijkheidSetup;
 
-    public With_KboNummer_For_Unsupported_Vereniging(EventsInDbScenariosFixture fixture, RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
+    public With_KboNummer_For_Unsupported_Organisatie(EventsInDbScenariosFixture fixture, RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
     {
         _fixture = fixture;
         RegistreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;

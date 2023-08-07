@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Magda;
 
+using System;
 using System.Linq;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
@@ -13,8 +14,13 @@ public static class MagdaResponseExtensions
             source.Where(type => type.Type == UitzonderingTypeType.FOUT)
                 .Select(type => type.Diagnose));
 
-    public static bool HasUitzonderingenOfTypes(this ResponseEnvelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
+    public static bool HasUitzonderingenOfType(this ResponseEnvelope<GeefOndernemingResponseBody>? source, UitzonderingTypeType uitzonderingTypeType)
     {
-        return source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(type => type.Type == uitzonderingTypeType) ?? false;
+        return HasAnyUitzondering(source, type => type.Type == uitzonderingTypeType);
+    }
+
+    public static bool HasAnyUitzondering(this ResponseEnvelope<GeefOndernemingResponseBody>? source, Func<UitzonderingType, bool> predicate)
+    {
+        return source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(predicate) ?? false;
     }
 }
