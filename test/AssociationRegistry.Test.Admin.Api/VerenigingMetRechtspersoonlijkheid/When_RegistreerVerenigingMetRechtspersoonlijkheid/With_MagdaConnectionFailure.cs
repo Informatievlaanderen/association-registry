@@ -3,7 +3,7 @@
 using System.Net;
 using Fixtures;
 using FluentAssertions;
-using With_Kbo_Nummer_For_Unsupported_Rechtsvorm;
+using With_Kbo_Nummer_For_Unsupported_Organisaties;
 using Xunit;
 
 public class ConnectionFailureSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
@@ -13,7 +13,7 @@ public class ConnectionFailureSetup : RegistreerVereniginMetRechtspersoonlijkhei
     }
 }
 
-public class With_MagdaConnectionFailure : With_KboNummer_For_Unsupported_Vereniging, IClassFixture<ConnectionFailureSetup>
+public class With_MagdaConnectionFailure : With_KboNummer_For_Unsupported_Organisatie, IClassFixture<ConnectionFailureSetup>
 {
     public With_MagdaConnectionFailure(EventsInDbScenariosFixture fixture, ConnectionFailureSetup registreerSetup) : base(fixture, registreerSetup)
     {

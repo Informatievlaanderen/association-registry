@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Rechtsvorm;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Organisaties;
 
 using System.Net;
-using Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
 using FluentAssertions;
 using Xunit;
 
@@ -12,7 +12,7 @@ public class RegistreerOnbekendTypeRegistreerSetup : RegistreerVereniginMetRecht
     }
 }
 
-public class With_KboNummer_For_OnbekendType : With_KboNummer_For_Unsupported_Vereniging, IClassFixture<RegistreerOnbekendTypeRegistreerSetup>
+public class With_KboNummer_For_OnbekendType : With_KboNummer_For_Unsupported_Organisatie, IClassFixture<RegistreerOnbekendTypeRegistreerSetup>
 {
     public With_KboNummer_For_OnbekendType(EventsInDbScenariosFixture fixture, RegistreerOnbekendTypeRegistreerSetup registreerSetup) : base(fixture, registreerSetup)
     {

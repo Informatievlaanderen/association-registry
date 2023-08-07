@@ -39,7 +39,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer, cancellationToken);
             var magdaResponse = await _magdaFacade.GeefOnderneming(kboNummer, reference);
 
-            if (HasFoutUitzonderingen(magdaResponse))
+            if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
@@ -67,7 +67,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     }
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
-        => magdaOnderneming.Rechtsvormen.FirstOrDefault(
+        => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
             r =>
                 string.IsNullOrWhiteSpace(r.DatumEinde) ||
                 DateTime.ParseExact(r.DatumEinde, "yyyy-MM-dd", null) >= DateTime.Today);
@@ -90,9 +90,6 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
         return VerenigingVolgensKboResult.GeenGeldigeVereniging;
     }
-
-    private static bool HasFoutUitzonderingen(ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
-        => magdaResponse.HasUitzonderingenOfTypes(UitzonderingTypeType.FOUT);
 
     private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, Guid correlationId, string opgevraagdOnderwerp, CancellationToken cancellationToken)
     {

@@ -1,0 +1,49 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" />
+    <SOAP-ENV:Body xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+        <web:GeefOndernemingResponse
+            xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
+            <Repliek>
+                <Context>
+                    <Naam>GeefOnderneming</Naam>
+                    <Versie>02.00.0000</Versie>
+                    <Bericht>
+                        <Type>ANTWOORD</Type>
+                        <Tijdstip>
+                            <Datum>2023-08-07</Datum>
+                            <Tijd>11:25:05.052</Tijd>
+                        </Tijdstip>
+                        <Afzender>
+                            <Identificatie>vip.vlaanderen.be</Identificatie>
+                            <Naam>MagdaGateway</Naam>
+                            <Referte>42166649-c02b-4245-bc59-cf6f9be294a3</Referte>
+                        </Afzender>
+                        <Ontvanger>
+                            <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+                            <Referte>AREF_QT_610527_134233</Referte>
+                            <Hoedanigheid />
+                        </Ontvanger>
+                    </Bericht>
+                </Context>
+                <Antwoorden>
+                    <Antwoord>
+                        <Referte>951ec33d-006a-4254-bdae-1106e447b43b</Referte>
+                        <Uitzonderingen>
+                            <Uitzondering>
+                                <Identificatie>40046</Identificatie>
+                                <Oorsprong>MAGDA</Oorsprong>
+                                <Type>INFORMATIE</Type>
+                                <Tijdstip>
+                                    <Datum>2023-08-07</Datum>
+                                    <Tijd>11:25:05.051</Tijd>
+                                </Tijdstip>
+                                <Diagnose>Gevraagde ondernemingsnummer bestaat niet in KBO</Diagnose>
+                                <Omstandigheid>Gevraagde ondernemingsnummer bestaat niet in KBO</Omstandigheid>
+                            </Uitzondering>
+                        </Uitzonderingen>
+                    </Antwoord>
+                </Antwoorden>
+            </Repliek>
+        </web:GeefOndernemingResponse>
+    </SOAP-ENV:Body>
+</soapenv:Envelope>
