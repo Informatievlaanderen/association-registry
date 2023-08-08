@@ -17,8 +17,8 @@ public class Locatie
     ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Activiteiten<br />
-    ///     - Correspondentie - Slechtséén maal mogelijk<br />
-    ///     - Maatschappelijke zetel volgens KBO- Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
+    ///     - Correspondentie - Slechts één maal mogelijk<br />
+    ///     - Maatschappelijke zetel volgens KBO - Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]
     public string Locatietype { get; init; } = null!;
