@@ -1,3 +1,10 @@
+## [6.9.2](https://github.com/informatievlaanderen/association-registry/compare/v6.9.1...v6.9.2) (2023-08-08)
+
+
+### Bug Fixes
+
+* or-1848 fix grammar in e-mail ([7ba5d91](https://github.com/informatievlaanderen/association-registry/commit/7ba5d91a8ce38f7dbf5058a6fba337fcd64d87fe))
+
 ## [6.9.1](https://github.com/informatievlaanderen/association-registry/compare/v6.9.0...v6.9.1) (2023-08-08)
 
 
