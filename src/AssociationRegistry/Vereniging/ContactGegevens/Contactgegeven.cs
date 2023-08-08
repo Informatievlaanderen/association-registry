@@ -42,10 +42,10 @@ public record Contactgegeven
 
         return type switch
         {
-            { Waarde: ContactgegevenType.EmailLabel } => Email.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Telefoon) } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.Website) } => Website.Create(waarde, beschrijving, isPrimair),
-            { Waarde: nameof(ContactgegevenType.SocialMedia) } => SocialMedia.Create(waarde, beschrijving, isPrimair),
+            { Waarde: ContactgegevenType.Labels.Email } => Email.Create(waarde, beschrijving, isPrimair),
+            { Waarde: ContactgegevenType.Labels.Telefoon } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
+            { Waarde: ContactgegevenType.Labels.Website } => Website.Create(waarde, beschrijving, isPrimair),
+            { Waarde: ContactgegevenType.Labels.SocialMedia } => SocialMedia.Create(waarde, beschrijving, isPrimair),
             _ => throw new InvalidContactType(),
         };
     }

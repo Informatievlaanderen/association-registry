@@ -48,10 +48,10 @@ public static class AutoFixtureCustomizations
     public static Contactgegeven CreateContactgegevenVolgensType(this Fixture source, string type)
         => type switch
         {
-            nameof(ContactgegevenType.Telefoon) => source.Create<TelefoonNummer>(),
-            nameof(ContactgegevenType.SocialMedia) => source.Create<SocialMedia>(),
-            ContactgegevenType.EmailLabel => source.Create<Email>(),
-            nameof(ContactgegevenType.Website) => source.Create<Website>(),
+            ContactgegevenType.Labels.Telefoon => source.Create<TelefoonNummer>(),
+            ContactgegevenType.Labels.SocialMedia => source.Create<SocialMedia>(),
+            ContactgegevenType.Labels.Email => source.Create<Email>(),
+            ContactgegevenType.Labels.Website => source.Create<Website>(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
 
@@ -181,10 +181,10 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => (string)fixture.Create<ContactgegevenType>() switch
                     {
-                        ContactgegevenType.EmailLabel => fixture.Create<Email>(),
-                        nameof(ContactgegevenType.Website) => fixture.Create<Website>(),
-                        nameof(ContactgegevenType.SocialMedia) => fixture.Create<SocialMedia>(),
-                        nameof(ContactgegevenType.Telefoon) => fixture.Create<TelefoonNummer>(),
+                        ContactgegevenType.Labels.Email => fixture.Create<Email>(),
+                        ContactgegevenType.Labels.Website => fixture.Create<Website>(),
+                        ContactgegevenType.Labels.SocialMedia => fixture.Create<SocialMedia>(),
+                        ContactgegevenType.Labels.Telefoon => fixture.Create<TelefoonNummer>(),
                         _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
                     })
                 .OmitAutoProperties());
