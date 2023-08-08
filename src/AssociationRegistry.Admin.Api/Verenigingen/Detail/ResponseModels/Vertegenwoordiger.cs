@@ -34,7 +34,7 @@ public class Vertegenwoordiger
     [DataMember(Name = "IsPrimair")]
     public bool PrimairContactpersoon { get; init; }
 
-    /// <summary>Het emailadres van de vertegenwoordiger</summary>
+    /// <summary>Het e-mailadres van de vertegenwoordiger</summary>
     [DataMember(Name = "E-mail")]
     public string Email { get; init; } = null!;
 
