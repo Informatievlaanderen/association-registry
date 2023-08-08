@@ -60,12 +60,18 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     KboNummer = KboNummer.Create(kboNummer),
                     Rechtsvorm = rechtsvorm,
                     Naam = magdaOnderneming.Namen.MaatschappelijkeNamen
-                        .SingleOrDefault(n => n.DatumBegin.IsDateBeforeToday() && n.DatumEinde.IsDateAfterToday())?
+                        .FirstOrDefault(
+                            n =>
+                                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
+                                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())?
                         .Naam,
                     KorteNaam = magdaOnderneming.Namen.AfgekorteNamen
-                        .SingleOrDefault(n => n.DatumBegin.IsDateBeforeToday() && n.DatumEinde.IsDateAfterToday())?
+                        .FirstOrDefault(
+                            n =>
+                                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
+                                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())?
                         .Naam,
-                    StartDatum = DateOnly.TryParseExact(magdaOnderneming.Start.Datum, "yyyy-MM-dd", out var startDatum) ? startDatum : null,
+                    StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, "yyyy-MM-dd"),
                 });
         }
         catch (Exception e)
@@ -76,7 +82,9 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
-            r => r.DatumBegin.IsDateBeforeToday() && r.DatumEinde.IsDateAfterToday());
+            r =>
+                DateOnlyHelper.ParseOrNull(r.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
+                DateOnlyHelper.ParseOrNull(r.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday());
 
 
     private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)

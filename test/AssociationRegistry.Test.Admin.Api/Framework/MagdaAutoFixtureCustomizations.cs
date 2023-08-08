@@ -14,6 +14,9 @@ public static class MagdaAutoFixtureCustomizations
         fixture.OnlyAllowActiveStatus();
         fixture.OnlyAllowOnderneming();
         fixture.OnlyAllowRechtspersoon();
+
+        fixture.Customize<Onderneming2_0Type>(
+            composer => composer.With(o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray));
     }
 
     private static void OnlyAllowRechtspersoon(this IFixture fixture)
@@ -65,6 +68,8 @@ public static class MagdaAutoFixtureCustomizations
                     {
                         Value = Rechtsvorm.All[i % Rechtsvorm.All.Length].CodeVolgensMagda,
                     },
+                    DatumBegin = null,
+                    DatumEinde = null,
                 }).OmitAutoProperties());
     }
 
