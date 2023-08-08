@@ -1,3 +1,11 @@
+## [6.9.1](https://github.com/informatievlaanderen/association-registry/compare/v6.9.0...v6.9.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* OR-1820 handle unknown kbo nrs and vestigingen ([dfcba08](https://github.com/informatievlaanderen/association-registry/commit/dfcba083bc3058173d40e83d02b4a809ebd7228f))
+* or-1849 add missing space ([7495e6d](https://github.com/informatievlaanderen/association-registry/commit/7495e6d1091c4a2d3e630632cae71734a97cb026))
+
 # [6.9.0](https://github.com/informatievlaanderen/association-registry/compare/v6.8.1...v6.9.0) (2023-08-04)
 
 
