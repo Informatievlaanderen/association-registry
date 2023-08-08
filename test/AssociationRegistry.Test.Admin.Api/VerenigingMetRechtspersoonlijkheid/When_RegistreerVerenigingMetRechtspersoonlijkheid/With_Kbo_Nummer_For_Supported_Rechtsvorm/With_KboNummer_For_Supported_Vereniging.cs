@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using Events;
 using AssociationRegistry.Magda.Models;
 using Fixtures;
 using FluentAssertions;
@@ -17,24 +16,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public abstract class With_KboNummer_For_Supported_Vereniging
 {
-    private readonly EventsInDbScenariosFixture _fixture;
-    private readonly RegistreerVereniginMetRechtspersoonlijkheidSetup _registreerVereniginMetRechtspersoonlijkheidSetup;
+    protected readonly EventsInDbScenariosFixture _fixture;
+    protected readonly RegistreerVereniginMetRechtspersoonlijkheidSetup _registreerVereniginMetRechtspersoonlijkheidSetup;
 
     public With_KboNummer_For_Supported_Vereniging(EventsInDbScenariosFixture fixture, RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
     {
         _fixture = fixture;
         _registreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
-    }
-
-    [Fact]
-    public void Then_it_saves_the_events()
-    {
-        using var session = _fixture.DocumentStore
-            .LightweightSession();
-
-        session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Where(e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer)
-            .Should().HaveCount(expected: 1);
     }
 
     [Fact]
@@ -70,12 +58,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
         await using var lightweightSession = _fixture.DocumentStore.LightweightSession();
 
-
-        var callReferences = lightweightSession
-            .Query<MagdaCallReference>()
-            .ToList();
-
-        var correlationId = Guid.Parse(correlationIdValues.First());
+        var correlationId = Guid.Parse(correlationIdValues!.First());
 
         var callReference = lightweightSession
             .Query<MagdaCallReference>()
@@ -84,7 +67,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
         callReference.Should().NotBeNull();
         callReference.Should().BeEquivalentTo(
-            new MagdaCallReference()
+            new MagdaCallReference
             {
                 CorrelationId = correlationId,
                 Context = "Registreer vereniging met rechtspersoonlijkheid",
@@ -94,7 +77,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                 Initiator = "OVO000001",
             },
             options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
-        callReference.Reference.Should().NotBeEmpty();
+        callReference!.Reference.Should().NotBeEmpty();
         callReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
     }
 }

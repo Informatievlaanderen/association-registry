@@ -12,7 +12,6 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;

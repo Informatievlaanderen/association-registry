@@ -18,7 +18,7 @@ class CommandMetadataProvider : ICommandMetadataProvider
     }
 
     public CommandMetadata GetMetadata(long? expectedVersion = null)
-        => new CommandMetadata(
+        => new(
             _initiatorProvider.Value,
             SystemClock.Instance.GetCurrentInstant(),
             Guid.Parse(_correlationIdProvider.CorrelationId),

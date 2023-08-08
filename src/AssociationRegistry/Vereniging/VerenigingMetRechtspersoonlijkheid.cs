@@ -14,10 +14,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 verenigingVolgensKbo.KboNummer,
-                "VZW",
-                $"VZW {verenigingVolgensKbo.KboNummer}",
-                string.Empty,
-                null));
+                verenigingVolgensKbo.Rechtsvorm.Waarde,
+                verenigingVolgensKbo.Naam ?? "",
+                verenigingVolgensKbo.KorteNaam ?? "",
+                verenigingVolgensKbo.StartDatum ?? null));
         return vereniging;
     }
 

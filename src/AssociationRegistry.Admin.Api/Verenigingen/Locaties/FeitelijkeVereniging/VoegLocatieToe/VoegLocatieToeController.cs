@@ -11,7 +11,6 @@ using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NodaTime;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Wolverine;

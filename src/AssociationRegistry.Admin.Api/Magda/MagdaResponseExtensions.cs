@@ -20,7 +20,5 @@ public static class MagdaResponseExtensions
     }
 
     public static bool HasAnyUitzondering(this ResponseEnvelope<GeefOndernemingResponseBody>? source, Func<UitzonderingType, bool> predicate)
-    {
-        return source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(predicate) ?? false;
-    }
+        => source?.Body?.GeefOndernemingResponse?.Repliek?.Antwoorden?.Antwoord?.Uitzonderingen?.Any(predicate) ?? false;
 }
