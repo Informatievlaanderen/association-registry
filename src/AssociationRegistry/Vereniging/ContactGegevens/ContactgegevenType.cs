@@ -2,26 +2,33 @@
 
 public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
 {
-    public const string EmailLabel = "E-mail";
+    public static class Labels
+    {
+        public const string Email = "E-mail";
+        public const string Website = "Website";
+        public const string SocialMedia = "SocialMedia";
+        public const string Telefoon = "Telefoon";
+
+    }
 
     public static readonly ContactgegevenType Email =
         new(
-            EmailLabel
+            Labels.Email
         );
 
     public static readonly ContactgegevenType Website =
         new(
-            nameof(Website)
+            Labels.Website
         );
 
     public static readonly ContactgegevenType SocialMedia =
         new(
-            nameof(SocialMedia)
+            Labels.SocialMedia
         );
 
     public static readonly ContactgegevenType Telefoon =
         new(
-            nameof(Telefoon)
+            Labels.Telefoon
         );
 
     public static readonly ContactgegevenType[] All =
