@@ -28,7 +28,6 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd;
-        var moederWerdGeregistreerd = _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
         _vCode = _scenario.VCode;
         _metadata = _scenario.Metadata;

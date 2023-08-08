@@ -46,7 +46,7 @@ public class Given_Locaties_In_State
         geupdateLocatie.IsPrimair.Should().Be(locatieWerdGewijzigd.Locatie.IsPrimair);
         geupdateLocatie.Naam.Should().Be(locatieWerdGewijzigd.Locatie.Naam);
         geupdateLocatie.Adres.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.Adres);
-        geupdateLocatie.AdresId.Adresbron.Code.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId.Broncode);
+        geupdateLocatie.AdresId!.Adresbron.Code.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId!.Broncode);
         geupdateLocatie.AdresId.Bronwaarde.Should().BeEquivalentTo(locatieWerdGewijzigd.Locatie.AdresId.Bronwaarde);
         geupdateLocatie.AdresId.Adresbron.Beschrijving.Should().NotBeNullOrWhiteSpace();
     }

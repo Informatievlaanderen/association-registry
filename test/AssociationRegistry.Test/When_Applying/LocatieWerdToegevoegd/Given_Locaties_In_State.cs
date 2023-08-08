@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.When_Applying_LocatieWerdToegevoegd;
+namespace AssociationRegistry.Test.When_Applying.LocatieWerdToegevoegd;
 
-using AutoFixture;
 using Events;
-using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
+using AutoFixture;
+using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

@@ -6,14 +6,14 @@ using NodaTime;
 
 public class CommandMetadataProviderStub: ICommandMetadataProvider
 {
-    public string Initiator { get; set; }
+    public string Initiator { get; set; } = null!;
     public Instant Tijdstip { get; set; }
     public Guid CorrelationId { get; set; }
     public long? ExpectedVersion { get; set; }
 
 
     public CommandMetadata GetMetadata(long? expectedVersion = null)
-        => new CommandMetadata(
+        => new(
             Initiator,
             Tijdstip,
             CorrelationId,

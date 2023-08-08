@@ -12,6 +12,7 @@ using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using Framework;
+using Infrastructure.Extensions;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Vereniging;
@@ -58,6 +59,13 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 {
                     KboNummer = KboNummer.Create(kboNummer),
                     Rechtsvorm = rechtsvorm,
+                    Naam = magdaOnderneming.Namen.MaatschappelijkeNamen
+                        .SingleOrDefault(n => n.DatumBegin.IsDateBeforeToday() && n.DatumEinde.IsDateAfterToday())?
+                        .Naam,
+                    KorteNaam = magdaOnderneming.Namen.AfgekorteNamen
+                        .SingleOrDefault(n => n.DatumBegin.IsDateBeforeToday() && n.DatumEinde.IsDateAfterToday())?
+                        .Naam,
+                    StartDatum = DateOnly.TryParseExact(magdaOnderneming.Start.Datum, "yyyy-MM-dd", out var startDatum) ? startDatum : null,
                 });
         }
         catch (Exception e)
@@ -68,9 +76,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
-            r =>
-                string.IsNullOrWhiteSpace(r.DatumEinde) ||
-                DateTime.ParseExact(r.DatumEinde, "yyyy-MM-dd", null) >= DateTime.Today);
+            r => r.DatumBegin.IsDateBeforeToday() && r.DatumEinde.IsDateAfterToday());
+
 
     private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.SoortOnderneming.Code.Value == SoortOndernemingCodes.Rechtspersoon;

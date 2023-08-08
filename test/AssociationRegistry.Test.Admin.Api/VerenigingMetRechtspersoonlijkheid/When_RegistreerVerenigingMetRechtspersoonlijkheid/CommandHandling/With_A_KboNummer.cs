@@ -17,6 +17,7 @@ public class With_A_KboNummer
     private readonly RegistreerVerenigingUitKboCommand _command;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
 
     public With_A_KboNummer()
     {
@@ -28,11 +29,19 @@ public class With_A_KboNummer
         _command = fixture.Create<RegistreerVerenigingUitKboCommand>();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+        _verenigingVolgensKbo = new VerenigingVolgensKbo
+        {
+            KboNummer = _command.KboNummer,
+            Rechtsvorm = Rechtsvorm.VZW,
+            Naam = fixture.Create<string>(),
+            KorteNaam = fixture.Create<string>(),
+            StartDatum = fixture.Create<DateOnly>(),
+        };
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                new VerenigingVolgensKbo { KboNummer = _command.KboNummer, Rechtsvorm = Rechtsvorm.VZW }
+                _verenigingVolgensKbo
             ));
 
         commandHandler
@@ -48,9 +57,9 @@ public class With_A_KboNummer
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
-                "VZW",
-                $"VZW {_command.KboNummer}",
-                string.Empty,
-                null));
+                _verenigingVolgensKbo.Rechtsvorm.Waarde,
+                _verenigingVolgensKbo.Naam!,
+                _verenigingVolgensKbo.KorteNaam!,
+                _verenigingVolgensKbo.StartDatum));
     }
 }

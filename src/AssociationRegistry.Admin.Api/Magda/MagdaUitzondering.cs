@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Magda;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Vereniging;
 
 public record MagdaUitzondering(string Identificatie, string Omschrijving, bool IsBlokkerend)
 {
@@ -40,7 +39,7 @@ public record MagdaUitzondering(string Identificatie, string Omschrijving, bool 
             throw new FormatException($"De waarde {value} is geen gekend contactgegeven type.");
         }
 
-        return parsed!;
+        return parsed;
     }
 
     public static bool IsGekendBlokkerendeUitzondering(string identificatie)
