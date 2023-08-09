@@ -14,9 +14,37 @@ public static class MagdaAutoFixtureCustomizations
         fixture.OnlyAllowActiveStatus();
         fixture.OnlyAllowOnderneming();
         fixture.OnlyAllowRechtspersoon();
+        fixture.OnlyAllowNamenWithValidTaalCodes();
 
         fixture.Customize<Onderneming2_0Type>(
-            composer => composer.With(o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray));
+            composer => composer
+                .With(o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray()));
+
+        fixture.Customize<NamenOndernemingType>(
+            composer => composer
+                .With(o => o.MaatschappelijkeNamen, fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
+                .With(o => o.AfgekorteNamen, fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
+        );
+    }
+
+    private static void OnlyAllowNamenWithValidTaalCodes(this IFixture fixture)
+    {
+        fixture.Customize<NaamOndernemingType>(
+            composer => composer
+                .FromFactory<int>(
+                    i => new NaamOndernemingType
+                    {
+                        Naam = fixture.Create<string>(),
+                        DatumBegin = null,
+                        DatumEinde = null,
+                        Taalcode = new[]
+                        {
+                            TaalCodes.Nederlands,
+                            TaalCodes.Frans,
+                            TaalCodes.Duits,
+                            TaalCodes.Engels,
+                        }[i % 4],
+                    }).OmitAutoProperties());
     }
 
     private static void OnlyAllowRechtspersoon(this IFixture fixture)

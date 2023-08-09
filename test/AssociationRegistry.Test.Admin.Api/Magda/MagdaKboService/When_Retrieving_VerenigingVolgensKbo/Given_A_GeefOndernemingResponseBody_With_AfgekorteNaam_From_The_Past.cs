@@ -36,6 +36,7 @@ public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_From_The_Pas
             new NaamOndernemingType
             {
                 Naam = _fixture.Create<string>(),
+                Taalcode = "nl",
                 DatumBegin = "1900-01-01",
                 DatumEinde = "2000-01-01",
             },

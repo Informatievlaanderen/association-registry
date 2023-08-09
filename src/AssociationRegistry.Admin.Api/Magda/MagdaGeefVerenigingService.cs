@@ -54,23 +54,20 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
+
+            var naamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.MaatschappelijkeNamen);
+            var korteNaamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen);
+
+            if (naamOndernemingType is null)
+                return VerenigingVolgensKboResult.GeenGeldigeVereniging;
+
             return VerenigingVolgensKboResult.GeldigeVereniging(
                 new VerenigingVolgensKbo
                 {
                     KboNummer = KboNummer.Create(kboNummer),
                     Rechtsvorm = rechtsvorm,
-                    Naam = magdaOnderneming.Namen.MaatschappelijkeNamen
-                        .FirstOrDefault(
-                            n =>
-                                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
-                                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())?
-                        .Naam,
-                    KorteNaam = magdaOnderneming.Namen.AfgekorteNamen
-                        .FirstOrDefault(
-                            n =>
-                                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
-                                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())?
-                        .Naam,
+                    Naam = naamOndernemingType.Naam,
+                    KorteNaam = korteNaamOndernemingType?.Naam,
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, "yyyy-MM-dd"),
                 });
         }
@@ -78,6 +75,22 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         {
             throw new MagdaException("Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
         }
+    }
+
+    private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[] namen)
+        => GetActiveNaamInTaal(namen, TaalCodes.Nederlands) ??
+           GetActiveNaamInTaal(namen, TaalCodes.Frans) ??
+           GetActiveNaamInTaal(namen, TaalCodes.Duits) ??
+           GetActiveNaamInTaal(namen, TaalCodes.Engels) ??
+           null;
+
+    private static NaamOndernemingType? GetActiveNaamInTaal(NaamOndernemingType[] namen, string taalcode)
+    {
+        return namen.SingleOrDefault(
+            n =>
+                n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase) &&
+                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
+                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday());
     }
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
