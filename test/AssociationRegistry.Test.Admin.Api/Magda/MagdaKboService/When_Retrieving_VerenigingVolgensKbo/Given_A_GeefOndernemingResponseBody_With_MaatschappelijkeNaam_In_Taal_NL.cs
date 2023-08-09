@@ -19,28 +19,46 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Pressent
+public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_NL
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
-    private string verenigingNaam;
+    private readonly string _verenigingNaam;
 
-    public Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Pressent()
+    public Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_NL()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
 
-        verenigingNaam = _fixture.Create<string>();
-        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.AfgekorteNamen = new[]
+        _verenigingNaam = _fixture.Create<string>();
+        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.MaatschappelijkeNamen = new[]
         {
             new NaamOndernemingType
             {
-                Naam = verenigingNaam,
+                Naam = _verenigingNaam,
                 Taalcode = "nl",
-                DatumBegin = "2000-01-01",
-                DatumEinde = "2100-01-01",
+            },
+            new NaamOndernemingType
+            {
+                Naam = _fixture.Create<string>(),
+                Taalcode = "fr",
+            },
+            new NaamOndernemingType
+            {
+                Naam = _fixture.Create<string>(),
+                Taalcode = "du",
+            },
+            new NaamOndernemingType
+            {
+                Naam = _fixture.Create<string>(),
+                Taalcode = "en",
+            },
+            new NaamOndernemingType
+            {
+                Naam = _fixture.Create<string>(),
+                Taalcode = _fixture.Create<string>(),
             },
         };
 
@@ -67,7 +85,7 @@ public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Pres
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
             verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.KorteNaam.Should().Be(verenigingNaam);
+            verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
         }
     }
 }

@@ -38,6 +38,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_For_T
             new NaamOndernemingType
             {
                 Naam = verenigingNaam,
+                Taalcode = "nl",
                 DatumBegin = "2000-01-01",
                 DatumEinde = "2100-01-01",
             },

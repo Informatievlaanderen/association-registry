@@ -36,6 +36,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_From_
             new NaamOndernemingType
             {
                 Naam = _fixture.Create<string>(),
+                Taalcode = "nl",
                 DatumBegin = "1900-01-01",
                 DatumEinde = "2000-01-01",
             },
@@ -49,22 +50,9 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_From_
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async Task Then_It_Returns_A_FailureResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
-        result.IsSuccess().Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task Then_It_Returns_A_VerenigingVolgensKbo()
-    {
-        var kboNummer = _fixture.Create<KboNummer>();
-        var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
-        using (new AssertionScope())
-        {
-            var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
-            verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.Naam.Should().BeNullOrEmpty();
-        }
+        result.IsFailure().Should().BeTrue();
     }
 }

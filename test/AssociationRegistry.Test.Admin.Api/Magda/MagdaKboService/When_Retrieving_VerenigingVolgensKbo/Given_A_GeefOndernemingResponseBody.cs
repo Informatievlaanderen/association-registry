@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
@@ -50,11 +51,11 @@ public class Given_A_GeefOndernemingResponseBody
 
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.MaatschappelijkeNamen = new[]
         {
-            new NaamOndernemingType { Naam = naam, DatumBegin = "1990-01-01" },
+            new NaamOndernemingType { Naam = naam, DatumBegin = "1990-01-01", Taalcode = TaalCodes.Nederlands },
         };
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.AfgekorteNamen = new[]
         {
-            new NaamOndernemingType { Naam = korteNaam, DatumBegin = "1990-01-01" },
+            new NaamOndernemingType { Naam = korteNaam, DatumBegin = "1990-01-01", Taalcode = TaalCodes.Nederlands },
         };
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Start = new DatumStartType
         {
