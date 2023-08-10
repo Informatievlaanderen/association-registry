@@ -78,19 +78,30 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     }
 
     private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[] namen)
-        => GetActiveNaamInTaal(namen, TaalCodes.Nederlands) ??
-           GetActiveNaamInTaal(namen, TaalCodes.Frans) ??
-           GetActiveNaamInTaal(namen, TaalCodes.Duits) ??
-           GetActiveNaamInTaal(namen, TaalCodes.Engels) ??
-           null;
-
-    private static NaamOndernemingType? GetActiveNaamInTaal(NaamOndernemingType[] namen, string taalcode)
     {
-        return namen.SingleOrDefault(
-            n =>
-                n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase) &&
-                DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
-                DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday());
+        var activeNamen = GetActiveNamen(namen);
+
+        if (activeNamen.Length == 0)
+            return null;
+        if (activeNamen.Length == 1)
+            return activeNamen.Single();
+
+        return GetNaamInTaal(activeNamen, TaalCodes.Nederlands) ??
+               GetNaamInTaal(activeNamen, TaalCodes.Frans) ??
+               GetNaamInTaal(activeNamen, TaalCodes.Duits) ??
+               GetNaamInTaal(activeNamen, TaalCodes.Engels);
+    }
+
+    private static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
+        => namen.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
+
+    private static NaamOndernemingType[] GetActiveNamen(NaamOndernemingType[] namen)
+    {
+        return namen.Where(
+                n =>
+                    DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
+                    DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())
+            .ToArray();
     }
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
