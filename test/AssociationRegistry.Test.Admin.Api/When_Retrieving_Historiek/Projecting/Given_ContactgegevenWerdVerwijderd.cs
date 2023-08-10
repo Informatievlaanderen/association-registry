@@ -26,7 +26,7 @@ public class Given_ContactgegevenWerdVerwijderd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"'{contactgegevenWerdVerwijderd.Data.Type} {contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd.",
+                $"{contactgegevenWerdVerwijderd.Data.Type} '{contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd.",
                 nameof(ContactgegevenWerdVerwijderd),
                 contactgegevenWerdVerwijderd.Data,
                 contactgegevenWerdVerwijderd.Initiator,
