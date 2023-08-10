@@ -25,7 +25,7 @@ public static class RegistratiedataCustomizations
                     return new Registratiedata.Contactgegeven(
                         i,
                         contactgegeven.Type,
-                        contactgegeven.Waarde,
+                        contactgegeven.Waarde.Waarde,
                         contactgegeven.Beschrijving,
                         contactgegeven.IsPrimair
                     );

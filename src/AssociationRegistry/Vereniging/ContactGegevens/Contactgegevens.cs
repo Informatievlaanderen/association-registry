@@ -48,7 +48,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     {
         ThrowIfCannotAppendOrUpdate(toeTeVoegenContactgegeven);
 
-        return toeTeVoegenContactgegeven with { ContactgegevenId = NextId };
+        return toeTeVoegenContactgegeven.WithId(NextId);
     }
 
     public Contactgegeven? Wijzig(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)

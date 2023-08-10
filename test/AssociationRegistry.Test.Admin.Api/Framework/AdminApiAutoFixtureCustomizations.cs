@@ -114,7 +114,7 @@ public static class AutoFixtureCustomizations
                         return new ToeTeVoegenContactgegeven
                         {
                             Type = contactgegeven.Type,
-                            Waarde = contactgegeven.Waarde,
+                            Waarde = contactgegeven.Waarde.Waarde,
                             Beschrijving = fixture.Create<string>(),
                             IsPrimair = false,
                         };

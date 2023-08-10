@@ -41,7 +41,7 @@ public class Given_A_NietPrimair_Contactgegeven
             new ContactgegevenWerdToegevoegd(
                 scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1,
                 command.Contactgegeven.Type,
-                command.Contactgegeven.Waarde,
+                command.Contactgegeven.Waarde.Waarde,
                 command.Contactgegeven.Beschrijving,
                 false)
         );

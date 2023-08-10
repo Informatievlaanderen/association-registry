@@ -18,13 +18,15 @@ public class Given_A_Second_Primair_Contactgegeven
 
         var vereniging = new Vereniging();
         var primairContactgegeven = fixture.Create<Registratiedata.Contactgegeven>() with { IsPrimair = true };
-        vereniging.Hydrate(new VerenigingState()
-            .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-            {
-                Contactgegevens = new [] { primairContactgegeven },
-            }));
+        vereniging.Hydrate(
+            new VerenigingState()
+                .Apply(
+                    fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+                    {
+                        Contactgegevens = new[] { primairContactgegeven },
+                    }));
 
-        var contactgegeven = fixture.Create<Contactgegeven>() with { IsPrimair = true, Type = primairContactgegeven.Type};
+        var contactgegeven = Contactgegeven.Hydrate(primairContactgegeven.ContactgegevenId + 1, primairContactgegeven.Type, primairContactgegeven.Waarde, fixture.Create<string>(), true);
 
         Assert.Throws<MultiplePrimairContactgegevens>(() => vereniging.VoegContactgegevenToe(contactgegeven));
     }

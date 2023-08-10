@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using TelefoonNummers;
+
 public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
 {
     public static class Labels
@@ -8,27 +10,34 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         public const string Website = "Website";
         public const string SocialMedia = "SocialMedia";
         public const string Telefoon = "Telefoon";
-
     }
 
     public static readonly ContactgegevenType Email =
         new(
-            Labels.Email
+            Labels.Email,
+            Emails.Email.Create,
+            Emails.Email.Hydrate
         );
 
     public static readonly ContactgegevenType Website =
         new(
-            Labels.Website
+            Labels.Website,
+            Websites.Website.Create,
+            Websites.Website.Hydrate
         );
 
     public static readonly ContactgegevenType SocialMedia =
         new(
-            Labels.SocialMedia
+            Labels.SocialMedia,
+            SocialMedias.SocialMedia.Create,
+            SocialMedias.SocialMedia.Hydrate
         );
 
     public static readonly ContactgegevenType Telefoon =
         new(
-            Labels.Telefoon
+            Labels.Telefoon,
+            TelefoonNummer.Create,
+            TelefoonNummer.Hydrate
         );
 
     public static readonly ContactgegevenType[] All =
@@ -36,11 +45,15 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         Email, Website, SocialMedia, Telefoon,
     };
 
-    public string Waarde { get; }
+    public string Label { get; }
+    public Func<string, IContactWaarde> Create { get; }
+    public Func<string, IContactWaarde> Hydrate { get; }
 
-    private ContactgegevenType(string value)
+    private ContactgegevenType(string label, Func<string, IContactWaarde> create, Func<string, IContactWaarde> hydrate)
     {
-        Waarde = value;
+        Label = label;
+        Create = create;
+        Hydrate = hydrate;
     }
 
 
@@ -78,16 +91,16 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
     }
 
     public bool Equals(ContactgegevenType? other)
-        => other is not null && string.Equals(other.Waarde, Waarde, StringComparison.InvariantCultureIgnoreCase);
+        => other is not null && string.Equals(other.Label, Label, StringComparison.InvariantCultureIgnoreCase);
 
     public override bool Equals(object? obj)
         => obj is ContactgegevenType type && Equals(type);
 
     public override int GetHashCode()
-        => Waarde.GetHashCode();
+        => Label.GetHashCode();
 
     public override string ToString()
-        => Waarde;
+        => Label;
 
     public static implicit operator string(ContactgegevenType instance)
         => instance.ToString();
@@ -102,13 +115,13 @@ public sealed class ContactgegevenType : IEquatable<ContactgegevenType>
         => !(left == right);
 
     public static bool operator ==(ContactgegevenType left, string right)
-        => string.Equals(left.Waarde, right, StringComparison.InvariantCultureIgnoreCase);
+        => string.Equals(left.Label, right, StringComparison.InvariantCultureIgnoreCase);
 
     public static bool operator !=(ContactgegevenType left, string right)
         => !(left == right);
 
     public static bool operator ==(string left, ContactgegevenType right)
-        => string.Equals(left, right.Waarde, StringComparison.InvariantCultureIgnoreCase);
+        => string.Equals(left, right.Label, StringComparison.InvariantCultureIgnoreCase);
 
     public static bool operator !=(string left, ContactgegevenType right)
         => !(left == right);

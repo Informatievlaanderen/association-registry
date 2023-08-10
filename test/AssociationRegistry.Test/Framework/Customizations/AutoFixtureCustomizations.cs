@@ -45,7 +45,7 @@ public static class AutoFixtureCustomizations
     }
 
 
-    public static Contactgegeven CreateContactgegevenVolgensType(this Fixture source, string type)
+    public static IContactWaarde CreateContactgegevenVolgensType(this Fixture source, string type)
         => type switch
         {
             ContactgegevenType.Labels.Telefoon => source.Create<TelefoonNummer>(),
@@ -152,21 +152,21 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<Email>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new Email($"{fixture.Create<string>()}@example.org", fixture.Create<string>(), false))
+                    factory: () => new Email($"{fixture.Create<string>()}@example.org"))
                 .OmitAutoProperties());
 
         fixture.Customize<SocialMedia>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                    factory: () => new SocialMedia($"https://{fixture.Create<string>()}.com"))
                 .OmitAutoProperties());
 
         fixture.Customize<Website>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new Website($"https://{fixture.Create<string>()}.com", fixture.Create<string>(), false))
+                    factory: () => new Website($"https://{fixture.Create<string>()}.com"))
                 .OmitAutoProperties());
         fixture.Customize<TelefoonNummer>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString(), fixture.Create<string>(), false))
+                    factory: () => new TelefoonNummer(fixture.Create<int>().ToString()))
                 .OmitAutoProperties());
 
         fixture.Customize<ContactgegevenType>(
@@ -179,13 +179,18 @@ public static class AutoFixtureCustomizations
 
         fixture.Customize<Contactgegeven>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => (string)fixture.Create<ContactgegevenType>() switch
+                    factory: () =>
                     {
-                        ContactgegevenType.Labels.Email => fixture.Create<Email>(),
-                        ContactgegevenType.Labels.Website => fixture.Create<Website>(),
-                        ContactgegevenType.Labels.SocialMedia => fixture.Create<SocialMedia>(),
-                        ContactgegevenType.Labels.Telefoon => fixture.Create<TelefoonNummer>(),
-                        _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
+                        var contactgegevenType = fixture.Create<ContactgegevenType>();
+                        IContactWaarde waarde = (string)contactgegevenType switch
+                        {
+                            ContactgegevenType.Labels.Email => fixture.Create<Email>(),
+                            ContactgegevenType.Labels.Website => fixture.Create<Website>(),
+                            ContactgegevenType.Labels.SocialMedia => fixture.Create<SocialMedia>(),
+                            ContactgegevenType.Labels.Telefoon => fixture.Create<TelefoonNummer>(),
+                            _ => throw new ArgumentOutOfRangeException($"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
+                        };
+                        return Contactgegeven.Hydrate(0, contactgegevenType, waarde.Waarde, fixture.Create<string>(), false);
                     })
                 .OmitAutoProperties());
     }

@@ -9,7 +9,7 @@ public record ContactgegevenWerdVerwijderd(int ContactgegevenId, string Type, st
         => new(
             contactgegeven.ContactgegevenId,
             contactgegeven.Type,
-            contactgegeven.Waarde,
+            contactgegeven.Waarde.Waarde,
             contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);
 }

@@ -67,14 +67,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 1,
                         ContactgegevenType.Email,
-                        _command.Contactgegevens[0].Waarde,
+                        _command.Contactgegevens[0].Waarde.Waarde,
                         _command.Contactgegevens[0].Beschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 2,
                         ContactgegevenType.Website,
-                        _command.Contactgegevens[1].Waarde,
+                        _command.Contactgegevens[1].Waarde.Waarde,
                         _command.Contactgegevens[1].Beschrijving,
                         _command.Contactgegevens[1].IsPrimair
                     ),

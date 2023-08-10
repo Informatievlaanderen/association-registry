@@ -14,7 +14,7 @@ public record ContactgegevenWerdGewijzigd(
         => new(
             contactgegeven.ContactgegevenId,
             contactgegeven.Type,
-            contactgegeven.Waarde,
+            contactgegeven.Waarde.Waarde,
             contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);
 }

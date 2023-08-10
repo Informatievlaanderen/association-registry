@@ -1,30 +1,17 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Framework;
-using Emails;
 using Exceptions;
-using SocialMedias;
-using TelefoonNummers;
-using Websites;
 
-public record Contactgegeven
+public class Contactgegeven
 {
     public int ContactgegevenId { get; init; }
     public ContactgegevenType Type { get; init; }
-    public string Waarde { get; }
+    public IContactWaarde Waarde { get; }
     public string Beschrijving { get; init; }
-    public bool IsPrimair { get; init;  }
+    public bool IsPrimair { get; init; }
 
-    protected Contactgegeven(ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
-    {
-        ContactgegevenId = 0;
-        Type = type;
-        Waarde = waarde;
-        Beschrijving = beschrijving;
-        IsPrimair = isPrimair;
-    }
-
-    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
+    private Contactgegeven(int contactgegevenId, ContactgegevenType type, IContactWaarde waarde, string beschrijving, bool isPrimair)
     {
         ContactgegevenId = contactgegevenId;
         Type = type;
@@ -34,30 +21,27 @@ public record Contactgegeven
     }
 
     public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
-        => new(contactgegevenId, type, waarde, beschrijving, isPrimair);
+        => new(contactgegevenId, type, type.Hydrate(waarde), beschrijving, isPrimair);
 
     public static Contactgegeven Create(ContactgegevenType type, string waarde, string? beschrijving, bool isPrimair)
     {
         beschrijving ??= string.Empty;
 
-        return type switch
-        {
-            { Waarde: ContactgegevenType.Labels.Email } => Email.Create(waarde, beschrijving, isPrimair),
-            { Waarde: ContactgegevenType.Labels.Telefoon } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
-            { Waarde: ContactgegevenType.Labels.Website } => Website.Create(waarde, beschrijving, isPrimair),
-            { Waarde: ContactgegevenType.Labels.SocialMedia } => SocialMedia.Create(waarde, beschrijving, isPrimair),
-            _ => throw new InvalidContactType(),
-        };
+        return new Contactgegeven(0, type, type.Create(waarde), beschrijving, isPrimair);
     }
+
+    public Contactgegeven WithId(int contactgegevenId)
+        => new(contactgegevenId, Type, Waarde, Beschrijving, IsPrimair);
 
     public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
         return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
+
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
         => Type == contactgegeven.Type &&
-           Waarde == contactgegeven.Waarde &&
+           Waarde.Equals(contactgegeven.Waarde) &&
            Beschrijving == contactgegeven.Beschrijving;
 
 
@@ -65,15 +49,15 @@ public record Contactgegeven
         => ContactgegevenType.CanParse(type);
 
     public Contactgegeven CopyWithValuesIfNotNull(string? waarde, string? beschrijving, bool? isPrimair)
-        => Create(Type, waarde ?? Waarde, beschrijving ?? Beschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
+        => Create(Type, waarde ?? Waarde.Waarde, beschrijving ?? Beschrijving, isPrimair ?? IsPrimair).WithId(ContactgegevenId);
 
-    public virtual bool Equals(Contactgegeven? other)
+    public bool Equals(Contactgegeven? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
         return ContactgegevenId == other.ContactgegevenId &&
                Type.Equals(other.Type) &&
-               Waarde == other.Waarde &&
+               Waarde.Equals(other.Waarde) &&
                Beschrijving == other.Beschrijving &&
                IsPrimair == other.IsPrimair;
     }
@@ -84,6 +68,6 @@ public record Contactgegeven
     public bool WouldBeEquivalent(string? waarde, string? beschrijving, bool? isPrimair, out Contactgegeven contactgegeven)
     {
         contactgegeven = CopyWithValuesIfNotNull(waarde, beschrijving, isPrimair);
-        return this == contactgegeven;
+        return Equals(contactgegeven);
     }
 }

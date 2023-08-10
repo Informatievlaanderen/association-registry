@@ -37,10 +37,8 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
 
         var secondCommand = command with
         {
-            Contactgegeven = command.Contactgegeven with
-            {
-                Beschrijving = _fixture.Create<string>(),
-            },
+            Contactgegeven = command.Contactgegeven
+                .CopyWithValuesIfNotNull(null, _fixture.Create<string>(), null),
         };
 
         var secondCall = () => _commandHandler.Handle(

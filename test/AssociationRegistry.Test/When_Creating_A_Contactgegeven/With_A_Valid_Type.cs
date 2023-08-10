@@ -23,6 +23,7 @@ public class With_A_Valid_Type
         var fixture = new Fixture();
         var contactgegeven = Contactgegeven.Create(type, waarde, fixture.Create<string>(), false);
 
-        contactgegeven.Should().BeOfType(expectedType);
+        contactgegeven.Should().BeOfType<Contactgegeven>();
+        contactgegeven.Waarde.Should().BeOfType(expectedType);
     }
 }
