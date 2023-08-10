@@ -143,7 +143,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdVerwijderd,
             document,
-            $"'{contactgegevenWerdVerwijderd.Data.Type} {contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd."
+            $"{contactgegevenWerdVerwijderd.Data.Type} '{contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
@@ -154,7 +154,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdGewijzigd,
             document,
-            $"'{contactgegevenWerdGewijzigd.Data.Type} {contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
+            $"{contactgegevenWerdGewijzigd.Data.Type} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
