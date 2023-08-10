@@ -8,7 +8,9 @@ using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Framework;
+using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
@@ -17,13 +19,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_No_Valid_Taal
+public class Given_A_GeefOndernemingResponseBody_With_One_MaatschappelijkeNaam
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
     private readonly string _verenigingNaam;
 
-    public Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_No_Valid_Taal()
+    public Given_A_GeefOndernemingResponseBody_With_One_MaatschappelijkeNaam()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
@@ -35,7 +37,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_No
         {
             new NaamOndernemingType
             {
-                Naam = _fixture.Create<string>(),
+                Naam = _verenigingNaam,
                 Taalcode = _fixture.Create<string>(),
             },
         };
@@ -48,9 +50,22 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_No
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_FailureResult()
+    public async Task Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
-        result.IsFailure().Should().BeTrue();
+        result.IsSuccess().Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task Then_It_Returns_A_VerenigingVolgensKbo()
+    {
+        var kboNummer = _fixture.Create<KboNummer>();
+        var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        using (new AssertionScope())
+        {
+            var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
+            verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
+            verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
+        }
     }
 }
