@@ -1,3 +1,18 @@
+# [6.10.0](https://github.com/informatievlaanderen/association-registry/compare/v6.9.2...v6.10.0) (2023-08-10)
+
+
+### Bug Fixes
+
+* or-1860 resolve issues ([dce3f35](https://github.com/informatievlaanderen/association-registry/commit/dce3f3532e08d1e6dfa480436e2a2d21ebbe4e46))
+* or-1860 update wiremock xml to match response from server ([d08127d](https://github.com/informatievlaanderen/association-registry/commit/d08127de7b2dc88b0da540d878c1119f6a5dfd25))
+
+
+### Features
+
+* or-1860 add basisgegevens from Kbo ([e640e45](https://github.com/informatievlaanderen/association-registry/commit/e640e45ed0945a88baba345b5c6d8a7cbaad042d))
+* or-1860 fetch naam in volgorde volgens taalcodes nl, fr, du, en ([70731b4](https://github.com/informatievlaanderen/association-registry/commit/70731b42c9ec1b38879d80492fb05acbd6584c31))
+* or-1860 use naam if only one found, otherwise find best fit by taalcode ([a48a46b](https://github.com/informatievlaanderen/association-registry/commit/a48a46be516507a43ff737110527fc94163b7c59))
+
 ## [6.9.2](https://github.com/informatievlaanderen/association-registry/compare/v6.9.1...v6.9.2) (2023-08-08)
 
 
