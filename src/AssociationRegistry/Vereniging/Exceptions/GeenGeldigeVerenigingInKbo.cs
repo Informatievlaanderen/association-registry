@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class GeenGeldigeVerenigingInKbo : DomainException
 {
-    public GeenGeldigeVerenigingInKbo() : base("Er werd voor dit Kbo nummer geen geldige vereniging teruggevonden.")
+    public GeenGeldigeVerenigingInKbo() : base("Er werd voor dit KBO-nummer geen geldige vereniging gevonden.")
     {
     }
 
