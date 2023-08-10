@@ -68,7 +68,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     Rechtsvorm = rechtsvorm,
                     Naam = naamOndernemingType.Naam,
                     KorteNaam = korteNaamOndernemingType?.Naam,
-                    StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, "yyyy-MM-dd"),
+                    StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
                 });
         }
         catch (Exception e)
@@ -89,7 +89,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         return GetNaamInTaal(activeNamen, TaalCodes.Nederlands) ??
                GetNaamInTaal(activeNamen, TaalCodes.Frans) ??
                GetNaamInTaal(activeNamen, TaalCodes.Duits) ??
-               GetNaamInTaal(activeNamen, TaalCodes.Engels);
+               GetNaamInTaal(activeNamen, TaalCodes.Engels) ??
+               activeNamen.First();
     }
 
     private static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
@@ -99,16 +100,16 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     {
         return namen.Where(
                 n =>
-                    DateOnlyHelper.ParseOrNull(n.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
-                    DateOnlyHelper.ParseOrNull(n.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday())
+                    DateOnlyHelper.ParseOrNull(n.DatumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
+                    DateOnlyHelper.ParseOrNull(n.DatumEinde, Formats.DateOnly).IsNullOrAfterToday())
             .ToArray();
     }
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
             r =>
-                DateOnlyHelper.ParseOrNull(r.DatumBegin, "yyyy-MM-dd").IsNullOrBeforeToday() &&
-                DateOnlyHelper.ParseOrNull(r.DatumEinde, "yyyy-MM-dd").IsNullOrAfterToday());
+                DateOnlyHelper.ParseOrNull(r.DatumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
+                DateOnlyHelper.ParseOrNull(r.DatumEinde, Formats.DateOnly).IsNullOrAfterToday());
 
 
     private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)
