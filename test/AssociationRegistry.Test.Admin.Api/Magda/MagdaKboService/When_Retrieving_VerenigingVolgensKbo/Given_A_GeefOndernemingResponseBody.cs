@@ -59,7 +59,7 @@ public class Given_A_GeefOndernemingResponseBody
         };
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Start = new DatumStartType
         {
-            Datum = startDatum.ToString("yyyy-MM-dd"),
+            Datum = startDatum.ToString(Formats.DateOnly),
         };
         return responseEnvelope;
     }
