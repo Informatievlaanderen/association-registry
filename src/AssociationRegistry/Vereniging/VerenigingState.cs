@@ -331,4 +331,12 @@ public record VerenigingState : IHasVersion
                 Locaties
                     .Without(@event.Locatie.LocatieId)),
         };
+
+    public VerenigingState Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                    .AppendFromEventData(@event.Locatie)),
+        };
 }

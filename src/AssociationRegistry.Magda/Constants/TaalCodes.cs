@@ -7,3 +7,8 @@ public class TaalCodes
     public const string Duits = "DU";
     public const string Engels = "EN";
 }
+
+public class AdresCodes
+{
+    public const string MaatschappelijkeZetel = "001";
+}

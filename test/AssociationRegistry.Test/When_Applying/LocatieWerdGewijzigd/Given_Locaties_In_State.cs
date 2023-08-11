@@ -16,7 +16,7 @@ public class Given_Locaties_In_State
     public void Then_It_Updates_The_Locatie()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var locatieToUpdate = fixture.Create<Registratiedata.Locatie>() with { LocatieId = 1, };
+        var locatieToUpdate = fixture.Create<Registratiedata.Locatie>() with { LocatieId = 1 };
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             Locaties = new[]

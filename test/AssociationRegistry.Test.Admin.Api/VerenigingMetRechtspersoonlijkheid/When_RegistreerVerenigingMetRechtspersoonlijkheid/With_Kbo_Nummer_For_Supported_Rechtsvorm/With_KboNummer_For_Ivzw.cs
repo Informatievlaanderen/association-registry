@@ -5,6 +5,7 @@ using Events;
 using Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Vereniging;
 using Xunit;
 
 public class RegistreerIVzwSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
@@ -21,9 +22,9 @@ public class With_KboNummer_For_Ivzw : With_KboNummer_For_Supported_Vereniging, 
     }
 
     [Fact]
-    public void Then_it_saves_the_events()
+    public async Task Then_it_saves_the_events()
     {
-        using var session = _fixture.DocumentStore
+        await using var session = _fixture.DocumentStore
             .LightweightSession();
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
@@ -36,5 +37,27 @@ public class With_KboNummer_For_Ivzw : With_KboNummer_For_Supported_Vereniging, 
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(1989, 10, 03));
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Rechtsvorm.IVZW.Waarde);
         }
+
+        var fetchStreamAsync = await session.Events.FetchStreamAsync(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = fetchStreamAsync
+            .Should().ContainSingle(e => e.Data.GetType() == typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo)).Subject;
+
+        maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Should().BeEquivalentTo(
+            new MaatschappelijkeZetelWerdOvergenomenUitKbo(
+                new Registratiedata.Locatie(
+                    1,
+                    Locatietype.MaatschappelijkeZetelVolgensKbo,
+                    false,
+                    string.Empty,
+                    new Registratiedata.Adres(
+                        "Koningsstraat",
+                        "4",
+                        string.Empty,
+                        "1210",
+                        "Sint-Joost-ten-Node",
+                        "België"),
+                    null)
+            )
+        );
     }
 }
