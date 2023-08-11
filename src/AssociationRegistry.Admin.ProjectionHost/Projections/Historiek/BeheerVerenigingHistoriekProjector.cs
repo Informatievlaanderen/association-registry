@@ -297,4 +297,16 @@ public class BeheerVerenigingHistoriekProjector
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdOvergenomenUitKbo,
+            maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
+            document,
+            "De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."
+        );
+
+        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
+    }
 }

@@ -32,7 +32,7 @@ public class With_An_VerenigingVolgensKbo_Adres
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
-        _verenigingVolgensKbo.Adres = Result.Success<Adres?>(fixture.Create<Adres>());
+        _verenigingVolgensKbo.Adres = fixture.Create<AdresVolgensKbo>();
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
@@ -67,12 +67,12 @@ public class With_An_VerenigingVolgensKbo_Adres
                     false,
                     string.Empty,
                     new Registratiedata.Adres(
-                        _verenigingVolgensKbo.Adres.Data!.Straatnaam,
-                        _verenigingVolgensKbo.Adres.Data.Huisnummer,
-                        _verenigingVolgensKbo.Adres.Data.Busnummer,
-                        _verenigingVolgensKbo.Adres.Data.Postcode,
-                        _verenigingVolgensKbo.Adres.Data.Gemeente,
-                        _verenigingVolgensKbo.Adres.Data.Land
+                        _verenigingVolgensKbo.Adres.Straatnaam,
+                        _verenigingVolgensKbo.Adres.Huisnummer,
+                        _verenigingVolgensKbo.Adres.Busnummer,
+                        _verenigingVolgensKbo.Adres.Postcode,
+                        _verenigingVolgensKbo.Adres.Gemeente,
+                        _verenigingVolgensKbo.Adres.Land
                     ),
                     null)
             )

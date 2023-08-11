@@ -76,25 +76,22 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    private static Result<Adres?> GetMaatschappelijkeZetel(AdresOndernemingType[] adressen)
+    private static AdresVolgensKbo? GetMaatschappelijkeZetel(AdresOndernemingType[] adressen)
     {
         var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
         if (maatschappelijkeZetel is null)
-            return Result.Success<Adres?>(null);
+            return null;
         var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
-        return TryCreateAddress(adresDetails);
-    }
 
-    private static Result<Adres?> TryCreateAddress(AdresOndernemingBasisType adresDetails)
-    {
-        try
+        return new AdresVolgensKbo
         {
-            return Adres.Create(adresDetails.Straat.Naam, adresDetails.Huisnummer, adresDetails.Busnummer, adresDetails.Gemeente.PostCode, adresDetails.Gemeente.Naam, adresDetails.Land.Naam);
-        }
-        catch
-        {
-            return Result.Failure<Adres?>();
-        }
+            Straatnaam = adresDetails.Straat.Naam,
+            Huisnummer = adresDetails.Huisnummer,
+            Busnummer = adresDetails.Busnummer,
+            Postcode = adresDetails.Gemeente.PostCode,
+            Gemeente = adresDetails.Gemeente.Naam,
+            Land = adresDetails.Land.Naam
+        };
     }
 
     private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[] namen)

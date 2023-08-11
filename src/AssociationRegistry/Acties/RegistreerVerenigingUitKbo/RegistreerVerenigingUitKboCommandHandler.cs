@@ -50,10 +50,24 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
-        if(verenigingVolgensKbo.Adres.IsSuccess() && verenigingVolgensKbo.Adres.Data is not null)
-            vereniging.AddMaatschappelijkeZetel(verenigingVolgensKbo.Adres.Data);
+        if (verenigingVolgensKbo.Adres is not null)
+            AddAdressAlsMaatschappelijkeZetel(vereniging, verenigingVolgensKbo.Adres);
 
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
         return CommandResult.Create(vCode, result);
+    }
+
+    private void AddAdressAlsMaatschappelijkeZetel(VerenigingMetRechtspersoonlijkheid vereniging, AdresVolgensKbo adresVolgensKbo)
+    {
+        try
+        {
+            var adres = Adres.Create(adresVolgensKbo.Straatnaam, adresVolgensKbo.Huisnummer, adresVolgensKbo.Busnummer, adresVolgensKbo.Postcode, adresVolgensKbo.Gemeente, adresVolgensKbo.Land);
+            vereniging.AddMaatschappelijkeZetel(adres);
+        }
+        catch
+        {
+            // ignored
+            //TODO in OR-1864
+        }
     }
 }

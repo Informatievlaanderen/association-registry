@@ -28,7 +28,7 @@ public class Given_A_GeefOndernemingResponseBody
     private readonly string _verenigingKorteNaam;
     private readonly DateOnly _startDatum;
     private readonly ResponseEnvelope<GeefOndernemingResponseBody> _responseEnvelope;
-    private readonly Adres _adres;
+    private readonly AdresVolgensKbo _adres;
 
     public Given_A_GeefOndernemingResponseBody()
     {
@@ -37,7 +37,7 @@ public class Given_A_GeefOndernemingResponseBody
         _verenigingNaam = _fixture.Create<string>();
         _verenigingKorteNaam = _fixture.Create<string>();
         _startDatum = _fixture.Create<DateOnly>();
-        _adres = _fixture.Create<Adres>();
+        _adres = _fixture.Create<AdresVolgensKbo>();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         _responseEnvelope = CreateResponseEnvelope(_verenigingNaam, _verenigingKorteNaam, _startDatum);
@@ -123,8 +123,7 @@ public class Given_A_GeefOndernemingResponseBody
             verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
             verenigingVolgensKbo.KorteNaam.Should().Be(_verenigingKorteNaam);
             verenigingVolgensKbo.StartDatum.Should().BeEquivalentTo(_startDatum);
-            verenigingVolgensKbo.Adres.IsSuccess().Should().BeTrue();
-            verenigingVolgensKbo.Adres.Data.Should().BeEquivalentTo(_adres);
+            verenigingVolgensKbo.Adres.Should().BeEquivalentTo(_adres);
         }
     }
 }

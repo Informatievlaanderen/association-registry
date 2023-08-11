@@ -16,6 +16,7 @@ public static class MagdaAutoFixtureCustomizations
         fixture.OnlyAllowRechtspersoon();
         fixture.OnlyAllowNamenWithValidTaalCodes();
 
+
         fixture.Customize<Onderneming2_0Type>(
             composer => composer
                 .With(o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray()));
