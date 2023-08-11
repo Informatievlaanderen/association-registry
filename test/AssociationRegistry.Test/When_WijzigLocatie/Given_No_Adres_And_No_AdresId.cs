@@ -28,18 +28,6 @@ public class Given_No_Adres_And_No_AdresId
             });
     }
 
-    private static Adres HydrateAdres(Registratiedata.Adres gewijzigdeLocatieAdres)
-    {
-        gewijzigdeLocatieAdres.Deconstruct(
-            out var straatnaam,
-            out var huisnummer,
-            out var busnummer,
-            out var postcode,
-            out var gemeente,
-            out var land);
-        return Adres.Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
-    }
-
     public static IEnumerable<object[]> Data
     {
         get

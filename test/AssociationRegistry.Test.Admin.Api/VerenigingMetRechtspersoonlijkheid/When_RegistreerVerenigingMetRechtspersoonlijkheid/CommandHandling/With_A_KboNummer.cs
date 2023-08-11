@@ -3,11 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using Acties.RegistreerVerenigingUitKbo;
 using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Magda;
 using Fakes;
 using Framework;
 using AutoFixture;
 using Kbo;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -32,7 +32,7 @@ public class With_A_KboNummer
         _verenigingVolgensKbo = new VerenigingVolgensKbo
         {
             KboNummer = _command.KboNummer,
-            Rechtsvorm = Rechtsvorm.VZW,
+            Type = Verenigingstype.VZW,
             Naam = fixture.Create<string>(),
             KorteNaam = fixture.Create<string>(),
             StartDatum = fixture.Create<DateOnly>(),
@@ -57,7 +57,7 @@ public class With_A_KboNummer
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
-                _verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
+                _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.StartDatum));

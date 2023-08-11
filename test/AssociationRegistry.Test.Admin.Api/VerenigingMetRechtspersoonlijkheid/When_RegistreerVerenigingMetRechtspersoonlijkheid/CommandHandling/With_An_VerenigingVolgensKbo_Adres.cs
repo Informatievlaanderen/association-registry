@@ -5,12 +5,9 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fakes;
-using FluentAssertions;
 using Framework;
 using Kbo;
-using ResultNet;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
@@ -56,7 +53,7 @@ public class With_An_VerenigingVolgensKbo_Adres
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
-                _verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
+                _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.StartDatum),
@@ -67,12 +64,12 @@ public class With_An_VerenigingVolgensKbo_Adres
                     false,
                     string.Empty,
                     new Registratiedata.Adres(
-                        _verenigingVolgensKbo.Adres.Straatnaam,
-                        _verenigingVolgensKbo.Adres.Huisnummer,
-                        _verenigingVolgensKbo.Adres.Busnummer,
-                        _verenigingVolgensKbo.Adres.Postcode,
-                        _verenigingVolgensKbo.Adres.Gemeente,
-                        _verenigingVolgensKbo.Adres.Land
+                        _verenigingVolgensKbo.Adres!.Straatnaam!,
+                        _verenigingVolgensKbo.Adres.Huisnummer!,
+                        _verenigingVolgensKbo.Adres.Busnummer!,
+                        _verenigingVolgensKbo.Adres.Postcode!,
+                        _verenigingVolgensKbo.Adres.Gemeente!,
+                        _verenigingVolgensKbo.Adres.Land!
                     ),
                     null)
             )

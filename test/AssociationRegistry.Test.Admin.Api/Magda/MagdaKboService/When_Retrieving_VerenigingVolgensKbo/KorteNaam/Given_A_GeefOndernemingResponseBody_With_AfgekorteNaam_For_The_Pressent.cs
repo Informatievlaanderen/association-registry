@@ -2,13 +2,13 @@
 
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
+using Kbo;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;

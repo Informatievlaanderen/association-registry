@@ -14,7 +14,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 verenigingVolgensKbo.KboNummer,
-                verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
+                verenigingVolgensKbo.Type.Code,
                 verenigingVolgensKbo.Naam ?? "",
                 verenigingVolgensKbo.KorteNaam ?? "",
                 verenigingVolgensKbo.StartDatum ?? null));

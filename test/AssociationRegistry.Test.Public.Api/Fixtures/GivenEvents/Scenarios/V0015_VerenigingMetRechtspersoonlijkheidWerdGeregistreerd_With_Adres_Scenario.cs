@@ -39,7 +39,7 @@ public class V0015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
         return new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            MaatschappelijkeZetelWerdOvergenomenUitKbo
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
         };
     }
 

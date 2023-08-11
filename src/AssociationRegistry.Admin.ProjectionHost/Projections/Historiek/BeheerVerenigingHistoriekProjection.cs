@@ -203,11 +203,11 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> locatieWerdVerwijderd, IDocumentOperations ops)
+    public async Task Project(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdVerwijderd.StreamKey!))!;
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
 
-        BeheerVerenigingHistoriekProjector.Apply(locatieWerdVerwijderd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
 
         ops.Store(doc);
     }

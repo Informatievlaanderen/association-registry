@@ -168,7 +168,6 @@ public static class AutoFixtureCustomizations
                 }).OmitAutoProperties());
     }
 
-
     private static void CustomizeDoelgroepRequest(this IFixture fixture)
     {
         fixture.Customize<DoelgroepRequest>(
