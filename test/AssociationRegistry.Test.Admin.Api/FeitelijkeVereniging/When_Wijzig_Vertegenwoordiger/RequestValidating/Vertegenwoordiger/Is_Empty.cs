@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestValidating.Vertegenwoordiger;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -13,7 +14,7 @@ public class Is_Empty : ValidatorTest
         var validator = new WijzigVertegenwoordigerValidator();
         var request = new WijzigVertegenwoordigerRequest
         {
-            Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger(),
+            Vertegenwoordiger = new TeWijzigenVertegenwoordiger(),
         };
         var result = validator.TestValidate(request);
 

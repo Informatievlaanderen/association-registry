@@ -2,6 +2,7 @@
 
 using Common;
 using FluentValidation;
+using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegLocatieToeValidator : AbstractValidator<VoegLocatieToeRequest>

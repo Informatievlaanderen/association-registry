@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;

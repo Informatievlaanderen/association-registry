@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Marten;

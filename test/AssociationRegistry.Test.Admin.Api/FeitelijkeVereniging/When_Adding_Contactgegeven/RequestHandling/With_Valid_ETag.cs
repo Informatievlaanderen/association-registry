@@ -2,6 +2,7 @@
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using AssociationRegistry.Framework;
 using Framework;
 using Vereniging;

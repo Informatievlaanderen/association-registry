@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Contactgegeven.RequestValidating.ContactGegeven;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -17,7 +18,7 @@ public class Is_Valid : ValidatorTest
         var validator = new WijzigContactgegevenValidator();
         var request = new WijzigContactgegevenRequest
         {
-            Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven
+            Contactgegeven = new TeWijzigenContactgegeven
             {
                 Waarde = waarde,
                 Beschrijving = beschrijving,

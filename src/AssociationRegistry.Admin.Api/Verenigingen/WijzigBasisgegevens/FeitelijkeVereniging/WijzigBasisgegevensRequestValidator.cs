@@ -5,6 +5,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.Feiteli
 using System.Linq;
 using Common;
 using FluentValidation;
+using RequestModels;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {

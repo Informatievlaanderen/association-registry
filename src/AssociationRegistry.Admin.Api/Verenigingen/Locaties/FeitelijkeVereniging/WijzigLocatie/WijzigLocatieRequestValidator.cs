@@ -2,6 +2,7 @@
 
 using Common;
 using FluentValidation;
+using RequestModels;
 using Vereniging;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -19,7 +20,7 @@ public class WijzigLocatieRequestValidator : AbstractValidator<WijzigLocatieRequ
 
 }
 
-public class TeWijzigenLocatieValidator : AbstractValidator<WijzigLocatieRequest.TeWijzigenLocatie>
+public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
 {
     public TeWijzigenLocatieValidator()
     {
@@ -41,7 +42,7 @@ public class TeWijzigenLocatieValidator : AbstractValidator<WijzigLocatieRequest
 
     }
 
-    private bool HaveAtLeastOneValue(WijzigLocatieRequest.TeWijzigenLocatie locatie)
+    private bool HaveAtLeastOneValue(TeWijzigenLocatie locatie)
         => locatie.Locatietype is not null ||
            locatie.IsPrimair is not null ||
            locatie.Naam is not null ||

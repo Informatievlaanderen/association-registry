@@ -6,6 +6,7 @@ using System.Linq;
 using Common;
 using Infrastructure.Validation;
 using FluentValidation;
+using RequestModels;
 
 public class RegistreerAfdelingRequestValidator : AbstractValidator<RegistreerAfdelingRequest>
 {

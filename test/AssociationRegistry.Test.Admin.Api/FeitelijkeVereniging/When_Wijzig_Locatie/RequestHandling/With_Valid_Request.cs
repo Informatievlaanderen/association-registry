@@ -3,6 +3,7 @@
 using Acties.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Framework;
 using Framework;
 using Vereniging;

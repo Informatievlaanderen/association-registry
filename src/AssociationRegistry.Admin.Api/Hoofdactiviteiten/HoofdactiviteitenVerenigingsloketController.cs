@@ -4,9 +4,11 @@ using System.Linq;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Examples;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -26,18 +28,18 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public IActionResult GetAll()
         => Ok(
-            new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
+            new HoofdactiviteitenVerenigingsloketResponse
             {
                 HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket.All().Select(ToDto).ToArray(),
             }
         );
 
-    private static HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket ToDto(HoofdactiviteitVerenigingsloket arg)
+    private static HoofdactiviteitVerenigingsloketResponse ToDto(HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,

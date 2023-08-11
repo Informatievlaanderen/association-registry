@@ -5,7 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using AutoFixture;
 using Events;
 using Fixtures;
