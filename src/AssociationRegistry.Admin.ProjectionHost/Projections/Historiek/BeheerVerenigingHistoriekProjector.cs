@@ -164,7 +164,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdToegevoegd,
-            VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
+            VertegenwoordigerData.Create(vertegenwoordigerWerdToegevoegd.Data),
             document,
             $"'{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam}' werd toegevoegd als vertegenwoordiger."
         );
@@ -176,6 +176,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdGewijzigd,
+            VertegenwoordigerData.Create(vertegenwoordigerWerdGewijzigd.Data),
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam}' werd gewijzigd."
         );
@@ -296,7 +297,4 @@ public class BeheerVerenigingHistoriekProjector
             )).ToList();
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
-
-
-
 }

@@ -28,7 +28,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"'{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam}' werd toegevoegd als vertegenwoordiger.",
                 nameof(VertegenwoordigerWerdToegevoegd),
-                VertegenwoordigerWerdToegevoegdData.Create(vertegenwoordigerWerdToegevoegd.Data),
+                VertegenwoordigerData.Create(vertegenwoordigerWerdToegevoegd.Data),
                 vertegenwoordigerWerdToegevoegd.Initiator,
                 vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
     }
