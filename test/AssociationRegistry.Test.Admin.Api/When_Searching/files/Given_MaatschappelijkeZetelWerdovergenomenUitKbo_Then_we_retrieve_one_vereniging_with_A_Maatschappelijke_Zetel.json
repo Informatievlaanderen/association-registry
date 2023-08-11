@@ -1,0 +1,45 @@
+{
+  "@context": "http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {
+      "vCode": "V9999029",
+      "type": {
+        "code": "VZW",
+        "beschrijving": "Vereniging zonder winstoogmerk"
+      },
+      "naam": "Recht door zee",
+      "korteNaam": "",
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
+      "hoofdactiviteitenVerenigingsloket": [],
+      "locaties": [
+        {
+          "locatietype": "Maatschappelijke zetel volgens KBO",
+          "isPrimair": false,
+          "adresvoorstelling": "Stationsstraat 1 bus B, 1790 Affligem, België",
+          "naam": "",
+          "postcode": "1790",
+          "gemeente": "Affligem"
+        }
+      ],
+      "sleutels": [
+        {
+          "bron": "KBO",
+          "waarde": "7981199887"
+        }
+      ],
+      "links": {
+        "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999029"
+      }
+    }
+  ],
+  "metadata": {
+    "pagination": {
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 50
+    }
+  }
+}

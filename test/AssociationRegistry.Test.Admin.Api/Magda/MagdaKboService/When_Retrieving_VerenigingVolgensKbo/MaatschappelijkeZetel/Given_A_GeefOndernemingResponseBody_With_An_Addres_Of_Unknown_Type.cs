@@ -67,8 +67,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Addres_Of_Unknown_Type
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
             verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.Adres.IsSuccess().Should().BeTrue();
-            verenigingVolgensKbo.Adres.Data.Should().BeNull();
+            verenigingVolgensKbo.Adres.Should().BeNull();
         }
     }
 }
