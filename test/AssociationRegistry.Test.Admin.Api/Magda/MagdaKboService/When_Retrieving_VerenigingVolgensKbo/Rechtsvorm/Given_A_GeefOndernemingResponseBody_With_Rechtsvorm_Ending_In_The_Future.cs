@@ -2,13 +2,14 @@
 
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
+using Kbo;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -23,21 +24,20 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
-    private readonly ResponseEnvelope<GeefOndernemingResponseBody> _responseEnvelope;
 
     public Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_Future()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaFacade = new Mock<IMagdaFacade>();
-        _responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
-        _responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
+        ResponseEnvelope<GeefOndernemingResponseBody> responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
+        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
         {
             new RechtsvormExtentieType
             {
                 Code = new CodeRechtsvormType
                 {
-                    Value = Rechtsvorm.VZW.CodeVolgensMagda,
+                    Value = RechtsvormCodes.VZW,
                 },
                 DatumEinde = "2100-01-01",
             },
@@ -45,7 +45,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
 
 
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(_responseEnvelope);
+            .ReturnsAsync(responseEnvelope);
 
         _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
     }
@@ -66,7 +66,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_F
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
             verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.Rechtsvorm.CodeVolgensMagda.Should().Be(_responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen.First().Code.Value);
+            verenigingVolgensKbo.Type.Should().Be(Verenigingstype.VZW);
         }
     }
 }

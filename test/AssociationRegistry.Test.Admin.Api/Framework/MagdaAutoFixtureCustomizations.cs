@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
@@ -15,7 +14,6 @@ public static class MagdaAutoFixtureCustomizations
         fixture.OnlyAllowOnderneming();
         fixture.OnlyAllowRechtspersoon();
         fixture.OnlyAllowNamenWithValidTaalCodes();
-
 
         fixture.Customize<Onderneming2_0Type>(
             composer => composer
@@ -95,7 +93,7 @@ public static class MagdaAutoFixtureCustomizations
                 {
                     Code = new CodeRechtsvormType
                     {
-                        Value = Rechtsvorm.All[i % Rechtsvorm.All.Length].CodeVolgensMagda,
+                        Value = RechtsvormCodes.VZW,
                     },
                     DatumBegin = null,
                     DatumEinde = null,

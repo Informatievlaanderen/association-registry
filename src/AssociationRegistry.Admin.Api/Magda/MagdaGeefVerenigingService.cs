@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Magda;
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,14 @@ using Vereniging;
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
+    private readonly Dictionary<string, Verenigingstype> rechtsvormMap = new()
+    {
+        { RechtsvormCodes.VZW, Verenigingstype.VZW },
+        { RechtsvormCodes.IVZW, Verenigingstype.IVZW },
+        { RechtsvormCodes.PrivateStichting, Verenigingstype.PrivateStichting },
+        { RechtsvormCodes.StichtingVanOpenbaarNut, Verenigingstype.StichtingVanOpenbaarNut },
+    };
+
     private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaFacade _magdaFacade;
     private readonly ILogger<MagdaGeefVerenigingService> _logger;
@@ -46,7 +55,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
             if (magdaOnderneming is null) return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-            if (!Rechtsvorm.TryParse(Rechtsvorm.UitMagda, GetActiveRechtsvorm(magdaOnderneming)?.Code.Value, out var rechtsvorm))
+            var codeValue = GetActiveRechtsvorm(magdaOnderneming)?.Code.Value;
+            if (codeValue == null || !rechtsvormMap.ContainsKey(codeValue))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
             if (!IsOnderneming(magdaOnderneming) ||
@@ -63,7 +73,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 new VerenigingVolgensKbo
                 {
                     KboNummer = KboNummer.Create(kboNummer),
-                    Rechtsvorm = rechtsvorm,
+                    Type = rechtsvormMap[GetActiveRechtsvorm(magdaOnderneming)!.Code.Value],
                     Naam = naamOndernemingType.Naam,
                     KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
@@ -90,7 +100,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             Busnummer = adresDetails.Busnummer,
             Postcode = adresDetails.Gemeente.PostCode,
             Gemeente = adresDetails.Gemeente.Naam,
-            Land = adresDetails.Land.Naam
+            Land = adresDetails.Land.Naam,
         };
     }
 

@@ -27,7 +27,6 @@ public class Given_A_GeefOndernemingResponseBody
     private readonly string _verenigingNaam;
     private readonly string _verenigingKorteNaam;
     private readonly DateOnly _startDatum;
-    private readonly ResponseEnvelope<GeefOndernemingResponseBody> _responseEnvelope;
     private readonly AdresVolgensKbo _adres;
 
     public Given_A_GeefOndernemingResponseBody()
@@ -40,9 +39,9 @@ public class Given_A_GeefOndernemingResponseBody
         _adres = _fixture.Create<AdresVolgensKbo>();
 
         var magdaFacade = new Mock<IMagdaFacade>();
-        _responseEnvelope = CreateResponseEnvelope(_verenigingNaam, _verenigingKorteNaam, _startDatum);
+        ResponseEnvelope<GeefOndernemingResponseBody> responseEnvelope = CreateResponseEnvelope(_verenigingNaam, _verenigingKorteNaam, _startDatum);
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(_responseEnvelope);
+            .ReturnsAsync(responseEnvelope);
 
         _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
     }
@@ -54,6 +53,16 @@ public class Given_A_GeefOndernemingResponseBody
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.MaatschappelijkeNamen = new[]
         {
             new NaamOndernemingType { Naam = naam, DatumBegin = "1990-01-01", Taalcode = TaalCodes.Nederlands },
+        };
+        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
+        {
+            new RechtsvormExtentieType
+            {
+                Code = new CodeRechtsvormType
+                {
+                    Value = RechtsvormCodes.IVZW,
+                },
+            },
         };
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.AfgekorteNamen = new[]
         {
@@ -119,7 +128,7 @@ public class Given_A_GeefOndernemingResponseBody
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
             verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.Rechtsvorm.CodeVolgensMagda.Should().Be(_responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen.First().Code.Value);
+            verenigingVolgensKbo.Type.Should().Be(Verenigingstype.IVZW);
             verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
             verenigingVolgensKbo.KorteNaam.Should().Be(_verenigingKorteNaam);
             verenigingVolgensKbo.StartDatum.Should().BeEquivalentTo(_startDatum);

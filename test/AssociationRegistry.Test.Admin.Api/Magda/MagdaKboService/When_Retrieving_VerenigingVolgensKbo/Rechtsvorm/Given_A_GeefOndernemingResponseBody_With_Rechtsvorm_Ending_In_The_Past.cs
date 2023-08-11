@@ -3,11 +3,12 @@
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -34,7 +35,7 @@ public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_P
             {
                 Code = new CodeRechtsvormType
                 {
-                    Value = Rechtsvorm.VZW.CodeVolgensMagda,
+                    Value = RechtsvormCodes.VZW,
                 },
                 DatumEinde = "1900-01-01",
             },

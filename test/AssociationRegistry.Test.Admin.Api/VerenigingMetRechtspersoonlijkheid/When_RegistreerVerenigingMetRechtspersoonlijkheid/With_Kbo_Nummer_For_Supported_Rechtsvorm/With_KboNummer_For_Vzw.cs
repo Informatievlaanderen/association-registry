@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
-using AssociationRegistry.Magda;
 using Events;
 using Fixtures;
 using FluentAssertions;

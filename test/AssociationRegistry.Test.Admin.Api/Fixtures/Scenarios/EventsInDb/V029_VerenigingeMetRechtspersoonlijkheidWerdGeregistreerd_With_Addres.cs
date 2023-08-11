@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Magda;
 using AutoFixture;
 using Events;
 using EventStore;

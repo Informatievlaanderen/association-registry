@@ -22,7 +22,6 @@ public class V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moe
         {
             VCode = VCodeMoeder,
             Naam = NaamMoeder,
-
         };
         KboNummerMoeder = MoederWerdGeregistreerd.KboNummer;
 
