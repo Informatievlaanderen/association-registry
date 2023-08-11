@@ -1,3 +1,10 @@
+## [6.10.1](https://github.com/informatievlaanderen/association-registry/compare/v6.10.0...v6.10.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* or-1820 update the error description ([4c6b6ae](https://github.com/informatievlaanderen/association-registry/commit/4c6b6ae94d110edcc292328cb9f6db7f1456736a))
+
 # [6.10.0](https://github.com/informatievlaanderen/association-registry/compare/v6.9.2...v6.10.0) (2023-08-10)
 
 
