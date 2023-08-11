@@ -23,15 +23,19 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd _verenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    private readonly MaatschappelijkeZetelWerdOvergenomenUitKbo _maatschappelijkeZetelWerdOvergenomenUitKbo;
     private readonly CommandMetadata _metadata;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+        var scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres;
 
-        _vCode = fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
-        _metadata = fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd.Metadata;
+        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd = scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+        _maatschappelijkeZetelWerdOvergenomenUitKbo = scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
+
+        _vCode = scenario.VCode;
+        _metadata = scenario.Metadata;
 
         _adminApiClient = fixture.DefaultClient;
         _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
@@ -39,7 +43,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd.Result.Sequence))
+        => (await _adminApiClient.GetDetail(_vCode, _fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres.Result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
@@ -64,8 +68,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     ""vereniging"": {{
             ""vCode"": ""{_vCode}"",
             ""type"": {{
-                ""code"": ""{Verenigingstype.VZW.Code}"",
-                ""beschrijving"": ""{Verenigingstype.VZW.Beschrijving}"",
+                ""code"": ""{Verenigingstype.Parse(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
+                ""beschrijving"": ""{Verenigingstype.Parse(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
             }},
             ""naam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
             ""korteNaam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
@@ -75,7 +79,24 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,
             ""contactgegevens"": [],
-            ""locaties"":[],
+            ""locaties"":[
+                {{
+                ""locatieId"": {_maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
+                ""locatietype"": ""Maatschappelijke zetel volgens KBO"",
+                ""isPrimair"": false,
+                ""naam"": ""{string.Empty}"",
+                ""adres"": {{
+                    ""straatnaam"": ""Stationsstraat"",
+                    ""huisnummer"": ""1"",
+                    ""busnummer"": ""B"",
+                    ""postcode"": ""1790"",
+                    ""gemeente"": ""Affligem"",
+                    ""land"": ""België""
+                }},
+                ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
+                ""adresId"": null
+            }}
+            ],
             ""vertegenwoordigers"":[],
             ""hoofdactiviteitenVerenigingsloket"":[],
             ""sleutels"":[
@@ -83,13 +104,13 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     ""bron"": ""KBO"",
                     ""waarde"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
-            ""relaties"":[            ],
+            ""relaties"":[],
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
             ""beheerBasisUri"": ""/verenigingen/kbo/{_vCode}"",
         }}
-        }}
+}}
 ";
 
         content.Should().BeEquivalentJson(expected);

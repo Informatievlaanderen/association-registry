@@ -22,12 +22,12 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
 
-    private readonly V028_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd _scenario;
+    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Addres _scenario;
 
 
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd;
+        _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres;
 
         _vCode = _scenario.VCode;
         _metadata = _scenario.Metadata;
@@ -68,6 +68,13 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""beschrijving"": ""Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},
+{{
+                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
+                        ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

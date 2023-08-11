@@ -17,6 +17,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
     }
+
     public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd, IDocumentOperations ops)
     {
         var doc = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
@@ -194,6 +195,15 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     }
 
     public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdVerwijderd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(locatieWerdVerwijderd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> locatieWerdVerwijderd, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdVerwijderd.StreamKey!))!;
 

@@ -31,13 +31,19 @@ public class BeheerVerenigingDetailMapper
 
     private static MetadataDetail MapMetadata(BeheerVerenigingDetailDocument vereniging)
     {
-        var routeTypePrefix = vereniging.Type.Code == Verenigingstype.VZW.Code ? "/kbo" : "";
+        var routeTypePrefix = IsGebondenAanRechtsvorm(vereniging.Type.Code) ? "/kbo" : "";
         return new MetadataDetail
         {
             DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
             BeheerBasisUri = $"/verenigingen{routeTypePrefix}/{vereniging.VCode}",
         };
     }
+
+    private static bool IsGebondenAanRechtsvorm(string verenigingsTypeCode)
+        => verenigingsTypeCode == Verenigingstype.VZW.Code ||
+           verenigingsTypeCode == Verenigingstype.IVZW.Code ||
+           verenigingsTypeCode == Verenigingstype.PrivateStichting.Code ||
+           verenigingsTypeCode == Verenigingstype.StichtingVanOpenbaarNut.Code;
 
     private static VerenigingDetail Map(BeheerVerenigingDetailDocument vereniging, string baseUrl)
     {
