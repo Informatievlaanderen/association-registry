@@ -1,3 +1,11 @@
+## [6.10.2](https://github.com/informatievlaanderen/association-registry/compare/v6.10.1...v6.10.2) (2023-08-11)
+
+
+### Bug Fixes
+
+* or-1848 correct e-mail in messages ([0958a06](https://github.com/informatievlaanderen/association-registry/commit/0958a0682f29b7d26476d15313701258075f9994))
+* or-1848 correct e-mail property in beheer historiek for all events ([d2db202](https://github.com/informatievlaanderen/association-registry/commit/d2db202f5f08c33912bcf774f006a9b824d1a34e))
+
 ## [6.10.1](https://github.com/informatievlaanderen/association-registry/compare/v6.10.0...v6.10.1) (2023-08-11)
 
 
