@@ -54,7 +54,7 @@ public record VertegenwoordigerData
             e.Mobiel,
             e.SocialMedia);
 
-    public static VertegenwoordigerData With(Registratiedata.Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerData Create(Registratiedata.Vertegenwoordiger vertegenwoordiger)
         => new(
             vertegenwoordiger.VertegenwoordigerId,
             vertegenwoordiger.IsPrimair,
