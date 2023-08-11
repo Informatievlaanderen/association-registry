@@ -13,7 +13,7 @@ public record AfdelingWerdGeregistreerdData(
     DateOnly? Startdatum,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
-    AfdelingWerdGeregistreerdData.Vertegenwoordiger[] Vertegenwoordigers,
+    VertegenwoordigerData[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
     public static AfdelingWerdGeregistreerdData Create(AfdelingWerdGeregistreerd e)
@@ -27,34 +27,8 @@ public record AfdelingWerdGeregistreerdData(
             e.Startdatum,
             e.Contactgegevens,
             e.Locaties,
-            e.Vertegenwoordigers.Select(Vertegenwoordiger.With).ToArray(),
+            e.Vertegenwoordigers.Select(VertegenwoordigerData.With).ToArray(),
             e.HoofdactiviteitenVerenigingsloket
         );
 
-
-    public record Vertegenwoordiger(
-        int VertegenwoordigerId,
-        bool IsPrimair,
-        string Roepnaam,
-        string Rol,
-        string Voornaam,
-        string Achternaam,
-        string Email,
-        string Telefoon,
-        string Mobiel,
-        string SocialMedia)
-    {
-        public static Vertegenwoordiger With(Registratiedata.Vertegenwoordiger vertegenwoordiger)
-            => new(
-                vertegenwoordiger.VertegenwoordigerId,
-                vertegenwoordiger.IsPrimair,
-                vertegenwoordiger.Roepnaam,
-                vertegenwoordiger.Rol,
-                vertegenwoordiger.Voornaam,
-                vertegenwoordiger.Achternaam,
-                vertegenwoordiger.Email,
-                vertegenwoordiger.Telefoon,
-                vertegenwoordiger.Mobiel,
-                vertegenwoordiger.SocialMedia);
-    }
 }

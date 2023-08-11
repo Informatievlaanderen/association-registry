@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using System;
+using System.Runtime.Serialization;
 using Events;
 
 public record FeitelijkeVerenigingWerdGeregistreerdData(
@@ -13,7 +14,7 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
     DateOnly? Startdatum,
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
-    FeitelijkeVerenigingWerdGeregistreerdData.Vertegenwoordiger[] Vertegenwoordigers,
+    VertegenwoordigerData[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
     public static FeitelijkeVerenigingWerdGeregistreerdData Create(FeitelijkeVerenigingWerdGeregistreerd e)
@@ -27,34 +28,7 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
             e.Startdatum,
             e.Contactgegevens,
             e.Locaties,
-            e.Vertegenwoordigers.Select(Vertegenwoordiger.With).ToArray(),
+            e.Vertegenwoordigers.Select(VertegenwoordigerData.With).ToArray(),
             e.HoofdactiviteitenVerenigingsloket
         );
-
-
-    public record Vertegenwoordiger(
-        int VertegenwoordigerId,
-        bool IsPrimair,
-        string Roepnaam,
-        string Rol,
-        string Voornaam,
-        string Achternaam,
-        string Email,
-        string Telefoon,
-        string Mobiel,
-        string SocialMedia)
-    {
-        public static Vertegenwoordiger With(Registratiedata.Vertegenwoordiger vertegenwoordiger)
-            => new(
-                vertegenwoordiger.VertegenwoordigerId,
-                vertegenwoordiger.IsPrimair,
-                vertegenwoordiger.Roepnaam,
-                vertegenwoordiger.Rol,
-                vertegenwoordiger.Voornaam,
-                vertegenwoordiger.Achternaam,
-                vertegenwoordiger.Email,
-                vertegenwoordiger.Telefoon,
-                vertegenwoordiger.Mobiel,
-                vertegenwoordiger.SocialMedia);
-    }
 }
