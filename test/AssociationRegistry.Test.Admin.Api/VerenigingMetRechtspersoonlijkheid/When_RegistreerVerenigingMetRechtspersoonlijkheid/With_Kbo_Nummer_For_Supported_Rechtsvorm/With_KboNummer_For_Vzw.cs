@@ -5,6 +5,7 @@ using Events;
 using Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Vereniging;
 using Xunit;
 
 public class RegistreerVzwRegistreerSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
@@ -33,7 +34,7 @@ public class With_KboNummer_For_Vzw : With_KboNummer_For_Supported_Vereniging, I
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Kom op tegen Kanker");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam.Should().Be("V.L.K.");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(1989, 10, 03));
-            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Rechtsvorm.VZW.Waarde);
+            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Verenigingstype.VZW.Code);
         }
     }
 }

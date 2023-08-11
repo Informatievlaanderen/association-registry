@@ -107,8 +107,8 @@ public static class PubliekVerenigingDetailProjector
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Type = new PubliekVerenigingDetailDocument.VerenigingsType
             {
-                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                Code = Verenigingstype.VZW.Code,
+                Beschrijving = Verenigingstype.VZW.Beschrijving,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

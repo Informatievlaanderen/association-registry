@@ -14,7 +14,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 verenigingVolgensKbo.KboNummer,
-                verenigingVolgensKbo.Rechtsvorm.Waarde,
+                verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
                 verenigingVolgensKbo.Naam ?? "",
                 verenigingVolgensKbo.KorteNaam ?? "",
                 verenigingVolgensKbo.StartDatum ?? null));
@@ -23,7 +23,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.VerenigingMetRechtspersoonlijkheid);
+        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.VZW);
         State = obj;
     }
 

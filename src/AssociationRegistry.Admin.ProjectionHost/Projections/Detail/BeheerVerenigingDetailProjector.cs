@@ -75,8 +75,8 @@ public class BeheerVerenigingDetailProjector
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Type = new BeheerVerenigingDetailDocument.VerenigingsType
             {
-                Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code,
-                Beschrijving = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                Code = Verenigingstype.VZW.Code,
+                Beschrijving = Verenigingstype.VZW.Beschrijving,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

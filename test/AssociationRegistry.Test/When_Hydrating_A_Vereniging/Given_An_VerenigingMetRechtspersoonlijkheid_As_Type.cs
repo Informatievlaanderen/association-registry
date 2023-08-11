@@ -15,7 +15,7 @@ public class Given_An_VerenigingMetRechtspersoonlijkheid_As_Type
     {
         _verenigingState = new VerenigingState
         {
-            Verenigingstype = Verenigingstype.VerenigingMetRechtspersoonlijkheid,
+            Verenigingstype = Verenigingstype.VZW,
         };
     }
 
