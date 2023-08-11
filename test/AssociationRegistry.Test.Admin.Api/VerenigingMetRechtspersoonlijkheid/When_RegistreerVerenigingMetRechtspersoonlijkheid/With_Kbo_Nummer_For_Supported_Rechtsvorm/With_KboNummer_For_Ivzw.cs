@@ -35,7 +35,7 @@ public class With_KboNummer_For_Ivzw : With_KboNummer_For_Supported_Vereniging, 
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Kometsoft");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam.Should().Be("V.L.K.");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(1989, 10, 03));
-            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Rechtsvorm.IVZW.Waarde);
+            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Verenigingstype.IVZW.Code);
         }
 
         var fetchStreamAsync = await session.Events.FetchStreamAsync(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);

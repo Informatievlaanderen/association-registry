@@ -80,8 +80,8 @@ public class BeheerZoekProjectionHandler
                 VCode = message.Data.VCode,
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
-                    Code = Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code, Beschrijving =
-                        Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving,
+                    Code = Verenigingstype.VZW.Code, Beschrijving =
+                        Verenigingstype.VZW.Beschrijving,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,

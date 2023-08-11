@@ -56,7 +56,7 @@ public class With_An_VerenigingVolgensKbo_Adres
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
-                _verenigingVolgensKbo.Rechtsvorm.Waarde,
+                _verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.StartDatum),

@@ -23,7 +23,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Addr
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
             VCode,
             "7981199887",
-            Rechtsvorm.VZW.Waarde,
+            Verenigingstype.VZW.Code,
             Naam,
             string.Empty,
             null);

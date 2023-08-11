@@ -1,26 +1,26 @@
 ﻿namespace AssociationRegistry.Magda;
 
 using System.Diagnostics.CodeAnalysis;
+using Vereniging;
 
 public class Rechtsvorm : IEquatable<Rechtsvorm>
 {
-    public static readonly Rechtsvorm VZW = new("vzw", "017");
-    public static readonly Rechtsvorm IVZW = new("ivzw", "125");
-    public static readonly Rechtsvorm PrivateStichting = new("private stichting", "026");
-    public static readonly Rechtsvorm StichtingVanOpenbaarNut = new("stichting van openbaar nut", "029");
+    public static readonly Rechtsvorm VZW = new("017", Verenigingstype.VZW);
+    public static readonly Rechtsvorm IVZW = new("125", Verenigingstype.IVZW);
+    public static readonly Rechtsvorm PrivateStichting = new("026", Verenigingstype.PrivateStichting);
+    public static readonly Rechtsvorm StichtingVanOpenbaarNut = new("029", Verenigingstype.StichtingVanOpenbaarNut);
 
     public static Rechtsvorm[] All = { VZW, IVZW, PrivateStichting, StichtingVanOpenbaarNut };
 
-    public static readonly RechtsvormBron UitVr = (rechtsvorm, waarde) => rechtsvorm.Waarde == waarde;
     public static readonly RechtsvormBron UitMagda = (rechtsvorm, waarde) => rechtsvorm.CodeVolgensMagda == waarde;
 
-    public string Waarde { get; }
     public string CodeVolgensMagda { get; }
+    public Verenigingstype Verenigingstype { get; }
 
-    private Rechtsvorm(string value, string codeVolgensMagda)
+    private Rechtsvorm( string codeVolgensMagda, Verenigingstype verenigingstype)
     {
-        Waarde = value;
         CodeVolgensMagda = codeVolgensMagda;
+        Verenigingstype = verenigingstype;
     }
 
 
@@ -58,16 +58,16 @@ public class Rechtsvorm : IEquatable<Rechtsvorm>
     }
 
     public bool Equals(Rechtsvorm? other)
-        => other is not null && string.Equals(other.Waarde, Waarde, StringComparison.InvariantCultureIgnoreCase);
+        => other is not null && other.Verenigingstype.Equals(Verenigingstype);
 
     public override bool Equals(object? obj)
         => obj is Rechtsvorm type && Equals(type);
 
     public override int GetHashCode()
-        => Waarde.GetHashCode();
+        => Verenigingstype.GetHashCode();
 
     public override string ToString()
-        => Waarde;
+        => Verenigingstype.ToString();
 
     public static bool operator ==(Rechtsvorm left, Rechtsvorm right)
         => Equals(left, right);
@@ -76,13 +76,13 @@ public class Rechtsvorm : IEquatable<Rechtsvorm>
         => !(left == right);
 
     public static bool operator ==(Rechtsvorm left, string right)
-        => string.Equals(left.Waarde, right, StringComparison.InvariantCultureIgnoreCase);
+        => left.Verenigingstype.Equals(Verenigingstype.Parse(right));
 
     public static bool operator !=(Rechtsvorm left, string right)
         => !(left == right);
 
     public static bool operator ==(string left, Rechtsvorm right)
-        => string.Equals(left, right.Waarde, StringComparison.InvariantCultureIgnoreCase);
+        => right == left;
 
     public static bool operator !=(string left, Rechtsvorm right)
         => !(left == right);

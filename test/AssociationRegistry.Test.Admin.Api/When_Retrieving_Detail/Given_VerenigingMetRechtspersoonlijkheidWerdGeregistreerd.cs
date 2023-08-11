@@ -64,8 +64,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     ""vereniging"": {{
             ""vCode"": ""{_vCode}"",
             ""type"": {{
-                ""code"": ""{Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code}"",
-                ""beschrijving"": ""{Verenigingstype.VerenigingMetRechtspersoonlijkheid.Beschrijving}"",
+                ""code"": ""{Verenigingstype.VZW.Code}"",
+                ""beschrijving"": ""{Verenigingstype.VZW.Beschrijving}"",
             }},
             ""naam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
             ""korteNaam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",

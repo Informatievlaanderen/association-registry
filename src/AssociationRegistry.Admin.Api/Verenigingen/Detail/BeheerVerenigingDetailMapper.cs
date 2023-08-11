@@ -31,7 +31,7 @@ public class BeheerVerenigingDetailMapper
 
     private static MetadataDetail MapMetadata(BeheerVerenigingDetailDocument vereniging)
     {
-        var routeTypePrefix = vereniging.Type.Code == Verenigingstype.VerenigingMetRechtspersoonlijkheid.Code ? "/kbo" : "";
+        var routeTypePrefix = vereniging.Type.Code == Verenigingstype.VZW.Code ? "/kbo" : "";
         return new MetadataDetail
         {
             DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,

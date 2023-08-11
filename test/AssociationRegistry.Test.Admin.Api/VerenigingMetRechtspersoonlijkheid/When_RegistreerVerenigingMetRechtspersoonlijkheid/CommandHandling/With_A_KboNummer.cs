@@ -57,7 +57,7 @@ public class With_A_KboNummer
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.KboNummer,
-                _verenigingVolgensKbo.Rechtsvorm.Waarde,
+                _verenigingVolgensKbo.Rechtsvorm.Verenigingstype.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.StartDatum));
