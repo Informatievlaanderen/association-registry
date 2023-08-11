@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo.Rechtsvorm;
 
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
@@ -6,36 +6,33 @@ using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_GeefOndernemingResponseBody_With_Unsupported_Rechtsvorm
+public class Given_A_GeefOndernemingResponseBody_Which_Is_Not_A_Rechtspersoon
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
 
-    public Given_A_GeefOndernemingResponseBody_With_Unsupported_Rechtsvorm()
+    public Given_A_GeefOndernemingResponseBody_Which_Is_Not_A_Rechtspersoon()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
-        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
+        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.SoortOnderneming = new SoortOndernemingType
         {
-            new RechtsvormExtentieType
+            Code = new CodeSoortOndernemingType
             {
-                Code = new CodeRechtsvormType
-                {
-                    Value = _fixture.Create<string>(),
-                },
+                Value = _fixture.Create<string>(),
             },
         };
 

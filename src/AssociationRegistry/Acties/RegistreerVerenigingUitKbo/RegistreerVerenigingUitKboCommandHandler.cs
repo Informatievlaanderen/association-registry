@@ -50,6 +50,9 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
+        if(verenigingVolgensKbo.Adres.IsSuccess() && verenigingVolgensKbo.Adres.Data is not null)
+            vereniging.AddMaatschappelijkeZetel(verenigingVolgensKbo.Adres.Data);
+
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
         return CommandResult.Create(vCode, result);
     }

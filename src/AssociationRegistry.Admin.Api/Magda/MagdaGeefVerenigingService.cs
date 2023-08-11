@@ -54,9 +54,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-
             var naamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.MaatschappelijkeNamen);
-            var korteNaamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen);
 
             if (naamOndernemingType is null)
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
@@ -67,8 +65,9 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     KboNummer = KboNummer.Create(kboNummer),
                     Rechtsvorm = rechtsvorm,
                     Naam = naamOndernemingType.Naam,
-                    KorteNaam = korteNaamOndernemingType?.Naam,
+                    KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
+                    Adres = GetMaatschappelijkeZetel(magdaOnderneming.Adressen),
                 });
         }
         catch (Exception e)
@@ -77,9 +76,32 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
+    private static Result<Adres?> GetMaatschappelijkeZetel(AdresOndernemingType[] adressen)
+    {
+        var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
+        if (maatschappelijkeZetel is null)
+            return Result.Success<Adres?>(null);
+        var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
+        return TryCreateAddress(adresDetails);
+    }
+
+    private static Result<Adres?> TryCreateAddress(AdresOndernemingBasisType adresDetails)
+    {
+        try
+        {
+            return Adres.Create(adresDetails.Straat.Naam, adresDetails.Huisnummer, adresDetails.Busnummer, adresDetails.Gemeente.PostCode, adresDetails.Gemeente.Naam, adresDetails.Land.Naam);
+        }
+        catch
+        {
+            return Result.Failure<Adres?>();
+        }
+    }
+
     private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[] namen)
     {
-        var activeNamen = GetActiveNamen(namen);
+        var activeNamen = namen
+            .Where(n => IsActiveToday(n.DatumBegin, n.DatumEinde))
+            .ToArray();
 
         if (activeNamen.Length == 0)
             return null;
@@ -93,23 +115,31 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                activeNamen.First();
     }
 
+    private static DescriptieType GetBestMatchingAdres(DescriptieType[] descripties)
+    {
+        if (descripties.Length == 1)
+            return descripties.Single();
+
+        return GetDescriptieInTaal(descripties, TaalCodes.Nederlands) ??
+               GetDescriptieInTaal(descripties, TaalCodes.Frans) ??
+               GetDescriptieInTaal(descripties, TaalCodes.Duits) ??
+               GetDescriptieInTaal(descripties, TaalCodes.Engels) ??
+               descripties.First();
+    }
+
     private static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
         => namen.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
 
-    private static NaamOndernemingType[] GetActiveNamen(NaamOndernemingType[] namen)
-    {
-        return namen.Where(
-                n =>
-                    DateOnlyHelper.ParseOrNull(n.DatumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
-                    DateOnlyHelper.ParseOrNull(n.DatumEinde, Formats.DateOnly).IsNullOrAfterToday())
-            .ToArray();
-    }
+    private static DescriptieType? GetDescriptieInTaal(DescriptieType[] descripties, string taalcode)
+        => descripties.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
+
+    private static bool IsActiveToday(string datumBegin, string datumEinde)
+        => DateOnlyHelper.ParseOrNull(datumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
+           DateOnlyHelper.ParseOrNull(datumEinde, Formats.DateOnly).IsNullOrAfterToday();
 
     private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
-            r =>
-                DateOnlyHelper.ParseOrNull(r.DatumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
-                DateOnlyHelper.ParseOrNull(r.DatumEinde, Formats.DateOnly).IsNullOrAfterToday());
+            r => IsActiveToday(r.DatumBegin, r.DatumEinde));
 
 
     private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)

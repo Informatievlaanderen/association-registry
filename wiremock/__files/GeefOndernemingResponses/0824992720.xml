@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
-  <SOAP-ENV:Header />
+  <SOAP-ENV:Header/>
   <SOAP-ENV:Body>
     <geef:GeefOndernemingResponse
       xmlns:geef="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
@@ -25,7 +25,7 @@
             <Ontvanger>
               <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
               <Referte>AREF_QT_610527_134233</Referte>
-              <Hoedanigheid />
+              <Hoedanigheid/>
             </Ontvanger>
           </Bericht>
         </Context>
@@ -98,7 +98,9 @@
                           <Straat>
                             <Naam>Koningsstraat</Naam>
                           </Straat>
+                          <Huisnummer>4</Huisnummer>
                           <Gemeente>
+                            <PostCode>1210</PostCode>
                             <Naam>Sint-Joost-ten-Node</Naam>
                           </Gemeente>
                           <Land>

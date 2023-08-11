@@ -12,7 +12,12 @@ public sealed class Locatietype : IEquatable<Locatietype>
             "Activiteiten"
         );
 
-    public static Locatietype[] All = { Correspondentie, Activiteiten };
+    public static readonly Locatietype MaatschappelijkeZetelVolgensKbo =
+        new(
+            "Maatschappelijke zetel volgens KBO"
+        );
+
+    public static readonly Locatietype[] All = { Correspondentie, Activiteiten, MaatschappelijkeZetelVolgensKbo };
 
     public string Waarde { get; }
 

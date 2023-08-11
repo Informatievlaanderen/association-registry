@@ -1,64 +1,44 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo;
+﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo.KorteNaam;
 
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Framework;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_NL
+public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Future
 {
     private readonly MagdaGeefVerenigingService _service;
     private readonly Fixture _fixture;
-    private readonly string _verenigingNaam;
 
-    public Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_NL()
+    public Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Future()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var responseEnvelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
 
-        _verenigingNaam = _fixture.Create<string>();
-        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.MaatschappelijkeNamen = new[]
+        responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.AfgekorteNamen = new[]
         {
             new NaamOndernemingType
             {
-                Naam = _verenigingNaam,
+                Naam = _fixture.Create<string>(),
                 Taalcode = "nl",
-            },
-            new NaamOndernemingType
-            {
-                Naam = _fixture.Create<string>(),
-                Taalcode = "fr",
-            },
-            new NaamOndernemingType
-            {
-                Naam = _fixture.Create<string>(),
-                Taalcode = "du",
-            },
-            new NaamOndernemingType
-            {
-                Naam = _fixture.Create<string>(),
-                Taalcode = "en",
-            },
-            new NaamOndernemingType
-            {
-                Naam = _fixture.Create<string>(),
-                Taalcode = _fixture.Create<string>(),
+                DatumBegin = "2100-01-01",
+                DatumEinde = "2200-01-01",
             },
         };
 
@@ -85,7 +65,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
             verenigingVolgensKbo.KboNummer.Should().BeEquivalentTo(kboNummer);
-            verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
+            verenigingVolgensKbo.KorteNaam.Should().BeNullOrEmpty();
         }
     }
 }

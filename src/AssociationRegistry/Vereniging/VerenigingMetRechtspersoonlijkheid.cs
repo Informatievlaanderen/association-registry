@@ -43,4 +43,22 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
+
+    public void AddMaatschappelijkeZetel(Adres adres)
+    {
+        AddEvent(
+            MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
+                Locatie.Create(
+                        string.Empty,
+                        false,
+                        Locatietype.MaatschappelijkeZetelVolgensKbo,
+                        null,
+                        adres)
+                    with
+                    {
+                        LocatieId = State.Locaties.NextId,
+                    }
+            )
+        );
+    }
 }
