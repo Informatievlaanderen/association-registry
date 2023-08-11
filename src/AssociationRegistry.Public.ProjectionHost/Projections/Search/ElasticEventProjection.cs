@@ -206,4 +206,11 @@ public class PubliekZoekProjectionHandler
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
+
+    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
+    {
+        _elasticRepository.AppendLocatie(
+            message.VCode,
+            Map(message.Data.Locatie));
+    }
 }
