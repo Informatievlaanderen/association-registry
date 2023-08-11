@@ -28,7 +28,7 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
             e.Startdatum,
             e.Contactgegevens,
             e.Locaties,
-            e.Vertegenwoordigers.Select(VertegenwoordigerData.With).ToArray(),
+            e.Vertegenwoordigers.Select(VertegenwoordigerData.Create).ToArray(),
             e.HoofdactiviteitenVerenigingsloket
         );
 }
