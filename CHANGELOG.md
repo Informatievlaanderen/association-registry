@@ -1,3 +1,18 @@
+# [6.11.0](https://github.com/informatievlaanderen/association-registry/compare/v6.10.2...v6.11.0) (2023-08-11)
+
+
+### Bug Fixes
+
+* or-1862 use Verenigingstype i.p.v. Rechtsvorm ([3afa17c](https://github.com/informatievlaanderen/association-registry/commit/3afa17c8dcd561b9354dd699f5d27eb46040e293))
+
+
+### Features
+
+* or-1862 add event in admin projections ([5592a7c](https://github.com/informatievlaanderen/association-registry/commit/5592a7cb2495d645cf3e260ee12ed03012a97ecb))
+* or-1862 add event to public projections ([a9c3758](https://github.com/informatievlaanderen/association-registry/commit/a9c3758d3cd1de514e35e55824cb514b6259fd8e))
+* or-1862 add maatschappelijke zetel to eventstream ([41a2f4f](https://github.com/informatievlaanderen/association-registry/commit/41a2f4fc5bea2aa84162d5b1831e1dfc92a43c18))
+* or-1862 rework VerenigingsType and Rechtsvorm to better compatible with each other ([acfb87d](https://github.com/informatievlaanderen/association-registry/commit/acfb87dc6d41a993d6185c8485aa87a8eca7046b))
+
 ## [6.10.2](https://github.com/informatievlaanderen/association-registry/compare/v6.10.1...v6.10.2) (2023-08-11)
 
 
