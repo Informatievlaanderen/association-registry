@@ -16,11 +16,19 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
-    [Fact]
-    public void Then_it_creates_a_new_vereniging()
+    [Theory]
+    [InlineData("VZW")]
+    [InlineData("IVZW")]
+    [InlineData("PS")]
+    [InlineData("SVON")]
+    public void Then_it_creates_a_new_vereniging(string rechtsvorm)
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
+        verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data with
+        {
+            Rechtsvorm = rechtsvorm,
+        };
 
         var doc = BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
@@ -30,8 +38,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                 Type = new BeheerVerenigingDetailDocument.VerenigingsType
                 {
-                    Code = Verenigingstype.VZW.Code,
-                    Beschrijving = Verenigingstype.VZW.Beschrijving,
+                    Code = Verenigingstype.Parse(rechtsvorm).Code,
+                    Beschrijving = Verenigingstype.Parse(rechtsvorm).Beschrijving,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

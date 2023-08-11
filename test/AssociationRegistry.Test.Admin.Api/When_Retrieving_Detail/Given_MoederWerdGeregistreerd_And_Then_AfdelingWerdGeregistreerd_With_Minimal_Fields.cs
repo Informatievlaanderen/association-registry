@@ -118,8 +118,8 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     ""vereniging"": {{
             ""vCode"": ""{_moederVCode}"",
             ""type"": {{
-                ""code"": ""{Verenigingstype.VZW.Code}"",
-                ""beschrijving"": ""{Verenigingstype.VZW.Beschrijving}"",
+                ""code"": ""{Verenigingstype.Parse(_moederWerdGeregistreerd.Rechtsvorm).Code}"",
+                ""beschrijving"": ""{Verenigingstype.Parse(_moederWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
             }},
             ""naam"": ""{_moederWerdGeregistreerd.Naam}"",
             ""korteNaam"": ""{_moederWerdGeregistreerd.KorteNaam}"",

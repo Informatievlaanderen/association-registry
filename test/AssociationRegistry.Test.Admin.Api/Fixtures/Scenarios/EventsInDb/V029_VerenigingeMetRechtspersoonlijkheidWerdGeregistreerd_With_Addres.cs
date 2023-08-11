@@ -20,13 +20,13 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Addr
 
         VCode = "V9999029";
         Naam = "Recht door zee";
-        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-            VCode,
-            "7981199887",
-            Verenigingstype.VZW.Code,
-            Naam,
-            string.Empty,
-            null);
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
+        {
+            VCode = VCode,
+            Naam = Naam,
+            KorteNaam = "RDZ",
+            KboNummer = "7981199887",
+        };
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
             Locatie: fixture.Create<Registratiedata.Locatie>() with
             {
@@ -40,6 +40,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Addr
                     "1790",
                     "Affligem",
                     "België"),
+                AdresId = null,
             });
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

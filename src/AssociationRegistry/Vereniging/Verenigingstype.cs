@@ -9,7 +9,15 @@ public class Verenigingstype
     public static readonly Verenigingstype StichtingVanOpenbaarNut = new("SVON", "Stichting van openbaar nut");
     public static readonly Verenigingstype Afdeling = new("AFD", "Afdeling");
 
-    public static readonly Verenigingstype[] All = { FeitelijkeVereniging, VZW, Afdeling };
+    public static readonly Verenigingstype[] All =
+    {
+        FeitelijkeVereniging,
+        VZW,
+        IVZW,
+        PrivateStichting,
+        StichtingVanOpenbaarNut,
+        Afdeling,
+    };
 
     public Verenigingstype(string code, string beschrijving)
     {

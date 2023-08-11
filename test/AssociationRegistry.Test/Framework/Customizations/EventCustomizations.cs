@@ -21,11 +21,11 @@ public static class EventCustomizations
     private static void CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)
     {
         fixture.Customize<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>(
-            composer => composer.FromFactory(
-                () => new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+            composer => composer.FromFactory<int>(
+                (i) => new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                     fixture.Create<VCode>().ToString(),
                     fixture.Create<KboNummer>(),
-                    fixture.Create<string>(),
+                    new[] { Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut }[i % 4].Code,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>()
