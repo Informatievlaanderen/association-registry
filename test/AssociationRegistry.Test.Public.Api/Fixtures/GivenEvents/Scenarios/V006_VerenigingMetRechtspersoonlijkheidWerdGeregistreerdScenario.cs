@@ -4,6 +4,7 @@ using Events;
 using AssociationRegistry.Framework;
 using Vereniging;
 using NodaTime.Extensions;
+using Parlot.Fluent;
 
 public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario
 {

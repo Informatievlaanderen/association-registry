@@ -317,4 +317,14 @@ public static class PubliekVerenigingDetailProjector
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
+
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+            .Append(MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
+            .OrderBy(l => l.LocatieId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
 }
