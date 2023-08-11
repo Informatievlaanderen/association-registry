@@ -3,6 +3,7 @@
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using EventStore;
 using AssociationRegistry.Framework;
 using Vereniging;
@@ -38,7 +39,7 @@ public class Without_Changes : IAsyncLifetime
         _result = await _controller.Patch(
             "V0001001",
             1,
-            new WijzigVertegenwoordigerRequest { Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger() },
+            new WijzigVertegenwoordigerRequest { Vertegenwoordiger = new TeWijzigenVertegenwoordiger() },
             new CommandMetadataProviderStub { Initiator= "OVO0001000" },
             "W/\"1\"");
     }

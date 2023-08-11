@@ -2,6 +2,7 @@
 
 using Infrastructure.Validation;
 using FluentValidation;
+using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgegevenRequest>
@@ -23,7 +24,7 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
         );
     }
 
-    private static bool HaveAtLeastOneValue(WijzigContactgegevenRequest.TeWijzigenContactgegeven contactgegeven)
+    private static bool HaveAtLeastOneValue(TeWijzigenContactgegeven contactgegeven)
         => contactgegeven.Waarde is not null ||
            contactgegeven.Beschrijving is not null ||
            contactgegeven.IsPrimair is not null;

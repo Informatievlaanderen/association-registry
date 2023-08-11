@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_HoofdActiviteitenLijst;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;

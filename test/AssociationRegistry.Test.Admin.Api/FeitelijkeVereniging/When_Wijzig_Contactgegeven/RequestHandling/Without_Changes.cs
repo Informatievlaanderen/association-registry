@@ -3,6 +3,7 @@
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 using EventStore;
 using AssociationRegistry.Framework;
 using Vereniging;
@@ -38,7 +39,7 @@ public class Without_Changes : IAsyncLifetime
         _result = await _controller.Patch(
             "V0001001",
             1,
-            new WijzigContactgegevenRequest { Contactgegeven = new WijzigContactgegevenRequest.TeWijzigenContactgegeven() },
+            new WijzigContactgegevenRequest { Contactgegeven = new TeWijzigenContactgegeven() },
             new CommandMetadataProviderStub(),
             "W/\"1\"");
     }

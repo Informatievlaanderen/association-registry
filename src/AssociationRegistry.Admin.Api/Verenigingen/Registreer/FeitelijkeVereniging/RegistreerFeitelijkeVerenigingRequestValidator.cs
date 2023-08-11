@@ -6,6 +6,7 @@ using System.Linq;
 using Infrastructure.Validation;
 using Common;
 using FluentValidation;
+using RequetsModels;
 
 public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<RegistreerFeitelijkeVerenigingRequest>
 {

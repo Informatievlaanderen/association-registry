@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
 using System;
-using System.Runtime.Serialization;
 using Events;
 
 public record FeitelijkeVerenigingWerdGeregistreerdData(

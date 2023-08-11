@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

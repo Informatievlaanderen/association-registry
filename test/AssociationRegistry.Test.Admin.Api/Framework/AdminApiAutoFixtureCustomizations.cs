@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
-using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
 using Primitives;
 using Test.Framework.Customizations;
@@ -69,9 +69,9 @@ public static class AutoFixtureCustomizations
                         .ToArray(),
                 }).OmitAutoProperties());
 
-        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.WijzigBasisgegevensRequest>(
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
             composer => composer.FromFactory(
-                () => new AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.WijzigBasisgegevensRequest
+                () => new AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest
                 {
                     KorteBeschrijving = fixture.Create<string>(),
                     HoofdactiviteitenVerenigingsloket = fixture
@@ -219,7 +219,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                     factory: () => new WijzigVertegenwoordigerRequest
                     {
-                        Vertegenwoordiger = new WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger
+                        Vertegenwoordiger = new TeWijzigenVertegenwoordiger
                         {
                             Email = fixture.Create<Email>().Waarde,
                             Telefoon = fixture.Create<TelefoonNummer>().Waarde,
@@ -235,9 +235,9 @@ public static class AutoFixtureCustomizations
 
     private static void CustomizeWijzigLocatieRequest(this IFixture fixture)
     {
-        fixture.Customize<WijzigLocatieRequest.TeWijzigenLocatie>(
+        fixture.Customize<TeWijzigenLocatie>(
             composer => composer.FromFactory<int>(
-                value => new WijzigLocatieRequest.TeWijzigenLocatie
+                value => new TeWijzigenLocatie
                 {
                     Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),

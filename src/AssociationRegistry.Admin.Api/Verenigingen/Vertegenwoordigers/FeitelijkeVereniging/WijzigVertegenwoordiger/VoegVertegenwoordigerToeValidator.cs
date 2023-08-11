@@ -2,6 +2,7 @@
 
 using System.Linq;
 using FluentValidation;
+using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegenwoordigerRequest>
@@ -18,7 +19,7 @@ public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegen
         );
     }
 
-    private bool HaveAtLeastOneValue(WijzigVertegenwoordigerRequest.TeWijzigenVertegenwoordiger vertegenwoordiger)
+    private bool HaveAtLeastOneValue(TeWijzigenVertegenwoordiger vertegenwoordiger)
         => vertegenwoordiger
             .GetType()
             .GetProperties()

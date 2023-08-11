@@ -19,8 +19,8 @@ public class AppendCorrelationIdToHeaders : IOperationFilter
                 Required = true,
                 Schema = new OpenApiSchema
                 {
-                    Type = "guid",
-                    Format = "00000000-0000-0000-0000-00000000",
+                    Type = "string",
+                    Format = "uuid",
                     Nullable = false,
                 },
             });

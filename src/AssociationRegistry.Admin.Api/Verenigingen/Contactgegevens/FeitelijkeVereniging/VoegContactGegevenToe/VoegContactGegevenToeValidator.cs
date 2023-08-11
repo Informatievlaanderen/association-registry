@@ -3,6 +3,7 @@
 using Infrastructure.Validation;
 using Vereniging;
 using FluentValidation;
+using RequestsModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegevenToeRequest>
