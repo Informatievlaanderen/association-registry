@@ -38,3 +38,30 @@ public class Given_ContactgegevenWerdToegevoegd
         doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());
     }
 }
+
+[UnitTest]
+public class Given_ContactgegevenWerdOvergenomenUitKBO
+{
+    [Fact]
+    public void Then_it_adds_the_contactgegeven_to_the_detail()
+    {
+        var fixture = new Fixture().CustomizePublicApi();
+        var contactgegevenWerdOvergenomen = fixture.Create<TestEvent<ContactgegevenWerdOvergenomenUitKBO>>();
+
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdOvergenomen, doc);
+
+        doc.Contactgegevens.Should()
+            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdOvergenomen.Data.ContactgegevenId)
+            .Which.Should().BeEquivalentTo(
+                new PubliekVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdOvergenomen.Data.ContactgegevenId,
+                    Type = contactgegevenWerdOvergenomen.Data.Type,
+                    Waarde = contactgegevenWerdOvergenomen.Data.Waarde,
+                });
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdOvergenomen.Tijdstip.ToBelgianDate());
+    }
+}

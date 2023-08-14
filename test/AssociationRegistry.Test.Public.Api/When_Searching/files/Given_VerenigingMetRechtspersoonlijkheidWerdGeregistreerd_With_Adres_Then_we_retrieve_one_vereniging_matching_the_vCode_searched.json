@@ -2,12 +2,12 @@
   "@context": "https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json",
   "verenigingen": [
     {
-      "vCode": "V0001015",
+      "vCode": "V0001014",
       "type": {
         "code": "VZW",
         "beschrijving": "Vereniging zonder winstoogmerk"
       },
-      "naam": "VZW 0000000000",
+      "naam": "Feesten Affligem",
       "korteNaam": "",
       "hoofdactiviteitenVerenigingsloket": [],
       "doelgroep": {
@@ -27,11 +27,11 @@
       "sleutels": [
         {
           "bron": "KBO",
-          "waarde": "0000000000"
+          "waarde": "0987654321"
         }
       ],
       "links": {
-        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001015"
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001014"
       }
     }
   ],

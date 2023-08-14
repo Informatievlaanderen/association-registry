@@ -5,13 +5,13 @@ using Events;
 using NodaTime.Extensions;
 using Vereniging;
 
-public class V0015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres_Scenario : IScenario
+public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario : IScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001015",
-        "0000000000",
+        "V0001014",
+        "0987654321",
         "VZW",
-        "VZW 0000000000",
+        "Feesten Affligem",
         string.Empty,
         null);
 
@@ -31,6 +31,11 @@ public class V0015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
             null
         ));
 
+    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO = new(1, ContactgegevenType.Email.Waarde, "email@testdata.com");
+    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO = new(2, ContactgegevenType.Website.Waarde, "https://www.testdata.com");
+    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO = new(3, ContactgegevenType.Telefoon.Waarde, "0123456789");
+
+
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
@@ -40,6 +45,9 @@ public class V0015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
+            EmailWerdOvergenomenUitKBO,
+            WebsiteWerdOvergenomenUitKBO,
+            TelefoonWerdOvergenomenUitKBO,
         };
     }
 

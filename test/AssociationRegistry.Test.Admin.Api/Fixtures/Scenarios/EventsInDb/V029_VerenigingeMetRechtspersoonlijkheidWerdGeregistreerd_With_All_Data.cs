@@ -44,9 +44,9 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
                     "België"),
                 AdresId = null,
             });
-        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "email@testdata.com", "", false);
-        WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Website.Waarde, "https://www.testdata.com", "", false);
-        TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Telefoon.Waarde, "0123456789", "", false);
+        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "email@testdata.com");
+        WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Website.Waarde, "https://www.testdata.com");
+        TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Telefoon.Waarde, "0123456789");
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

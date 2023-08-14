@@ -13,7 +13,7 @@ public record Contactgegeven
     public ContactgegevenType Type { get; init; }
     public string Waarde { get; }
     public string Beschrijving { get; init; }
-    public bool IsPrimair { get; init;  }
+    public bool IsPrimair { get; init; }
 
     protected Contactgegeven(ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
     {
@@ -50,11 +50,16 @@ public record Contactgegeven
         };
     }
 
+    public static Contactgegeven Create(ContactgegevenType type, string waarde)
+        => Create(type, waarde, string.Empty, false);
+
+
     public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
         return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
+
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
         => Type == contactgegeven.Type &&
            Waarde == contactgegeven.Waarde &&

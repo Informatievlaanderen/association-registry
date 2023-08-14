@@ -69,6 +69,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             if (naamOndernemingType is null)
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
+            var maatschappelijkeZetel = magdaOnderneming.Adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
+
             return VerenigingVolgensKboResult.GeldigeVereniging(
                 new VerenigingVolgensKbo
                 {
@@ -77,8 +79,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     Naam = naamOndernemingType.Naam,
                     KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
-                    Adres = GetMaatschappelijkeZetel(magdaOnderneming.Adressen),
-                    Contactgegevens = GetContactgegevensVanMaatschappelijkeZetel(magdaOnderneming.Adressen),
+                    Adres = GetAdresFrom(maatschappelijkeZetel),
+                    Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
                 });
         }
         catch (Exception e)
@@ -87,11 +89,11 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    private ContactgegevensVolgensKbo? GetContactgegevensVanMaatschappelijkeZetel(AdresOndernemingType[] adressen)
+    private ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
-        var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
         if (maatschappelijkeZetel is null)
-            return null;
+            return new ContactgegevensVolgensKbo();
+
         var contactDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Contact;
         return new ContactgegevensVolgensKbo
         {
@@ -101,19 +103,19 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         };
     }
 
-    private static AdresVolgensKbo? GetMaatschappelijkeZetel(AdresOndernemingType[] adressen)
+    private static AdresVolgensKbo GetAdresFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
-        var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
         if (maatschappelijkeZetel is null)
-            return null;
+            return new AdresVolgensKbo();
+
         var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
         return new AdresVolgensKbo
         {
             Straatnaam = adresDetails?.Straat.Naam,
             Huisnummer = adresDetails?.Huisnummer,
             Busnummer = adresDetails?.Busnummer,
-            Postcode = adresDetails?.Gemeente.PostCode,
-            Gemeente = adresDetails?.Gemeente.Naam,
+            Postcode = adresDetails?.Gemeente?.PostCode,
+            Gemeente = adresDetails?.Gemeente?.Naam,
             Land = adresDetails?.Land.Naam,
         };
     }

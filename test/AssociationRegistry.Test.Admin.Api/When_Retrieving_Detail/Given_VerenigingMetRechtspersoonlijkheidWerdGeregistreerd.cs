@@ -50,7 +50,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
-    public async Task Then_we_get_a_detail_moeder_response()
+    public async Task Then_we_get_a_detail_response()
     {
         var content = await _response.Content.ReadAsStringAsync();
 
@@ -75,23 +75,21 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": ""{_scenario.EmailWerdOvergenomenUitKBO.Beschrijving}"",
-                        ""isPrimair"": {(_scenario.EmailWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
+                        ""beschrijving"": null,
+                        ""isPrimair"": false,
                     }},
 {{
                         ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Beschrijving}"",
-                        ""isPrimair"": {(_scenario.WebsiteWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
-                    }},
+                        ""beschrijving"": null,
+                        ""isPrimair"": false,}},
 {{
                         ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Beschrijving}"",
-                        ""isPrimair"": {(_scenario.TelefoonWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
-                    }}],
+                        ""beschrijving"": null,
+                        ""isPrimair"": false,}}],
             ""locaties"":[
                 {{
                 ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},

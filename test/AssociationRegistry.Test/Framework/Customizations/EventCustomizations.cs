@@ -60,9 +60,7 @@ public static class EventCustomizations
                         return new ContactgegevenWerdOvergenomenUitKBO(
                             contactgegeven.ContactgegevenId,
                             contactgegeven.Type,
-                            contactgegeven.Waarde,
-                            contactgegeven.Beschrijving,
-                            contactgegeven.IsPrimair);
+                            contactgegeven.Waarde);
                     })
                 .OmitAutoProperties());
     }
