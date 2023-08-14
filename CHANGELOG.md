@@ -1,3 +1,10 @@
+## [6.11.1](https://github.com/informatievlaanderen/association-registry/compare/v6.11.0...v6.11.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* or-1850 fix swagger doc errors ([e736024](https://github.com/informatievlaanderen/association-registry/commit/e7360247689ae2f71322b830a91ba0149dc73d0d))
+
 # [6.11.0](https://github.com/informatievlaanderen/association-registry/compare/v6.10.2...v6.11.0) (2023-08-11)
 
 
