@@ -104,6 +104,12 @@
                             <Naam>Belgi&#235;</Naam>
                           </Land>
                         </Adres>
+                        <Contact>
+                          <Telefoonnummer>011642985</Telefoonnummer>
+                          <Faxnummer>011663513</Faxnummer>
+                          <Email>info@opdebosuil.be</Email>
+                          <Website>https://www.opdebosuil.be</Website>
+                        </Contact>
                       </Descriptie>
                     </Descripties>
                   </Adres>

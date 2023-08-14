@@ -211,4 +211,13 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<ContactgegevenWerdOvergenomenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
+
+        ops.Store(doc);
+    }
 }

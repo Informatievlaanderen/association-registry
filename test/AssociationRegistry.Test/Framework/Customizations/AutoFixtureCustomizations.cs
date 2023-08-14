@@ -32,6 +32,7 @@ public static class AutoFixtureCustomizations
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
         CommandCustomizations.CustomizeCommands(fixture);
+        KboCustomizations.CustomizeFromKbo(fixture);
 
         fixture.Customizations.Add(new ImmutableArraySpecimenBuilder());
 

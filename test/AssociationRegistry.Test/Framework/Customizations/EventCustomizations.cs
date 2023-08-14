@@ -16,6 +16,7 @@ public static class EventCustomizations
         fixture.CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
+        fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
     }
 
     private static void CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)
@@ -40,6 +41,23 @@ public static class EventCustomizations
                     {
                         var contactgegeven = fixture.Create<Contactgegeven>();
                         return new ContactgegevenWerdToegevoegd(
+                            contactgegeven.ContactgegevenId,
+                            contactgegeven.Type,
+                            contactgegeven.Waarde,
+                            contactgegeven.Beschrijving,
+                            contactgegeven.IsPrimair);
+                    })
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeContactgegevenWerdOvergenomenUitKBO(this IFixture fixture)
+    {
+        fixture.Customize<ContactgegevenWerdOvergenomenUitKBO>(
+            composer => composer.FromFactory(
+                    () =>
+                    {
+                        var contactgegeven = fixture.Create<Contactgegeven>();
+                        return new ContactgegevenWerdOvergenomenUitKBO(
                             contactgegeven.ContactgegevenId,
                             contactgegeven.Type,
                             contactgegeven.Waarde,

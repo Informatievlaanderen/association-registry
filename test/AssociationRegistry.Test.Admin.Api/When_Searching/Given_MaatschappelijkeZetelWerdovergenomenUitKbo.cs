@@ -12,13 +12,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_MaatschappelijkeZetelWerdovergenomenUitKbo
 {
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Addres _scenario;
+    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
     private readonly string _goldenMaster;
     private readonly AdminApiClient _adminApiClient;
 
     public Given_MaatschappelijkeZetelWerdovergenomenUitKbo(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres;
+        _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
         _adminApiClient = fixture.AdminApiClient;
         _goldenMaster = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_MaatschappelijkeZetelWerdovergenomenUitKbo)}_{nameof(Then_we_retrieve_one_vereniging_with_A_Maatschappelijke_Zetel)}");

@@ -7,15 +7,14 @@ using FluentAssertions.Execution;
 using Vereniging;
 using Xunit;
 
-public class RegistreerStichtingVanOpenbaarNutSetup: RegistreerVereniginMetRechtspersoonlijkheidSetup
+public class RegistreerStichtingVanOpenbaarNutSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
-    public RegistreerStichtingVanOpenbaarNutSetup(EventsInDbScenariosFixture fixture): base(fixture, "0468831484")
+    public RegistreerStichtingVanOpenbaarNutSetup(EventsInDbScenariosFixture fixture) : base(fixture, "0468831484")
     {
-
     }
 }
 
-public class With_KboNummer_For_StichtingVanOpenbaarNut: With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerStichtingVanOpenbaarNutSetup>
+public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerStichtingVanOpenbaarNutSetup>
 {
     public With_KboNummer_For_StichtingVanOpenbaarNut(EventsInDbScenariosFixture fixture, RegistreerStichtingVanOpenbaarNutSetup registreerVereniginMetRechtspersoonlijkheidSetup) : base(fixture, registreerVereniginMetRechtspersoonlijkheidSetup)
     {
@@ -37,5 +36,15 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut: With_KboNummer_For_Supp
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(1989, 10, 03));
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Verenigingstype.StichtingVanOpenbaarNut.Code);
         }
+
+        var contactgegevensWerdOvergenomenUitKbo = session.Events.FetchStream(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)
+            .Where(e => e.Data.GetType() == typeof(ContactgegevenWerdOvergenomenUitKBO))
+            .Select(e => e.Data)
+            .ToList();
+
+        contactgegevensWerdOvergenomenUitKbo.Should().HaveCount(3);
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "info@opdebosuil.be", string.Empty, false));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, "https://www.opdebosuil.be", string.Empty, false));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, "011642985", string.Empty, false));
     }
 }
