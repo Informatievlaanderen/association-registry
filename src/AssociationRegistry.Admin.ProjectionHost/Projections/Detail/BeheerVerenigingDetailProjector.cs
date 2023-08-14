@@ -343,8 +343,6 @@ public class BeheerVerenigingDetailProjector
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                     Type = contactgegevenWerdToegevoegd.Data.Type,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 })
             .OrderBy(c => c.ContactgegevenId)
             .ToArray();

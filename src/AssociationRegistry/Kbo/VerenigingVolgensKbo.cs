@@ -9,6 +9,6 @@ public class VerenigingVolgensKbo
     public string? Naam { get; set; }
     public string? KorteNaam { get; set; }
     public DateOnly? StartDatum { get; set; }
-    public AdresVolgensKbo? Adres { get; set; } = null!;
-    public ContactgegevensVolgensKbo? Contactgegevens { get; set; }
+    public AdresVolgensKbo Adres { get; set; } = null!;
+    public ContactgegevensVolgensKbo Contactgegevens { get; set; } = null!;
 }

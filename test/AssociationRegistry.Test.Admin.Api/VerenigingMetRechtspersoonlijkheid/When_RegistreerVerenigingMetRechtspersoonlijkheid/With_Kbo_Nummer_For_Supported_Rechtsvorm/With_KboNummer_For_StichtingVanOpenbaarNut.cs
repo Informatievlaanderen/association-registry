@@ -43,8 +43,8 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
             .ToList();
 
         contactgegevensWerdOvergenomenUitKbo.Should().HaveCount(3);
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "info@opdebosuil.be", string.Empty, false));
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, "https://www.opdebosuil.be", string.Empty, false));
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, "011642985", string.Empty, false));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "info@opdebosuil.be"));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, "https://www.opdebosuil.be"));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, "011642985"));
     }
 }

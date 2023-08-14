@@ -86,7 +86,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
-        var response = await _adminApiClient.Search("9001");
+        var response = await _adminApiClient.Search("88888");
         var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(EmptyVerenigingenResponse);

@@ -349,7 +349,7 @@ public record VerenigingState : IHasVersion
                         @event.ContactgegevenId,
                         ContactgegevenType.Parse(@event.Type),
                         @event.Waarde,
-                        @event.Beschrijving,
-                        @event.IsPrimair))),
+                        string.Empty,
+                        false))),
         };
 }

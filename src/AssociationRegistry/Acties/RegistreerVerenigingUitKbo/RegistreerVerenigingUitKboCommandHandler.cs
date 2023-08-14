@@ -71,7 +71,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         try
         {
-            var contactgeven = Contactgegeven.Create(type, waarde, string.Empty, false);
+            var contactgeven = Contactgegeven.Create(type, waarde);
             vereniging.VoegContactgegevenToe(contactgeven);
         }
         catch

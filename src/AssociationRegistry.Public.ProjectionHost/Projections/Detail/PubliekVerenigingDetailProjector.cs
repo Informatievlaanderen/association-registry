@@ -327,4 +327,19 @@ public static class PubliekVerenigingDetailProjector
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
+    public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKBO, PubliekVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+            .Append(
+                new PubliekVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
+                    Type = contactgegevenWerdOvergenomenUitKBO.Data.Type,
+                    Waarde = contactgegevenWerdOvergenomenUitKBO.Data.Waarde,
+                })
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdOvergenomenUitKBO.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
 }

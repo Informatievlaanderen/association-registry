@@ -11,8 +11,29 @@ public static class KboCustomizations
 {
     public static void CustomizeFromKbo(Fixture fixture)
     {
+        fixture.CustomizeVerenigingVolgensKbo();
         fixture.CustomizeAdresVolgensKbo();
         fixture.CustomizeContactgegevensVolgensKbo();
+    }
+
+    private static void CustomizeVerenigingVolgensKbo(this Fixture fixture)
+    {
+        fixture.Customize<VerenigingVolgensKbo>(
+            composer =>
+                composer.FromFactory<int>(
+                        (i) =>
+                        {
+                            return new VerenigingVolgensKbo
+                            {
+                                Naam = fixture.Create<string>(),
+                                KorteNaam = fixture.Create<string>(),
+                                Adres = new AdresVolgensKbo(),
+                                Contactgegevens = new ContactgegevensVolgensKbo(),
+                                Type = new[] { Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut }[i % 4], KboNummer = fixture.Create<KboNummer>(),
+                                StartDatum = fixture.Create<DateOnly>(),
+                            };
+                        })
+                    .OmitAutoProperties());
     }
 
     private static void CustomizeAdresVolgensKbo(this Fixture fixture)
@@ -20,19 +41,20 @@ public static class KboCustomizations
         fixture.Customize<AdresVolgensKbo>(
             composer =>
                 composer.FromFactory(
-                    () =>
-                    {
-                        var adres = fixture.Create<Adres>();
-                        return new AdresVolgensKbo
+                        () =>
                         {
-                            Straatnaam = adres.Straatnaam,
-                            Huisnummer = adres.Huisnummer,
-                            Busnummer = adres.Busnummer,
-                            Postcode = adres.Postcode,
-                            Gemeente = adres.Gemeente,
-                            Land = adres.Land,
-                        };
-                    }));
+                            var adres = fixture.Create<Adres>();
+                            return new AdresVolgensKbo
+                            {
+                                Straatnaam = adres.Straatnaam,
+                                Huisnummer = adres.Huisnummer,
+                                Busnummer = adres.Busnummer,
+                                Postcode = adres.Postcode,
+                                Gemeente = adres.Gemeente,
+                                Land = adres.Land,
+                            };
+                        })
+                    .OmitAutoProperties());
     }
 
     private static void CustomizeContactgegevensVolgensKbo(this Fixture fixture)
@@ -45,6 +67,6 @@ public static class KboCustomizations
                         Email = fixture.Create<Email>().Waarde,
                         Website = fixture.Create<Website>().Waarde,
                         Telefoonnummer = fixture.Create<TelefoonNummer>().Waarde,
-                    }));
+                    }).OmitAutoProperties());
     }
 }

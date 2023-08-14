@@ -181,4 +181,13 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKbo, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(contactgegevenWerdOvergenomenUitKbo.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdOvergenomenUitKbo, doc);
+
+        ops.Store(doc);
+    }
 }

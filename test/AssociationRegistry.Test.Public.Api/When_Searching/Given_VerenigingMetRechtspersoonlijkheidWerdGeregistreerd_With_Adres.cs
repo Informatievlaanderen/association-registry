@@ -13,13 +13,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres
 {
-    private readonly V0015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres_Scenario _scenario;
+    private readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario _scenario;
     private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres(GivenEventsFixture fixture)
     {
-        _scenario = fixture.V0015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenario;
+        _scenario = fixture.V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario;
         _publicApiClient = fixture.PublicApiClient;
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_vCode_searched)}");
