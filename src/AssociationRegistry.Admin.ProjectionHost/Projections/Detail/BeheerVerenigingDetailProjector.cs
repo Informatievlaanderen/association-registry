@@ -334,4 +334,22 @@ public class BeheerVerenigingDetailProjector
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
+
+    public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.Append(
+                new BeheerVerenigingDetailDocument.Contactgegeven
+                {
+                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
+                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                })
+            .OrderBy(c => c.ContactgegevenId)
+            .ToArray();
+
+        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
+    }
 }

@@ -78,6 +78,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
                     Adres = GetMaatschappelijkeZetel(magdaOnderneming.Adressen),
+                    Contactgegevens = GetContactgegevensVanMaatschappelijkeZetel(magdaOnderneming.Adressen),
                 });
         }
         catch (Exception e)
@@ -86,21 +87,34 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
+    private ContactgegevensVolgensKbo? GetContactgegevensVanMaatschappelijkeZetel(AdresOndernemingType[] adressen)
+    {
+        var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
+        if (maatschappelijkeZetel is null)
+            return null;
+        var contactDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Contact;
+        return new ContactgegevensVolgensKbo
+        {
+            Email = contactDetails?.Email,
+            Telefoonnummer = contactDetails?.Telefoonnummer,
+            Website = contactDetails?.Website,
+        };
+    }
+
     private static AdresVolgensKbo? GetMaatschappelijkeZetel(AdresOndernemingType[] adressen)
     {
         var maatschappelijkeZetel = adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
         if (maatschappelijkeZetel is null)
             return null;
         var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
-
         return new AdresVolgensKbo
         {
-            Straatnaam = adresDetails.Straat.Naam,
-            Huisnummer = adresDetails.Huisnummer,
-            Busnummer = adresDetails.Busnummer,
-            Postcode = adresDetails.Gemeente.PostCode,
-            Gemeente = adresDetails.Gemeente.Naam,
-            Land = adresDetails.Land.Naam,
+            Straatnaam = adresDetails?.Straat.Naam,
+            Huisnummer = adresDetails?.Huisnummer,
+            Busnummer = adresDetails?.Busnummer,
+            Postcode = adresDetails?.Gemeente.PostCode,
+            Gemeente = adresDetails?.Gemeente.Naam,
+            Land = adresDetails?.Land.Naam,
         };
     }
 

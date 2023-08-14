@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
@@ -21,39 +22,30 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     private readonly AdminApiClient _adminApiClient;
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly HttpResponseMessage _response;
-    private readonly string _vCode;
-    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd _verenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-    private readonly MaatschappelijkeZetelWerdOvergenomenUitKbo _maatschappelijkeZetelWerdOvergenomenUitKbo;
-    private readonly CommandMetadata _metadata;
+    private V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        var scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres;
-
-        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd = scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-        _maatschappelijkeZetelWerdOvergenomenUitKbo = scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo;
-
-        _vCode = scenario.VCode;
-        _metadata = scenario.Metadata;
+        _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
 
         _adminApiClient = fixture.DefaultClient;
-        _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAddres.Result.Sequence))
+        => (await _adminApiClient.GetDetail(_scenario.VCode, _scenario.Result.Sequence))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
-        => (await _adminApiClient.GetDetail(_vCode))
+        => (await _adminApiClient.GetDetail(_scenario.VCode))
             .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, long.MaxValue))
+        => (await _adminApiClient.GetDetail(_scenario.VCode, long.MaxValue))
             .StatusCode
             .Should().Be(HttpStatusCode.PreconditionFailed);
 
@@ -62,26 +54,47 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
+        var vCode = _scenario.VCode;
         var expected = $@"
 {{
     ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
     ""vereniging"": {{
-            ""vCode"": ""{_vCode}"",
+            ""vCode"": ""{vCode}"",
             ""type"": {{
-                ""code"": ""{Verenigingstype.Parse(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
-                ""beschrijving"": ""{Verenigingstype.Parse(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
+                ""code"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
+                ""beschrijving"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
             }},
-            ""naam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
-            ""korteNaam"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
+            ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
+            ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
-            ""startdatum"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,
-            ""contactgegevens"": [],
+            ""contactgegevens"": [{{
+                        ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
+                        ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
+                        ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
+                        ""beschrijving"": ""{_scenario.EmailWerdOvergenomenUitKBO.Beschrijving}"",
+                        ""isPrimair"": {(_scenario.EmailWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
+                    }},
+{{
+                        ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
+                        ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
+                        ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
+                        ""beschrijving"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Beschrijving}"",
+                        ""isPrimair"": {(_scenario.WebsiteWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
+                    }},
+{{
+                        ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
+                        ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
+                        ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
+                        ""beschrijving"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Beschrijving}"",
+                        ""isPrimair"": {(_scenario.TelefoonWerdOvergenomenUitKBO.IsPrimair ? "true" : "false")},
+                    }}],
             ""locaties"":[
                 {{
-                ""locatieId"": {_maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
+                ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
                 ""locatietype"": ""Maatschappelijke zetel volgens KBO"",
                 ""isPrimair"": false,
                 ""naam"": ""{string.Empty}"",
@@ -102,13 +115,13 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             ""sleutels"":[
                 {{
                     ""bron"": ""KBO"",
-                    ""waarde"": ""{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
+                    ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
             ""relaties"":[],
         }},
         ""metadata"": {{
-            ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-            ""beheerBasisUri"": ""/verenigingen/kbo/{_vCode}"",
+            ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
+            ""beheerBasisUri"": ""/verenigingen/kbo/{vCode}"",
         }}
 }}
 ";

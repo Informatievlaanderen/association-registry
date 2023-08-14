@@ -53,11 +53,34 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (verenigingVolgensKbo.Adres is not null)
             AddAdressAlsMaatschappelijkeZetel(vereniging, verenigingVolgensKbo.Adres);
 
+        if (verenigingVolgensKbo.Contactgegevens is not null)
+        {
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenType.Email);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenType.Website);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenType.Telefoon);
+        }
+
+
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
         return CommandResult.Create(vCode, result);
     }
 
-    private void AddAdressAlsMaatschappelijkeZetel(VerenigingMetRechtspersoonlijkheid vereniging, AdresVolgensKbo adresVolgensKbo)
+    private static void AddContactgegeven(VerenigingMetRechtspersoonlijkheid vereniging, string? waarde, ContactgegevenType type)
+    {
+        if (waarde is null) return;
+
+        try
+        {
+            var contactgeven = Contactgegeven.Create(type, waarde, string.Empty, false);
+            vereniging.VoegContactgegevenToe(contactgeven);
+        }
+        catch
+        {
+            //TODO or-1863
+        }
+    }
+
+    private static void AddAdressAlsMaatschappelijkeZetel(VerenigingMetRechtspersoonlijkheid vereniging, AdresVolgensKbo adresVolgensKbo)
     {
         try
         {

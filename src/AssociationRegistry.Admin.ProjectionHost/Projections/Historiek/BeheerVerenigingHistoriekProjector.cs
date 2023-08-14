@@ -309,4 +309,15 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
+
+    public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomen, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdOvergenomen,
+            document,
+            $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.Type}' werd overgenomen uit KBO."
+        );
+
+        document.Metadata = new Metadata(contactgegevenWerdOvergenomen.Sequence, contactgegevenWerdOvergenomen.Version);
+    }
 }

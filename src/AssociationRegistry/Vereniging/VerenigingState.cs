@@ -339,4 +339,17 @@ public record VerenigingState : IHasVersion
                 Locaties
                     .AppendFromEventData(@event.Locatie)),
         };
+
+    public VerenigingState Apply(ContactgegevenWerdOvergenomenUitKBO @event)
+        => this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Append(
+                    Contactgegeven.Hydrate(
+                        @event.ContactgegevenId,
+                        ContactgegevenType.Parse(@event.Type),
+                        @event.Waarde,
+                        @event.Beschrijving,
+                        @event.IsPrimair))),
+        };
 }
