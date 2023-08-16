@@ -67,6 +67,7 @@ public static class KboCustomizations
                         Email = fixture.Create<Email>().Waarde,
                         Website = fixture.Create<Website>().Waarde,
                         Telefoonnummer = fixture.Create<TelefoonNummer>().Waarde,
+                        GSM = fixture.Create<TelefoonNummer>().Waarde,
                     }).OmitAutoProperties());
     }
 }

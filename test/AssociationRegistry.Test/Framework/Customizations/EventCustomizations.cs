@@ -53,12 +53,13 @@ public static class EventCustomizations
     private static void CustomizeContactgegevenWerdOvergenomenUitKBO(this IFixture fixture)
     {
         fixture.Customize<ContactgegevenWerdOvergenomenUitKBO>(
-            composer => composer.FromFactory(
-                    () =>
+            composer => composer.FromFactory<int>(
+                    i =>
                     {
                         var contactgegeven = fixture.Create<Contactgegeven>();
                         return new ContactgegevenWerdOvergenomenUitKBO(
                             contactgegeven.ContactgegevenId,
+                            ContactgegevenTypeVolgensKbo.All[i % (ContactgegevenTypeVolgensKbo.All.Length - 1)],
                             contactgegeven.Type,
                             contactgegeven.Waarde);
                     })

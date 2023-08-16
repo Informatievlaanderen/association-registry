@@ -60,17 +60,26 @@ public class With_VerenigingVolgensKbo_Contactgegevens
             new ContactgegevenWerdOvergenomenUitKBO(
                 1,
                 ContactgegevenType.Email.Waarde,
+                ContactgegevenTypeVolgensKbo.Email,
                 _verenigingVolgensKbo.Contactgegevens!.Email!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
                 2,
                 ContactgegevenType.Website.Waarde,
+                ContactgegevenTypeVolgensKbo.Website,
                 _verenigingVolgensKbo.Contactgegevens!.Website!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
                 3,
                 ContactgegevenType.Telefoon.Waarde,
+                ContactgegevenTypeVolgensKbo.Telefoon,
                 _verenigingVolgensKbo.Contactgegevens!.Telefoonnummer!
+            ),
+            new ContactgegevenWerdOvergenomenUitKBO(
+                4,
+                ContactgegevenType.Telefoon.Waarde,
+                ContactgegevenTypeVolgensKbo.GSM,
+                _verenigingVolgensKbo.Contactgegevens!.GSM!
             )
         );
     }

@@ -42,9 +42,10 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
             .Select(e => e.Data)
             .ToList();
 
-        contactgegevensWerdOvergenomenUitKbo.Should().HaveCount(3);
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "info@opdebosuil.be"));
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, "https://www.opdebosuil.be"));
-        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, "011642985"));
+        contactgegevensWerdOvergenomenUitKbo.Should().HaveCount(4);
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email, "info@opdebosuil.be"));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.opdebosuil.be"));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "011642985"));
+        contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(new ContactgegevenWerdOvergenomenUitKBO(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321"));
     }
 }

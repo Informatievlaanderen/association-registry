@@ -22,10 +22,10 @@ public class Given_ContactgegevenWerdOvergenomenUitKbo
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdOvergenomen, doc);
-        
+
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.Type}' werd overgenomen uit KBO.",
+                $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.TypeVolgensKbo}' werd overgenomen uit KBO.",
                 nameof(ContactgegevenWerdOvergenomenUitKBO),
                 contactgegevenWerdOvergenomen.Data,
                 contactgegevenWerdOvergenomen.Initiator,

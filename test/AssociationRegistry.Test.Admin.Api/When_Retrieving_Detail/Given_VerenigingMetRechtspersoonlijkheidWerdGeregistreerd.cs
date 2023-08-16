@@ -89,6 +89,12 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": null,
+                        ""isPrimair"": false,}},
+{{
+                        ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
+                        ""type"": ""{_scenario.GSMWerdOvergenomenUitKBO.Type}"",
+                        ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
+                        ""beschrijving"": null,
                         ""isPrimair"": false,}}],
             ""locaties"":[
                 {{

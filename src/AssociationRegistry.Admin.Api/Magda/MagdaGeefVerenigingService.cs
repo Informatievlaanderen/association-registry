@@ -99,6 +99,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         {
             Email = contactDetails?.Email,
             Telefoonnummer = contactDetails?.Telefoonnummer,
+            GSM = contactDetails?.GSM,
             Website = contactDetails?.Website,
         };
     }

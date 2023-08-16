@@ -33,6 +33,12 @@
         "waarde": "0123456789",
         "beschrijving": null,
         "isPrimair": false
+      },
+      {
+        "type": "Telefoon",
+        "waarde": "0987654321",
+        "beschrijving": null,
+        "isPrimair": false
       }
     ],
     "locaties": [
