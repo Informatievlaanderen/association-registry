@@ -12,13 +12,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_ContactgegevenWerdToegevoegd
+public class Given_ContactgegevenKonNietOvergenomenWordenUitKBO
 {
     [Fact]
     public void Then_it_adds_the_contactgegeven_to_the_detail()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdToegevoegd>>();
+        var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenKonNietOvergenomenWordenUitKBO>>();
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
@@ -26,11 +26,8 @@ public class Given_ContactgegevenWerdToegevoegd
         doc.Contactgegevens.Should().Contain(
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
-                ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                 Type = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
             });
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
         doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());

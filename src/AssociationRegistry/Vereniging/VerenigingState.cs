@@ -352,4 +352,7 @@ public record VerenigingState : IHasVersion
                         string.Empty,
                         false))),
         };
+
+    public VerenigingState Apply(ContactgegevenKonNietOvergenomenWordenUitKBO @event)
+        => this;
 }

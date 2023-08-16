@@ -17,6 +17,7 @@ public static class EventCustomizations
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
         fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
+        fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
     }
 
     private static void CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)
@@ -63,6 +64,16 @@ public static class EventCustomizations
                             contactgegeven.Type,
                             contactgegeven.Waarde);
                     })
+                .OmitAutoProperties());
+    }
+
+    private static void CustomizeContactgegevenKonNietOvergenomenWordenUitKBO(this IFixture fixture)
+    {
+        fixture.Customize<ContactgegevenKonNietOvergenomenWordenUitKBO>(
+            composer => composer.FromFactory(
+                    () => new ContactgegevenKonNietOvergenomenWordenUitKBO(
+                        fixture.Create<ContactgegevenType>().Waarde,
+                        fixture.Create<string>()))
                 .OmitAutoProperties());
     }
 
