@@ -107,8 +107,8 @@ public static class PubliekVerenigingDetailProjector
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Type = new PubliekVerenigingDetailDocument.VerenigingsType
             {
-                Code = Verenigingstype.VZW.Code,
-                Beschrijving = Verenigingstype.VZW.Beschrijving,
+                Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
+                Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
@@ -327,6 +327,7 @@ public static class PubliekVerenigingDetailProjector
 
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
+
     public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKBO, PubliekVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens

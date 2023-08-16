@@ -30,8 +30,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                 Type = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
-                    Code = Verenigingstype.VZW.Code,
-                    Beschrijving = Verenigingstype.VZW.Beschrijving,
+                    Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
+                    Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,

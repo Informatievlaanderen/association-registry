@@ -112,12 +112,12 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
         return new AdresVolgensKbo
         {
-            Straatnaam = adresDetails?.Straat.Naam,
-            Huisnummer = adresDetails?.Huisnummer,
-            Busnummer = adresDetails?.Busnummer,
-            Postcode = adresDetails?.Gemeente?.PostCode,
-            Gemeente = adresDetails?.Gemeente?.Naam,
-            Land = adresDetails?.Land.Naam,
+            Straatnaam = adresDetails?.Straat?.Naam ?? maatschappelijkeZetel.Straat?.Naam,
+            Huisnummer = adresDetails?.Huisnummer ?? maatschappelijkeZetel.Huisnummer,
+            Busnummer = adresDetails?.Busnummer ?? maatschappelijkeZetel.Busnummer,
+            Postcode = adresDetails?.Gemeente?.PostCode ?? maatschappelijkeZetel.Gemeente?.PostCode,
+            Gemeente = adresDetails?.Gemeente?.Naam ?? maatschappelijkeZetel.Gemeente?.Naam,
+            Land = adresDetails?.Land?.Naam ?? maatschappelijkeZetel.Land?.Naam,
         };
     }
 

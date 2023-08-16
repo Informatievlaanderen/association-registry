@@ -5,12 +5,15 @@ using Events;
 using Framework;
 using JasperFx.Core.Reflection;
 using Marten;
+using Marten.Events;
 using Marten.Exceptions;
 using NodaTime.Text;
 using Vereniging;
+using IEvent = Framework.IEvent;
 
 public class EventStore : IEventStore
 {
+    public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
 
     public EventStore(IDocumentStore documentStore)
@@ -22,11 +25,13 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.OpenSession();
 
-        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
-        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
         try
         {
-            var streamAction = metadata.ExpectedVersion.HasValue ? session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length, events.As<object[]>()) : session.Events.Append(aggregateId, events.As<object[]>());
+            StreamAction streamAction = null!;
+            foreach (var e in events)
+            {
+                streamAction = SaveEventToStream(aggregateId, metadata, e, session, metadata.ExpectedVersion is null ? -1 : metadata.ExpectedVersion.Value + 1);
+            }
 
             await session.SaveChangesAsync(cancellationToken);
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
@@ -35,6 +40,26 @@ public class EventStore : IEventStore
         {
             throw new UnexpectedAggregateVersionException();
         }
+    }
+
+    private static StreamAction SaveEventToStream(string aggregateId, CommandMetadata metadata, IEvent @event, IDocumentSession session, long nextVersion = -1)
+    {
+        SetHeaders(metadata, session, @event.GetType());
+
+        if (nextVersion != -1)
+            return session.Events.Append(aggregateId, nextVersion, @event);
+
+        return session.Events.Append(aggregateId, @event);
+    }
+
+    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session, Type eventType)
+    {
+        var initiator = metadata.Initiator;
+        if (eventType == typeof(ContactgegevenWerdOvergenomenUitKBO) || eventType == typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo))
+            initiator = DigitaalVlaanderenOvoNumber;
+
+        session.SetHeader(MetadataHeaderNames.Initiator, initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
     }
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
