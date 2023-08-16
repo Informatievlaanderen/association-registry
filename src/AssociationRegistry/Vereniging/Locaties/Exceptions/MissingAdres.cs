@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class MissingAdres : DomainException
 {
-    public MissingAdres() : base("Een locatie moet minstens een adresId of een adres bevatten.")
+    public MissingAdres() : base(ExceptionMessages.MissingAdres)
     {
     }
 

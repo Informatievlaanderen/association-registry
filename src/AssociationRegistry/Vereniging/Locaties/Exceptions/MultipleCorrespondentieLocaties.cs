@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class MultipleCorrespondentieLocaties : DomainException
 {
-    public MultipleCorrespondentieLocaties() : base("Er kan maar één correspondentie locatie zijn binnen de vereniging.")
+    public MultipleCorrespondentieLocaties() : base(ExceptionMessages.MultipleCorrespondentieLocaties)
     {
     }
 

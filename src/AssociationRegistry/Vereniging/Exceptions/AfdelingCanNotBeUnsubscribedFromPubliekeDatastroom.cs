@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom : DomainException
 {
-    public AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom() : base("Een afdeling kan niet uit de publieke stroom worden uitgeschreven.")
+    public AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom() : base(ExceptionMessages.AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom)
     {
     }
 

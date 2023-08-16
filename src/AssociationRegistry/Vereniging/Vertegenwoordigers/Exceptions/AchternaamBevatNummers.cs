@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class AchternaamBevatNummers : DomainException
 {
-    public AchternaamBevatNummers() : base("Achternaam mag geen nummers bevatten.")
+    public AchternaamBevatNummers() : base(ExceptionMessages.AchternaamBevatNummers)
     {
     }
 

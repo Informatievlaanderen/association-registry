@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class StardatumIsInFuture : DomainException
 {
-    public StardatumIsInFuture() : base("Startdatum mag niet in de toekomst liggen.")
+    public StardatumIsInFuture() : base(ExceptionMessages.StardatumIsInFuture)
     {
     }
 

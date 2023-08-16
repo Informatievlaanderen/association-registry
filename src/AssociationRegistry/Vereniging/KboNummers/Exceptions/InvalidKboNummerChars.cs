@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class InvalidKboNummerChars : InvalidKboNummer
 {
-    public InvalidKboNummerChars() : base("Foutieve tekens in Kbo nummer.")
+    public InvalidKboNummerChars() : base(ExceptionMessages.InvalidKboNummerChars)
     {
     }
 

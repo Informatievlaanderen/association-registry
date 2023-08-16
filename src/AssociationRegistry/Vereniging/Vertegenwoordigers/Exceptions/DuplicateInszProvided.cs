@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class DuplicateInszProvided : DomainException
 {
-    public DuplicateInszProvided() : base("INSZ moet uniek zijn binnen de vereniging.")
+    public DuplicateInszProvided() : base(ExceptionMessages.DuplicateInszProvided)
     {
     }
 

@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class IncompleteAdresId : DomainException
 {
-    public IncompleteAdresId() : base("Een adresId moet een adresbron en waarde bevatten.")
+    public IncompleteAdresId() : base(ExceptionMessages.IncompleteAdresId)
     {
     }
 

@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class UnknownInsz : DomainException
 {
-    public UnknownInsz() : base("INSZ is niet gekend")
+    public UnknownInsz() : base(ExceptionMessages.UnknownInsz)
     {
     }
 

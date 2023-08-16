@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidWebsiteStart : DomainException
 {
-    public InvalidWebsiteStart() : base("Website url moet beginnen met 'http://' of 'https://'")
+    public InvalidWebsiteStart() : base(ExceptionMessages.InvalidWebsiteStart)
     {
     }
 

@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class WebsiteMissingPeriod : DomainException
 {
-    public WebsiteMissingPeriod() : base("Website url moet minsens één punt bevatten")
+    public WebsiteMissingPeriod() : base(ExceptionMessages.WebsiteMissingPeriod)
     {
     }
 

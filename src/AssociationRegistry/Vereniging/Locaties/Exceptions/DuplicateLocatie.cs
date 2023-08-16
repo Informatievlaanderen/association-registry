@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class DuplicateLocatie : DomainException
 {
-    public DuplicateLocatie() : base("Locaties moeten uniek zijn binnen de vereniging.")
+    public DuplicateLocatie() : base(ExceptionMessages.DuplicateLocatie)
     {
     }
 

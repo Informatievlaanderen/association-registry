@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class MultiplePrimaireLocaties : DomainException
 {
-    public MultiplePrimaireLocaties() : base("Er kan maar één primaire locatie zijn binnen de vereniging.")
+    public MultiplePrimaireLocaties() : base(ExceptionMessages.MultiplePrimaireLocaties)
     {
     }
 
