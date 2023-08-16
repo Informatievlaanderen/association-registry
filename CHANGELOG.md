@@ -1,3 +1,11 @@
+# [6.12.0](https://github.com/informatievlaanderen/association-registry/compare/v6.11.1...v6.12.0) (2023-08-16)
+
+
+### Features
+
+* or-1861 return contactgegevens from kbo in admin historiek and admin detail ([2b79f49](https://github.com/informatievlaanderen/association-registry/commit/2b79f4983a9e56100b4b5271dd25842769ad21a6))
+* or-1861 return contactgegevens in publiek detail ([61047be](https://github.com/informatievlaanderen/association-registry/commit/61047be45333e25f237e7bba122b7c71df1fe58f))
+
 ## [6.11.1](https://github.com/informatievlaanderen/association-registry/compare/v6.11.0...v6.11.1) (2023-08-14)
 
 
