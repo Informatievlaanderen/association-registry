@@ -77,7 +77,11 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType { Code = Verenigingstype.VZW.Code, Beschrijving = Verenigingstype.VZW.Beschrijving },
+                Type = new VerenigingZoekDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
+                    Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Beschrijving,
+                },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Doelgroep = new Doelgroep

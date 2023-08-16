@@ -75,32 +75,32 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
-                        ""initiator"":""{_metadata.Initiator}"",
+                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailWerdOvergenomenUitKBO)},
-                        ""initiator"":""{_metadata.Initiator}"",
+                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteWerdOvergenomenUitKBO)},
-                        ""initiator"":""{_metadata.Initiator}"",
+                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonWerdOvergenomenUitKBO)},
-                        ""initiator"":""{_metadata.Initiator}"",
+                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
-                        ""initiator"":""{_metadata.Initiator}"",
+                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]
