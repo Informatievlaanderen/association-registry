@@ -235,6 +235,7 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
+
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
         var naam = string.IsNullOrEmpty(locatieWerdGewijzigd.Data.Locatie.Naam)
@@ -250,6 +251,7 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
     }
+
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
     {
         var naam = string.IsNullOrEmpty(locatieWerdVerwijderd.Data.Locatie.Naam)
@@ -282,7 +284,7 @@ public class BeheerVerenigingHistoriekProjector
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
-    private static void AddHistoriekEntry(IEvent @event,object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
+    private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
         var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
@@ -319,5 +321,16 @@ public class BeheerVerenigingHistoriekProjector
         );
 
         document.Metadata = new Metadata(contactgegevenWerdOvergenomen.Sequence, contactgegevenWerdOvergenomen.Version);
+    }
+
+    public static void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> contactgegevenKonNietOvergenomenWorden, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenKonNietOvergenomenWorden,
+            document,
+            $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.Type}' kon niet overgenomen worden uit KBO."
+        );
+
+        document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWorden.Sequence, contactgegevenKonNietOvergenomenWorden.Version);
     }
 }

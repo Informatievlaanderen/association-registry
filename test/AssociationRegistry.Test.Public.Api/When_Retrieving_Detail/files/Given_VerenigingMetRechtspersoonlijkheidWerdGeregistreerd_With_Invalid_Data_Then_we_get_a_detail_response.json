@@ -1,0 +1,67 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json",
+  "vereniging": {
+    "vCode": "V0001015",
+    "type": {
+      "code": "VZW",
+      "beschrijving": "Vereniging zonder winstoogmerk"
+    },
+    "naam": "Feesten Affligem",
+    "korteNaam": "",
+    "korteBeschrijving": "",
+    "startdatum": null,
+    "doelgroep": {
+      "minimumleeftijd": 0,
+      "maximumleeftijd": 150
+    },
+    "status": "Actief",
+    "contactgegevens": [
+      {
+        "type": "E-mail",
+        "waarde": "Niet geldig",
+        "beschrijving": null,
+        "isPrimair": false
+      },
+      {
+        "type": "Website",
+        "waarde": "ook niet geldig",
+        "beschrijving": null,
+        "isPrimair": false
+      },
+      {
+        "type": "Telefoon",
+        "waarde": "00kn13tg3ld1g",
+        "beschrijving": null,
+        "isPrimair": false
+      }
+    ],
+    "locaties": [
+      {
+        "locatietype": "Maatschappelijke zetel volgens KBO",
+        "isPrimair": false,
+        "naam": "",
+        "adres": {
+          "straatnaam": "Stationsstraat",
+          "huisnummer": "1",
+          "busnummer": "B",
+          "postcode": "1790",
+          "gemeente": "Affligem",
+          "land": "België"
+        },
+        "adresvoorstelling": "Stationsstraat 1 bus B, 1790 Affligem, België",
+        "adresId": null
+      }
+    ],
+    "hoofdactiviteitenVerenigingsloket": [],
+    "sleutels": [
+      {
+        "bron": "KBO",
+        "waarde": "0987654321"
+      }
+    ],
+    "relaties": []
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": ""
+  }
+}

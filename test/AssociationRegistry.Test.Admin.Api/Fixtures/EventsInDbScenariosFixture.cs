@@ -33,6 +33,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V027_LocatieWerdGewijzigd V027LocatieWerdGewijzigd = new();
     public readonly V028_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd = new();
     public readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData = new();
+    public readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data V030VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData = new();
 
     protected override async Task Given()
     {
@@ -66,6 +67,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V027LocatieWerdGewijzigd,
             V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd,
             V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData,
+            V030VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData,
         };
 
         foreach (var scenario in scenarios)

@@ -77,7 +77,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         }
         catch
         {
-            //TODO or-1863
+            vereniging.VoegFoutiefContactgegevenToe(type, waarde);
         }
     }
 
