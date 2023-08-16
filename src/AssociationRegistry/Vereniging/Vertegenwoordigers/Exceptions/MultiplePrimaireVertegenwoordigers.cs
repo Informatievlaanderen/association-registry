@@ -5,7 +5,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 public class MultiplePrimaireVertegenwoordigers : DomainException
 {
-    public MultiplePrimaireVertegenwoordigers() : base("Er mag maar één vertegenwoordiger aangeduid zijn als primair contactpersoon.")
+    public MultiplePrimaireVertegenwoordigers() : base(ExceptionMessages.MultiplePrimaireVertegenwoordigers)
     {
     }
 

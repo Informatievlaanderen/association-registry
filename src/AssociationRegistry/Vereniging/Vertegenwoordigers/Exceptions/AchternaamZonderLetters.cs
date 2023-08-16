@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class AchternaamZonderLetters : DomainException
 {
-    public AchternaamZonderLetters() : base("Achternaam moet een letter bevatten.")
+    public AchternaamZonderLetters() : base(ExceptionMessages.AchternaamZonderLetters)
     {
     }
 

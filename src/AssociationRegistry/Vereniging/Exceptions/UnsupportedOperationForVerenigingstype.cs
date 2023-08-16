@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class UnsupportedOperationForVerenigingstype : DomainException
 {
-    public UnsupportedOperationForVerenigingstype() : base("Deze actie kan niet uitgevoerd worden op dit type vereniging.")
+    public UnsupportedOperationForVerenigingstype() : base(ExceptionMessages.UnsupportedOperationForVerenigingstype)
     {
     }
 

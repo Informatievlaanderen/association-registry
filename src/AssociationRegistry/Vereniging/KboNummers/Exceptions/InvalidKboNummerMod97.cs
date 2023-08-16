@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class InvalidKboNummerMod97 : InvalidKboNummer
 {
-    public InvalidKboNummerMod97() : base("Incorrect Kbo nummer: foutieve checksum.")
+    public InvalidKboNummerMod97() : base(ExceptionMessages.InvalidKboNummerMod97)
     {
     }
 

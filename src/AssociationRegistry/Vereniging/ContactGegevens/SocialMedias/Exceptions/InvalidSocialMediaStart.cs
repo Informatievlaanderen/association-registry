@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidSocialMediaStart : DomainException
 {
-    public InvalidSocialMediaStart() : base("Social media url moet beginnen met 'http://' of 'https://'")
+    public InvalidSocialMediaStart() : base(ExceptionMessages.InvalidSocialMediaStart)
     {
     }
 

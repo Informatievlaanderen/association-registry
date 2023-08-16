@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WebsiteMissingPeriod">
+    <value>Website url moet minsens één punt bevatten</value>
+  </data>
+  <data name="InvalidWebsiteStart">
+    <value>Website url moet beginnen met 'http://' of 'https://'</value>
+  </data>
+  <data name="InvalidTelefoonNummerCharacter">
+    <value>TelefoonNummer moet bestaan uit cijfers, whitespace en \". /( ) - + \"</value>
+  </data>
+  <data name="NoNumbersInTelefoonNummer">
+    <value>TelefoonNummer moet minstens één cijfer bevatten</value>
+  </data>
+  <data name="InvalidSocialMediaStart">
+    <value>Social media url moet beginnen met 'http://' of 'https://'</value>
+  </data>
+  <data name="SocialMediaMissingPeriod">
+    <value>Social media url moet minsens één punt bevatten</value>
+  </data>
+  <data name="InvalidContactType">
+    <value>Het opgegeven contacttype werd niet herkend. ('email', 'website', 'socialmedia', 'telefoon')</value>
+  </data>
+  <data name="DoelgroepOutOfRange">
+    <value>Minimum en maximum leeftijd moeten tussen 0 en 150 inclusief liggen.</value>
+  </data>
+  <data name="InvalidDoelgroepRange">
+    <value>Minimum leeftijd moet kleiner of gelijk zijn aan maximum leeftijd.</value>
+  </data>
+  <data name="AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom">
+    <value>Een afdeling kan niet uit de publieke stroom worden uitgeschreven.</value>
+  </data>
+  <data name="GeenGeldigeVerenigingInKbo">
+    <value>Er werd voor dit KBO-nummer geen geldige vereniging gevonden.</value>
+  </data>
+  <data name="UnsupportedOperationForVerenigingstype">
+    <value>Deze actie kan niet uitgevoerd worden op dit type vereniging.</value>
+  </data>
+  <data name="DuplicateHoofdactiviteit">
+    <value>Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.</value>
+  </data>
+  <data name="InvalidInszChars">
+    <value>Foutieve tekens in INSZ.</value>
+  </data>
+  <data name="InvalidInszLength">
+    <value>INSZ moet 11 cijfers bevatten.</value>
+  </data>
+  <data name="InvalidInszMod97">
+    <value>Incorrect INSZ: foutieve checksum.</value>
+  </data>
+  <data name="InvalidKboNummerChars">
+    <value>Foutieve tekens in Kbo nummer.</value>
+  </data>
+  <data name="InvalidKboNummerLength">
+    <value>Kbo nummer moet 10 cijfers bevatten.</value>
+  </data>
+  <data name="InvalidKboNummerMod97">
+    <value>Incorrect Kbo nummer: foutieve checksum.</value>
+  </data>
+  <data name="DuplicateLocatie">
+    <value>Locaties moeten uniek zijn binnen de vereniging.</value>
+  </data>
+  <data name="IncompleteAdres">
+    <value>Een adres moet bestaan uit straatnaam, huisnummer, postcode, gemeente en land.</value>
+  </data>
+  <data name="IncompleteAdresId">
+    <value>Een adresId moet een adresbron en waarde bevatten.</value>
+  </data>
+  <data name="InvalidBroncode">
+    <value>De broncode voor dit adres is niet gekend.</value>
+  </data>
+  <data name="InvalidBronwaardeForAR">
+    <value>De bronwaarde voor een adres uit het addressenregister moet een Data Vlaanderen PURI zijn.</value>
+  </data>
+  <data name="MissingAdres">
+    <value>Een locatie moet minstens een adresId of een adres bevatten.</value>
+  </data>
+  <data name="MultipleCorrespondentieLocaties">
+    <value>Er kan maar één correspondentie locatie zijn binnen de vereniging.</value>
+  </data>
+  <data name="MultiplePrimaireLocaties">
+    <value>Er kan maar één primaire locatie zijn binnen de vereniging.</value>
+  </data>
+  <data name="StardatumIsInFuture">
+    <value>Startdatum mag niet in de toekomst liggen.</value>
+  </data>
+  <data name="InvalidVCodeFormat">
+    <value>Formaat van de VCode moet 'V0000000' zijn</value>
+  </data>
+  <data name="OutOfRangeVCode">
+    <value>VCode moet groter zijn dan 1000</value>
+  </data>
+  <data name="EmptyVerenigingsNaam">
+    <value>De naam van de vereniging is verplicht.</value>
+  </data>
+  <data name="AchternaamBevatNummers">
+    <value>Achternaam mag geen nummers bevatten.</value>
+  </data>
+  <data name="AchternaamZonderLetters">
+    <value>Achternaam moet een letter bevatten.</value>
+  </data>
+  <data name="DuplicateInszProvided">
+    <value>INSZ moet uniek zijn binnen de vereniging.</value>
+  </data>
+  <data name="MultiplePrimaireVertegenwoordigers">
+    <value>Er mag maar één vertegenwoordiger aangeduid zijn als primair contactpersoon.</value>
+  </data>
+  <data name="UnknownInsz">
+    <value>INSZ is niet gekend</value>
+  </data>
+  <data name="VoornaamBevatNummers">
+    <value>Voornaam mag geen nummers bevatten.</value>
+  </data>
+  <data name="VoornaamZonderLetters">
+    <value>Voornaam moet een letter bevatten.</value>
+  </data>
+  <data name="InvalidEmailFormat">
+    <value>E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens toegestaan '!#$%&amp;'*+/=?^_`{|}~-', in domein enkel '.' en '-'.</value>
+  </data>
+  <data name="InvalidDateFormat">
+    <value>Datum moet van het formaat 'yyyy-MM-dd' zijn.</value>
+  </data>
+  <data name="CouldNotParseRequestException">
+    <value>Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw.</value>
+  </data>
+  <data name="InvalidBevestigingstokenProvided">
+    <value>Het bevestigingstoken is niet geldig voor deze request.</value>
+  </data>
+</root>
+

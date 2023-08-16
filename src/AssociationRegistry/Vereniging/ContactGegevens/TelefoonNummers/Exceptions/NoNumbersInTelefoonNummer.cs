@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class NoNumbersInTelefoonNummer : DomainException
 {
-    public NoNumbersInTelefoonNummer() : base("TelefoonNummer moet minstens één cijfer bevatten")
+    public NoNumbersInTelefoonNummer() : base(ExceptionMessages.NoNumbersInTelefoonNummer)
     {
     }
 

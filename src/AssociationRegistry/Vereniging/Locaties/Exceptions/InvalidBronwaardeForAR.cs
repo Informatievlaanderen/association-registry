@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidBronwaardeForAR : DomainException
 {
-    public InvalidBronwaardeForAR() : base("De bronwaarde voor een adres uit het addressenregister moet een Data Vlaanderen PURI zijn.")
+    public InvalidBronwaardeForAR() : base(ExceptionMessages.InvalidBronwaardeForAR)
     {
     }
 

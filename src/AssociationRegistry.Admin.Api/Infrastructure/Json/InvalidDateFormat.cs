@@ -7,7 +7,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidDateFormat : DomainException
 {
-    public InvalidDateFormat() : base("Datum moet van het formaat 'yyyy-MM-dd' zijn.")
+    public InvalidDateFormat() : base(ExceptionMessages.InvalidDateFormat)
     {
     }
 

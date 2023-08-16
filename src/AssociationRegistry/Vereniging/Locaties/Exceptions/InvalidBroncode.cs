@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidBroncode : DomainException
 {
-    public InvalidBroncode() : base("De broncode voor dit adres is niet gekend.")
+    public InvalidBroncode() : base(ExceptionMessages.InvalidBroncode)
     {
     }
 

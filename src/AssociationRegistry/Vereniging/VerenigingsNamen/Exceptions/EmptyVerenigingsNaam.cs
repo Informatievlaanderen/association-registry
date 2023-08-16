@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class EmptyVerenigingsNaam : DomainException
 {
-    public EmptyVerenigingsNaam() : base("De naam van de vereniging is verplicht.")
+    public EmptyVerenigingsNaam() : base(ExceptionMessages.EmptyVerenigingsNaam)
     {
     }
 

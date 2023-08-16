@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class InvalidInszChars : DomainException
 {
-    public InvalidInszChars() : base("Foutieve tekens in INSZ.")
+    public InvalidInszChars() : base(ExceptionMessages.InvalidInszChars)
     {
     }
 
