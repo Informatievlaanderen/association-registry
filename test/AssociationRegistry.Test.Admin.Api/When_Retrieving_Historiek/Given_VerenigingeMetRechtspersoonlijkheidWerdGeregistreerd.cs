@@ -79,21 +79,27 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.Type}' werd overgenomen uit KBO."",
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.Type}' werd overgenomen uit KBO."",
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.Type}' werd overgenomen uit KBO."",
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonWerdOvergenomenUitKBO)},
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},{{
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
+                        ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

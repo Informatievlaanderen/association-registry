@@ -14,6 +14,8 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
     public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
+    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
+
     public readonly CommandMetadata Metadata;
 
     public V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data()
@@ -44,12 +46,16 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
                     "België"),
                 AdresId = null,
             });
-        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, "email@testdata.com");
-        WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Website.Waarde, "https://www.testdata.com");
-        TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Telefoon.Waarde, "0123456789");
+
+
+        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email,"email@testdata.com");
+        WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.testdata.com");
+        TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
+        GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
+
 
     public string KboNummer { get; set; }
 
@@ -66,7 +72,8 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
             EmailWerdOvergenomenUitKBO,
             WebsiteWerdOvergenomenUitKBO,
-            TelefoonWerdOvergenomenUitKBO
+            TelefoonWerdOvergenomenUitKBO,
+            GSMWerdOvergenomenUitKBO,
         };
 
     public CommandMetadata GetCommandMetadata()

@@ -315,7 +315,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdOvergenomen,
             document,
-            $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.Type}' werd overgenomen uit KBO."
+            $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.TypeVolgensKbo}' werd overgenomen uit KBO."
         );
 
         document.Metadata = new Metadata(contactgegevenWerdOvergenomen.Sequence, contactgegevenWerdOvergenomen.Version);

@@ -112,6 +112,7 @@ public class Given_A_GeefOndernemingResponseBody
                             Email = _contactgegevens.Email,
                             Website = _contactgegevens.Website,
                             Telefoonnummer = _contactgegevens.Telefoonnummer,
+                            GSM = _contactgegevens.GSM,
                         },
                     },
                 },

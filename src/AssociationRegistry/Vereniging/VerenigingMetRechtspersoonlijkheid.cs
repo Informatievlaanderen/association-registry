@@ -62,10 +62,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         );
     }
 
-    public void VoegContactgegevenToe(Contactgegeven contactgegeven)
+    public void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
-        AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven));
+        AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
     }
 }

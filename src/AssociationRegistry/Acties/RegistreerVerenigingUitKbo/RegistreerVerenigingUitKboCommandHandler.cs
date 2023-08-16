@@ -55,9 +55,10 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         if (verenigingVolgensKbo.Contactgegevens is not null)
         {
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenType.Email);
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenType.Website);
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenType.Telefoon);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
+            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
         }
 
 
@@ -65,14 +66,14 @@ public class RegistreerVerenigingUitKboCommandHandler
         return CommandResult.Create(vCode, result);
     }
 
-    private static void AddContactgegeven(VerenigingMetRechtspersoonlijkheid vereniging, string? waarde, ContactgegevenType type)
+    private static void AddContactgegeven(VerenigingMetRechtspersoonlijkheid vereniging, string? waarde, ContactgegevenTypeVolgensKbo type)
     {
         if (waarde is null) return;
 
         try
         {
-            var contactgeven = Contactgegeven.Create(type, waarde);
-            vereniging.VoegContactgegevenToe(contactgeven);
+            var contactgeven = Contactgegeven.Create(type.ContactgegevenType, waarde);
+            vereniging.VoegContactgegevenToe(contactgeven, type);
         }
         catch
         {
