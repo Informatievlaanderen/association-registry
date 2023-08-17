@@ -312,6 +312,18 @@ public class BeheerVerenigingHistoriekProjector
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
+    public static void Apply(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdOvergenomenUitKbo,
+            maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
+            document,
+            "De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."
+        );
+
+        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
+    }
+
     public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomen, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
@@ -328,7 +340,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenKonNietOvergenomenWorden,
             document,
-            $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.Type}' kon niet overgenomen worden uit KBO."
+            $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."
         );
 
         document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWorden.Sequence, contactgegevenKonNietOvergenomenWorden.Version);
