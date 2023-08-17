@@ -19,25 +19,25 @@
       {
         "type": "E-mail",
         "waarde": "email@testdata.com",
-        "beschrijving": null,
+        "beschrijving": "",
         "isPrimair": false
       },
       {
         "type": "Website",
         "waarde": "https://www.testdata.com",
-        "beschrijving": null,
+        "beschrijving": "",
         "isPrimair": false
       },
       {
         "type": "Telefoon",
         "waarde": "0123456789",
-        "beschrijving": null,
+        "beschrijving": "",
         "isPrimair": false
       },
       {
         "type": "Telefoon",
         "waarde": "0987654321",
-        "beschrijving": null,
+        "beschrijving": "",
         "isPrimair": false
       }
     ],

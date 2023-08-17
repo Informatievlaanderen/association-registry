@@ -342,6 +342,7 @@ public class BeheerVerenigingDetailProjector
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                     Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Beschrijving = String.Empty,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 })
             .OrderBy(c => c.ContactgegevenId)

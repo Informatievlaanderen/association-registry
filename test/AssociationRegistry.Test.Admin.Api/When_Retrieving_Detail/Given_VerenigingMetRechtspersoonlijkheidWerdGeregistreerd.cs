@@ -73,26 +73,26 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": null,
+                        ""beschrijving"": """",
                         ""isPrimair"": false,
                     }},
 {{
                         ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": null,
+                        ""beschrijving"": """",
                         ""isPrimair"": false,}},
 {{
                         ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": null,
+                        ""beschrijving"": """",
                         ""isPrimair"": false,}},
 {{
                         ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.GSMWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": null,
+                        ""beschrijving"": """",
                         ""isPrimair"": false,}}],
             ""locaties"":[
                 {{

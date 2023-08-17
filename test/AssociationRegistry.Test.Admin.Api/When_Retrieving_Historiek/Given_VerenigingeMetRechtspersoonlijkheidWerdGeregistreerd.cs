@@ -75,32 +75,32 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailWerdOvergenomenUitKBO)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteWerdOvergenomenUitKBO)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonWerdOvergenomenUitKBO)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]
@@ -174,32 +174,32 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailKonNietOvergenomenWordenUitKbo)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteKonNietOvergenomenWordenUitKbo)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonKonNietOvergenomenWordenUitKbo)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GsmKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GsmKonNietOvergenomenWordenUitKbo)},
-                        ""initiator"":""{EventStore.EventStore.DigitaalVlaanderenOvoNumber}"",
+                        ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
                 ]

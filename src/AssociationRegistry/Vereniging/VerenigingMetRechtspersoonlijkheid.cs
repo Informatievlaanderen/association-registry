@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
 using Exceptions;
 using Framework;
@@ -8,6 +7,8 @@ using Kbo;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
 {
+    private static Verenigingstype[] _allowedTypes;
+
     public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
@@ -35,7 +36,15 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.VZW);
+        _allowedTypes = new[]
+        {
+            Verenigingstype.VZW,
+            Verenigingstype.IVZW,
+            Verenigingstype.PrivateStichting,
+            Verenigingstype.StichtingVanOpenbaarNut,
+        };
+        Throw<UnsupportedOperationForVerenigingstype>.If(
+            !_allowedTypes.Contains(obj.Verenigingstype));
         State = obj;
     }
 
@@ -105,7 +114,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         VoegContactgegevenToe(contactgegeven, type);
     }
 
-    private void AddAdressAlsMaatschappelijkeZetel(AdresVolgensKbo adresVolgensKbo)
+    private void AddAdressAlsMaatschappelijkeZetel(AdresVolgensKbo? adresVolgensKbo)
     {
         if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty()) return;
 
