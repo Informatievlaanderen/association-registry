@@ -31,9 +31,10 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Inval
             null
         ));
 
-    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO EmailKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Email.Waarde, "Niet geldig");
-    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO WebsiteKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Website.Waarde, "ook niet geldig");
-    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO TelefoonKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Telefoon.Waarde, "00kn13tg3ld1g");
+    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO EmailKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Email.Waarde,ContactgegevenTypeVolgensKbo.Email.Waarde, "Niet geldig");
+    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO WebsiteKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Website.Waarde,ContactgegevenTypeVolgensKbo.Website.Waarde, "ook niet geldig");
+    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO TelefoonKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.Telefoon.Waarde, "n13tg3ld1g");
+    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO GSMKonNietOvergenomenWordenUitKbo = new(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.GSM.Waarde, "00kn13tg3ld1g");
 
 
     public VCode VCode
@@ -48,6 +49,7 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Inval
             EmailKonNietOvergenomenWordenUitKbo,
             WebsiteKonNietOvergenomenWordenUitKbo,
             TelefoonKonNietOvergenomenWordenUitKbo,
+            GSMKonNietOvergenomenWordenUitKbo,
         };
     }
 

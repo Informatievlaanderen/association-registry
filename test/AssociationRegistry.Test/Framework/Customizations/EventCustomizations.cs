@@ -60,7 +60,7 @@ public static class EventCustomizations
                         var contactgegeven = fixture.Create<Contactgegeven>();
                         return new ContactgegevenWerdOvergenomenUitKBO(
                             contactgegeven.ContactgegevenId,
-                            ContactgegevenTypeVolgensKbo.All[i % (ContactgegevenTypeVolgensKbo.All.Length - 1)],
+                            ContactgegevenTypeVolgensKbo.All[i % (ContactgegevenTypeVolgensKbo.All.Length)],
                             contactgegeven.Type,
                             contactgegeven.Waarde);
                     })
@@ -71,9 +71,14 @@ public static class EventCustomizations
     {
         fixture.Customize<ContactgegevenKonNietOvergenomenWordenUitKBO>(
             composer => composer.FromFactory(
-                    () => new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                        fixture.Create<ContactgegevenType>().Waarde,
-                        fixture.Create<string>()))
+                    () =>
+                    {
+                        var contactgegevenTypevolgensKbo = fixture.Create<ContactgegevenTypeVolgensKbo>();
+                        return new ContactgegevenKonNietOvergenomenWordenUitKBO(
+                            contactgegevenTypevolgensKbo.ContactgegevenType.Waarde,
+                            contactgegevenTypevolgensKbo.Waarde,
+                            fixture.Create<string>());
+                    })
                 .OmitAutoProperties());
     }
 

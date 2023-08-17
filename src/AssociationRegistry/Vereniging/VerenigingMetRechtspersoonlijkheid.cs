@@ -69,8 +69,8 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
     }
 
-    public void VoegFoutiefContactgegevenToe(ContactgegevenType type, string waarde)
+    public void VoegFoutiefContactgegevenToe(ContactgegevenTypeVolgensKbo type, string waarde)
     {
-        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.Waarde, waarde));
+        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
     }
 }

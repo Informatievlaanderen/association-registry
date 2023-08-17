@@ -3,7 +3,6 @@ namespace AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
 using Framework;
-using JasperFx.Core.Reflection;
 using Marten;
 using Marten.Events;
 using Marten.Exceptions;
@@ -55,12 +54,20 @@ public class EventStore : IEventStore
     private static void SetHeaders(CommandMetadata metadata, IDocumentSession session, Type eventType)
     {
         var initiator = metadata.Initiator;
-        if (eventType == typeof(ContactgegevenWerdOvergenomenUitKBO) || eventType == typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo))
+        if (IsEventFromDigitaalVlaanderen(eventType))
             initiator = DigitaalVlaanderenOvoNumber;
 
         session.SetHeader(MetadataHeaderNames.Initiator, initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
     }
+
+    private static bool IsEventFromDigitaalVlaanderen(Type eventType)
+        => new[]
+        {
+            typeof(ContactgegevenWerdOvergenomenUitKBO),
+            typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
+            typeof(ContactgegevenKonNietOvergenomenWordenUitKBO),
+        }.Contains(eventType);
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
     {
