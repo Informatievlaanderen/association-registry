@@ -51,8 +51,9 @@ public class DetailVerenigingenController : ApiController
         [FromQuery] long? expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
-        if (!await session.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
+
+        if (!await documentStore.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
+             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
             .WithVCode(vCode)
