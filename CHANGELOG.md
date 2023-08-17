@@ -1,3 +1,10 @@
+# [6.15.0](https://github.com/informatievlaanderen/association-registry/compare/v6.14.0...v6.15.0) (2023-08-17)
+
+
+### Features
+
+* or-1864 maatschappelijke zetel niet overgenomen uti kbo ([9052ec0](https://github.com/informatievlaanderen/association-registry/commit/9052ec093f2e089f754947f0c9025d3e64ebed90))
+
 # [6.14.0](https://github.com/informatievlaanderen/association-registry/compare/v6.13.0...v6.14.0) (2023-08-17)
 
 
