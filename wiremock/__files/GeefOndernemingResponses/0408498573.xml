@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"/>
+  <SOAP-ENV:Body xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <web:GeefOndernemingResponse
+      xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
+      <Repliek>
+        <Context>
+          <Naam>GeefOnderneming</Naam>
+          <Versie>02.00.0000</Versie>
+          <Bericht>
+            <Type>ANTWOORD</Type>
+            <Tijdstip>
+              <Datum>2023-08-17</Datum>
+              <Tijd>12:52:02.384</Tijd>
+            </Tijdstip>
+            <Afzender>
+              <Identificatie>vip.vlaanderen.be</Identificatie>
+              <Naam>MagdaGateway</Naam>
+              <Referte>c77a93e6-ca61-4e00-9eac-0c838d365842</Referte>
+            </Afzender>
+            <Ontvanger>
+              <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+              <Referte>AREF_QT_610527_134233</Referte>
+              <Hoedanigheid/>
+            </Ontvanger>
+          </Bericht>
+        </Context>
+        <Antwoorden>
+          <Antwoord>
+            <Referte>8864a986-338d-4857-9c6d-64adc4e160bf</Referte>
+            <Inhoud>
+              <Onderneming>
+                <Ondernemingsnummer>0408498573</Ondernemingsnummer>
+                <AuthentiekBron>
+                  <Code>03</Code>
+                  <Omschrijving>KBO</Omschrijving>
+                </AuthentiekBron>
+                <OndernemingOfVestiging>
+                  <Code Beschrijving="Onderneming">1</Code>
+                </OndernemingOfVestiging>
+                <StatusKBO>
+                  <Code>AC</Code>
+                </StatusKBO>
+                <SoortOnderneming>
+                  <Code Beschrijving="Rechtspersoon">2</Code>
+                </SoortOnderneming>
+                <Namen>
+                  <MaatschappelijkeNamen>
+                    <MaatschappelijkeNaam DatumBegin="1933-01-01">
+                      <Naam>Boite A Musique</Naam>
+                      <Taalcode>xx</Taalcode>
+                    </MaatschappelijkeNaam>
+                  </MaatschappelijkeNamen>
+                </Namen>
+                <Adressen>
+                  <Adres DatumBegin="1933-01-01">
+                    <Gemeente>
+                      <NISCode>21004</NISCode>
+                      <PostCode>1000</PostCode>
+                    </Gemeente>
+                    <Land>
+                      <NISCode>150</NISCode>
+                      <ISOCode>BE</ISOCode>
+                      <Naam>BELGIE</Naam>
+                    </Land>
+                    <Type>
+                      <Code>001</Code>
+                    </Type>
+                    <Descripties>
+                      <Descriptie>
+                        <Adres>
+                          <Straat/>
+                          <Gemeente>
+                            <Naam>Brussel</Naam>
+                          </Gemeente>
+                          <Land>
+                            <NISCode>150</NISCode>
+                            <Naam>Belgi&#235;</Naam>
+                          </Land>
+                        </Adres>
+                      </Descriptie>
+                    </Descripties>
+                  </Adres>
+                </Adressen>
+                <Start>
+                  <Datum>1933-01-01</Datum>
+                </Start>
+                <Inschrijving>
+                  <Datum>2003-01-18</Datum>
+                </Inschrijving>
+                <Rechtsvormen>
+                  <Rechtsvorm DatumBegin="1933-01-01">
+                    <Code>017</Code>
+                  </Rechtsvorm>
+                </Rechtsvormen>
+              </Onderneming>
+            </Inhoud>
+          </Antwoord>
+        </Antwoorden>
+      </Repliek>
+    </web:GeefOndernemingResponse>
+  </SOAP-ENV:Body>
+</soapenv:Envelope>

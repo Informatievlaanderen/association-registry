@@ -121,8 +121,10 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         };
     }
 
-    private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[] namen)
+    private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[]? namen)
     {
+        if (namen is null) return null;
+
         var activeNamen = namen
             .Where(n => IsActiveToday(n.DatumBegin, n.DatumEinde))
             .ToArray();
