@@ -1,3 +1,12 @@
+# [6.14.0](https://github.com/informatievlaanderen/association-registry/compare/v6.13.0...v6.14.0) (2023-08-17)
+
+
+### Features
+
+* or-1863 add GSM to cases ([8f4b86e](https://github.com/informatievlaanderen/association-registry/commit/8f4b86e4184f36e321f5eabd6bf820ffc67cab0e))
+* or-1863 revert changes to detail projecties ([469c8ec](https://github.com/informatievlaanderen/association-registry/commit/469c8ecdf9b3315be81b0c97e16ca89f806d6872))
+* or-1863 when contactgegeven is not valid ([61c99c3](https://github.com/informatievlaanderen/association-registry/commit/61c99c39856882e16f392036e32afcf3878cd49d))
+
 # [6.13.0](https://github.com/informatievlaanderen/association-registry/compare/v6.12.0...v6.13.0) (2023-08-17)
 
 
