@@ -1,3 +1,11 @@
+# [6.13.0](https://github.com/informatievlaanderen/association-registry/compare/v6.12.0...v6.13.0) (2023-08-17)
+
+
+### Features
+
+* or-1861 add GSM from magdaKbo ([adc547f](https://github.com/informatievlaanderen/association-registry/commit/adc547fab97f4b9d62bbaa0b5fd03222527f251b))
+* or-1861 commit events with initiator ([16f55c8](https://github.com/informatievlaanderen/association-registry/commit/16f55c888825a3397e35aaf375c232991bbdeb53))
+
 # [6.12.0](https://github.com/informatievlaanderen/association-registry/compare/v6.11.1...v6.12.0) (2023-08-16)
 
 
