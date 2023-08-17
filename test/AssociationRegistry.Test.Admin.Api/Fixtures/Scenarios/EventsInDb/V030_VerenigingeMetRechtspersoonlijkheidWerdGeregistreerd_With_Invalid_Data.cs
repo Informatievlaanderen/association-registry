@@ -44,9 +44,10 @@ public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inva
                     "België"),
                 AdresId = null,
             });
-        EmailKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Email.Waarde, fixture.Create<string>());
-        WebsiteKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Website.Waarde, fixture.Create<string>());
-        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde, fixture.Create<string>());
+        EmailKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Email.Waarde,ContactgegevenTypeVolgensKbo.Email.Waarde, fixture.Create<string>());
+        WebsiteKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Website.Waarde,ContactgegevenTypeVolgensKbo.Website.Waarde, fixture.Create<string>());
+        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.Telefoon.Waarde, fixture.Create<string>());
+        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.GSM.Waarde, fixture.Create<string>());
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

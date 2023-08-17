@@ -34,6 +34,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
             Email = fixture.Create<string>(),
             Website = fixture.Create<string>(),
             Telefoonnummer = fixture.Create<string>(),
+            GSM = fixture.Create<string>(),
         };
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
@@ -64,15 +65,23 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 _verenigingVolgensKbo.StartDatum),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
                 ContactgegevenType.Email.Waarde,
+                ContactgegevenTypeVolgensKbo.Email.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Email!
             ),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
                 ContactgegevenType.Website.Waarde,
+                ContactgegevenTypeVolgensKbo.Website.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Website!
             ),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
                 ContactgegevenType.Telefoon.Waarde,
+                ContactgegevenTypeVolgensKbo.Telefoon.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Telefoonnummer!
+            ),
+            new ContactgegevenKonNietOvergenomenWordenUitKBO(
+                ContactgegevenType.Telefoon.Waarde,
+                ContactgegevenTypeVolgensKbo.GSM.Waarde,
+                _verenigingVolgensKbo.Contactgegevens.GSM!
             )
         );
     }

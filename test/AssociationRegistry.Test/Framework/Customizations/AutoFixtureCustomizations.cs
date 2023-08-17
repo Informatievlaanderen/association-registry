@@ -178,6 +178,14 @@ public static class AutoFixtureCustomizations
                     return contactTypes[value % contactTypes.Length];
                 }).OmitAutoProperties());
 
+        fixture.Customize<ContactgegevenTypeVolgensKbo>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var contactTypes = ContactgegevenTypeVolgensKbo.All;
+                    return contactTypes[value % contactTypes.Length];
+                }).OmitAutoProperties());
+
         fixture.Customize<Contactgegeven>(
             composerTransformation: composer => composer.FromFactory(
                     factory: () => (string)fixture.Create<ContactgegevenType>() switch

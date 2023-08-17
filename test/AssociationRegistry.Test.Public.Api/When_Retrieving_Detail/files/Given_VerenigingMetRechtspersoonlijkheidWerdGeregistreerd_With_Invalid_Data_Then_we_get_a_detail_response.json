@@ -30,6 +30,12 @@
       },
       {
         "type": "Telefoon",
+        "waarde": "n13tg3ld1g",
+        "beschrijving": null,
+        "isPrimair": false
+      },
+      {
+        "type": "Telefoon",
         "waarde": "00kn13tg3ld1g",
         "beschrijving": null,
         "isPrimair": false
