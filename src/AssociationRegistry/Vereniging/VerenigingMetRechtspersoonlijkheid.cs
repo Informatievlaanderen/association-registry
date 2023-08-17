@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Events;
 using Exceptions;
 using Framework;
@@ -18,6 +19,17 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 verenigingVolgensKbo.Naam ?? "",
                 verenigingVolgensKbo.KorteNaam ?? "",
                 verenigingVolgensKbo.StartDatum ?? null));
+
+        vereniging.AddAdressAlsMaatschappelijkeZetel(verenigingVolgensKbo.Adres);
+
+        if (verenigingVolgensKbo.Contactgegevens is not null)
+        {
+            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
+            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
+            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
+            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
+        }
+
         return vereniging;
     }
 
@@ -44,7 +56,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 
-    public void AddMaatschappelijkeZetel(Adres adres)
+    private void VoegMaatschappelijkeZetelToe(Adres adres)
     {
         AddEvent(
             MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
@@ -62,27 +74,49 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         );
     }
 
-    public void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
+    private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
         AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
     }
 
-    public void VoegFoutiefContactgegevenToe(ContactgegevenTypeVolgensKbo type, string waarde)
+    private void VoegFoutiefContactgegevenToe(ContactgegevenTypeVolgensKbo type, string waarde)
     {
         AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
     }
 
-    public void VoegFoutieveMaatscheppelijkeZetelToe(AdresVolgensKbo adres)
+    private void VoegFoutieveMaatscheppelijkeZetelToe(AdresVolgensKbo adres)
     {
-        AddEvent(
-            new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
-                adres.Straatnaam ?? string.Empty,
-                adres.Huisnummer ?? string.Empty,
-                adres.Busnummer ?? string.Empty,
-                adres.Postcode ?? string.Empty,
-                adres.Gemeente ?? string.Empty,
-                adres.Land ?? string.Empty));
+        AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
+    }
+
+    private void AddContactgegeven(string? waarde, ContactgegevenTypeVolgensKbo type)
+    {
+        if (waarde is null) return;
+
+        var contactgegeven = Contactgegeven.TryCreateFromKbo(waarde, type);
+        if (contactgegeven is null)
+        {
+            VoegFoutiefContactgegevenToe(type, waarde);
+            return;
+        }
+
+        VoegContactgegevenToe(contactgegeven, type);
+    }
+
+    private void AddAdressAlsMaatschappelijkeZetel(AdresVolgensKbo adresVolgensKbo)
+    {
+        if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty()) return;
+
+        var adres = Adres.TryCreateFromKbo(adresVolgensKbo);
+
+        if (adres is null)
+        {
+            VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
+            return;
+        }
+
+        VoegMaatschappelijkeZetelToe(adres);
     }
 }

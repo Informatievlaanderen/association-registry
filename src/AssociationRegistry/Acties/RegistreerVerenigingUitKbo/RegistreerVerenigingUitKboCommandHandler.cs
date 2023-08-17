@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DuplicateVerenigingDetection;
 using Framework;
 using Kbo;
@@ -50,55 +51,7 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
-        if (!IsEmptyAdres(verenigingVolgensKbo.Adres))
-            AddAdressAlsMaatschappelijkeZetel(vereniging, verenigingVolgensKbo.Adres);
-
-        if (verenigingVolgensKbo.Contactgegevens is not null)
-        {
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
-            AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
-        }
-
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
         return CommandResult.Create(vCode, result);
-    }
-
-    private static bool IsEmptyAdres(AdresVolgensKbo? adres)
-        => adres is null || (
-            adres.Straatnaam is null &&
-            adres.Huisnummer is null &&
-            adres.Busnummer is null &&
-            adres.Postcode is null &&
-            adres.Gemeente is null &&
-            adres.Land is null);
-
-    private static void AddContactgegeven(VerenigingMetRechtspersoonlijkheid vereniging, string? waarde, ContactgegevenTypeVolgensKbo type)
-    {
-        if (waarde is null) return;
-
-        try
-        {
-            var contactgeven = Contactgegeven.Create(type.ContactgegevenType, waarde);
-            vereniging.VoegContactgegevenToe(contactgeven, type);
-        }
-        catch
-        {
-            vereniging.VoegFoutiefContactgegevenToe(type, waarde);
-        }
-    }
-
-    private static void AddAdressAlsMaatschappelijkeZetel(VerenigingMetRechtspersoonlijkheid vereniging, AdresVolgensKbo adresVolgensKbo)
-    {
-        try
-        {
-            var adres = Adres.Create(adresVolgensKbo.Straatnaam, adresVolgensKbo.Huisnummer, adresVolgensKbo.Busnummer, adresVolgensKbo.Postcode, adresVolgensKbo.Gemeente, adresVolgensKbo.Land);
-            vereniging.AddMaatschappelijkeZetel(adres);
-        }
-        catch
-        {
-            vereniging.VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
-        }
     }
 }
