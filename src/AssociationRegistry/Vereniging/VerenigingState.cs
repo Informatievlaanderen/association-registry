@@ -355,4 +355,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(ContactgegevenKonNietOvergenomenWordenUitKBO @event)
         => this;
+
+    public VerenigingState Apply(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo @event)
+        => this;
 }

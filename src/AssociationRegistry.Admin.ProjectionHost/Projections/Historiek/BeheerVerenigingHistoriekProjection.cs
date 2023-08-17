@@ -229,4 +229,13 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelKonNietOvergenomenWordenUitKbo, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelKonNietOvergenomenWordenUitKbo.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelKonNietOvergenomenWordenUitKbo, doc);
+
+        ops.Store(doc);
+    }
 }

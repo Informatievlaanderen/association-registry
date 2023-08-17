@@ -67,6 +67,7 @@ public class EventStore : IEventStore
             typeof(ContactgegevenWerdOvergenomenUitKBO),
             typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
             typeof(ContactgegevenKonNietOvergenomenWordenUitKBO),
+            typeof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
         }.Contains(eventType);
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()

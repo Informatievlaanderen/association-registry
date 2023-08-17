@@ -50,7 +50,7 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
-        if (verenigingVolgensKbo.Adres is not null)
+        if (!IsEmptyAdres(verenigingVolgensKbo.Adres))
             AddAdressAlsMaatschappelijkeZetel(vereniging, verenigingVolgensKbo.Adres);
 
         if (verenigingVolgensKbo.Contactgegevens is not null)
@@ -61,10 +61,18 @@ public class RegistreerVerenigingUitKboCommandHandler
             AddContactgegeven(vereniging, verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
         }
 
-
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
         return CommandResult.Create(vCode, result);
     }
+
+    private static bool IsEmptyAdres(AdresVolgensKbo? adres)
+        => adres is null || (
+            adres.Straatnaam is null &&
+            adres.Huisnummer is null &&
+            adres.Busnummer is null &&
+            adres.Postcode is null &&
+            adres.Gemeente is null &&
+            adres.Land is null);
 
     private static void AddContactgegeven(VerenigingMetRechtspersoonlijkheid vereniging, string? waarde, ContactgegevenTypeVolgensKbo type)
     {
@@ -90,8 +98,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         }
         catch
         {
-            // ignored
-            //TODO in OR-1864
+            vereniging.VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
         }
     }
 }

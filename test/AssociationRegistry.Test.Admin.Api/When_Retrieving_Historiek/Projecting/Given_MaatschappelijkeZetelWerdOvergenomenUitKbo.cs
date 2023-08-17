@@ -32,3 +32,26 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDateAndTime()));
     }
 }
+
+[UnitTest]
+public class Given_MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
+{
+    [Fact]
+    public void Then_it_adds_the_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                "De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO.",
+                nameof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDateAndTime()));
+    }
+}

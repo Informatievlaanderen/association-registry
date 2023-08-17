@@ -73,4 +73,16 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
     }
+
+    public void VoegFoutieveMaatscheppelijkeZetelToe(AdresVolgensKbo adres)
+    {
+        AddEvent(
+            new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+                adres.Straatnaam ?? string.Empty,
+                adres.Huisnummer ?? string.Empty,
+                adres.Busnummer ?? string.Empty,
+                adres.Postcode ?? string.Empty,
+                adres.Gemeente ?? string.Empty,
+                adres.Land ?? string.Empty));
+    }
 }

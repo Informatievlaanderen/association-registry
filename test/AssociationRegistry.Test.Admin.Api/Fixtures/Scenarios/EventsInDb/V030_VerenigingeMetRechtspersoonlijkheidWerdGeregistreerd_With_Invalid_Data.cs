@@ -10,11 +10,12 @@ using Vereniging;
 public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
+    public readonly MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo;
     public readonly ContactgegevenKonNietOvergenomenWordenUitKBO EmailKonNietOvergenomenWordenUitKbo;
     public readonly ContactgegevenKonNietOvergenomenWordenUitKBO WebsiteKonNietOvergenomenWordenUitKbo;
     public readonly ContactgegevenKonNietOvergenomenWordenUitKBO TelefoonKonNietOvergenomenWordenUitKbo;
     public readonly CommandMetadata Metadata;
+    public readonly ContactgegevenKonNietOvergenomenWordenUitKBO GsmKonNietOvergenomenWordenUitKbo;
 
     public V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data()
     {
@@ -29,25 +30,17 @@ public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inva
             KorteNaam = "RDZ",
             KboNummer = "7981199887",
         };
-        MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
-            Locatie: fixture.Create<Registratiedata.Locatie>() with
-            {
-                Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo,
-                Naam = string.Empty,
-                IsPrimair = false,
-                Adres = new Registratiedata.Adres(
-                    "Stationsstraat",
-                    "1",
-                    "B",
-                    "1790",
-                    "Affligem",
-                    "België"),
-                AdresId = null,
-            });
-        EmailKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Email.Waarde,ContactgegevenTypeVolgensKbo.Email.Waarde, fixture.Create<string>());
-        WebsiteKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Website.Waarde,ContactgegevenTypeVolgensKbo.Website.Waarde, fixture.Create<string>());
-        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.Telefoon.Waarde, fixture.Create<string>());
-        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde,ContactgegevenTypeVolgensKbo.GSM.Waarde, fixture.Create<string>());
+        MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo = new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+            "Stationsstraat",
+            "1",
+            "B",
+            "1790",
+            "Affligem",
+            "België");
+        EmailKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email.Waarde, fixture.Create<string>());
+        WebsiteKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website.Waarde, fixture.Create<string>());
+        TelefoonKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon.Waarde, fixture.Create<string>());
+        GsmKonNietOvergenomenWordenUitKbo = new ContactgegevenKonNietOvergenomenWordenUitKBO(ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM.Waarde, fixture.Create<string>());
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -64,10 +57,11 @@ public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inva
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            MaatschappelijkeZetelWerdOvergenomenUitKbo,
+            MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo,
             EmailKonNietOvergenomenWordenUitKbo,
             WebsiteKonNietOvergenomenWordenUitKbo,
-            TelefoonKonNietOvergenomenWordenUitKbo
+            TelefoonKonNietOvergenomenWordenUitKbo,
+            GsmKonNietOvergenomenWordenUitKbo,
         };
 
     public CommandMetadata GetCommandMetadata()
