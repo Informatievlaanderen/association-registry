@@ -1,3 +1,10 @@
+# [6.16.0](https://github.com/informatievlaanderen/association-registry/compare/v6.15.0...v6.16.0) (2023-08-17)
+
+
+### Features
+
+* OR-1856 create resx for exception messages ([b262268](https://github.com/informatievlaanderen/association-registry/commit/b262268f2ab1969c84e09cb7f931a537c9324413))
+
 # [6.15.0](https://github.com/informatievlaanderen/association-registry/compare/v6.14.0...v6.15.0) (2023-08-17)
 
 
