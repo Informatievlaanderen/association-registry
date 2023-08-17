@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Framework;
 using Emails;
 using Exceptions;
@@ -90,5 +91,17 @@ public record Contactgegeven
     {
         contactgegeven = CopyWithValuesIfNotNull(waarde, beschrijving, isPrimair);
         return this == contactgegeven;
+    }
+
+    public static Contactgegeven? TryCreateFromKbo(string waarde, ContactgegevenTypeVolgensKbo type)
+    {
+        try
+        {
+            return Create(type.ContactgegevenType, waarde);
+        }
+        catch (DomainException)
+        {
+            return null;
+        }
     }
 }

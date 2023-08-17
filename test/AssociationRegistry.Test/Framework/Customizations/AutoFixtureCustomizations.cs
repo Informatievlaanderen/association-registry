@@ -28,6 +28,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeAdresBron();
         fixture.CustomizeAdresId();
         fixture.CustomizeDoelgroep();
+        fixture.CustomizeAdres();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -261,6 +262,23 @@ public static class AutoFixtureCustomizations
                         () => Doelgroep.Create(
                             fixture.Create<int>() % 50,
                             50 + fixture.Create<int>() % 50))
+                    .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeAdres(this IFixture fixture)
+    {
+        fixture.Customize<Adres>(
+            composer =>
+                composer.FromFactory(
+                        () => Adres.Create(
+                            fixture.Create<string>(),
+                            fixture.Create<string>(),
+                            fixture.Create<string>(),
+                            fixture.Create<string>(),
+                            fixture.Create<string>(),
+                            fixture.Create<string>()
+                            ))
                     .OmitAutoProperties()
         );
     }
