@@ -169,7 +169,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = Verenigingstype.VZW,
+            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,

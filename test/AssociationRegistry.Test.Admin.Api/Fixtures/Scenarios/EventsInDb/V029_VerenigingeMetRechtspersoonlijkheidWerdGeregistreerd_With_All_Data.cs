@@ -30,6 +30,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             Naam = Naam,
             KorteNaam = "RDZ",
             KboNummer = "7981199887",
+            Rechtsvorm = Verenigingstype.VZW.Code,
         };
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
             Locatie: fixture.Create<Registratiedata.Locatie>() with
@@ -48,7 +49,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             });
 
 
-        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email,"email@testdata.com");
+        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email, "email@testdata.com");
         WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.testdata.com");
         TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
         GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");

@@ -27,9 +27,9 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                Beschrijving = string.Empty,
                 Type = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-
             });
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
         doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());

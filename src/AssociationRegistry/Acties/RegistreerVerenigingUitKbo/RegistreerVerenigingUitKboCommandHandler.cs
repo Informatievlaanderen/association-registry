@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DuplicateVerenigingDetection;
 using Framework;
 using Kbo;

@@ -336,6 +336,7 @@ public static class PubliekVerenigingDetailProjector
                 {
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
                     Type = contactgegevenWerdOvergenomenUitKBO.Data.Type,
+                    Beschrijving = string.Empty,
                     Waarde = contactgegevenWerdOvergenomenUitKBO.Data.Waarde,
                 })
             .OrderBy(c => c.ContactgegevenId)

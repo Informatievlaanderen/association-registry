@@ -53,11 +53,7 @@ public class EventStore : IEventStore
 
     private static void SetHeaders(CommandMetadata metadata, IDocumentSession session, Type eventType)
     {
-        var initiator = metadata.Initiator;
-        if (IsEventFromDigitaalVlaanderen(eventType))
-            initiator = DigitaalVlaanderenOvoNumber;
-
-        session.SetHeader(MetadataHeaderNames.Initiator, initiator);
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
     }
 
