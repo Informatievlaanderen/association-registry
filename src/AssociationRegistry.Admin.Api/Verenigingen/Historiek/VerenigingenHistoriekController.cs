@@ -9,8 +9,6 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
-
-
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Historiek;
@@ -56,7 +54,7 @@ public class VerenigingenHistoriekController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        if (!await session.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
+        if (!await documentStore.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
             return StatusCode(StatusCodes.Status412PreconditionFailed);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
