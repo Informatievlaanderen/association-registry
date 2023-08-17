@@ -350,19 +350,4 @@ public class BeheerVerenigingDetailProjector
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
-
-    public static void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> contactgegevenKonNietOvergenomenWordenUitKbo, BeheerVerenigingDetailDocument document)
-    {
-        document.Contactgegevens = document.Contactgegevens.Append(
-                new BeheerVerenigingDetailDocument.Contactgegeven
-                {
-                    Type = contactgegevenKonNietOvergenomenWordenUitKbo.Data.Type,
-                    Waarde = contactgegevenKonNietOvergenomenWordenUitKbo.Data.Waarde,
-                })
-            .OrderBy(c => c.ContactgegevenId)
-            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactgegevenKonNietOvergenomenWordenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWordenUitKbo.Sequence, contactgegevenKonNietOvergenomenWordenUitKbo.Version);
-    }
 }

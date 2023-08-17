@@ -1,11 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using System.Collections.Generic;
 using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
-using Events;
-using Framework;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -14,8 +11,6 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using NodaTime;
-using NodaTime.Text;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;

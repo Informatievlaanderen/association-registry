@@ -343,19 +343,4 @@ public static class PubliekVerenigingDetailProjector
 
         document.DatumLaatsteAanpassing = contactgegevenWerdOvergenomenUitKBO.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
-
-    public static void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> contactgegevenKonNietOvergenomenWordenUitKbo, PubliekVerenigingDetailDocument document)
-    {
-        document.Contactgegevens = document.Contactgegevens
-            .Append(
-                new PubliekVerenigingDetailDocument.Contactgegeven
-                {
-                    Type = contactgegevenKonNietOvergenomenWordenUitKbo.Data.Type,
-                    Waarde = contactgegevenKonNietOvergenomenWordenUitKbo.Data.Waarde,
-                })
-            .OrderBy(c => c.ContactgegevenId)
-            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactgegevenKonNietOvergenomenWordenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-    }
 }
