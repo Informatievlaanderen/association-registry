@@ -1,3 +1,10 @@
+## [6.16.1](https://github.com/informatievlaanderen/association-registry/compare/v6.16.0...v6.16.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* or-1864 ask marten for sequence for expected sequence ([0cc349f](https://github.com/informatievlaanderen/association-registry/commit/0cc349f1160894874cb043cecaba9fae272e3b96))
+
 # [6.16.0](https://github.com/informatievlaanderen/association-registry/compare/v6.15.0...v6.16.0) (2023-08-17)
 
 
