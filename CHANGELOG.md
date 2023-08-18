@@ -1,3 +1,10 @@
+## [6.16.2](https://github.com/informatievlaanderen/association-registry/compare/v6.16.1...v6.16.2) (2023-08-18)
+
+
+### Bug Fixes
+
+* or-1864 fix bugs ([b06e6cc](https://github.com/informatievlaanderen/association-registry/commit/b06e6cce79e730963d297732579a66cdace48dc1))
+
 ## [6.16.1](https://github.com/informatievlaanderen/association-registry/compare/v6.16.0...v6.16.1) (2023-08-18)
 
 
