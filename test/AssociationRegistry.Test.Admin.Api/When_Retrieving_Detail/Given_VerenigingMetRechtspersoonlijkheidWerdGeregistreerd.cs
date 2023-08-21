@@ -76,7 +76,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO}"",
+                        ""bron"": ""{Bron.KBO.Waarde}"",
                     }},
 {{
                         ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
@@ -84,7 +84,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO}"",
+                        ""bron"": ""{Bron.KBO.Waarde}"",
 }},
 {{
                         ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
@@ -92,7 +92,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO}"",
+                        ""bron"": ""{Bron.KBO.Waarde}"",
 }},
 {{
                         ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
@@ -100,7 +100,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO}"",
+                        ""bron"": ""{Bron.KBO.Waarde}"",
                     }}],
             ""locaties"":[
                 {{
@@ -118,7 +118,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 }},
                 ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
                 ""adresId"": null,
-                ""bron"": ""{Bron.KBO}"",
+                ""bron"": ""{Bron.KBO.Waarde}"",
             }}
             ],
             ""vertegenwoordigers"":[],
@@ -129,7 +129,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
             ""relaties"":[],
-            ""bron"": ""{Bron.KBO}"",
+            ""bron"": ""{Bron.KBO.Waarde}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",

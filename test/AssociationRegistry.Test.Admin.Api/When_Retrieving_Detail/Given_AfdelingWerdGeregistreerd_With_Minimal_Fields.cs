@@ -92,7 +92,7 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
                 }},
             }}
             ],
-            ""bron"": ""{Bron.Initiator}"",
+            ""bron"": ""{Bron.Initiator.Waarde}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",

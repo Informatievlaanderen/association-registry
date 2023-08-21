@@ -77,7 +77,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
             ""hoofdactiviteitenVerenigingsloket"":[],
             ""sleutels"":[],
                     ""relaties"":[],
-            ""bron"": ""{Bron.Initiator}"",
+            ""bron"": ""{Bron.Initiator.Waarde}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"

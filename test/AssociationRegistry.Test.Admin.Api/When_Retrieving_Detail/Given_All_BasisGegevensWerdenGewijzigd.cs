@@ -106,7 +106,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
-                        ""bron"": ""{Bron.Initiator}"",
+                        ""bron"": ""{Bron.Initiator.Waarde}"",
                     }}"))}],
                     ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatieId"": {x.LocatieId}
@@ -120,7 +120,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                         ""postcode"": ""{x.Adres!.Postcode}"",
                         ""gemeente"": ""{x.Adres!.Gemeente}"",
                         ""land"": ""{x.Adres!.Land}"",
-                        ""bron"": ""{Bron.Initiator}""
+                        ""bron"": ""{Bron.Initiator.Waarde}""
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
@@ -134,7 +134,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                             ""telefoon"":""{x.Telefoon}"",
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}"",
-                            ""bron"": ""{Bron.Initiator}""
+                            ""bron"": ""{Bron.Initiator.Waarde}""
                     }}"))}],
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
@@ -142,7 +142,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     }}"))}],
                     ""sleutels"":[],
                     ""relaties"":[],
-                    ""bron"": ""{Bron.Initiator}"",
+                    ""bron"": ""{Bron.Initiator.Waarde}"",
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
