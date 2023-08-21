@@ -97,7 +97,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                 }},
             }}
             ],
-            ""bron"": ""{Bron.Initiator}"",
+            ""bron"": ""{Bron.Initiator.Waarde}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
@@ -149,7 +149,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                 }},
             }}
             ],
-            ""bron"": ""{Bron.KBO}"",
+            ""bron"": ""{Bron.KBO.Waarde}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
