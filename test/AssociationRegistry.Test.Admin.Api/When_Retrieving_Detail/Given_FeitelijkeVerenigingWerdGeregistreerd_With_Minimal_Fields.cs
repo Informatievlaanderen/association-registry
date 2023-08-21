@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Fixtures;
 using FluentAssertions;
@@ -76,7 +77,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
             ""hoofdactiviteitenVerenigingsloket"":[],
             ""sleutels"":[],
                     ""relaties"":[],
-            ""bron"": ""{Bronnen.Initiator}"",
+            ""bron"": ""{Bron.Initiator}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": """"

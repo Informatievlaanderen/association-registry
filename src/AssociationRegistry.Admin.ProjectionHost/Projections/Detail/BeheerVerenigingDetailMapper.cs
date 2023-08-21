@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
 using Formatters;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 using Adres = Schema.Detail.Adres;
@@ -10,7 +11,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 
 public class BeheerVerenigingDetailMapper
 {
-    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, string initiator)
+    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, Bron bron)
         => new()
         {
             LocatieId = loc.LocatieId,
@@ -20,7 +21,7 @@ public class BeheerVerenigingDetailMapper
             Adres = Map(loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),
-            Bron = initiator,
+            Bron = bron,
         };
 
     private static Adres? Map(Registratiedata.Adres? adres)
@@ -45,7 +46,7 @@ public class BeheerVerenigingDetailMapper
                 Broncode = locAdresId.Broncode,
             };
 
-    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, string initiator)
+    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, Bron bron)
         => new()
         {
             ContactgegevenId = c.ContactgegevenId,
@@ -53,10 +54,10 @@ public class BeheerVerenigingDetailMapper
             Waarde = c.Waarde,
             Beschrijving = c.Beschrijving,
             IsPrimair = c.IsPrimair,
-            Bron = initiator,
+            Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string initiator)
+    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, Bron bron)
         => new()
         {
             VertegenwoordigerId = v.VertegenwoordigerId,
@@ -69,7 +70,7 @@ public class BeheerVerenigingDetailMapper
             Telefoon = v.Telefoon,
             Mobiel = v.Mobiel,
             SocialMedia = v.SocialMedia,
-            Bron = initiator,
+            Bron = bron,
         };
 
     public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket h)

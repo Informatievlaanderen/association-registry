@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -38,7 +39,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                Bron = Bronnen.Initiator,
+                Bron = Bron.Initiator,
             });
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDate());

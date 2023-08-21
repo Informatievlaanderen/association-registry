@@ -3,6 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -106,7 +107,7 @@ public class Given_ContactgegevenWerdToegevoegd
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
-                        ""bron"": ""{Bronnen.Initiator}"",
+                        ""bron"": ""{Bron.Initiator}"",
                     }}"))}],
                     ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties
                         .Select(x => $@"{{
@@ -127,7 +128,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""bronwaarde"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
                             ""broncode"": {(x.AdresId is not null ? $@"""{x.AdresId.Broncode}""" : "null")}
                         }}")},
-                        ""bron"": ""{Bronnen.Initiator}"",
+                        ""bron"": ""{Bron.Initiator}"",
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers
@@ -142,7 +143,7 @@ public class Given_ContactgegevenWerdToegevoegd
                             ""telefoon"":""{x.Telefoon}"",
                             ""mobiel"":""{x.Mobiel}"",
                             ""socialMedia"":""{x.SocialMedia}"",
-                            ""bron"": ""{Bronnen.Initiator}"",
+                            ""bron"": ""{Bron.Initiator}"",
                     }}"))}],
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
@@ -150,7 +151,7 @@ public class Given_ContactgegevenWerdToegevoegd
                     }}"))}],
                     ""sleutels"":[],
                     ""relaties"":[],
-                    ""bron"": ""{Bronnen.Initiator}"",
+                    ""bron"": ""{Bron.Initiator}"",
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",

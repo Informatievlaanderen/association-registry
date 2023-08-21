@@ -3,6 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
@@ -75,7 +76,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bronnen.KBO}"",
+                        ""bron"": ""{Bron.KBO}"",
                     }},
 {{
                         ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
@@ -83,7 +84,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bronnen.KBO}"",
+                        ""bron"": ""{Bron.KBO}"",
 }},
 {{
                         ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
@@ -91,7 +92,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bronnen.KBO}"",
+                        ""bron"": ""{Bron.KBO}"",
 }},
 {{
                         ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
@@ -99,7 +100,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
-                        ""bron"": ""{Bronnen.KBO}"",
+                        ""bron"": ""{Bron.KBO}"",
                     }}],
             ""locaties"":[
                 {{
@@ -117,7 +118,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 }},
                 ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
                 ""adresId"": null,
-                ""bron"": ""{Bronnen.KBO}"",
+                ""bron"": ""{Bron.KBO}"",
             }}
             ],
             ""vertegenwoordigers"":[],
@@ -128,7 +129,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
             ""relaties"":[],
-            ""bron"": ""{Bronnen.KBO}"",
+            ""bron"": ""{Bron.KBO}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
