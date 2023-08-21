@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Schema.Constants;
+﻿namespace AssociationRegistry.Vereniging.Bronnen;
 
 public class Bron
 {
@@ -14,4 +14,7 @@ public class Bron
 
     public static implicit operator string(Bron bron)
         => bron.Waarde;
+
+    public override string ToString()
+        => Waarde;
 }

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
 using System;
-using Constants;
 using Marten.Schema;
 
 public record Doelgroep
@@ -30,7 +29,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Metadata Metadata { get; set; } = null!;
     public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
-    public Bron Bron { get; set; } = null!;
+    public string Bron { get; set; } = null!;
 
 
     public record VerenigingsType
@@ -46,10 +45,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Waarde { get; init; } = null!;
         public string? Beschrijving { get; init; }
         public bool IsPrimair { get; init; }
-        public Bron Bron { get; set; } = null!;
+        public string Bron { get; set; } = null!;
     }
 
-    public record Locatie
+    public record Locatie : IHasBron
     {
         public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
@@ -58,10 +57,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public Adres? Adres { get; set; }
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
-        public Bron Bron { get; set; } = null!;
+        public string Bron { get; set; } = null!;
     }
 
-    public record Vertegenwoordiger
+    public record Vertegenwoordiger : IHasBron
     {
         public int VertegenwoordigerId { get; init; }
         public string Voornaam { get; init; } = null!;
@@ -73,7 +72,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Telefoon { get; init; } = null!;
         public string Mobiel { get; init; } = null!;
         public string SocialMedia { get; init; } = null!;
-        public Bron Bron { get; set; } = null!;
+        public string Bron { get; set; } = null!;
+
+        public int Identity
+            => VertegenwoordigerId;
     }
 
     public record HoofdactiviteitVerenigingsloket
@@ -124,4 +126,9 @@ public class Adres
     public string Gemeente { get; init; } = null!;
 
     public string Land { get; init; } = null!;
+}
+
+public interface IHasBron
+{
+    public string Bron { get; set; }
 }

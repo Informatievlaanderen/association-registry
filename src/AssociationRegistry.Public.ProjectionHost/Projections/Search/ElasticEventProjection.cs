@@ -95,7 +95,7 @@ public class PubliekZoekProjectionHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
-                        Bron = Verenigingsbron.Kbo,
+                        Bron = Sleutelbron.Kbo,
                         Waarde = message.Data.KboNummer,
                     },
                 },

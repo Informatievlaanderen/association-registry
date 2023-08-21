@@ -3,13 +3,13 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 

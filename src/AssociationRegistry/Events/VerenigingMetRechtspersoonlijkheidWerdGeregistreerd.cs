@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Events;
 
+using System.Runtime.Serialization;
 using Framework;
 
 public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
@@ -8,4 +9,9 @@ public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
     string Rechtsvorm,
     string Naam,
     string KorteNaam,
-    DateOnly? Startdatum) : IEvent;
+    DateOnly? Startdatum) : IEvent
+{
+    [IgnoreDataMember]
+    public string Bron
+        => AssociationRegistry.Vereniging.Bronnen.Bron.KBO;
+}

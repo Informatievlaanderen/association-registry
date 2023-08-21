@@ -53,7 +53,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 {
                     new()
                     {
-                        Bron = Verenigingsbron.Kbo.Waarde,
+                        Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },
                 },
