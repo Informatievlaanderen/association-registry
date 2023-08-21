@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
@@ -37,8 +38,10 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
+                Bron = Bronnen.Initiator,
             });
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version));}
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version));
+    }
 }

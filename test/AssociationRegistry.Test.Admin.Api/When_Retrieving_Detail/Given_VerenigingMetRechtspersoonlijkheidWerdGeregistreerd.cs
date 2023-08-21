@@ -75,25 +75,32 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
                         ""isPrimair"": false,
+                        ""bron"": ""{Bronnen.KBO}"",
                     }},
 {{
                         ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
-                        ""isPrimair"": false,}},
+                        ""isPrimair"": false,
+                        ""bron"": ""{Bronnen.KBO}"",
+}},
 {{
                         ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
-                        ""isPrimair"": false,}},
+                        ""isPrimair"": false,
+                        ""bron"": ""{Bronnen.KBO}"",
+}},
 {{
                         ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.GSMWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
                         ""beschrijving"": """",
-                        ""isPrimair"": false,}}],
+                        ""isPrimair"": false,
+                        ""bron"": ""{Bronnen.KBO}"",
+                    }}],
             ""locaties"":[
                 {{
                 ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
@@ -109,7 +116,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     ""land"": ""België""
                 }},
                 ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
-                ""adresId"": null
+                ""adresId"": null,
+                ""bron"": ""{Bronnen.KBO}"",
             }}
             ],
             ""vertegenwoordigers"":[],
@@ -120,6 +128,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
             ""relaties"":[],
+            ""bron"": ""{Bronnen.KBO}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",

@@ -55,6 +55,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,
+                        Bron = Bronnen.Initiator,
                     }).ToArray(),
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new BeheerVerenigingDetailDocument.Locatie
@@ -82,6 +83,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                                 Broncode = loc.AdresId?.Broncode,
                                 Bronwaarde = loc.AdresId?.Bronwaarde,
                             },
+                        Bron = Bronnen.Initiator,
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
@@ -96,6 +98,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Telefoon = v.Telefoon,
                         Mobiel = v.Mobiel,
                         SocialMedia = v.SocialMedia,
+                        Bron = Bronnen.Initiator,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
@@ -105,6 +108,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     }).ToArray(),
                 Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
                 Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
+                Bron = Bronnen.Initiator,
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             });
         doc.DatumLaatsteAanpassing.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate());

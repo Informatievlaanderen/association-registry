@@ -49,4 +49,8 @@ public class Vertegenwoordiger
     /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
     [DataMember(Name = "SocialMedia")]
     public string SocialMedia { get; init; } = null!;
+
+    /// <summary> De bron die deze vertegenwoordiger beheert </summary>
+    [DataMember(Name = "Bron")]
+    public string Bron { get; set; }
 }

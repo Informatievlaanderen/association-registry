@@ -27,4 +27,8 @@ public class Contactgegeven
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
     [DataMember(Name = "IsPrimair")]
     public bool IsPrimair { get; init; }
+
+    /// <summary> De bron die dit contactgegeven beheert </summary>
+    [DataMember(Name = "Bron")]
+    public string Bron { get; set; }
 }

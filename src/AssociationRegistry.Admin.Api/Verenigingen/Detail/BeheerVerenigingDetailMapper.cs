@@ -57,6 +57,7 @@ public class BeheerVerenigingDetailMapper
             HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
+            Bron = vereniging.Bron,
         };
     }
 
@@ -100,6 +101,7 @@ public class BeheerVerenigingDetailMapper
             Waarde = contactgegeven.Waarde,
             Beschrijving = contactgegeven.Beschrijving,
             IsPrimair = contactgegeven.IsPrimair,
+            Bron = contactgegeven.Bron,
         };
 
     private static HoofdactiviteitVerenigingsloket Map(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
@@ -122,6 +124,7 @@ public class BeheerVerenigingDetailMapper
             Telefoon = ver.Telefoon,
             Mobiel = ver.Mobiel,
             SocialMedia = ver.SocialMedia,
+            Bron = ver.Bron,
         };
 
     private static Locatie Map(BeheerVerenigingDetailDocument.Locatie loc)
@@ -134,6 +137,7 @@ public class BeheerVerenigingDetailMapper
             Naam = loc.Naam,
             Adres = Map(loc.Adres),
             AdresId = Map(loc.AdresId),
+            Bron = loc.Bron,
         };
 
     private static AdresId? Map(Schema.Detail.AdresId? adresId)

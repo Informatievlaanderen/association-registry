@@ -95,6 +95,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""waarde"": ""{y.Waarde}"",
                         ""beschrijving"": ""{y.Beschrijving}"",
                         ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
+                        ""bron"": ""{Bronnen.Initiator}"",
                     }}"))}],
                     ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
                         ""locatieId"": {x.LocatieId},
@@ -113,7 +114,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""adresId"":{(x.AdresId is null?"null":$@"{{
                             ""bronwaarde"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
                             ""broncode"": {(x.AdresId is not null ? $@"""{x.AdresId.Broncode}""" : "null")}
-                        }}")}
+                        }}")},
+                        ""bron"": ""{Bronnen.Initiator}"",
                     }}"))}
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
@@ -126,14 +128,16 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             ""e-mail"":""{x.Email}"",
                             ""telefoon"":""{x.Telefoon}"",
                             ""mobiel"":""{x.Mobiel}"",
-                            ""socialMedia"":""{x.SocialMedia}""
+                            ""socialMedia"":""{x.SocialMedia}"",
+                            ""bron"": ""{Bronnen.Initiator}"",
                         }}"))}],
                     ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
                         ""code"":""{x.Code}"",
                         ""beschrijving"":""{x.Beschrijving}""
                     }}"))}],
                     ""sleutels"":[],
-                    ""relaties"":[]
+                    ""relaties"":[],
+                    ""bron"": ""{Bronnen.Initiator}"",
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
