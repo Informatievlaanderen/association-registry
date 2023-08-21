@@ -99,7 +99,6 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-            ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
         }}
         }}
 ";
@@ -151,7 +150,6 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-            ""beheerBasisUri"": ""/verenigingen/kbo/{_moederVCode}"",
         }}
         }}
 ";

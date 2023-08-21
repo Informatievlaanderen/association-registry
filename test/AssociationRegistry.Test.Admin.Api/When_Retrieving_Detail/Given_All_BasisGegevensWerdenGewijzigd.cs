@@ -141,7 +141,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-                    ""beheerBasisUri"":""/verenigingen/{_vCode}""
                     }}
                 }}
         ";
