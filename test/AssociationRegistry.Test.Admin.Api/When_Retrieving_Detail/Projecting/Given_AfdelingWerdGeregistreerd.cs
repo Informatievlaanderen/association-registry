@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -55,7 +56,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,
-                        Bron = Bronnen.Initiator,
+                        Bron = Bron.Initiator,
                     }).ToArray(),
                 Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new BeheerVerenigingDetailDocument.Locatie
@@ -83,7 +84,7 @@ public class Given_AfdelingWerdGeregistreerd
                                 Broncode = loc.AdresId?.Broncode,
                                 Bronwaarde = loc.AdresId?.Bronwaarde,
                             },
-                        Bron = Bronnen.Initiator,
+                        Bron = Bron.Initiator,
                     }).ToArray(),
                 Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
@@ -98,7 +99,7 @@ public class Given_AfdelingWerdGeregistreerd
                         Telefoon = v.Telefoon,
                         Mobiel = v.Mobiel,
                         SocialMedia = v.SocialMedia,
-                        Bron = Bronnen.Initiator,
+                        Bron = Bron.Initiator,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
@@ -120,7 +121,7 @@ public class Given_AfdelingWerdGeregistreerd
                         },
                     },
                 },
-                Bron = Bronnen.Initiator,
+                Bron = Bron.Initiator,
                 Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
             });
         doc.DatumLaatsteAanpassing.Should().Be(afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate());

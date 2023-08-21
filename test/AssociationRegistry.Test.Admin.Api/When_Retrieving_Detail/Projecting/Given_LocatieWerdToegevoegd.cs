@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using Events;
 using AutoFixture;
@@ -53,7 +54,7 @@ public class Given_LocatieWerdToegevoegd
                         Broncode = locatieWerdToegevoegd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
                     },
-                Bron = Bronnen.Initiator,
+                Bron = Bron.Initiator,
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
         doc.DatumLaatsteAanpassing.Should().Be(locatieWerdToegevoegd.Tijdstip.ToBelgianDate());

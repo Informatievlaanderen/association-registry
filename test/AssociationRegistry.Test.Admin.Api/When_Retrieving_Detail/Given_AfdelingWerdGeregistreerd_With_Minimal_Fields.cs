@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
@@ -91,7 +92,7 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
                 }},
             }}
             ],
-            ""bron"": ""{Bronnen.Initiator}"",
+            ""bron"": ""{Bron.Initiator}"",
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",

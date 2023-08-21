@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -53,7 +54,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                         Broncode = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde,
                     },
-                Bron = Bronnen.KBO,
+                Bron = Bron.KBO,
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
         doc.DatumLaatsteAanpassing.Should().Be(maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDate());

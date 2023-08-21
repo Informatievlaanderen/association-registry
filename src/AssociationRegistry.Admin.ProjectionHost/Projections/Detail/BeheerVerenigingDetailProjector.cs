@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using System;
-using Api.Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Schema;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 using WellknownFormats = Constants.WellknownFormats;
@@ -27,16 +27,16 @@ public class BeheerVerenigingDetailProjector
             Status = "Actief",
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
-                .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(c, Bronnen.Initiator))
+                .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(c, Bron.Initiator))
                 .ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, Bronnen.Initiator)).ToArray(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, Bron.Initiator)).ToArray(),
             Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers
-                .Select(v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, Bronnen.Initiator))
+                .Select(v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, Bron.Initiator))
                 .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                 .HoofdactiviteitenVerenigingsloket.Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
                 .ToArray(),
-            Bron = Bronnen.Initiator,
+            Bron = Bron.Initiator,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
@@ -54,12 +54,12 @@ public class BeheerVerenigingDetailProjector
             Status = "Actief",
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
-                    c => BeheerVerenigingDetailMapper.MapContactgegeven(c, Bronnen.Initiator))
+                    c => BeheerVerenigingDetailMapper.MapContactgegeven(c, Bron.Initiator))
                 .ToArray(),
-            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, Bronnen.Initiator))
+            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, Bron.Initiator))
                 .ToArray(),
             Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                    v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, Bronnen.Initiator))
+                    v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, Bron.Initiator))
                 .ToArray(),
             HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
@@ -68,7 +68,7 @@ public class BeheerVerenigingDetailProjector
             {
                 BeheerVerenigingDetailMapper.MapMoederRelatie(afdelingWerdGeregistreerd.Data.Moedervereniging),
             },
-            Bron = Bronnen.Initiator,
+            Bron = Bron.Initiator,
             Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
         };
 
@@ -102,7 +102,7 @@ public class BeheerVerenigingDetailProjector
             {
                 BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer),
             },
-            Bron = Bronnen.KBO,
+            Bron = Bron.KBO,
             Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
         };
 
@@ -154,7 +154,7 @@ public class BeheerVerenigingDetailProjector
                     Type = contactgegevenWerdToegevoegd.Data.Type,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                    Bron = Bronnen.Initiator,
+                    Bron = Bron.Initiator,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 })
             .OrderBy(c => c.ContactgegevenId)
@@ -223,7 +223,7 @@ public class BeheerVerenigingDetailProjector
                     Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                     Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                     SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                    Bron = Bronnen.Initiator,
+                    Bron = Bron.Initiator,
                 })
             .OrderBy(v => v.VertegenwoordigerId)
             .ToArray();
@@ -303,7 +303,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie, Bronnen.Initiator))
+            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie, Bron.Initiator))
             .OrderBy(l => l.LocatieId)
             .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -314,7 +314,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
             .Where(l => l.LocatieId != locatieWerdGewijzigd.Data.Locatie.LocatieId)
-            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdGewijzigd.Data.Locatie, Bronnen.Initiator))
+            .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdGewijzigd.Data.Locatie, Bron.Initiator))
             .OrderBy(l => l.LocatieId)
             .ToArray();
         document.DatumLaatsteAanpassing = locatieWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -334,7 +334,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-            .Append(BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie, Bronnen.KBO))
+            .Append(BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie, Bron.KBO))
             .OrderBy(l => l.LocatieId)
             .ToArray();
         document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -350,7 +350,7 @@ public class BeheerVerenigingDetailProjector
                     Type = contactgegevenWerdToegevoegd.Data.Type,
                     Beschrijving = String.Empty,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                    Bron = Bronnen.KBO,
+                    Bron = Bron.KBO,
                 })
             .OrderBy(c => c.ContactgegevenId)
             .ToArray();
