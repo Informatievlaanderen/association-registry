@@ -66,6 +66,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     },
                 },
                 Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
+                Bron = Bronnen.KBO,
                 Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
             });
         doc.DatumLaatsteAanpassing.Should().Be(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate());

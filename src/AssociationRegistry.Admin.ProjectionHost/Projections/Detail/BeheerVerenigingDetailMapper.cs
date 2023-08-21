@@ -10,7 +10,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 
 public class BeheerVerenigingDetailMapper
 {
-    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
+    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, string initiator)
         => new()
         {
             LocatieId = loc.LocatieId,
@@ -20,6 +20,7 @@ public class BeheerVerenigingDetailMapper
             Adres = Map(loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),
+            Bron = initiator,
         };
 
     private static Adres? Map(Registratiedata.Adres? adres)
@@ -44,7 +45,7 @@ public class BeheerVerenigingDetailMapper
                 Broncode = locAdresId.Broncode,
             };
 
-    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c)
+    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, string initiator)
         => new()
         {
             ContactgegevenId = c.ContactgegevenId,
@@ -52,9 +53,10 @@ public class BeheerVerenigingDetailMapper
             Waarde = c.Waarde,
             Beschrijving = c.Beschrijving,
             IsPrimair = c.IsPrimair,
+            Bron = initiator,
         };
 
-    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v)
+    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string initiator)
         => new()
         {
             VertegenwoordigerId = v.VertegenwoordigerId,
@@ -67,6 +69,7 @@ public class BeheerVerenigingDetailMapper
             Telefoon = v.Telefoon,
             Mobiel = v.Mobiel,
             SocialMedia = v.SocialMedia,
+            Bron = initiator,
         };
 
     public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket h)

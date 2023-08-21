@@ -29,6 +29,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Metadata Metadata { get; set; } = null!;
     public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public string Bron { get; set; } = null!;
 
 
     public record VerenigingsType
@@ -44,6 +45,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Waarde { get; init; } = null!;
         public string? Beschrijving { get; init; }
         public bool IsPrimair { get; init; }
+        public string Bron { get; set; } = null!;
     }
 
     public record Locatie
@@ -52,9 +54,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
         public string Adresvoorstelling { get; init; } = null!;
-        public Adres? Adres { get; set; } = null!;
+        public Adres? Adres { get; set; }
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
+        public string Bron { get; set; } = null!;
     }
 
     public record Vertegenwoordiger
@@ -69,6 +72,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Telefoon { get; init; } = null!;
         public string Mobiel { get; init; } = null!;
         public string SocialMedia { get; init; } = null!;
+        public string Bron { get; set; } = null!;
     }
 
     public record HoofdactiviteitVerenigingsloket

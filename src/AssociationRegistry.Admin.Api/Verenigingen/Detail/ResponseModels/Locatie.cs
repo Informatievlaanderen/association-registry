@@ -45,5 +45,7 @@ public class Locatie
     [DataMember(Name = "AdresId")]
     public AdresId? AdresId { get; set; }
 
-
+    /// <summary> De bron die deze locatie beheert </summary>
+    [DataMember(Name = "Bron")]
+    public string Bron { get; set; }
 }
