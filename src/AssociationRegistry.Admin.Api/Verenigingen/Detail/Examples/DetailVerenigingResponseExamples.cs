@@ -95,10 +95,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<DetailVerenigi
                 },
                 Sleutels = Array.Empty<Sleutel>(),
             },
-            Metadata = new MetadataDetail
+            Metadata = new Metadata
             {
                 DatumLaatsteAanpassing = "2020-05-15",
-                BeheerBasisUri = "/verenigingen/V0001001",
             },
         };
 }

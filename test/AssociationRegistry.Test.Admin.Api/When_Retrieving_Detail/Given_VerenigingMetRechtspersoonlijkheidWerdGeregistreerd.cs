@@ -123,7 +123,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
-            ""beheerBasisUri"": ""/verenigingen/kbo/{vCode}"",
         }}
 }}
 ";

@@ -93,7 +93,6 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
         }},
         ""metadata"": {{
             ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-            ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
         }}
         }}
 ";

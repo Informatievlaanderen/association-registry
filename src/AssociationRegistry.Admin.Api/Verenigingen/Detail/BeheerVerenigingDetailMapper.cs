@@ -4,7 +4,6 @@ using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
-using Vereniging;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
@@ -29,21 +28,11 @@ public class BeheerVerenigingDetailMapper
             Metadata = MapMetadata(vereniging),
         };
 
-    private static MetadataDetail MapMetadata(BeheerVerenigingDetailDocument vereniging)
-    {
-        var routeTypePrefix = IsGebondenAanRechtsvorm(vereniging.Type.Code) ? "/kbo" : "";
-        return new MetadataDetail
+    private static Metadata MapMetadata(BeheerVerenigingDetailDocument vereniging)
+        => new()
         {
             DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
-            BeheerBasisUri = $"/verenigingen{routeTypePrefix}/{vereniging.VCode}",
         };
-    }
-
-    private static bool IsGebondenAanRechtsvorm(string verenigingsTypeCode)
-        => verenigingsTypeCode == Verenigingstype.VZW.Code ||
-           verenigingsTypeCode == Verenigingstype.IVZW.Code ||
-           verenigingsTypeCode == Verenigingstype.PrivateStichting.Code ||
-           verenigingsTypeCode == Verenigingstype.StichtingVanOpenbaarNut.Code;
 
     private static VerenigingDetail Map(BeheerVerenigingDetailDocument vereniging, string baseUrl)
     {

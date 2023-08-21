@@ -137,7 +137,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-                    ""beheerBasisUri"": ""/verenigingen/{_vCode}"",
                 }}
                 }}
         ";

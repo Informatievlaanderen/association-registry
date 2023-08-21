@@ -150,7 +150,6 @@ public class Given_ContactgegevenWerdToegevoegd
                 }},
                 ""metadata"": {{
                     ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-                    ""beheerBasisUri"":""/verenigingen/{_vCode}""
                     }}
                 }}
         ";
