@@ -4,13 +4,13 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
-using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
 using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 
@@ -62,7 +62,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 {
                     new()
                     {
-                        Bron = Verenigingsbron.Kbo.Waarde,
+                        Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },
                 },

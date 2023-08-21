@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
+using System.Runtime.Serialization;
 using Framework;
 
 public record FeitelijkeVerenigingWerdGeregistreerd(
@@ -13,4 +14,9 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent;
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+{
+    [IgnoreDataMember]
+    public string Bron
+        => AssociationRegistry.Vereniging.Bronnen.Bron.Initiator;
+}

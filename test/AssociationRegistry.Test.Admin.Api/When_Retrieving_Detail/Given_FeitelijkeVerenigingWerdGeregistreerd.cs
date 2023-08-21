@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Framework;
 using Events;
 using EventStore;
@@ -13,6 +12,7 @@ using Formatters;
 using Framework;
 using JasperFx.Core;
 using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 

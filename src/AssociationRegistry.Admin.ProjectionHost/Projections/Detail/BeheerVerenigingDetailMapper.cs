@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
 using Formatters;
-using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 using Adres = Schema.Detail.Adres;
@@ -11,7 +10,19 @@ using Doelgroep = Schema.Detail.Doelgroep;
 
 public class BeheerVerenigingDetailMapper
 {
-    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, Bron bron)
+    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
+        => new()
+        {
+            LocatieId = loc.LocatieId,
+            IsPrimair = loc.IsPrimair,
+            Naam = loc.Naam,
+            Locatietype = loc.Locatietype,
+            Adres = Map(loc.Adres),
+            Adresvoorstelling = loc.Adres.ToAdresString(),
+            AdresId = Map(loc.AdresId),
+        };
+
+    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, string bron)
         => new()
         {
             LocatieId = loc.LocatieId,
@@ -46,7 +57,7 @@ public class BeheerVerenigingDetailMapper
                 Broncode = locAdresId.Broncode,
             };
 
-    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, Bron bron)
+    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, string bron)
         => new()
         {
             ContactgegevenId = c.ContactgegevenId,
@@ -57,7 +68,7 @@ public class BeheerVerenigingDetailMapper
             Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, Bron bron)
+    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string bron)
         => new()
         {
             VertegenwoordigerId = v.VertegenwoordigerId,
@@ -102,7 +113,7 @@ public class BeheerVerenigingDetailMapper
     public static BeheerVerenigingDetailDocument.Sleutel MapKboSleutel(string kboNummer)
         => new()
         {
-            Bron = Verenigingsbron.Kbo.Waarde,
+            Bron = Sleutelbron.Kbo.Waarde,
             Waarde = kboNummer,
         };
 

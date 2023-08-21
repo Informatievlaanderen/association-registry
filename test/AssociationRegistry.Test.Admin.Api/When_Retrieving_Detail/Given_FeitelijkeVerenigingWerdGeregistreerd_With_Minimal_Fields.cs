@@ -3,13 +3,13 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 
