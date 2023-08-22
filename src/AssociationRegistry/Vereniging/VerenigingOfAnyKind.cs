@@ -2,7 +2,6 @@ namespace AssociationRegistry.Vereniging;
 
 using Emails;
 using Events;
-using EventStore;
 using Exceptions;
 using Framework;
 using SocialMedias;
@@ -74,6 +73,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
+        Throw<LocatieTypeIsNotAllowed>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
         AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));

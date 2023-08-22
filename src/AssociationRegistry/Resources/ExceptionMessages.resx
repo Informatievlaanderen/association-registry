@@ -144,5 +144,7 @@
   <data name="InvalidBevestigingstokenProvided">
     <value>Het bevestigingstoken is niet geldig voor deze request.</value>
   </data>
+  <data name="LocatieTypeIsNotAllowed">
+    <value>Dit locatieType is niet toegestaan bij deze actie.</value>
+  </data>
 </root>
-
