@@ -1,3 +1,10 @@
+## [6.17.1](https://github.com/informatievlaanderen/association-registry/compare/v6.17.0...v6.17.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* or-1873 add extra info to beheer historiek swagger documentation ([4597eae](https://github.com/informatievlaanderen/association-registry/commit/4597eaee4b1233a19cda6a72b0c1d32af6a16f5f))
+
 # [6.17.0](https://github.com/informatievlaanderen/association-registry/compare/v6.16.2...v6.17.0) (2023-08-22)
 
 
