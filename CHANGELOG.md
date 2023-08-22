@@ -1,3 +1,17 @@
+# [6.17.0](https://github.com/informatievlaanderen/association-registry/compare/v6.16.2...v6.17.0) (2023-08-22)
+
+
+### Bug Fixes
+
+* or-1877 use Bron.Waarde in Json strings ([1a53802](https://github.com/informatievlaanderen/association-registry/commit/1a53802665033073720fbc3d401f5fa2903c9d59))
+
+
+### Features
+
+* or-1877 add Bron Enum ([5a0a5d3](https://github.com/informatievlaanderen/association-registry/commit/5a0a5d376c9eb4bd29fe976ad6031f5bcc92e434))
+* or-1877 add bron to beheer detail ([482c8cf](https://github.com/informatievlaanderen/association-registry/commit/482c8cf68e03f2e03418854e8bdba579726fb9aa))
+* or-1877 remove beheerBasisUrl from metadata ([5babb07](https://github.com/informatievlaanderen/association-registry/commit/5babb0737cf45b03f522a5230ba29e3e0969b3a2))
+
 ## [6.16.2](https://github.com/informatievlaanderen/association-registry/compare/v6.16.1...v6.16.2) (2023-08-18)
 
 
