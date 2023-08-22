@@ -14,7 +14,7 @@ public class VoegLocatieToeCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
         vereniging.VoegLocatieToe(envelope.Command.Locatie);
 

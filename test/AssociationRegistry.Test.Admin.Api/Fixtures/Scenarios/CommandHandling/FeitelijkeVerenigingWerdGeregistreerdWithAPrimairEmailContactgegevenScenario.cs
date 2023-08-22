@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
     public readonly string Naam = "Hulste Huldigt";
     public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
     public readonly ContactgegevenType Type = ContactgegevenType.Email;
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode =>VCode.Create("V0009002");
 
     public override IEnumerable<IEvent> Events()
     {

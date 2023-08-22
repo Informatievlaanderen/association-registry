@@ -14,10 +14,10 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_Locatie
 {
-    [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    [Theory]
+    [MemberData(nameof(Data))]
+    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -31,8 +31,27 @@ public class Given_A_Locatie
             new LocatieWerdToegevoegd(
                 Registratiedata.Locatie.With(command.Locatie) with
                 {
-                    LocatieId = scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1,
+                    LocatieId = expectedLocatieId,
                 })
         );
+    }
+
+    public static IEnumerable<object[]> Data
+    {
+        get
+        {
+            var feitelijkeVerenigingWerdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+            yield return new object[]
+            {
+                feitelijkeVerenigingWerdGeregistreerdScenario,
+                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1
+            };
+            var verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+            yield return new object[]
+            {
+                verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
+                1,
+            };
+        }
     }
 }

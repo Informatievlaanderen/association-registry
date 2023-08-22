@@ -11,7 +11,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : Commandhan
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
     public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode =>VCode.Create("V0009002");
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; private set; } = null!;
 
     public override IEnumerable<IEvent> Events()

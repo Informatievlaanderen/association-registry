@@ -8,7 +8,7 @@ using Vereniging;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode =>VCode.Create("V0009002");
 
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
