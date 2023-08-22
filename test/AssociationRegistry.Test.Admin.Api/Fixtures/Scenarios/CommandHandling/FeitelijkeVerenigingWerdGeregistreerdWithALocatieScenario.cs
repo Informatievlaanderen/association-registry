@@ -16,7 +16,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario : Command
         LocatieWerdToegevoegd = fixture.Create<LocatieWerdToegevoegd>();
     }
 
-    public VCode VCode { get; }
+    public override VCode VCode { get; }
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
     public LocatieWerdToegevoegd LocatieWerdToegevoegd { get; }
     public override IEnumerable<IEvent> Events()

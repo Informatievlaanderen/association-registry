@@ -16,7 +16,7 @@ public class Given_A_Second_CorrespondentieLocatie
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         var primaireLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
         vereniging.Hydrate(new VerenigingState()
             .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Adding_Locatie;
 
 using System.Net;
 using Events;
@@ -13,7 +13,7 @@ public class Post_A_New_Locatie : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie Scenario { get; }
+    public V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingLocatie Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -22,7 +22,7 @@ public class Post_A_New_Locatie : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V022FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatie;
+        Scenario = fixture.V031VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingLocatie;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -58,11 +58,11 @@ public class Post_A_New_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_New_Locatie : IClassFixture<Post_A_New_Locatie>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Post_A_New_Locatie>
 {
     private readonly Post_A_New_Locatie _classFixture;
 
-    public Given_A_New_Locatie(Post_A_New_Locatie classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Post_A_New_Locatie classFixture)
     {
         _classFixture = classFixture;
     }

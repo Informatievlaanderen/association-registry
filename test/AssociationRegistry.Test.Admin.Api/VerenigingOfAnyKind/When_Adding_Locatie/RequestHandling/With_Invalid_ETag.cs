@@ -27,7 +27,6 @@ public class With_Invalid_ETag
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-
     [Theory]
     [InlineData("Invalid eTag Value")]
     public void Then_it_throws_an_exception(string eTagValue)

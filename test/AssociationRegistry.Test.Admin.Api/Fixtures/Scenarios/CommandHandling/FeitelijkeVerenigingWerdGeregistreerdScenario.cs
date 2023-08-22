@@ -8,7 +8,7 @@ using AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0009002");
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
@@ -27,7 +27,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScena
 
 public class VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0009002");
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 

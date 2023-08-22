@@ -14,7 +14,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
     public readonly string KorteBeschrijving = string.Empty;
     public readonly  Registratiedata.Locatie Locatie;
     public readonly DateOnly? Startdatum = null;
-    public readonly VCode VCode = VCode.Create("V0009002");
+    public override VCode VCode =>VCode.Create("V0009002");
 
     public FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario()
     {

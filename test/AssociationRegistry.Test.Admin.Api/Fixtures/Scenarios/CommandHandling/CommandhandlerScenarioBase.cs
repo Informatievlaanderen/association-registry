@@ -5,6 +5,8 @@ using Vereniging;
 
 public abstract class CommandhandlerScenarioBase
 {
+    public abstract VCode VCode { get; }
+
     public abstract IEnumerable<IEvent> Events();
 
     public VerenigingState GetVerenigingState()

@@ -34,20 +34,6 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         return vereniging;
     }
 
-    public void Hydrate(VerenigingState obj)
-    {
-        _allowedTypes = new[]
-        {
-            Verenigingstype.VZW,
-            Verenigingstype.IVZW,
-            Verenigingstype.PrivateStichting,
-            Verenigingstype.StichtingVanOpenbaarNut,
-        };
-        Throw<UnsupportedOperationForVerenigingstype>.If(
-            !_allowedTypes.Contains(obj.Verenigingstype));
-        State = obj;
-    }
-
     public void WijzigKorteBeschrijving(string korteBeschrijving)
     {
         if (korteBeschrijving.Equals(State.KorteBeschrijving))
@@ -127,5 +113,20 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         }
 
         VoegMaatschappelijkeZetelToe(adres);
+    }
+
+    public void Hydrate(VerenigingState obj)
+    {
+        _allowedTypes = new[]
+        {
+            Verenigingstype.VZW,
+            Verenigingstype.IVZW,
+            Verenigingstype.PrivateStichting,
+            Verenigingstype.StichtingVanOpenbaarNut,
+        };
+
+        Throw<UnsupportedOperationForVerenigingstype>.If(
+            !_allowedTypes.Contains(obj.Verenigingstype));
+        State = obj;
     }
 }

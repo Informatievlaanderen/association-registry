@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairVertegenwoordigerS
         VertegenwoordigerWerdToegevoegd2 = fixture.Create<VertegenwoordigerWerdToegevoegd>();
     }
 
-    public VCode VCode { get; }
+    public override VCode VCode { get; }
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
     public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; }
     public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd2 { get; }

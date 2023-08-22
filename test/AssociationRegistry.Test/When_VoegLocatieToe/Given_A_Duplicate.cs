@@ -16,7 +16,7 @@ public class Given_A_Duplicate
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         var locatie = fixture.Create<Registratiedata.Locatie>();
         vereniging.Hydrate(new VerenigingState()
             .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
