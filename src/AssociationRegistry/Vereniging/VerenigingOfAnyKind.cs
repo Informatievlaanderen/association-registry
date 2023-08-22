@@ -82,6 +82,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
+        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
         if (gewijzigdeLocatie is null)
@@ -89,6 +91,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
     }
+
 
     public void VerwijderLocatie(int locatieId)
     {

@@ -16,7 +16,7 @@ public class Given_All_Fields
     [MemberData(nameof(Data))]
     public void Then_It_Emits_LocatieWerdGewijzigdEvent(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
     {
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);

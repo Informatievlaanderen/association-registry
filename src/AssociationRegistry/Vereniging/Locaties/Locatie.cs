@@ -78,14 +78,10 @@ public record Locatie
     public override int GetHashCode()
         => HashCode.Combine(LocatieId, Naam, IsPrimair, Locatietype, AdresId, Adres);
 
-    public bool WouldBeEquivalent(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres, out Locatie locatie)
-    {
-        locatie = CopyWithValuesIfNotNull(naam, locatietype, isPrimair, adresId, adres);
-        return this == locatie;
-    }
 
-    private Locatie CopyWithValuesIfNotNull(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    public Locatie Wijzig(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
+        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
         if (adres is null && adresId is null)
             return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 

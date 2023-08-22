@@ -15,7 +15,7 @@ public class Given_No_Changes
     [MemberData(nameof(Data))]
     public void Then_It_Does_Not_Emit_Events(VerenigingState givenState, Registratiedata.Locatie duplicateLocatie)
     {
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(duplicateLocatie.AdresId!.Broncode), duplicateLocatie.AdresId.Bronwaarde);
