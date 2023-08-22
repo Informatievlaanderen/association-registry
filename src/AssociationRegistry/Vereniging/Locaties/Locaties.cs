@@ -72,15 +72,17 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         MustContain(locatieId);
 
-        var teWijzigenLocatie = this[locatieId];
-        return teWijzigenLocatie;
+        return this[locatieId];
     }
 
     public Locatie Verwijder(int locatieId)
     {
         MustContain(locatieId);
+        var teVerwijderenLocatie = this[locatieId];
 
-        return this[locatieId];
+        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
+        return teVerwijderenLocatie;
     }
 
     public new Locatie this[int locatieId]

@@ -35,7 +35,7 @@ public class With_A_Known_LocatieId
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingOfAnyKind>(_scenario.VCode);
     }
 
     [Fact]

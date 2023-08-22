@@ -200,12 +200,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
 
-    public void VerwijderLocatie(int locatieId)
-    {
-        var locatie = State.Locaties.Verwijder(locatieId);
-        AddEvent(LocatieWerdVerwijderd.With(locatie));
-    }
-
     public void SchrijfUitUitPubliekeDatastroom()
     {
         Throw<AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);

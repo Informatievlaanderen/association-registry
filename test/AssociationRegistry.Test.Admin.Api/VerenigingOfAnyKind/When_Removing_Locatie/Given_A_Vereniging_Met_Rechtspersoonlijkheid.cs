@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Locatie;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Locatie;
 
 using System.Net;
 using Events;
@@ -12,7 +12,7 @@ using Xunit.Categories;
 public class Delete_An_Existing_Locatie : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    public V024_FeitelijkeVerenigingWerdGeregistreerd_WithLocatie_ForRemovingLocatie Scenario { get; }
+    public V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -21,13 +21,13 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
     {
         _fixture = fixture;
 
-        Scenario = fixture.V024FeitelijkeVerenigingWerdGeregistreerdWithLocatieForRemovingLocatie;
+        Scenario = fixture.V033VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithLocatiesForVerwijderen;
         DocumentStore = _fixture.DocumentStore;
     }
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId, @"{""initiator"":""OVO000001""}");
+        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.LocatieWerdToegevoegd.Locatie.LocatieId, @"{""initiator"":""OVO000001""}");
     }
 
     public Task DisposeAsync()
@@ -37,11 +37,11 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_An_Existing_Locatie : IClassFixture<Delete_An_Existing_Locatie>
+public class Given_A_Vereniging_Met_Rechtspersoonlijkheid : IClassFixture<Delete_An_Existing_Locatie>
 {
     private readonly Delete_An_Existing_Locatie _classFixture;
 
-    public Given_An_Existing_Locatie(Delete_An_Existing_Locatie classFixture)
+    public Given_A_Vereniging_Met_Rechtspersoonlijkheid(Delete_An_Existing_Locatie classFixture)
     {
         _classFixture = classFixture;
     }
@@ -54,7 +54,7 @@ public class Given_An_Existing_Locatie : IClassFixture<Delete_An_Existing_Locati
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
             .Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
 
-        var locatie = _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0];
+        var locatie = _classFixture.Scenario.LocatieWerdToegevoegd.Locatie;
         locatieWerdVerwijderd.Data.Should()
             .BeEquivalentTo(
                 new LocatieWerdVerwijderd(locatie));
