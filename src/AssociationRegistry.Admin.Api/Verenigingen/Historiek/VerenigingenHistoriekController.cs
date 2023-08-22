@@ -30,7 +30,8 @@ public class VerenigingenHistoriekController : ApiController
 
     /// <summary>
     ///     Vraag de historiek van een vereniging op.
-    ///
+    /// </summary>
+    /// <remarks>
     /// De historiek van een vereniging geeft zicht op de wijzigingen op de verenigingsdata zoals terug te vinden in het register.
     ///
     /// De gebeurtenissen met naam “WerdGewijzigd” betekenen voor de basisgegevens het volgende:
@@ -40,7 +41,8 @@ public class VerenigingenHistoriekController : ApiController
     ///
     /// Contactgegevens, locaties en vertegenwoordigers maken geen onderdeel uit van de basisgegevens.
     /// Wijzigingen op deze data genereren gebeurtenissen met de namen “WerdToegevoegd”, “WerdGewijzigd” en “WerdVerwijderd”.
-    /// </summary>
+    /// </remarks>
+
     /// <param name="documentStore"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
