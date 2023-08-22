@@ -200,16 +200,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
 
-    public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
-    {
-        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
-
-        if (gewijzigdeLocatie is null)
-            return;
-
-        AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
-    }
-
     public void VerwijderLocatie(int locatieId)
     {
         var locatie = State.Locaties.Verwijder(locatieId);

@@ -16,7 +16,7 @@ public class WijzigLocatieCommandHandler
         CommandEnvelope<WijzigLocatieCommand> envelope,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(
+        var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
             envelope.Metadata.ExpectedVersion);
 

@@ -72,11 +72,11 @@ public class Patch_A_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_An_Existing_Locatie : IClassFixture<Patch_A_Locatie>
+public class Given_A_Feitelijke_Vereniging : IClassFixture<Patch_A_Locatie>
 {
     private readonly Patch_A_Locatie _classFixture;
 
-    public Given_An_Existing_Locatie(Patch_A_Locatie classFixture)
+    public Given_A_Feitelijke_Vereniging(Patch_A_Locatie classFixture)
     {
         _classFixture = classFixture;
     }

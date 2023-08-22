@@ -330,6 +330,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De maatschappelijke zetel kan niet worden gewijzigd met deze actie..
+        /// </summary>
+        public static string MaatschappelijkeZetelCanNotBeUpdated {
+            get {
+                return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een locatie moet minstens een adresId of een adres bevatten..
         /// </summary>
         public static string MissingAdres {

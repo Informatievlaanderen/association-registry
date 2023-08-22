@@ -16,7 +16,7 @@ public class Given_A_Duplicate
     [MemberData(nameof(Data))]
     public void Then_It_Throws_DuplicateLocatie(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
     {
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);

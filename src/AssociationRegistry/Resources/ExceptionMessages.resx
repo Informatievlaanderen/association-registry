@@ -147,4 +147,7 @@
   <data name="LocatieTypeIsNotAllowed">
     <value>Dit locatieType is niet toegestaan bij deze actie.</value>
   </data>
+  <data name="MaatschappelijkeZetelCanNotBeUpdated">
+    <value>De maatschappelijke zetel kan niet worden gewijzigd met deze actie.</value>
+  </data>
 </root>

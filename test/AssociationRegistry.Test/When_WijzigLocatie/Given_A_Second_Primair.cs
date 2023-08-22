@@ -16,7 +16,7 @@ public class Given_A_Second_Primair
     [MemberData(nameof(Data))]
     public void Then_It_Throws_MultiplePrimaireLocaties(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
     {
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(

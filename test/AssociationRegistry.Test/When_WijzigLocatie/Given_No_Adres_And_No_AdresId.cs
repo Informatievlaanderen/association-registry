@@ -16,7 +16,7 @@ public class Given_No_Adres_And_No_AdresId
     [MemberData(nameof(Data))]
     public void Then_It_Emits_LocatieWerdGewijzigdEvent(VerenigingState givenState, Registratiedata.Locatie gewijzigdeLocatie)
     {
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
         vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, null, null);

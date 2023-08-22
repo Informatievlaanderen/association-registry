@@ -52,16 +52,28 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     public Locatie? Wijzig(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        MustContain(locatieId);
+        var locatie = Get(locatieId);
 
-
-        var teWijzigenLocatie = this[locatieId];
-        if (teWijzigenLocatie.WouldBeEquivalent(naam, locatietype, isPrimair, adresId,adres, out var gewijzigdeLocatie))
+        var gewijzigdeLocatie = locatie.Wijzig(naam, locatietype, isPrimair, adresId, adres);
+        if (gewijzigdeLocatie.Equals(locatie))
             return null;
 
         ThrowIfCannotAppendOrUpdate(gewijzigdeLocatie);
-
         return gewijzigdeLocatie;
+    }
+
+    public Locatie? Wijzig(int locatieId, string? naam, bool? isPrimair)
+        => throw new NotImplementedException();
+
+    public Locatie? WijzigVanuitKbo(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+        => throw new NotImplementedException();
+
+    public Locatie Get(int locatieId)
+    {
+        MustContain(locatieId);
+
+        var teWijzigenLocatie = this[locatieId];
+        return teWijzigenLocatie;
     }
 
     public Locatie Verwijder(int locatieId)
@@ -82,7 +94,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
     private bool HasKey(int locatieId)
         => this.Any(locatie => locatie.LocatieId == locatieId);
 
-    private void ThrowIfCannotAppendOrUpdate(Locatie locatie)
+    public void ThrowIfCannotAppendOrUpdate(Locatie locatie)
     {
         MustNotHaveDuplicateOf(locatie);
         MustNotHaveMultiplePrimaireLocaties(locatie);
@@ -132,6 +144,7 @@ public static class LocatieEnumerbleExtentions
 
     public static bool ContainsEquivalient(this IEnumerable<Locatie> source, Locatie locatie)
         => source.Any(locatie.IsEquivalentTo);
+
     public static bool HasPrimairelocatie(this IEnumerable<Locatie> locaties)
         => locaties.Any(l => l.IsPrimair);
 
