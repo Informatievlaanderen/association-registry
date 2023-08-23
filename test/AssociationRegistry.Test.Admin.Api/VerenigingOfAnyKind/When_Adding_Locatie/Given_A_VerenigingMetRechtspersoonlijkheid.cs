@@ -1,15 +1,16 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Adding_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
 using System.Net;
-using Events;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
+using Marten.Events;
 using Xunit;
 using Xunit.Categories;
 
-public class Post_A_New_Locatie : IAsyncLifetime
+public class Given_A_VerenigingMetRechtspersoonlijkheid_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
@@ -18,7 +19,7 @@ public class Post_A_New_Locatie : IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Post_A_New_Locatie(EventsInDbScenariosFixture fixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
@@ -58,11 +59,11 @@ public class Post_A_New_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Post_A_New_Locatie>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Given_A_VerenigingMetRechtspersoonlijkheid_Setup>
 {
-    private readonly Post_A_New_Locatie _classFixture;
+    private readonly Given_A_VerenigingMetRechtspersoonlijkheid_Setup _classFixture;
 
-    public Given_A_VerenigingMetRechtspersoonlijkheid(Post_A_New_Locatie classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Given_A_VerenigingMetRechtspersoonlijkheid_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -71,9 +72,10 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Post_A_N
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdToegevoegd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
+        var contactgegevenWerdToegevoegd = Enumerable
+            .Single<IEvent>(
+                (await session.Events
+                    .FetchStreamAsync(_classFixture.Scenario.VCode)), e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
             .BeEquivalentTo(

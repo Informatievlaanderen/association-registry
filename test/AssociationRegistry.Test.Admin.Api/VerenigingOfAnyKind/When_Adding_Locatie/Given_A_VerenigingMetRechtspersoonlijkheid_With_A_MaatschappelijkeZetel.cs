@@ -6,24 +6,23 @@ using AssociationRegistry.Test.Admin.Api.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
-using Marten.Events;
 using Xunit;
 using Xunit.Categories;
 
-public class Given_A_FeitelijkeVereniging_Setup : IAsyncLifetime
+public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie Scenario { get; }
+    public V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForAddingLocatie Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Given_A_FeitelijkeVereniging_Setup(EventsInDbScenariosFixture fixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
-        Scenario = fixture.V022FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatie;
+        Scenario = fixture.V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForAddingLocatie;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -59,11 +58,11 @@ public class Given_A_FeitelijkeVereniging_Setup : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVereniging_Setup>
+public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel : IClassFixture<Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup>
 {
-    private readonly Given_A_FeitelijkeVereniging_Setup _classFixture;
+    private readonly Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup _classFixture;
 
-    public Given_A_FeitelijkeVereniging(Given_A_FeitelijkeVereniging_Setup classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel(Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -72,16 +71,15 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVere
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdToegevoegd = Enumerable
-            .Single<IEvent>(
-                (await session.Events
-                    .FetchStreamAsync(_classFixture.Scenario.VCode)), e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
+        var contactgegevenWerdToegevoegd = (await session.Events
+                .FetchStreamAsync(_classFixture.Scenario.VCode))
+            .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
             .BeEquivalentTo(
                 new LocatieWerdToegevoegd(
                     new Registratiedata.Locatie(
-                        1,
+                        2,
                         "Correspondentie",
                         true,
                         "nieuwe locatie",
