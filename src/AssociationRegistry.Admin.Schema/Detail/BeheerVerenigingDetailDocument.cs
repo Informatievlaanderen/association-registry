@@ -38,7 +38,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Beschrijving { get; init; } = null!;
     }
 
-    public record Contactgegeven
+    public record Contactgegeven:IHasBron
     {
         public int ContactgegevenId { get; init; }
         public string Type { get; init; } = null!;

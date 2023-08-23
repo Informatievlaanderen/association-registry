@@ -166,8 +166,8 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
-            .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigd.Data.ContactgegevenId)
-            .Append(
+            .Replace(
+                c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                 new BeheerVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
@@ -312,7 +312,8 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-            .Replace(l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
+            .Replace(
+                l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
                 BeheerVerenigingDetailMapper.MapLocatie(locatieWerdGewijzigd.Data.Locatie))
             .OrderBy(l => l.LocatieId)
             .ToArray();
