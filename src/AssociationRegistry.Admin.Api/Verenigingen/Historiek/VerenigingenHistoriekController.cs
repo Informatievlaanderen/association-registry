@@ -35,9 +35,9 @@ public class VerenigingenHistoriekController : ApiController
     /// De historiek van een vereniging geeft zicht op de wijzigingen op de verenigingsdata zoals terug te vinden in het register.
     ///
     /// De gebeurtenissen met naam “WerdGewijzigd” betekenen voor de basisgegevens het volgende:
-    ///     data werd toegevoegd (een waarde werd toegevoegd na registratie van de vereniging)
-    ///     data werd gewijzigd (de bestaande waarde werd gewijzigd)
-    ///     data werd verwijderd (de waarde werd verwijderd)
+    /// - data werd toegevoegd (een waarde werd toegevoegd na registratie van de vereniging)
+    /// - data werd gewijzigd (de bestaande waarde werd gewijzigd)
+    /// - data werd verwijderd (de waarde werd verwijderd)
     ///
     /// Contactgegevens, locaties en vertegenwoordigers maken geen onderdeel uit van de basisgegevens.
     /// Wijzigingen op deze data genereren gebeurtenissen met de namen “WerdToegevoegd”, “WerdGewijzigd” en “WerdVerwijderd”.
