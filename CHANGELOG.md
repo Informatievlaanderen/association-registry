@@ -1,3 +1,11 @@
+## [6.18.1](https://github.com/informatievlaanderen/association-registry/compare/v6.18.0...v6.18.1) (2023-08-23)
+
+
+### Bug Fixes
+
+* or-1873 optimise formatting of text in beheer historiek swagger ([9f7cc40](https://github.com/informatievlaanderen/association-registry/commit/9f7cc402863eaaad44daddc8d4dac04ee06a6ee8))
+* or-1877 prevent override of bron in contactgegevens ([289b31e](https://github.com/informatievlaanderen/association-registry/commit/289b31e0ea3bbd63b3b5cc2f80d4f98e49687e99))
+
 # [6.18.0](https://github.com/informatievlaanderen/association-registry/compare/v6.17.1...v6.18.0) (2023-08-23)
 
 
