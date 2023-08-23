@@ -1,3 +1,13 @@
+# [6.18.0](https://github.com/informatievlaanderen/association-registry/compare/v6.17.1...v6.18.0) (2023-08-23)
+
+
+### Features
+
+* or-1825 Allow kbo verenigingen to add non-kbo locations ([d0f184b](https://github.com/informatievlaanderen/association-registry/commit/d0f184b2c85d2471cd7146d5d3086c5467e2557a))
+* or-1825 prevent MaatschappelijkeZetel from beÃing added ([ef70757](https://github.com/informatievlaanderen/association-registry/commit/ef7075707da5f0e13bbc33fbaf0876c324f9fbea))
+* or-1825 verwijder locaties van KBO vereniging ([87da011](https://github.com/informatievlaanderen/association-registry/commit/87da01153ea266bed8646f5bcb3071ff99ffabed))
+* or-1825 wijzig locaties op kbo verenigingen ([5734615](https://github.com/informatievlaanderen/association-registry/commit/5734615732e449a27033dc6f999c9172668600c3))
+
 ## [6.17.1](https://github.com/informatievlaanderen/association-registry/compare/v6.17.0...v6.17.1) (2023-08-22)
 
 
