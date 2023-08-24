@@ -64,7 +64,7 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> PatchVerenigingMetRechtspersoonlijkheid(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         WithHeaders(version, initiator);
-        return await HttpClient.PatchAsync($"/v1/verenigingen/kbo/{vCode}", content.AsJsonContent());
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/kbo", content.AsJsonContent());
     }
 
     public async Task<HttpResponseMessage> PostVertegenwoordiger(string vCode, string content, long? version = null, string? initiator = "OVO000001")
