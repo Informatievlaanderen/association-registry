@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Contactgegeven;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven;
 
 using System.Net;
 using Events;
@@ -10,20 +10,20 @@ using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Post_A_New_Contactgegeven : IAsyncLifetime
+public class Post_A_New_Contactgegeven_To_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
+    public V035_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingContactgegeven Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Post_A_New_Contactgegeven(EventsInDbScenariosFixture fixture)
+    public Post_A_New_Contactgegeven_To_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
-        Scenario = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
+        Scenario = fixture.V035VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingContactgegeven;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = $@"{{
@@ -50,11 +50,11 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_New_Contactgegeven : IClassFixture<Post_A_New_Contactgegeven>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Post_A_New_Contactgegeven_To_VerenigingMetRechtspersoonlijkheid>
 {
-    private readonly Post_A_New_Contactgegeven _classFixture;
+    private readonly Post_A_New_Contactgegeven_To_VerenigingMetRechtspersoonlijkheid _classFixture;
 
-    public Given_A_New_Contactgegeven(Post_A_New_Contactgegeven classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Post_A_New_Contactgegeven_To_VerenigingMetRechtspersoonlijkheid classFixture)
     {
         _classFixture = classFixture;
     }
