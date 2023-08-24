@@ -1,3 +1,12 @@
+# [6.19.0](https://github.com/informatievlaanderen/association-registry/compare/v6.18.1...v6.19.0) (2023-08-24)
+
+
+### Features
+
+* or-1824 add contactgegeven to vereniging met rechtspersoonlijkheid ([23cf5c6](https://github.com/informatievlaanderen/association-registry/commit/23cf5c6d4d453fd7ec798497bfba831007a53eb9))
+* or-1824 remove contactgegeven from vereniging met rechtspersoonljkheid ([fcf0148](https://github.com/informatievlaanderen/association-registry/commit/fcf01485f900869464b9da2ad9e426c0e508f3fd))
+* or-1824 update contactgegevens for vereniging met rechtspersoonlijkheid ([b17762d](https://github.com/informatievlaanderen/association-registry/commit/b17762d9312d81098390d9f2163bf6a7eff19fc5))
+
 ## [6.18.1](https://github.com/informatievlaanderen/association-registry/compare/v6.18.0...v6.18.1) (2023-08-23)
 
 
