@@ -27,8 +27,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.Create(ContactgegevenType.Email, "test@example.org", _fixture.Create<string>(), isPrimair: true),
-                Contactgegeven.Create(ContactgegevenType.Website, "http://example.org", _fixture.Create<string>(), isPrimair: true),
+                Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, "test@example.org", _fixture.Create<string>(), isPrimair: true),
+                Contactgegeven.CreateFromInitiator(ContactgegevenType.Website, "http://example.org", _fixture.Create<string>(), isPrimair: true),
             },
         };
 

@@ -87,6 +87,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contactgegevens die uit KBO worden overgenomen kunnen niet worden aangepast..
+        /// </summary>
+        public static string ContactgegevenFromKboCannotBeUpdated {
+            get {
+                return ResourceManager.GetString("ContactgegevenFromKboCannotBeUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw..
         /// </summary>
         public static string CouldNotParseRequestException {

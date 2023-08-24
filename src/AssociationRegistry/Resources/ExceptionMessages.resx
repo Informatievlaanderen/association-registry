@@ -150,4 +150,7 @@
   <data name="MaatschappelijkeZetelCanNotBeUpdated">
     <value>De maatschappelijke zetel kan niet worden gewijzigd met deze actie.</value>
   </data>
+  <data name="ContactgegevenFromKboCannotBeUpdated">
+    <value>Contactgegevens die uit KBO worden overgenomen kunnen niet worden aangepast.</value>
+  </data>
 </root>

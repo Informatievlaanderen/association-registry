@@ -33,7 +33,7 @@ public class ToeTeVoegenContactgegeven
     public bool IsPrimair { get; set; }
 
     public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
-        => Contactgegeven.Create(
+        => Contactgegeven.CreateFromInitiator(
             ContactgegevenType.Parse(toeTeVoegenContactgegeven.Type),
             toeTeVoegenContactgegeven.Waarde,
             toeTeVoegenContactgegeven.Beschrijving,

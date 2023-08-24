@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Contactgegeven;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Contactgegeven;
 
 using System.Net;
-using Events;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
-using Framework;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Framework.Customizations;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
-using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
-public class Patch_A_New_Contactgegeven: IAsyncLifetime
+public class Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging: IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
@@ -23,7 +23,7 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Patch_A_New_Contactgegeven(EventsInDbScenariosFixture fixture)
+    public Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -58,11 +58,11 @@ public class Patch_A_New_Contactgegeven: IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_An_Existing_Contactgegeven : IClassFixture<Patch_A_New_Contactgegeven>
+public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging>
 {
-    private readonly Patch_A_New_Contactgegeven _classFixture;
+    private readonly Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging _classFixture;
 
-    public Given_An_Existing_Contactgegeven(Patch_A_New_Contactgegeven classFixture)
+    public Given_A_FeitelijkeVereniging(Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging classFixture)
     {
         _classFixture = classFixture;
     }
