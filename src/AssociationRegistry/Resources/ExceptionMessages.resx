@@ -154,9 +154,9 @@
     <value>De maatschappelijke zetel volgens KBO kan niet verwijderd worden.</value>
   </data>
   <data name="ContactgegevenFromKboCannotBeUpdated">
-    <value>Contactgegevens die uit KBO werden overgenomen kunnen niet worden aangepast.</value>
+    <value>Contactgegevens die uit KBO werden overgenomen, kunnen niet aangepast worden.</value>
   </data>
   <data name="ContactgegevenFromKboCannotBeRemoved">
-    <value>Contactgegevens die uit KBO werden overgenomen kunnen niet worden verwijderd.</value>
+    <value>Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden.</value>
   </data>
 </root>
