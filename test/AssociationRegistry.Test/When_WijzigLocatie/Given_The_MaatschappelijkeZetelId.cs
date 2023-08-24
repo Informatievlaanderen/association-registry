@@ -61,6 +61,6 @@ public class Given_To_MaatschappelijkeZetelId
             fixture.Create<AdresId>(),
             fixture.Create<Adres>());
 
-        wijzigLocatie.Should().Throw<MaatschappelijkeZetelCanNotBeUpdated>();
+        wijzigLocatie.Should().Throw<MaatschappelijkeZetelIsNotAllowed>();
     }
 }

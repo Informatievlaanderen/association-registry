@@ -339,20 +339,29 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dit locatieType is niet toegestaan bij deze actie..
+        ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet verwijderd worden..
         /// </summary>
-        public static string LocatieTypeIsNotAllowed {
+        public static string MaatschappelijkeZetelCanNotBeRemoved {
             get {
-                return ResourceManager.GetString("LocatieTypeIsNotAllowed", resourceCulture);
+                return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeRemoved", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De maatschappelijke zetel kan niet worden gewijzigd met deze actie..
+        ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet gewijzigd worden..
         /// </summary>
         public static string MaatschappelijkeZetelCanNotBeUpdated {
             get {
                 return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Het locatietype &apos;Maatschappelijke zetel volgens KBO&apos; kan niet toegekend worden..
+        /// </summary>
+        public static string MaatschappelijkeZetelIsNotAllowed {
+            get {
+                return ResourceManager.GetString("MaatschappelijkeZetelIsNotAllowed", resourceCulture);
             }
         }
         

@@ -80,7 +80,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
         MustContain(locatieId);
         var teVerwijderenLocatie = this[locatieId];
 
-        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelCanNotBeRemoved>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         return teVerwijderenLocatie;
     }
