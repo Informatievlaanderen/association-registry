@@ -79,7 +79,7 @@ public class Given_A_GeefOndernemingResponseBody_With_A_Website
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
-            verenigingVolgensKbo.Contactgegevens!.Website.Should().Be(_website);
+            verenigingVolgensKbo.Contactgegevens.Website.Should().Be(_website);
         }
     }
 }

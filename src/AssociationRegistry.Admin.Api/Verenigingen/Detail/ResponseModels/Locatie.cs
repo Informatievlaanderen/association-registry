@@ -47,5 +47,5 @@ public class Locatie
 
     /// <summary> De bron die deze locatie beheert </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }
+    public string Bron { get; set; } = null!;
 }

@@ -12,7 +12,7 @@ public class Given_An_Empty_String
     [Fact]
     public void Then_It_Throws_An_EmptyVerenigingsNaam_Exception()
     {
-        var ctor = () => VerenigingsNaam.Create(String.Empty);
+        var ctor = () => VerenigingsNaam.Create(string.Empty);
         ctor.Should().Throw<EmptyVerenigingsNaam>();
     }
 }

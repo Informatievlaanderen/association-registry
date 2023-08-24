@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Marten;
 using Marten.Events.Daemon;
-using Microsoft.AspNetCore.Http;
 using Schema;
 using Schema.Detail;
 using Schema.Historiek;

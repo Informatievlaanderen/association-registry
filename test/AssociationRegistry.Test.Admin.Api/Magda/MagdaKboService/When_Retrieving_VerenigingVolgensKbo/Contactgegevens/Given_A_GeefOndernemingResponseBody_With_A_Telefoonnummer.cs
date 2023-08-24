@@ -79,7 +79,7 @@ public class Given_A_GeefOndernemingResponseBody_With_A_Telefoonnummer
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
-            verenigingVolgensKbo.Contactgegevens!.Telefoonnummer.Should().Be(_telefoonnummer);
+            verenigingVolgensKbo.Contactgegevens.Telefoonnummer.Should().Be(_telefoonnummer);
         }
     }
 }

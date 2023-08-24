@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Contactgegeven.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;

@@ -79,7 +79,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Email
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;
-            verenigingVolgensKbo.Contactgegevens!.Email.Should().Be(_email);
+            verenigingVolgensKbo.Contactgegevens.Email.Should().Be(_email);
         }
     }
 }

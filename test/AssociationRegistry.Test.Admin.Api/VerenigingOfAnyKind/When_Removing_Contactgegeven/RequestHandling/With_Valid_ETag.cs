@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Contactgegeven.RequestHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Contactgegeven.RequestHandling;
 
 using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;

@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using Acties.WijzigLocatie;
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Events;
+using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures.Scenarios.CommandHandling;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
+using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 

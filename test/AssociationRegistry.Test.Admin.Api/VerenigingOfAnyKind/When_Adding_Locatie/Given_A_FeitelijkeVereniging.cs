@@ -1,12 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
 using System.Net;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using Events;
+using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
-using Marten.Events;
 using Xunit;
 using Xunit.Categories;
 
@@ -72,10 +71,9 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVere
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdToegevoegd = Enumerable
-            .Single<IEvent>(
-                (await session.Events
-                    .FetchStreamAsync(_classFixture.Scenario.VCode)), e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
+        var contactgegevenWerdToegevoegd = (await session.Events
+                .FetchStreamAsync(_classFixture.Scenario.VCode))
+            .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
             .BeEquivalentTo(

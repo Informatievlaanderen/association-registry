@@ -30,5 +30,5 @@ public class Contactgegeven
 
     /// <summary> De bron die dit contactgegeven beheert </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }
+    public string Bron { get; init; } = null!;
 }

@@ -18,6 +18,6 @@ public record AfdelingWerdGeregistreerd(
 {
     [IgnoreDataMember]
     public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.Initiator;
+        => Vereniging.Bronnen.Bron.Initiator;
     public record MoederverenigingsData(string KboNummer, string VCode, string Naam);
 }

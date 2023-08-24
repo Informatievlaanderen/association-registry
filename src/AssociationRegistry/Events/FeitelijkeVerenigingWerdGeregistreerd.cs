@@ -18,5 +18,5 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
 {
     [IgnoreDataMember]
     public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.Initiator;
+        => Vereniging.Bronnen.Bron.Initiator;
 }

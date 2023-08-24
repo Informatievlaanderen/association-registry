@@ -81,7 +81,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V034VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMaatschappelijkeZetelForAddingLocatie,
             V035VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingContactgegeven,
             V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven,
-            V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven
+            V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven,
         };
 
         foreach (var scenario in scenarios)

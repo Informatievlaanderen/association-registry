@@ -19,13 +19,11 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly EventsInDbScenariosFixture _fixture;
     private readonly HttpResponseMessage _response;
     private V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
-        _fixture = fixture;
         _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
 
         _adminApiClient = fixture.DefaultClient;

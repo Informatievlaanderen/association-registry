@@ -45,7 +45,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
-                Bron = vertegenwoordiger.Bron
+                Bron = vertegenwoordiger.Bron,
             });
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDate());

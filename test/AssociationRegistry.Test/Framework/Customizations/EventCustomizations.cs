@@ -60,7 +60,7 @@ public static class EventCustomizations
                         var contactgegeven = fixture.Create<Contactgegeven>();
                         return new ContactgegevenWerdOvergenomenUitKBO(
                             contactgegeven.ContactgegevenId,
-                            ContactgegevenTypeVolgensKbo.All[i % (ContactgegevenTypeVolgensKbo.All.Length)],
+                            ContactgegevenTypeVolgensKbo.All[i % ContactgegevenTypeVolgensKbo.All.Length],
                             contactgegeven.Type,
                             contactgegeven.Waarde);
                     })

@@ -67,5 +67,5 @@ public class VerenigingDetail
 
     /// <summary>De bron die deze vereniging beheert</summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }
+    public string Bron { get; set; }= null!;
 }

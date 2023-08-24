@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie.RequestValidating.A_Locatie;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie.RequestValidating.A_Locatie;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
@@ -24,5 +24,3 @@ public class With_A_Valid_Locatietype: ValidatorTest
         result.ShouldNotHaveValidationErrorFor(teWijzigenLocatie => teWijzigenLocatie.Locatietype);
     }
 }
-
-

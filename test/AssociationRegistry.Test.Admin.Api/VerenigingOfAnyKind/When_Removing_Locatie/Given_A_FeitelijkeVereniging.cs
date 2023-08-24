@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Locatie;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Locatie;
 
 using System.Net;
 using Events;
@@ -9,7 +9,7 @@ using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Delete_An_Existing_Locatie : IAsyncLifetime
+public class Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     public V024_FeitelijkeVerenigingWerdGeregistreerd_WithLocatie_ForRemovingLocatie Scenario { get; }
@@ -17,7 +17,7 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Delete_An_Existing_Locatie(EventsInDbScenariosFixture fixture)
+    public Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
@@ -37,11 +37,11 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_Feitelijke_Vereniging : IClassFixture<Delete_An_Existing_Locatie>
+public class Given_A_FeitelijkeVereniging : IClassFixture<Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging>
 {
-    private readonly Delete_An_Existing_Locatie _classFixture;
+    private readonly Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging _classFixture;
 
-    public Given_A_Feitelijke_Vereniging(Delete_An_Existing_Locatie classFixture)
+    public Given_A_FeitelijkeVereniging(Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging classFixture)
     {
         _classFixture = classFixture;
     }
@@ -51,8 +51,7 @@ public class Given_A_Feitelijke_Vereniging : IClassFixture<Delete_An_Existing_Lo
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
         var locatieWerdVerwijderd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
+            .FetchStreamAsync(_classFixture.Scenario.VCode)).Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
 
         var locatie = _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0];
         locatieWerdVerwijderd.Data.Should()
