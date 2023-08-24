@@ -28,7 +28,12 @@ public class Contactgegeven
     [DataMember(Name = "IsPrimair")]
     public bool IsPrimair { get; init; }
 
-    /// <summary> De bron die dit contactgegeven beheert </summary>
+    /// <summary> De bron die dit contactgegeven beheert
+    /// <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Initiator<br />
+    ///     - KBO
+    /// </summary>
     [DataMember(Name = "Bron")]
     public string Bron { get; init; } = null!;
 }

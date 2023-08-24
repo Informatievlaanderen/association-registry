@@ -50,7 +50,12 @@ public class Vertegenwoordiger
     [DataMember(Name = "SocialMedia")]
     public string SocialMedia { get; init; } = null!;
 
-    /// <summary> De bron die deze vertegenwoordiger beheert </summary>
+    /// <summary> De bron die deze vertegenwoordiger beheert.
+    /// <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Initiator<br />
+    ///     - KBO
+    /// </summary>
     [DataMember(Name = "Bron")]
     public string Bron { get; set; }= null!;
 }
