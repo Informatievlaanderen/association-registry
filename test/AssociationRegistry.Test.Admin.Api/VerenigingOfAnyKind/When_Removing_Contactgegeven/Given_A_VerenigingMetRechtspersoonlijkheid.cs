@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Contactgegeven;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Contactgegeven;
 
 using System.Net;
 using Events;
@@ -9,25 +9,25 @@ using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
+public class Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
-    public V007_FeitelijkeVerenigingWerdGeregistreerd_WithContactgegeven Scenario { get; }
+    public V037_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForVerwijderContactgegeven Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Delete_An_Existing_Contactgegeven(EventsInDbScenariosFixture fixture)
+    public Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
-        Scenario = fixture.V007FeitelijkeVerenigingWerdGeregistreerdWithContactgegeven;
+        Scenario = fixture.V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven;
         DocumentStore = _fixture.DocumentStore;
     }
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0].ContactgegevenId);
+        Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode, Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
     }
 
     public Task DisposeAsync()
@@ -37,11 +37,11 @@ public class Delete_An_Existing_Contactgegeven : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_An_Existing_Contactgegeven : IClassFixture<Delete_An_Existing_Contactgegeven>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
-    private readonly Delete_An_Existing_Contactgegeven _classFixture;
+    private readonly Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
 
-    public Given_An_Existing_Contactgegeven(Delete_An_Existing_Contactgegeven classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid classFixture)
     {
         _classFixture = classFixture;
     }
@@ -57,15 +57,15 @@ public class Given_An_Existing_Contactgegeven : IClassFixture<Delete_An_Existing
         contactgegevenWerdVerwijderd.Data.Should()
             .BeEquivalentTo(
                 new ContactgegevenWerdVerwijderd(
-                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .ContactgegevenId,
-                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .Type,
-                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .Waarde,
-                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .Beschrijving,
-                    _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
+                    _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .IsPrimair));
     }
 

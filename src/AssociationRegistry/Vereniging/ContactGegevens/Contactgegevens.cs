@@ -71,7 +71,9 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     {
         MustContain(contactgegevenId);
 
-        return this[contactgegevenId];
+        var contactgegeven = this[contactgegevenId];
+        Throw<ContactgegevenFromKboCannotBeRemoved>.If(contactgegeven.Bron == Bron.KBO);
+        return contactgegeven;
     }
 
     private void ThrowIfCannotAppendOrUpdate(Contactgegeven contactgegeven)

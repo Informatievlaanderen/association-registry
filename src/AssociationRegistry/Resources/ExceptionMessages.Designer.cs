@@ -87,6 +87,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contactgegevens die uit KBO worden overgenomen kunnen niet worden verwijderd..
+        /// </summary>
+        public static string ContactgegevenFromKboCannotBeRemoved {
+            get {
+                return ResourceManager.GetString("ContactgegevenFromKboCannotBeRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO worden overgenomen kunnen niet worden aangepast..
         /// </summary>
         public static string ContactgegevenFromKboCannotBeUpdated {

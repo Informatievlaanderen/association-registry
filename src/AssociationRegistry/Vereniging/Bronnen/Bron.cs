@@ -14,7 +14,4 @@ public class Bron
 
     public static implicit operator string(Bron bron)
         => bron.Waarde;
-
-    // public override string ToString()
-    //     => Waarde;
 }
