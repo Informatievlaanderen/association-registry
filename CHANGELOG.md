@@ -1,3 +1,10 @@
+## [6.21.1](https://github.com/informatievlaanderen/association-registry/compare/v6.21.0...v6.21.1) (2023-08-24)
+
+
+### Bug Fixes
+
+* or-1825 add mogelijke waarden voor bron in documentatie ([0a77c76](https://github.com/informatievlaanderen/association-registry/commit/0a77c7653672e05e28ae95e0df7cb404ce2ce66f))
+
 # [6.21.0](https://github.com/informatievlaanderen/association-registry/compare/v6.20.1...v6.21.0) (2023-08-24)
 
 
