@@ -143,7 +143,7 @@ public static class AutoFixtureCustomizations
                     factory: () =>
                     {
                         var inszBase = new Random().Next(0, 999999999);
-                        var inszModulo = 97 - (inszBase % 97);
+                        var inszModulo = 97 - inszBase % 97;
                         return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
                     })
                 .OmitAutoProperties()
@@ -207,7 +207,7 @@ public static class AutoFixtureCustomizations
                     factory: () =>
                     {
                         var kboBase = new Random().Next(0, 99999999);
-                        var kboModulo = 97 - (kboBase % 97);
+                        var kboModulo = 97 - kboBase % 97;
                         return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
                     })
                 .OmitAutoProperties()

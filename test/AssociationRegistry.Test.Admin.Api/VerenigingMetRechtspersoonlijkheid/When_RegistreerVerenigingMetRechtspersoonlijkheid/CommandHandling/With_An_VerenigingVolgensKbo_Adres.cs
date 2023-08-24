@@ -64,7 +64,7 @@ public class With_An_VerenigingVolgensKbo_Adres
                     false,
                     string.Empty,
                     new Registratiedata.Adres(
-                        _verenigingVolgensKbo.Adres!.Straatnaam!,
+                        _verenigingVolgensKbo.Adres.Straatnaam!,
                         _verenigingVolgensKbo.Adres.Huisnummer!,
                         _verenigingVolgensKbo.Adres.Busnummer!,
                         _verenigingVolgensKbo.Adres.Postcode!,

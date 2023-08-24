@@ -13,5 +13,5 @@ public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
 {
     [IgnoreDataMember]
     public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.KBO;
+        => Vereniging.Bronnen.Bron.KBO;
 }

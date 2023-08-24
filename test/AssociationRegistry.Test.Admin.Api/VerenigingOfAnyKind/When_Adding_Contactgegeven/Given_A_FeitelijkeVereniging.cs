@@ -1,13 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven;
 
 using System.Net;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging;
+using Events;
+using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
+using Vereniging;
 using FluentAssertions;
 using Marten;
-using Marten.Events;
 using Xunit;
 using Xunit.Categories;
 
@@ -64,9 +63,8 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Post_A_New_Contactgege
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdToegevoegd = Enumerable.Single<IEvent>(
-                (await session.Events
-                    .FetchStreamAsync(_classFixture.Scenario.VCode)), e => e.Data.GetType() == typeof(ContactgegevenWerdToegevoegd));
+        var contactgegevenWerdToegevoegd = (await session.Events
+            .FetchStreamAsync(_classFixture.Scenario.VCode)).Single(e => e.Data.GetType() == typeof(ContactgegevenWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
             .BeEquivalentTo(

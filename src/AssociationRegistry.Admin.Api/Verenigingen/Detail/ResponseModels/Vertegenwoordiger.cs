@@ -52,5 +52,5 @@ public class Vertegenwoordiger
 
     /// <summary> De bron die deze vertegenwoordiger beheert </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }
+    public string Bron { get; set; }= null!;
 }

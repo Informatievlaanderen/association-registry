@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Locatie;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
 using System.Net;
-using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using FluentAssertions;
 using Framework;
-using Marten;
 using Vereniging;
+using AutoFixture;
+using FluentAssertions;
+using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Patch_A_Locatie : IAsyncLifetime
+public class Patch_A_Locatie_Given_A_FeitelijkeVereniging : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
@@ -22,7 +22,7 @@ public class Patch_A_Locatie : IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Patch_A_Locatie(EventsInDbScenariosFixture fixture)
+    public Patch_A_Locatie_Given_A_FeitelijkeVereniging(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         var autofixture = new Fixture().CustomizeAdminApi();
@@ -72,11 +72,11 @@ public class Patch_A_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_Feitelijke_Vereniging : IClassFixture<Patch_A_Locatie>
+public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_Locatie_Given_A_FeitelijkeVereniging>
 {
-    private readonly Patch_A_Locatie _classFixture;
+    private readonly Patch_A_Locatie_Given_A_FeitelijkeVereniging _classFixture;
 
-    public Given_A_Feitelijke_Vereniging(Patch_A_Locatie classFixture)
+    public Given_A_FeitelijkeVereniging(Patch_A_Locatie_Given_A_FeitelijkeVereniging classFixture)
     {
         _classFixture = classFixture;
     }
@@ -86,8 +86,7 @@ public class Given_A_Feitelijke_Vereniging : IClassFixture<Patch_A_Locatie>
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
         var locatieWerdGewijzigd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
+            .FetchStreamAsync(_classFixture.Scenario.VCode)).Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
 
         locatieWerdGewijzigd.Data.Should()
             .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));

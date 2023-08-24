@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Contactgegeven.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Contactgegeven.CommandHandling;
 
 using Acties.VerwijderContactgegeven;
 using Events;
@@ -6,8 +6,8 @@ using AssociationRegistry.Framework;
 using Fakes;
 using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
-using AutoFixture;
 using Vereniging;
+using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 

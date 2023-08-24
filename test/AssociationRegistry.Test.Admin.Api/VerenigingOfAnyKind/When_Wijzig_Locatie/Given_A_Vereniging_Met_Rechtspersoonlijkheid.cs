@@ -12,7 +12,7 @@ using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Patch_A_Locatie : IAsyncLifetime
+public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
@@ -22,7 +22,7 @@ public class Patch_A_Locatie : IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Patch_A_Locatie(EventsInDbScenariosFixture fixture)
+    public Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
         var autofixture = new Fixture().CustomizeAdminApi();
@@ -72,11 +72,11 @@ public class Patch_A_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_Feitelijke_Vereniging : IClassFixture<Patch_A_Locatie>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
-    private readonly Patch_A_Locatie _classFixture;
+    private readonly Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
 
-    public Given_A_Feitelijke_Vereniging(Patch_A_Locatie classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid classFixture)
     {
         _classFixture = classFixture;
     }

@@ -9,7 +9,7 @@ using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Delete_An_Existing_Locatie : IAsyncLifetime
+public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     public V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen Scenario { get; }
@@ -17,7 +17,7 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
     public HttpResponseMessage Response { get; private set; } = null!;
 
 
-    public Delete_An_Existing_Locatie(EventsInDbScenariosFixture fixture)
+    public Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
@@ -37,11 +37,11 @@ public class Delete_An_Existing_Locatie : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_Vereniging_Met_Rechtspersoonlijkheid : IClassFixture<Delete_An_Existing_Locatie>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
-    private readonly Delete_An_Existing_Locatie _classFixture;
+    private readonly Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
 
-    public Given_A_Vereniging_Met_Rechtspersoonlijkheid(Delete_An_Existing_Locatie classFixture)
+    public Given_A_VerenigingMetRechtspersoonlijkheid(Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid classFixture)
     {
         _classFixture = classFixture;
     }

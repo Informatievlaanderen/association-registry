@@ -285,7 +285,7 @@ public static class PubliekVerenigingDetailProjector
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
             Adres = Map(loc.Adres),
-            Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
+            Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),
         };
 

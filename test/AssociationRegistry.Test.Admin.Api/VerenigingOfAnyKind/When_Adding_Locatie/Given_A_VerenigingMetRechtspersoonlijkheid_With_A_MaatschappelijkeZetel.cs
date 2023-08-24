@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
 using System.Net;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using Events;
+using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Xunit;

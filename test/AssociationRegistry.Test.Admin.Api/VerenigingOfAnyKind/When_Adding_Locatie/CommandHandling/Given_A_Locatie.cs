@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Locatie.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
 using Acties.VoegLocatieToe;
-using AssociationRegistry.Framework;
-using AutoFixture;
 using Events;
+using AssociationRegistry.Framework;
 using Fakes;
-using Fixtures.Scenarios.CommandHandling;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
+using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -44,7 +44,7 @@ public class Given_A_Locatie
             yield return new object[]
             {
                 feitelijkeVerenigingWerdGeregistreerdScenario,
-                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1
+                feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.Max(l => l.LocatieId) + 1,
             };
             var verenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
             yield return new object[]
