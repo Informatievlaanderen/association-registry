@@ -65,7 +65,12 @@ public class VerenigingDetail
     [DataMember(Name = "Relaties")]
     public Relatie[] Relaties { get; init; } = null!;
 
-    /// <summary>De bron die deze vereniging beheert</summary>
+    /// <summary>De bron die deze vereniging beheert.
+    ///      <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Initiator<br />
+    ///     - KBO
+    /// </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }= null!;
+    public string Bron { get; set; } = null!;
 }

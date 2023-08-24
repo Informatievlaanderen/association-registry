@@ -100,9 +100,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Mobiel = "0000112233",
                             Telefoon = "0001112233",
                             SocialMedia = "http://example.org",
+                            Bron = Bron.Initiator.Waarde,
                         },
                     },
                     Sleutels = Array.Empty<Sleutel>(),
+                    Bron = Bron.Initiator.Waarde,
                 },
                 Metadata = new Metadata
                 {
@@ -155,6 +157,15 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             IsPrimair = false,
                             Bron = Bron.KBO.Waarde,
                         },
+                        new Contactgegeven
+                        {
+                            Type = ContactgegevenType.SocialMedia,
+                            Beschrijving = "BlubBlub",
+                            Waarde = "blubblub.com/vissen",
+                            ContactgegevenId = 2,
+                            IsPrimair = false,
+                            Bron = Bron.Initiator.Waarde,
+                        },
                     },
                     Locaties = new[]
                     {
@@ -172,6 +183,21 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             },
                             Bron = Bron.KBO.Waarde,
                         },
+                        new Locatie
+                        {
+                            LocatieId = 2,
+                            Locatietype = Locatietype.Activiteiten.Waarde,
+                            IsPrimair = false,
+                            Adresvoorstelling = "De pier 1, 8430 Westende",
+                            Naam = null,
+                            Adres = new Adres
+                            {
+                                Postcode = "8430",
+                                Gemeente = "Westende",
+                            },
+                            Bron = Bron.Initiator.Waarde,
+                        },
+
                     },
                     Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
                     Sleutels = new[]
@@ -182,6 +208,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Bron = Sleutelbron.Kbo.Waarde,
                         },
                     },
+                    Bron = Bron.KBO.Waarde,
                 },
                 Metadata = new Metadata
                 {
