@@ -16,7 +16,7 @@ public class Given_A_Second_Primair_Contactgegeven
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
         var primairContactgegeven = fixture.Create<Registratiedata.Contactgegeven>() with { IsPrimair = true };
         vereniging.Hydrate(new VerenigingState()
             .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with

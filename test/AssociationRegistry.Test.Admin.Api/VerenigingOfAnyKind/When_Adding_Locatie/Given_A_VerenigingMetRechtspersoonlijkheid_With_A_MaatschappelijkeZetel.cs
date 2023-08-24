@@ -22,7 +22,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
     {
         _fixture = fixture;
 
-        Scenario = fixture.V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForAddingLocatie;
+        Scenario = fixture.V034VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMaatschappelijkeZetelForAddingLocatie;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{

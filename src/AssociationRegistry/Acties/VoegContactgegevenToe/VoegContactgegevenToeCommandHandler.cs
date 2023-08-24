@@ -14,7 +14,7 @@ public class VoegContactgegevenToeCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VoegContactgegevenToeCommand> envelope, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
         vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
 

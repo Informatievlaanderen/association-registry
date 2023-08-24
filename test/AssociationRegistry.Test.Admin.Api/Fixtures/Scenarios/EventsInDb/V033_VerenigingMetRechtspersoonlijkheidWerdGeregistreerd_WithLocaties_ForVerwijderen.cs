@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -6,16 +6,16 @@ using Events;
 using EventStore;
 using Framework;
 
-public class V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForWijzigen : IEventsInDbScenario
+public class V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly LocatieWerdToegevoegd LocatieWerdToegevoegd;
     public readonly CommandMetadata Metadata;
 
-    public V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForWijzigen()
+    public V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = "V9999032";
+        VCode = "V9999033";
         Naam = "Dee sjiekste club";
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {

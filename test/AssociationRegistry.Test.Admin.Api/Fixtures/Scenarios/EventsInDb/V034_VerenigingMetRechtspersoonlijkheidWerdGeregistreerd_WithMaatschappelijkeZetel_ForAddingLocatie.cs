@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -6,20 +6,28 @@ using Events;
 using EventStore;
 using Framework;
 
-public class V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingLocatie : IEventsInDbScenario
+public class V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForAddingLocatie : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
     public readonly CommandMetadata Metadata;
 
-    public V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingLocatie()
+    public V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForAddingLocatie()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = "V9999031";
+        VCode = "V9999034";
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             KorteNaam = string.Empty,
             Startdatum = null,
+        };
+        MaatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>() with
+        {
+            Locatie = fixture.Create<Registratiedata.Locatie>() with
+            {
+                LocatieId = 1,
+            },
         };
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -29,7 +37,10 @@ public class V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinima
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { VerenigingMetRechtspersoonlijkheidWerdGeregistreerd };
+        {
+            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
+        };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
