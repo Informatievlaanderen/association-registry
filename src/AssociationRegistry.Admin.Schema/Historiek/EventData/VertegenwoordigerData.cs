@@ -1,30 +1,30 @@
 ﻿namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
-using System.Runtime.Serialization;
 using Events;
+using System.Runtime.Serialization;
 
 [DataContract]
 public record VertegenwoordigerData
 (
-    [property:DataMember]
+    [property: DataMember]
     int VertegenwoordigerId,
-    [property:DataMember]
+    [property: DataMember]
     bool IsPrimair,
-    [property:DataMember]
+    [property: DataMember]
     string Roepnaam,
-    [property:DataMember]
+    [property: DataMember]
     string Rol,
-    [property:DataMember]
+    [property: DataMember]
     string Voornaam,
-    [property:DataMember]
+    [property: DataMember]
     string Achternaam,
-    [property:DataMember(Name = "E-mail")]
+    [property: DataMember(Name = "E-mail")]
     string Email,
-    [property:DataMember]
+    [property: DataMember]
     string Telefoon,
-    [property:DataMember]
+    [property: DataMember]
     string Mobiel,
-    [property:DataMember]
+    [property: DataMember]
     string SocialMedia
 )
 {
@@ -66,4 +66,4 @@ public record VertegenwoordigerData
             vertegenwoordiger.Telefoon,
             vertegenwoordiger.Mobiel,
             vertegenwoordiger.SocialMedia);
-};
+}

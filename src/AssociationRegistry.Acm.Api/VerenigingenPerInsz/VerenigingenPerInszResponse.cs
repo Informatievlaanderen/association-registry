@@ -20,7 +20,7 @@ public class VerenigingenPerInszResponse
     public class Vereniging
     {
         /// <summary>
-        /// De vCode van de verening
+        /// De vCode van de vereniging
         /// </summary>
         [DataMember]
         public string VCode { get; init; } = null!;

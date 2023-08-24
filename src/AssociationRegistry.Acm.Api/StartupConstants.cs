@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Acm.Api;
 
-using System.Linq;
-using System.Net.Http;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Microsoft.Net.Http.Headers;
+using System.Linq;
+using System.Net.Http;
 
 public static class StartupConstants
 {

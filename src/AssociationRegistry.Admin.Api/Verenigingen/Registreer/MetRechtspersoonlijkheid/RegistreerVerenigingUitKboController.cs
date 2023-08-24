@@ -52,6 +52,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren vereniging</param>
+    /// <param name="commandMetadataProvider"></param>
     /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
     /// <response code="200">De vereniging was reeds geregistreerd in het register.</response>
     /// <response code="202">De vereniging met rechtspersoonlijkheid werd geregistreerd.</response>
