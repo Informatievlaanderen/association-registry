@@ -1,3 +1,16 @@
+# [7.0.0](https://github.com/informatievlaanderen/association-registry/compare/v6.21.1...v7.0.0) (2023-08-24)
+
+
+### Features
+
+* OR-1878 move endpoint for patching kbo verenigingen ([40b2a8a](https://github.com/informatievlaanderen/association-registry/commit/40b2a8a03c29c07b37bed42d7a242ddf018919e9))
+
+
+### BREAKING CHANGES
+
+* uri change from /v1/verenigingen/kbo/{vCode} to
+/v1/verenigingen/{vCode}/kbo
+
 ## [6.21.1](https://github.com/informatievlaanderen/association-registry/compare/v6.21.0...v6.21.1) (2023-08-24)
 
 
