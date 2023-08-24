@@ -1,3 +1,10 @@
+## [6.20.1](https://github.com/informatievlaanderen/association-registry/compare/v6.20.0...v6.20.1) (2023-08-24)
+
+
+### Bug Fixes
+
+* or-1825 change errormessages ([1010035](https://github.com/informatievlaanderen/association-registry/commit/10100357bc413f0a6421ed7d83744ff0ded789fe))
+
 # [6.20.0](https://github.com/informatievlaanderen/association-registry/compare/v6.19.0...v6.20.0) (2023-08-24)
 
 
