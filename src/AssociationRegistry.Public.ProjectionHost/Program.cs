@@ -1,28 +1,27 @@
-using System.Net;
-using System.Text;
-using AssociationRegistry.OpenTelemetry.Extensions;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Json;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
-using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.ProjectionHost.Projections.Search;
+namespace AssociationRegistry.Public.ProjectionHost;
+
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
+using Infrastructure.Json;
+using Infrastructure.Program;
+using Infrastructure.Program.WebApplication;
+using Infrastructure.Program.WebApplicationBuilder;
 using Marten;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Newtonsoft.Json;
-using Serilog;
-using Serilog.Debugging;
-using Wolverine;
-using ApiControllerSpec = AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.ApiControllerSpec;
-
-namespace AssociationRegistry.Public.ProjectionHost;
-
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oakton;
+using OpenTelemetry.Extensions;
+using Projections.Detail;
+using Projections.Search;
+using Serilog;
+using Serilog.Debugging;
+using System.Net;
+using System.Text;
+using Wolverine;
 
 public class Program
 {
@@ -31,11 +30,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Configuration
-            .AddJsonFile("appsettings.json")
-            .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
-            .AddEnvironmentVariables()
-            .AddCommandLine(args);
+               .AddJsonFile("appsettings.json")
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddEnvironmentVariables()
+               .AddCommandLine(args);
 
         builder.Configuration.GetValidPostgreSqlOptionsOrThrow();
         var elasticSearchOptions = builder.Configuration.GetValidElasticSearchOptionsOrThrow();
@@ -48,23 +47,25 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(
             options =>
-                options.AddEndpoint(IPAddress.Any, 11005));
+                options.AddEndpoint(IPAddress.Any, port: 11005));
 
         builder.Host.ApplyOaktonExtensions();
+
         builder.Host.UseWolverine(
             options =>
             {
                 options.Handlers.Discovery(source =>
-                    source.IncludeType<PubliekZoekProjectionHandler>());
+                                               source.IncludeType<PubliekZoekProjectionHandler>());
             });
+
         builder.Services
-            .ConfigureRequestLocalization()
-            .AddOpenTelemetry()
-            .ConfigureProjectionsWithMarten(builder.Configuration)
-            .ConfigureSwagger()
-            .ConfigureElasticSearch(elasticSearchOptions)
-            .AddMvc()
-            .AddDataAnnotationsLocalization();
+               .ConfigureRequestLocalization()
+               .AddOpenTelemetry()
+               .ConfigureProjectionsWithMarten(builder.Configuration)
+               .ConfigureSwagger()
+               .ConfigureElasticSearch(elasticSearchOptions)
+               .AddMvc()
+               .AddDataAnnotationsLocalization();
 
         builder.Services.AddHealthChecks();
 
@@ -75,8 +76,8 @@ public class Program
         var app = builder.Build();
 
         app.MapPost(
-            "/rebuild",
-            async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            pattern: "/rebuild",
+            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
                 await projectionDaemon.RebuildProjection<PubliekVerenigingDetailProjection>(cancellationToken);
@@ -87,34 +88,34 @@ public class Program
         ConfigureHealtChecks(app);
 
         await DistributedLock<Program>.RunAsync(
-            async () => await app.RunOaktonCommands(args),
+            runFunc: async () => await app.RunOaktonCommands(args),
             DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
             app.Services.GetRequiredService<ILogger<Program>>());
     }
 
-    static void ConfigureEncoding()
+    private static void ConfigureEncoding()
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
     }
 
-    static void ConfigureJsonSerializerSettings()
+    private static void ConfigureJsonSerializerSettings()
     {
         var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
         JsonConvert.DefaultSettings = () => jsonSerializerSettings;
     }
 
-    static void ConfigureAppDomainExceptions()
+    private static void ConfigureAppDomainExceptions()
     {
         AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
             Log.Debug(
                 eventArgs.Exception,
-                "FirstChanceException event raised in {AppDomain}",
+                messageTemplate: "FirstChanceException event raised in {AppDomain}",
                 AppDomain.CurrentDomain.FriendlyName);
 
         AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
             Log.Fatal(
                 (Exception)eventArgs.ExceptionObject,
-                "Encountered a fatal exception, exiting program");
+                messageTemplate: "Encountered a fatal exception, exiting program");
     }
 
     private static void ConfigureHealtChecks(WebApplication app)
@@ -135,22 +136,22 @@ public class Program
                 httpContext.Response.ContentType = "application/json";
 
                 var json = new JObject(
-                    new JProperty("status", healthReport.Status.ToString()),
-                    new JProperty("totalDuration", healthReport.TotalDuration.ToString()),
+                    new JProperty(name: "status", healthReport.Status.ToString()),
+                    new JProperty(name: "totalDuration", healthReport.TotalDuration.ToString()),
                     new JProperty(
-                        "results",
+                        name: "results",
                         new JObject(
                             healthReport.Entries.Select(
                                 pair =>
                                     new JProperty(
                                         pair.Key,
                                         new JObject(
-                                            new JProperty("status", pair.Value.Status.ToString()),
-                                            new JProperty("duration", pair.Value.Duration),
-                                            new JProperty("description", pair.Value.Description),
-                                            new JProperty("exception", pair.Value.Exception?.Message),
+                                            new JProperty(name: "status", pair.Value.Status.ToString()),
+                                            new JProperty(name: "duration", pair.Value.Duration),
+                                            new JProperty(name: "description", pair.Value.Description),
+                                            new JProperty(name: "exception", pair.Value.Exception?.Message),
                                             new JProperty(
-                                                "data",
+                                                name: "data",
                                                 new JObject(
                                                     pair.Value.Data.Select(
                                                         p => new JProperty(p.Key, p.Value))))))))));
@@ -159,6 +160,6 @@ public class Program
             },
         };
 
-        app.UseHealthChecks("/health", healthCheckOptions);
+        app.UseHealthChecks(path: "/health", healthCheckOptions);
     }
 }

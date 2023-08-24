@@ -3,7 +3,7 @@
 using System.Runtime.Serialization;
 using DuplicateVerenigingDetection;
 
-/// <summary>Een activiteit van een vereninging</summary>
+/// <summary>Een activiteit van een vereniging</summary>
 [DataContract]
 public class Activiteit
 {

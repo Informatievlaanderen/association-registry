@@ -20,6 +20,7 @@ public class Given_MaatschappelijkeZetelWerdovergenomenUitKbo
     {
         _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
         _adminApiClient = fixture.AdminApiClient;
+
         _goldenMaster = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_MaatschappelijkeZetelWerdovergenomenUitKbo)}_{nameof(Then_we_retrieve_one_vereniging_with_A_Maatschappelijke_Zetel)}");
     }
@@ -28,14 +29,15 @@ public class Given_MaatschappelijkeZetelWerdovergenomenUitKbo
     public async Task Then_we_get_a_successful_response()
         => (await _adminApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
-
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_with_A_Maatschappelijke_Zetel()
     {
         var response = await _adminApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = _goldenMaster
-            .Replace("{{originalQuery}}", _scenario.VCode);
+           .Replace(oldValue: "{{originalQuery}}", _scenario.VCode);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

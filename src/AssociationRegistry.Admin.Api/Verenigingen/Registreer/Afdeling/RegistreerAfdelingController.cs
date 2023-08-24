@@ -54,7 +54,7 @@ public class RegistreerAfdelingController : ApiController
     ///     al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren afdeling</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de registratie uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de afdeling uniek is,
     /// ondanks de voorgestelde duplicaten.</param>
     /// <response code="202">De afdeling is geregistreerd.</response>

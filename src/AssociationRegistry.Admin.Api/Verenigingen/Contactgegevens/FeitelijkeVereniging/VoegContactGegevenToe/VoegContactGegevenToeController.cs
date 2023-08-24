@@ -44,7 +44,7 @@ public class VoegContactgegevenToeController : ApiController
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging</param>
     /// <param name="request">Het toe te voegen contactgegeven</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd goedgekeurd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>

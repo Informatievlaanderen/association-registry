@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using System.Collections.ObjectModel;
 using Events;
 using Exceptions;
 using Framework;
+using System.Collections.ObjectModel;
 
 public class Locaties : ReadOnlyCollection<Locatie>
 {
@@ -21,9 +21,11 @@ public class Locaties : ReadOnlyCollection<Locatie>
     public Locaties Hydrate(IEnumerable<Locatie> locaties)
     {
         locaties = locaties.ToArray();
+
         if (!locaties.Any())
-            return new(Empty, Math.Max(InitialId, NextId));
-        return new(locaties, Math.Max(locaties.Max(x => x.LocatieId) + 1, NextId));
+            return new Locaties(Empty, Math.Max(InitialId, NextId));
+
+        return new Locaties(locaties, Math.Max(locaties.Max(x => x.LocatieId) + 1, NextId));
     }
 
     public Locatie[] VoegToe(params Locatie[] toeTeVoegenLocaties)
@@ -55,10 +57,12 @@ public class Locaties : ReadOnlyCollection<Locatie>
         var locatie = Get(locatieId);
 
         var gewijzigdeLocatie = locatie.Wijzig(naam, locatietype, isPrimair, adresId, adres);
+
         if (gewijzigdeLocatie.Equals(locatie))
             return null;
 
         ThrowIfCannotAppendOrUpdate(gewijzigdeLocatie);
+
         return gewijzigdeLocatie;
     }
 

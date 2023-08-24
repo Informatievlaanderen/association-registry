@@ -9,7 +9,7 @@ public static class ElasticSearchMappingExtensions
     {
         return settings.DefaultMappingFor(
             typeof(VerenigingZoekDocument),
-            descriptor => descriptor.IndexName(indexName)
-                .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
     }
 }
