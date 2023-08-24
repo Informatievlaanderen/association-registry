@@ -73,7 +73,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        Throw<LocatieTypeIsNotAllowed>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNotAllowed>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
@@ -82,7 +82,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNotAllowed>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 

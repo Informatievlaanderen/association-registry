@@ -144,11 +144,14 @@
   <data name="InvalidBevestigingstokenProvided">
     <value>Het bevestigingstoken is niet geldig voor deze request.</value>
   </data>
-  <data name="LocatieTypeIsNotAllowed">
-    <value>Dit locatieType is niet toegestaan bij deze actie.</value>
+  <data name="MaatschappelijkeZetelIsNotAllowed">
+    <value>Het locatietype 'Maatschappelijke zetel volgens KBO' kan niet toegekend worden.</value>
   </data>
   <data name="MaatschappelijkeZetelCanNotBeUpdated">
-    <value>De maatschappelijke zetel kan niet worden gewijzigd met deze actie.</value>
+    <value>De maatschappelijke zetel volgens KBO kan niet gewijzigd worden.</value>
+  </data>
+  <data name="MaatschappelijkeZetelCanNotBeRemoved">
+    <value>De maatschappelijke zetel volgens KBO kan niet verwijderd worden.</value>
   </data>
   <data name="ContactgegevenFromKboCannotBeUpdated">
     <value>Contactgegevens die uit KBO werden overgenomen kunnen niet worden aangepast.</value>

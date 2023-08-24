@@ -28,6 +28,6 @@ public class Given_The_MaatschappelijkeZetelId
 
         var wijzigLocatie = () => vereniging.VerwijderLocatie(1);
 
-        wijzigLocatie.Should().Throw<MaatschappelijkeZetelCanNotBeUpdated>();
+        wijzigLocatie.Should().Throw<MaatschappelijkeZetelCanNotBeRemoved>();
     }
 }

@@ -19,7 +19,7 @@ public class Given_A_MaatschappelijkeZetel
         var vereniging = new VerenigingOfAnyKind();
         var locatie = fixture.Create<Registratiedata.Locatie>();
 
-        Assert.Throws<LocatieTypeIsNotAllowed>(() => vereniging.VoegLocatieToe(
+        Assert.Throws<MaatschappelijkeZetelIsNotAllowed>(() => vereniging.VoegLocatieToe(
             Locatie.Create(
                 locatie.Naam,
                 locatie.IsPrimair,
