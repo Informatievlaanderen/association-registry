@@ -1,3 +1,10 @@
+# [6.20.0](https://github.com/informatievlaanderen/association-registry/compare/v6.19.0...v6.20.0) (2023-08-24)
+
+
+### Features
+
+* or-1877 add examples with bron ([85369f3](https://github.com/informatievlaanderen/association-registry/commit/85369f3f1b5f9206e0586402cf205a49bd5a3e34))
+
 # [6.19.0](https://github.com/informatievlaanderen/association-registry/compare/v6.18.1...v6.19.0) (2023-08-24)
 
 
