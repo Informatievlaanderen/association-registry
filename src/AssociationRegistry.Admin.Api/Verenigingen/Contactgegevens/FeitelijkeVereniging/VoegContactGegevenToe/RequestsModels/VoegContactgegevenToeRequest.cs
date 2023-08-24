@@ -15,7 +15,7 @@ public class VoegContactgegevenToeRequest
     public VoegContactgegevenToeCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
-            AssociationRegistry.Vereniging.Contactgegeven.Create(
+            AssociationRegistry.Vereniging.Contactgegeven.CreateFromInitiator(
                 ContactgegevenType.Parse(Contactgegeven.Type),
                 Contactgegeven.Waarde,
                 Contactgegeven.Beschrijving,

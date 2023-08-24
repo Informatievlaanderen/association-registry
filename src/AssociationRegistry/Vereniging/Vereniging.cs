@@ -145,16 +145,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(DoelgroepWerdGewijzigd.With(doelgroep));
     }
 
-    public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)
-    {
-        var gewijzigdContactgegeven = State.Contactgegevens.Wijzig(contactgegevenId, waarde, beschrijving, isPrimair);
-
-        if (gewijzigdContactgegeven is null)
-            return;
-
-        AddEvent(ContactgegevenWerdGewijzigd.With(gewijzigdContactgegeven));
-    }
-
     public void VerwijderContactgegeven(int contactgegevenId)
     {
         var verwijderdContactgegeven = State.Contactgegevens.Verwijder(contactgegevenId);

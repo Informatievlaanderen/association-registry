@@ -98,7 +98,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
     private static void AssertContactgegevens(Contactgegeven[] contactgegevens, RegistreerFeitelijkeVerenigingRequest request)
     {
         contactgegevens[0].Should().BeEquivalentTo(
-            Contactgegeven.Create(
+            Contactgegeven.CreateFromInitiator(
                 ContactgegevenType.Parse(request.Contactgegevens[0].Type),
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Beschrijving,

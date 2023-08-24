@@ -38,7 +38,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
-            Contactgegeven.Create(
+            Contactgegeven.CreateFromInitiator(
                 ContactgegevenType.Parse(type),
                 waarde,
                 _fixture.Create<string?>(),

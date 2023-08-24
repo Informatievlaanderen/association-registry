@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
+using Bronnen;
 using Emails;
 using Events;
 using Framework;
@@ -53,7 +54,8 @@ public record VerenigingState : IHasVersion
                             ContactgegevenType.Parse(c.Type),
                             c.Waarde,
                             c.Beschrijving,
-                            c.IsPrimair)))),
+                            c.IsPrimair,
+                            Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
                 (lijst, v) => Vertegenwoordigers.Hydrate(
@@ -119,7 +121,8 @@ public record VerenigingState : IHasVersion
                             ContactgegevenType.Parse(c.Type),
                             c.Waarde,
                             c.Beschrijving,
-                            c.IsPrimair)))),
+                            c.IsPrimair,
+                            Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
                 (lijst, v) => Vertegenwoordigers.Hydrate(
@@ -205,7 +208,8 @@ public record VerenigingState : IHasVersion
                         ContactgegevenType.Parse(@event.Type),
                         @event.Waarde,
                         @event.Beschrijving,
-                        @event.IsPrimair))),
+                        @event.IsPrimair,
+                        Bron.Initiator))),
         };
 
     public VerenigingState Apply(ContactgegevenWerdVerwijderd @event)
@@ -227,7 +231,8 @@ public record VerenigingState : IHasVersion
                             ContactgegevenType.Parse(@event.Type),
                             @event.Waarde,
                             @event.Beschrijving,
-                            @event.IsPrimair))),
+                            @event.IsPrimair,
+                            Bron.Initiator))),
         };
 
     public VerenigingState Apply(HoofdactiviteitenVerenigingsloketWerdenGewijzigd @event)
@@ -350,7 +355,8 @@ public record VerenigingState : IHasVersion
                         ContactgegevenType.Parse(@event.Type),
                         @event.Waarde,
                         string.Empty,
-                        false))),
+                        false,
+                        Bron.KBO))),
         };
 
     public VerenigingState Apply(ContactgegevenKonNietOvergenomenWordenUitKBO @event)

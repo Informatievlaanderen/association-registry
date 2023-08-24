@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Bronnen;
 using Framework;
 using Emails;
 using Exceptions;
@@ -15,6 +16,7 @@ public record Contactgegeven
     public string Waarde { get; }
     public string Beschrijving { get; init; }
     public bool IsPrimair { get; init; }
+    public Bron Bron { get; init; }
 
     protected Contactgegeven(ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
     {
@@ -25,23 +27,24 @@ public record Contactgegeven
         IsPrimair = isPrimair;
     }
 
-    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
+    private Contactgegeven(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair, Bron bron)
     {
         ContactgegevenId = contactgegevenId;
         Type = type;
         Waarde = waarde;
         Beschrijving = beschrijving;
         IsPrimair = isPrimair;
+        Bron = bron;
     }
 
-    public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair)
-        => new(contactgegevenId, type, waarde, beschrijving, isPrimair);
+    public static Contactgegeven Hydrate(int contactgegevenId, ContactgegevenType type, string waarde, string beschrijving, bool isPrimair, Bron bron)
+        => new(contactgegevenId, type, waarde, beschrijving, isPrimair, bron);
 
-    public static Contactgegeven Create(ContactgegevenType type, string waarde, string? beschrijving, bool isPrimair)
+    public static Contactgegeven CreateFromInitiator(ContactgegevenType type, string waarde, string? beschrijving, bool isPrimair)
     {
         beschrijving ??= string.Empty;
 
-        return type switch
+        Contactgegeven contactgegeven = type switch
         {
             { Waarde: ContactgegevenType.Labels.Email } => Email.Create(waarde, beschrijving, isPrimair),
             { Waarde: ContactgegevenType.Labels.Telefoon } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
@@ -49,16 +52,18 @@ public record Contactgegeven
             { Waarde: ContactgegevenType.Labels.SocialMedia } => SocialMedia.Create(waarde, beschrijving, isPrimair),
             _ => throw new InvalidContactType(),
         };
+
+        return contactgegeven with { Bron = Bron.Initiator };
     }
 
-    public static Contactgegeven Create(ContactgegevenType type, string waarde)
-        => Create(type, waarde, string.Empty, false);
+    public static Contactgegeven CreateFromKbo(ContactgegevenType type, string waarde)
+        => CreateFromInitiator(type, waarde, string.Empty, false) with { Bron = Bron.KBO };
 
 
     public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
         Throw<InvalidContactType>.IfNot(IsKnownType(type));
-        return Create(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
+        return CreateFromInitiator(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }
 
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
@@ -71,7 +76,7 @@ public record Contactgegeven
         => ContactgegevenType.CanParse(type);
 
     public Contactgegeven CopyWithValuesIfNotNull(string? waarde, string? beschrijving, bool? isPrimair)
-        => Create(Type, waarde ?? Waarde, beschrijving ?? Beschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
+        => CreateFromInitiator(Type, waarde ?? Waarde, beschrijving ?? Beschrijving, isPrimair ?? IsPrimair) with { ContactgegevenId = ContactgegevenId };
 
     public virtual bool Equals(Contactgegeven? other)
     {
@@ -97,7 +102,7 @@ public record Contactgegeven
     {
         try
         {
-            return Create(type.ContactgegevenType, waarde);
+            return CreateFromKbo(type.ContactgegevenType, waarde);
         }
         catch (DomainException)
         {

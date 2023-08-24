@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using System.Collections.ObjectModel;
+using Bronnen;
 using Framework;
 using Exceptions;
 
@@ -56,6 +57,8 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         MustContain(contactgegevenId);
 
         var teWijzigenContactgegeven = this[contactgegevenId];
+        Throw<ContactgegevenFromKboCannotBeUpdated>.If(teWijzigenContactgegeven.Bron == Bron.KBO);
+
         if (teWijzigenContactgegeven.WouldBeEquivalent(waarde, beschrijving, isPrimair, out var gewijzigdContactgegeven))
             return null;
 
