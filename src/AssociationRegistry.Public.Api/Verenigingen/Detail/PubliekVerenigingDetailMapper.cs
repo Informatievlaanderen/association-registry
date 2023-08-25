@@ -16,6 +16,7 @@ public static class PubliekVerenigingDetailMapper
                 VCode = document.VCode,
                 Type = Map(document.Type),
                 Naam = document.Naam,
+                Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,
                 KorteBeschrijving = document.KorteBeschrijving,
                 Startdatum = document.Startdatum,

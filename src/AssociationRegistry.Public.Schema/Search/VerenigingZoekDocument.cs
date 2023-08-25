@@ -34,12 +34,13 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
+    public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
+    public Sleutel[] Sleutels { get; set; } = null!;
 }
 
 public class Doelgroep

@@ -19,7 +19,7 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Roepnaam))
-                         .Binary(
+                         .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
                          .Nested<Doelgroep>(

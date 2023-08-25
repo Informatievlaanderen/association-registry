@@ -12,9 +12,9 @@ public record Doelgroep
 public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     [Identity] public string VCode { get; set; } = null!;
-
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
+    public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
     public string KorteBeschrijving { get; set; } = null!;
     public DateOnly? Startdatum { get; set; }
@@ -70,15 +70,12 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public class Relatie
     {
         public string Type { get; set; } = null!;
-
         public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
 
         public class GerelateerdeVereniging
         {
             public string KboNummer { get; set; } = null!;
-
             public string VCode { get; set; } = null!;
-
             public string Naam { get; set; } = null!;
         }
     }
@@ -92,15 +89,10 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public class Adres
     {
         public string Straatnaam { get; init; } = null!;
-
         public string Huisnummer { get; init; } = null!;
-
         public string? Busnummer { get; init; }
-
         public string Postcode { get; init; } = null!;
-
         public string Gemeente { get; init; } = null!;
-
         public string Land { get; init; } = null!;
     }
 }

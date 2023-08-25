@@ -55,6 +55,14 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+    public async Task Project(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(roepnaamWerdGewijzigd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(roepnaamWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
 
     public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
     {
