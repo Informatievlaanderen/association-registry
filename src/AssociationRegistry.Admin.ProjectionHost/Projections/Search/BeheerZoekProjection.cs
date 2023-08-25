@@ -39,6 +39,7 @@ public class BeheerZoekProjectionHandler
                                                                         Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
                                                                     })
                                                            .ToArray(),
+                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );
 
@@ -66,6 +67,7 @@ public class BeheerZoekProjectionHandler
                                                                     })
                                                            .ToArray(),
                 IsUitgeschrevenUitPubliekeDatastroom = false,
+
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );

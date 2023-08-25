@@ -57,7 +57,7 @@ public class Given_RoepnaamWerdGewijzigd
                     ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
                 }}],
             ""links"": {{
-                ""detail"": ""http: //127.0.0.1:11004/v1/verenigingen/V9999015""
+                ""detail"": ""http://127.0.0.1:11004/v1/verenigingen/V9999038""
             }}
 }}],
           ""metadata"": {{
