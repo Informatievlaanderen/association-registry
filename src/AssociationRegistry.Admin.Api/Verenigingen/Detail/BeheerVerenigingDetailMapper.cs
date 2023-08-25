@@ -41,6 +41,7 @@ public class BeheerVerenigingDetailMapper
             VCode = vereniging.VCode,
             Type = Map(vereniging.Type),
             Naam = vereniging.Naam,
+            Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
             KorteBeschrijving = vereniging.KorteBeschrijving,
             Startdatum = vereniging.Startdatum,

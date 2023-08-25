@@ -2,14 +2,14 @@
   "@context": "http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json",
   "verenigingen": [
     {
-      "vCode": "V9999015",
+      "vCode": "V9999038",
       "type": {
         "code": "VZW",
-        "beschrijving": "Vereniging zonder winstoogmerk"
+        "beschrijving": "Vereniging zonder winstoogmerk",
       },
-      "naam": "VZW 0000000000",
-      "roepnaam": "",
-      "korteNaam": "",
+      "naam": "Naam Vereniging",
+      "roepnaam": "Mijn roepnaam"
+      "korteNaam": "NV",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150
@@ -19,7 +19,7 @@
       "sleutels": [
         {
           "bron": "KBO",
-          "waarde": "0000000000"
+          "waarde": "0123456789"
         }
       ],
       "links": {

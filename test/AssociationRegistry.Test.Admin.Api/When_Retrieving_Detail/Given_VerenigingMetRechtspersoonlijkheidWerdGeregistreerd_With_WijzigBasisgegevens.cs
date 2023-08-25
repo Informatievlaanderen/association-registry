@@ -16,15 +16,15 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [System.ComponentModel.Category("AdminApi")]
 [IntegrationTest]
-public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
+public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly HttpResponseMessage _response;
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens _scenario;
 
-    public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
+    public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
+        _scenario = fixture.V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens;
 
         _adminApiClient = fixture.DefaultClient;
         _response = fixture.DefaultClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
@@ -52,7 +52,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         var content = await _response.Content.ReadAsStringAsync();
 
         var vCode = _scenario.VCode;
-
         var expected = $@"
 {{
     ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
@@ -63,64 +62,15 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 ""beschrijving"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
             }},
             ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
-            ""roepnaam"": """",
+            ""roepnaam"": ""{_scenario.RoepnaamWerdGewijzigd.Roepnaam}"",
             ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
             ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,
-            ""contactgegevens"": [{{
-                        ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-                    }},
-{{
-                        ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-}},
-{{
-                        ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-}},
-{{
-                        ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.GSMWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-                    }}],
-            ""locaties"":[
-                {{
-                ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
-                ""locatietype"": ""Maatschappelijke zetel volgens KBO"",
-                ""isPrimair"": false,
-                ""naam"": ""{string.Empty}"",
-                ""adres"": {{
-                    ""straatnaam"": ""Stationsstraat"",
-                    ""huisnummer"": ""1"",
-                    ""busnummer"": ""B"",
-                    ""postcode"": ""1790"",
-                    ""gemeente"": ""Affligem"",
-                    ""land"": ""België""
-                }},
-                ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
-                ""adresId"": null,
-                ""bron"": ""{Bron.KBO.Waarde}"",
-            }}
-            ],
+            ""contactgegevens"": [],
+            ""locaties"":[],
             ""vertegenwoordigers"":[],
             ""hoofdactiviteitenVerenigingsloket"":[],
             ""sleutels"":[

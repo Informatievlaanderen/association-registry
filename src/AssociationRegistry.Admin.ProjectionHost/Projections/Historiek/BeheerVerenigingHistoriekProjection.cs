@@ -238,4 +238,13 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(roepnaamWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(roepnaamWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
 }

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
@@ -9,6 +8,7 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
@@ -47,18 +47,18 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, _fixture.V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder.Result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetDetail(_vCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, long.MaxValue))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_afdeling_response()
@@ -123,6 +123,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                 ""beschrijving"": ""{Verenigingstype.Parse(_moederWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
             }},
             ""naam"": ""{_moederWerdGeregistreerd.Naam}"",
+            ""roepnaam"": """",
             ""korteNaam"": ""{_moederWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
             ""startdatum"": ""{_moederWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",

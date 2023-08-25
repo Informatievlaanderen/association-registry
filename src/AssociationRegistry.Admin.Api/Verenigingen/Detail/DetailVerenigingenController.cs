@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -42,7 +42,7 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status200OK, "ETag", "string", "De versie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status200OK, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -54,11 +54,11 @@ public class DetailVerenigingenController : ApiController
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
-             return StatusCode(StatusCodes.Status412PreconditionFailed);
+            return StatusCode(StatusCodes.Status412PreconditionFailed);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
-            .WithVCode(vCode)
-            .SingleOrDefaultAsync();
+                                           .WithVCode(vCode)
+                                           .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
             return NotFound();
@@ -67,6 +67,4 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(_mapper.Map(vereniging));
     }
-
-
 }

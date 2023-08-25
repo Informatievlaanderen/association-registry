@@ -18,7 +18,7 @@ public class Given_MaatschappelijkeZetelWerdovergenomenUitKbo
 
     public Given_MaatschappelijkeZetelWerdovergenomenUitKbo(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
+        _scenario = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
         _adminApiClient = fixture.AdminApiClient;
 
         _goldenMaster = GetType().GetAssociatedResourceJson(

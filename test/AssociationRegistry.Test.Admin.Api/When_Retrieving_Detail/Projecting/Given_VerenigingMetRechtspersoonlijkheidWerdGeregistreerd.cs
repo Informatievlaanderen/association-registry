@@ -13,6 +13,7 @@ using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
+using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -26,6 +27,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
+
         verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data with
         {
             Rechtsvorm = rechtsvorm,
@@ -43,10 +45,11 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     Beschrijving = Verenigingstype.Parse(rechtsvorm).Beschrijving,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
+                Roepnaam = string.Empty,
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = string.Empty,
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
@@ -70,6 +73,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Bron = Bron.KBO,
                 Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
             });
+
         doc.DatumLaatsteAanpassing.Should().Be(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version));
     }

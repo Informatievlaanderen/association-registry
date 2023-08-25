@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -16,6 +17,11 @@ public class VerenigingDetail
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
+
+    /// <summary>Roepnaam van de vereniging</summary>
+    [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
+    [DefaultValue(null)]
+    public string Roepnaam { get; init; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember(Name = "KorteNaam")]
