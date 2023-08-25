@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
-using System;
-using System.Collections.Generic;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
-using Vereniging;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Collections.Generic;
+using Vereniging;
 using Vereniging.Bronnen;
 using Adres = ResponseModels.Adres;
 using Contactgegeven = ResponseModels.Contactgegeven;
@@ -39,6 +39,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
+                    Roepnaam = "De vrolijke BA's",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",
                     Startdatum = "2020-05-15",
@@ -197,7 +198,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             },
                             Bron = Bron.Initiator.Waarde,
                         },
-
                     },
                     Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
                     Sleutels = new[]

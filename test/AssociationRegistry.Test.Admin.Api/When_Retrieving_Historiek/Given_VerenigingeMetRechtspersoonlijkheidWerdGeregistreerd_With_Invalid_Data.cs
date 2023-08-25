@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using Fixtures;
@@ -9,25 +7,26 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
+public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
 
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data _scenario;
 
-
-    public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
+    public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
+        _scenario = fixture.V030VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData;
 
         _vCode = _scenario.VCode;
         _metadata = _scenario.Metadata;
@@ -39,19 +38,18 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode, _scenario.Result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode, long.MaxValue))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
-
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_registratie_gebeurtenis_for_moeder()
@@ -71,35 +69,35 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
-{{
-                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
-                        ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
+                    {{
+                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."",
+                        ""gebeurtenis"":""MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
-{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
-                        ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.EmailWerdOvergenomenUitKBO)},
+                    {{
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
+                        ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.EmailKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
-                        ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteWerdOvergenomenUitKBO)},
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
+                        ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
-                        ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonWerdOvergenomenUitKBO)},
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
+                        ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
-                        ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
-                        ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
-                        ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
+                        ""beschrijving"": ""Contactgegeven ‘{_scenario.GsmKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
+                        ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.GsmKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}

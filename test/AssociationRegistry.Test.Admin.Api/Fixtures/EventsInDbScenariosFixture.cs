@@ -31,9 +31,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V025_LocatieWerdVerwijderd V025LocatieWerdVerwijderd = new();
     public readonly V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen V026FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigen = new();
     public readonly V027_LocatieWerdGewijzigd V027LocatieWerdGewijzigd = new();
-    public readonly V028_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd = new();
-    public readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData = new();
-    public readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data V030VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData = new();
+    public readonly V028_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd V028VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new();
+    public readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData = new();
+    public readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data V030VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData = new();
     public readonly V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingLocatie V031VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingLocatie = new();
     public readonly V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForWijzigen V032VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithLocatiesForWijzigen = new();
     public readonly V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen V033VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithLocatiesForVerwijderen = new();
@@ -41,6 +41,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V035_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingContactgegeven V035VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingContactgegeven = new();
     public readonly V036_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForWijzigenContactgegeven V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven = new();
     public readonly V037_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForVerwijderContactgegeven V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven = new();
+    public readonly V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
 
     protected override async Task Given()
     {
@@ -72,9 +73,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V025LocatieWerdVerwijderd,
             V026FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigen,
             V027LocatieWerdGewijzigd,
-            V028VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd,
-            V029VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithAllData,
-            V030VerenigingeMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData,
+            V028VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData,
+            V030VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithInvalidData,
             V031VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingLocatie,
             V032VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithLocatiesForWijzigen,
             V033VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithLocatiesForVerwijderen,
@@ -82,6 +83,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V035VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForAddingContactgegeven,
             V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven,
             V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven,
+            V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens,
         };
 
         foreach (var scenario in scenarios)

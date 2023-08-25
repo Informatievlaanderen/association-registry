@@ -14,6 +14,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     [Identity] public string VCode { get; init; } = null!;
     public string Naam { get; set; } = null!;
     public VerenigingsType Type { get; init; } = null!;
+    public string Roepnaam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
@@ -31,14 +32,13 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
 
-
     public record VerenigingsType
     {
         public string Code { get; init; } = null!;
         public string Beschrijving { get; init; } = null!;
     }
 
-    public record Contactgegeven:IHasBron
+    public record Contactgegeven : IHasBron
     {
         public int ContactgegevenId { get; init; }
         public string Type { get; init; } = null!;

@@ -1,9 +1,13 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
-using System;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using Vereniging;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = ResponseModels.Locatie;
+using Vereniging = ResponseModels.Vereniging;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
 {
@@ -30,7 +34,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
-                    },Locaties = new[]
+                    },
+                    Locaties = new[]
                     {
                         new Locatie
                         {
@@ -42,6 +47,11 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Gemeente = "Liedekerke",
                         },
                     },
+                    Type = new VerenigingsType
+                    {
+                        Code = Verenigingstype.FeitelijkeVereniging.Code,
+                        Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                    },
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0001001"),
@@ -52,6 +62,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
                     KorteNaam = string.Empty,
+                    Roepnaam = "Bronneke",
                     HoofdactiviteitenVerenigingsloket = new[]
                     {
                         new HoofdactiviteitVerenigingsloket
@@ -60,11 +71,17 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Beschrijving = "Sport",
                         },
                     },
+                    Type = new VerenigingsType
+                    {
+                        Code = Verenigingstype.VZW.Code,
+                        Beschrijving = Verenigingstype.VZW.Beschrijving,
+                    },
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
-                    },Locaties = new[]
+                    },
+                    Locaties = new[]
                     {
                         new Locatie
                         {

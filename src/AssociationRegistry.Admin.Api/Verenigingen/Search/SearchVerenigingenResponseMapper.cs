@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class SearchVerenigingenResponseMapper
 {
@@ -26,8 +26,8 @@ public class SearchVerenigingenResponseMapper
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
-                .Select(x => Map(x.Source, _appSettings))
-                .ToArray(),
+                                         .Select(x => Map(x.Source, _appSettings))
+                                         .ToArray(),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
 
@@ -37,17 +37,18 @@ public class SearchVerenigingenResponseMapper
             VCode = verenigingZoekDocument.VCode,
             Type = Map(verenigingZoekDocument.Type),
             Naam = verenigingZoekDocument.Naam,
+            Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                .Select(Map)
-                .ToArray(),
+                                                                      .Select(Map)
+                                                                      .ToArray(),
             Locaties = verenigingZoekDocument.Locaties
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
             Sleutels = verenigingZoekDocument.Sleutels
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
             Links = Map(verenigingZoekDocument.VCode, appSettings),
         };
 
@@ -101,7 +102,6 @@ public class SearchVerenigingenResponseMapper
             Postcode = loc.Postcode,
             Gemeente = loc.Gemeente,
         };
-
 
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()

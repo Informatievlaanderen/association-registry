@@ -81,6 +81,12 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Naam werd gewijzigd naar '{naamWerdGewijzigd.Data.Naam}'.");
 
+    public static void Apply(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            roepnaamWerdGewijzigd,
+            document,
+            $"Roepnaam werd gewijzigd naar '{roepnaamWerdGewijzigd.Data.Roepnaam}'.");
+
     public static void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             korteNaamWerdGewijzigd,
@@ -98,6 +104,7 @@ public class BeheerVerenigingHistoriekProjector
         if (startdatumWerdGewijzigd.Data.Startdatum is { } startdatum)
         {
             var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
+
             AddHistoriekEntry(
                 startdatumWerdGewijzigd,
                 document,
@@ -281,6 +288,7 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
+
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
@@ -297,6 +305,7 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
+
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
