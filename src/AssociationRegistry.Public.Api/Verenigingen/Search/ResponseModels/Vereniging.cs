@@ -17,6 +17,10 @@ public class Vereniging
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 
+    /// <summary>De roepnaam van de vereniging</summary>
+    [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
+    public string? Roepnaam { get; set; }
+
     /// <summary>De korte naam van de vereniging</summary>
     [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; } = null!;

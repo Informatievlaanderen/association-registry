@@ -34,6 +34,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
+                Roepnaam = string.Empty,
                 KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = string.Empty,
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,

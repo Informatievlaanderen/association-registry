@@ -46,6 +46,7 @@ public class SearchVerenigingenResponseMapper
             VCode = verenigingZoekDocument.VCode,
             Type = Map(verenigingZoekDocument.Type),
             Naam = verenigingZoekDocument.Naam,
+            Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket

@@ -18,6 +18,10 @@ public class Vereniging
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 
+    /// <summary>Roepnaam van de vereniging</summary>
+    [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
+    public string? Roepnaam { get; init; }
+
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember(Name = "KorteNaam")]
     public string? KorteNaam { get; init; }
@@ -53,7 +57,6 @@ public class Vereniging
     /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]
     public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();
-
 
     /// <summary>De relaties van deze vereniging</summary>
     [DataMember(Name = "Relaties")]

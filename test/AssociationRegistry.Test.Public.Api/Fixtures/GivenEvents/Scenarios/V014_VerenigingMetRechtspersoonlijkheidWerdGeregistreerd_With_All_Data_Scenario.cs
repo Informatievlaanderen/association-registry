@@ -36,7 +36,6 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
     public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO = new(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
     public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
 
-
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 

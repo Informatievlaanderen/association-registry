@@ -27,3 +27,21 @@ public class Given_KorteNaamWerdGewijzigd
         doc.DatumLaatsteAanpassing.Should().Be(korteNaamWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }
+
+[UnitTest]
+public class Given_RoepnaamWerdGewijzigd
+{
+    [Fact]
+    public void Then_it_modifies_the_roepnaam()
+    {
+        var fixture = new Fixture().CustomizePublicApi();
+        var roepnaamWerdGewijzigd = fixture.Create<TestEvent<RoepnaamWerdGewijzigd>>();
+
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
+        PubliekVerenigingDetailProjector.Apply(roepnaamWerdGewijzigd, doc);
+
+        doc.Roepnaam.Should().Be(roepnaamWerdGewijzigd.Data.Roepnaam);
+        doc.DatumLaatsteAanpassing.Should().Be(roepnaamWerdGewijzigd.Tijdstip.ToBelgianDate());
+    }
+}

@@ -33,14 +33,15 @@ public class PubliekZoekProjectionHandler
                 Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                    .Select(
-                        hoofdactiviteitVerenigingsloket =>
-                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
-                            {
-                                Code = hoofdactiviteitVerenigingsloket.Code,
-                                Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
-                            })
-                    .ToArray(),
+                                                           .Select(
+                                                                hoofdactiviteitVerenigingsloket =>
+                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    {
+                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                    })
+                                                           .ToArray(),
+                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );
 
@@ -60,14 +61,14 @@ public class PubliekZoekProjectionHandler
                 Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                    .Select(
-                        hoofdactiviteitVerenigingsloket =>
-                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
-                            {
-                                Code = hoofdactiviteitVerenigingsloket.Code,
-                                Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
-                            })
-                    .ToArray(),
+                                                           .Select(
+                                                                hoofdactiviteitVerenigingsloket =>
+                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    {
+                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                    })
+                                                           .ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
             }
         );
@@ -83,6 +84,7 @@ public class PubliekZoekProjectionHandler
                     Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Beschrijving,
                 },
                 Naam = message.Data.Naam,
+                Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
                 Doelgroep = new Doelgroep
                 {
@@ -108,6 +110,15 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 Naam = message.Data.Naam,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<RoepnaamWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Roepnaam = message.Data.Roepnaam,
             }
         );
 
@@ -140,14 +151,14 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                    .Select(
-                        hoofdactiviteitVerenigingsloket =>
-                            new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
-                            {
-                                Code = hoofdactiviteitVerenigingsloket.Code,
-                                Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
-                            })
-                    .ToArray(),
+                                                           .Select(
+                                                                hoofdactiviteitVerenigingsloket =>
+                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    {
+                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                    })
+                                                           .ToArray(),
             });
     }
 
