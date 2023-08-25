@@ -63,25 +63,21 @@ public static class AutoFixtureCustomizations
                         Maximumleeftijd = 50 + fixture.Create<int>() % 50,
                     },
                     HoofdactiviteitenVerenigingsloket = fixture
-                        .CreateMany<HoofdactiviteitVerenigingsloket>()
-                        .Distinct()
-                        .Select(h => h.Code)
-                        .ToArray(),
+                                                       .CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                       .Distinct()
+                                                       .Select(h => h.Code)
+                                                       .ToArray(),
                 }).OmitAutoProperties());
 
         fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
-            composer => composer.FromFactory(
-                () => new AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest
-                {
-                    KorteBeschrijving = fixture.Create<string>(),
-                    HoofdactiviteitenVerenigingsloket = fixture
-                        .CreateMany<HoofdactiviteitVerenigingsloket>()
-                        .Distinct()
-                        .Select(h => h.Code)
-                        .ToArray(),
-                }).OmitAutoProperties());
+            composer => composer.With(
+                e => e.HoofdactiviteitenVerenigingsloket,
+                () => fixture
+                     .CreateMany<HoofdactiviteitVerenigingsloket>()
+                     .Distinct()
+                     .Select(h => h.Code)
+                     .ToArray()));
     }
-
 
     private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
@@ -96,9 +92,9 @@ public static class AutoFixtureCustomizations
                     Doelgroep = fixture.Create<DoelgroepRequest>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                        .Select(x => x.Code)
-                        .Distinct()
-                        .ToArray(),
+                                                               .Select(x => x.Code)
+                                                               .Distinct()
+                                                               .ToArray(),
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
                 }).OmitAutoProperties());
@@ -108,38 +104,39 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<ToeTeVoegenContactgegeven>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () =>
-                    {
-                        var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new ToeTeVoegenContactgegeven
-                        {
-                            Type = contactgegeven.Type,
-                            Waarde = contactgegeven.Waarde,
-                            Beschrijving = fixture.Create<string>(),
-                            IsPrimair = false,
-                        };
-                    })
-                .OmitAutoProperties());
+                                                             factory: () =>
+                                                             {
+                                                                 var contactgegeven = fixture.Create<Contactgegeven>();
+
+                                                                 return new ToeTeVoegenContactgegeven
+                                                                 {
+                                                                     Type = contactgegeven.Type,
+                                                                     Waarde = contactgegeven.Waarde,
+                                                                     Beschrijving = fixture.Create<string>(),
+                                                                     IsPrimair = false,
+                                                                 };
+                                                             })
+                                                        .OmitAutoProperties());
     }
 
     private static void CustomizeToeTeVoegenVertegenwoordiger(this IFixture fixture)
     {
         fixture.Customize<ToeTeVoegenVertegenwoordiger>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new ToeTeVoegenVertegenwoordiger
-                    {
-                        Insz = fixture.Create<Insz>(),
-                        Voornaam = fixture.Create<Voornaam>(),
-                        Achternaam = fixture.Create<Achternaam>(),
-                        Roepnaam = fixture.Create<string>(),
-                        Rol = fixture.Create<string>(),
-                        IsPrimair = false,
-                        Email = fixture.Create<Email>().Waarde,
-                        Telefoon = fixture.Create<TelefoonNummer>().Waarde,
-                        Mobiel = fixture.Create<TelefoonNummer>().Waarde,
-                        SocialMedia = fixture.Create<SocialMedia>().Waarde,
-                    })
-                .OmitAutoProperties());
+                                                             factory: () => new ToeTeVoegenVertegenwoordiger
+                                                             {
+                                                                 Insz = fixture.Create<Insz>(),
+                                                                 Voornaam = fixture.Create<Voornaam>(),
+                                                                 Achternaam = fixture.Create<Achternaam>(),
+                                                                 Roepnaam = fixture.Create<string>(),
+                                                                 Rol = fixture.Create<string>(),
+                                                                 IsPrimair = false,
+                                                                 Email = fixture.Create<Email>().Waarde,
+                                                                 Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                                                                 Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                                                                 SocialMedia = fixture.Create<SocialMedia>().Waarde,
+                                                             })
+                                                        .OmitAutoProperties());
     }
 
     private static void CustomizeToeTeVoegenLocatie(this IFixture fixture)
@@ -193,9 +190,9 @@ public static class AutoFixtureCustomizations
                     Naam = fixture.Create<string>(),
                     Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
                     HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                        .Select(x => x.Code)
-                        .Distinct()
-                        .ToArray(),
+                                                               .Select(x => x.Code)
+                                                               .Distinct()
+                                                               .ToArray(),
                     KorteBeschrijving = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
                 }).OmitAutoProperties());
@@ -205,32 +202,32 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<VoegContactgegevenToeRequest>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new VoegContactgegevenToeRequest
-                    {
-                        Contactgegeven = fixture.Create<ToeTeVoegenContactgegeven>(),
-                    }
-                )
-                .OmitAutoProperties());
+                                                             factory: () => new VoegContactgegevenToeRequest
+                                                             {
+                                                                 Contactgegeven = fixture.Create<ToeTeVoegenContactgegeven>(),
+                                                             }
+                                                         )
+                                                        .OmitAutoProperties());
     }
 
     private static void CustomizeWijzigVertegenwoordigerRequest(this IFixture fixture)
     {
         fixture.Customize<WijzigVertegenwoordigerRequest>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new WijzigVertegenwoordigerRequest
-                    {
-                        Vertegenwoordiger = new TeWijzigenVertegenwoordiger
-                        {
-                            Email = fixture.Create<Email>().Waarde,
-                            Telefoon = fixture.Create<TelefoonNummer>().Waarde,
-                            Mobiel = fixture.Create<TelefoonNummer>().Waarde,
-                            SocialMedia = fixture.Create<SocialMedia>().Waarde,
-                            Rol = fixture.Create<string>(),
-                            Roepnaam = fixture.Create<string>(),
-                            IsPrimair = false,
-                        },
-                    })
-                .OmitAutoProperties());
+                                                             factory: () => new WijzigVertegenwoordigerRequest
+                                                             {
+                                                                 Vertegenwoordiger = new TeWijzigenVertegenwoordiger
+                                                                 {
+                                                                     Email = fixture.Create<Email>().Waarde,
+                                                                     Telefoon = fixture.Create<TelefoonNummer>().Waarde,
+                                                                     Mobiel = fixture.Create<TelefoonNummer>().Waarde,
+                                                                     SocialMedia = fixture.Create<SocialMedia>().Waarde,
+                                                                     Rol = fixture.Create<string>(),
+                                                                     Roepnaam = fixture.Create<string>(),
+                                                                     IsPrimair = false,
+                                                                 },
+                                                             })
+                                                        .OmitAutoProperties());
     }
 
     private static void CustomizeWijzigLocatieRequest(this IFixture fixture)
@@ -263,10 +260,10 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<RegistreerVerenigingUitKboRequest>(
             composerTransformation: composer => composer.FromFactory(
-                    factory: () => new RegistreerVerenigingUitKboRequest
-                    {
-                        KboNummer = fixture.Create<KboNummer>(),
-                    })
-                .OmitAutoProperties());
+                                                             factory: () => new RegistreerVerenigingUitKboRequest
+                                                             {
+                                                                 KboNummer = fixture.Create<KboNummer>(),
+                                                             })
+                                                        .OmitAutoProperties());
     }
 }

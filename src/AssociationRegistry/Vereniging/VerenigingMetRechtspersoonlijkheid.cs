@@ -34,6 +34,14 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         return vereniging;
     }
 
+    public void WijzigRoepnaam(string roepnaam)
+    {
+        if (roepnaam.Equals(State.Roepnaam))
+            return;
+
+        AddEvent(new RoepnaamWerdGewijzigd(roepnaam));
+    }
+
     public void WijzigKorteBeschrijving(string korteBeschrijving)
     {
         if (korteBeschrijving.Equals(State.KorteBeschrijving))

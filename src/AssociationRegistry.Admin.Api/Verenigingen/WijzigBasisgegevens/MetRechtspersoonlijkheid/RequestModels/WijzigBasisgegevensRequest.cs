@@ -19,9 +19,16 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
+    /// <summary>
+    /// De nieuwe roepnaam van de vereniging
+    /// </summary>
+    [DataMember]
+    public string? Roepnaam { get; set; }
+
     public WijzigBasisgegevensCommand ToCommand(string vCode)
         => new(
             VCode.Create(vCode),
+            Roepnaam,
             KorteBeschrijving,
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
         );
