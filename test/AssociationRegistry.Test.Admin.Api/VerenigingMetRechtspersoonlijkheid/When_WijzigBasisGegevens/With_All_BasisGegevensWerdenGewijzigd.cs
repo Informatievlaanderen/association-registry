@@ -3,7 +3,7 @@
 using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
@@ -30,6 +30,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
         Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
         var jsonBody = $@"{{
+            ""roepnaam"":""{Request.Roepnaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
             ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}]
             }}";
@@ -62,17 +63,23 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     public void Then_it_saves_the_events()
     {
         using var session = _documentStore
-            .LightweightSession();
-        var korteBeschrijvingWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
-        var hoofactiviteitenVerenigingloketWerdenGewijzigd = session.Events
-            .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+           .LightweightSession();
 
+        var events = session.Events
+                            .FetchStream(_vCode);
 
-        korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(_request.KorteBeschrijving);
-        hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
+        var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(RoepnaamWerdGewijzigd));
+
+        roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam!));
+
+        var korteBeschrijvingWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd));
+
+        korteBeschrijvingWerdGewijzigd.Data.Should().BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
+
+        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = events
+           .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+
+        hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
     }
 
@@ -86,8 +93,9 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     public void Then_it_returns_a_location_header()
     {
         _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+
         _response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
+                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

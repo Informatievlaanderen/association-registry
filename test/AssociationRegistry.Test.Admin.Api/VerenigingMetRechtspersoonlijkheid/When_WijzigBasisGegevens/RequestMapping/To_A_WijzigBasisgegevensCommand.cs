@@ -22,9 +22,10 @@ public class To_A_WijzigBasisgegevensCommand
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Deconstruct(out var vCode, out var korteBeschrijving, out var hoofdactiviteitenVerenigingsloket);
+        actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving, out var hoofdactiviteitenVerenigingsloket);
 
         vCode.Should().Be(actualVCode);
+        roepnaam.Should().Be(request.Roepnaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
     }

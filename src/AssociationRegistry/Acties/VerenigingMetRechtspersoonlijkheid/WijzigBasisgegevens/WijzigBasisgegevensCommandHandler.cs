@@ -12,12 +12,20 @@ public class WijzigBasisgegevensCommandHandler
     {
         var vereniging = await repository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
 
+        HandleRoepnaam(vereniging, message.Command.Roepnaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
+
+    private void HandleRoepnaam(VerenigingMetRechtspersoonlijkheid vereniging, string? roepnaam)
+    {
+        if (roepnaam is null)
+            return;
+
+        vereniging.WijzigRoepnaam(roepnaam);    }
 
     private static void HandleHoofdactiviteitenVerenigingsloket(VerenigingMetRechtspersoonlijkheid vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
     {
