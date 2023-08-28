@@ -2,9 +2,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 
 using Common;
-using System.Linq;
 using FluentValidation;
 using RequestModels;
+using System.Linq;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -31,5 +31,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
     private static bool HaveAtLeastOneValue(WijzigBasisgegevensRequest request)
         => request.KorteBeschrijving is not null ||
            request.HoofdactiviteitenVerenigingsloket is not null ||
-           request.Roepnaam is not null;
+           request.Roepnaam is not null ||
+           request.Doelgroep is not null;
 }
