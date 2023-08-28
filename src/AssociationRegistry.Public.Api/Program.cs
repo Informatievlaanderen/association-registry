@@ -6,7 +6,6 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
-using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
@@ -71,7 +70,7 @@ public class Program
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
 
-        ConfigereKestrel(builder);
+        ConfigureKestrel(builder);
         ConfigureLogger(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
@@ -100,6 +99,7 @@ public class Program
            .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
+        app.ConfigureElasticSearch();
 
         app.Run();
     }
@@ -420,19 +420,7 @@ public class Program
                .AddOpenTelemetry();
     }
 
-    private static void RunWithLock<T>(IWebHostBuilder webHostBuilder) where T : class
-    {
-        var webHost = webHostBuilder.Build();
-        var services = webHost.Services;
-        var logger = services.GetRequiredService<ILogger<T>>();
-
-        DistributedLock<T>.Run(
-            runFunc: () => webHost.Run(),
-            DistributedLockOptions.Defaults,
-            logger);
-    }
-
-    private static void ConfigereKestrel(WebApplicationBuilder builder)
+    private static void ConfigureKestrel(WebApplicationBuilder builder)
     {
         builder.WebHost.ConfigureKestrel(
             options =>
