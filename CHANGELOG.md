@@ -1,3 +1,11 @@
+# [7.2.0](https://github.com/informatievlaanderen/association-registry/compare/v7.1.0...v7.2.0) (2023-08-28)
+
+
+### Features
+
+* or-1880 add doelgroep to basisgegevens from verenigingMetRechtspersoonlijkheid ([32a3263](https://github.com/informatievlaanderen/association-registry/commit/32a32633c512b2071b06a48ea9f712bdf7575e49))
+* OR-1880 allow request if it only contains doelgroep ([c522cd5](https://github.com/informatievlaanderen/association-registry/commit/c522cd5906705931c8cacd6de919bac3fc3be1aa))
+
 # [7.1.0](https://github.com/informatievlaanderen/association-registry/compare/v7.0.0...v7.1.0) (2023-08-28)
 
 
