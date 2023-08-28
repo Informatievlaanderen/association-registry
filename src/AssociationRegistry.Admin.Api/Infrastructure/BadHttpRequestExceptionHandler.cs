@@ -20,6 +20,6 @@ public class BadHttpRequestExceptionHandler : DefaultExceptionHandler<BadHttpReq
             Title = ProblemDetails.DefaultTitle,
             Detail = exception.Message,
             ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
-            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
         };
 }

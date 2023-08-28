@@ -3,15 +3,16 @@
   "verenigingen": [
     {
       "vCode": "V9999025",
-      "type":{
-        "code":"FV",
+      "type": {
+        "code": "FV",
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Party in Brakeldorp",
-      "korteNaam": "FBD","doelgroep": {
-      "minimumleeftijd": 0,
-      "maximumleeftijd": 150
-    },
+      "korteNaam": "FBD",
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",
@@ -36,7 +37,7 @@
           "gemeente": "Affligem"
         }
       ],
-      "sleutels":[],
+      "sleutels": [],
       "links": {
         "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999025"
       }

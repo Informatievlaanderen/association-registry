@@ -24,14 +24,13 @@ public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProb
             },
         };
 }
+
 public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
-    private readonly ProblemDetailsHelper _helper;
-
     public ProblemDetailsExamples(ProblemDetailsHelper helper)
     {
-        _helper = helper;
     }
+
     public ProblemDetails GetExamples()
         => new()
         {
@@ -39,7 +38,7 @@ public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
             Title = ProblemDetails.DefaultTitle,
             Detail = "Beschrijving van het probleem",
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
         };
 }
 
@@ -63,7 +62,7 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
                     Title = ProblemDetails.DefaultTitle,
                     Detail = "Beschrijving van het probleem",
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+                    ProblemInstanceUri = $"/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
                 }),
             new SwaggerExample<ProblemDetails>
             {

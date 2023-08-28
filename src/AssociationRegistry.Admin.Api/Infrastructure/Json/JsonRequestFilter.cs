@@ -46,6 +46,6 @@ public class JsonReaderExceptionHandler : DefaultExceptionHandler<JsonReaderExce
             Title = ProblemDetails.DefaultTitle,
             Detail = "Request body bevat een ongeldig JSON formaat.",
             ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
-            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
         };
 }

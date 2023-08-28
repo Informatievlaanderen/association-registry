@@ -3,15 +3,16 @@
   "verenigingen": [
     {
       "vCode": "V9999001",
-      "type":{
-        "code":"FV",
+      "type": {
+        "code": "FV",
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Feestcommittee Oudenaarde",
-      "korteNaam": "FOud","doelgroep": {
-      "minimumleeftijd": 18,
-      "maximumleeftijd": 90
-    },
+      "korteNaam": "FOud",
+      "doelgroep": {
+        "minimumleeftijd": 18,
+        "maximumleeftijd": 90
+      },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",
@@ -44,7 +45,7 @@
           "gemeente": "Affligem"
         }
       ],
-      "sleutels":[],
+      "sleutels": [],
       "links": {
         "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999001"
       }

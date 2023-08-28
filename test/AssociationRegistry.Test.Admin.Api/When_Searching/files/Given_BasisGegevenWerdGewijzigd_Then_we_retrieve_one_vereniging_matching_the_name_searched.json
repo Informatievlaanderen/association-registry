@@ -8,10 +8,11 @@
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Vrije Vogels van Verre Vertrekken",
-      "korteNaam": "VVVVV","doelgroep": {
-      "minimumleeftijd": 12,
-      "maximumleeftijd": 18
-    },
+      "korteNaam": "VVVVV",
+      "doelgroep": {
+        "minimumleeftijd": 12,
+        "maximumleeftijd": 18
+      },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",

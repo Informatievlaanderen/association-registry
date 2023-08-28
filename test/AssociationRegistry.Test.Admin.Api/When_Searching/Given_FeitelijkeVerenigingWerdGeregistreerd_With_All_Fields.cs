@@ -12,12 +12,12 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
 {
-    private readonly V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields _scenario;
-    private readonly string _goldenMasterWithOneVereniging;
-    private readonly AdminApiClient _adminApiClient;
-
     private const string EmptyVerenigingenResponse =
         "{\"@context\":\"http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+
+    private readonly AdminApiClient _adminApiClient;
+    private readonly string _goldenMasterWithOneVereniging;
+    private readonly V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields _scenario;
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(EventsInDbScenariosFixture fixture)
     {
