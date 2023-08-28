@@ -1,10 +1,13 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
-using System;
 using ConfigurationBindings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Nest;
 using Schema;
+using System;
+using System.Text;
 
 public static class ElasticSearchExtensions
 {
@@ -12,30 +15,45 @@ public static class ElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        var elasticClient = CreateElasticClient(elasticSearchOptions);
-        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
+        var elasticClient = (IServiceProvider serviceProvider) => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
 
-        services.AddSingleton(_ => elasticClient);
-        services.AddSingleton<IElasticClient>(_ => elasticClient);
+        services.AddSingleton(serviceProvider => elasticClient(serviceProvider));
+        services.AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());
 
         return services;
     }
 
-    private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
+    public static void ConfigureElasticSearch(this WebApplication source)
     {
-        if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        var elasticSearchOptionsSection = source.Configuration.GetElasticSearchOptionsSection();
+        var elasticClient = source.Services.GetRequiredService<ElasticClient>();
+        elasticClient.EnsureIndexExists(elasticSearchOptionsSection);
     }
 
-    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-            .BasicAuthentication(
-                elasticSearchOptions.Username,
-                elasticSearchOptions.Password)
-            .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
+                      .BasicAuthentication(
+                           elasticSearchOptions.Username,
+                           elasticSearchOptions.Password)
+                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
-        var elasticClient = new ElasticClient(settings);
-        return elasticClient;
+        if (elasticSearchOptions.EnableDevelopmentLogs)
+            settings = settings.DisableDirectStreaming()
+                               .PrettyJson()
+                               .OnRequestCompleted(apiCallDetails =>
+                                {
+                                    if (apiCallDetails.RequestBodyInBytes != null)
+                                        logger.LogDebug(
+                                            message: "{HttpMethod} {Uri} \n {RequestBody}",
+                                            apiCallDetails.HttpMethod,
+                                            apiCallDetails.Uri,
+                                            Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
+
+                                    if (apiCallDetails.ResponseBodyInBytes != null)
+                                        logger.LogDebug(message: "Response: {ResponseBody}", Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
+                                });
+
+        return new ElasticClient(settings);
     }
 }
