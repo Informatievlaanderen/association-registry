@@ -32,6 +32,10 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
         var jsonBody = $@"{{
             ""roepnaam"":""{Request.Roepnaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
+            ""doelgroep"": {{
+                ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
+                ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
+            }},
             ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}]
             }}";
 
@@ -69,12 +73,16 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
                             .FetchStream(_vCode);
 
         var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(RoepnaamWerdGewijzigd));
-
         roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam!));
 
         var korteBeschrijvingWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd));
-
         korteBeschrijvingWerdGewijzigd.Data.Should().BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
+
+        var doelgroepWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
+        doelgroepWerdGewijzigd.Data.Should()
+                              .BeEquivalentTo(new DoelgroepWerdGewijzigd(
+                                                  new Registratiedata.Doelgroep(_request.Doelgroep!.Minimumleeftijd!.Value,
+                                                                                _request.Doelgroep!.Maximumleeftijd!.Value)));
 
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = events
            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));

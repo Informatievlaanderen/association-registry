@@ -17,13 +17,15 @@ public class Has_Duplicates : ValidatorTest
     public void Has_a_validation_error_for_hoofdactiviteitenLijst(string hoofdactivitetiCode1, string hoofdactivitetiCode2)
     {
         var validator = new WijzigBasisgegevensRequestValidator();
+
         var request = new WijzigBasisgegevensRequest
         {
             HoofdactiviteitenVerenigingsloket = new[] { hoofdactivitetiCode1, hoofdactivitetiCode2 },
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.HoofdactiviteitenVerenigingsloket)
-            .WithErrorMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
+              .WithErrorMessage("Elke waarde in de hoofdactiviteiten mag slechts 1 maal voorkomen.");
     }
 }
