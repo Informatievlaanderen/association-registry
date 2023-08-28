@@ -1,3 +1,20 @@
+# [7.1.0](https://github.com/informatievlaanderen/association-registry/compare/v7.0.0...v7.1.0) (2023-08-28)
+
+
+### Bug Fixes
+
+* OR-1823 map sleutels in ES ([b1ce029](https://github.com/informatievlaanderen/association-registry/commit/b1ce029642b31db54d4cd7e735e4900a98476343))
+
+
+### Features
+
+* OR-1823 Add roepnaam to examples ([51cf326](https://github.com/informatievlaanderen/association-registry/commit/51cf326b151d5515508b6ab63de4462a636b1790))
+* or-1823 add roepnaam to wijzigbasisgegevens ([512c486](https://github.com/informatievlaanderen/association-registry/commit/512c486c05a3f5fe9789750d3af525daccbb9d6b))
+* OR-1823 Add roepnaam to WijzigBasisgegevensValidator ([546f2f8](https://github.com/informatievlaanderen/association-registry/commit/546f2f8d33bfa99f52989ba7dbbe5777b31f0784))
+* OR-1823 Allow logging elasticsearch responses ([ab5e5c7](https://github.com/informatievlaanderen/association-registry/commit/ab5e5c7bdf8f27ad66a635ff786b5aea2bf891a9))
+* or-1823 project to historiek and detail ([f05d595](https://github.com/informatievlaanderen/association-registry/commit/f05d5955e42ccc245140ce95e5f2cfb8f3b3872c))
+* or-1823 roepnaam in publieke projecties ([27608cb](https://github.com/informatievlaanderen/association-registry/commit/27608cb51006dbf54defc58c4c636bf9f3641eed))
+
 # [7.0.0](https://github.com/informatievlaanderen/association-registry/compare/v6.21.1...v7.0.0) (2023-08-24)
 
 
