@@ -26,5 +26,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
 
     private static bool HaveAtLeastOneValue(WijzigBasisgegevensRequest request)
         => request.KorteBeschrijving is not null ||
-           request.HoofdactiviteitenVerenigingsloket is not null;
+           request.HoofdactiviteitenVerenigingsloket is not null ||
+           request.Roepnaam is not null;
 }
