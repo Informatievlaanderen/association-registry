@@ -3,15 +3,21 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using System.Linq;
 using System.Runtime.Serialization;
 using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using Common;
 using Vereniging;
 
 [DataContract]
 public class WijzigBasisgegevensRequest
 {
-
     /// <summary>Nieuwe korte beschrijving van de vereniging</summary>
     [DataMember]
     public string? KorteBeschrijving { get; set; }
+
+    /// <summary>
+    /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
+    /// </summary>
+    [DataMember]
+    public DoelgroepRequest? Doelgroep { get; set; }
 
     /// <summary>
     /// De codes van de nieuwe hoofdactiviteiten volgens het verenigingsloket
@@ -30,6 +36,7 @@ public class WijzigBasisgegevensRequest
             VCode.Create(vCode),
             Roepnaam,
             KorteBeschrijving,
+            Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
         );
 }

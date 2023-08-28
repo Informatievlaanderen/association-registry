@@ -59,6 +59,13 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 
+    public void WijzigDoelgroep(Doelgroep doelgroep)
+    {
+        if (Doelgroep.Equals(State.Doelgroep, doelgroep)) return;
+
+        AddEvent(DoelgroepWerdGewijzigd.With(doelgroep));
+    }
+
     private void VoegMaatschappelijkeZetelToe(Adres adres)
     {
         AddEvent(

@@ -14,9 +14,11 @@ public class WijzigBasisgegevensCommandHandler
 
         HandleRoepnaam(vereniging, message.Command.Roepnaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
+        HandleDoelgroep(vereniging, message.Command.Doelgroep);
         HandleHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
@@ -25,7 +27,8 @@ public class WijzigBasisgegevensCommandHandler
         if (roepnaam is null)
             return;
 
-        vereniging.WijzigRoepnaam(roepnaam);    }
+        vereniging.WijzigRoepnaam(roepnaam);
+    }
 
     private static void HandleHoofdactiviteitenVerenigingsloket(VerenigingMetRechtspersoonlijkheid vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
     {
@@ -39,5 +42,11 @@ public class WijzigBasisgegevensCommandHandler
     {
         if (korteBeschrijving is null) return;
         vereniging.WijzigKorteBeschrijving(korteBeschrijving);
+    }
+
+    private static void HandleDoelgroep(VerenigingMetRechtspersoonlijkheid vereniging, Doelgroep? doelgroep)
+    {
+        if (doelgroep is null) return;
+        vereniging.WijzigDoelgroep(doelgroep);
     }
 }

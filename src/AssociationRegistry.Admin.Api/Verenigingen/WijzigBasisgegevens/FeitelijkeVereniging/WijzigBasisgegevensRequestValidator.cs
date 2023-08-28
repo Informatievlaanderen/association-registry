@@ -1,5 +1,4 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 
 using System.Linq;
@@ -12,22 +11,22 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
     public WijzigBasisgegevensRequestValidator()
     {
         RuleFor(request => request)
-            .Must(HaveAtLeastOneValue)
-            .OverridePropertyName("request")
-            .WithMessage("Een request mag niet leeg zijn.");
+           .Must(HaveAtLeastOneValue)
+           .OverridePropertyName("request")
+           .WithMessage("Een request mag niet leeg zijn.");
 
         RuleFor(request => request.Naam)
-            .Must(naam => naam?.Trim() is null or not "")
-            .WithMessage("'Naam' mag niet leeg zijn.");
+           .Must(naam => naam?.Trim() is null or not "")
+           .WithMessage("'Naam' mag niet leeg zijn.");
 
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
-            .Must(NotHaveDuplicates!)
-            .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.")
-            .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
+           .Must(NotHaveDuplicates!)
+           .WithMessage("Elke waarde in de hoofdactiviteiten mag slechts 1 maal voorkomen.")
+           .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
 
         RuleFor(request => request.Doelgroep)
-            .SetValidator(new DoelgroepRequestValidator()!)
-            .When(r => r.Doelgroep is not null);
+           .SetValidator(new DoelgroepRequestValidator()!)
+           .When(r => r.Doelgroep is not null);
     }
 
     private static bool NotHaveDuplicates(string[] values)
