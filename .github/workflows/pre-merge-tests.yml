@@ -218,6 +218,7 @@ jobs:
           LIVEMAGDAOPTIONS__AFZENDER: ${{ secrets.LIVEMAGDAOPTIONS_AFZENDER }}
           LIVEMAGDAOPTIONS__HOEDANIGHEID: ${{ secrets.LIVEMAGDAOPTIONS_HOEDANIGHEID }}
           LIVEMAGDAOPTIONS__ONTVANGER: ${{ secrets.LIVEMAGDAOPTIONS_ONTVANGER }}
+          IGNORE_MAGDA_TESTS: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE == '' && 'true' || 'false' }}
         run: dotnet test ${{matrix.projects}} --logger html
 
       - name: Archive code coverage results
