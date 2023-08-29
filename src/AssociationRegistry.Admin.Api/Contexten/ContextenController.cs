@@ -17,7 +17,13 @@ public class ContextenController : ApiController
     /// <returns></returns>
     [HttpGet("{name}")]
     public IActionResult Detail([FromRoute] string name)
-        => Content(
-            JsonLdContexts.GetContext(name),
+    {
+        var context = JsonLdContexts.GetContext(name);
+
+        if (context is null) return NotFound();
+
+        return Content(
+            context,
             WellknownMediaTypes.Json);
+    }
 }

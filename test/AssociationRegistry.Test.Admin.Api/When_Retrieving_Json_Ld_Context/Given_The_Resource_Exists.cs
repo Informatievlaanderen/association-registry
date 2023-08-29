@@ -36,6 +36,6 @@ public class Given_The_Resource_Exists
         var response = await _adminApiClient.GetJsonLdContext(contextName);
         var json = await response.Content.ReadAsStringAsync();
 
-        json.Should().BeEquivalentJson(JsonLdContexts.GetContext(contextName));
+        json.Should().BeEquivalentJson(JsonLdContexts.GetContext(contextName)!);
     }
 }

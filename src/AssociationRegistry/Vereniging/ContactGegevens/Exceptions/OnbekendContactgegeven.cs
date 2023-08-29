@@ -6,7 +6,7 @@ using Be.Vlaanderen.Basisregisters.AggregateSource;
 [Serializable]
 public class OnbekendContactgegeven : DomainException
 {
-    public OnbekendContactgegeven(string contactgegevenId) : base($"Het opgegeven contactgegevenId '{contactgegevenId}' werd niet teruggevonden.")
+    public OnbekendContactgegeven(string contactgegevenId) : base($"Contactgegeven met contactgegevenId '{contactgegevenId}' is niet gekend.")
     {
     }
 

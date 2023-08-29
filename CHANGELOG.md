@@ -1,3 +1,10 @@
+## [7.2.1](https://github.com/informatievlaanderen/association-registry/compare/v7.2.0...v7.2.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* or-1890 store all events in one go with the correct version ([2c959b8](https://github.com/informatievlaanderen/association-registry/commit/2c959b821369ce5084a848d10150bb93de312eae))
+
 # [7.2.0](https://github.com/informatievlaanderen/association-registry/compare/v7.1.0...v7.2.0) (2023-08-28)
 
 
