@@ -1,3 +1,10 @@
+## [7.3.1](https://github.com/informatievlaanderen/association-registry/compare/v7.3.0...v7.3.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* or-1889 return 404 on gets if not found, return 400 on anything else if not found ([f3aee6a](https://github.com/informatievlaanderen/association-registry/commit/f3aee6a3236efa17a3003cfb762243e895c4b25f))
+
 # [7.3.0](https://github.com/informatievlaanderen/association-registry/compare/v7.2.1...v7.3.0) (2023-08-29)
 
 
