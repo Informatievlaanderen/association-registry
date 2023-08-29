@@ -26,13 +26,12 @@ public class EventStore : IEventStore
 
         try
         {
-            StreamAction streamAction = null!;
-            foreach (var e in events)
-            {
-                streamAction = SaveEventToStream(aggregateId, metadata, e, session, metadata.ExpectedVersion is null ? -1 : metadata.ExpectedVersion.Value + 1);
-            }
+            SetHeaders(metadata, session);
+
+            var streamAction = AppendEvents(session, aggregateId, events, metadata.ExpectedVersion);
 
             await session.SaveChangesAsync(cancellationToken);
+
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
@@ -41,17 +40,15 @@ public class EventStore : IEventStore
         }
     }
 
-    private static StreamAction SaveEventToStream(string aggregateId, CommandMetadata metadata, IEvent @event, IDocumentSession session, long nextVersion = -1)
+    private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
     {
-        SetHeaders(metadata, session, @event.GetType());
+        if (expectedVersion is not null)
+            return session.Events.Append(stream: aggregateId, expectedVersion: expectedVersion.Value + events.Count, events: events);
 
-        if (nextVersion != -1)
-            return session.Events.Append(aggregateId, nextVersion, @event);
-
-        return session.Events.Append(aggregateId, @event);
+        return session.Events.Append(aggregateId, events);
     }
 
-    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session, Type eventType)
+    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session)
     {
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
@@ -79,8 +76,8 @@ public class EventStore : IEventStore
         await using var session = _documentStore.OpenSession();
 
         var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
-            .SingleOrDefaultAsync())?.VCode;
+                               .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
+                               .SingleOrDefaultAsync())?.VCode;
 
         if (string.IsNullOrEmpty(id))
             return null;

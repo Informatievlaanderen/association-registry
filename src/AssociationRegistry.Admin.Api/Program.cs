@@ -220,22 +220,21 @@ public class Program
 
                 b.UseRequestLocalization(requestLocalizationOptions);
 
-                b
-                   .Run(
-                        async context =>
-                        {
-                            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                            context.Response.ContentType = MediaTypeNames.Application.Json;
+                b.Run(
+                    async context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                        context.Response.ContentType = MediaTypeNames.Application.Json;
 
-                            var error = context.Features.Get<IExceptionHandlerFeature>();
-                            var exception = error?.Error;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        var exception = error?.Error;
 
-                            // Errors happening in the Apply() stuff result in an InvocationException due to the dynamic stuff.
-                            if (exception is TargetInvocationException && exception.InnerException != null)
-                                exception = exception.InnerException;
+                        // Errors happening in the Apply() stuff result in an InvocationException due to the dynamic stuff.
+                        if (exception is TargetInvocationException && exception.InnerException != null)
+                            exception = exception.InnerException;
 
-                            await exceptionHandler.HandleException(exception!, context);
-                        });
+                        await exceptionHandler.HandleException(exception!, context);
+                    });
             });
     }
 
