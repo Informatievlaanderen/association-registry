@@ -1,3 +1,10 @@
+# [7.3.0](https://github.com/informatievlaanderen/association-registry/compare/v7.2.1...v7.3.0) (2023-08-29)
+
+
+### Features
+
+* OR-1884 Add 409 to swagger for Afdelingen ([eb08046](https://github.com/informatievlaanderen/association-registry/commit/eb080465cb15fea4f7671eb54ffad84faeacb370))
+
 ## [7.2.1](https://github.com/informatievlaanderen/association-registry/compare/v7.2.0...v7.2.1) (2023-08-29)
 
 
