@@ -223,6 +223,7 @@ public class BeheerVerenigingDetailProjector
                                                    new BeheerVerenigingDetailDocument.Vertegenwoordiger
                                                    {
                                                        VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
+                                                       Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                                                        Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
                                                        Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
                                                        Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,

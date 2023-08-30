@@ -29,6 +29,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
+                Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                 Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
                 Voornaam = vertegenwoordigerWerdToegevoegd.Data.Voornaam,
                 Roepnaam = vertegenwoordigerWerdToegevoegd.Data.Roepnaam,

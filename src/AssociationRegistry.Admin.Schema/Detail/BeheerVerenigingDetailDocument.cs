@@ -63,6 +63,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record Vertegenwoordiger : IHasBron
     {
         public int VertegenwoordigerId { get; init; }
+        public string Insz { get; set; } = null!;
         public string Voornaam { get; init; } = null!;
         public string Achternaam { get; init; } = null!;
         public string? Roepnaam { get; init; }
@@ -93,15 +94,12 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public class Relatie
     {
         public string Type { get; init; } = null!;
-
         public GerelateerdeVereniging AndereVereniging { get; init; } = null!;
 
         public class GerelateerdeVereniging
         {
             public string KboNummer { get; init; } = null!;
-
             public string VCode { get; init; } = null!;
-
             public string Naam { get; init; } = null!;
         }
     }
@@ -116,15 +114,10 @@ public class AdresId
 public class Adres
 {
     public string Straatnaam { get; init; } = null!;
-
     public string Huisnummer { get; init; } = null!;
-
     public string? Busnummer { get; init; }
-
     public string Postcode { get; init; } = null!;
-
     public string Gemeente { get; init; } = null!;
-
     public string Land { get; init; } = null!;
 }
 
