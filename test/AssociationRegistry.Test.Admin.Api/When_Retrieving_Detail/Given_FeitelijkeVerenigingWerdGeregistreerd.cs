@@ -121,6 +121,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ],
                     ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
                             ""vertegenwoordigerId"": {x.VertegenwoordigerId},
+                            ""insz"": ""{x.Insz}"",
                             ""voornaam"": ""{x.Voornaam}"",
                             ""achternaam"": ""{x.Achternaam}"",
                             ""rol"": ""{x.Rol}"",
