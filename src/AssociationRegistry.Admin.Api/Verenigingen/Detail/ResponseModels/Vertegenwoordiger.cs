@@ -12,6 +12,12 @@ public class Vertegenwoordiger
     [DataMember(Name = "VertegenwoordigerId")]
     public int VertegenwoordigerId { get; set; }
 
+    /// <summary>
+    ///     Het insz van deze vertegenwoordiger
+    /// </summary>
+    [DataMember(Name = "Insz")]
+    public string Insz { get; set; } = null!;
+
     /// <summary>Dit is de voornaam van de vertegenwoordiger volgens het rijksregister</summary>
     [DataMember(Name = "Voornaam")]
     public string Voornaam { get; init; } = null!;
@@ -57,5 +63,5 @@ public class Vertegenwoordiger
     ///     - KBO
     /// </summary>
     [DataMember(Name = "Bron")]
-    public string Bron { get; set; }= null!;
+    public string Bron { get; set; } = null!;
 }
