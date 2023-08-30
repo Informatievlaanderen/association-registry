@@ -71,11 +71,11 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
-        var contactgegevenWerdToegevoegd = (await session.Events
+        var locatieWerdToegevoegd = (await session.Events
                 .FetchStreamAsync(_classFixture.Scenario.VCode))
             .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
 
-        contactgegevenWerdToegevoegd.Data.Should()
+        locatieWerdToegevoegd.Data.Should()
             .BeEquivalentTo(
                 new LocatieWerdToegevoegd(
                     new Registratiedata.Locatie(

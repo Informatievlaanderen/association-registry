@@ -72,6 +72,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             VertegenwoordigerId = v.VertegenwoordigerId,
+            Insz = v.Insz,
             IsPrimair = v.IsPrimair,
             Roepnaam = v.Roepnaam,
             Rol = v.Rol,

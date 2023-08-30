@@ -90,6 +90,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
                     {
                         VertegenwoordigerId = v.VertegenwoordigerId,
+                        Insz = v.Insz,
                         IsPrimair = v.IsPrimair,
                         Roepnaam = v.Roepnaam,
                         Rol = v.Rol,
