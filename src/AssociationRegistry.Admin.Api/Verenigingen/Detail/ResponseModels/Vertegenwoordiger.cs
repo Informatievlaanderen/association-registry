@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
+using Swashbuckle.AspNetCore.Annotations;
 using System.Runtime.Serialization;
 
 /// <summary>Een vertegenwoordiger van een vereniging</summary>
