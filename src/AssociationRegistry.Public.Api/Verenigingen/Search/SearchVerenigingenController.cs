@@ -62,7 +62,7 @@ public class SearchVerenigingenController : ApiController
     ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
     /// </remarks>
     /// <param name="q">De querystring</param>
-    /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de faccets te zien is.</param>
+    /// <param name="hoofdactiviteitenVerenigingsloket">De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar niet in de facets te zien is.</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <param name="validator"></param>
     /// <param name="cancellationToken"></param>

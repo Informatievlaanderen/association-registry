@@ -1,17 +1,17 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 
-using System.Threading.Tasks;
-using AssociationRegistry.Acties.VerwijderContactgegeven;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Framework;
-using Vereniging;
+using Acties.VerwijderContactgegeven;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Framework;
+using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -39,7 +39,7 @@ public class VerwijderContactgegevenController : ApiController
     /// </remarks>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="contactgegevenId">De unieke identificatie code van dit contactgegeven binnen de vereniging</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het contactgegeven werd verwijderd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -48,8 +48,8 @@ public class VerwijderContactgegevenController : ApiController
     [HttpDelete("{vCode}/contactgegevens/{contactgegevenId:int}")]
     [Consumes("application/json")]
     [Produces("application/json")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string", description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string", description: "De versie van de geregistreerde vereniging.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -62,6 +62,7 @@ public class VerwijderContactgegevenController : ApiController
         [IfMatchHeader] string? ifMatch = null)
     {
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
+
         var envelope = new CommandEnvelope<VerwijderContactgegevenCommand>(
             new VerwijderContactgegevenCommand(VCode.Create(vCode), contactgegevenId),
             metaData);
@@ -70,6 +71,7 @@ public class VerwijderContactgegevenController : ApiController
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
+
         return Accepted();
     }
 }

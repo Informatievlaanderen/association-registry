@@ -39,7 +39,7 @@ public class VerwijderVertegenwoordigerController : ApiController
     /// </remarks>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
     /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger die verwijderd moet worden</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd verwijderd van deze vereniging.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>

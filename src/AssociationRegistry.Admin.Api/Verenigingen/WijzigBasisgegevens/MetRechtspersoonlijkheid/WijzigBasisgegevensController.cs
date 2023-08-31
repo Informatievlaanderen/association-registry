@@ -48,7 +48,7 @@ public class WijzigBasisgegevensController : ApiController
     /// </remarks>
     /// <param name="request"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <param name="validator"></param>
     /// <response code="200">Er waren geen wijzigingen</response>

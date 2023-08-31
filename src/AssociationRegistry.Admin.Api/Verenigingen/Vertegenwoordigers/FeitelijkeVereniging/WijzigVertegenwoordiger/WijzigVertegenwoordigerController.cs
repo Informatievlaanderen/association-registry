@@ -45,7 +45,7 @@ public class WijzigVertegenwoordigerController : ApiController
     /// <param name="vertegenwoordigerId">De unieke identificatie code van deze vertegenwoordiger binnen de vereniging</param>
     /// <param name="request">De gegevens van de vertegenwoordiger die gewijzigd moeten worden</param>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
-    /// <param name="initiator">Initiator header met als waarde de instantie die de wijziging uitvoert.</param>
+    /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">De vertegenwoordiger werd gewijzigd.</response>
