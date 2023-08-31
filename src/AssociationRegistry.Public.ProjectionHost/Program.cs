@@ -5,7 +5,6 @@ using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
-using JasperFx.CodeGeneration;
 using Marten;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -57,8 +56,6 @@ public class Program
             {
                 options.Handlers.Discovery(source =>
                                                source.IncludeType<PubliekZoekProjectionHandler>());
-
-                options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
 
         builder.Services
