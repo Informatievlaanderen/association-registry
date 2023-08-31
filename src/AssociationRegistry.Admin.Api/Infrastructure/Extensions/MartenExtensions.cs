@@ -10,6 +10,7 @@ using Marten.Events;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
@@ -21,7 +22,7 @@ public static class MartenExtentions
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
-            _ =>
+            serviceProvider =>
             {
                 var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
@@ -30,11 +31,20 @@ public static class MartenExtentions
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
                 opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+
+                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                {
+                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                }
+                else
+                {
+                    opts.GeneratedCodeMode = TypeLoadMode.Static;
+                    opts.SourceCodeWritingEnabled = false;
+                }
 
                 return opts;
             });
@@ -50,10 +60,10 @@ public static class MartenExtentions
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
 
-
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
         var jsonNetSerializer = new JsonNetSerializer();
+
         jsonNetSerializer.Customize(
             s =>
             {
@@ -61,6 +71,7 @@ public static class MartenExtentions
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
+
         return jsonNetSerializer;
     }
 }
