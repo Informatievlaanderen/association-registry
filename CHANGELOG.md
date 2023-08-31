@@ -1,3 +1,18 @@
+# [7.6.0](https://github.com/informatievlaanderen/association-registry/compare/v7.5.1...v7.6.0) (2023-08-31)
+
+
+### Bug Fixes
+
+* or-1846 add documentation to roepnaam in swagger docs ([6e2527f](https://github.com/informatievlaanderen/association-registry/commit/6e2527f1049fb1c43bf4463ab92f84dcefb0a16b))
+* or-1846 add INSZ to examples ([d7b9a66](https://github.com/informatievlaanderen/association-registry/commit/d7b9a666170ab9267a906a110801f8c6397e4efa))
+* or-1846 fix update method in projecties ([0e8989a](https://github.com/informatievlaanderen/association-registry/commit/0e8989a4a642a69ae8db2844841437670010ad38))
+
+
+### Features
+
+* marten artifact optimization ([d30962a](https://github.com/informatievlaanderen/association-registry/commit/d30962a24a8f82363a9da543135225af47c1c9ff))
+* wolverine artifact optimization ([6db1f1b](https://github.com/informatievlaanderen/association-registry/commit/6db1f1b84228734fbe23df1bccdd6095d584116d))
+
 ## [7.5.1](https://github.com/informatievlaanderen/association-registry/compare/v7.5.0...v7.5.1) (2023-08-31)
 
 
