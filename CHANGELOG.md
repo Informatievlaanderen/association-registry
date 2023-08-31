@@ -1,3 +1,10 @@
+# [7.7.0](https://github.com/informatievlaanderen/association-registry/compare/v7.6.1...v7.7.0) (2023-08-31)
+
+
+### Features
+
+* update locatieType in beheer detail ([80db829](https://github.com/informatievlaanderen/association-registry/commit/80db829bd4e9c86d7d4c6406e7a9746d77f8b1da))
+
 ## [7.6.1](https://github.com/informatievlaanderen/association-registry/compare/v7.6.0...v7.6.1) (2023-08-31)
 
 
