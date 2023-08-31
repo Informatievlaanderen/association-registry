@@ -1,3 +1,10 @@
+## [7.5.1](https://github.com/informatievlaanderen/association-registry/compare/v7.5.0...v7.5.1) (2023-08-31)
+
+
+### Bug Fixes
+
+* small improvements to docs ([9baba4e](https://github.com/informatievlaanderen/association-registry/commit/9baba4e93a036abf8329e77faa88f32861d9e220))
+
 # [7.5.0](https://github.com/informatievlaanderen/association-registry/compare/v7.4.1...v7.5.0) (2023-08-31)
 
 
