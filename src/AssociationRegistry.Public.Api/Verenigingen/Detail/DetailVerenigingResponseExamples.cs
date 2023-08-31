@@ -27,7 +27,6 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     Beschrijving = "Feitelijke vereniging",
                 },
                 Naam = "FWA De vrolijke BA’s",
-                Roepnaam = "De vrolijke BA's",
                 KorteNaam = "DVB",
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
                 Startdatum = new DateOnly(2020, 05, 15),

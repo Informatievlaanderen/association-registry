@@ -39,7 +39,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
-                    Roepnaam = "De vrolijke BA's",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",
                     Startdatum = "2020-05-15",
@@ -130,6 +129,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     },
                     Naam = "Vissen achter het net",
                     KorteNaam = "VAN",
+                    Roepnaam = "Vissen achter 't net",
                     KorteBeschrijving = "Een kleine groep vissers",
                     Startdatum = "2002-11-15",
                     Doelgroep = new DoelgroepResponse
