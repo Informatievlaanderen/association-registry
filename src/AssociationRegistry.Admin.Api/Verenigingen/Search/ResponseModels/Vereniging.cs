@@ -18,7 +18,7 @@ public class Vereniging
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 
-    /// <summary>De roepnaam van de vereniging</summary>
+    /// <summary>Roepnaam van de vereniging. Dit veld is enkel aanwezig bij verenigingen met rechtspersoonlijkheid</summary>
     [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
     [DefaultValue(null)]
     public string Roepnaam { get; init; } = null!;
