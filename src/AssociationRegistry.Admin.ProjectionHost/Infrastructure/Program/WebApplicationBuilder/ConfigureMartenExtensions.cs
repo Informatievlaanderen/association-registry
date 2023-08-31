@@ -91,8 +91,13 @@ public static class ConfigureMartenExtensions
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                return opts;
+                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                else
+                {
+                    opts.GeneratedCodeMode = TypeLoadMode.Static;
+                    opts.SourceCodeWritingEnabled = false;
+                }                return opts;
             });
 
         return martenConfigurationExpression;
