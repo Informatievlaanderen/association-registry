@@ -1,3 +1,11 @@
+## [7.6.1](https://github.com/informatievlaanderen/association-registry/compare/v7.6.0...v7.6.1) (2023-08-31)
+
+
+### Reverts
+
+* Revert "feat: wolverine artifact optimization" ([86cf415](https://github.com/informatievlaanderen/association-registry/commit/86cf415afca570878819ab9576bb10c484144461))
+* Revert "feat: marten artifact optimization" ([aaecd08](https://github.com/informatievlaanderen/association-registry/commit/aaecd08ff1f56a0a21fc5ea9e5a4050be3300ac1))
+
 # [7.6.0](https://github.com/informatievlaanderen/association-registry/compare/v7.5.1...v7.6.0) (2023-08-31)
 
 
