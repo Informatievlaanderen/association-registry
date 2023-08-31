@@ -39,7 +39,7 @@ public class Given_LocatieWerdGewijzigd
                 LocatieId = locatie.LocatieId,
                 IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
                 Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-                Locatietype = locatie.Locatietype,
+                Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
                 Adres = locatieWerdGewijzigd.Data.Locatie.Adres is null
                     ? null
                     : new Adres

@@ -326,6 +326,7 @@ public class BeheerVerenigingDetailProjector
                                          l => l with
                                          {
                                              IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
+                                             Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
                                              Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(locatieWerdGewijzigd.Data.Locatie.Adres),
                                              Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
