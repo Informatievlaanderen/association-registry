@@ -1,3 +1,15 @@
+# [7.4.0](https://github.com/informatievlaanderen/association-registry/compare/v7.3.1...v7.4.0) (2023-08-31)
+
+
+### Bug Fixes
+
+* or-1846 add insz to the BeheerVerenigingDetailMapper ([a9f66ac](https://github.com/informatievlaanderen/association-registry/commit/a9f66ac3ef4ba783722a9c7f852044c990bba142))
+
+
+### Features
+
+* or-1846 add insz to vertegenwoordiger in beheer detail ([541494f](https://github.com/informatievlaanderen/association-registry/commit/541494f8782997af7ed90a579fda26de99627d87))
+
 ## [7.3.1](https://github.com/informatievlaanderen/association-registry/compare/v7.3.0...v7.3.1) (2023-08-29)
 
 
