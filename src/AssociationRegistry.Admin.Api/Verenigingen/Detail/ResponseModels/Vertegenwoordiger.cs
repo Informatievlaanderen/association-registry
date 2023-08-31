@@ -26,7 +26,7 @@ public class Vertegenwoordiger
     [DataMember(Name = "Achternaam")]
     public string Achternaam { get; init; } = null!;
 
-    /// <summary>Dit is de roepnaam van de vertegenwoordiger.</summary>
+    /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
     [DataMember(Name = "Roepnaam")]
     public string? Roepnaam { get; init; }
 
