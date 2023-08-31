@@ -91,6 +91,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         new Vertegenwoordiger
                         {
                             VertegenwoordigerId = 1,
+                            Insz = "1234567890",
                             Voornaam = "Jhon",
                             Achternaam = "Doo",
                             PrimairContactpersoon = false,
