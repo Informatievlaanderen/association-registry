@@ -28,7 +28,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 {
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
-                    Roepnaam = "De vrolijke BA's",
                     KorteNaam = "DVB",
                     HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
                     Doelgroep = new DoelgroepResponse

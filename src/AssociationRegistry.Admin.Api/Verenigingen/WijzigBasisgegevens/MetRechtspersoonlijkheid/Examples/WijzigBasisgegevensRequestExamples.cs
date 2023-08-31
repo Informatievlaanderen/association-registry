@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.Examples;
 
-using System.Linq;
-using Vereniging;
+using Common;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using System.Linq;
+using Vereniging;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>
 {
@@ -11,7 +12,13 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
         => new()
         {
             KorteBeschrijving = "Korte beschrijving van de vereniging",
-            HoofdactiviteitenVerenigingsloket = new []
+            Roepnaam = "Roepnaam",
+            Doelgroep = new DoelgroepRequest
+            {
+                Minimumleeftijd = 0,
+                Maximumleeftijd = 150,
+            },
+            HoofdactiviteitenVerenigingsloket = new[]
             {
                 HoofdactiviteitVerenigingsloket.All().First().Code,
             },
