@@ -1,3 +1,11 @@
+# [7.5.0](https://github.com/informatievlaanderen/association-registry/compare/v7.4.1...v7.5.0) (2023-08-31)
+
+
+### Features
+
+* or-1889 add tests ([5da9fbb](https://github.com/informatievlaanderen/association-registry/commit/5da9fbba100387ef9d5b5147ad2424c254dc43b4))
+* or-1889 return 404 if publiek context is not found ([3b797da](https://github.com/informatievlaanderen/association-registry/commit/3b797daf476b9a031a58712a46cdad5ae8daee4f))
+
 ## [7.4.1](https://github.com/informatievlaanderen/association-registry/compare/v7.4.0...v7.4.1) (2023-08-31)
 
 
