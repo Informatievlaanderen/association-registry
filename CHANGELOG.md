@@ -1,3 +1,10 @@
+## [7.4.1](https://github.com/informatievlaanderen/association-registry/compare/v7.4.0...v7.4.1) (2023-08-31)
+
+
+### Bug Fixes
+
+* OR-1823 multiple improvements in swagger docs ([764d688](https://github.com/informatievlaanderen/association-registry/commit/764d6880d8ef4c6b60221da7969434c981bf1c37))
+
 # [7.4.0](https://github.com/informatievlaanderen/association-registry/compare/v7.3.1...v7.4.0) (2023-08-31)
 
 
