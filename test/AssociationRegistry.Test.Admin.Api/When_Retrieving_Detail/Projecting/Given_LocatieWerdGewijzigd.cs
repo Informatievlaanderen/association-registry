@@ -32,13 +32,14 @@ public class Given_LocatieWerdGewijzigd
         BeheerVerenigingDetailProjector.Apply(locatieWerdGewijzigd, doc);
 
         doc.Locaties.Should().HaveCount(4);
+
         doc.Locaties.Should().ContainEquivalentOf(
             new BeheerVerenigingDetailDocument.Locatie
             {
-                LocatieId = locatieWerdGewijzigd.Data.Locatie.LocatieId,
+                LocatieId = locatie.LocatieId,
                 IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
                 Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-                Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
+                Locatietype = locatie.Locatietype,
                 Adres = locatieWerdGewijzigd.Data.Locatie.Adres is null
                     ? null
                     : new Adres
@@ -60,6 +61,7 @@ public class Given_LocatieWerdGewijzigd
                     },
                 Bron = locatie.Bron,
             });
+
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
         doc.DatumLaatsteAanpassing.Should().Be(locatieWerdGewijzigd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version));

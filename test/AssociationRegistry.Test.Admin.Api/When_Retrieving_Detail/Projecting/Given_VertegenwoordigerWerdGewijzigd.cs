@@ -18,14 +18,16 @@ public class Given_VertegenwoordigerWerdGewijzigd
     public void Then_it_updates_the_vertegenwoordiger_in_the_detail()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var vertegenwoordigerWerdGewijzigd = fixture.Create<TestEvent<VertegenwoordigerWerdGewijzigd>>();
 
-        var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
+        var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>();
+
+        var vertegenwoordigerWerdGewijzigd = new TestEvent<VertegenwoordigerWerdGewijzigd>(fixture.Create<VertegenwoordigerWerdGewijzigd>() with
         {
-            VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-        };
+            VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+        });
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
         doc.Vertegenwoordigers = doc.Vertegenwoordigers.Append(
             vertegenwoordiger
         ).ToArray();
@@ -38,6 +40,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
                 Achternaam = vertegenwoordiger.Achternaam,
                 Voornaam = vertegenwoordiger.Voornaam,
+                Insz = vertegenwoordiger.Insz,
                 Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                 Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
                 IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
@@ -47,7 +50,9 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
                 Bron = vertegenwoordiger.Bron,
             });
+
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version));}
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version));
+    }
 }

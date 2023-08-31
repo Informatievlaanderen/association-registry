@@ -17,9 +17,9 @@ public class BeheerVerenigingDetailMapper
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Adres = Map(loc.Adres),
+            Adres = MapAdres(loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
-            AdresId = Map(loc.AdresId),
+            AdresId = MapAdresId(loc.AdresId),
         };
 
     public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, string bron)
@@ -29,13 +29,13 @@ public class BeheerVerenigingDetailMapper
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Adres = Map(loc.Adres),
+            Adres = MapAdres(loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
-            AdresId = Map(loc.AdresId),
+            AdresId = MapAdresId(loc.AdresId),
             Bron = bron,
         };
 
-    private static Adres? Map(Registratiedata.Adres? adres)
+    public static Adres? MapAdres(Registratiedata.Adres? adres)
         => adres is null
             ? null
             : new Adres
@@ -48,7 +48,7 @@ public class BeheerVerenigingDetailMapper
                 Land = adres.Land,
             };
 
-    private static AdresId? Map(Registratiedata.AdresId? locAdresId)
+    public static AdresId? MapAdresId(Registratiedata.AdresId? locAdresId)
         => locAdresId is null
             ? null
             : new AdresId

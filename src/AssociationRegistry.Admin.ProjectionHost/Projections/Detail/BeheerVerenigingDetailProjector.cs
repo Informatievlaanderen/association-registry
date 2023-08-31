@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Constants;
 using Events;
+using Formatters;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -175,12 +176,10 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
-                                           .Replace(
+                                           .UpdateSingle(
                                                 identityFunc: c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                                new BeheerVerenigingDetailDocument.Contactgegeven
+                                                c => c with
                                                 {
-                                                    ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdGewijzigd.Data.Type,
                                                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                                                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
@@ -247,13 +246,10 @@ public class BeheerVerenigingDetailProjector
         var vertegenwoordigerToUpdate = document.Vertegenwoordigers.Single(v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId);
 
         document.Vertegenwoordigers = document.Vertegenwoordigers
-                                              .Replace(
+                                              .UpdateSingle(
                                                    identityFunc: v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                                                   new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                                                   v => v with
                                                    {
-                                                       VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                                                       Achternaam = vertegenwoordigerToUpdate.Achternaam,
-                                                       Voornaam = vertegenwoordigerToUpdate.Voornaam,
                                                        Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                                                        Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
                                                        IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
@@ -325,9 +321,16 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .Replace(
+                                    .UpdateSingle(
                                          identityFunc: l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
-                                         BeheerVerenigingDetailMapper.MapLocatie(locatieWerdGewijzigd.Data.Locatie))
+                                         l => l with
+                                         {
+                                             IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
+                                             Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(locatieWerdGewijzigd.Data.Locatie.Adres),
+                                             Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                         })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
 
