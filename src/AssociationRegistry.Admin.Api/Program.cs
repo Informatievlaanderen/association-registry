@@ -24,6 +24,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
+using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -101,8 +102,12 @@ public class Program
 
         builder.Host.UseWolverine(
             options =>
+            {
                 options.Handlers.Discovery(
-                    source => { source.IncludeAssembly(typeof(Vereniging).Assembly); }));
+                    source => { source.IncludeAssembly(typeof(Vereniging).Assembly); });
+
+                options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+            });
 
         var app = builder.Build();
 
