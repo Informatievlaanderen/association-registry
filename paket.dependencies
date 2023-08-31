@@ -114,3 +114,12 @@ nuget Npgsql 7.0.0
 
 // ELASTICSEARCH
 nuget NEST 7.17.4
+
+group Critter
+  framework: net6.0, net472
+  source https://api.nuget.org/v3/index.json
+
+  nuget Marten > 6.0.0
+  nuget Marten.CommandLine > 6.0.0
+  nuget Npgsql
+  nuget WolverineFx
