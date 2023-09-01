@@ -31,7 +31,6 @@ public static class MartenExtensions
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.GeneratedCodeMode = TypeLoadMode.Auto;
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
@@ -63,10 +62,10 @@ public static class MartenExtensions
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
 
-
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
         var jsonNetSerializer = new JsonNetSerializer();
+
         jsonNetSerializer.Customize(
             s =>
             {
@@ -74,6 +73,7 @@ public static class MartenExtensions
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
+
         return jsonNetSerializer;
     }
 }

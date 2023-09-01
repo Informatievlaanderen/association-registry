@@ -10,6 +10,7 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
 
@@ -18,19 +19,30 @@ public static class MartenExtentions
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services
-            .AddSingleton(postgreSqlOptions)
-            .AddMarten(
-                opts =>
-                {
-                    opts.Connection(postgreSqlOptions.GetConnectionString());
-                    opts.Events.StreamIdentity = StreamIdentity.AsString;
-                    opts.Serializer(CreateCustomMartenSerializer());
-                    opts.Events.MetadataConfig.EnableAll();
-                    opts.AddPostgresProjections();
+                                 .AddSingleton(postgreSqlOptions)
+                                 .AddMarten(
+                                      serviceProvider =>
+                                      {
+                                          var opts = new StoreOptions();
+                                          opts.Connection(postgreSqlOptions.GetConnectionString());
+                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
+                                          opts.Serializer(CreateCustomMartenSerializer());
+                                          opts.Events.MetadataConfig.EnableAll();
+                                          opts.AddPostgresProjections();
 
-                    opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                    opts.RegisterDocumentType<VerenigingenPerInszDocument>();
-                });
+                                          if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                                          {
+                                              opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                                          }
+                                          else
+                                          {
+                                              opts.GeneratedCodeMode = TypeLoadMode.Static;
+                                              opts.SourceCodeWritingEnabled = false;
+                                          }
+                                          opts.RegisterDocumentType<VerenigingenPerInszDocument>();
+
+                                          return opts;
+                                      });
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
@@ -49,6 +61,7 @@ public static class MartenExtentions
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
         var jsonNetSerializer = new JsonNetSerializer();
+
         jsonNetSerializer.Customize(
             s =>
             {
@@ -56,6 +69,7 @@ public static class MartenExtentions
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
+
         return jsonNetSerializer;
     }
 }
