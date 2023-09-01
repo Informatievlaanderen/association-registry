@@ -1,3 +1,10 @@
+## [7.8.1](https://github.com/informatievlaanderen/association-registry/compare/v7.8.0...v7.8.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* OR-1899 register historiek document ([1d88259](https://github.com/informatievlaanderen/association-registry/commit/1d882594c4683d04cb7e02268d1abfc08ad5c2a7))
+
 # [7.8.0](https://github.com/informatievlaanderen/association-registry/compare/v7.7.1...v7.8.0) (2023-09-01)
 
 
