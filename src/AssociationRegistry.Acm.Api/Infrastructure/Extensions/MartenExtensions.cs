@@ -30,6 +30,8 @@ public static class MartenExtentions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.AddPostgresProjections();
 
+                                          opts.RegisterDocumentType<VerenigingenPerInszDocument>();
+
                                           if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                                           {
                                               opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
@@ -39,7 +41,6 @@ public static class MartenExtentions
                                               opts.GeneratedCodeMode = TypeLoadMode.Static;
                                               opts.SourceCodeWritingEnabled = false;
                                           }
-                                          opts.RegisterDocumentType<VerenigingenPerInszDocument>();
 
                                           return opts;
                                       });

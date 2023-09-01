@@ -16,6 +16,7 @@ using Projections.Detail;
 using Projections.Historiek;
 using Projections.Search;
 using Schema.Detail;
+using Schema.Historiek;
 using Wolverine;
 
 public static class ConfigureMartenExtensions
@@ -91,6 +92,8 @@ public static class ConfigureMartenExtensions
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
                 else
