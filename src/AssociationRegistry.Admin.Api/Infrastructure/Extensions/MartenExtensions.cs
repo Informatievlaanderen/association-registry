@@ -10,18 +10,19 @@ using Marten.Events;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
 using Vereniging;
 
-public static class MartenExtentions
+public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
-            _ =>
+            serviceProvider =>
             {
                 var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
@@ -34,7 +35,19 @@ public static class MartenExtentions
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
+                opts.RegisterDocumentType<VerenigingState>();
+
                 opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+
+                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                {
+                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                }
+                else
+                {
+                    opts.GeneratedCodeMode = TypeLoadMode.Auto;
+                    opts.SourceCodeWritingEnabled = false;
+                }
 
                 return opts;
             });
