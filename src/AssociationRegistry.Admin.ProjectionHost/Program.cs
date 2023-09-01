@@ -5,6 +5,7 @@ using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
+using JasperFx.CodeGeneration;
 using Marten;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -54,6 +55,7 @@ public class Program
             opts =>
             {
                 opts.ApplicationAssembly = typeof(Program).Assembly;
+                opts.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
 
         builder.Services
