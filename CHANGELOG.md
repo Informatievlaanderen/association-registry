@@ -1,3 +1,17 @@
+# [7.8.0](https://github.com/informatievlaanderen/association-registry/compare/v7.7.1...v7.8.0) (2023-09-01)
+
+
+### Features
+
+* OR-1899 use auto loading instead of static ([997cd8d](https://github.com/informatievlaanderen/association-registry/commit/997cd8de2636a514a961f210bd282cfc63b181aa))
+* update critter stack ([ce45eca](https://github.com/informatievlaanderen/association-registry/commit/ce45eca4e4885561deb65c43e5b5e868c3b31f0d))
+
+
+### Reverts
+
+* Revert "Revert "feat: marten artifact optimization"" ([daad944](https://github.com/informatievlaanderen/association-registry/commit/daad944c320df9c121b09813d7f82cad38ead09c))
+* Revert "Revert "feat: wolverine artifact optimization"" ([aa1e563](https://github.com/informatievlaanderen/association-registry/commit/aa1e563abd3242aa1e24749687b6ddc00c657ed9))
+
 ## [7.7.1](https://github.com/informatievlaanderen/association-registry/compare/v7.7.0...v7.7.1) (2023-09-01)
 
 
