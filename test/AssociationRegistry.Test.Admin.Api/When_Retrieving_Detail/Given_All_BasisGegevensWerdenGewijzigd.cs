@@ -51,18 +51,18 @@ public class Given_All_BasisGegevensWerdenGewijzigd
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, _result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetDetail(_vCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, long.MaxValue))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
@@ -70,17 +70,18 @@ public class Given_All_BasisGegevensWerdenGewijzigd
         var content = await _response.Content.ReadAsStringAsync();
 
         var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
-            .Append(
-                _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
-                    c =>
-                        new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
-                        {
-                            ContactgegevenId = c.ContactgegevenId,
-                            Type = c.Type,
-                            Waarde = c.Waarde,
-                            Beschrijving = c.Beschrijving,
-                            IsPrimair = c.IsPrimair,
-                        }));
+                                   .Append(
+                                        _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
+                                            c =>
+                                                new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
+                                                {
+                                                    ContactgegevenId = c.ContactgegevenId,
+                                                    Type = c.Type,
+                                                    Waarde = c.Waarde,
+                                                    Beschrijving = c.Beschrijving,
+                                                    IsPrimair = c.IsPrimair,
+                                                }));
+
         var expected = $@"
         {{
             ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
@@ -94,6 +95,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                     ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
                     ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""einddatum"": null,
                     ""doelgroep"" : {{
                         ""minimumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd},
                         ""maximumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}

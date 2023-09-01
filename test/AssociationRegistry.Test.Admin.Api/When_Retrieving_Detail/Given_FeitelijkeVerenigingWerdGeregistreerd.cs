@@ -84,6 +84,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     ""korteNaam"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",
                     ""korteBeschrijving"": ""{_feitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving}"",
                     ""startdatum"": ""{_feitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+                    ""einddatum"": null,
                     ""doelgroep"": {{
                         ""minimumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd},
                         ""maximumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd}

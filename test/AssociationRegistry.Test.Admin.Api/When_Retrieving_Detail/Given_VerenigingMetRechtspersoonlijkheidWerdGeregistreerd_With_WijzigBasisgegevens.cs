@@ -52,6 +52,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
         var content = await _response.Content.ReadAsStringAsync();
 
         var vCode = _scenario.VCode;
+
         var expected = $@"
 {{
     ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
@@ -66,6 +67,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
             ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
             ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""einddatum"": null,
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,

@@ -67,6 +67,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
             ""korteBeschrijving"": """",
             ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""einddatum"": null,
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,

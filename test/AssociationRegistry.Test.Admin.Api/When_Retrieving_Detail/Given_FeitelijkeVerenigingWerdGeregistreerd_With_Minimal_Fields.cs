@@ -67,6 +67,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
             ""korteNaam"": """",
             ""korteBeschrijving"": """",
             ""startdatum"": null,
+            ""einddatum"": null,
             ""doelgroep"" : {{ ""minimumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd}, ""maximumleeftijd"": {_feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd} }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,

@@ -69,6 +69,7 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
             ""korteNaam"": ""{string.Empty}"",
             ""korteBeschrijving"": ""{string.Empty}"",
             ""startdatum"": null,
+            ""einddatum"": null,
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""status"": ""Actief"",
             ""isUitgeschrevenUitPubliekeDatastroom"": false,
