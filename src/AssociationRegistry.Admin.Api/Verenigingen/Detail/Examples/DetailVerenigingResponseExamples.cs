@@ -42,12 +42,13 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",
                     Startdatum = "2020-05-15",
+                    Einddatum = "2021-12-12",
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
-                    Status = "Actief",
+                    Status = "Gestopt",
                     IsUitgeschrevenUitPubliekeDatastroom = false,
                     HoofdactiviteitenVerenigingsloket = new[]
                     {
@@ -133,6 +134,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     Roepnaam = "Vissen achter 't net",
                     KorteBeschrijving = "Een kleine groep vissers",
                     Startdatum = "2002-11-15",
+                    Einddatum = null,
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 60,
