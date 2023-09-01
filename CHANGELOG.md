@@ -1,3 +1,10 @@
+## [7.7.1](https://github.com/informatievlaanderen/association-registry/compare/v7.7.0...v7.7.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* or-1823 add default value null to roepnaam in public search ([e5d0262](https://github.com/informatievlaanderen/association-registry/commit/e5d0262e1976b919fbb86269e7961c24adfedc6c))
+
 # [7.7.0](https://github.com/informatievlaanderen/association-registry/compare/v7.6.1...v7.7.0) (2023-08-31)
 
 
