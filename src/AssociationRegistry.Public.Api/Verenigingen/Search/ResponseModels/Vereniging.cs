@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -19,6 +20,7 @@ public class Vereniging
 
     /// <summary>Roepnaam van de vereniging. Dit veld is enkel aanwezig bij verenigingen met rechtspersoonlijkheid</summary>
     [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
+    [DefaultValue(null)]
     public string? Roepnaam { get; set; }
 
     /// <summary>De korte naam van de vereniging</summary>
