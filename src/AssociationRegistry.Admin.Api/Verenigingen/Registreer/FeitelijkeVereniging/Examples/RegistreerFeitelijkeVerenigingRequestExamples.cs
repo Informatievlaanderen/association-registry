@@ -62,7 +62,9 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
             {
                 new ToeTeVoegenVertegenwoordiger
                 {
-                    Insz = "yymmddxxxcc",
+                    Insz = "01234567890",
+                    Voornaam = "Conan",
+                    Achternaam = "The Barbarian",
                     IsPrimair = true,
                     Roepnaam = "Conan",
                     Rol = "Barbarian",

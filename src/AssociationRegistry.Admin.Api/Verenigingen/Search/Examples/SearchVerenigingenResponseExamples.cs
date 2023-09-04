@@ -43,7 +43,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
                             Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
-                            Naam = null,
+                            Naam = "",
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
                         },
@@ -53,6 +53,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                         Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                     },
+                    Sleutels = Array.Empty<Sleutel>(),
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0001001"),
@@ -94,6 +95,14 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Gemeente = "Gent",
                         },
                     },
+                    Sleutels = new []
+                        {
+                            new Sleutel
+                            {
+                                Waarde = "0123456789",
+                                Bron = Sleutelbron.Kbo.Waarde,
+                            },
+                        },
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"),
