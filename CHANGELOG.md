@@ -1,3 +1,15 @@
+# [7.10.0](https://github.com/informatievlaanderen/association-registry/compare/v7.9.0...v7.10.0) (2023-09-04)
+
+
+### Bug Fixes
+
+* OR-1899 register verenigingdocument in acm ([d891638](https://github.com/informatievlaanderen/association-registry/commit/d891638d7575bf4609172e7b6def74dca222ff4a))
+
+
+### Features
+
+* or-1865 add status to beheer zoek ([37295b5](https://github.com/informatievlaanderen/association-registry/commit/37295b594b2e1d387cf0581e9aaffb0fb1054036))
+
 # [7.9.0](https://github.com/informatievlaanderen/association-registry/compare/v7.8.1...v7.9.0) (2023-09-04)
 
 
