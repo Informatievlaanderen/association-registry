@@ -9,6 +9,7 @@
       },
       "naam": "Party in Brakeldorp",
       "korteNaam": "FBD",
+      "status": "Actief",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150

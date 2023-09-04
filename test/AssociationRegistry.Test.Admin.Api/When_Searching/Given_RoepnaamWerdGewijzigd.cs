@@ -48,6 +48,7 @@ public class Given_RoepnaamWerdGewijzigd
             ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
             ""roepnaam"": ""{_scenario.RoepnaamWerdGewijzigd.Roepnaam}"",
             ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
+            ""status"": ""Actief"",
             ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
             ""locaties"":[],
             ""hoofdactiviteitenVerenigingsloket"":[],

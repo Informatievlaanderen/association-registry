@@ -10,6 +10,7 @@
       "naam": "Recht door zee",
       "roepnaam": "",
       "korteNaam": "RDZ",
+      "status": "Actief",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150

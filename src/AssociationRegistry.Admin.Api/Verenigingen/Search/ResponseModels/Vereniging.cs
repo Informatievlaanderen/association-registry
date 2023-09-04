@@ -27,6 +27,15 @@ public class Vereniging
     [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; } = null!;
 
+    /// <summary>Status van de vereniging<br />
+    ///     <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Actief<br />
+    ///     - Gestopt<br />
+    /// </summary>
+    [DataMember(Name = "Status")]
+    public string Status { get; init; } = "Actief";
+
     /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;
