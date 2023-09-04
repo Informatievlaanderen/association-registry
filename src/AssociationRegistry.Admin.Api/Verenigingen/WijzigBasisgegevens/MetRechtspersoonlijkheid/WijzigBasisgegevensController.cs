@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
+using Infrastructure.Swagger;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -23,7 +24,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Decentraal beheer van verenigingen met rechtspersoonlijkheid")]
+[SwaggerGroup.VerrijkingenVanKbo]
 public class WijzigBasisgegevensController : ApiController
 {
     private readonly AppSettings _appSettings;

@@ -14,6 +14,7 @@ using DuplicateVerenigingDetection;
 using Examples;
 using FluentValidation;
 using Infrastructure.Middleware;
+using Infrastructure.Swagger;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -26,7 +27,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen/kbo")]
-[ApiExplorerSettings(GroupName = "Decentraal beheer van verenigingen met rechtspersoonlijkheid")]
+[SwaggerGroup.Registratie]
 public class RegistreerVerenigingUitKboController : ApiController
 {
     private readonly AppSettings _appSettings;
