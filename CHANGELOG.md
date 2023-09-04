@@ -1,3 +1,10 @@
+## [7.11.1](https://github.com/informatievlaanderen/association-registry/compare/v7.11.0...v7.11.1) (2023-09-04)
+
+
+### Bug Fixes
+
+* or-1892 add all missing attributes in response and request examples of Beheer API ([f17f9c7](https://github.com/informatievlaanderen/association-registry/commit/f17f9c7403975d76537e51722914f10001cacb9c))
+
 # [7.11.0](https://github.com/informatievlaanderen/association-registry/compare/v7.10.0...v7.11.0) (2023-09-04)
 
 
