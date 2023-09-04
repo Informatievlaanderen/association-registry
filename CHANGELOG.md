@@ -1,3 +1,12 @@
+# [7.9.0](https://github.com/informatievlaanderen/association-registry/compare/v7.8.1...v7.9.0) (2023-09-04)
+
+
+### Features
+
+* or-1865 add einddatum to beheer detail ([72e83c6](https://github.com/informatievlaanderen/association-registry/commit/72e83c6ab257ec098895bc89e9409881b130cef4))
+* or-1865 add tests ([9187453](https://github.com/informatievlaanderen/association-registry/commit/918745310aa8e09b3a075b2531e41ae883d66036))
+* or-1865 update examples ([dcbb176](https://github.com/informatievlaanderen/association-registry/commit/dcbb176f95c33e511fb4af31c208a6f58e201aa5))
+
 ## [7.8.1](https://github.com/informatievlaanderen/association-registry/compare/v7.8.0...v7.8.1) (2023-09-01)
 
 
