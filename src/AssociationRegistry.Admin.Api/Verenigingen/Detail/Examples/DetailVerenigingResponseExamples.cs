@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Vereniging;
 using Vereniging.Bronnen;
 using Adres = ResponseModels.Adres;
+using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
@@ -77,12 +78,21 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LocatieId = 1,
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
-                            Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
-                            Naam = null,
+                            Adresvoorstelling = "Kerkstraat 5, 1770 Liedekerke, Belgie",
+                            Naam = "Administratief centrum",
                             Adres = new Adres
                             {
+                                Straatnaam = "Kerkstraat",
+                                Huisnummer = "5",
+                                Busnummer = "b",
                                 Postcode = "1770",
                                 Gemeente = "Liedekerke",
+                                Land = "België",
+                            },
+                            AdresId = new AdresId
+                            {
+                                Broncode = Adresbron.AR,
+                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
                             Bron = Bron.Initiator,
                         },
@@ -93,7 +103,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         {
                             VertegenwoordigerId = 1,
                             Insz = "1234567890",
-                            Voornaam = "Jhon",
+                            Voornaam = "Jane",
                             Achternaam = "Doo",
                             PrimairContactpersoon = false,
                             Roepnaam = "Jhony",
@@ -106,6 +116,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                     },
                     Sleutels = Array.Empty<Sleutel>(),
+                    Relaties = Array.Empty<Relatie>(),
                     Bron = Bron.Initiator.Waarde,
                 },
                 Metadata = new Metadata
@@ -178,12 +189,15 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LocatieId = 1,
                             Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
                             IsPrimair = true,
-                            Adresvoorstelling = "zeebank 10, 8400 Oostende, Belgie",
-                            Naam = null,
+                            Adresvoorstelling = "Zeebank 10, 8400 Oostende, Belgie",
+                            Naam = "",
                             Adres = new Adres
                             {
+                                Straatnaam = "Zeebank",
+                                Huisnummer = "10",
                                 Postcode = "8400",
                                 Gemeente = "Oostende",
+                                Land = "België",
                             },
                             Bron = Bron.KBO.Waarde,
                         },
@@ -193,11 +207,19 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Locatietype = Locatietype.Activiteiten.Waarde,
                             IsPrimair = false,
                             Adresvoorstelling = "De pier 1, 8430 Westende",
-                            Naam = null,
+                            Naam = "Vis plaats",
                             Adres = new Adres
                             {
+                                Straatnaam = "De pier",
+                                Huisnummer = "1",
                                 Postcode = "8430",
                                 Gemeente = "Westende",
+                                Land = "België",
+                            },
+                            AdresId = new AdresId
+                            {
+                                Broncode = Adresbron.AR,
+                                Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 17,
                             },
                             Bron = Bron.Initiator.Waarde,
                         },
@@ -211,6 +233,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Bron = Sleutelbron.Kbo.Waarde,
                         },
                     },
+                    Relaties = Array.Empty<Relatie>(),
                     Bron = Bron.KBO.Waarde,
                 },
                 Metadata = new Metadata
