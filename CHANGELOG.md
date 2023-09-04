@@ -1,3 +1,10 @@
+# [7.11.0](https://github.com/informatievlaanderen/association-registry/compare/v7.10.0...v7.11.0) (2023-09-04)
+
+
+### Features
+
+* or-1898 rename Swagger groupnames ([3d48e2a](https://github.com/informatievlaanderen/association-registry/commit/3d48e2a58064a517628f3d3cbabc2af0c98a586b))
+
 # [7.10.0](https://github.com/informatievlaanderen/association-registry/compare/v7.9.0...v7.10.0) (2023-09-04)
 
 
