@@ -31,6 +31,7 @@ public static class MartenExtentions
                                           opts.AddPostgresProjections();
 
                                           opts.RegisterDocumentType<VerenigingenPerInszDocument>();
+                                          opts.RegisterDocumentType<VerenigingDocument>();
 
                                           if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                                           {

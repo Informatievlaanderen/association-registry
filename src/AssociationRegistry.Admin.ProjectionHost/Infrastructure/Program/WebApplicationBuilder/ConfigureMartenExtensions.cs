@@ -9,8 +9,6 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Projections.Detail;
 using Projections.Historiek;
@@ -24,14 +22,12 @@ public static class ConfigureMartenExtensions
     public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
     {
         source
-            .AddTransient<IElasticRepository, ElasticRepository>();
+           .AddTransient<IElasticRepository, ElasticRepository>();
 
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-        {
             martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
-        }
 
         return source;
     }
@@ -41,16 +37,15 @@ public static class ConfigureMartenExtensions
         ConfigurationManager configurationManager)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-        {
-            return $"host={postgreSqlOptions.Host};" +
-                   $"database={postgreSqlOptions.Database};" +
-                   $"password={postgreSqlOptions.Password};" +
-                   $"username={postgreSqlOptions.Username}";
-        }
+            => $"host={postgreSqlOptions.Host};" +
+               $"database={postgreSqlOptions.Database};" +
+               $"password={postgreSqlOptions.Password};" +
+               $"username={postgreSqlOptions.Username}";
 
         static JsonNetSerializer CreateCustomMartenSerializer()
         {
             var jsonNetSerializer = new JsonNetSerializer();
+
             jsonNetSerializer.Customize(
                 s =>
                 {
@@ -58,6 +53,7 @@ public static class ConfigureMartenExtensions
                     s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                     s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 });
+
             return jsonNetSerializer;
         }
 
@@ -65,7 +61,8 @@ public static class ConfigureMartenExtensions
             serviceProvider =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
-                    .Get<PostgreSqlOptionsSection>();
+                                                            .Get<PostgreSqlOptionsSection>();
+
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
                 var opts = new StoreOptions();
@@ -80,6 +77,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
@@ -87,7 +85,7 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    "BeheerVerenigingZoekenDocument");
+                    projectionName: "BeheerVerenigingZoekenDocument");
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
@@ -95,12 +93,16 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                }
                 else
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Static;
                     opts.SourceCodeWritingEnabled = false;
-                }                return opts;
+                }
+
+                return opts;
             });
 
         return martenConfigurationExpression;
