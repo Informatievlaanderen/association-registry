@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Swagger;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -21,7 +22,7 @@ using WellknownMediaTypes = Constants.WellknownMediaTypes;
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
+[SwaggerGroup.Opvragen]
 public class SearchVerenigingenController : ApiController
 {
     private readonly ElasticClient _elasticClient;

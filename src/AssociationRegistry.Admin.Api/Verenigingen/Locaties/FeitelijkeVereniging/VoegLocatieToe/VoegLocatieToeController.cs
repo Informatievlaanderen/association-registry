@@ -10,6 +10,7 @@ using Framework;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
+using Infrastructure.Swagger;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -22,7 +23,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijke verenigingen en afdelingen")]
+[SwaggerGroup.DecentraalBeheer]
 public class VoegLocatieToeController : ApiController
 {
     private readonly IMessageBus _messageBus;

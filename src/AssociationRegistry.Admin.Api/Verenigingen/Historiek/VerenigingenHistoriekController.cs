@@ -7,6 +7,7 @@ using Constants;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
+using Infrastructure.Swagger;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
+[SwaggerGroup.Opvragen]
 public class VerenigingenHistoriekController : ApiController
 {
     private readonly VerenigingHistoriekResponseMapper _mapper;

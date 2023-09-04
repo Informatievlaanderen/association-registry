@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using Infrastructure;
+using Infrastructure.Swagger;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
@@ -15,7 +16,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("hoofdactiviteitenVerenigingsloket")]
-[ApiExplorerSettings(GroupName = "Parameters")]
+[SwaggerGroup.Parameters]
 public class HoofdactiviteitenVerenigingsloketController : ApiController
 {
     /// <summary>
