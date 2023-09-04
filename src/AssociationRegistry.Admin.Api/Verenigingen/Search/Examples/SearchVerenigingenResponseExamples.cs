@@ -30,6 +30,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
+                    Status = "Actief",
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,

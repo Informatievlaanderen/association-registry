@@ -10,6 +10,7 @@
       "naam": "Naam Vereniging",
       "roepnaam": "Mijn roepnaam"
       "korteNaam": "NV",
+      "status": "Actief",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150

@@ -43,7 +43,12 @@ public class VerenigingDetail
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;
 
-    /// <summary>Status van de vereniging</summary>
+    /// <summary>Status van de vereniging<br />
+    ///     <br />
+    ///     Mogelijke waarden:<br />
+    ///     - Actief<br />
+    ///     - Gestopt<br />
+    /// </summary>
     [DataMember(Name = "Status")]
     public string Status { get; init; } = null!;
 

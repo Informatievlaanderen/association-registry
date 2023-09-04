@@ -3,15 +3,17 @@
   "verenigingen": [
     {
       "vCode": "V9999023",
-      "type":{
-        "code":"FV",
+      "type": {
+        "code": "FV",
         "beschrijving": "Feitelijke vereniging"
       },
       "naam": "Party in Brakeldorp",
-      "korteNaam": "FBD","doelgroep": {
-      "minimumleeftijd": 0,
-      "maximumleeftijd": 150
-    },
+      "korteNaam": "FBD",
+      "status": "Actief",
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
       "hoofdactiviteitenVerenigingsloket": [
         {
           "code": "BLA",
@@ -52,7 +54,7 @@
           "gemeente": "Zonnedorp"
         }
       ],
-      "sleutels":[],
+      "sleutels": [],
       "links": {
         "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999023"
       }

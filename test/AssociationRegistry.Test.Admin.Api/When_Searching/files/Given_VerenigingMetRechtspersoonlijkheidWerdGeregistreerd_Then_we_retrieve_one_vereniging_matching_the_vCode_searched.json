@@ -10,6 +10,7 @@
       "naam": "VZW 0000000000",
       "roepnaam": "",
       "korteNaam": "",
+      "status": "Actief",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150
