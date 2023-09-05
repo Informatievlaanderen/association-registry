@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
-using AssociationRegistry.Acties.WijzigBasisgegevens;
+using Acties.StopVereniging;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,25 +19,24 @@ using Xunit.Categories;
 public class With_Valid_ETag : IAsyncLifetime
 {
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly WijzigBasisgegevensController _controller;
+    private readonly StopVerenigingController _controller;
     private const int ETagNumber = 1;
 
     public With_Valid_ETag()
     {
         _messageBusMock = new Mock<IMessageBus>();
         _messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigBasisgegevensCommand>>(), default, null))
+            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
             .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
-        _controller = new WijzigBasisgegevensController(_messageBusMock.Object, new AppSettings())
+        _controller = new StopVerenigingController(_messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
     public async Task InitializeAsync()
     {
-        await _controller.Patch(
-            new WijzigBasisgegevensRequestValidator(),
-            new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
+        await _controller.Post(
+            new StopVerenigingRequest() { Einddatum = new DateOnly()},
             "V0001001",
             new CommandMetadataProviderStub { Initiator= "OVO0001000" },
             $"W/\"{ETagNumber}\"");
@@ -49,7 +48,7 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock.Verify(
             messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
-                    It.Is<CommandEnvelope<WijzigBasisgegevensCommand>>(
+                    It.Is<CommandEnvelope<StopVerenigingCommand>>(
                         env =>
                             env.Metadata.ExpectedVersion == ETagNumber),
                     default,

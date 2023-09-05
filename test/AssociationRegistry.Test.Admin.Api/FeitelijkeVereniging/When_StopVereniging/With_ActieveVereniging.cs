@@ -25,7 +25,7 @@ public sealed class With_ActieveVereniging_Setup
 
         var jsonBody = @"{""einddatum"":""2020-12-31""}";
 
-        Response = fixture.DefaultClient.PatchVereniging(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
+        Response = fixture.DefaultClient.StopVereniging(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
     }
 }
 

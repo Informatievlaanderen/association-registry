@@ -1,8 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
+using Acties.StopVereniging;
 using AssociationRegistry.Acties.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.EventStore;
@@ -20,26 +23,28 @@ using Xunit.Categories;
 [UnitTest]
 public class Without_Changes : IAsyncLifetime
 {
-    private readonly WijzigBasisgegevensController _controller;
+    private readonly StopVerenigingController _controller;
     private IActionResult _result = null!;
 
     public Without_Changes()
     {
         var messageBusMock = new Mock<IMessageBus>();
+
         messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigBasisgegevensCommand>>(), default, null))
-            .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
-        _controller = new WijzigBasisgegevensController(messageBusMock.Object, new AppSettings())
+           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
+           .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
+
+        _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
     public async Task InitializeAsync()
     {
-        _result = await _controller.Patch(
-            new WijzigBasisgegevensRequestValidator(),
-            new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
+        _result = await _controller.Post(
+            new StopVerenigingRequest
+                { Einddatum = new DateOnly() },
             "V0001001",
-            new CommandMetadataProviderStub { Initiator = "OVO0001001"},
+            new CommandMetadataProviderStub { Initiator = "OVO0001001" },
             "W/\"1\"");
     }
 

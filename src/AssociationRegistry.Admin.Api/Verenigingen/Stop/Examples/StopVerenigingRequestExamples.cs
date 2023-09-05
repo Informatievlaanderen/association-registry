@@ -2,10 +2,13 @@
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using System.Collections.Generic;
+using System;
 
-public class StopVerenigingRequestExamples : IMultipleExamplesProvider<StopVerenigingRequest>
+public class StopVerenigingRequestExamples : IExamplesProvider<StopVerenigingRequest>
 {
-    public IEnumerable<SwaggerExample<StopVerenigingRequest>> GetExamples()
-        => System.Array.Empty<SwaggerExample<StopVerenigingRequest>>();
+    public StopVerenigingRequest GetExamples()
+        => new()
+        {
+            Einddatum = new DateOnly(2023, 09, 05),
+        };
 }

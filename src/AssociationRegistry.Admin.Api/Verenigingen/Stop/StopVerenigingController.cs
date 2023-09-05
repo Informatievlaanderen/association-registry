@@ -36,7 +36,26 @@ public class StopVerenigingController : ApiController
         _validator = validator;
     }
 
-    [HttpPost("{vCode}/stoppen")]
+    /// <summary>
+    ///     Stoppen van een vereniging.
+    /// </summary>
+    /// <remarks>
+    ///     Wanneer er wijzigingen veroorzaakt zijn door de request, bevat de response een sequence header.
+    ///
+    ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
+    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
+    ///     al is doorgestroomd naar deze endpoints.
+    /// </remarks>
+    /// <param name="request"></param>
+    /// <param name="vCode">De vCode van de vereniging</param>
+    /// <param name="metadataProvider"></param>
+    /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <response code="200">Er waren geen wijzigingen</response>
+    /// <response code="202">De vereniging werd gestopt</response>
+    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
+    /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpPost("{vCode}/stop")]
     [Consumes("application/json")]
     [Produces("application/json")]
     [SwaggerRequestExample(typeof(StopVerenigingRequest), typeof(StopVerenigingRequestExamples))]
@@ -49,7 +68,7 @@ public class StopVerenigingController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Patch(
+    public async Task<IActionResult> Post(
         [FromBody] StopVerenigingRequest? request,
         [FromRoute] string vCode,
         [FromServices] ICommandMetadataProvider metadataProvider,

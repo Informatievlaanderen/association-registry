@@ -9,6 +9,9 @@ using Vereniging;
 [DataContract]
 public class StopVerenigingRequest
 {
+    /// <summary>
+    /// De datum waarop de vereniging gestopt werd.
+    /// </summary>
     [DataMember]
     [Required]
     public DateOnly? Einddatum { get; set; }

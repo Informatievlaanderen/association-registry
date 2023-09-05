@@ -2,6 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Test.Admin.Api.Framework;
@@ -16,12 +18,12 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Invalid_ETag
 {
-    private readonly WijzigBasisgegevensController _controller;
+    private readonly StopVerenigingController _controller;
 
     public With_Invalid_ETag()
     {
         Mock<IMessageBus> messageBusMock = new();
-        _controller = new WijzigBasisgegevensController(messageBusMock.Object, new AppSettings())
+        _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
@@ -32,9 +34,8 @@ public class With_Invalid_ETag
     {
         var method = async () =>
         {
-            await _controller.Patch(
-                new WijzigBasisgegevensRequestValidator(),
-                new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
+            await _controller.Post(
+                new StopVerenigingRequest(),
                 "V0001001",
                 new CommandMetadataProviderStub { Initiator = "OVO0001001"},
                 eTagValue);

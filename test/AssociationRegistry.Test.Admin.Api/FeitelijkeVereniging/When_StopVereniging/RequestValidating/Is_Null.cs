@@ -15,8 +15,8 @@ public class Einddatum_Is_Null : ValidatorTest
     public void Has_no_validation_errors_for_startdatum()
     {
         var validator = new StopVerenigingRequestValidator();
-        var result = validator.TestValidate(new StopVerenigingRequest { Einddatum = default });
+        var result = validator.TestValidate(new StopVerenigingRequest { Einddatum = null });
 
-        result.ShouldHaveValidationErrorFor(nameof(WijzigBasisgegevensRequest.Startdatum));
+        result.ShouldHaveValidationErrorFor(nameof(StopVerenigingRequest.Einddatum));
     }
 }
