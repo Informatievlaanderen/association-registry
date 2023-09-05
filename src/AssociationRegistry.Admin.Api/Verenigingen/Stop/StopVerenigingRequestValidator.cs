@@ -2,16 +2,13 @@
 
 using FluentValidation;
 using RequestModels;
-using System;
 
-public class StopVerenigingRequestValidator:AbstractValidator<StopVerenigingRequest>
+public class StopVerenigingRequestValidator : AbstractValidator<StopVerenigingRequest>
 {
     public StopVerenigingRequestValidator()
     {
         RuleFor(r => r.Einddatum)
-           .Must(NotBeDefault);
+           .NotNull()
+           .WithMessage(ExceptionMessages.InvalidDateFormat);
     }
-
-    private static bool NotBeDefault(DateOnly e)
-        => e != default;
 }

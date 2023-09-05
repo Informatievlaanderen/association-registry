@@ -16,11 +16,8 @@ public record Datum
     public DateOnly? Value { get; }
     public DateOnly ValueOrThrow => Value ?? throw new ArgumentNullException();
 
-    [Obsolete("Prefer using Create(string datum) to enforce the date format from the domain.")]
     public static Datum Create(DateOnly? startdatum)
         => new(startdatum);
-    public static Datum Create(string datum)
-        => new(DateOnly.ParseExact(datum, Format));
 
     public static Datum Hydrate(DateOnly? dateOnly)
         => new(dateOnly);
@@ -44,4 +41,7 @@ public record Datum
 
     public bool IsInPastOf(Datum datum)
         => !datum.IsLeeg && Value < datum;
+
+    public static bool CanParse(string dateOnly)
+        => DateOnly.TryParseExact(dateOnly, Format, out _);
 }

@@ -10,9 +10,8 @@ using Vereniging;
 public class StopVerenigingRequest
 {
     [DataMember]
-    [DataType(DataType.Date)]
-    [RegularExpression(Constants.WellknownFormats.DateOnly)]
-    public string Einddatum { get; set; }
+    [Required]
+    public DateOnly? Einddatum { get; set; }
 
     public StopVerenigingCommand ToCommand(string vCode) => new(VCode.Create(vCode), Datum.Create(Einddatum));
 }
