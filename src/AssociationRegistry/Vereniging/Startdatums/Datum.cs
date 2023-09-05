@@ -13,6 +13,7 @@ public record Datum
         => Equals(Leeg);
 
     public DateOnly? Value { get; }
+    public DateOnly ValueOrThrow => Value ?? throw new ArgumentNullException();
 
     public static Datum Create(DateOnly? startdatum)
         => new(startdatum);
@@ -37,6 +38,6 @@ public record Datum
     public bool IsInFutureOf(Datum datum)
         => Value > datum;
 
-    public bool IsInPastOf(Datum? datum)
-        => datum is not null && Value < datum;
+    public bool IsInPastOf(Datum datum)
+        => !datum.IsLeeg && Value < datum;
 }

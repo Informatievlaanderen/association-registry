@@ -144,7 +144,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<EinddatumIsInFuture>.If(einddatum.IsInFutureOf(clock.Today));
         Throw<EinddatumIsBeforeStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
 
-        AddEvent(new VerenigingWerdGestopt(einddatum.Value!.Value));
+        AddEvent(VerenigingWerdGestopt.With(einddatum));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
