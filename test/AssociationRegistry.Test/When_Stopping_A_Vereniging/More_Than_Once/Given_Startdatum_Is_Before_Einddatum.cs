@@ -8,7 +8,7 @@ using Framework.Customizations;
 using Vereniging;
 using Xunit;
 
-public class Given_Einddatum_Is_The_Same
+public class Given_Startdatum_Is_Before_Einddatum
 {
     [Fact]
     public void Then_It_Adds_A_EinddatumWerdGewijzigd_Event()
@@ -17,9 +17,6 @@ public class Given_Einddatum_Is_The_Same
 
         var vereniging = new Vereniging();
 
-        var clock = new ClockStub(fixture.Create<DateTime>());
-        var einddatum = Datum.Create(clock.Today);
-
         vereniging.Hydrate(
             new VerenigingState()
                .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
@@ -27,10 +24,16 @@ public class Given_Einddatum_Is_The_Same
                           {
                               Startdatum = Datum.Leeg,
                           })
-               .Apply(VerenigingWerdGestopt.With(einddatum)));
+               .Apply(fixture.Create<VerenigingWerdGestopt>()));
+
+        var clock = new ClockStub(fixture.Create<DateTime>());
+        var einddatum = Datum.Create(clock.Today);
 
         vereniging.Stop(einddatum, clock);
 
-        vereniging.UncommittedEvents.Should().BeEmpty();
+        vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
+        {
+            new EinddatumWerdGewijzigd(einddatum.Value!.Value),
+        });
     }
 }

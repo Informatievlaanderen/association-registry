@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.When_Stopping_A_Vereniging;
+﻿namespace AssociationRegistry.Test.When_Stopping_A_Vereniging.More_Than_Once;
 
 using AutoFixture;
 using Events;
@@ -8,7 +8,7 @@ using Framework.Customizations;
 using Vereniging;
 using Xunit;
 
-public class Given_Status_Is_Gestopt
+public class Given_Einddatum_Is_The_Same
 {
     [Fact]
     public void Then_It_Adds_A_EinddatumWerdGewijzigd_Event()
@@ -17,6 +17,9 @@ public class Given_Status_Is_Gestopt
 
         var vereniging = new Vereniging();
 
+        var clock = new ClockStub(fixture.Create<DateTime>());
+        var einddatum = Datum.Create(clock.Today);
+
         vereniging.Hydrate(
             new VerenigingState()
                .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
@@ -24,16 +27,10 @@ public class Given_Status_Is_Gestopt
                           {
                               Startdatum = Datum.Leeg,
                           })
-               .Apply(fixture.Create<VerenigingWerdGestopt>()));
-
-        var clock = new ClockStub(fixture.Create<DateTime>());
-        var einddatum = Datum.Create(clock.Today);
+               .Apply(VerenigingWerdGestopt.With(einddatum)));
 
         vereniging.Stop(einddatum, clock);
 
-        vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
-        {
-            new EinddatumWerdGewijzigd(einddatum.Value!.Value),
-        });
+        vereniging.UncommittedEvents.Should().BeEmpty();
     }
 }

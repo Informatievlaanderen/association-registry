@@ -165,4 +165,7 @@
   <data name="EinddatumIsBeforeStartdatum">
     <value>Einddatum moet na startdatum liggen.</value>
   </data>
+  <data name="StartdatumIsAfterEinddatum">
+    <value>Startdatum moet voor einddatum liggen.</value>
+  </data>
 </root>

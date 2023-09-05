@@ -338,5 +338,11 @@ namespace AssociationRegistry {
                 return ResourceManager.GetString("EinddatumIsBeforeStartdatum", resourceCulture);
             }
         }
+        
+        public static string StartdatumIsAfterEinddatum {
+            get {
+                return ResourceManager.GetString("StartdatumIsAfterEinddatum", resourceCulture);
+            }
+        }
     }
 }

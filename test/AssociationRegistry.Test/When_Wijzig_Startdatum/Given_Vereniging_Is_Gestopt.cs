@@ -16,20 +16,23 @@ public class Given_Vereniging_Is_Gestopt
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var einddatum = fixture.Create<Datum>();
-
         var vereniging = new Vereniging();
+
+        var einddatum = fixture.Create<Datum>();
+        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGestopt = VerenigingWerdGestopt.With(einddatum);
+
         vereniging.Hydrate(
             new VerenigingState()
-               .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>())
-               .Apply(VerenigingWerdGestopt.With(einddatum)));
+               .Apply(feitelijkeVerenigingWerdGeregistreerd)
+               .Apply(verenigingWerdGestopt));
 
         var clock = new ClockStub(einddatum.ValueOrThrow.AddDays(100));
 
         var startdatum = Datum.Hydrate(einddatum.ValueOrThrow.AddDays(1));
         var wijzigStartdatum = () => vereniging.WijzigStartdatum(startdatum, clock);
 
-        wijzigStartdatum.Should().Throw<EinddatumIsBeforeStartdatum>();
+        wijzigStartdatum.Should().Throw<StartdatumIsAfterEinddatum>();
     }
 
     [Fact]

@@ -128,14 +128,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving));
     }
 
-    public void WijzigStartdatum(Datum datum, IClock clock)
+    public void WijzigStartdatum(Datum startDatum, IClock clock)
     {
-        if (Datum.Equals(State.Startdatum, datum))
+        if (Datum.Equals(State.Startdatum, startDatum))
             return;
 
-        Throw<StartdatumIsInFuture>.If(datum.IsInFutureOf(clock.Today));
+        Throw<StartdatumIsAfterEinddatum>.If(State.Einddatum.IsInPastOf(startDatum));
+        Throw<StartdatumIsInFuture>.If(startDatum.IsInFutureOf(clock.Today));
 
-        AddEvent(new StartdatumWerdGewijzigd(VCode, datum.Value));
+        AddEvent(new StartdatumWerdGewijzigd(VCode, startDatum.Value));
     }
 
     public void Stop(Datum einddatum, IClock clock)
