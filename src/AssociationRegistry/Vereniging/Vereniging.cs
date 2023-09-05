@@ -56,7 +56,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         VerenigingsRepository.VCodeAndNaam vCodeAndNaamMoedervereniging,
         string? korteNaam,
         string? korteBeschrijving,
-        Datum datum,
+        Datum startdatum,
         Doelgroep doelgroep,
         Contactgegeven[] toeTeVoegenContactgegevens,
         Locatie[] toeTeVoegenLocaties,
@@ -64,7 +64,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
-        Throw<StartdatumIsInFuture>.If(datum.IsInFutureOf(clock.Today));
+        Throw<StartdatumIsInFuture>.If(startdatum.IsInFutureOf(clock.Today));
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
@@ -82,7 +82,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                     vCodeAndNaamMoedervereniging.VerenigingsNaam),
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
-                datum.Value,
+                startdatum.Value,
                 Registratiedata.Doelgroep.With(doelgroep),
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
@@ -140,8 +140,11 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Stop(Datum einddatum, IClock clock)
     {
+        Throw<ArgumentNullException>.If(einddatum.IsLeeg);
         Throw<EinddatumIsInFuture>.If(einddatum.IsInFutureOf(clock.Today));
         Throw<EinddatumIsBeforeStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
+
+        AddEvent(new VerenigingWerdGestopt(einddatum.Value!.Value));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)

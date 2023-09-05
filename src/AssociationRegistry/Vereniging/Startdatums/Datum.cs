@@ -12,7 +12,7 @@ public record Datum
     public bool IsLeeg
         => Equals(Leeg);
 
-    public DateOnly? Value { get; init; }
+    public DateOnly? Value { get; }
 
     public static Datum Create(DateOnly? startdatum)
         => new(startdatum);

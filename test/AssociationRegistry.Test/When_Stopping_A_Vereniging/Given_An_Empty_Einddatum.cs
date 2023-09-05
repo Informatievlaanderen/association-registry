@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.When_Stopping_A_Vereniging;
+﻿namespace AssociationRegistry.Test.When_Stopping_A_Vereniging;
 
 using AutoFixture;
 using Events;
@@ -6,13 +6,12 @@ using FluentAssertions;
 using Framework;
 using Framework.Customizations;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
-public class Given_No_Startdatum
+public class Given_An_Empty_Einddatum
 {
     [Fact]
-    public void Then_It_Adds_A_VerenigingWerdGestopt_Event()
+    public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
 
@@ -20,13 +19,10 @@ public class Given_No_Startdatum
         vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()));
 
         var clock = new ClockStub(fixture.Create<DateTime>());
-        var einddatum = Datum.Create(clock.Today);
+        var einddatum = Datum.Leeg;
 
-        vereniging.Stop(einddatum, clock);
+        var stopVereniging = () => vereniging.Stop(einddatum, clock);
 
-        vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
-        {
-            new VerenigingWerdGestopt(einddatum.Value!.Value),
-        });
+        stopVereniging.Should().Throw<ArgumentNullException>();
     }
 }

@@ -61,7 +61,7 @@ public class RegistreerFeitelijkeVerenigingRequest
             VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
-            Datum.Create(Startdatum),
+            AssociationRegistry.Vereniging.Datum.Create(Startdatum),
             DoelgroepRequest.Map(Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),

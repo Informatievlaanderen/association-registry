@@ -2,4 +2,4 @@
 
 using Framework;
 
-public record VerenigingWerdGestopt(DateOnly? Einddatum) : IEvent;
+public record VerenigingWerdGestopt(DateOnly Einddatum) : IEvent;
