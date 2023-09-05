@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Vereniging.Einddatum.Exceptions;
+namespace AssociationRegistry.Vereniging.Exceptions;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using System.Runtime.Serialization;

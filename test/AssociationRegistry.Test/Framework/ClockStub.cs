@@ -11,6 +11,11 @@ public class ClockStub : IClock
         _now = now;
     }
 
+    public ClockStub(DateOnly now)
+    {
+        _now = now.ToDateTime(new TimeOnly());
+    }
+
     public DateOnly Today
         => DateOnly.FromDateTime(_now);
 }

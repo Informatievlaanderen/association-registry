@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 
+using Acties.WijzigBasisgegevens;
+using Common;
+using Primitives;
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
-using AssociationRegistry.Acties.WijzigBasisgegevens;
-using Common;
-using Primitives;
 using Vereniging;
 
 [DataContract]
@@ -52,8 +52,8 @@ public class WijzigBasisgegevensRequest
             KorteNaam,
             KorteBeschrijving,
             Startdatum.IsNull ? null :
-            Startdatum.IsEmpty ? AssociationRegistry.Vereniging.Startdatum.Leeg :
-            AssociationRegistry.Vereniging.Startdatum.Create(Startdatum.Value),
+            Startdatum.IsEmpty ? Datum.Leeg :
+            Datum.Create(Startdatum.Value),
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom

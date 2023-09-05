@@ -2,11 +2,11 @@
 
 using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework;
 using Framework.Customizations;
 using Vereniging;
-using Vereniging.Einddatum;
-using Vereniging.Einddatum.Exceptions;
+using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_A_Einddatum_In_The_Future
@@ -20,7 +20,7 @@ public class Given_A_Einddatum_In_The_Future
         vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()));
 
         var clock = new ClockStub(fixture.Create<DateTime>());
-        var einddatum = Einddatum.Create(clock.Today.AddDays(1));
+        var einddatum = Datum.Create(clock.Today.AddDays(1));
 
         var stopVereniging = () => vereniging.Stop(einddatum, clock);
 

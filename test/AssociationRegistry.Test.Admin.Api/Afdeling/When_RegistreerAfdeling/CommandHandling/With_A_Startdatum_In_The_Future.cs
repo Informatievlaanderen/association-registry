@@ -2,12 +2,12 @@
 
 using Acties.RegistreerAfdeling;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,10 +25,11 @@ public class With_A_Startdatum_In_The_Future
 
         var command = fixture.Create<RegistreerAfdelingCommand>() with
         {
-            Startdatum = Startdatum.Create(today.AddDays(value: 1)),
+            Datum = Datum.Create(today.AddDays(value: 1)),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         _commandHandler = new RegistreerAfdelingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),

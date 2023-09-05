@@ -22,6 +22,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
@@ -33,9 +34,12 @@ public class WijzigBasisgegevensCommandHandler
         {
             case true:
                 vereniging.SchrijfUitUitPubliekeDatastroom();
+
                 break;
+
             case false:
                 vereniging.SchrijfInInPubliekeDatastroom();
+
                 break;
         }
     }
@@ -48,7 +52,7 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
     }
 
-    private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum, IClock clock)
+    private static void HandleStartdatum(Vereniging vereniging, Datum? startdatum, IClock clock)
     {
         if (startdatum is null)
             return;

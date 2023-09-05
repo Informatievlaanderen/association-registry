@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
 using Acties.WijzigBasisgegevens;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,7 +23,7 @@ public class With_A_Startdatum_Empty
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Leeg);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Datum.Leeg);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -37,7 +37,7 @@ public class With_A_Startdatum_Empty
     public void Then_A_StartdatumWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new StartdatumWerdGewijzigd(_scenario.VCode, null)
+            new StartdatumWerdGewijzigd(_scenario.VCode, Startdatum: null)
         );
     }
 }

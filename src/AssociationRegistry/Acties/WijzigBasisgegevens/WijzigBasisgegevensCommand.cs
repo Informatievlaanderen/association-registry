@@ -7,7 +7,7 @@ public record WijzigBasisgegevensCommand(
     VerenigingsNaam? Naam = null,
     string? KorteNaam = null,
     string? KorteBeschrijving = null,
-    Startdatum? Startdatum = default,
+    Datum? Startdatum = default,
     Doelgroep? Doelgroep = null,
     HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null,
     bool? IsUitgeschrevenUitPubliekeDatastroom = null);

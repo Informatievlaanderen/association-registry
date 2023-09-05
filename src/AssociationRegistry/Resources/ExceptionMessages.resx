@@ -162,4 +162,7 @@
   <data name="EinddatumIsInFuture">
     <value>Einddatum mag niet in de toekomst liggen.</value>
   </data>
+  <data name="EinddatumIsBeforeStartdatum">
+    <value>Einddatum moet na startdatum liggen.</value>
+  </data>
 </root>
