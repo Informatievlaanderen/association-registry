@@ -61,6 +61,12 @@ public class AdminApiClient : IDisposable
         return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}", content.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> StopVereniging(string vCode, string content, long? version = null, string? initiator = "OVO000001")
+    {
+        WithHeaders(version, initiator);
+        return await HttpClient.PostAsync($"/v1/verenigingen/{vCode}/stop", content.AsJsonContent());
+    }
+
     public async Task<HttpResponseMessage> PatchVerenigingMetRechtspersoonlijkheid(string vCode, string content, long? version = null, string? initiator = "OVO000001")
     {
         WithHeaders(version, initiator);

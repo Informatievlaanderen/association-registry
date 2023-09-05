@@ -42,6 +42,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V036_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForWijzigenContactgegeven V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven = new();
     public readonly V037_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForVerwijderContactgegeven V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven = new();
     public readonly V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
+    public readonly V040_FeitelijkeVerenigingWerdGeregistreerd_ForStoppen V040FeitelijkeVerenigingWerdGeregistreerdForStoppen = new();
 
     protected override async Task Given()
     {
@@ -84,6 +85,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven,
             V037VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForVerwijderContactgegeven,
             V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens,
+            V040FeitelijkeVerenigingWerdGeregistreerdForStoppen,
         };
 
         foreach (var scenario in scenarios)
