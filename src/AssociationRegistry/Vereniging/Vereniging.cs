@@ -141,10 +141,16 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void Stop(Datum einddatum, IClock clock)
     {
         Throw<ArgumentNullException>.If(einddatum.IsLeeg);
+
+        if (einddatum == State.Einddatum) return;
+
         Throw<EinddatumIsInFuture>.If(einddatum.IsInFutureOf(clock.Today));
         Throw<EinddatumIsBeforeStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
 
-        AddEvent(VerenigingWerdGestopt.With(einddatum));
+        if (State.IsGestopt)
+            AddEvent(EinddatumWerdGewijzigd.With(einddatum));
+        else
+            AddEvent(VerenigingWerdGestopt.With(einddatum));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
