@@ -17,7 +17,12 @@ public class Given_No_Startdatum
         var fixture = new Fixture().CustomizeDomain();
 
         var vereniging = new Vereniging();
-        vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()));
+
+        vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
+                                                           with
+                                                           {
+                                                               Startdatum = Datum.Leeg,
+                                                           }));
 
         var clock = new ClockStub(fixture.Create<DateTime>());
         var einddatum = Datum.Create(clock.Today);
