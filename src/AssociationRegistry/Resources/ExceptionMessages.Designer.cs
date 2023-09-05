@@ -150,6 +150,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Einddatum mag niet in de toekomst liggen..
+        /// </summary>
+        public static string EinddatumIsInFuture {
+            get {
+                return ResourceManager.GetString("EinddatumIsInFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De naam van de vereniging is verplicht..
         /// </summary>
         public static string EmptyVerenigingsNaam {

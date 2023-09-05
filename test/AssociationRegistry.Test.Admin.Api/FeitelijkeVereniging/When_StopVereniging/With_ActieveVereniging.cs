@@ -1,22 +1,16 @@
-namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens;
+namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging;
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.Framework;
-using AutoFixture;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 using Events;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
-using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
-using Primitives;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,10 +19,9 @@ public sealed class With_ActieveVereniging_Setup
     public V040_FeitelijkeVerenigingWerdGeregistreerd_ForStoppen Scenario { get; }
     public HttpResponseMessage Response { get; }
 
-    public With_ActieveVereniging(EventsInDbScenariosFixture fixture)
+    public With_ActieveVereniging_Setup(EventsInDbScenariosFixture fixture)
     {
         Scenario = fixture.V040FeitelijkeVerenigingWerdGeregistreerdForStoppen;
-
 
         var jsonBody = @"{""einddatum"":""2020-12-31""}";
 
@@ -61,11 +54,10 @@ public class With_ActieveVereniging : IClassFixture<With_ActieveVereniging_Setup
            .LightweightSession();
 
         var verenigingWerdGestopt = session.Events
-                                       .QueryRawEventDataOnly<VerenigingWerdGestopt>()
-                                       .Single(@event => @event.VCode == _vCode);
+                                           .FetchStream(_vCode)
+                                           .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdGestopt));
 
-
-        verenigingWerdGestopt.Einddatum.Should().Be(DateOnly.ParseExact("2020-12-31", WellknownFormats.DateOnly));
+        (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!.Einddatum.Should().Be(DateOnly.ParseExact("2020-12-31", WellknownFormats.DateOnly));
     }
 
     [Fact]

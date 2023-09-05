@@ -33,5 +33,4 @@ public record Startdatum
 
     public bool IsInFuture(DateOnly clockToday)
         => Datum > clockToday;
-
 }

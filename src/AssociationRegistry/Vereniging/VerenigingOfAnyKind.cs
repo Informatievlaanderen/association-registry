@@ -10,7 +10,7 @@ using TelefoonNummers;
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
+        => Throw<StartdatumIsInFuture>.If(startdatum.IsInFuture(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();

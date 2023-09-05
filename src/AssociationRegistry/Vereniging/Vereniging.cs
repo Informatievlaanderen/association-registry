@@ -90,7 +90,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
 
     private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
+        => Throw<StartdatumIsInFuture>.If(startdatum.IsInFuture(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
@@ -136,6 +136,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         MustNotBeInFuture(startdatum, clock.Today);
 
         AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum.Datum));
+    }
+
+    public void Stop(Einddatum.Einddatum einddatum, IClock clock)
+    {
+        MustNotBeInFuture(einddatum, clock.Today);
+
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
@@ -195,4 +201,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
         State = obj;
     }
+
+
 }
