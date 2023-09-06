@@ -25,8 +25,8 @@ public record VerenigingState : IHasVersion
     public string? Roepnaam { get; private init; }
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
-    public Datum Startdatum { get; private init; } = Datum.Leeg;
-    public Datum Einddatum { get; private init; } = Datum.Leeg;
+    public Datum? Startdatum { get; private init; }
+    public Datum? Einddatum { get; private init; }
     public Doelgroep? Doelgroep { get; private init; }
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
@@ -36,7 +36,7 @@ public record VerenigingState : IHasVersion
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
-    public bool IsGestopt => !Einddatum.IsLeeg;
+    public bool IsGestopt => Einddatum is not null;
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()

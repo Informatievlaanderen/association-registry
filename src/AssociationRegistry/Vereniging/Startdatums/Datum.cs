@@ -2,25 +2,23 @@ namespace AssociationRegistry.Vereniging;
 
 public record Datum
 {
-    public static readonly Datum Leeg = new((DateOnly?)null);
     public const string Format = "yyyy-MM-dd";
 
-    private Datum(DateOnly? value)
+    private Datum(DateOnly value)
     {
         Value = value;
     }
 
-    public bool IsLeeg
-        => Equals(Leeg);
+    public DateOnly Value { get; }
 
-    public DateOnly? Value { get; }
-    public DateOnly ValueOrThrow => Value ?? throw new ArgumentNullException();
-
-    public static Datum Create(DateOnly? startdatum)
+    public static Datum Create(DateOnly startdatum)
         => new(startdatum);
 
-    public static Datum Hydrate(DateOnly? dateOnly)
-        => new(dateOnly);
+    public static Datum? Create(DateOnly? startdatum)
+        => startdatum.HasValue ? new Datum(startdatum.Value) : null;
+
+    public static Datum? Hydrate(DateOnly? dateOnly)
+        => dateOnly.HasValue ? new Datum(dateOnly.Value) : null;
 
     public static bool Equals(Datum? oldStartdatum, Datum? newStartdatum)
     {
@@ -39,8 +37,8 @@ public record Datum
     public bool IsInFutureOf(Datum datum)
         => Value > datum;
 
-    public bool IsInPastOf(Datum datum)
-        => !datum.IsLeeg && Value < datum;
+    public bool IsInPastOf(Datum? datum)
+        => datum is not null && Value < datum;
 
     public static bool CanParse(string dateOnly)
         => DateOnly.TryParseExact(dateOnly, Format, out _);

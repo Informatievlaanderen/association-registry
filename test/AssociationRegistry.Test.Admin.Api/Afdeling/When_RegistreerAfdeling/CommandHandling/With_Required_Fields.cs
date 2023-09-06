@@ -36,7 +36,7 @@ public class With_Required_Fields
             _kboNummerMoedervereniging,
             KorteNaam: null,
             KorteBeschrijving: null,
-            Datum.Leeg,
+            StartDatum: null,
             Doelgroep.Null,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),

@@ -25,7 +25,7 @@ public class Given_Einddatum_Is_The_Same
                .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
                           with
                           {
-                              Startdatum = Datum.Leeg,
+                              Startdatum = null,
                           })
                .Apply(VerenigingWerdGestopt.With(einddatum)));
 

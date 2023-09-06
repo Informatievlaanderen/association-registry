@@ -24,7 +24,7 @@ public class With_All_Fields
         var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>();
-        var clock = new ClockStub(_command.Datum.Value!.Value);
+        var clock = new ClockStub(_command.Datum.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);

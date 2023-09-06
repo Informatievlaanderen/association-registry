@@ -29,7 +29,7 @@ public class Given_A_Einddatum_Is_Today
 
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
-            new VerenigingWerdGestopt(einddatum.Value!.Value),
+            new VerenigingWerdGestopt(einddatum.Value),
         });
     }
 }

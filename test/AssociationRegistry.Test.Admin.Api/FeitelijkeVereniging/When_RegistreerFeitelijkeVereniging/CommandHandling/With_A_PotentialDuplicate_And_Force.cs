@@ -56,7 +56,7 @@ public class With_A_PotentialDuplicate_And_Force
             _verenigingRepositoryMock,
             _vCodeService,
             duplicateChecker.Object,
-            new ClockStub(_command.Datum.Value!.Value));
+            new ClockStub(_command.Datum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
                                 .GetAwaiter()

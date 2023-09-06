@@ -7,6 +7,7 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
+using Primitives;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -27,7 +28,7 @@ public class With_A_Startdatum_In_The_Future
 
         var command = fixture.Create<WijzigBasisgegevensCommand>() with
         {
-            Startdatum = fixture.Create<Datum>(),
+            Startdatum = NullOrEmpty<Datum>.Create(fixture.Create<Datum>()),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();

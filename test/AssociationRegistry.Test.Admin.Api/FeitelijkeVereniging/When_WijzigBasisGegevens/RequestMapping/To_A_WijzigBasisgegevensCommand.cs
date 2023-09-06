@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeV
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Primitives;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -37,9 +38,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(
-            request.Startdatum.IsNull ? null :
-            request.Startdatum.IsEmpty ? Datum.Leeg : Datum.Create(request.Startdatum.Value));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum.Value)));
 
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
@@ -72,9 +71,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(
-            request.Startdatum.IsNull ? null :
-            request.Startdatum.IsEmpty ? Datum.Leeg : Datum.Create(request.Startdatum.Value));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum.Value)));
 
         doelgroep.Should().BeNull();
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));

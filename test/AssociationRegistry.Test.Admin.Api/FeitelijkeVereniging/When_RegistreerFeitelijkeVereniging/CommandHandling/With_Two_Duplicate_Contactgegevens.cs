@@ -36,7 +36,7 @@ public class With_Two_Duplicate_Contactgegevens
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(command.Datum.Value!.Value));
+            new ClockStub(command.Datum.Value));
 
         _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
     }

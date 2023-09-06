@@ -39,7 +39,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             _repositoryMock,
             _vCodeService,
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(_command.Datum.Value!.Value));
+            new ClockStub(_command.Datum.Value));
     }
 
     public async Task InitializeAsync()

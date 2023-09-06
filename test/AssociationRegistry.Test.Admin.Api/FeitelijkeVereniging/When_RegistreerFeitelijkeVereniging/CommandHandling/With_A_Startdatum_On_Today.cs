@@ -31,7 +31,7 @@ public class With_A_Startdatum_On_Today
             _verenigingRepositoryMock,
             vCodeService,
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(command.Datum.Value!.Value));
+            new ClockStub(command.Datum.Value));
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)

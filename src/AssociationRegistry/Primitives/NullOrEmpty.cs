@@ -35,6 +35,17 @@ public readonly struct NullOrEmpty<T>
     public static NullOrEmpty<T> Null
         => new(value: default, NullOrEmptyType.IsNull);
 
+    public NullOrEmpty<S> Map<S>(Func<T, S> map)
+    {
+        if (IsNull)
+            return NullOrEmpty<S>.Null;
+
+        if (IsEmpty)
+            return NullOrEmpty<S>.Empty;
+
+        return NullOrEmpty<S>.Create(map(Value!));
+    }
+
     private enum NullOrEmptyType
     {
         IsNull,

@@ -24,6 +24,6 @@ public class With_Empty_Startdatum
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Startdatum.Should().Be(Datum.Leeg);
+        actual.Startdatum.Should().Be(NullOrEmpty<Datum>.Empty);
     }
 }

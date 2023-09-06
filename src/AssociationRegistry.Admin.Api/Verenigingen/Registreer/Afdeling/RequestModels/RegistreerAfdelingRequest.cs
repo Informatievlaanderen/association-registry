@@ -61,7 +61,7 @@ public class RegistreerAfdelingRequest
             KboNummer.Create(KboNummerMoedervereniging),
             KorteNaam,
             KorteBeschrijving,
-            AssociationRegistry.Vereniging.Datum.Create(Startdatum),
+            Datum.Create(Startdatum),
             DoelgroepRequest.Map(Doelgroep),
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),

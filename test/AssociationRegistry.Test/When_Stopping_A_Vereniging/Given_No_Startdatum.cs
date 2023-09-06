@@ -6,7 +6,6 @@ using FluentAssertions;
 using Framework;
 using Framework.Customizations;
 using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_No_Startdatum
@@ -21,7 +20,7 @@ public class Given_No_Startdatum
         vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
                                                            with
                                                            {
-                                                               Startdatum = Datum.Leeg,
+                                                               Startdatum = null,
                                                            }));
 
         var clock = new ClockStub(fixture.Create<DateTime>());
@@ -31,7 +30,7 @@ public class Given_No_Startdatum
 
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
-            new VerenigingWerdGestopt(einddatum.Value!.Value),
+            new VerenigingWerdGestopt(einddatum.Value),
         });
     }
 }

@@ -17,6 +17,7 @@ public class Given_A_Einddatum_Is_In_The_Past
         var clock = new ClockStub(fixture.Create<DateTime>());
 
         var vereniging = new Vereniging();
+
         vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             Startdatum = clock.Today.AddDays(-1),
@@ -28,7 +29,7 @@ public class Given_A_Einddatum_Is_In_The_Past
 
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
-            new VerenigingWerdGestopt(einddatum.Value!.Value),
+            new VerenigingWerdGestopt(einddatum.Value),
         });
     }
 }

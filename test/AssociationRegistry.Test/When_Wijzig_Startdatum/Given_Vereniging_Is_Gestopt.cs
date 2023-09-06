@@ -27,9 +27,9 @@ public class Given_Vereniging_Is_Gestopt
                .Apply(feitelijkeVerenigingWerdGeregistreerd)
                .Apply(verenigingWerdGestopt));
 
-        var clock = new ClockStub(einddatum.ValueOrThrow.AddDays(100));
+        var clock = new ClockStub(einddatum.Value.AddDays(100));
 
-        var startdatum = Datum.Hydrate(einddatum.ValueOrThrow.AddDays(1));
+        var startdatum = Datum.Hydrate(einddatum.Value.AddDays(1));
         var wijzigStartdatum = () => vereniging.WijzigStartdatum(startdatum, clock);
 
         wijzigStartdatum.Should().Throw<StartdatumIsAfterEinddatum>();

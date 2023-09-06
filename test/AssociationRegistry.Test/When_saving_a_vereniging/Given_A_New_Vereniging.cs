@@ -33,7 +33,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             _naam,
             korteNaam: null,
             korteBeschrijving: null,
-            Datum.Leeg,
+            startDatum: null,
             Doelgroep.Null,
             uitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Contactgegeven>(),

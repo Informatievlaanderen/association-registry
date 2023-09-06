@@ -22,7 +22,7 @@ public class Given_Startdatum_Is_Before_Einddatum
                .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
                           with
                           {
-                              Startdatum = Datum.Leeg,
+                              Startdatum = null,
                           })
                .Apply(fixture.Create<VerenigingWerdGestopt>()));
 
@@ -33,7 +33,7 @@ public class Given_Startdatum_Is_Before_Einddatum
 
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
-            new EinddatumWerdGewijzigd(einddatum.Value!.Value),
+            new EinddatumWerdGewijzigd(einddatum.Value),
         });
     }
 }

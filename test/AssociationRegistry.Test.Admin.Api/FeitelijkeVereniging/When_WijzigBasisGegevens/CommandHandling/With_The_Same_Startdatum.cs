@@ -8,6 +8,7 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
+using Primitives;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -25,7 +26,7 @@ public class With_The_Same_Startdatum
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Datum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum));
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: NullOrEmpty<Datum>.Create(Datum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum)));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

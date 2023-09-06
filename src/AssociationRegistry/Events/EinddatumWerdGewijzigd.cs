@@ -6,5 +6,5 @@ using Vereniging;
 public record EinddatumWerdGewijzigd(DateOnly Einddatum) : IEvent
 {
     public static EinddatumWerdGewijzigd With(Datum datum)
-        => new(datum.ValueOrThrow);
+        => new(datum.Value);
 }

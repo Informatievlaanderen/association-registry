@@ -51,7 +51,7 @@ public class With_A_PotentialDuplicate
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
             duplicateChecker.Object,
-            new ClockStub(command.Datum.Value!.Value));
+            new ClockStub(command.Datum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
                                 .GetAwaiter()

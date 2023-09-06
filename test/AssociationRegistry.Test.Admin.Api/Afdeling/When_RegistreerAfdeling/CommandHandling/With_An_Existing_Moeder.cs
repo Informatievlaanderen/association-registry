@@ -38,7 +38,7 @@ public class With_An_Existing_Moeder
             _kboNummerMoedervereniging,
             KorteNaam: null,
             KorteBeschrijving: null,
-            Datum.Leeg,
+            StartDatum: null,
             Doelgroep.Null,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),

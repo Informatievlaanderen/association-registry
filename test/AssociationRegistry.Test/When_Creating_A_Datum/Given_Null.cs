@@ -12,6 +12,6 @@ public class Given_Null
     public void Then_it_returns_null()
     {
         var datum = Datum.Create(null!);
-        datum.Value.Should().BeNull();
+        datum.Should().BeNull();
     }
 }

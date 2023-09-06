@@ -14,7 +14,7 @@ public class With_A_Einddatum
 {
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private StopVerenigingCommand _command;
+    private readonly StopVerenigingCommand _command;
 
     public With_A_Einddatum()
     {
@@ -26,7 +26,7 @@ public class With_A_Einddatum
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new StopVerenigingCommandHandler(_verenigingRepositoryMock,
-                                                              new ClockStub(_command.Einddatum.ValueOrThrow.AddDays(1)));
+                                                              new ClockStub(_command.Einddatum.Value.AddDays(1)));
 
         commandHandler.Handle(
             new CommandEnvelope<StopVerenigingCommand>(_command, commandMetadata),
@@ -43,7 +43,7 @@ public class With_A_Einddatum
     public void Then_A_VerenigingWerdGestopt_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGestopt(_command.Einddatum.ValueOrThrow)
+            new VerenigingWerdGestopt(_command.Einddatum.Value)
         );
     }
 }

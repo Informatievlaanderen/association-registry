@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Acties.WijzigBasisgegevens;
 
 using Framework;
+using Primitives;
 using Vereniging;
 
 public class WijzigBasisgegevensCommandHandler
@@ -52,12 +53,12 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
     }
 
-    private static void HandleStartdatum(Vereniging vereniging, Datum? startdatum, IClock clock)
+    private static void HandleStartdatum(Vereniging vereniging, NullOrEmpty<Datum> startdatum, IClock clock)
     {
-        if (startdatum is null)
+        if (startdatum.IsNull)
             return;
 
-        vereniging.WijzigStartdatum(startdatum, clock);
+        vereniging.WijzigStartdatum(startdatum.IsEmpty ? null : startdatum.Value, clock);
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)
