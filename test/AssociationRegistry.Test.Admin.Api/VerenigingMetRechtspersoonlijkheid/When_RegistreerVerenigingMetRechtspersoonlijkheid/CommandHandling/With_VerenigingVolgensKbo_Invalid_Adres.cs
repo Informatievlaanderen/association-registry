@@ -63,7 +63,7 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
                 _verenigingVolgensKbo.Adres.Straatnaam ?? string.Empty,
                 _verenigingVolgensKbo.Adres.Huisnummer ?? string.Empty,

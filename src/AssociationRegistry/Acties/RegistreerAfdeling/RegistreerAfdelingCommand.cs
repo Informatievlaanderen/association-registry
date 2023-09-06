@@ -7,7 +7,7 @@ public record RegistreerAfdelingCommand(
     KboNummer KboNummerMoedervereniging,
     string? KorteNaam,
     string? KorteBeschrijving,
-    Datum? StartDatum,
+    Datum? Startdatum,
     Doelgroep Doelgroep,
     Contactgegeven[] Contactgegevens,
     Locatie[] Locaties,

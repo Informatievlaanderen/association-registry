@@ -56,7 +56,7 @@ public class With_VerenigingVolgensKbo_Contactgegevens
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new ContactgegevenWerdOvergenomenUitKBO(
                 1,
                 ContactgegevenType.Email.Waarde,
@@ -136,7 +136,7 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum)
+                _verenigingVolgensKbo.Startdatum)
         );
     }
 }

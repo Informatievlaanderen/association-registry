@@ -78,7 +78,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     Type = rechtsvormMap[GetActiveRechtsvorm(magdaOnderneming)!.Code.Value],
                     Naam = naamOndernemingType.Naam,
                     KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
-                    StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
+                    Startdatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
                     Adres = GetAdresFrom(maatschappelijkeZetel),
                     Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
                 });

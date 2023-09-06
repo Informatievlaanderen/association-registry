@@ -50,7 +50,7 @@ public class RegistreerAfdelingCommandHandler
             vCodeAndNaamMoedervereniging,
             command.KorteNaam,
             command.KorteBeschrijving,
-            command.StartDatum,
+            command.Startdatum,
             command.Doelgroep,
             command.Contactgegevens,
             command.Locaties,

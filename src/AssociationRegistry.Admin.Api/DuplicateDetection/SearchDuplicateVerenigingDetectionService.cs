@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DuplicateVerenigingDetection;
 using Marten;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 
@@ -27,6 +28,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         return (await _session.Query<BeheerVerenigingDetailDocument>()
                 .Where(
                     document =>
+                        document.Status.Equals(VerenigingStatus.Actief)&&
                         document.Naam.Equals(naam, StringComparison.InvariantCultureIgnoreCase) &&
                         document.Locaties.Any(
                             locatie =>

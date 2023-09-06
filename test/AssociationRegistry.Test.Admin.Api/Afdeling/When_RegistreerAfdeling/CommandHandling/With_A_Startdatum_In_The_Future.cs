@@ -25,7 +25,7 @@ public class With_A_Startdatum_In_The_Future
 
         var command = fixture.Create<RegistreerAfdelingCommand>() with
         {
-            StartDatum = Datum.Create(today.AddDays(value: 1)),
+            Startdatum = Datum.Create(today.AddDays(value: 1)),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();

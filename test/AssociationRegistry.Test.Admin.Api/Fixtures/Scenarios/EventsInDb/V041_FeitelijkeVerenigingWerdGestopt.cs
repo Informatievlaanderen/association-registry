@@ -33,7 +33,7 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
         );
 
         VerenigingWerdGestopt = new VerenigingWerdGestopt(new DateOnly(2023, 09, 06));
-        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(2023, 09, 06));
+        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(1990,01,01));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
