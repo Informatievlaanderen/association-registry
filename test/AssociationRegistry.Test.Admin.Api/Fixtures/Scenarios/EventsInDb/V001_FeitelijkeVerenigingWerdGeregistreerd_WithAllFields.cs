@@ -16,13 +16,14 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999001";
+
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
             "Feestcommittee Oudenaarde",
             "FOud",
             "Het feestcommittee van Oudenaarde",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
-            new Registratiedata.Doelgroep(18,90) ,
+            new Registratiedata.Doelgroep(18, 90),
             false,
             new[]
             {
@@ -88,6 +89,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             {
                 new("BLA", "Buitengewoon Leuke Afkortingen"),
             });
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

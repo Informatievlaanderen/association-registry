@@ -26,18 +26,19 @@ public class Given_VertegenwoordigerWerdVerwijderd
         };
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
         doc.Vertegenwoordigers = doc.Vertegenwoordigers.Append(
             vertegenwoordiger
         ).ToArray();
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
-
         doc.Vertegenwoordigers.Should().NotContain(
             new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
             });
+
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
         doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version));

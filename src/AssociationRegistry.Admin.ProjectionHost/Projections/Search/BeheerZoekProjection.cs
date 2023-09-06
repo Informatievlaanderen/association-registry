@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using Events;
 using Formatters;
+using Schema.Constants;
 using Schema.Search;
 using Vereniging;
 using Doelgroep = Schema.Search.Doelgroep;
@@ -27,6 +28,7 @@ public class BeheerZoekProjectionHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 Doelgroep = Map(message.Data.Doelgroep),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
@@ -55,6 +57,7 @@ public class BeheerZoekProjectionHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
@@ -85,6 +88,7 @@ public class BeheerZoekProjectionHandler
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 Doelgroep = new Doelgroep
                 {
@@ -226,5 +230,15 @@ public class BeheerZoekProjectionHandler
         _elasticRepository.AppendLocatie(
             message.VCode,
             Map(message.Data.Locatie));
+    }
+
+    public void Handle(EventEnvelope<VerenigingWerdGestopt> message)
+    {
+        _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Status = VerenigingStatus.Gestopt,
+            });
     }
 }

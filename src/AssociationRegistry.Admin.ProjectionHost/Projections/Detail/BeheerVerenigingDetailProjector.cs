@@ -7,6 +7,7 @@ using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
 using Schema;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 using Doelgroep = Schema.Detail.Doelgroep;
@@ -24,7 +25,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
                                                                    .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(c, feitelijkeVerenigingWerdGeregistreerd.Data.Bron))
@@ -51,7 +52,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                                                             c => BeheerVerenigingDetailMapper.MapContactgegeven(c, afdelingWerdGeregistreerd.Data.Bron))
@@ -93,7 +94,7 @@ public class BeheerVerenigingDetailProjector
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
@@ -243,8 +244,6 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
-        var vertegenwoordigerToUpdate = document.Vertegenwoordigers.Single(v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId);
-
         document.Vertegenwoordigers = document.Vertegenwoordigers
                                               .UpdateSingle(
                                                    identityFunc: v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
@@ -377,5 +376,20 @@ public class BeheerVerenigingDetailProjector
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
+    }
+
+    public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = VerenigingStatus.Gestopt;
+        document.EindDatum = verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+        document.DatumLaatsteAanpassing = verenigingWerdGestopt.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(verenigingWerdGestopt.Sequence, verenigingWerdGestopt.Version);
+    }
+
+    public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.EindDatum = einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+        document.DatumLaatsteAanpassing = einddatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(einddatumWerdGewijzigd.Sequence, einddatumWerdGewijzigd.Version);
     }
 }

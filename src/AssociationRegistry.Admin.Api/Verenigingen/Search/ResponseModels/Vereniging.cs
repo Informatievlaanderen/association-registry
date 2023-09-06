@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 
+using Schema.Constants;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -34,7 +35,7 @@ public class Vereniging
     ///     - Gestopt<br />
     /// </summary>
     [DataMember(Name = "Status")]
-    public string Status { get; init; } = "Actief";
+    public string Status { get; init; } = null!;
 
     /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]

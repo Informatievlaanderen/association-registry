@@ -41,18 +41,18 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, _result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetDetail(_vCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetDetail(_vCode, long.MaxValue))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
@@ -60,17 +60,18 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         var content = await _response.Content.ReadAsStringAsync();
 
         var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
-            .Append(
-                _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
-                    c =>
-                        new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
-                        {
-                            ContactgegevenId = c.ContactgegevenId,
-                            Type = c.Type,
-                            Waarde = c.Waarde,
-                            Beschrijving = c.Beschrijving,
-                            IsPrimair = c.IsPrimair,
-                        }));
+                                   .Append(
+                                        _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
+                                            c =>
+                                                new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
+                                                {
+                                                    ContactgegevenId = c.ContactgegevenId,
+                                                    Type = c.Type,
+                                                    Waarde = c.Waarde,
+                                                    Beschrijving = c.Beschrijving,
+                                                    IsPrimair = c.IsPrimair,
+                                                }));
+
         var expected = $@"
         {{
             ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
@@ -105,7 +106,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
                         ""adresvoorstelling"": ""{x.Adres.ToAdresString()}"",
                         ""naam"": ""{x.Naam}"",
-                        ""adres"":{(x.Adres is null?"null":$@"{{
+                        ""adres"":{(x.Adres is null ? "null" : $@"{{
                             ""straatnaam"": ""{x.Adres.Straatnaam}"",
                             ""huisnummer"": ""{x.Adres.Huisnummer}"",
                             ""busnummer"": ""{x.Adres.Busnummer}"",
@@ -113,7 +114,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             ""gemeente"": ""{x.Adres.Gemeente}"",
                             ""land"": ""{x.Adres.Land}""
                         }}")},
-                        ""adresId"":{(x.AdresId is null?"null":$@"{{
+                        ""adresId"":{(x.AdresId is null ? "null" : $@"{{
                             ""bronwaarde"": {(x.AdresId is not null ? $@"""{x.AdresId.Bronwaarde}""" : "null")},
                             ""broncode"": {(x.AdresId is not null ? $@"""{x.AdresId.Broncode}""" : "null")}
                         }}")},
