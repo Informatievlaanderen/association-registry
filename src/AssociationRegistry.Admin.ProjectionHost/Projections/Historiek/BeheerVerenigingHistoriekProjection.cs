@@ -247,4 +247,21 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+    public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdGestopt.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdGestopt, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(einddatumWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(einddatumWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
 }

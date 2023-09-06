@@ -354,4 +354,26 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWorden.Sequence, contactgegevenKonNietOvergenomenWorden.Version);
     }
+
+    public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdGestopt,
+            document,
+            $"De vereniging werd gestopt met einddatum '{verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+
+        document.Metadata = new Metadata(verenigingWerdGestopt.Sequence, verenigingWerdGestopt.Version);
+    }
+
+    public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            einddatumWerdGewijzigd,
+            document,
+            $"De einddatum van de vereniging werd gewijzigd naar '{einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+
+        document.Metadata = new Metadata(einddatumWerdGewijzigd.Sequence, einddatumWerdGewijzigd.Version);
+    }
 }

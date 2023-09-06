@@ -63,7 +63,7 @@ public class With_VerenigingVolgensKbo_No_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum)
+                _verenigingVolgensKbo.Startdatum)
         );
     }
 }

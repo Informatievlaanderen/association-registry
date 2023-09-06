@@ -62,7 +62,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
                 ContactgegevenType.Email.Waarde,
                 ContactgegevenTypeVolgensKbo.Email.Waarde,

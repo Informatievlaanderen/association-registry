@@ -35,7 +35,7 @@ public class With_A_KboNummer
             Type = Verenigingstype.VZW,
             Naam = fixture.Create<string>(),
             KorteNaam = fixture.Create<string>(),
-            StartDatum = fixture.Create<DateOnly>(),
+            Startdatum = fixture.Create<DateOnly>(),
         };
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
@@ -60,6 +60,6 @@ public class With_A_KboNummer
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum));
+                _verenigingVolgensKbo.Startdatum));
     }
 }

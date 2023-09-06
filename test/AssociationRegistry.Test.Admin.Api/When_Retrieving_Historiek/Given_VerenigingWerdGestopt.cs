@@ -1,33 +1,33 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using EventStore;
 using AssociationRegistry.Framework;
+using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_FeitelijkeVerenigingWerdGeregistreerd
+public class Given_VerenigingWerdGestopt
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly StreamActionResult _result;
     private readonly HttpResponseMessage _response;
     private readonly CommandMetadata _metadata;
-    private readonly V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields _scenario;
+    private readonly V041_FeitelijkeVerenigingWerdGestopt _scenario;
 
-    public Given_FeitelijkeVerenigingWerdGeregistreerd(EventsInDbScenariosFixture fixture)
+    public Given_VerenigingWerdGestopt(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields;
+        _scenario = fixture.V041FeitelijkeVerenigingWerdGestopt;
         _adminApiClient = fixture.DefaultClient;
 
         _metadata = _scenario.Metadata;
@@ -68,7 +68,25 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
-                    }}
+                    }},
+{{
+      ""beschrijving"": ""De vereniging werd gestopt met einddatum '2023-09-06'."",
+      ""gebeurtenis"": ""VerenigingWerdGestopt"",
+      ""data"": {{
+        ""einddatum"": ""2023-09-06""
+      }},
+      ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+    }},
+    {{
+      ""beschrijving"": ""De einddatum van de vereniging werd gewijzigd naar '1990-01-01'."",
+      ""gebeurtenis"": ""EinddatumWerdGewijzigd"",
+      ""data"": {{
+        ""einddatum"": ""1990-01-01""
+      }},
+      ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+    }}
                 ]
             }}
         ";

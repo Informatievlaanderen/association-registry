@@ -140,7 +140,7 @@ public class Given_A_GeefOndernemingResponseBody
             verenigingVolgensKbo.Type.Should().Be(Verenigingstype.IVZW);
             verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
             verenigingVolgensKbo.KorteNaam.Should().Be(_verenigingKorteNaam);
-            verenigingVolgensKbo.StartDatum.Should().BeEquivalentTo(_startDatum);
+            verenigingVolgensKbo.Startdatum.Should().BeEquivalentTo(_startDatum);
             verenigingVolgensKbo.Adres.Should().BeEquivalentTo(_adres);
             verenigingVolgensKbo.Contactgegevens.Should().BeEquivalentTo(_contactgegevens);
         }

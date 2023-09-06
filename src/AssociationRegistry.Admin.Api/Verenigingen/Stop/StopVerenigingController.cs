@@ -80,10 +80,10 @@ public class StopVerenigingController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<StopVerenigingCommand>(command, metaData);
-        var wijzigResult = await _bus.InvokeAsync<CommandResult>(envelope);
+        var stopResult = await _bus.InvokeAsync<CommandResult>(envelope);
 
-        if (!wijzigResult.HasChanges()) return Ok();
+        if (!stopResult.HasChanges()) return Ok();
 
-        return this.AcceptedCommand(_appsettings, wijzigResult);
+        return this.AcceptedCommand(_appsettings, stopResult);
     }
 }

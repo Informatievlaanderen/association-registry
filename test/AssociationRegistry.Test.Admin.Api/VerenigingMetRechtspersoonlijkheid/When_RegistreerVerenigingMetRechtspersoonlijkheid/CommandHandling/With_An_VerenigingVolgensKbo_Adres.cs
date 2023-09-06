@@ -56,7 +56,7 @@ public class With_An_VerenigingVolgensKbo_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new MaatschappelijkeZetelWerdOvergenomenUitKbo(
                 new Registratiedata.Locatie(
                     1,

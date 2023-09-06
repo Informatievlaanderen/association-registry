@@ -19,7 +19,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 verenigingVolgensKbo.Type.Code,
                 verenigingVolgensKbo.Naam ?? "",
                 verenigingVolgensKbo.KorteNaam ?? "",
-                verenigingVolgensKbo.StartDatum ?? null));
+                verenigingVolgensKbo.Startdatum ?? null));
 
         vereniging.AddAdressAlsMaatschappelijkeZetel(verenigingVolgensKbo.Adres);
 

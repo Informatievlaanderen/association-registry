@@ -24,7 +24,7 @@ public class With_All_Fields
         var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerAfdelingCommand>();
-        var clock = new ClockStub(_command.StartDatum!.Value);
+        var clock = new ClockStub(_command.Startdatum!.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
@@ -53,7 +53,7 @@ public class With_All_Fields
                     $"Moeder {_command.KboNummerMoedervereniging}"),
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.StartDatum,
+                _command.Startdatum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.Contactgegevens.Select(
                     (c, i) =>
