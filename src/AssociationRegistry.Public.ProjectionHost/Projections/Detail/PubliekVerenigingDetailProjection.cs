@@ -55,6 +55,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+
     public async Task Project(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(roepnaamWerdGewijzigd.StreamKey!))!;
@@ -198,4 +199,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
         ops.Store(doc);
     }
+
+    public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
+        => ops.HardDelete<PubliekVerenigingDetailDocument>(verenigingWerdGestopt.StreamKey!);
 }

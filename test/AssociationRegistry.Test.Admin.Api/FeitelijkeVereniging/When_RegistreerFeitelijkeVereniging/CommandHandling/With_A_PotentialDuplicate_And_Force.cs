@@ -1,17 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
 using Acties.RegistreerFeitelijkeVereniging;
+using AssociationRegistry.Framework;
+using AutoFixture;
 using DuplicateVerenigingDetection;
 using Events;
-using AssociationRegistry.Framework;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
-using Vereniging;
-using AutoFixture;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
+using Framework;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -30,6 +30,7 @@ public class With_A_PotentialDuplicate_And_Force
 
         var locatie = fixture.Create<Locatie>();
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
+
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
@@ -39,25 +40,27 @@ public class With_A_PotentialDuplicate_And_Force
 
         var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
         var potentialDuplicates = new[] { fixture.Create<DuplicaatVereniging>() };
+
         duplicateChecker.Setup(
-                d =>
-                    d.GetDuplicates(
-                        _command.Naam,
-                        _command.Locaties))
-            .ReturnsAsync(potentialDuplicates);
+                             d =>
+                                 d.GetDuplicates(
+                                     _command.Naam,
+                                     _command.Locaties))
+                        .ReturnsAsync(potentialDuplicates);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
         _vCodeService = new InMemorySequentialVCodeService();
+
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
             duplicateChecker.Object,
-            new ClockStub(_command.Startdatum.Datum!.Value));
+            new ClockStub(_command.Datum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+                                .GetAwaiter()
+                                .GetResult();
     }
 
     [Fact]
@@ -75,7 +78,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.Startdatum,
+                _command.Datum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(

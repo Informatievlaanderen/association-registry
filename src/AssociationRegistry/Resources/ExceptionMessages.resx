@@ -159,4 +159,13 @@
   <data name="ContactgegevenFromKboCannotBeRemoved">
     <value>Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden.</value>
   </data>
+  <data name="EinddatumIsInFuture">
+    <value>Einddatum mag niet in de toekomst liggen.</value>
+  </data>
+  <data name="EinddatumIsBeforeStartdatum">
+    <value>Einddatum moet na startdatum liggen.</value>
+  </data>
+  <data name="StartdatumIsAfterEinddatum">
+    <value>Startdatum moet voor einddatum liggen.</value>
+  </data>
 </root>

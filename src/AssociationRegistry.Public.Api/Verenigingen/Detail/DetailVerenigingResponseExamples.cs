@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
+using Admin.Schema.Constants;
 using System;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
@@ -34,7 +35,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     Minimumleeftijd = 0,
                     Maximumleeftijd = 150,
-                },Status = "Actief",
+                },Status = VerenigingStatus.Actief,
                 Contactgegevens = new[]
                 {
                     new Contactgegeven

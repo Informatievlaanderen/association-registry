@@ -25,7 +25,8 @@ public record VerenigingState : IHasVersion
     public string? Roepnaam { get; private init; }
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
-    public Startdatum? Startdatum { get; private init; }
+    public Datum? Startdatum { get; private init; }
+    public Datum? Einddatum { get; private init; }
     public Doelgroep? Doelgroep { get; private init; }
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
@@ -35,6 +36,8 @@ public record VerenigingState : IHasVersion
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
+    public bool IsGestopt => Einddatum is not null;
+
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
@@ -43,12 +46,12 @@ public record VerenigingState : IHasVersion
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Startdatum = Datum.Hydrate(@event.Startdatum),
             Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
+                func: (lijst, c) => Contactgegevens.Hydrate(
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
@@ -59,7 +62,7 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
@@ -76,7 +79,7 @@ public record VerenigingState : IHasVersion
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
+                func: (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
                         Locatie.Hydrate(
                             l.LocatieId,
@@ -111,11 +114,11 @@ public record VerenigingState : IHasVersion
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Startdatum = Datum.Hydrate(@event.Startdatum),
             Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
+                func: (lijst, c) => Contactgegevens.Hydrate(
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
@@ -126,7 +129,7 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
@@ -143,7 +146,7 @@ public record VerenigingState : IHasVersion
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
+                func: (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
                         Locatie.Hydrate(
                             l.LocatieId,
@@ -189,7 +192,13 @@ public record VerenigingState : IHasVersion
         => this with { KorteBeschrijving = @event.KorteBeschrijving };
 
     public VerenigingState Apply(StartdatumWerdGewijzigd @event)
-        => this with { Startdatum = Startdatum.Hydrate(@event.Startdatum) };
+        => this with { Startdatum = Datum.Hydrate(@event.Startdatum) };
+
+    public VerenigingState Apply(VerenigingWerdGestopt @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
+
+    public VerenigingState Apply(EinddatumWerdGewijzigd @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
 
     public VerenigingState Apply(DoelgroepWerdGewijzigd @event)
         => this with
@@ -357,7 +366,7 @@ public record VerenigingState : IHasVersion
                         ContactgegevenType.Parse(@event.Type),
                         @event.Waarde,
                         string.Empty,
-                        false,
+                        isPrimair: false,
                         Bron.KBO))),
         };
 

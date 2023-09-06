@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -47,7 +48,7 @@ public class Given_AfdelingWerdGeregistreerd
                     Maximumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
                 },
                 DatumLaatsteAanpassing = afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
-                Status = "Actief",
+                Status = VerenigingStatus.Actief,
                 Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new BeheerVerenigingDetailDocument.Contactgegeven
                     {

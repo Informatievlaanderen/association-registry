@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.CommandHandling;
 
 using Acties.RegistreerAfdeling;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,10 +14,9 @@ using Xunit.Categories;
 public class With_Required_Fields
 {
     private readonly InMemorySequentialVCodeService _vCodeService;
-
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly KboNummer _kboNummerMoedervereniging;
-    private VerenigingsNaam _verenigingsNaam;
+    private readonly VerenigingsNaam _verenigingsNaam;
 
     public With_Required_Fields()
     {
@@ -31,12 +30,13 @@ public class With_Required_Fields
 
         _kboNummerMoedervereniging = fixture.Create<KboNummer>();
         _verenigingsNaam = fixture.Create<VerenigingsNaam>();
+
         var command = new RegistreerAfdelingCommand(
             _verenigingsNaam,
             _kboNummerMoedervereniging,
             KorteNaam: null,
             KorteBeschrijving: null,
-            Startdatum.Leeg,
+            StartDatum: null,
             Doelgroep.Null,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
@@ -44,6 +44,7 @@ public class With_Required_Fields
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         var commandHandler = new RegistreerAfdelingCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
@@ -51,9 +52,9 @@ public class With_Required_Fields
             clock);
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]

@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
 using Acties.WijzigBasisgegevens;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
+using Primitives;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,8 +26,8 @@ public class With_A_Startdatum
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _nieuweStartdatum = new DateOnly(2023, 3, 6).AddDays(-1);
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: Startdatum.Create(_nieuweStartdatum));
+        _nieuweStartdatum = new DateOnly(year: 2023, month: 3, day: 6).AddDays(-1);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: NullOrEmpty<Datum>.Create(Datum.Create(_nieuweStartdatum)));
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

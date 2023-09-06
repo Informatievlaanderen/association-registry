@@ -9,8 +9,8 @@ using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
-    private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
+    private static void MustNotBeInFuture(Datum datum, DateOnly today)
+        => Throw<StartdatumIsInFuture>.If(datum.IsInFutureOf(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
@@ -23,7 +23,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
         => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
-
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
@@ -91,7 +90,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
     }
-
 
     public void VerwijderLocatie(int locatieId)
     {

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
+using Admin.Schema.Constants;
 using Events;
 using Formatters;
 using Framework;
@@ -27,7 +28,7 @@ public static class PubliekVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
             Doelgroep = MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
@@ -57,7 +58,7 @@ public static class PubliekVerenigingDetailProjector
             Doelgroep = MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom = false,
             DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
@@ -122,7 +123,7 @@ public static class PubliekVerenigingDetailProjector
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),

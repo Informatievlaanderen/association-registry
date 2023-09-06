@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.WijzigBasisgegevens;
 
+using Primitives;
 using Vereniging;
 
 public record WijzigBasisgegevensCommand(
@@ -7,7 +8,7 @@ public record WijzigBasisgegevensCommand(
     VerenigingsNaam? Naam = null,
     string? KorteNaam = null,
     string? KorteBeschrijving = null,
-    Startdatum? Startdatum = default,
+    NullOrEmpty<Datum> Startdatum = default,
     Doelgroep? Doelgroep = null,
     HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null,
     bool? IsUitgeschrevenUitPubliekeDatastroom = null);

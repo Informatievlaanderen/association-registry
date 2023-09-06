@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
+using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using Vereniging;
@@ -30,7 +31,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
-                    Status = "Actief",
+                    Status = VerenigingStatus.Actief,
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
@@ -65,6 +66,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De Bron",
                     KorteNaam = string.Empty,
                     Roepnaam = "Bronneke",
+                    Status = VerenigingStatus.Actief,
                     HoofdactiviteitenVerenigingsloket = new[]
                     {
                         new HoofdactiviteitVerenigingsloket

@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.CommandHandling;
 
 using Acties.RegistreerAfdeling;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
+using FluentAssertions;
 using Framework;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,7 +15,6 @@ using Xunit.Categories;
 public class With_A_Startdatum_On_Today
 {
     private const string Naam = "naam1";
-
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public With_A_Startdatum_On_Today()
@@ -27,24 +26,25 @@ public class With_A_Startdatum_On_Today
 
         var command = fixture.Create<RegistreerAfdelingCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         var commandHandler = new RegistreerAfdelingCommandHandler(
             _verenigingRepositoryMock,
             vCodeService,
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(command.Startdatum.Datum!.Value));
+            new ClockStub(command.StartDatum!.Value));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
     public void Then_it_saves_the_event()
     {
         _verenigingRepositoryMock.SaveInvocations
-            .Single().Vereniging.UncommittedEvents
-            .OfType<AfdelingWerdGeregistreerd>()
-            .Should().HaveCount(expected: 1);
+                                 .Single().Vereniging.UncommittedEvents
+                                 .OfType<AfdelingWerdGeregistreerd>()
+                                 .Should().HaveCount(expected: 1);
     }
 }

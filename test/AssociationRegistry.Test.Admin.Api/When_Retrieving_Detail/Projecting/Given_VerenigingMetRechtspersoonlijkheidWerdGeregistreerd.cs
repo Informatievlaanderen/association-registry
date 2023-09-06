@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -56,7 +57,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate(),
-                Status = "Actief",
+                Status = VerenigingStatus.Actief,
                 Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
                 Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
                 Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),

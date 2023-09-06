@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Primitives;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Primitives;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,6 +24,6 @@ public class With_Empty_Startdatum
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Startdatum.Should().Be(Startdatum.Leeg);
+        actual.Startdatum.Should().Be(NullOrEmpty<Datum>.Empty);
     }
 }

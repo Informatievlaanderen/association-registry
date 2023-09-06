@@ -82,9 +82,9 @@ public class ElasticRepository : IElasticRepository
             u => u.Script(
                 s => s
                     .Source(
-                        "ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId);" +
-                        "ctx._source.locaties.add(params.item);" +
-                        "ctx._source.locaties.sort((x,y) -> x.locatieId - y.locatieId);")
+                         "ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId);" +
+                         "ctx._source.locaties.add(params.item);" +
+                         "ctx._source.locaties.sort((x,y) -> x.locatieId - y.locatieId);")
                     .Params(objects => objects.Add("locatieId", locatie.LocatieId).Add("item", locatie))));
 
         if (!response.IsValid)
@@ -92,6 +92,11 @@ public class ElasticRepository : IElasticRepository
             // todo: log ? (should never happen in test/staging/production)
             throw new IndexDocumentFailed(response.DebugInformation);
         }
+    }
+
+    public void Remove(string id)
+    {
+        _elasticClient.Delete<VerenigingZoekDocument>(id);
     }
 
     public async Task RemoveLocatie(string id, int locatieId)

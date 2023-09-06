@@ -15,7 +15,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         VerenigingsNaam naam,
         string? korteNaam,
         string? korteBeschrijving,
-        Startdatum startdatum,
+        Datum? startDatum,
         Doelgroep doelgroep,
         bool uitgeschrevenUitPubliekeDatastroom,
         Contactgegeven[] toeTeVoegenContactgegevens,
@@ -24,26 +24,28 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
-        MustNotBeInFuture(startdatum, clock.Today);
+        Throw<StartdatumIsInFuture>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
         var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
 
         var vereniging = new Vereniging();
+
         vereniging.AddEvent(
             new FeitelijkeVerenigingWerdGeregistreerd(
                 vCode,
                 naam,
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
-                startdatum.Datum,
+                startDatum?.Value,
                 Registratiedata.Doelgroep.With(doelgroep),
                 uitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
+
         return vereniging;
     }
 
@@ -54,7 +56,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         VerenigingsRepository.VCodeAndNaam vCodeAndNaamMoedervereniging,
         string? korteNaam,
         string? korteBeschrijving,
-        Startdatum startdatum,
+        Datum? startdatum,
         Doelgroep doelgroep,
         Contactgegeven[] toeTeVoegenContactgegevens,
         Locatie[] toeTeVoegenLocaties,
@@ -62,13 +64,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
-        MustNotBeInFuture(startdatum, clock.Today);
+        Throw<StartdatumIsInFuture>.If(startdatum?.IsInFutureOf(clock.Today) ?? false);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
         var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
 
         var vereniging = new Vereniging();
+
         vereniging.AddEvent(
             new AfdelingWerdGeregistreerd(
                 vCode,
@@ -79,18 +82,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                     vCodeAndNaamMoedervereniging.VerenigingsNaam),
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
-                startdatum.Datum,
+                startdatum?.Value,
                 Registratiedata.Doelgroep.With(doelgroep),
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers.ToArray()),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
+
         return vereniging;
     }
-
-
-    private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
@@ -128,14 +128,28 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new KorteBeschrijvingWerdGewijzigd(VCode, korteBeschrijving));
     }
 
-    public void WijzigStartdatum(Startdatum startdatum, IClock clock)
+    public void WijzigStartdatum(Datum? startDatum, IClock clock)
     {
-        if (Startdatum.Equals(State.Startdatum, startdatum))
+        if (Datum.Equals(State.Startdatum, startDatum))
             return;
 
-        MustNotBeInFuture(startdatum, clock.Today);
+        Throw<StartdatumIsAfterEinddatum>.If(State.Einddatum?.IsInPastOf(startDatum) ?? false);
+        Throw<StartdatumIsInFuture>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
 
-        AddEvent(new StartdatumWerdGewijzigd(VCode, startdatum.Datum));
+        AddEvent(StartdatumWerdGewijzigd.With(State.VCode, startDatum));
+    }
+
+    public void Stop(Datum einddatum, IClock clock)
+    {
+        if (einddatum == State.Einddatum) return;
+
+        Throw<EinddatumIsInFuture>.If(einddatum.IsInFutureOf(clock.Today));
+        Throw<EinddatumIsBeforeStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
+
+        if (State.IsGestopt)
+            AddEvent(EinddatumWerdGewijzigd.With(einddatum));
+        else
+            AddEvent(VerenigingWerdGestopt.With(einddatum));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
@@ -180,6 +194,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void SchrijfUitUitPubliekeDatastroom()
     {
         Throw<AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
+
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }

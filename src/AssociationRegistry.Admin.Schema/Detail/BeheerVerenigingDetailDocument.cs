@@ -18,9 +18,10 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
+    public string? EindDatum { get; set; }
     public Doelgroep Doelgroep { get; set; } = null!;
     public string? Rechtsvorm { get; set; }
-    public string Status { get; init; } = null!;
+    public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
