@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.CommandHandling;
 
 using Acties.RegistreerAfdeling;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,9 +24,10 @@ public class With_All_Fields
         var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerAfdelingCommand>();
-        var clock = new ClockStub(_command.Startdatum.Datum!.Value);
+        var clock = new ClockStub(_command.StartDatum!.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         var commandHandler = new RegistreerAfdelingCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
@@ -34,9 +35,9 @@ public class With_All_Fields
             clock);
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerAfdelingCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -52,7 +53,7 @@ public class With_All_Fields
                     $"Moeder {_command.KboNummerMoedervereniging}"),
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.Startdatum,
+                _command.StartDatum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.Contactgegevens.Select(
                     (c, i) =>

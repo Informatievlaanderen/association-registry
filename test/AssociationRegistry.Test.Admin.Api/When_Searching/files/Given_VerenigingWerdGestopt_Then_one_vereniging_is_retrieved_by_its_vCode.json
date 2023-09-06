@@ -1,0 +1,32 @@
+{
+  "@context": "http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {
+      "vCode": "V9999041",
+      "type": {
+        "code": "FV",
+        "beschrijving": "Feitelijke vereniging"
+      },
+      "naam": "De dulste van Hulste",
+      "korteNaam": "",
+      "status": "Gestopt",
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
+      "hoofdactiviteitenVerenigingsloket": [],
+      "locaties": [],
+      "sleutels": [],
+      "links": {
+        "detail": "http://127.0.0.1:11004/v1/verenigingen/V9999041"
+      }
+    }
+  ],
+  "metadata": {
+    "pagination": {
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 50
+    }
+  }
+}

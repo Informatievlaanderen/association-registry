@@ -39,3 +39,35 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }
+
+[Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
+public class Given_VerenigingWerdGestopt
+{
+    private readonly V016_VerenigingWerdGestopt _scenario;
+    private readonly string _goldenMasterWithOneVereniging;
+    private readonly PublicApiClient _publicApiClient;
+
+    public Given_VerenigingWerdGestopt(GivenEventsFixture fixture)
+    {
+        _scenario = fixture.V016VerenigingWerdGestopt;
+        _publicApiClient = fixture.PublicApiClient;
+        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
+            $"files.{nameof(Given_VerenigingWerdGestopt)}_{nameof(Then_we_retrieve_no_vereniging_matching_the_vCode_searched)}");
+    }
+
+    [Fact]
+    public async Task Then_we_get_a_successful_response()
+        => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
+
+    [Fact]
+    public async Task Then_we_retrieve_no_vereniging_matching_the_vCode_searched()
+    {
+        var response = await _publicApiClient.Search(_scenario.VCode);
+        var content = await response.Content.ReadAsStringAsync();
+        var goldenMaster = _goldenMasterWithOneVereniging
+           .Replace("{{originalQuery}}", _scenario.VCode);
+        content.Should().BeEquivalentJson(goldenMaster);
+    }
+}

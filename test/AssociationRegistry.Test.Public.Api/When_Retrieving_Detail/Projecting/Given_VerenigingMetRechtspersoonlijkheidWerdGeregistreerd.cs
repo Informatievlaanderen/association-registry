@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
+using Admin.Schema.Constants;
 using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
@@ -45,7 +46,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-                Status = "Actief",
+                Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
                 Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),

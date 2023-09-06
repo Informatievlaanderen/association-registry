@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling.Re
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using AutoFixture;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,9 +22,9 @@ public class To_A_RegistreerAfdelingCommand
 
         var request = fixture.Create<RegistreerAfdelingRequest>();
 
-        var actual = request.ToCommand();
+        var registreerAfdelingCommand = request.ToCommand();
 
-        actual.Deconstruct(
+        registreerAfdelingCommand.Deconstruct(
             out var naam,
             out var kboNummerMoedervereniging,
             out var korteNaam,
@@ -42,7 +42,7 @@ public class To_A_RegistreerAfdelingCommand
         korteNaam.Should().Be(request.KorteNaam);
         doelgroep.Should().Be(Doelgroep.Create(doelgroep.Minimumleeftijd, doelgroep.Maximumleeftijd));
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        ((DateOnly?)startdatum).Should().Be(request.Startdatum);
+        startdatum!.Value.Should().Be(request.Startdatum!.Value);
 
         AssertContactgegevens(contactgegevens, request);
         AssertLocaties(locaties, request);
@@ -56,20 +56,20 @@ public class To_A_RegistreerAfdelingCommand
     {
         vertegenwoordigers.Should().BeEquivalentTo(
             request.Vertegenwoordigers
-                .Select(
-                    v =>
-                        Vertegenwoordiger.Create(
-                            Insz.Create(v.Insz),
-                            v.IsPrimair,
-                            v.Roepnaam,
-                            v.Rol,
-                            Voornaam.Create(v.Voornaam),
-                            Achternaam.Create(v.Achternaam),
-                            Email.Create(v.Email),
-                            TelefoonNummer.Create(v.Telefoon),
-                            TelefoonNummer.Create(v.Mobiel),
-                            SocialMedia.Create(v.SocialMedia)
-                        )));
+                   .Select(
+                        v =>
+                            Vertegenwoordiger.Create(
+                                Insz.Create(v.Insz),
+                                v.IsPrimair,
+                                v.Roepnaam,
+                                v.Rol,
+                                Voornaam.Create(v.Voornaam),
+                                Achternaam.Create(v.Achternaam),
+                                Email.Create(v.Email),
+                                TelefoonNummer.Create(v.Telefoon),
+                                TelefoonNummer.Create(v.Mobiel),
+                                SocialMedia.Create(v.SocialMedia)
+                            )));
     }
 
     private static void AssertContactgegevens(Contactgegeven[] contactgegevens, RegistreerAfdelingRequest request)

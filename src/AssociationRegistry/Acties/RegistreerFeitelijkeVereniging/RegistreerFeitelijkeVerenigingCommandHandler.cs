@@ -2,8 +2,8 @@
 
 using DuplicateVerenigingDetection;
 using Framework;
-using Vereniging;
 using ResultNet;
+using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingCommandHandler
 {
@@ -27,9 +27,11 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
     public async Task<Result> Handle(CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message, CancellationToken cancellationToken = default)
     {
         var command = message.Command;
+
         if (!command.SkipDuplicateDetection)
         {
             var duplicates = (await _duplicateVerenigingDetectionService.GetDuplicates(command.Naam, command.Locaties)).ToList();
+
             if (duplicates.Any())
                 return new Result<PotentialDuplicatesFound>(new PotentialDuplicatesFound(duplicates), ResultStatus.Failed);
         }
@@ -41,7 +43,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.Naam,
             command.KorteNaam,
             command.KorteBeschrijving,
-            command.Startdatum,
+            command.Datum,
             command.Doelgroep,
             command.IsUitgeschrevenUitPubliekeDatastroom,
             command.Contactgegevens,
@@ -51,6 +53,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             _clock);
 
         var result = await _verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
+
         return Result.Success(CommandResult.Create(vCode, result));
     }
 }

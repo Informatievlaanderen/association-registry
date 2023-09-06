@@ -16,4 +16,5 @@ public interface IElasticRepository
     Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie);
     Task RemoveLocatie(string id, int locatieId);
     Task ReplaceLocatie(string id, VerenigingZoekDocument.Locatie locatie);
+    void Remove(string id);
 }

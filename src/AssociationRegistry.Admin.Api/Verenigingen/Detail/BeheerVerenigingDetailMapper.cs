@@ -45,6 +45,7 @@ public class BeheerVerenigingDetailMapper
             KorteNaam = vereniging.KorteNaam,
             KorteBeschrijving = vereniging.KorteBeschrijving,
             Startdatum = vereniging.Startdatum,
+            Einddatum = vereniging.EindDatum,
             Doelgroep = new DoelgroepResponse
             {
                 Minimumleeftijd = vereniging.Doelgroep.Minimumleeftijd,

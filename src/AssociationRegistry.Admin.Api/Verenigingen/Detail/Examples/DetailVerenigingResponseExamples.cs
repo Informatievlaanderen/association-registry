@@ -2,6 +2,7 @@
 
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
+using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
-                    Status = "Gestopt",
+                    Status = VerenigingStatus.Gestopt,
                     IsUitgeschrevenUitPubliekeDatastroom = false,
                     HoofdactiviteitenVerenigingsloket = new[]
                     {
@@ -151,7 +152,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         Minimumleeftijd = 60,
                         Maximumleeftijd = 90,
                     },
-                    Status = "Actief",
+                    Status = VerenigingStatus.Actief,
                     IsUitgeschrevenUitPubliekeDatastroom = false,
                     HoofdactiviteitenVerenigingsloket = new[]
                     {

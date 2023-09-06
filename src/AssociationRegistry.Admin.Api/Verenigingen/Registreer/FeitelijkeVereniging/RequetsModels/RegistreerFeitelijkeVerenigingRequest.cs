@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
+using Acties.RegistreerFeitelijkeVereniging;
+using Common;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using Acties.RegistreerFeitelijkeVereniging;
-using Common;
 using Vereniging;
 
 [DataContract]
@@ -61,7 +61,7 @@ public class RegistreerFeitelijkeVerenigingRequest
             VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
-            AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            AssociationRegistry.Vereniging.Datum.Create(Startdatum),
             DoelgroepRequest.Map(Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),

@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 
+using Acties.RegistreerAfdeling;
+using Common;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using Acties.RegistreerAfdeling;
-using Common;
 using Vereniging;
 
 [DataContract]
@@ -61,7 +61,7 @@ public class RegistreerAfdelingRequest
             KboNummer.Create(KboNummerMoedervereniging),
             KorteNaam,
             KorteBeschrijving,
-            AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            Datum.Create(Startdatum),
             DoelgroepRequest.Map(Doelgroep),
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),

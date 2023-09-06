@@ -228,4 +228,10 @@ public class PubliekZoekProjectionHandler
             message.VCode,
             Map(message.Data.Locatie));
     }
+
+    public void Handle(EventEnvelope<VerenigingWerdGestopt> message)
+    {
+        _elasticRepository.Remove(
+            message.VCode);
+    }
 }

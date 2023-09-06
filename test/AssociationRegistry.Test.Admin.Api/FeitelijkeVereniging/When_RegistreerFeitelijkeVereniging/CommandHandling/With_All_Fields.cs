@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
 using Acties.RegistreerFeitelijkeVereniging;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,15 +24,15 @@ public class With_All_Fields
         var fixture = new Fixture().CustomizeAdminApi();
 
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>();
-        var clock = new ClockStub(_command.Startdatum.Datum!.Value);
+        var clock = new ClockStub(_command.Datum.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class With_All_Fields
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.Startdatum,
+                _command.Datum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(
@@ -64,11 +64,11 @@ public class With_All_Fields
                             l.IsPrimair,
                             l.Naam ?? string.Empty,
                             new Registratiedata.Adres(l.Adres!.Straatnaam,
-                                l.Adres.Huisnummer,
-                                l.Adres.Busnummer,
-                                l.Adres.Postcode,
-                                l.Adres.Gemeente,
-                                l.Adres.Land),
+                                                      l.Adres.Huisnummer,
+                                                      l.Adres.Busnummer,
+                                                      l.Adres.Postcode,
+                                                      l.Adres.Gemeente,
+                                                      l.Adres.Land),
                             new Registratiedata.AdresId(l.AdresId!.Adresbron.Code, l.AdresId.Bronwaarde))
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(

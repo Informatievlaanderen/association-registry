@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
 using Acties.RegistreerFeitelijkeVereniging;
-using DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
-using Vereniging;
 using AutoFixture;
+using DuplicateVerenigingDetection;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
+using Framework;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,6 +27,7 @@ public class With_A_PotentialDuplicate
 
         var locatie = fixture.Create<Locatie>();
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
+
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
@@ -36,23 +37,25 @@ public class With_A_PotentialDuplicate
 
         var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
         _potentialDuplicates = new List<DuplicaatVereniging> { fixture.Create<DuplicaatVereniging>() };
+
         duplicateChecker.Setup(
-                d =>
-                    d.GetDuplicates(
-                        command.Naam,
-                        command.Locaties))
-            .ReturnsAsync(_potentialDuplicates);
+                             d =>
+                                 d.GetDuplicates(
+                                     command.Naam,
+                                     command.Locaties))
+                        .ReturnsAsync(_potentialDuplicates);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
             duplicateChecker.Object,
-            new ClockStub(command.Startdatum.Datum!.Value));
+            new ClockStub(command.Datum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+                                .GetAwaiter()
+                                .GetResult();
     }
 
     [Fact]
