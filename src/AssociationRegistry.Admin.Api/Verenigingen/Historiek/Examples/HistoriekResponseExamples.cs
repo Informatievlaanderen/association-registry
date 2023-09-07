@@ -28,7 +28,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
                         Naam = "Eerste vereniging",
                     },
                     Initiator = "OVO0001001",
-                    Tijdstip = "11/30/2022 23:00:00",
+                    Tijdstip = "2023-08-23 07:20",
                 },
             },
         };
