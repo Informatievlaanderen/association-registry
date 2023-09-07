@@ -56,7 +56,7 @@ public class With_A_PotentialDuplicate_And_Force
             _verenigingRepositoryMock,
             _vCodeService,
             duplicateChecker.Object,
-            new ClockStub(_command.Datum.Value));
+            new ClockStub(_command.Startdatum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
                                 .GetAwaiter()
@@ -78,7 +78,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.Datum,
+                _command.Startdatum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(

@@ -24,7 +24,7 @@ public class Given_EinddatumWerdGewijzigd
 
         BeheerVerenigingDetailProjector.Apply(einddatumWerdGewijzigd, doc);
 
-        doc.EindDatum.Should().Be(einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly));
+        doc.Einddatum.Should().Be(einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly));
         doc.DatumLaatsteAanpassing.Should().Be(einddatumWerdGewijzigd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(einddatumWerdGewijzigd.Sequence, einddatumWerdGewijzigd.Version));
     }

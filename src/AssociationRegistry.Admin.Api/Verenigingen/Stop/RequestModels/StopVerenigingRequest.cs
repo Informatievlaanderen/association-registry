@@ -16,5 +16,5 @@ public class StopVerenigingRequest
     [Required]
     public DateOnly? Einddatum { get; set; }
 
-    public StopVerenigingCommand ToCommand(string vCode) => new(VCode.Create(vCode), Datum.Create(Einddatum));
+    public StopVerenigingCommand ToCommand(string vCode) => new(VCode.Create(vCode), Datum.CreateOptional(Einddatum));
 }

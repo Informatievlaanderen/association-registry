@@ -43,7 +43,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.Naam,
             command.KorteNaam,
             command.KorteBeschrijving,
-            command.Datum,
+            command.Startdatum,
             command.Doelgroep,
             command.IsUitgeschrevenUitPubliekeDatastroom,
             command.Contactgegevens,

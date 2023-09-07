@@ -39,7 +39,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             _repositoryMock,
             _vCodeService,
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(_command.Datum.Value));
+            new ClockStub(_command.Startdatum.Value));
     }
 
     public async Task InitializeAsync()
@@ -60,7 +60,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
-                _command.Datum,
+                _command.Startdatum,
                 Registratiedata.Doelgroep.With(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 new[]

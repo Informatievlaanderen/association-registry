@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,6 +27,6 @@ public class To_A_StopVerenigingCommand
             out var einddatum);
 
         vCode.Should().Be(actualVCode);
-        einddatum.Should().Be(Datum.Create(request.Einddatum));
+        einddatum.Should().Be(Datum.CreateOptional(request.Einddatum));
     }
 }

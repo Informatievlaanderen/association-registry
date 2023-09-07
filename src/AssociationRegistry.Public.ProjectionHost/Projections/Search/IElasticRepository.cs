@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
-using System.Threading.Tasks;
 using Schema.Search;
 
 public interface IElasticRepository
@@ -16,5 +15,5 @@ public interface IElasticRepository
     Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie);
     Task RemoveLocatie(string id, int locatieId);
     Task ReplaceLocatie(string id, VerenigingZoekDocument.Locatie locatie);
-    void Remove(string id);
+    Task Remove(string id);
 }

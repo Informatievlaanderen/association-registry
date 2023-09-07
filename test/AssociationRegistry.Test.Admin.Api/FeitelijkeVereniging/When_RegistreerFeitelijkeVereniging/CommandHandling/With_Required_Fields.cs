@@ -31,7 +31,7 @@ public class With_Required_Fields
             VerenigingsNaam.Create(Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
-            Datum: null,
+            Startdatum: null,
             Doelgroep.Null,
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Contactgegeven>(),

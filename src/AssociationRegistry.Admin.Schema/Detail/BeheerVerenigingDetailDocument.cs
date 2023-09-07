@@ -18,7 +18,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
     public string? Startdatum { get; set; }
-    public string? EindDatum { get; set; }
+    public string? Einddatum { get; set; }
     public Doelgroep Doelgroep { get; set; } = null!;
     public string? Rechtsvorm { get; set; }
     public string Status { get; set; } = null!;

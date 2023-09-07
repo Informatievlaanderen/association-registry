@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Vereniging.Exceptions;
 
-using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class StartdatumIsInFuture : DomainException
 {
-    public StartdatumIsInFuture() : base(ExceptionMessages.StardatumIsInFuture)
+    public StartdatumIsInFuture() : base(ExceptionMessages.StartdatumIsInFuture)
     {
     }
 

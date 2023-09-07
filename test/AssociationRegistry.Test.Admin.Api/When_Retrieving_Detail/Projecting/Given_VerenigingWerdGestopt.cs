@@ -39,7 +39,7 @@ public class Given_VerenigingWerdGestopt
 
         BeheerVerenigingDetailProjector.Apply(verenigingWerdGestopt, doc);
 
-        doc.EindDatum.Should().Be(verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly));
+        doc.Einddatum.Should().Be(verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly));
         doc.DatumLaatsteAanpassing.Should().Be(verenigingWerdGestopt.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingWerdGestopt.Sequence, verenigingWerdGestopt.Version));
     }

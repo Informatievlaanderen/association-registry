@@ -11,7 +11,7 @@ public class Given_Null
     [Fact]
     public void Then_it_returns_null()
     {
-        var datum = Datum.Create(null!);
+        var datum = Datum.CreateOptional(null!);
         datum.Should().BeNull();
     }
 }
