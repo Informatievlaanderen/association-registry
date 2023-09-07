@@ -1,3 +1,10 @@
+## [7.12.1](https://github.com/informatievlaanderen/association-registry/compare/v7.12.0...v7.12.1) (2023-09-07)
+
+
+### Bug Fixes
+
+* or-1892 fix time in example ([801b803](https://github.com/informatievlaanderen/association-registry/commit/801b80365bb63e3edf7f9992318a2ed1a74d66ab))
+
 # [7.12.0](https://github.com/informatievlaanderen/association-registry/compare/v7.11.1...v7.12.0) (2023-09-07)
 
 
