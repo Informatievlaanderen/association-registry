@@ -1,3 +1,16 @@
+# [7.12.0](https://github.com/informatievlaanderen/association-registry/compare/v7.11.1...v7.12.0) (2023-09-07)
+
+
+### Bug Fixes
+
+* or-1425 small fixes, formattings, and improvements ([dbc63fd](https://github.com/informatievlaanderen/association-registry/commit/dbc63fd8e6f2352095f32fd6de7b4cdde69a83ef))
+
+
+### Features
+
+* or-1425 stop vereniging missing tests ([3a51c8f](https://github.com/informatievlaanderen/association-registry/commit/3a51c8fd10bc65a1b8542a88497a7c577c14ac26))
+* or-1425 stop verenigingen ([dd89c6e](https://github.com/informatievlaanderen/association-registry/commit/dd89c6e7ae75db08127504b7d7d320b1fb05447f))
+
 ## [7.11.1](https://github.com/informatievlaanderen/association-registry/compare/v7.11.0...v7.11.1) (2023-09-04)
 
 
