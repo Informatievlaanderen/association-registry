@@ -99,7 +99,7 @@
   <data name="MultiplePrimaireLocaties">
     <value>Er kan maar één primaire locatie zijn binnen de vereniging.</value>
   </data>
-  <data name="StardatumIsInFuture">
+  <data name="StartdatumIsInFuture">
     <value>Startdatum mag niet in de toekomst liggen.</value>
   </data>
   <data name="InvalidVCodeFormat">

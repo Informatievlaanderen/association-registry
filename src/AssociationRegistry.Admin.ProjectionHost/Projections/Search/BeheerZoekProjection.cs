@@ -147,9 +147,9 @@ public class BeheerZoekProjectionHandler
             }
         );
 
-    public void Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
+    public async Task Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
     {
-        _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateAsync(
             message.VCode,
             new VerenigingZoekDocument
             {
@@ -165,9 +165,9 @@ public class BeheerZoekProjectionHandler
             });
     }
 
-    public void Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message)
+    public async Task Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message)
     {
-        _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateAsync(
             message.VCode,
             new VerenigingZoekDocument
             {
@@ -175,9 +175,9 @@ public class BeheerZoekProjectionHandler
             });
     }
 
-    public void Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message)
+    public async Task Handle(EventEnvelope<VerenigingWerdIngeschrevenInPubliekeDatastroom> message)
     {
-        _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateAsync(
             message.VCode,
             new VerenigingZoekDocument
             {
@@ -185,23 +185,23 @@ public class BeheerZoekProjectionHandler
             });
     }
 
-    public void Handle(EventEnvelope<LocatieWerdToegevoegd> message)
+    public async Task Handle(EventEnvelope<LocatieWerdToegevoegd> message)
     {
-        _elasticRepository.AppendLocatie(
+        await _elasticRepository.AppendLocatie(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
-    public void Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
-        _elasticRepository.ReplaceLocatie(
+        await _elasticRepository.ReplaceLocatie(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
-    public void Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
     {
-        _elasticRepository.RemoveLocatie(
+        await _elasticRepository.RemoveLocatie(
             message.VCode,
             message.Data.Locatie.LocatieId);
     }
@@ -225,16 +225,16 @@ public class BeheerZoekProjectionHandler
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 
-    public void Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
     {
-        _elasticRepository.AppendLocatie(
+        await _elasticRepository.AppendLocatie(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
-    public void Handle(EventEnvelope<VerenigingWerdGestopt> message)
+    public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
     {
-        _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateAsync(
             message.VCode,
             new VerenigingZoekDocument
             {

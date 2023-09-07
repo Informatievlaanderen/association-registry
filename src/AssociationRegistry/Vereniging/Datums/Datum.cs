@@ -14,7 +14,7 @@ public record Datum
     public static Datum Create(DateOnly startdatum)
         => new(startdatum);
 
-    public static Datum? Create(DateOnly? startdatum)
+    public static Datum? CreateOptional(DateOnly? startdatum)
         => startdatum.HasValue ? new Datum(startdatum.Value) : null;
 
     public static Datum? Hydrate(DateOnly? dateOnly)
