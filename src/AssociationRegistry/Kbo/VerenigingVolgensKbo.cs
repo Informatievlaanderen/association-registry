@@ -11,4 +11,5 @@ public class VerenigingVolgensKbo
     public DateOnly? StartDatum { get; set; }
     public AdresVolgensKbo Adres { get; set; } = null!;
     public ContactgegevensVolgensKbo Contactgegevens { get; set; } = null!;
+    public VertegenwoordigerVolgensKbo[] Vertegenwoordigers { get; set; } = Array.Empty<VertegenwoordigerVolgensKbo>()!;
 }

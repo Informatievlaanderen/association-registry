@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
@@ -28,25 +29,30 @@ public class Given_A_GeefOndernemingResponseBody_Which_Is_Not_An_Onderneming
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
-        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.OndernemingOfVestiging = new OndernemingOfVestigingType
-        {
-            Code = new CodeOndernemingOfVestigingType
-            {
-                Value = _fixture.Create<string>(),
-            },
-        };
 
+        envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.OndernemingOfVestiging =
+            new OndernemingOfVestigingType
+            {
+                Code = new CodeOndernemingOfVestigingType
+                {
+                    Value = _fixture.Create<string>(),
+                },
+            };
 
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(envelope);
+                   .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+                                                  new TemporaryMagdaVertegenwoordigersSection(),
+                                                  new NullLogger<MagdaGeefVerenigingService>());
     }
 
     [Fact]
     public async Task Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+                                                   CancellationToken.None);
+
         result.IsFailure().Should().BeTrue();
     }
 }

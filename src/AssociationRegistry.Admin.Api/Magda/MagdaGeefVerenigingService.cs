@@ -1,12 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Magda;
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Linq;
-using System.Threading.Tasks;
-using Kbo;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Exceptions;
 using AssociationRegistry.Magda.Models;
@@ -14,8 +9,14 @@ using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using Framework;
 using Infrastructure.Extensions;
+using Kbo;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
@@ -30,15 +31,18 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
     private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaFacade _magdaFacade;
+    private readonly TemporaryMagdaVertegenwoordigersSection _temporaryMagdaVertegenwoordigersSection;
     private readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
         IMagdaFacade magdaFacade,
+        TemporaryMagdaVertegenwoordigersSection temporaryMagdaVertegenwoordigersSection,
         ILogger<MagdaGeefVerenigingService> logger)
     {
         _magdaCallReferenceRepository = magdaCallReferenceRepository;
         _magdaFacade = magdaFacade;
+        _temporaryMagdaVertegenwoordigersSection = temporaryMagdaVertegenwoordigersSection;
         _logger = logger;
     }
 
@@ -53,13 +57,10 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
-            if (magdaOnderneming is null) return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-            var codeValue = GetActiveRechtsvorm(magdaOnderneming)?.Code.Value;
-            if (codeValue == null || !rechtsvormMap.ContainsKey(codeValue))
-                return VerenigingVolgensKboResult.GeenGeldigeVereniging;
-
-            if (!IsOnderneming(magdaOnderneming) ||
+            if (magdaOnderneming is null ||
+                !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
+                !IsOnderneming(magdaOnderneming) ||
                 !IsActief(magdaOnderneming) ||
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
@@ -81,12 +82,30 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     StartDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
                     Adres = GetAdresFrom(maatschappelijkeZetel),
                     Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
+                    Vertegenwoordigers = GetVertegenwoordigers(),
                 });
         }
         catch (Exception e)
         {
-            throw new MagdaException("Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
+            throw new MagdaException(message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
         }
+    }
+
+    private VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
+        => _temporaryMagdaVertegenwoordigersSection.TemporaryVertegenwoordigers
+                                                   .Select(x => new VertegenwoordigerVolgensKbo
+                                                    {
+                                                        Insz = x.Insz,
+                                                        Voornaam = x.Voornaam,
+                                                        Achternaam = x.Achternaam,
+                                                    })
+                                                   .ToArray();
+
+    private bool HeeftToegestaneActieveRechtsvorm(Onderneming2_0Type magdaOnderneming)
+    {
+        var rechtsvormCode = GetActiveRechtsvorm(magdaOnderneming)?.Code.Value;
+
+        return rechtsvormCode != null && rechtsvormMap.ContainsKey(rechtsvormCode);
     }
 
     private ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
@@ -95,6 +114,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             return new ContactgegevensVolgensKbo();
 
         var contactDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Contact;
+
         return new ContactgegevensVolgensKbo
         {
             Email = contactDetails?.Email,
@@ -110,6 +130,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             return new AdresVolgensKbo();
 
         var adresDetails = GetBestMatchingAdres(maatschappelijkeZetel.Descripties).Adres;
+
         return new AdresVolgensKbo
         {
             Straatnaam = adresDetails?.Straat?.Naam ?? maatschappelijkeZetel.Straat?.Naam,
@@ -126,11 +147,12 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         if (namen is null) return null;
 
         var activeNamen = namen
-            .Where(n => IsActiveToday(n.DatumBegin, n.DatumEinde))
-            .ToArray();
+                         .Where(n => IsActiveToday(n.DatumBegin, n.DatumEinde))
+                         .ToArray();
 
         if (activeNamen.Length == 0)
             return null;
+
         if (activeNamen.Length == 1)
             return activeNamen.Single();
 
@@ -167,7 +189,6 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
             r => IsActiveToday(r.DatumBegin, r.DatumEinde));
 
-
     private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.SoortOnderneming.Code.Value == SoortOndernemingCodes.Rechtspersoon;
 
@@ -180,7 +201,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     private Result<VerenigingVolgensKbo> HandleUitzonderingen(string kboNummer, ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
     {
         _logger.LogInformation(
-            "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: '{Diagnose}'",
+            message: "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: '{Diagnose}'",
             kboNummer,
             magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen.ConcatenateUitzonderingen("\n"));
 
@@ -200,6 +221,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             CorrelationId = correlationId,
             OpgevraagdOnderwerp = opgevraagdOnderwerp,
         };
+
         await repository.Save(magdaCallReference, cancellationToken);
 
         return magdaCallReference;

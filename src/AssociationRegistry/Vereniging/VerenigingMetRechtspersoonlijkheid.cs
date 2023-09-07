@@ -12,6 +12,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
+
         vereniging.AddEvent(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
@@ -21,17 +22,32 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 verenigingVolgensKbo.KorteNaam ?? "",
                 verenigingVolgensKbo.StartDatum ?? null));
 
-        vereniging.AddAdressAlsMaatschappelijkeZetel(verenigingVolgensKbo.Adres);
+        vereniging.VoegMaatschappelijkeZetelToe(verenigingVolgensKbo.Adres);
 
-        if (verenigingVolgensKbo.Contactgegevens is not null)
+        if (verenigingVolgensKbo.Contactgegevens is not null) // TODO: question: is this only for test purposes?
         {
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
         }
 
+        vereniging.VoegVertegenwoordigersToe(verenigingVolgensKbo.Vertegenwoordigers);
+
         return vereniging;
+    }
+
+    private void VoegVertegenwoordigersToe(VertegenwoordigerVolgensKbo[] vertegenwoordigers)
+    {
+        foreach (var (vertegenwoordiger, id) in vertegenwoordigers.Select((x, i) => (x, i)))
+        {
+            AddEvent(
+                new VertegenwoordigerWerdOvergenomenUitKBO(
+                    id + 1,
+                    vertegenwoordiger.Insz,
+                    vertegenwoordiger.Voornaam,
+                    vertegenwoordiger.Achternaam));
+        }
     }
 
     public void WijzigRoepnaam(string roepnaam)
@@ -72,9 +88,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
                 Locatie.Create(
                         string.Empty,
-                        false,
+                        isPrimair: false,
                         Locatietype.MaatschappelijkeZetelVolgensKbo,
-                        null,
+                        adresId: null,
                         adres)
                     with
                     {
@@ -101,21 +117,23 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
     }
 
-    private void AddContactgegeven(string? waarde, ContactgegevenTypeVolgensKbo type)
+    private void VoegContactgegevenToe(string? waarde, ContactgegevenTypeVolgensKbo type)
     {
         if (waarde is null) return;
 
         var contactgegeven = Contactgegeven.TryCreateFromKbo(waarde, type);
+
         if (contactgegeven is null)
         {
             VoegFoutiefContactgegevenToe(type, waarde);
+
             return;
         }
 
         VoegContactgegevenToe(contactgegeven, type);
     }
 
-    private void AddAdressAlsMaatschappelijkeZetel(AdresVolgensKbo? adresVolgensKbo)
+    private void VoegMaatschappelijkeZetelToe(AdresVolgensKbo? adresVolgensKbo)
     {
         if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty()) return;
 
@@ -124,6 +142,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (adres is null)
         {
             VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
+
             return;
         }
 
@@ -142,6 +161,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         Throw<UnsupportedOperationForVerenigingstype>.If(
             !_allowedTypes.Contains(obj.Verenigingstype));
+
         State = obj;
     }
 }

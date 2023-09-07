@@ -246,7 +246,8 @@ public class Program
     {
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args)
@@ -279,6 +280,7 @@ public class Program
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
+        var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection();
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         builder.Services
@@ -286,6 +288,7 @@ public class Program
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(appSettings)
+               .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
@@ -353,7 +356,8 @@ public class Program
                         cfg.AddPolicy(
                             StartupConstants.AllowSpecificOrigin,
                             configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
+                                                                       Array.Empty<string>())
                                                           .WithMethods(StartupConstants.HttpMethodsAsString)
                                                           .WithHeaders(StartupConstants.Headers)
                                                           .WithExposedHeaders(StartupConstants.ExposedHeaders)
@@ -371,7 +375,9 @@ public class Program
                .AddNewtonsoftJson(
                     opt =>
                     {
-                        opt.SerializerSettings.Converters.Add(new StringEnumConverter(new DefaultNamingStrategy(), allowIntegerValues: false));
+                        opt.SerializerSettings.Converters.Add(
+                            new StringEnumConverter(new DefaultNamingStrategy(), allowIntegerValues: false));
+
                         opt.SerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
                         opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                         opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
@@ -393,7 +399,9 @@ public class Program
                     JwtBearerDefaults.AuthenticationScheme,
                     configureOptions: options =>
                     {
-                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>();
+                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                                   .Get<OAuth2IntrospectionOptions>();
+
                         options.ClientId = configOptions.ClientId;
                         options.ClientSecret = configOptions.ClientSecret;
                         options.Authority = configOptions.Authority;

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrievi
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
@@ -29,6 +30,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
+
         envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Uitzonderingen = new[]
         {
             new UitzonderingType
@@ -42,18 +44,22 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
                 Diagnose = "Er is nog een fout gebeurd",
             },
         };
+
         _logger = new Mock<ILogger<MagdaGeefVerenigingService>>();
 
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(envelope);
+                   .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, _logger.Object);
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+                                                  new TemporaryMagdaVertegenwoordigersSection(), _logger.Object);
     }
 
     [Fact]
     public async Task Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+                                                   CancellationToken.None);
+
         result.IsFailure().Should().BeTrue();
     }
 
@@ -64,10 +70,11 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
         await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
 
         _logger.Verify(
-            x => x.Log(
+            expression: x => x.Log(
                 It.Is<LogLevel>(l => l == LogLevel.Information),
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((v, t) => v.ToString() == $"Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {kboNummer}: 'Er is een fout gebeurd\nEr is nog een fout gebeurd'"),
+                It.Is<It.IsAnyType>((v, t) => v.ToString() ==
+                                              $"Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {kboNummer}: 'Er is een fout gebeurd\nEr is nog een fout gebeurd'"),
                 It.IsAny<Exception>(),
                 It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!),
             Times.Once);

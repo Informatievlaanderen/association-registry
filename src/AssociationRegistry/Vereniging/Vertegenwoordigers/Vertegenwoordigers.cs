@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using System.Collections.ObjectModel;
 using Emails;
+using Events;
 using Exceptions;
 using Framework;
 using SocialMedias;
+using System.Collections.ObjectModel;
 using TelefoonNummers;
 
 public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 {
     private const int InitialId = 1;
-
     public int NextId { get; }
 
     private Vertegenwoordiger? Primair
@@ -29,9 +29,9 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         vertegenwoordigers = vertegenwoordigers.ToArray();
 
         if (!vertegenwoordigers.Any())
-            return new(Empty, Math.Max(InitialId, NextId));
+            return new Vertegenwoordigers(Empty, Math.Max(InitialId, NextId));
 
-        return new(vertegenwoordigers, Math.Max(vertegenwoordigers.Max(x => x.VertegenwoordigerId) + 1, NextId));
+        return new Vertegenwoordigers(vertegenwoordigers, Math.Max(vertegenwoordigers.Max(x => x.VertegenwoordigerId) + 1, NextId));
     }
 
     public Vertegenwoordiger[] VoegToe(params Vertegenwoordiger[] toeTeVoegenVertegenwoordigers)
@@ -58,11 +58,20 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         return toeTeVoegenVertegenwoordiger with { VertegenwoordigerId = NextId };
     }
 
-    public Vertegenwoordiger? Wijzig(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    public Vertegenwoordiger? Wijzig(
+        int vertegenwoordigerId,
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair)
     {
         MustContain(vertegenwoordigerId);
 
-        if (this[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair, out var gewijzigdeVertegenwoordiger))
+        if (this[vertegenwoordigerId].WouldBeEquivalent(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair,
+                                                        out var gewijzigdeVertegenwoordiger))
             return null;
 
         MustNotHaveMultiplePrimary(gewijzigdeVertegenwoordiger);
@@ -85,10 +94,8 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         Throw<MultiplePrimaireVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
     }
 
-
     public new Vertegenwoordiger this[int vertegenwoordigerId]
         => this.Single(v => v.VertegenwoordigerId == vertegenwoordigerId);
-
 
     private static bool HasMultiplePrimaryVertegenwoordigers(Vertegenwoordiger[] vertegenwoordigersArray)
         => vertegenwoordigersArray.Count(vertegenwoordiger => vertegenwoordiger.IsPrimair) > 1;
@@ -127,4 +134,21 @@ public static class VertegenwoordigerEnumerableExtensions
     {
         return source.Where(c => c.VertegenwoordigerId != vertegenwoordigerId);
     }
+
+    public static IEnumerable<Vertegenwoordiger> AppendFromEventData(
+        this IEnumerable<Vertegenwoordiger> vertegenwoordigers,
+        VertegenwoordigerWerdOvergenomenUitKBO eventData)
+        => vertegenwoordigers.Append(
+            Vertegenwoordiger.Hydrate(
+                eventData.VertegenwoordigerId,
+                Insz.Hydrate(eventData.Insz),
+                string.Empty,
+                string.Empty,
+                eventData.Voornaam,
+                eventData.Achternaam,
+                isPrimair: false,
+                Email.Leeg,
+                TelefoonNummer.Leeg,
+                TelefoonNummer.Leeg,
+                SocialMedia.Leeg));
 }

@@ -48,7 +48,7 @@ public record VerenigingState : IHasVersion
             IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
+                func: (lijst, c) => Contactgegevens.Hydrate(
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
@@ -59,7 +59,7 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
@@ -76,7 +76,7 @@ public record VerenigingState : IHasVersion
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
+                func: (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
                         Locatie.Hydrate(
                             l.LocatieId,
@@ -115,7 +115,7 @@ public record VerenigingState : IHasVersion
             Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
+                func: (lijst, c) => Contactgegevens.Hydrate(
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
@@ -126,7 +126,7 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
@@ -143,7 +143,7 @@ public record VerenigingState : IHasVersion
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
+                func: (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
                         Locatie.Hydrate(
                             l.LocatieId,
@@ -347,6 +347,13 @@ public record VerenigingState : IHasVersion
                    .AppendFromEventData(@event.Locatie)),
         };
 
+    public VerenigingState Apply(VertegenwoordigerWerdOvergenomenUitKBO @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(
+                Vertegenwoordigers.AppendFromEventData(@event)),
+        };
+
     public VerenigingState Apply(ContactgegevenWerdOvergenomenUitKBO @event)
         => this with
         {
@@ -357,7 +364,7 @@ public record VerenigingState : IHasVersion
                         ContactgegevenType.Parse(@event.Type),
                         @event.Waarde,
                         string.Empty,
-                        false,
+                        isPrimair: false,
                         Bron.KBO))),
         };
 
