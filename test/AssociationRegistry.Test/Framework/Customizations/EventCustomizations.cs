@@ -17,6 +17,7 @@ public static class EventCustomizations
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
         fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
+        fixture.CustomizeVertegenwoordigerWerdOvergenomenUitKBO();
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
     }
 
@@ -24,10 +25,13 @@ public static class EventCustomizations
     {
         fixture.Customize<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>(
             composer => composer.FromFactory<int>(
-                (i) => new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+                i => new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                     fixture.Create<VCode>().ToString(),
                     fixture.Create<KboNummer>(),
-                    new[] { Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut }[i % 4].Code,
+                    new[]
+                    {
+                        Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut,
+                    }[i % 4].Code,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<DateOnly?>()
@@ -38,68 +42,82 @@ public static class EventCustomizations
     {
         fixture.Customize<ContactgegevenWerdToegevoegd>(
             composer => composer.FromFactory(
-                    () =>
-                    {
-                        var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new ContactgegevenWerdToegevoegd(
-                            contactgegeven.ContactgegevenId,
-                            contactgegeven.Type,
-                            contactgegeven.Waarde,
-                            contactgegeven.Beschrijving,
-                            contactgegeven.IsPrimair);
-                    })
-                .OmitAutoProperties());
+                                     () =>
+                                     {
+                                         var contactgegeven = fixture.Create<Contactgegeven>();
+
+                                         return new ContactgegevenWerdToegevoegd(
+                                             contactgegeven.ContactgegevenId,
+                                             contactgegeven.Type,
+                                             contactgegeven.Waarde,
+                                             contactgegeven.Beschrijving,
+                                             contactgegeven.IsPrimair);
+                                     })
+                                .OmitAutoProperties());
     }
 
     private static void CustomizeContactgegevenWerdOvergenomenUitKBO(this IFixture fixture)
     {
         fixture.Customize<ContactgegevenWerdOvergenomenUitKBO>(
             composer => composer.FromFactory<int>(
-                    i =>
-                    {
-                        var contactgegeven = fixture.Create<Contactgegeven>();
-                        return new ContactgegevenWerdOvergenomenUitKBO(
-                            contactgegeven.ContactgegevenId,
-                            ContactgegevenTypeVolgensKbo.All[i % ContactgegevenTypeVolgensKbo.All.Length],
-                            contactgegeven.Type,
-                            contactgegeven.Waarde);
-                    })
-                .OmitAutoProperties());
+                                     i =>
+                                     {
+                                         var contactgegeven = fixture.Create<Contactgegeven>();
+
+                                         return new ContactgegevenWerdOvergenomenUitKBO(
+                                             contactgegeven.ContactgegevenId,
+                                             ContactgegevenTypeVolgensKbo.All[i % ContactgegevenTypeVolgensKbo.All.Length],
+                                             contactgegeven.Type,
+                                             contactgegeven.Waarde);
+                                     })
+                                .OmitAutoProperties());
+    }
+
+    private static void CustomizeVertegenwoordigerWerdOvergenomenUitKBO(this IFixture fixture)
+    {
+        fixture.Customize<VertegenwoordigerWerdOvergenomenUitKBO>(
+            composer => composer.FromFactory(() => new VertegenwoordigerWerdOvergenomenUitKBO(
+                                                 fixture.Create<int>(),
+                                                 fixture.Create<Insz>(),
+                                                 fixture.Create<Voornaam>(),
+                                                 fixture.Create<Achternaam>()))
+                                .OmitAutoProperties());
     }
 
     private static void CustomizeContactgegevenKonNietOvergenomenWordenUitKBO(this IFixture fixture)
     {
         fixture.Customize<ContactgegevenKonNietOvergenomenWordenUitKBO>(
             composer => composer.FromFactory(
-                    () =>
-                    {
-                        var contactgegevenTypevolgensKbo = fixture.Create<ContactgegevenTypeVolgensKbo>();
-                        return new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                            contactgegevenTypevolgensKbo.ContactgegevenType.Waarde,
-                            contactgegevenTypevolgensKbo.Waarde,
-                            fixture.Create<string>());
-                    })
-                .OmitAutoProperties());
+                                     () =>
+                                     {
+                                         var contactgegevenTypevolgensKbo = fixture.Create<ContactgegevenTypeVolgensKbo>();
+
+                                         return new ContactgegevenKonNietOvergenomenWordenUitKBO(
+                                             contactgegevenTypevolgensKbo.ContactgegevenType.Waarde,
+                                             contactgegevenTypevolgensKbo.Waarde,
+                                             fixture.Create<string>());
+                                     })
+                                .OmitAutoProperties());
     }
 
     private static void CustomizeVertegenwoordigerWerdToegevoegd(this IFixture fixture)
     {
         fixture.Customize<VertegenwoordigerWerdToegevoegd>(
             composer => composer.FromFactory(
-                    () => new VertegenwoordigerWerdToegevoegd(
-                        fixture.Create<int>(),
-                        fixture.Create<Insz>(),
-                        IsPrimair: false,
-                        fixture.Create<string>(),
-                        fixture.Create<string>(),
-                        fixture.Create<Voornaam>(),
-                        fixture.Create<Achternaam>(),
-                        fixture.Create<Email>().Waarde,
-                        fixture.Create<TelefoonNummer>().Waarde,
-                        fixture.Create<TelefoonNummer>().Waarde,
-                        fixture.Create<SocialMedia>().Waarde
-                    ))
-                .OmitAutoProperties());
+                                     () => new VertegenwoordigerWerdToegevoegd(
+                                         fixture.Create<int>(),
+                                         fixture.Create<Insz>(),
+                                         IsPrimair: false,
+                                         fixture.Create<string>(),
+                                         fixture.Create<string>(),
+                                         fixture.Create<Voornaam>(),
+                                         fixture.Create<Achternaam>(),
+                                         fixture.Create<Email>().Waarde,
+                                         fixture.Create<TelefoonNummer>().Waarde,
+                                         fixture.Create<TelefoonNummer>().Waarde,
+                                         fixture.Create<SocialMedia>().Waarde
+                                     ))
+                                .OmitAutoProperties());
     }
 
     private static void CustomizeFeitelijkeVerenigingWerdGeregistreerd(this IFixture fixture)
@@ -126,20 +144,20 @@ public static class EventCustomizations
         fixture.Customize<AfdelingWerdGeregistreerd>(
             composer => composer.FromFactory(
                 () => new AfdelingWerdGeregistreerd(
-                    VCode: fixture.Create<VCode>().ToString(),
-                    Naam: fixture.Create<string>(),
-                    Moedervereniging: new AfdelingWerdGeregistreerd.MoederverenigingsData(
+                    fixture.Create<VCode>().ToString(),
+                    fixture.Create<string>(),
+                    new AfdelingWerdGeregistreerd.MoederverenigingsData(
                         fixture.Create<KboNummer>(),
                         fixture.Create<VCode>(),
                         fixture.Create<VerenigingsNaam>()),
-                    KorteNaam: fixture.Create<string>(),
-                    KorteBeschrijving: fixture.Create<string>(),
-                    Startdatum: fixture.Create<DateOnly?>(),
-                    Doelgroep: fixture.Create<Registratiedata.Doelgroep>(),
-                    Contactgegevens: fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
-                    Locaties: fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
-                    Vertegenwoordigers: fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
-                    HoofdactiviteitenVerenigingsloket: fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>(),
+                    fixture.Create<Registratiedata.Doelgroep>(),
+                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
     }
 }

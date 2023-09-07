@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
@@ -41,11 +42,14 @@ public class Given_A_GeefOndernemingResponseBody
         _contactgegevens = _fixture.Create<ContactgegevensVolgensKbo>();
 
         var magdaFacade = new Mock<IMagdaFacade>();
-        ResponseEnvelope<GeefOndernemingResponseBody> responseEnvelope = CreateResponseEnvelope(_verenigingNaam, _verenigingKorteNaam, _startDatum);
-        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(responseEnvelope);
+        var responseEnvelope = CreateResponseEnvelope(_verenigingNaam, _verenigingKorteNaam, _startDatum);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
+        magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
+                   .ReturnsAsync(responseEnvelope);
+
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+                                                  new TemporaryMagdaVertegenwoordigersSection(),
+                                                  new NullLogger<MagdaGeefVerenigingService>());
     }
 
     private ResponseEnvelope<GeefOndernemingResponseBody> CreateResponseEnvelope(string naam, string korteNaam, DateOnly startDatum)
@@ -56,6 +60,7 @@ public class Given_A_GeefOndernemingResponseBody
         {
             new NaamOndernemingType { Naam = naam, DatumBegin = "1990-01-01", Taalcode = TaalCodes.Nederlands },
         };
+
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Rechtsvormen = new[]
         {
             new RechtsvormExtentieType
@@ -66,14 +71,17 @@ public class Given_A_GeefOndernemingResponseBody
                 },
             },
         };
+
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Namen.AfgekorteNamen = new[]
         {
             new NaamOndernemingType { Naam = korteNaam, DatumBegin = "1990-01-01", Taalcode = TaalCodes.Nederlands },
         };
+
         responseEnvelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Start = new DatumStartType
         {
             Datum = startDatum.ToString(Formats.DateOnly),
         };
+
         responseEnvelope.Body.GeefOndernemingResponse.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Adressen = new[]
         {
             new AdresOndernemingType
@@ -118,13 +126,16 @@ public class Given_A_GeefOndernemingResponseBody
                 },
             },
         };
+
         return responseEnvelope;
     }
 
     [Fact]
     public async Task Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+                                                   CancellationToken.None);
+
         result.IsSuccess().Should().BeTrue();
     }
 
@@ -133,6 +144,7 @@ public class Given_A_GeefOndernemingResponseBody
     {
         var kboNummer = _fixture.Create<KboNummer>();
         var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;

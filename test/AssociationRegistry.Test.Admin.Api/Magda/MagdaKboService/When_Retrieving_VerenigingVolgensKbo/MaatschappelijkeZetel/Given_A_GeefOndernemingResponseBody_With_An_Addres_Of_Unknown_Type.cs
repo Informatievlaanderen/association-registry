@@ -2,19 +2,20 @@
 
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
-using Kbo;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework;
+using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -30,6 +31,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Addres_Of_Unknown_Type
 
         var magdaFacade = new Mock<IMagdaFacade>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
+
         envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Adressen = new[]
         {
             new AdresOndernemingType
@@ -44,17 +46,20 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Addres_Of_Unknown_Type
             },
         };
 
-
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(envelope);
+                   .ReturnsAsync(envelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+                                                  new TemporaryMagdaVertegenwoordigersSection(),
+                                                  new NullLogger<MagdaGeefVerenigingService>());
     }
 
     [Fact]
     public async Task Then_It_Returns_A_SuccessResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+                                                   CancellationToken.None);
+
         result.IsSuccess().Should().BeTrue();
     }
 
@@ -63,6 +68,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Addres_Of_Unknown_Type
     {
         var kboNummer = _fixture.Create<KboNummer>();
         var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
+
         using (new AssertionScope())
         {
             var verenigingVolgensKbo = result.Should().BeOfType<Result<VerenigingVolgensKbo>>().Subject.Data;

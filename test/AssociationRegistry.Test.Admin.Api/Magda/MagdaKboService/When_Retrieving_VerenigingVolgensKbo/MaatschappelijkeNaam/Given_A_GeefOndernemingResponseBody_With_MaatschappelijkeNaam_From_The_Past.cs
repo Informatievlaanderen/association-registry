@@ -3,16 +3,17 @@
 using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -40,17 +41,20 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_From_
             },
         };
 
-
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
-            .ReturnsAsync(responseEnvelope);
+                   .ReturnsAsync(responseEnvelope);
 
-        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object, new NullLogger<MagdaGeefVerenigingService>());
+        _service = new MagdaGeefVerenigingService(Mock.Of<IMagdaCallReferenceRepository>(), magdaFacade.Object,
+                                                  new TemporaryMagdaVertegenwoordigersSection(),
+                                                  new NullLogger<MagdaGeefVerenigingService>());
     }
 
     [Fact]
     public async Task Then_It_Returns_A_FailureResult()
     {
-        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(), CancellationToken.None);
+        var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+                                                   CancellationToken.None);
+
         result.IsFailure().Should().BeTrue();
     }
 }

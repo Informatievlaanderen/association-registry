@@ -356,6 +356,13 @@ public record VerenigingState : IHasVersion
                    .AppendFromEventData(@event.Locatie)),
         };
 
+    public VerenigingState Apply(VertegenwoordigerWerdOvergenomenUitKBO @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(
+                Vertegenwoordigers.AppendFromEventData(@event)),
+        };
+
     public VerenigingState Apply(ContactgegevenWerdOvergenomenUitKBO @event)
         => this with
         {
