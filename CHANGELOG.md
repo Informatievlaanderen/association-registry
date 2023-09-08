@@ -1,3 +1,12 @@
+# [7.13.0](https://github.com/informatievlaanderen/association-registry/compare/v7.12.1...v7.13.0) (2023-09-08)
+
+
+### Features
+
+* OR-1425 ensure temp vertegenwoordigers not null ([237b810](https://github.com/informatievlaanderen/association-registry/commit/237b810ef587d0d928d5eaf9af33a25e86e8df0b))
+* OR-1425 improve error messages ([f327788](https://github.com/informatievlaanderen/association-registry/commit/f327788073c1f3e5a9541378839efdba6435e29a))
+* OR-1891 Add vertegenwoordigers from static source on registration from kbo ([c4664c0](https://github.com/informatievlaanderen/association-registry/commit/c4664c048ac977b6490d04546664ecee84156a05))
+
 ## [7.12.1](https://github.com/informatievlaanderen/association-registry/compare/v7.12.0...v7.12.1) (2023-09-07)
 
 
