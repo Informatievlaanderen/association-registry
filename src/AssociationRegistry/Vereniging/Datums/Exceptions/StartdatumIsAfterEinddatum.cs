@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class StartdatumIsAfterEinddatum : DomainException
 {
-    public StartdatumIsAfterEinddatum() : base(ExceptionMessages.EinddatumIsBeforeStartdatum)
+    public StartdatumIsAfterEinddatum() : base(ExceptionMessages.StartdatumIsAfterEinddatum)
     {
     }
 

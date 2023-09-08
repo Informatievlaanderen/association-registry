@@ -12,16 +12,20 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(VerenigingsBase vereniging,
+                                               CommandMetadata metadata,
+                                               CancellationToken cancellationToken = default)
     {
         var events = vereniging.UncommittedEvents.ToArray();
+
         if (!events.Any())
             return StreamActionResult.Empty;
 
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
+        where TVereniging : IHydrate<VerenigingState>, new()
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
 
@@ -48,7 +52,7 @@ public class VerenigingsRepository : IVerenigingsRepository
     {
         public static VCodeAndNaam Fallback(KboNummer kboNummer)
             => new(
-                null,
+                VCode: null,
                 VerenigingsNaam.Create($"Moeder {kboNummer}"));
     }
 }

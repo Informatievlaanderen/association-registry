@@ -9,6 +9,6 @@ public class StopVerenigingRequestValidator : AbstractValidator<StopVerenigingRe
     {
         RuleFor(r => r.Einddatum)
            .NotNull()
-           .WithMessage(ExceptionMessages.InvalidDateFormat);
+           .WithMessage(string.Format(ValidationMessages.VeldIsVerplicht, nameof(StopVerenigingRequest.Einddatum)));
     }
 }
