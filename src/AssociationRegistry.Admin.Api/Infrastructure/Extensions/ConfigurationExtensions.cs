@@ -4,6 +4,7 @@ using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
 using Framework;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 
@@ -86,9 +87,8 @@ public static class ConfigurationExtensions
         this IConfiguration configuration,
         string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
     {
-        var temporaryVertegenwoordigers = new TemporaryMagdaVertegenwoordigersSection();
-
-        configuration.GetSection(magdaOptionsSectionName).Bind(temporaryVertegenwoordigers);
+        var vertegenwoordigersJson = configuration[magdaOptionsSectionName];
+        var temporaryVertegenwoordigers = JsonConvert.DeserializeObject<TemporaryMagdaVertegenwoordigersSection>(vertegenwoordigersJson);
 
         Log.Logger.Information("Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
 
