@@ -66,4 +66,16 @@ public record VertegenwoordigerData
             vertegenwoordiger.Telefoon,
             vertegenwoordiger.Mobiel,
             vertegenwoordiger.SocialMedia);
+
+    public static VertegenwoordigerData Create(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordiger)
+        => new(vertegenwoordiger.VertegenwoordigerId,
+               false,
+               string.Empty,
+               string.Empty,
+               vertegenwoordiger.Voornaam,
+               vertegenwoordiger.Achternaam,
+               string.Empty,
+               string.Empty,
+               string.Empty,
+               string.Empty);
 }

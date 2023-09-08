@@ -376,4 +376,16 @@ public class BeheerVerenigingHistoriekProjector
 
         document.Metadata = new Metadata(einddatumWerdGewijzigd.Sequence, einddatumWerdGewijzigd.Version);
     }
+
+    public static void Apply(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            vertegenwoordigerWerdOvergenomenUitKbo,
+            VertegenwoordigerData.Create(vertegenwoordigerWerdOvergenomenUitKbo.Data),
+            document,
+            $"Vertegenwoordiger '{vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam} {vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam}' werd overgenomen uit KBO."
+        );
+
+        document.Metadata = new Metadata(vertegenwoordigerWerdOvergenomenUitKbo.Sequence, vertegenwoordigerWerdOvergenomenUitKbo.Version);
+    }
 }
