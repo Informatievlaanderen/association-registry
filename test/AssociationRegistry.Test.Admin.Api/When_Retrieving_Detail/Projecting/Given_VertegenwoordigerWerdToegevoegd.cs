@@ -46,3 +46,38 @@ public class Given_VertegenwoordigerWerdToegevoegd
         doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version));
     }
 }
+
+[UnitTest]
+public class Given_VertegenwoordigerWerdOvergenomenUitKBO
+{
+    [Fact]
+    public void Then_it_adds_the_vertegenwoordiger_to_the_detail()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var vertegenwoordigerWerdOvergenomenUitKbo = fixture.Create<TestEvent<VertegenwoordigerWerdOvergenomenUitKBO>>();
+
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
+        BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
+
+        doc.Vertegenwoordigers.Should().Contain(
+            new BeheerVerenigingDetailDocument.Vertegenwoordiger
+            {
+                VertegenwoordigerId = vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
+                Insz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz,
+                Achternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam,
+                Voornaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam,
+                Roepnaam = "",
+                Rol = "",
+                IsPrimair = false,
+                Email = "",
+                Telefoon = "",
+                Mobiel = "",
+                SocialMedia = "",
+                Bron = Bron.KBO,
+            });
+        doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
+        doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdOvergenomenUitKbo.Tijdstip.ToBelgianDate());
+        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdOvergenomenUitKbo.Sequence, vertegenwoordigerWerdOvergenomenUitKbo.Version));
+    }
+}
