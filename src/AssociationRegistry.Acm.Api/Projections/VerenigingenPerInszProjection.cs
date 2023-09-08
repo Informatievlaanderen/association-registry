@@ -39,6 +39,15 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public void Project(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(VerenigingDocumentProjector.Apply(werdGeregistreerd));
+
+        ops.StoreObjects(docs);
+    }
+
     public async Task Project(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
     {
         var docs = new List<object>();
@@ -54,6 +63,9 @@ public class VerenigingenPerInszProjection : EventProjection
 
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
+
+    public async Task Project(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo, IDocumentOperations ops)
+        => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, ops));
 
     private static class VerenigingenPerInszProjector
     {
@@ -132,6 +144,21 @@ public class VerenigingenPerInszProjection : EventProjection
             document.Verenigingen = document.Verenigingen.Where(v => v.VCode != vCode).ToList();
             return document;
         }
+
+        public static async Task<VerenigingenPerInszDocument>Apply(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo, IDocumentOperations ops)
+        {
+            var vCode = vertegenwoordigerWerdOvergenomenUitKbo.StreamKey!;
+            var vereniging = await ops.GetVerenigingDocument(vCode);
+            var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz);
+
+            document.Verenigingen.Add(
+                new Vereniging
+                {
+                    VCode = vereniging.VCode,
+                    Naam = vereniging.Naam,
+                });
+            return document;
+        }
     }
 
     private static class VerenigingDocumentProjector
@@ -144,6 +171,13 @@ public class VerenigingenPerInszProjection : EventProjection
             };
 
         public static VerenigingDocument Apply(AfdelingWerdGeregistreerd werdGeregistreerd)
+            => new()
+            {
+                VCode = werdGeregistreerd.VCode,
+                Naam = werdGeregistreerd.Naam,
+            };
+
+        public static VerenigingDocument Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
             => new()
             {
                 VCode = werdGeregistreerd.VCode,
