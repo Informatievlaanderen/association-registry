@@ -4,6 +4,7 @@ using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
 using Framework;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using System;
 
 public static class ConfigurationExtensions
@@ -85,11 +86,17 @@ public static class ConfigurationExtensions
         this IConfiguration configuration,
         string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
     {
-        var temporaryVertegenwoordigersSection = configuration
-                                                .GetSection(magdaOptionsSectionName)
+        var configurationSection = configuration
+           .GetSection(magdaOptionsSectionName);
+
+        var temporaryVertegenwoordigersSection = configurationSection
                                                 .Get<TemporaryMagdaVertegenwoordigersSection>();
 
-        return temporaryVertegenwoordigersSection ?? new TemporaryMagdaVertegenwoordigersSection();
+        var magdaTemporaryVertegenwoordigersSection = temporaryVertegenwoordigersSection ?? new TemporaryMagdaVertegenwoordigersSection();
+        Log.Logger.Information("Temp Magda section: {Section}", configurationSection); // TODO: Remove
+        Log.Logger.Information("Found {Count} vertegenwoordigers", magdaTemporaryVertegenwoordigersSection.TemporaryVertegenwoordigers?.Length ?? 0);
+
+        return magdaTemporaryVertegenwoordigersSection;
     }
 
     private static void ThrowIfInvalid(this MagdaOptionsSection magdaOptionsSection)
