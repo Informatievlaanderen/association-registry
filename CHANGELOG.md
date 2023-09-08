@@ -1,3 +1,10 @@
+# [7.17.0](https://github.com/informatievlaanderen/association-registry/compare/v7.16.0...v7.17.0) (2023-09-08)
+
+
+### Features
+
+* OR-1981 Use json string for vertegenwoordigers ([936434f](https://github.com/informatievlaanderen/association-registry/commit/936434f8d1b1e4c1ea64dd8ad918fd3e1ecb44f0))
+
 # [7.16.0](https://github.com/informatievlaanderen/association-registry/compare/v7.15.0...v7.16.0) (2023-09-08)
 
 
