@@ -25,9 +25,12 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Insert(feitelijkeVereniging);
     }
 
-    public void Project(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd, IDocumentOperations ops)
+    public void Project(
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        IDocumentOperations ops)
     {
-        var verenigingMetRechtspersoonlijkheid = BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+        var verenigingMetRechtspersoonlijkheid =
+            BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
         ops.Insert(verenigingMetRechtspersoonlijkheid);
     }
@@ -120,7 +123,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!))!;
 
@@ -238,6 +243,15 @@ public class BeheerVerenigingDetailProjection : EventProjection
     }
 
     public async Task Project(IEvent<EinddatumWerdGewijzigd> @event, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
+
+        BeheerVerenigingDetailProjector.Apply(@event, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> @event, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
 

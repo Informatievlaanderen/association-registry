@@ -122,7 +122,22 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 ""bron"": ""{Bron.KBO.Waarde}"",
             }}
             ],
-            ""vertegenwoordigers"":[],
+            ""vertegenwoordigers"":[
+                {{
+                    ""vertegenwoordigerId"": 1,
+                    ""insz"": ""0123456789"",
+                    ""voornaam"": ""Jhon"",
+                    ""achternaam"": ""Doo"",
+                    ""rol"": """",
+                    ""roepnaam"": """",
+                    ""isPrimair"": false,
+                    ""e-mail"":"""",
+                    ""telefoon"":"""",
+                    ""mobiel"":"""",
+                    ""socialMedia"":"""",
+                    ""bron"": ""{Bron.KBO.Waarde}"",
+                }}
+            ],
             ""hoofdactiviteitenVerenigingsloket"":[],
             ""sleutels"":[
                 {{

@@ -15,7 +15,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
     public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
-
+    public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
     public readonly CommandMetadata Metadata;
 
     public V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data()
@@ -24,6 +24,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
 
         VCode = "V9999029";
         Naam = "Recht door zee";
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -32,6 +33,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             KboNummer = "7981199887",
             Rechtsvorm = Verenigingstype.VZW.Code,
         };
+
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
             Locatie: fixture.Create<Registratiedata.Locatie>() with
             {
@@ -48,22 +50,29 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
                 AdresId = null,
             });
 
+        EmailWerdOvergenomenUitKBO =
+            new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email,
+                                                    "email@testdata.com");
 
-        EmailWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email, "email@testdata.com");
-        WebsiteWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.testdata.com");
-        TelefoonWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
+        WebsiteWerdOvergenomenUitKBO =
+            new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website,
+                                                    "https://www.testdata.com");
+
+        TelefoonWerdOvergenomenUitKBO =
+            new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon,
+                                                    "0123456789");
+
         GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
+
+        VertegenwoordigerWerdOvergenomenUitKBO = new VertegenwoordigerWerdOvergenomenUitKBO(1, "0123456789", "Jhon", "Doo");
+
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
-
     public string KboNummer { get; set; }
-
     public string Naam { get; set; }
-
     public string VCode { get; set; }
-
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
@@ -75,6 +84,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             WebsiteWerdOvergenomenUitKBO,
             TelefoonWerdOvergenomenUitKBO,
             GSMWerdOvergenomenUitKBO,
+            VertegenwoordigerWerdOvergenomenUitKBO,
         };
 
     public CommandMetadata GetCommandMetadata()
