@@ -86,17 +86,13 @@ public static class ConfigurationExtensions
         this IConfiguration configuration,
         string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
     {
-        var configurationSection = configuration
-           .GetSection(magdaOptionsSectionName);
+        var temporaryVertegenwoordigers = new TemporaryMagdaVertegenwoordigersSection();
 
-        var temporaryVertegenwoordigersSection = configurationSection
-                                                .Get<TemporaryMagdaVertegenwoordigersSection>();
+        configuration.GetSection(magdaOptionsSectionName).Bind(temporaryVertegenwoordigers);
 
-        var magdaTemporaryVertegenwoordigersSection = temporaryVertegenwoordigersSection ?? new TemporaryMagdaVertegenwoordigersSection();
-        Log.Logger.Information("Temp Magda section: {Section}", configurationSection.Value); // TODO: Remove
-        Log.Logger.Information("Found {Count} vertegenwoordigers", magdaTemporaryVertegenwoordigersSection.TemporaryVertegenwoordigers?.Length ?? 0);
+        Log.Logger.Information("Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
 
-        return magdaTemporaryVertegenwoordigersSection;
+        return temporaryVertegenwoordigers;
     }
 
     private static void ThrowIfInvalid(this MagdaOptionsSection magdaOptionsSection)
