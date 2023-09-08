@@ -107,15 +107,16 @@ public class SearchVerenigingenController : ApiController
             s => s
                 .From(paginationQueryParams.Offset)
                 .Size(paginationQueryParams.Limit)
-                .Query(
-                     query => query.Bool(
-                         boolQueryDescriptor => boolQueryDescriptor.Must(
-                             queryContainerDescriptor => queryContainerDescriptor.QueryString(
-                                 queryStringQueryDescriptor
-                                     => queryStringQueryDescriptor.Query($"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}")
-                             )
-                         ).MustNot(BeUitgeschrevenUitPubliekeDatastroom).Must(BeActief)
-                     )
+                .Query(query => query
+                          .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                                      .Must(queryContainerDescriptor
+                                                                => MatchQueryString(
+                                                                    queryContainerDescriptor,
+                                                                    $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
+                                                            BeActief
+                                                       )
+                                                      .MustNot(BeUitgeschrevenUitPubliekeDatastroom)
+                           )
                  )
                 .Aggregations(
                      agg =>
@@ -149,7 +150,7 @@ public class SearchVerenigingenController : ApiController
         AggregationContainerDescriptor<T> aggregationContainerDescriptor,
         string query,
         Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
+        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus
     {
         return aggregationContainerDescriptor.Filter(
             WellknownFacets.FilterAggregateName,
@@ -157,14 +158,21 @@ public class SearchVerenigingenController : ApiController
                                                                          containerDescriptor => containerDescriptor.Bool(
                                                                              queryDescriptor => queryDescriptor.Must(
                                                                                  m =>
-                                                                                     m.QueryString(
-                                                                                         qs =>
-                                                                                             qs.Query(query)
-                                                                                     )
+                                                                                     MatchQueryString(m, query),
+                                                                                 BeActief
                                                                              ).MustNot(BeUitgeschrevenUitPubliekeDatastroom)
                                                                          )
                                                                      )
                                                                     .Aggregations(aggregations)
+        );
+    }
+
+    private static QueryContainer MatchQueryString<T>(QueryContainerDescriptor<T> m, string query)
+        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
+    {
+        return m.QueryString(
+            qs =>
+                qs.Query(query)
         );
     }
 
