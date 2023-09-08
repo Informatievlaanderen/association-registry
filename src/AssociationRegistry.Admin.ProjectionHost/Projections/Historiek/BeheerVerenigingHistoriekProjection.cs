@@ -41,7 +41,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(moeder);
     }
 
-    public void Project(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd, IDocumentOperations ops)
+    public void Project(
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        IDocumentOperations ops)
     {
         var doc = BeheerVerenigingHistoriekProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
@@ -158,7 +160,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdUitgeschrevenUitPubliekeDatastroom.StreamKey!))!;
 
@@ -167,7 +171,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
 
@@ -203,7 +209,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
 
@@ -212,7 +220,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<ContactgegevenWerdOvergenomenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<ContactgegevenWerdOvergenomenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
 
@@ -221,7 +231,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
 
@@ -230,7 +242,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelKonNietOvergenomenWordenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelKonNietOvergenomenWordenUitKbo,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelKonNietOvergenomenWordenUitKbo.StreamKey!))!;
 
@@ -247,6 +261,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
         ops.Store(doc);
     }
+
     public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdGestopt.StreamKey!))!;
@@ -261,6 +276,17 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(einddatumWerdGewijzigd.StreamKey!))!;
 
         BeheerVerenigingHistoriekProjector.Apply(einddatumWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdOvergenomenUitKbo.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
 
         ops.Store(doc);
     }

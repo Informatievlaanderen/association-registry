@@ -3,6 +3,7 @@
 using System.Net;
 using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AssociationRegistry.Framework;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
@@ -21,9 +22,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
-
     private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
-
 
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
@@ -39,19 +38,18 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode, _scenario.Result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(_scenario.VCode, long.MaxValue))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
-
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_registratie_gebeurtenis_for_moeder()
@@ -100,6 +98,12 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                    }},{{
+                        ""beschrijving"": ""Vertegenwoordiger 'Jhon Doo' werd overgenomen uit KBO."",
+                        ""gebeurtenis"":""VertegenwoordigerWerdOvergenomenUitKBO"",
+                        ""data"":{JsonConvert.SerializeObject(VertegenwoordigerData.Create(_scenario.VertegenwoordigerWerdOvergenomenUitKBO))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }}
