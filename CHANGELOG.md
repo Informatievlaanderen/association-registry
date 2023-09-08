@@ -1,3 +1,10 @@
+# [7.16.0](https://github.com/informatievlaanderen/association-registry/compare/v7.15.0...v7.16.0) (2023-09-08)
+
+
+### Features
+
+* or-1891 Bind configuration ([cb93a25](https://github.com/informatievlaanderen/association-registry/commit/cb93a2552da90c9f7e5bd50cfc79250b18ab5f59))
+
 # [7.15.0](https://github.com/informatievlaanderen/association-registry/compare/v7.14.0...v7.15.0) (2023-09-08)
 
 
