@@ -1,3 +1,10 @@
+# [7.15.0](https://github.com/informatievlaanderen/association-registry/compare/v7.14.0...v7.15.0) (2023-09-08)
+
+
+### Features
+
+* or-1891 add logging of value ([2b78a0c](https://github.com/informatievlaanderen/association-registry/commit/2b78a0c10b5c46731bbae13eb580ecdbfea45928))
+
 # [7.14.0](https://github.com/informatievlaanderen/association-registry/compare/v7.13.0...v7.14.0) (2023-09-08)
 
 
