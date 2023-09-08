@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formatters;
+using Schema.Constants;
 using Schema.Search;
 using Vereniging;
 using Doelgroep = Schema.Search.Doelgroep;
@@ -27,6 +28,7 @@ public class PubliekZoekProjectionHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -55,6 +57,7 @@ public class PubliekZoekProjectionHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Doelgroep = Map(message.Data.Doelgroep),
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -84,6 +87,7 @@ public class PubliekZoekProjectionHandler
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
                 Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
@@ -229,6 +233,7 @@ public class PubliekZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
     {
-        await _elasticRepository.Remove(message.VCode);
+        await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument
+                                                 { Status = VerenigingStatus.Gestopt });
     }
 }

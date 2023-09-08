@@ -1,7 +1,19 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom
+public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus
 {
+    public string VCode { get; set; } = null!;
+    public VerenigingsType Type { get; set; } = null!;
+    public string Naam { get; set; } = null!;
+    public string? Roepnaam { get; set; }
+    public string KorteNaam { get; set; } = null!;
+    public Doelgroep Doelgroep { get; set; } = null!;
+    public Locatie[] Locaties { get; set; } = null!;
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
+    public Sleutel[] Sleutels { get; set; } = null!;
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public string Status { get; set; } = null!;
+
     public class Locatie
     {
         public string Locatietype { get; init; } = null!;
@@ -30,17 +42,6 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
     }
-
-    public string VCode { get; set; } = null!;
-    public VerenigingsType Type { get; set; } = null!;
-    public string Naam { get; set; } = null!;
-    public string? Roepnaam { get; set; }
-    public string KorteNaam { get; set; } = null!;
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
-    public Doelgroep Doelgroep { get; set; } = null!;
-    public Locatie[] Locaties { get; set; } = null!;
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public Sleutel[] Sleutels { get; set; } = null!;
 }
 
 public class Doelgroep

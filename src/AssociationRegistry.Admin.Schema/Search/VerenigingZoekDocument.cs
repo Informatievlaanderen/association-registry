@@ -2,6 +2,18 @@ namespace AssociationRegistry.Admin.Schema.Search;
 
 public class VerenigingZoekDocument
 {
+    public string VCode { get; set; } = null!;
+    public VerenigingsType Type { get; set; } = null!;
+    public string Naam { get; set; } = null!;
+    public string Roepnaam { get; set; } = null!;
+    public string KorteNaam { get; set; } = null!;
+    public string Status { get; set; } = null!;
+    public Doelgroep Doelgroep { get; set; } = null!;
+    public Locatie[] Locaties { get; set; } = null!;
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
+    public Sleutel[] Sleutels { get; set; } = null!;
+    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+
     public class Locatie
     {
         public int LocatieId { get; init; }
@@ -30,18 +42,6 @@ public class VerenigingZoekDocument
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
     }
-
-    public string VCode { get; set; } = null!;
-    public VerenigingsType Type { get; set; } = null!;
-    public string Naam { get; set; } = null!;
-    public string Roepnaam { get; set; } = null!;
-    public string KorteNaam { get; set; } = null!;
-    public string Status { get; set; }
-    public Doelgroep Doelgroep { get; set; } = null!;
-    public Locatie[] Locaties { get; set; } = null!;
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public Sleutel[] Sleutels { get; set; } = null!;
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 }
 
 public class Doelgroep

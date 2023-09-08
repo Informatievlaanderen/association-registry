@@ -19,6 +19,9 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.KorteNaam))
+                         .Keyword(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
