@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
@@ -17,6 +16,7 @@ public class Einddatum_Is_Null : ValidatorTest
         var validator = new StopVerenigingRequestValidator();
         var result = validator.TestValidate(new StopVerenigingRequest { Einddatum = null });
 
-        result.ShouldHaveValidationErrorFor(nameof(StopVerenigingRequest.Einddatum));
+        result.ShouldHaveValidationErrorFor(nameof(StopVerenigingRequest.Einddatum))
+              .WithErrorMessage("'Einddatum' is verplicht.");
     }
 }

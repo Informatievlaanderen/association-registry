@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Acties.StopVereniging;
 
 using Framework;
-using ResultNet;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class StopVerenigingCommandHandler
 {
@@ -17,12 +17,19 @@ public class StopVerenigingCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<StopVerenigingCommand> message, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        try
+        {
+            var vereniging = await _repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+            vereniging.Stop(message.Command.Einddatum, _clock);
 
-        vereniging.Stop(message.Command.Einddatum, _clock);
+            var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
 
-        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+            return CommandResult.Create(VCode.Create(message.Command.VCode), result);
 
-        return CommandResult.Create(VCode.Create(message.Command.VCode), result);
+        }
+        catch (UnsupportedOperationForVerenigingstype)
+        {
+            throw new VerenigingMetRechtspersoonlijkheidCannotBeStopped();
+        }
     }
 }

@@ -168,4 +168,7 @@
   <data name="StartdatumIsAfterEinddatum">
     <value>Startdatum moet voor einddatum liggen.</value>
   </data>
+  <data name="VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden">
+    <value>Een KBO-vereniging kan niet gestopt worden.</value>
+  </data>
 </root>
