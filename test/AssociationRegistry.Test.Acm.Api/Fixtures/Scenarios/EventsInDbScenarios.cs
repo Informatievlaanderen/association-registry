@@ -51,6 +51,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003002";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -61,6 +62,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
+
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         Insz = VertegenwoordigerWerdToegevoegd.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -92,6 +94,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003003";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -102,6 +105,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
+
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
         Insz = VertegenwoordigerWerdToegevoegd.Insz;
@@ -137,7 +141,12 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003004";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
-        FeitelijkeVerenigingWerdGeregistreerd = FeitelijkeVerenigingWerdGeregistreerd with { Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray() };
+
+        FeitelijkeVerenigingWerdGeregistreerd = FeitelijkeVerenigingWerdGeregistreerd with
+        {
+            Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Take(1).ToArray()
+        };
+
         NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with { VCode = VCode };
         KorteNaamWerdGewijzigd = fixture.Create<KorteNaamWerdGewijzigd>() with { VCode = VCode };
         KorteBeschrijvingWerdGewijzigd = fixture.Create<KorteBeschrijvingWerdGewijzigd>() with { VCode = VCode };
@@ -174,6 +183,7 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003005";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -184,12 +194,15 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
         };
+
         VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+
         VertegenwoordigerWerdVerwijderd = new VertegenwoordigerWerdVerwijderd(
             VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
             VertegenwoordigerWerdToegevoegd.Insz,
             VertegenwoordigerWerdToegevoegd.Voornaam,
             VertegenwoordigerWerdToegevoegd.Achternaam);
+
         Insz = VertegenwoordigerWerdToegevoegd.Insz;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
