@@ -89,7 +89,7 @@ public static class ConfigurationExtensions
                                                 .GetSection(magdaOptionsSectionName)
                                                 .Get<TemporaryMagdaVertegenwoordigersSection>();
 
-        return temporaryVertegenwoordigersSection;
+        return temporaryVertegenwoordigersSection ?? new TemporaryMagdaVertegenwoordigersSection();
     }
 
     private static void ThrowIfInvalid(this MagdaOptionsSection magdaOptionsSection)
