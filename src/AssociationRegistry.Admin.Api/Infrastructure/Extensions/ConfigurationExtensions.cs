@@ -93,7 +93,7 @@ public static class ConfigurationExtensions
                                                 .Get<TemporaryMagdaVertegenwoordigersSection>();
 
         var magdaTemporaryVertegenwoordigersSection = temporaryVertegenwoordigersSection ?? new TemporaryMagdaVertegenwoordigersSection();
-        Log.Logger.Information("Temp Magda section: {Section}", configurationSection); // TODO: Remove
+        Log.Logger.Information("Temp Magda section: {Section}", configurationSection.Value); // TODO: Remove
         Log.Logger.Information("Found {Count} vertegenwoordigers", magdaTemporaryVertegenwoordigersSection.TemporaryVertegenwoordigers?.Length ?? 0);
 
         return magdaTemporaryVertegenwoordigersSection;
