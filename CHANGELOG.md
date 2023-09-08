@@ -1,3 +1,10 @@
+# [7.14.0](https://github.com/informatievlaanderen/association-registry/compare/v7.13.0...v7.14.0) (2023-09-08)
+
+
+### Features
+
+* OR-1891 Temp log section ([faba8d0](https://github.com/informatievlaanderen/association-registry/commit/faba8d0a16ddf8b61a6601e85fba71d098c3e937))
+
 # [7.13.0](https://github.com/informatievlaanderen/association-registry/compare/v7.12.1...v7.13.0) (2023-09-08)
 
 
