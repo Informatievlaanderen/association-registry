@@ -1,3 +1,10 @@
+## [7.20.1](https://github.com/informatievlaanderen/association-registry/compare/v7.20.0...v7.20.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* or-1425 hide stopped verenigingen in publiek detail ([08caaba](https://github.com/informatievlaanderen/association-registry/commit/08caaba8137a1718deca0b7b7d15106fe46ef4d4))
+
 # [7.20.0](https://github.com/informatievlaanderen/association-registry/compare/v7.19.0...v7.20.0) (2023-09-11)
 
 
