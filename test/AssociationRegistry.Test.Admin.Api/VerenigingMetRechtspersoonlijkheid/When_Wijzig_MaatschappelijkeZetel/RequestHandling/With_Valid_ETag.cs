@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestHandling;
 
-using Acties.StopVereniging;
+using Acties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 using AssociationRegistry.Framework;
 using Framework;
 using Vereniging;
@@ -19,27 +19,29 @@ using Xunit.Categories;
 public class With_Valid_ETag : IAsyncLifetime
 {
     private readonly Mock<IMessageBus> _messageBusMock;
-    private readonly StopVerenigingController _controller;
+    private readonly WijzigMaatschappelijkeZetelController _controller;
     private const int ETagNumber = 1;
 
     public With_Valid_ETag()
     {
         _messageBusMock = new Mock<IMessageBus>();
-        _messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
-            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
-        _controller = new StopVerenigingController(_messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
+        _messageBusMock
+           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigMaatschappelijkeZetelCommand>>(), default, null))
+           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
+
+        _controller = new WijzigMaatschappelijkeZetelController(_messageBusMock.Object, new WijzigMaatschappelijkeZetelRequestValidator(),new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
     public async Task InitializeAsync()
     {
-        await _controller.Post(
-            new StopVerenigingRequest
-                { Einddatum = new DateOnly()},
+        await _controller.Patch(
             "V0001001",
-            new CommandMetadataProviderStub { Initiator= "OVO0001000" },
+            1,
+            new WijzigMaatschappelijkeZetelRequest
+                { Naam = "Naam" },
+            new CommandMetadataProviderStub { Initiator = "OVO0001000" },
             $"W/\"{ETagNumber}\"");
     }
 
@@ -49,7 +51,7 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock.Verify(
             messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
-                    It.Is<CommandEnvelope<StopVerenigingCommand>>(
+                    It.Is<CommandEnvelope<WijzigMaatschappelijkeZetelCommand>>(
                         env =>
                             env.Metadata.ExpectedVersion == ETagNumber),
                     default,

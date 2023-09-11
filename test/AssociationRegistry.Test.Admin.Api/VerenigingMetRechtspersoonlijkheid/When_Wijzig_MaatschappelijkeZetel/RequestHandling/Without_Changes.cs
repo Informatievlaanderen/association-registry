@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestHandling;
 
-using Acties.StopVereniging;
-using Acties.WijzigBasisgegevens;
+using Acties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
@@ -23,7 +23,7 @@ using Xunit.Categories;
 [UnitTest]
 public class Without_Changes : IAsyncLifetime
 {
-    private readonly StopVerenigingController _controller;
+    private readonly WijzigMaatschappelijkeZetelController _controller;
     private IActionResult _result = null!;
 
     public Without_Changes()
@@ -31,20 +31,22 @@ public class Without_Changes : IAsyncLifetime
         var messageBusMock = new Mock<IMessageBus>();
 
         messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<StopVerenigingCommand>>(), default, null))
+           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigMaatschappelijkeZetelCommand>>(), default, null))
            .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
 
-        _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
+        _controller = new WijzigMaatschappelijkeZetelController(messageBusMock.Object, new WijzigMaatschappelijkeZetelRequestValidator(),
+                                                                new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
     public async Task InitializeAsync()
     {
-        _result = await _controller.Post(
-            new StopVerenigingRequest
-                { Einddatum = new DateOnly() },
+        _result = await _controller.Patch(
             "V0001001",
-            new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+            1,
+            new WijzigMaatschappelijkeZetelRequest
+                { Naam = "naam" },
+            new CommandMetadataProviderStub { Initiator = "OVO000001" },
             "W/\"1\"");
     }
 

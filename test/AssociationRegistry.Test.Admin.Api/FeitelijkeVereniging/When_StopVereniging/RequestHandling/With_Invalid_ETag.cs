@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -100,6 +100,18 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         );
     }
 
+    public void WijzigMaatschappelijkeZetel(int locatieId, string? naam, bool? isPrimair)
+    {
+        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, isPrimair);
+
+        if (gewijzigdeLocatie is null)
+            return;
+
+        Throw<UnsupportedOperationForLocatietype>.If(gewijzigdeLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
+        AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
+    }
+
     private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
@@ -112,7 +124,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
     }
 
-    private void VoegFoutieveMaatscheppelijkeZetelToe(AdresVolgensKbo adres)
+    private void VoegFoutieveMaatschappelijkeZetelToe(AdresVolgensKbo adres)
     {
         AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
     }
@@ -141,7 +153,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (adres is null)
         {
-            VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
+            VoegFoutieveMaatschappelijkeZetelToe(adresVolgensKbo);
 
             return;
         }

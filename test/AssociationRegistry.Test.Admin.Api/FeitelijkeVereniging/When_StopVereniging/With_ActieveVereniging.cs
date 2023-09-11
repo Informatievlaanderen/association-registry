@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVeren
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Marten;

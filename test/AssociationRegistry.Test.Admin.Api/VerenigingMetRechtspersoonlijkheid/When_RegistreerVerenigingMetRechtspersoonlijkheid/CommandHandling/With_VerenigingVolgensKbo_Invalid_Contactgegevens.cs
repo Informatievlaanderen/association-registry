@@ -29,7 +29,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
-        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
+        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
             Email = fixture.Create<string>(),
             Website = fixture.Create<string>(),

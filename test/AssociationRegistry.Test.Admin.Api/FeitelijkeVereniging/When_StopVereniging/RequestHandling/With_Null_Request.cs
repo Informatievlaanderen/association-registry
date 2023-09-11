@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
-using AssociationRegistry.Test.Admin.Api.Fakes;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Fakes;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 

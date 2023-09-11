@@ -103,7 +103,7 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
-        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
+        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
             Email = null,
             Telefoonnummer = null,
