@@ -1,3 +1,12 @@
+# [7.18.0](https://github.com/informatievlaanderen/association-registry/compare/v7.17.0...v7.18.0) (2023-09-11)
+
+
+### Features
+
+* or-1891 project ACM ([0a2a4cc](https://github.com/informatievlaanderen/association-registry/commit/0a2a4cca1d31421af3c720d96009ff99dea37baa))
+* or-1891 project beheer deatil ([f63f242](https://github.com/informatievlaanderen/association-registry/commit/f63f2424e20195486e4b9c79c3b54fd9141e2954))
+* or-1891 project beheer historiek ([0d632b6](https://github.com/informatievlaanderen/association-registry/commit/0d632b6f432cc5a022646bd3550c608033329007))
+
 # [7.17.0](https://github.com/informatievlaanderen/association-registry/compare/v7.16.0...v7.17.0) (2023-09-08)
 
 
