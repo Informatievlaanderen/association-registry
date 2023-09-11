@@ -24,9 +24,12 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Insert(feitelijkeVereniging);
     }
 
-    public void Project(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd, IDocumentOperations ops)
+    public void Project(
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        IDocumentOperations ops)
     {
-        var verenigingMetRechtspersoonlijkheid = PubliekVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+        var verenigingMetRechtspersoonlijkheid =
+            PubliekVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
         ops.Insert(verenigingMetRechtspersoonlijkheid);
     }
@@ -155,7 +158,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(hoofactiviteitenVerenigingloketWerdenGewijzigd.StreamKey!))!;
 
@@ -164,7 +169,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekDatastroom, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekDatastroom,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdUitgeschrevenUitPubliekDatastroom.StreamKey!))!;
 
@@ -173,7 +180,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
 
@@ -182,7 +191,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
 
@@ -201,5 +212,11 @@ public class PubliekVerenigingDetailProjection : EventProjection
     }
 
     public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
-        => ops.HardDelete<PubliekVerenigingDetailDocument>(verenigingWerdGestopt.StreamKey!);
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(verenigingWerdGestopt.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(verenigingWerdGestopt, doc);
+
+        ops.Store(doc);
+    }
 }

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -46,14 +46,20 @@ public class DetailVerenigingenController : ApiController
         [FromRoute] string vCode)
     {
         await using var session = _documentStore.LightweightSession();
-        var vereniging = await session.Query<PubliekVerenigingDetailDocument>()
-            .OnlyIngeschrevenInPubliekeDatastroom()
-            .WithVCode(vCode)
-            .SingleOrDefaultAsync();
+
+        var vereniging = await GetDetail(session, vCode);
 
         if (vereniging is null)
             return NotFound();
 
         return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
     }
+
+    private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)
+        => await session
+                .Query<PubliekVerenigingDetailDocument>()
+                .WithVCode(vCode)
+                .OnlyIngeschrevenInPubliekeDatastroom()
+                .OnlyActief()
+                .SingleOrDefaultAsync();
 }
