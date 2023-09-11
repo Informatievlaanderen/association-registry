@@ -66,7 +66,18 @@ public class Locaties : ReadOnlyCollection<Locatie>
     }
 
     public Locatie? Wijzig(int locatieId, string? naam, bool? isPrimair)
-        => throw new NotImplementedException();
+    {
+        var locatie = Get(locatieId);
+
+        var gewijzigdeLocatie = locatie.Wijzig(naam, isPrimair);
+
+        if (gewijzigdeLocatie.Equals(locatie))
+            return null;
+
+        ThrowIfCannotAppendOrUpdate(gewijzigdeLocatie);
+
+        return gewijzigdeLocatie;
+    }
 
     public Locatie? WijzigVanuitKbo(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
         => throw new NotImplementedException();

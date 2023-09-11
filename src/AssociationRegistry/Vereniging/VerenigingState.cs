@@ -340,6 +340,24 @@ public record VerenigingState : IHasVersion
             ),
         };
 
+    public VerenigingState Apply(MaatschappelijkeZetelVolgensKBOWerdGewijzigd @event)
+    {
+        var maatschappelijkeZetel = Locaties[@event.LocatieId];
+
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(maatschappelijkeZetel with
+                    {
+                        Naam = @event.Naam,
+                        IsPrimair = @event.IsPrimair,
+                    })
+            ),
+        };
+    }
+
     public VerenigingState Apply(LocatieWerdVerwijderd @event)
         => this with
         {

@@ -171,4 +171,7 @@
   <data name="VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden">
     <value>Een KBO-vereniging kan niet gestopt worden.</value>
   </data>
+  <data name="UnsupportedOperationForLocatietype">
+    <value>Deze actie kan niet uitgevoerd worden op deze locatie.</value>
+  </data>
 </root>

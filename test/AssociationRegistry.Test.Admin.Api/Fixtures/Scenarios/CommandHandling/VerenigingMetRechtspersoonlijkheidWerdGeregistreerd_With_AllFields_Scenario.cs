@@ -6,22 +6,26 @@ using Events;
 using Framework;
 using Vereniging;
 
-public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
+public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
 
-    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario()
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+
+        MaatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>();
     }
 
     public override IEnumerable<IEvent> Events()
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
         };
 }

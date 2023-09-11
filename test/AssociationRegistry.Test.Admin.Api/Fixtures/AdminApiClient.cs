@@ -130,6 +130,12 @@ public class AdminApiClient : IDisposable
         WithHeaders(version, initiator);
         return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/locaties/{locatieId}", jsonBody.AsJsonContent());
     }
+    public async Task<HttpResponseMessage> PatchMaatschappelijkeZetel(string vCode, int locatieId, string jsonBody, long? version = null, string? initiator = "OVO000001")
+    {
+        WithHeaders(version, initiator);
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/kbo/locaties/{locatieId}", jsonBody.AsJsonContent());
+
+    }
 
     public async Task<HttpResponseMessage> DeleteLocatie(string vCode, int locatieId, string jsonBody, long? version = null, string? initiator = "OVO000001")
     {
