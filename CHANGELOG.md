@@ -1,3 +1,10 @@
+# [7.20.0](https://github.com/informatievlaanderen/association-registry/compare/v7.19.0...v7.20.0) (2023-09-11)
+
+
+### Features
+
+* or-1826 allow verrijken vertegenwoordigers ([8d121c1](https://github.com/informatievlaanderen/association-registry/commit/8d121c15dbb5891576fc29ab3df8cea93906521e))
+
 # [7.19.0](https://github.com/informatievlaanderen/association-registry/compare/v7.18.0...v7.19.0) (2023-09-11)
 
 
