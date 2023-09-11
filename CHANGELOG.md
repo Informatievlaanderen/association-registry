@@ -1,3 +1,16 @@
+# [7.19.0](https://github.com/informatievlaanderen/association-registry/compare/v7.18.0...v7.19.0) (2023-09-11)
+
+
+### Bug Fixes
+
+* or-1425 make Startdatum nullable Datum in RegistreerFeitelijkeVerenigingCommand ([f4e4685](https://github.com/informatievlaanderen/association-registry/commit/f4e4685dab436e14e20241a461c58404c242e9aa))
+* or-1425 rollback removal of vereniging gestopt and add filter ([281bd8b](https://github.com/informatievlaanderen/association-registry/commit/281bd8b93dad8cdf19200c9f01cb573b278e9bef))
+
+
+### Features
+
+* or-1425 fix musts ([248ce12](https://github.com/informatievlaanderen/association-registry/commit/248ce12d773ad2fedad556417c531179855b80f7))
+
 # [7.18.0](https://github.com/informatievlaanderen/association-registry/compare/v7.17.0...v7.18.0) (2023-09-11)
 
 
