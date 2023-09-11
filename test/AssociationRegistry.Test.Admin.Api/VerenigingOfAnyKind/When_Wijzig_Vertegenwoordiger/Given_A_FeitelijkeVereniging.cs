@@ -1,20 +1,20 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger;
 
-using System.Net;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
+using FluentAssertions;
 using Framework;
+using Marten;
+using System.Net;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
-using Marten;
 using Xunit;
 using Xunit.Categories;
 
-public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
+public class Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
@@ -29,8 +29,7 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-
-    public Patch_A_New_Vertegenwoordiger(EventsInDbScenariosFixture fixture)
+    public Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -59,12 +58,14 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
                 }},
             ""initiator"": ""OVO000001""
         }}";
+
         AanTePassenVertegenwoordiger = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0];
     }
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.PatchVertegenwoordiger(Scenario.VCode, AanTePassenVertegenwoordiger.VertegenwoordigerId, _jsonBody);
+        Response = await _fixture.AdminApiClient.PatchVertegenwoordiger(Scenario.VCode, AanTePassenVertegenwoordiger.VertegenwoordigerId,
+                                                                        _jsonBody);
     }
 
     public Task DisposeAsync()
@@ -74,11 +75,11 @@ public class Patch_A_New_Vertegenwoordiger : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Patch_A_New_Vertegenwoordiger>
+public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging>
 {
-    private readonly Patch_A_New_Vertegenwoordiger _classFixture;
+    private readonly Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging _classFixture;
 
-    public Given_An_Existing_Vertegenwoordiger(Patch_A_New_Vertegenwoordiger classFixture)
+    public Given_A_FeitelijkeVereniging(Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging classFixture)
     {
         _classFixture = classFixture;
     }
@@ -87,23 +88,24 @@ public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Patch_A_New_Ver
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var vertegenwoordigerWerdGewijzigd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdGewijzigd));
+                                                           .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdGewijzigd));
 
         vertegenwoordigerWerdGewijzigd.Data.Should()
-            .BeEquivalentTo(
-                new VertegenwoordigerWerdGewijzigd(
-                    _classFixture.AanTePassenVertegenwoordiger.VertegenwoordigerId,
-                    false,
-                    _classFixture.Roepnaam,
-                    _classFixture.Rol,
-                    _classFixture.AanTePassenVertegenwoordiger.Voornaam,
-                    _classFixture.AanTePassenVertegenwoordiger.Achternaam,
-                    _classFixture.Email,
-                    _classFixture.TelefoonNummer,
-                    _classFixture.Mobiel,
-                    _classFixture.SocialMedia));
+                                      .BeEquivalentTo(
+                                           new VertegenwoordigerWerdGewijzigd(
+                                               _classFixture.AanTePassenVertegenwoordiger.VertegenwoordigerId,
+                                               IsPrimair: false,
+                                               _classFixture.Roepnaam,
+                                               _classFixture.Rol,
+                                               _classFixture.AanTePassenVertegenwoordiger.Voornaam,
+                                               _classFixture.AanTePassenVertegenwoordiger.Achternaam,
+                                               _classFixture.Email,
+                                               _classFixture.TelefoonNummer,
+                                               _classFixture.Mobiel,
+                                               _classFixture.SocialMedia));
     }
 
     [Fact]
