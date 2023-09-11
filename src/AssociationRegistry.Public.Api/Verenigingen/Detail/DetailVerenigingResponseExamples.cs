@@ -1,9 +1,10 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
+using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
+using System;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenigingDetailResponse>
 {
@@ -29,12 +30,13 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 Naam = "FWA De vrolijke BA’s",
                 KorteNaam = "DVB",
                 KorteBeschrijving = "De vereniging van de vrolijke BA's",
-                Startdatum = new DateOnly(2020, 05, 15),
+                Startdatum = new DateOnly(year: 2020, month: 05, day: 15),
                 Doelgroep = new DoelgroepResponse
                 {
                     Minimumleeftijd = 0,
                     Maximumleeftijd = 150,
-                },Status = "Actief",
+                },
+                Status = VerenigingStatus.Actief,
                 Contactgegevens = new[]
                 {
                     new Contactgegeven
