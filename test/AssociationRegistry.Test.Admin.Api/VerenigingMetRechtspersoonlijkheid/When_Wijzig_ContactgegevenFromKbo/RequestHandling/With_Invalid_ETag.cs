@@ -28,7 +28,7 @@ public class With_Invalid_ETag
 
     [Theory]
     [InlineData("Invalid eTag Value")]
-    public void Then_it_invokes_with_a_correct_version_number(string eTagValue)
+    public void Then_it_throws(string eTagValue)
     {
         var method = async () =>
         {

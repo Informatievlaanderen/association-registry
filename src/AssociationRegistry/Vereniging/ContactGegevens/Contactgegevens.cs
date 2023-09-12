@@ -67,7 +67,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return gewijzigdContactgegeven;
     }
 
-    public Contactgegeven Wijzig(int contactgegevenId, string? beschrijving, bool? isPrimair)
+    public Contactgegeven? Wijzig(int contactgegevenId, string? beschrijving, bool? isPrimair)
     {
         MustContain(contactgegevenId);
 

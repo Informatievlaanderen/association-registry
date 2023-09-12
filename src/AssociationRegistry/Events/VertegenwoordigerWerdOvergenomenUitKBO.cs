@@ -2,6 +2,7 @@ namespace AssociationRegistry.Events;
 
 using Framework;
 using System.Runtime.Serialization;
+using Vereniging.Bronnen;
 
 public record VertegenwoordigerWerdOvergenomenUitKBO(
     int VertegenwoordigerId,
@@ -10,6 +11,6 @@ public record VertegenwoordigerWerdOvergenomenUitKBO(
     string Achternaam) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => Vereniging.Bronnen.Bron.KBO;
+    public Bron Bron
+        => Bron.KBO;
 }

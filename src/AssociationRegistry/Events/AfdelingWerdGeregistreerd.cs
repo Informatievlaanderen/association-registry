@@ -2,6 +2,7 @@
 
 using System.Runtime.Serialization;
 using Framework;
+using Vereniging.Bronnen;
 
 public record AfdelingWerdGeregistreerd(
     string VCode,
@@ -17,7 +18,7 @@ public record AfdelingWerdGeregistreerd(
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => Vereniging.Bronnen.Bron.Initiator;
+    public Bron Bron
+        => Bron.Initiator;
     public record MoederverenigingsData(string KboNummer, string VCode, string Naam);
 }
