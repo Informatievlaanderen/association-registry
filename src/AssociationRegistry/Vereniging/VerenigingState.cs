@@ -245,6 +245,24 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator))),
         };
 
+    public VerenigingState Apply(ContactgegevenVolgensKBOWerdGewijzigd @event)
+    {
+        var contactgegeven = Contactgegevens.Single(c => c.ContactgegevenId == @event.ContactgegevenId);
+
+        return this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens
+                   .Without(@event.ContactgegevenId)
+                   .Append(
+                        contactgegeven with
+                        {
+                            Beschrijving = @event.Beschrijving,
+                            IsPrimair = @event.IsPrimair,
+                        })),
+        };
+    }
+
     public VerenigingState Apply(HoofdactiviteitenVerenigingsloketWerdenGewijzigd @event)
         => this with
         {

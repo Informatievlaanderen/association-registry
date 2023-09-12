@@ -24,9 +24,9 @@ public class Given_A_Contactgegeven_From_Kbo
             .Apply(contactgegevenWerdOvergenomenUitKbo)
         );
 
-        var wijzigContactgegen = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<bool>());
+        var wijzigContactgegeven = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<bool>());
 
-        wijzigContactgegen.Should().Throw<ContactgegevenFromKboCannotBeUpdated>();
+        wijzigContactgegeven.Should().Throw<ContactgegevenFromKboCannotBeUpdated>();
 
     }
 }

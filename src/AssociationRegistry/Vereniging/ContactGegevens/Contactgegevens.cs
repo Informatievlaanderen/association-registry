@@ -67,12 +67,27 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         return gewijzigdContactgegeven;
     }
 
+    public Contactgegeven Wijzig(int contactgegevenId, string? beschrijving, bool? isPrimair)
+    {
+        MustContain(contactgegevenId);
+
+        var teWijzigenContactgegeven = this[contactgegevenId];
+
+        if (teWijzigenContactgegeven.WouldBeEquivalent(null, beschrijving, isPrimair, out var gewijzigdContactgegeven))
+            return null;
+
+        ThrowIfCannotAppendOrUpdate(gewijzigdContactgegeven);
+
+        return gewijzigdContactgegeven;
+    }
+
     public Contactgegeven Verwijder(int contactgegevenId)
     {
         MustContain(contactgegevenId);
 
         var contactgegeven = this[contactgegevenId];
         Throw<ContactgegevenFromKboCannotBeRemoved>.If(contactgegeven.Bron == Bron.KBO);
+
         return contactgegeven;
     }
 
@@ -129,5 +144,6 @@ public static class ContactgegevenEnumerableExtensions
         => source.Any(contactgegeven.IsEquivalentTo);
 
     public static bool WouldGiveMultiplePrimaryOfType(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegevenToEvaluate)
-        => source.Without(contactgegevenToEvaluate).Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);
+        => source.Without(contactgegevenToEvaluate)
+                 .Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);
 }

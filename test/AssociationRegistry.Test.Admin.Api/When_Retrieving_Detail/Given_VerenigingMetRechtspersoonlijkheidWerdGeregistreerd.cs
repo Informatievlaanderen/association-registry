@@ -20,7 +20,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly HttpResponseMessage _response;
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
@@ -75,8 +75,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
                         ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
                         ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
+                        ""beschrijving"": ""{_scenario.EmailWerdGewijzigd.Beschrijving}"",
+                        ""isPrimair"": {(_scenario.EmailWerdGewijzigd.IsPrimair?"true": "false")},
                         ""bron"": ""{Bron.KBO.Waarde}"",
                     }},
 {{

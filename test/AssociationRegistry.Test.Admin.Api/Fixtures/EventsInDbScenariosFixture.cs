@@ -78,7 +78,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V028_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd V028VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
         new();
 
-    public readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data
+    public readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data
         V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData = new();
 
     public readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data
@@ -119,6 +119,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
     public readonly V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO
         V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo = new();
+
+    public readonly V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_ContactgegevenFromKbo_For_Wijzigen
+        V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen = new();
 
     protected override async Task Given()
     {
@@ -166,6 +169,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V042VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
             V043VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMaatschappelijkeZetelForWijzigen,
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
+            V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
         };
 
         foreach (var scenario in scenarios)

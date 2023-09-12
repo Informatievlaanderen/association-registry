@@ -258,7 +258,9 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens toegestaan &apos;!#$%&amp;&apos;*+/=?^_`{|}~-&apos;, in domein enkel &apos;.&apos; en &apos;-&apos;..
+        ///   Looks up a localized string similar to E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens
+        ///      toegestaan &apos;!#$%&amp;&apos;*+/=?^_`{|}~-&apos;, in domein enkel &apos;.&apos; en &apos;-&apos;.
+        ///    .
         /// </summary>
         public static string InvalidEmailFormat {
             get {
@@ -470,6 +472,15 @@ namespace AssociationRegistry {
         public static string UnknownInsz {
             get {
                 return ResourceManager.GetString("UnknownInsz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit contactgegeven..
+        /// </summary>
+        public static string UnsupportedOperationForContactgegevenBron {
+            get {
+                return ResourceManager.GetString("UnsupportedOperationForContactgegevenBron", resourceCulture);
             }
         }
         

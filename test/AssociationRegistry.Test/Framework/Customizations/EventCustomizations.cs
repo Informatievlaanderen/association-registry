@@ -30,7 +30,8 @@ public static class EventCustomizations
                     fixture.Create<KboNummer>(),
                     new[]
                     {
-                        Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut,
+                        Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting,
+                        Verenigingstype.StichtingVanOpenbaarNut,
                     }[i % 4].Code,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
@@ -66,7 +67,7 @@ public static class EventCustomizations
 
                                          return new ContactgegevenWerdOvergenomenUitKBO(
                                              contactgegeven.ContactgegevenId,
-                                             ContactgegevenTypeVolgensKbo.All[i % ContactgegevenTypeVolgensKbo.All.Length],
+                                             ContactgegevenTypeVolgensKbo.All.First(c => c.ContactgegevenType == contactgegeven.Type),
                                              contactgegeven.Type,
                                              contactgegeven.Waarde);
                                      })

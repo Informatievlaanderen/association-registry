@@ -403,6 +403,26 @@ public static class PubliekVerenigingDetailProjector
             contactgegevenWerdOvergenomenUitKBO.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
+    public static void Apply(
+        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        PubliekVerenigingDetailDocument document)
+    {
+        var contactgegeven =
+            document.Contactgegevens.Single(c => c.ContactgegevenId == contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId);
+
+        contactgegeven.Beschrijving = contactgegevenVolgensKboWerdGewijzigd.Data.Beschrijving;
+        contactgegeven.IsPrimair = contactgegevenVolgensKboWerdGewijzigd.Data.IsPrimair;
+
+        document.Contactgegevens = document.Contactgegevens
+                                           .Where(c => c.ContactgegevenId != contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId)
+                                           .Append(contactgegeven)
+                                           .OrderBy(l => l.ContactgegevenId)
+                                           .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            contactgegevenVolgensKboWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
     public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, PubliekVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Gestopt;

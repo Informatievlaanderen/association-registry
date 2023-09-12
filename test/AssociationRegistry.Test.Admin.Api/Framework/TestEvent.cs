@@ -8,6 +8,8 @@ using IEvent = Marten.Events.IEvent;
 
 public class TestEvent<T> : IEvent<T> where T : notnull
 {
+    public static implicit operator TestEvent<T>(T e) => new(e);
+
     public TestEvent(T data, string ovoNumber = "OVO001001", Instant? instant = null)
     {
         Data = data;

@@ -12,7 +12,7 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_MaatschappelijkeZetelWerdovergenomenUitKbo
 {
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
     private readonly string _goldenMaster;
     private readonly AdminApiClient _adminApiClient;
 
