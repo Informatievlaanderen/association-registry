@@ -364,6 +364,26 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        PubliekVerenigingDetailDocument document)
+    {
+        var maatschappelijkeZetel =
+            document.Locaties.Single(l => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId);
+
+        maatschappelijkeZetel.Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam;
+        maatschappelijkeZetel.IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair;
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId)
+                                    .Append(maatschappelijkeZetel)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            maatschappelijkeZetelVolgensKboWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
+    public static void Apply(
         IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKBO,
         PubliekVerenigingDetailDocument document)
     {

@@ -221,6 +221,17 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     }
 
     public async Task Project(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelVolgensKboWerdGewijzigd.StreamKey!))!;
+
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
+    public async Task Project(
         IEvent<ContactgegevenWerdOvergenomenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo,
         IDocumentOperations ops)
     {

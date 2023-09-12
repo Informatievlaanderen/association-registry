@@ -202,6 +202,15 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd, IDocumentOperations ops)
+    {
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(maatschappelijkeZetelVolgensKboWerdGewijzigd.StreamKey!))!;
+
+        PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
+
+        ops.Store(doc);
+    }
+
     public async Task Project(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKbo, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(contactgegevenWerdOvergenomenUitKbo.StreamKey!))!;
