@@ -48,7 +48,7 @@ public class Given_A_Contactgegeven
     public void Then_A_MaatschappelijkeZetelVolgensKBOWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenVolgensKBOWerdGewijzigd(_command.Contactgegeven.ContacgegevenId, _command.Contactgegeven.Beschrijving!,
+            new ContactgegevenUitKBOWerdGewijzigd(_command.Contactgegeven.ContacgegevenId, _command.Contactgegeven.Beschrijving!,
                                                       _command.Contactgegeven.IsPrimair!.Value)
         );
     }

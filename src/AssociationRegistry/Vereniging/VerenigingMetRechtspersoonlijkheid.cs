@@ -155,7 +155,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         Throw<UnsupportedOperationForContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
 
-        AddEvent(ContactgegevenVolgensKBOWerdGewijzigd.With(gewijzigdContactgegeven));
+        AddEvent(ContactgegevenUitKBOWerdGewijzigd.With(gewijzigdContactgegeven));
     }
 
     private void VoegMaatschappelijkeZetelToe(AdresVolgensKbo? adresVolgensKbo)

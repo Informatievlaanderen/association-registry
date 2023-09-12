@@ -222,11 +222,11 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd, IDocumentOperations ops)
+    public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(contactgegevenVolgensKboWerdGewijzigd.StreamKey!))!;
+        var doc = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(contactgegevenUitKboWerdGewijzigd.StreamKey!))!;
 
-        PubliekVerenigingDetailProjector.Apply(contactgegevenVolgensKboWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(contactgegevenUitKboWerdGewijzigd, doc);
 
         ops.Store(doc);
     }

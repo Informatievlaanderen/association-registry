@@ -404,23 +404,23 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
         PubliekVerenigingDetailDocument document)
     {
         var contactgegeven =
-            document.Contactgegevens.Single(c => c.ContactgegevenId == contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId);
+            document.Contactgegevens.Single(c => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId);
 
-        contactgegeven.Beschrijving = contactgegevenVolgensKboWerdGewijzigd.Data.Beschrijving;
-        contactgegeven.IsPrimair = contactgegevenVolgensKboWerdGewijzigd.Data.IsPrimair;
+        contactgegeven.Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving;
+        contactgegeven.IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair;
 
         document.Contactgegevens = document.Contactgegevens
-                                           .Where(c => c.ContactgegevenId != contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId)
+                                           .Where(c => c.ContactgegevenId != contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId)
                                            .Append(contactgegeven)
                                            .OrderBy(l => l.ContactgegevenId)
                                            .ToArray();
 
         document.DatumLaatsteAanpassing =
-            contactgegevenVolgensKboWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+            contactgegevenUitKboWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
     public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, PubliekVerenigingDetailDocument document)

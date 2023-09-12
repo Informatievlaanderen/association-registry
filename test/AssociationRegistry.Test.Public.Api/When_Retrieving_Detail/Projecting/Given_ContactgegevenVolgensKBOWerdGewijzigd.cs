@@ -11,7 +11,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_ContactgegevenVolgensKBOWerdGewijzigd
+public class Given_ContactgegevenUitKBOWerdGewijzigd
 {
     [Fact]
     public void Then_it_updates_the_contactgegeven()
@@ -23,8 +23,8 @@ public class Given_ContactgegevenVolgensKBOWerdGewijzigd
 
         var contactgegevenWerdOvergenomenUitKbo = fixture.Create<TestEvent<ContactgegevenWerdOvergenomenUitKBO>>();
 
-        var contactgegevenVolgensKboWerdGewijzigd = new TestEvent<ContactgegevenVolgensKBOWerdGewijzigd>(
-            fixture.Create<ContactgegevenVolgensKBOWerdGewijzigd>()
+        var contactgegevenUitKboWerdGewijzigd = new TestEvent<ContactgegevenUitKBOWerdGewijzigd>(
+            fixture.Create<ContactgegevenUitKBOWerdGewijzigd>()
                 with
                 {
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId,
@@ -34,7 +34,7 @@ public class Given_ContactgegevenVolgensKBOWerdGewijzigd
         var doc = PubliekVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
 
         PubliekVerenigingDetailProjector.Apply(contactgegevenWerdOvergenomenUitKbo, doc);
-        PubliekVerenigingDetailProjector.Apply(contactgegevenVolgensKboWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(contactgegevenUitKboWerdGewijzigd, doc);
 
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId)
@@ -44,11 +44,11 @@ public class Given_ContactgegevenVolgensKBOWerdGewijzigd
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId,
                     Type = contactgegevenWerdOvergenomenUitKbo.Data.Type,
                     Waarde = contactgegevenWerdOvergenomenUitKbo.Data.Waarde,
-                    Beschrijving = contactgegevenVolgensKboWerdGewijzigd.Data.Beschrijving,
-                    IsPrimair = contactgegevenVolgensKboWerdGewijzigd.Data.IsPrimair,
+                    Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
+                    IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
                 });
 
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenVolgensKboWerdGewijzigd.Tijdstip.ToBelgianDate());
+        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenUitKboWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }
