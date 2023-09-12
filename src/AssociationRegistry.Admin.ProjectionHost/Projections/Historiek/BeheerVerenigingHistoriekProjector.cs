@@ -354,7 +354,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelVolgensKboWerdGewijzigd,
             maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
             document,
-            $"'Maatschappelijke Zetel volgens KBO' locatie {naam}werd gewijzigd."
+            "Maatschappelijke Zetel volgens KBO werd gewijzigd."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelVolgensKboWerdGewijzigd.Sequence,

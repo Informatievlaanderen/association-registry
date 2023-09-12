@@ -76,7 +76,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
-                        ""beschrijving"": ""'Maatschappelijke Zetel volgens KBO' locatie '{_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam}' werd gewijzigd."",
+                        ""beschrijving"": ""Maatschappelijke Zetel volgens KBO werd gewijzigd."",
                         ""gebeurtenis"":""MaatschappelijkeZetelVolgensKBOWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",

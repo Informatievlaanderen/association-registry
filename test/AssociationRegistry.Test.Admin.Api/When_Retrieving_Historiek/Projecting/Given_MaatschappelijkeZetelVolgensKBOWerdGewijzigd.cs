@@ -29,7 +29,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"'Maatschappelijke Zetel volgens KBO' locatie {naam}werd gewijzigd.",
+                "Maatschappelijke Zetel volgens KBO werd gewijzigd.",
                 nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd),
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Initiator,
