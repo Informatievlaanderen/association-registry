@@ -235,7 +235,7 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository.UpdateLocatie(
             message.VCode,
-            new VerenigingZoekDocument.Locatie()
+            new VerenigingZoekDocument.Locatie
             {
                 LocatieId = message.Data.LocatieId,
                 Naam = message.Data.Naam,

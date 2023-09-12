@@ -2,4 +2,10 @@
 
 using Vereniging;
 
-public record WijzigMaatschappelijkeZetelCommand(VCode VCode, int LocatieId, string? Naam, bool? IsPrimair);
+public record WijzigMaatschappelijkeZetelCommand(VCode VCode, WijzigMaatschappelijkeZetelCommand.Locatie TeWijzigenLocatie)
+{
+    public record Locatie(
+        int LocatieId,
+        bool? IsPrimair,
+        string? Naam);
+}

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.WijzigMaatschappelijkeZetel;
 
 using Framework;
-using JasperFx.Core;
 using Vereniging;
 
 public class WijzigMaatschappelijkeZetelCommandHandler
@@ -21,7 +20,10 @@ public class WijzigMaatschappelijkeZetelCommandHandler
             await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(envelope.Command.VCode),
                                                                                  envelope.Metadata.ExpectedVersion);
 
-        vereniging.WijzigMaatschappelijkeZetel(envelope.Command.LocatieId, envelope.Command.Naam, envelope.Command.IsPrimair);
+        vereniging.WijzigMaatschappelijkeZetel(
+            envelope.Command.TeWijzigenLocatie.LocatieId,
+            envelope.Command.TeWijzigenLocatie.Naam,
+            envelope.Command.TeWijzigenLocatie.IsPrimair);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 

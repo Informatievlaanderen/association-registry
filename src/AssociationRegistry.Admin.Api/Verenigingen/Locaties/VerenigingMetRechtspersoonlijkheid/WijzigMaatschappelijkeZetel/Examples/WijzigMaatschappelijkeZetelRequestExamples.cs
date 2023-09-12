@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.Examples;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -10,7 +8,10 @@ public class WijzigMaatschappelijkeZetelRequestExamples : IExamplesProvider<Wijz
     public WijzigMaatschappelijkeZetelRequest GetExamples()
         => new()
         {
-            Naam = "Naam locatie",
-            IsPrimair = true,
+            Locatie = new TeWijzigenMaatschappelijkeZetel
+            {
+                Naam = "Naam locatie",
+                IsPrimair = true,
+            },
         };
 }

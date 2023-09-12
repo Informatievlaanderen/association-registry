@@ -4,10 +4,8 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,10 +21,11 @@ public class With_Invalid_ETag
     public With_Invalid_ETag()
     {
         Mock<IMessageBus> messageBusMock = new();
-        _controller = new WijzigMaatschappelijkeZetelController(messageBusMock.Object, new WijzigMaatschappelijkeZetelRequestValidator(),new AppSettings())
+
+        _controller = new WijzigMaatschappelijkeZetelController(messageBusMock.Object, new WijzigMaatschappelijkeZetelRequestValidator(),
+                                                                new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]
@@ -35,11 +34,11 @@ public class With_Invalid_ETag
         var method = async () =>
         {
             await _controller.Patch(
-                "V0001001",
-                1,
+                vCode: "V0001001",
+                locatieId: 1,
                 new WijzigMaatschappelijkeZetelRequest
-                    { Naam = "naam" },
-                new CommandMetadataProviderStub { Initiator= "OVO000001" },
+                    { Locatie = { Naam = "naam" } },
+                new CommandMetadataProviderStub { Initiator = "OVO000001" },
                 eTagValue);
         };
 

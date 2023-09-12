@@ -11,6 +11,7 @@ using FluentAssertions;
 using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
@@ -28,8 +29,10 @@ public sealed class When_WijzigMaatschappelijkeZetel_Setup
         Request = new Fixture().CustomizeAdminApi().Create<WijzigMaatschappelijkeZetelRequest>();
 
         var jsonBody = $@"{{
-            ""naam"":""{Request.Naam}"",
-            ""isPrimair"":""{Request.IsPrimair}"",
+            ""locatie"": {{
+                ""naam"":""{Request.Locatie.Naam}"",
+                ""isPrimair"":""{Request.Locatie.IsPrimair}"",
+                }}
             }}";
 
         Response = fixture.DefaultClient
@@ -73,7 +76,8 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
 
         roepnaamWerdGewijzigd.Data.Should()
                              .BeEquivalentTo(
-                                  new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(_locatieId, _request.Naam!, _request.IsPrimair!.Value));
+                                  new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(_locatieId, _request.Locatie.Naam!,
+                                                                                   _request.Locatie.IsPrimair!.Value));
     }
 
     [Fact]
@@ -85,7 +89,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _response.Headers.Should().ContainKey(HeaderNames.Location);
 
         _response.Headers.Location!.OriginalString.Should()
                  .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");

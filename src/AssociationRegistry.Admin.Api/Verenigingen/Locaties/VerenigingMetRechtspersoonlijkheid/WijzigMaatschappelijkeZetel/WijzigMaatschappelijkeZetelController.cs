@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
 
-using Acties.WijzigLocatie;
 using Acties.WijzigMaatschappelijkeZetel;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -26,7 +25,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[SwaggerGroup.DecentraalBeheer]
+[SwaggerGroup.VerrijkingenVanKbo]
 public class WijzigMaatschappelijkeZetelController : ApiController
 {
     private readonly IMessageBus _messageBus;

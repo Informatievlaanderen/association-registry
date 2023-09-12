@@ -25,9 +25,11 @@ public class Given_A_MaatschappelijkeZetel
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _command = new WijzigMaatschappelijkeZetelCommand(_scenario.VCode,
-                                                          _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
-                                                          fixture.Create<string>(), fixture.Create<bool>());
+        _command = new WijzigMaatschappelijkeZetelCommand(
+            _scenario.VCode,
+            new WijzigMaatschappelijkeZetelCommand.Locatie(
+                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+                fixture.Create<bool>(), fixture.Create<string>()));
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigMaatschappelijkeZetelCommandHandler(_verenigingRepositoryMock);
@@ -46,7 +48,10 @@ public class Given_A_MaatschappelijkeZetel
     public void Then_A_MaatschappelijkeZetelVolgensKBOWerdGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(_command.LocatieId, _command.Naam!, _command.IsPrimair!.Value)
+            new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
+                _command.TeWijzigenLocatie.LocatieId,
+                _command.TeWijzigenLocatie.Naam!,
+                _command.TeWijzigenLocatie.IsPrimair!.Value)
         );
     }
 }
