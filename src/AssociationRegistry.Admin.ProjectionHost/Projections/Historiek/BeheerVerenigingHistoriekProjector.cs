@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
-using System.Collections.Generic;
 using Constants;
 using Events;
 using Framework;
@@ -120,7 +119,7 @@ public class BeheerVerenigingHistoriekProjector
             AddHistoriekEntry(
                 startdatumWerdGewijzigd,
                 document,
-                "Startdatum werd verwijderd."
+                beschrijving: "Startdatum werd verwijderd."
             );
         }
     }
@@ -138,7 +137,7 @@ public class BeheerVerenigingHistoriekProjector
         => AddHistoriekEntry(
             hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
             document,
-            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
+            beschrijving: "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
     {
@@ -223,7 +222,7 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdUitgeschrevenUitPubliekeDatastroom,
             verenigingWerdUitgeschrevenUitPubliekeDatastroom.Data,
             document,
-            $"Vereniging werd uitgeschreven uit de publieke datastroom."
+            "Vereniging werd uitgeschreven uit de publieke datastroom."
         );
 
         document.Metadata = new Metadata(verenigingWerdUitgeschrevenUitPubliekeDatastroom.Sequence,
@@ -238,7 +237,7 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdIngeschrevenInPubliekeDatastroom,
             verenigingWerdIngeschrevenInPubliekeDatastroom.Data,
             document,
-            $"Vereniging werd ingeschreven in de publieke datastroom."
+            "Vereniging werd ingeschreven in de publieke datastroom."
         );
 
         document.Metadata = new Metadata(verenigingWerdIngeschrevenInPubliekeDatastroom.Sequence,
@@ -335,11 +334,35 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
             document,
-            "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,
                                          maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        var contactgegevenWerdOvergenomenUitKbo = document.Gebeurtenissen
+                                                          .Where(x => x.Gebeurtenis == nameof(ContactgegevenWerdOvergenomenUitKBO))
+                                                          .Select(x => (ContactgegevenWerdOvergenomenUitKBO)x.Data!)
+                                                          .Single(x => x.ContactgegevenId ==
+                                                                       contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId);
+
+        var type = contactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo;
+        var waarde = contactgegevenWerdOvergenomenUitKbo.Waarde;
+
+        AddHistoriekEntry(
+            contactgegevenVolgensKboWerdGewijzigd,
+            contactgegevenVolgensKboWerdGewijzigd.Data,
+            document,
+            $"{type} '{waarde}' werd gewijzigd."
+        );
+
+        document.Metadata = new Metadata(contactgegevenVolgensKboWerdGewijzigd.Sequence,
+                                         contactgegevenVolgensKboWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -354,7 +377,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelVolgensKboWerdGewijzigd,
             maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
             document,
-            "Maatschappelijke zetel volgens KBO werd gewijzigd."
+            beschrijving: "Maatschappelijke zetel volgens KBO werd gewijzigd."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelVolgensKboWerdGewijzigd.Sequence,
@@ -369,7 +392,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
             document,
-            "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,
