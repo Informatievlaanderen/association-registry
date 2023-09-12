@@ -447,6 +447,21 @@ public class BeheerVerenigingDetailProjector
         document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
+    public static void Apply(
+        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.UpdateSingle(
+                                                c => c.ContactgegevenId == contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId,
+                                                contactgegeven => contactgegeven with
+                                                {
+                                                    IsPrimair = contactgegevenVolgensKboWerdGewijzigd.Data.IsPrimair,
+                                                    Beschrijving = contactgegevenVolgensKboWerdGewijzigd.Data.Beschrijving,
+                                                }
+                                            ).OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
     public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Gestopt;

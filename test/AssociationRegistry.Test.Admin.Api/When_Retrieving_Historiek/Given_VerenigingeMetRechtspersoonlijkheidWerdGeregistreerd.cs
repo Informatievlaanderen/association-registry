@@ -22,7 +22,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
 
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
@@ -106,7 +106,13 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""data"":{JsonConvert.SerializeObject(VertegenwoordigerData.Create(_scenario.VertegenwoordigerWerdOvergenomenUitKBO))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
-                    }}
+                    }},{{
+                        ""beschrijving"": ""{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo} '{_scenario.EmailWerdOvergenomenUitKBO.Waarde}' werd gewijzigd."",
+                        ""gebeurtenis"": ""ContactgegevenVolgensKBOWerdGewijzigd"",
+                        ""data"": {JsonConvert.SerializeObject(_scenario.EmailWerdGewijzigd)},
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                      }}
                 ]
             }}
         ";

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Bronnen;
 using Events;
 using Exceptions;
 using Framework;
@@ -143,6 +144,18 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         }
 
         VoegContactgegevenToe(contactgegeven, type);
+    }
+
+    public void WijzigContactgegeven(int contactgegevenId, string? beschrijving, bool? isPrimair)
+    {
+        var gewijzigdContactgegeven = State.Contactgegevens.Wijzig(contactgegevenId, beschrijving, isPrimair);
+
+        if (gewijzigdContactgegeven is null)
+            return;
+
+        Throw<UnsupportedOperationForContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
+
+        AddEvent(ContactgegevenVolgensKBOWerdGewijzigd.With(gewijzigdContactgegeven));
     }
 
     private void VoegMaatschappelijkeZetelToe(AdresVolgensKbo? adresVolgensKbo)

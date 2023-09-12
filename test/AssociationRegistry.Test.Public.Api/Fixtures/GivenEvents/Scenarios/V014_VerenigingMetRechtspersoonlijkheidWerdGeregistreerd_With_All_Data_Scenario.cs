@@ -43,6 +43,8 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
     public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO =
         new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
 
+    public readonly ContactgegevenVolgensKBOWerdGewijzigd EmailWerdGewijzigd = new(1, "TestEmail", true);
+
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
@@ -56,6 +58,7 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
             WebsiteWerdOvergenomenUitKBO,
             TelefoonWerdOvergenomenUitKBO,
             GSMWerdOvergenomenUitKBO,
+            EmailWerdGewijzigd,
         };
     }
 

@@ -91,6 +91,12 @@ public class AdminApiClient : IDisposable
         return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
     }
 
+    public async Task<HttpResponseMessage> PatchContactgegevensFromKbo(string vCode, int contactgegevenId, string jsonBody, long? version = null, string? initiator = "OVO000001")
+    {
+        WithHeaders(version, initiator);
+        return await HttpClient.PatchAsync($"/v1/verenigingen/{vCode}/kbo/contactgegevens/{contactgegevenId}", jsonBody.AsJsonContent());
+    }
+
     public async Task<HttpResponseMessage> PatchVertegenwoordiger(string vCode, int vertegenwoordigerId, string jsonBody, long? version = null, string? initiator = "OVO000001")
     {
         WithHeaders(version, initiator);

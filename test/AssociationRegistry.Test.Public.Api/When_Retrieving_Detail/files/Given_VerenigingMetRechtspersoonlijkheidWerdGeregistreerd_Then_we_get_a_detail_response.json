@@ -20,8 +20,8 @@
       {
         "type": "E-mail",
         "waarde": "email@testdata.com",
-        "beschrijving": "",
-        "isPrimair": false
+        "beschrijving": "TestEmail",
+        "isPrimair": true
       },
       {
         "type": "Website",

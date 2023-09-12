@@ -13,22 +13,34 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_ContactgegevenWerdOvergenomenUitKBO
+public class Given_ContactgegevenVolgensKBOWerdGewijzigd
 {
     [Fact]
-    public void Then_it_adds_the_contactgegeven_to_the_detail()
+    public void Then_it_updates_the_contactgegeven()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdOvergenomenUitKBO>>();
-        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
+
+        var contactgegevenWerdToegevoegd = fixture.Create<TestEvent<ContactgegevenWerdOvergenomenUitKBO>>();
+
+        var contactgegevenWerdGewijzigd = new TestEvent<ContactgegevenVolgensKBOWerdGewijzigd>(
+            fixture.Create<ContactgegevenVolgensKBOWerdGewijzigd>() with
+            {
+                ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+            });
+
+        var doc = BeheerVerenigingDetailProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
         doc.Contactgegevens.Should().Contain(
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Beschrijving = string.Empty,
+                Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
+                IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 Type = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Bron = Bron.KBO,

@@ -7,7 +7,7 @@ using EventStore;
 using Framework;
 using Vereniging;
 
-public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data : IEventsInDbScenario
+public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
@@ -16,9 +16,11 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
     public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
     public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
+    public readonly ContactgegevenVolgensKBOWerdGewijzigd EmailWerdGewijzigd;
+
     public readonly CommandMetadata Metadata;
 
-    public V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data()
+    public V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -66,6 +68,8 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
 
         VertegenwoordigerWerdOvergenomenUitKBO = new VertegenwoordigerWerdOvergenomenUitKBO(1, "0123456789", "Jhon", "Doo");
 
+        EmailWerdGewijzigd = new ContactgegevenVolgensKBOWerdGewijzigd(1, "TestEmail", true);
+
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -85,6 +89,7 @@ public class V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_
             TelefoonWerdOvergenomenUitKBO,
             GSMWerdOvergenomenUitKBO,
             VertegenwoordigerWerdOvergenomenUitKBO,
+            EmailWerdGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()
