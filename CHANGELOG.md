@@ -1,3 +1,17 @@
+# [7.21.0](https://github.com/informatievlaanderen/association-registry/compare/v7.20.1...v7.21.0) (2023-09-12)
+
+
+### Bug Fixes
+
+* or-1885 historiek message ([de18e6a](https://github.com/informatievlaanderen/association-registry/commit/de18e6a5223b0233363f157b133760e16c2840df))
+
+
+### Features
+
+* or-1885 Patch endpoint maatschappelijkeZetel ([d05e52e](https://github.com/informatievlaanderen/association-registry/commit/d05e52e39c55ccd17d84db40379ad07a9f73c269))
+* or-1885 projecties ([f2eff22](https://github.com/informatievlaanderen/association-registry/commit/f2eff225aca9ac83b09ab00c27f6c0bbf160b7fc))
+* or-1885 update documentatie ([9756307](https://github.com/informatievlaanderen/association-registry/commit/9756307a903cb5bf01d84465de137b11244cf16b))
+
 ## [7.20.1](https://github.com/informatievlaanderen/association-registry/compare/v7.20.0...v7.20.1) (2023-09-11)
 
 
