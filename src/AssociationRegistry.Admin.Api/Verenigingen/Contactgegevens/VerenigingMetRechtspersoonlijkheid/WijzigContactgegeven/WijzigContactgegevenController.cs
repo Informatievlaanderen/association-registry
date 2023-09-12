@@ -25,7 +25,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[SwaggerGroup.DecentraalBeheer]
+[SwaggerGroup.VerrijkingenVanKbo]
 public class WijzigContactgegevenController : ApiController
 {
     private readonly IMessageBus _messageBus;
