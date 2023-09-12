@@ -3,6 +3,7 @@ namespace AssociationRegistry.Events;
 using Framework;
 using System.Runtime.Serialization;
 using Vereniging;
+using Vereniging.Bronnen;
 
 public record ContactgegevenVolgensKBOWerdGewijzigd(
     int ContactgegevenId,
@@ -10,8 +11,8 @@ public record ContactgegevenVolgensKBOWerdGewijzigd(
     bool IsPrimair) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.KBO;
+    public Bron Bron
+        => Bron.KBO;
 
     public static ContactgegevenVolgensKBOWerdGewijzigd With(Contactgegeven contactgegeven)
         => new(contactgegeven.ContactgegevenId, contactgegeven.Beschrijving, contactgegeven.IsPrimair);

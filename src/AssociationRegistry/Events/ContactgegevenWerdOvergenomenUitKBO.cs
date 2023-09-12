@@ -3,6 +3,7 @@
 using System.Runtime.Serialization;
 using Framework;
 using Vereniging;
+using Vereniging.Bronnen;
 
 public record ContactgegevenWerdOvergenomenUitKBO(
     int ContactgegevenId,
@@ -11,8 +12,8 @@ public record ContactgegevenWerdOvergenomenUitKBO(
     string Waarde) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.KBO;
+    public Bron Bron
+        => Bron.KBO;
     public static ContactgegevenWerdOvergenomenUitKBO With(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
         => new(
             contactgegeven.ContactgegevenId,

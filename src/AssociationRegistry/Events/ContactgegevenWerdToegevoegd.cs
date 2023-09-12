@@ -3,6 +3,7 @@
 using System.Runtime.Serialization;
 using Framework;
 using Vereniging;
+using Vereniging.Bronnen;
 
 public record ContactgegevenWerdToegevoegd(
     int ContactgegevenId,
@@ -12,8 +13,8 @@ public record ContactgegevenWerdToegevoegd(
     bool IsPrimair) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.Initiator;
+    public Bron Bron
+        => Bron.Initiator;
     public static ContactgegevenWerdToegevoegd With(Contactgegeven contactgegeven)
         => new(
             contactgegeven.ContactgegevenId,

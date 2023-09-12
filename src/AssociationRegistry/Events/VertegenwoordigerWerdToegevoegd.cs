@@ -3,6 +3,7 @@
 using System.Runtime.Serialization;
 using Framework;
 using Vereniging;
+using Vereniging.Bronnen;
 
 public record VertegenwoordigerWerdToegevoegd(
     int VertegenwoordigerId,
@@ -18,8 +19,8 @@ public record VertegenwoordigerWerdToegevoegd(
     string SocialMedia) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => AssociationRegistry.Vereniging.Bronnen.Bron.Initiator;
+    public Bron Bron
+        => Bron.Initiator;
 
     public static VertegenwoordigerWerdToegevoegd With(Vertegenwoordiger vertegenwoordiger)
         => new(
