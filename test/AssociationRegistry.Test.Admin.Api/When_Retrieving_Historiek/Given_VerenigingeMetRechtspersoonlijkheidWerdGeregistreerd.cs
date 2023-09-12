@@ -108,7 +108,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},{{
                         ""beschrijving"": ""{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo} '{_scenario.EmailWerdOvergenomenUitKBO.Waarde}' werd gewijzigd."",
-                        ""gebeurtenis"": ""ContactgegevenVolgensKBOWerdGewijzigd"",
+                        ""gebeurtenis"": ""ContactgegevenUitKBOWerdGewijzigd"",
                         ""data"": {JsonConvert.SerializeObject(_scenario.EmailWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""

@@ -16,7 +16,7 @@ public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
     public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
     public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
     public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
-    public readonly ContactgegevenVolgensKBOWerdGewijzigd EmailWerdGewijzigd;
+    public readonly ContactgegevenUitKBOWerdGewijzigd EmailWerdGewijzigd;
 
     public readonly CommandMetadata Metadata;
 
@@ -68,7 +68,7 @@ public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
 
         VertegenwoordigerWerdOvergenomenUitKBO = new VertegenwoordigerWerdOvergenomenUitKBO(1, "0123456789", "Jhon", "Doo");
 
-        EmailWerdGewijzigd = new ContactgegevenVolgensKBOWerdGewijzigd(1, "TestEmail", true);
+        EmailWerdGewijzigd = new ContactgegevenUitKBOWerdGewijzigd(1, "TestEmail", true);
 
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

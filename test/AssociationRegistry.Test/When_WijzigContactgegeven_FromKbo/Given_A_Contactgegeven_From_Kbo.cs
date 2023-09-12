@@ -32,7 +32,7 @@ public class Given_A_Contactgegeven_From_Kbo
 
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
-            new ContactgegevenVolgensKBOWerdGewijzigd(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, beschrijving,
+            new ContactgegevenUitKBOWerdGewijzigd(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, beschrijving,
                                                       isPrimair),
         });
     }

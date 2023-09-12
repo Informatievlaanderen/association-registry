@@ -448,15 +448,15 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
         BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.UpdateSingle(
-                                                c => c.ContactgegevenId == contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId,
+                                                c => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
                                                 contactgegeven => contactgegeven with
                                                 {
-                                                    IsPrimair = contactgegevenVolgensKboWerdGewijzigd.Data.IsPrimair,
-                                                    Beschrijving = contactgegevenVolgensKboWerdGewijzigd.Data.Beschrijving,
+                                                    IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
+                                                    Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
                                                 }
                                             ).OrderBy(c => c.ContactgegevenId)
                                            .ToArray();

@@ -10,10 +10,10 @@ using Xunit.Categories;
 
 [UnitTest]
 [Category("Mapping")]
-public class To_A_WijzigContactgegevenVolgensKboCommand
+public class To_A_WijzigContactgegevenUitKboCommand
 {
     [Fact]
-    public void Then_We_Get_A_WijzigContactgegevenVolgensKboCommand()
+    public void Then_We_Get_A_WijzigContactgegevenUitKboCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 

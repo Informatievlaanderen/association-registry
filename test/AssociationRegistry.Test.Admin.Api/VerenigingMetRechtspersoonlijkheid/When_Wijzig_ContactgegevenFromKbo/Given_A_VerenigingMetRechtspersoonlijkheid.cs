@@ -74,11 +74,11 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Con
         var events = session.Events
                             .FetchStream(_vCode);
 
-        var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(ContactgegevenVolgensKBOWerdGewijzigd));
+        var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(ContactgegevenUitKBOWerdGewijzigd));
 
         roepnaamWerdGewijzigd.Data.Should()
                              .BeEquivalentTo(
-                                  new ContactgegevenVolgensKBOWerdGewijzigd(_contactgegevenId, _request.Contactgegeven.Beschrijving!,
+                                  new ContactgegevenUitKBOWerdGewijzigd(_contactgegevenId, _request.Contactgegeven.Beschrijving!,
                                                                             _request.Contactgegeven.IsPrimair!.Value));
     }
 

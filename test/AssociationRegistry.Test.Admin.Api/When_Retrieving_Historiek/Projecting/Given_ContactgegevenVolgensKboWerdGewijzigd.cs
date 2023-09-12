@@ -11,7 +11,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_ContactgegevenVolgensKboWerdGewijzigd
+public class Given_ContactgegevenUitKboWerdGewijzigd
 {
     [Fact]
     public void Then_it_updates_the_contactgegeven()
@@ -19,8 +19,8 @@ public class Given_ContactgegevenVolgensKboWerdGewijzigd
         var fixture = new Fixture().CustomizeAdminApi();
         var contactgegevenWerdOvergenomen = fixture.Create<TestEvent<ContactgegevenWerdOvergenomenUitKBO>>();
 
-        var contactgegevenWerdGewijzigdVolgensKBO = new TestEvent<ContactgegevenVolgensKBOWerdGewijzigd>(
-            fixture.Create<ContactgegevenVolgensKBOWerdGewijzigd>() with
+        var contactgegevenWerdGewijzigdVolgensKBO = new TestEvent<ContactgegevenUitKBOWerdGewijzigd>(
+            fixture.Create<ContactgegevenUitKBOWerdGewijzigd>() with
             {
                 ContactgegevenId = contactgegevenWerdOvergenomen.Data.ContactgegevenId,
             });
@@ -33,7 +33,7 @@ public class Given_ContactgegevenVolgensKboWerdGewijzigd
         doc.Gebeurtenissen.Last().Should().BeEquivalentTo(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"{contactgegevenWerdOvergenomen.Data.TypeVolgensKbo} '{contactgegevenWerdOvergenomen.Data.Waarde}' werd gewijzigd.",
-                nameof(ContactgegevenVolgensKBOWerdGewijzigd),
+                nameof(ContactgegevenUitKBOWerdGewijzigd),
                 contactgegevenWerdGewijzigdVolgensKBO.Data,
                 contactgegevenWerdGewijzigdVolgensKBO.Initiator,
                 contactgegevenWerdGewijzigdVolgensKBO.Tijdstip.ToBelgianDateAndTime()));

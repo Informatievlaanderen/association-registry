@@ -19,7 +19,7 @@ public class Given_No_Changes
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
         var contactgegevenWerdOvergenomenUitKbo = fixture.Create<ContactgegevenWerdOvergenomenUitKBO>();
 
-        var contactgegevenUitKboWerdGewijzigd = fixture.Create<ContactgegevenVolgensKBOWerdGewijzigd>() with
+        var contactgegevenUitKboWerdGewijzigd = fixture.Create<ContactgegevenUitKBOWerdGewijzigd>() with
         {
             ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.ContactgegevenId,
         };

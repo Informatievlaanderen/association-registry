@@ -342,27 +342,27 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd,
+        IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
         BeheerVerenigingHistoriekDocument document)
     {
         var contactgegevenWerdOvergenomenUitKbo = document.Gebeurtenissen
                                                           .Where(x => x.Gebeurtenis == nameof(ContactgegevenWerdOvergenomenUitKBO))
                                                           .Select(x => (ContactgegevenWerdOvergenomenUitKBO)x.Data!)
                                                           .Single(x => x.ContactgegevenId ==
-                                                                       contactgegevenVolgensKboWerdGewijzigd.Data.ContactgegevenId);
+                                                                       contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId);
 
         var type = contactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo;
         var waarde = contactgegevenWerdOvergenomenUitKbo.Waarde;
 
         AddHistoriekEntry(
-            contactgegevenVolgensKboWerdGewijzigd,
-            contactgegevenVolgensKboWerdGewijzigd.Data,
+            contactgegevenUitKboWerdGewijzigd,
+            contactgegevenUitKboWerdGewijzigd.Data,
             document,
             $"{type} '{waarde}' werd gewijzigd."
         );
 
-        document.Metadata = new Metadata(contactgegevenVolgensKboWerdGewijzigd.Sequence,
-                                         contactgegevenVolgensKboWerdGewijzigd.Version);
+        document.Metadata = new Metadata(contactgegevenUitKboWerdGewijzigd.Sequence,
+                                         contactgegevenUitKboWerdGewijzigd.Version);
     }
 
     public static void Apply(

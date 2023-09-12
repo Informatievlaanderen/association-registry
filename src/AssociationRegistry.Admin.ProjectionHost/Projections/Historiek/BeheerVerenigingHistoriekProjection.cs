@@ -133,11 +133,11 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<ContactgegevenVolgensKBOWerdGewijzigd> contactgegevenVolgensKboWerdGewijzigd, IDocumentOperations ops)
+    public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenVolgensKboWerdGewijzigd.StreamKey!))!;
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenUitKboWerdGewijzigd.StreamKey!))!;
 
-        BeheerVerenigingHistoriekProjector.Apply(contactgegevenVolgensKboWerdGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenUitKboWerdGewijzigd, doc);
 
         ops.Store(doc);
     }

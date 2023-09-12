@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.Bronnen;
 
-public record ContactgegevenVolgensKBOWerdGewijzigd(
+public record ContactgegevenUitKBOWerdGewijzigd(
     int ContactgegevenId,
     string Beschrijving,
     bool IsPrimair) : IEvent
@@ -14,6 +14,6 @@ public record ContactgegevenVolgensKBOWerdGewijzigd(
     public Bron Bron
         => Bron.KBO;
 
-    public static ContactgegevenVolgensKBOWerdGewijzigd With(Contactgegeven contactgegeven)
+    public static ContactgegevenUitKBOWerdGewijzigd With(Contactgegeven contactgegeven)
         => new(contactgegeven.ContactgegevenId, contactgegeven.Beschrijving, contactgegeven.IsPrimair);
 }

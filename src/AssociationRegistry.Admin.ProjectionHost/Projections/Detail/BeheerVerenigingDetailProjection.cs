@@ -269,7 +269,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    public async Task Project(IEvent<ContactgegevenVolgensKBOWerdGewijzigd> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
 

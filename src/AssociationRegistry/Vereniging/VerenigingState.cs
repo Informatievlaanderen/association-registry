@@ -245,7 +245,7 @@ public record VerenigingState : IHasVersion
                             Bron.Initiator))),
         };
 
-    public VerenigingState Apply(ContactgegevenVolgensKBOWerdGewijzigd @event)
+    public VerenigingState Apply(ContactgegevenUitKBOWerdGewijzigd @event)
     {
         var contactgegeven = Contactgegevens.Single(c => c.ContactgegevenId == @event.ContactgegevenId);
 
