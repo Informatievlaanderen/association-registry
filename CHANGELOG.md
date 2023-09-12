@@ -1,3 +1,10 @@
+## [7.21.1](https://github.com/informatievlaanderen/association-registry/compare/v7.21.0...v7.21.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* or-1885 zetel without capital ([9456566](https://github.com/informatievlaanderen/association-registry/commit/94565660e71fccd4e39993d25c32ca2cc0f1ef87))
+
 # [7.21.0](https://github.com/informatievlaanderen/association-registry/compare/v7.20.1...v7.21.0) (2023-09-12)
 
 
