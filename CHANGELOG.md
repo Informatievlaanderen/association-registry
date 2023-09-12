@@ -1,3 +1,10 @@
+# [7.22.0](https://github.com/informatievlaanderen/association-registry/compare/v7.21.1...v7.22.0) (2023-09-12)
+
+
+### Features
+
+* or-1826 add error messages ([c59ce70](https://github.com/informatievlaanderen/association-registry/commit/c59ce70e83b5730582fc88486117159702a0f2d8))
+
 ## [7.21.1](https://github.com/informatievlaanderen/association-registry/compare/v7.21.0...v7.21.1) (2023-09-12)
 
 
