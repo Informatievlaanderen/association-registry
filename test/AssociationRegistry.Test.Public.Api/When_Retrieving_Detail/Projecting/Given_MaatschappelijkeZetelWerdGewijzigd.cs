@@ -6,7 +6,6 @@ using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Formatters;
 using Framework;
 using Xunit;
 using Xunit.Categories;

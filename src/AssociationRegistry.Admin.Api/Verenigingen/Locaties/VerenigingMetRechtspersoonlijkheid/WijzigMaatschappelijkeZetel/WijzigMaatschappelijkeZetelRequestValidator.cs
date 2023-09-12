@@ -8,13 +8,25 @@ public class WijzigMaatschappelijkeZetelRequestValidator : AbstractValidator<Wij
 {
     public WijzigMaatschappelijkeZetelRequestValidator()
     {
+        RuleFor(request => request.Locatie)
+           .NotNull()
+           .WithMessage("'Locatie' is verplicht.");
+
+        RuleFor(request => request.Locatie)
+           .SetValidator(new TeWijzigenMaatschappelijkeZetelValidator());
+    }
+}
+
+public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijzigenMaatschappelijkeZetel>
+{
+    public TeWijzigenMaatschappelijkeZetelValidator()
+    {
         RuleFor(request => request)
            .Must(HaveAtLeastOneValue)
-           .OverridePropertyName("request")
-           .WithMessage("Een request mag niet leeg zijn.");
+           .WithMessage("'Locatie' moet ingevuld zijn.");
     }
 
-    private static bool HaveAtLeastOneValue(WijzigMaatschappelijkeZetelRequest request)
-        => request.Naam is not null ||
-           request.IsPrimair is not null;
+    private bool HaveAtLeastOneValue(TeWijzigenMaatschappelijkeZetel locatie)
+        => locatie.IsPrimair is not null ||
+           locatie.Naam is not null;
 }

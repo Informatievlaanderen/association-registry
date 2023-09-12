@@ -1,21 +1,19 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestHandling;
 
 using Acties.WijzigMaatschappelijkeZetel;
-using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using EventStore;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
+using EventStore;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -42,12 +40,17 @@ public class Without_Changes : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _result = await _controller.Patch(
-            "V0001001",
-            1,
+            vCode: "V0001001",
+            locatieId: 1,
             new WijzigMaatschappelijkeZetelRequest
-                { Naam = "naam" },
+            {
+                Locatie = new TeWijzigenMaatschappelijkeZetel
+                {
+                    Naam = "naam",
+                },
+            },
             new CommandMetadataProviderStub { Initiator = "OVO000001" },
-            "W/\"1\"");
+            ifMatch: "W/\"1\"");
     }
 
     [Fact]
@@ -65,7 +68,7 @@ public class Without_Changes : IAsyncLifetime
     [Fact]
     public void Then_it_returns_no_location_header()
     {
-        _controller.Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
     public Task DisposeAsync()

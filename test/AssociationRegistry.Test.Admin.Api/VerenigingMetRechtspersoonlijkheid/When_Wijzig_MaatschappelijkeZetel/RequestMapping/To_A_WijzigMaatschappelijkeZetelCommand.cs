@@ -23,11 +23,11 @@ public class To_A_WijzigMaatschappelijkeZetelCommand
         var actualLocatieId = fixture.Create<int>();
         var actual = request.ToCommand(actualVCode, actualLocatieId);
 
-        actual.Deconstruct(out var vCode, out var locatieId, out var naam, out var isPrimair);
+        actual.TeWijzigenLocatie.Deconstruct(out var locatieId, out var isPrimair, out var naam);
 
-        vCode.Should().Be(actualVCode);
+        actual.VCode.Should().Be(actualVCode);
         locatieId.Should().Be(actualLocatieId);
-        naam.Should().Be(request.Naam);
-        isPrimair.Should().Be(request.IsPrimair);
+        naam.Should().Be(request.Locatie.Naam);
+        isPrimair.Should().Be(request.Locatie.IsPrimair);
     }
 }

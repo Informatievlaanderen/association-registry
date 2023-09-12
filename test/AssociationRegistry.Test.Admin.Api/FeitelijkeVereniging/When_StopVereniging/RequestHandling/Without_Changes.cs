@@ -1,13 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
 using Acties.StopVereniging;
-using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
