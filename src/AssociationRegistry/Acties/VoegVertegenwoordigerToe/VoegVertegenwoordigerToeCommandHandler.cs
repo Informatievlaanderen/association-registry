@@ -2,6 +2,7 @@
 
 using Framework;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {
@@ -12,13 +13,24 @@ public class VoegVertegenwoordigerToeCommandHandler
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(
+        CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
+        CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        try
+        {
+            var vereniging =
+                await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
-        vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
+            vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
-        return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
+            var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+
+            return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
+        }
+        catch (UnsupportedOperationForVerenigingstype)
+        {
+            throw new VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers();
+        }
     }
 }

@@ -492,6 +492,24 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Aan een KBO vereniging kunnen geen vertegenwoordigers toegevoegd worden..
+        /// </summary>
+        public static string VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers {
+            get {
+                return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden..
+        /// </summary>
+        public static string VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers {
+            get {
+                return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een KBO-vereniging kan niet gestopt worden..
         /// </summary>
         public static string VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden {
