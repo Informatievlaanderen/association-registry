@@ -1,3 +1,10 @@
+# [7.23.0](https://github.com/informatievlaanderen/association-registry/compare/v7.22.0...v7.23.0) (2023-09-12)
+
+
+### Features
+
+* or-1885 test feedback ([f10b014](https://github.com/informatievlaanderen/association-registry/commit/f10b014b4c2ea688a46a2b4d43699e98aead3b30))
+
 # [7.22.0](https://github.com/informatievlaanderen/association-registry/compare/v7.21.1...v7.22.0) (2023-09-12)
 
 
