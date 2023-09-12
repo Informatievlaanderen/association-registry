@@ -1,3 +1,14 @@
+# [7.24.0](https://github.com/informatievlaanderen/association-registry/compare/v7.23.0...v7.24.0) (2023-09-12)
+
+
+### Features
+
+* or-1888 handle ContactgegevenVolgensKBOWerdGewijzigd in beheer historiek ([c282500](https://github.com/informatievlaanderen/association-registry/commit/c282500c7ff9df69b9ed87fc0b5294fc4ab8fad8))
+* or-1888 place endpoint in correct swagger gorup ([34b3fa0](https://github.com/informatievlaanderen/association-registry/commit/34b3fa096ef572a8bc4c4f3c486a6a59c9fee9e6))
+* or-1888 process feedback ([2d556bf](https://github.com/informatievlaanderen/association-registry/commit/2d556bf63d619fd30011c9e1d1e4596efde62777))
+* or-1888 rename ContactgegevenVolgensKboWerdGewijzigd naar ContactgegevenUitKboWerdGewijzigd ([c54e08e](https://github.com/informatievlaanderen/association-registry/commit/c54e08ee2bf2adbf0528da3707080d7032a9a04b))
+* or-1888 verrijk contactgegevens van KBO ([07b2b3a](https://github.com/informatievlaanderen/association-registry/commit/07b2b3a95ee19d2370420dde8cf1c559fa2de41b))
+
 # [7.23.0](https://github.com/informatievlaanderen/association-registry/compare/v7.22.0...v7.23.0) (2023-09-12)
 
 
