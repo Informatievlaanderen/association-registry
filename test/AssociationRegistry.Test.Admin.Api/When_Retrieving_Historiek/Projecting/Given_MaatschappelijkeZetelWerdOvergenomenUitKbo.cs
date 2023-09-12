@@ -25,7 +25,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO.",
+                "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO.",
                 nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
@@ -48,7 +48,7 @@ public class Given_MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO.",
+                "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO.",
                 nameof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,

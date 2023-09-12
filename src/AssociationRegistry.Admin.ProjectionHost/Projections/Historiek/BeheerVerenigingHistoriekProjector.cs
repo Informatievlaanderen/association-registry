@@ -335,7 +335,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
             document,
-            "De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."
+            "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,
@@ -354,7 +354,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelVolgensKboWerdGewijzigd,
             maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
             document,
-            "Maatschappelijke Zetel volgens KBO werd gewijzigd."
+            "Maatschappelijke zetel volgens KBO werd gewijzigd."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelVolgensKboWerdGewijzigd.Sequence,
@@ -369,7 +369,7 @@ public class BeheerVerenigingHistoriekProjector
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
             document,
-            "De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."
+            "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."
         );
 
         document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,

@@ -69,14 +69,14 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
-                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
+                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
-                        ""beschrijving"": ""Maatschappelijke Zetel volgens KBO werd gewijzigd."",
+                        ""beschrijving"": ""Maatschappelijke zetel volgens KBO werd gewijzigd."",
                         ""gebeurtenis"":""MaatschappelijkeZetelVolgensKBOWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",

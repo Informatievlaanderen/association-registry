@@ -70,7 +70,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
                     }},
 {{
-                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."",
+                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
