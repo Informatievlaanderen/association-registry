@@ -174,4 +174,10 @@
   <data name="UnsupportedOperationForLocatietype">
     <value>Deze actie kan niet uitgevoerd worden op deze locatie.</value>
   </data>
+  <data name="VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers">
+    <value>Aan een KBO vereniging kunnen geen vertegenwoordigers toegevoegd worden.</value>
+  </data>
+  <data name="VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers">
+    <value>Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden.</value>
+  </data>
 </root>

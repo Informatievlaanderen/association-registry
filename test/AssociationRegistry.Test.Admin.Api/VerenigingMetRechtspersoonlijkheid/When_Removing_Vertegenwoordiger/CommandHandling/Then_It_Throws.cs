@@ -34,6 +34,6 @@ public class Then_It_Throws
     public async Task Then_A_UnsupportedOperationException_Is_Thrown()
     {
         var method = () => _commandHandler.Handle(_envelope);
-        await method.Should().ThrowAsync<UnsupportedOperationForVerenigingstype>();
+        await method.Should().ThrowAsync<VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers>();
     }
 }
