@@ -5,10 +5,10 @@ using Events;
 using NodaTime.Extensions;
 using Vereniging;
 
-public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario : IScenario
+public class V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario : IScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001014",
+        "V0001017",
         "0987654321",
         "VZW",
         "Feesten Affligem",
@@ -31,17 +31,7 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
             null
         ));
 
-    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO =
-        new(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email, "email@testdata.com");
-
-    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO =
-        new(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.testdata.com");
-
-    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO =
-        new(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
-
-    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO =
-        new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
+    public readonly MaatschappelijkeZetelVolgensKBOWerdGewijzigd MaatschappelijkeZetelVolgensKBOWerdGewijzigd = new(1, "Station", true);
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -52,10 +42,7 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
-            EmailWerdOvergenomenUitKBO,
-            WebsiteWerdOvergenomenUitKBO,
-            TelefoonWerdOvergenomenUitKBO,
-            GSMWerdOvergenomenUitKBO,
+            MaatschappelijkeZetelVolgensKBOWerdGewijzigd
         };
     }
 

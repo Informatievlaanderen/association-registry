@@ -1,0 +1,47 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {
+      "vCode": "V0001017",
+      "type": {
+        "code": "VZW",
+        "beschrijving": "Vereniging zonder winstoogmerk"
+      },
+      "naam": "Feesten Affligem",
+      "roepnaam": "",
+      "korteNaam": "",
+      "hoofdactiviteitenVerenigingsloket": [],
+      "doelgroep": {
+        "minimumleeftijd": 0,
+        "maximumleeftijd": 150
+      },
+      "locaties": [{
+        "locatietype": "Maatschappelijke zetel volgens KBO",
+        "isPrimair": true,
+        "adresvoorstelling": "Stationsstraat 1 bus B, 1790 Affligem, België",
+        "naam": "Station",
+        "postcode": "1790",
+        "gemeente": "Affligem"
+      }],
+      "sleutels": [
+        {
+          "bron": "KBO",
+          "waarde": "0987654321"
+        }
+      ],
+      "links": {
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001017"
+      }
+    }
+  ],
+  "facets": {
+    "hoofdactiviteitenVerenigingsloket": []
+  },
+  "metadata": {
+    "pagination": {
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 50
+    }
+  }
+}

@@ -19,6 +19,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario = new();
     public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
     public readonly V016_VerenigingWerdGestopt V016VerenigingWerdGestopt = new();
+    public readonly V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -38,6 +39,7 @@ public class GivenEventsFixture : PublicApiFixture
             V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario,
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens,
             V016VerenigingWerdGestopt,
+            V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario,
         };
 
     public override async Task InitializeAsync()

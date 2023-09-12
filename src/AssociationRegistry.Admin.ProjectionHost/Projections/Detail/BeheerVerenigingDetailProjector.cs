@@ -406,6 +406,28 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
+                                         l => l with
+                                         {
+                                             IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
+                                             Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            maatschappelijkeZetelVolgensKboWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+
+        document.Metadata = new Metadata(maatschappelijkeZetelVolgensKboWerdGewijzigd.Sequence,
+                                         maatschappelijkeZetelVolgensKboWerdGewijzigd.Version);
+    }
+
+    public static void Apply(
         IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdToegevoegd,
         BeheerVerenigingDetailDocument document)
     {

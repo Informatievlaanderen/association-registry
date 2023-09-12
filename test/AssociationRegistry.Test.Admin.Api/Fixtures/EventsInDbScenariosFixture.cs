@@ -117,6 +117,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V043_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForWijzigen
         V043VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMaatschappelijkeZetelForWijzigen = new();
 
+    public readonly V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO
+        V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -162,6 +165,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V041FeitelijkeVerenigingWerdGestopt,
             V042VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithVertegenwoordigerForWijzigVertegenwoordiger,
             V043VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMaatschappelijkeZetelForWijzigen,
+            V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
         };
 
         foreach (var scenario in scenarios)

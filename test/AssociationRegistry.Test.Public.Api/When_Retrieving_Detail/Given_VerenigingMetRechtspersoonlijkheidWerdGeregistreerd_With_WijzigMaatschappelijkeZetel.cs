@@ -1,23 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
-using System.Text.RegularExpressions;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
 [Category("PublicApi")]
 [IntegrationTest]
-public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
+public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel
 {
     private readonly HttpResponseMessage _response;
 
-    public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(GivenEventsFixture fixture)
+    public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel(GivenEventsFixture fixture)
     {
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture
-                                                                 .V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario
+                                                                 .V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario
                                                                  .VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
         var vCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -33,9 +33,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
         var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)}_{nameof(Then_we_get_a_detail_response)}");
+            $"files.{nameof(Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel)}_{nameof(Then_we_get_a_detail_response)}");
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
-
 }

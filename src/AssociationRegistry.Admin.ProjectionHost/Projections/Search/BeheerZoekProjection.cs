@@ -194,7 +194,7 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
-        await _elasticRepository.ReplaceLocatie(
+        await _elasticRepository.UpdateLocatie(
             message.VCode,
             Map(message.Data.Locatie));
     }
@@ -230,6 +230,18 @@ public class BeheerZoekProjectionHandler
         await _elasticRepository.AppendLocatie(
             message.VCode,
             Map(message.Data.Locatie));
+    }
+
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message)
+    {
+        await _elasticRepository.UpdateLocatie(
+            message.VCode,
+            new VerenigingZoekDocument.Locatie
+            {
+                LocatieId = message.Data.LocatieId,
+                Naam = message.Data.Naam,
+                IsPrimair = message.Data.IsPrimair,
+            });
     }
 
     public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
