@@ -1,3 +1,10 @@
+## [7.24.1](https://github.com/informatievlaanderen/association-registry/compare/v7.24.0...v7.24.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1885 fix condition ([e2dd0a8](https://github.com/informatievlaanderen/association-registry/commit/e2dd0a8a5fc8bd389d455b2c7f92ae93ddf63e5a))
+
 # [7.24.0](https://github.com/informatievlaanderen/association-registry/compare/v7.23.0...v7.24.0) (2023-09-12)
 
 
