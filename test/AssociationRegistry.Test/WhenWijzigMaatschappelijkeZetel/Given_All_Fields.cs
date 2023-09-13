@@ -20,6 +20,7 @@ public class Given_All_Fields
         var maatschappelijkeZetel = fixture.Create<Registratiedata.Locatie>() with
         {
             LocatieId = 1,
+            Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo,
         };
 
         var vereniging = new VerenigingMetRechtspersoonlijkheid();

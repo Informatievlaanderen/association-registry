@@ -108,7 +108,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (gewijzigdeLocatie is null)
             return;
 
-        Throw<UnsupportedOperationForLocatietype>.If(gewijzigdeLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<UnsupportedOperationForLocatietype>.If(gewijzigdeLocatie.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
     }

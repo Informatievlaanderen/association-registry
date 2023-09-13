@@ -72,9 +72,9 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
         var events = session.Events
                             .FetchStream(_vCode);
 
-        var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));
+        var maatschappelijkeZetelVolgensKboWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));
 
-        roepnaamWerdGewijzigd.Data.Should()
+        maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Should()
                              .BeEquivalentTo(
                                   new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(_locatieId, _request.Locatie.Naam!,
                                                                                    _request.Locatie.IsPrimair!.Value));

@@ -20,7 +20,7 @@ public class Given_Not_The_MaatschappelijkeZetelId
         var locatie = fixture.Create<Locatie>() with
         {
             LocatieId = 1,
-            Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo,
+            Locatietype = Locatietype.Correspondentie,
             AdresId = null,
         };
 
