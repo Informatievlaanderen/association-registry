@@ -1,3 +1,11 @@
+## [7.24.2](https://github.com/informatievlaanderen/association-registry/compare/v7.24.1...v7.24.2) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1900 fix errormessage for telefoonnummer ([067ddf6](https://github.com/informatievlaanderen/association-registry/commit/067ddf67a2be6378252e68d21f4f4333543380a2))
+* or-1905 fix maatschappelijkezetelCannotBeRemoved ([8d944e3](https://github.com/informatievlaanderen/association-registry/commit/8d944e3a111c8b2d04eabf3e4a5939cd17fde497))
+
 ## [7.24.1](https://github.com/informatievlaanderen/association-registry/compare/v7.24.0...v7.24.1) (2023-09-13)
 
 
