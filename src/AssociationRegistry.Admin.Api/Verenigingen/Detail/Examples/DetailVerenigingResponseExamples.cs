@@ -26,10 +26,9 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
 
     public IEnumerable<SwaggerExample<DetailVerenigingResponse>> GetExamples()
     {
-        yield return new SwaggerExample<DetailVerenigingResponse>
-        {
-            Name = "Feitelijke vereniging",
-            Value = new DetailVerenigingResponse
+        yield return SwaggerExample.Create(
+            "Feitelijke vereniging",
+            new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
@@ -124,13 +123,12 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 {
                     DatumLaatsteAanpassing = "2020-05-15",
                 },
-            },
-        };
+            }
+        );
 
-        yield return new SwaggerExample<DetailVerenigingResponse>
-        {
-            Name = "Vereniging met rechtspersoonlijkheid",
-            Value = new DetailVerenigingResponse
+        yield return SwaggerExample.Create(
+            "Vereniging met rechtspersoonlijkheid",
+            new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
@@ -241,7 +239,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 {
                     DatumLaatsteAanpassing = "2020-05-15",
                 },
-            },
-        };
+            }
+        );
     }
 }
