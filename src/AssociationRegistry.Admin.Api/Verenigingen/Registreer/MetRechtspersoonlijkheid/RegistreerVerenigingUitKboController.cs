@@ -15,6 +15,7 @@ using Examples;
 using FluentValidation;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -60,8 +61,8 @@ public class RegistreerVerenigingUitKboController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [ConsumesJson]
+    [ProducesJson]
     [SwaggerRequestExample(typeof(RegistreerVerenigingUitKboRequest), typeof(RegistreerVerenigingUitKboRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]

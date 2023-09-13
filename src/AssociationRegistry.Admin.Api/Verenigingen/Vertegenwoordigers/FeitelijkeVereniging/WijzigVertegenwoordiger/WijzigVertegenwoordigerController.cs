@@ -12,6 +12,7 @@ using Examples;
 using FluentValidation;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -54,8 +55,8 @@ public class WijzigVertegenwoordigerController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}/vertegenwoordigers/{vertegenwoordigerId}")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [ConsumesJson]
+    [ProducesJson]
     [SwaggerRequestExample(typeof(WijzigVertegenwoordigerRequest), typeof(WijzigVertegenwoordigerRequestExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]

@@ -12,6 +12,7 @@ using Examples;
 using FluentValidation;
 using Framework;
 using Infrastructure.ConfigurationBindings;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -61,8 +62,8 @@ public class WijzigContactgegevenController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPatch("{vCode}/kbo/contactgegevens/{contactgegevenId}")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [ConsumesJson]
+    [ProducesJson]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
     [SwaggerRequestExample(typeof(WijzigContactgegevenRequest), typeof(WijzigContactgegevenRequestExamples))]

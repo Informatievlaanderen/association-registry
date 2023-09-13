@@ -8,6 +8,7 @@ using Examples;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -73,7 +74,7 @@ public class SearchVerenigingenController : ApiController
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [Produces(WellknownMediaTypes.Json)]
+    [ProducesJson]
     public async Task<IActionResult> Zoeken(
         [FromQuery] string? q,
         [FromQuery] PaginationQueryParams paginationQueryParams,

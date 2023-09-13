@@ -8,6 +8,7 @@ using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +60,7 @@ public class VerenigingenHistoriekController : ApiController
     [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [Produces(WellknownMediaTypes.Json)]
+    [ProducesJson]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,

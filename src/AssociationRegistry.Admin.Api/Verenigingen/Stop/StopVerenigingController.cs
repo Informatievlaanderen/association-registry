@@ -11,6 +11,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
@@ -56,8 +57,8 @@ public class StopVerenigingController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("{vCode}/stop")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [ConsumesJson]
+    [ProducesJson]
     [SwaggerRequestExample(typeof(StopVerenigingRequest), typeof(StopVerenigingRequestExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string", description: "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
