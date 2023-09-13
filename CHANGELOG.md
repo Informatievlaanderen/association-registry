@@ -1,3 +1,10 @@
+## [7.24.4](https://github.com/informatievlaanderen/association-registry/compare/v7.24.3...v7.24.4) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1908 use Swagger.Create ([60a60b7](https://github.com/informatievlaanderen/association-registry/commit/60a60b76c6fec74c809c72b9aadfd389e856f208))
+
 ## [7.24.3](https://github.com/informatievlaanderen/association-registry/compare/v7.24.2...v7.24.3) (2023-09-13)
 
 
