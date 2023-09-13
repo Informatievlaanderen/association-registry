@@ -14,14 +14,3 @@ public class MaatschappelijkeZetelCanNotBeUpdated : DomainException
     {
     }
 }
-[Serializable]
-public class MaatschappelijkeZetelCanNotBeRemoved : DomainException
-{
-    public MaatschappelijkeZetelCanNotBeRemoved() : base(ExceptionMessages.MaatschappelijkeZetelCanNotBeUpdated)
-    {
-    }
-
-    protected MaatschappelijkeZetelCanNotBeRemoved(SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-    }
-}
