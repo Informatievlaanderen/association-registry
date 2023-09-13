@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Contexten;
 using Be.Vlaanderen.Basisregisters.Api;
 using Constants;
 using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiVersion("1.0")]

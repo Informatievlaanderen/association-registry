@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Swagger;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 
 using Microsoft.AspNetCore.Mvc;
 
