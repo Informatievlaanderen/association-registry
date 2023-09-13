@@ -1,3 +1,10 @@
+## [7.24.3](https://github.com/informatievlaanderen/association-registry/compare/v7.24.2...v7.24.3) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1908 add custom annotation for Produces and Consumes Json ([b611171](https://github.com/informatievlaanderen/association-registry/commit/b6111713468f2dc33c83b6854266cfc0381ad0f1))
+
 ## [7.24.2](https://github.com/informatievlaanderen/association-registry/compare/v7.24.1...v7.24.2) (2023-09-13)
 
 
