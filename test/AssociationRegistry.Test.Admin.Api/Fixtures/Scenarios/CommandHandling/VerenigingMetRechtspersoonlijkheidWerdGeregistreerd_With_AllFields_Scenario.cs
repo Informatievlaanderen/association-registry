@@ -19,7 +19,12 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
-        MaatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>();
+        MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
+            Locatie: fixture.Create<Registratiedata.Locatie>() with
+            {
+                LocatieId = 1,
+                Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo,
+            });
     }
 
     public override IEnumerable<IEvent> Events()

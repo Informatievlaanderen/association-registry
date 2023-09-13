@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using Vereniging;
 
 public class V043_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForWijzigen : IEventsInDbScenario
 {
@@ -17,16 +18,20 @@ public class V043_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatsc
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999043";
         Naam = "Dee sjiekste club";
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
         };
+
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
             fixture.Create<Registratiedata.Locatie>() with
             {
                 LocatieId = 1,
+                Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo,
             });
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
