@@ -41,7 +41,6 @@ public class DetailVerenigingenController : ApiController
     /// <response code="412">Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}")]
-    [ProducesJson]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
@@ -49,6 +48,7 @@ public class DetailVerenigingenController : ApiController
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
         [FromRoute] string vCode,
