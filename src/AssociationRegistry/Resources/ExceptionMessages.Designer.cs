@@ -332,7 +332,7 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TelefoonNummer moet bestaan uit cijfers, whitespace en \&quot;. /( ) - + \&quot;.
+        ///   Looks up a localized string similar to TelefoonNummer moet bestaan uit cijfers, whitespace en &quot;. / ( ) - + &quot;.
         /// </summary>
         public static string InvalidTelefoonNummerCharacter {
             get {

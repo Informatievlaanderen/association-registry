@@ -30,7 +30,7 @@
     <value>Website url moet beginnen met 'http://' of 'https://'</value>
   </data>
   <data name="InvalidTelefoonNummerCharacter">
-    <value>TelefoonNummer moet bestaan uit cijfers, whitespace en \". /( ) - + \"</value>
+    <value>TelefoonNummer moet bestaan uit cijfers, whitespace en ". / ( ) - + "</value>
   </data>
   <data name="NoNumbersInTelefoonNummer">
     <value>TelefoonNummer moet minstens één cijfer bevatten</value>
