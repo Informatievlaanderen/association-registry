@@ -1,3 +1,10 @@
+# [7.27.0](https://github.com/informatievlaanderen/association-registry/compare/v7.26.0...v7.27.0) (2023-09-14)
+
+
+### Features
+
+* or-1914 Add newsletter url to public api docs ([3875cd7](https://github.com/informatievlaanderen/association-registry/commit/3875cd7f72387ea8243c78e3c573294f82cb26c3))
+
 # [7.26.0](https://github.com/informatievlaanderen/association-registry/compare/v7.25.0...v7.26.0) (2023-09-14)
 
 
