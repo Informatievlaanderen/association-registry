@@ -26,6 +26,6 @@ public class Given_A_Second_Primair_Contactgegeven
 
         var contactgegeven = fixture.Create<Contactgegeven>() with { IsPrimair = true, Type = primairContactgegeven.Type};
 
-        Assert.Throws<MultiplePrimairContactgegevens>(() => vereniging.VoegContactgegevenToe(contactgegeven));
+        Assert.Throws<MeerderePrimaireContactgegevensZijnNietToegestaan>(() => vereniging.VoegContactgegevenToe(contactgegeven));
     }
 }

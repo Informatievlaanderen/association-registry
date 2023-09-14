@@ -49,6 +49,6 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     public async Task Then_The_Result_Contains_The_Potential_Duplicates()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
-        await method.Should().ThrowAsync<MultiplePrimairContactgegevens>();
+        await method.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }
 }

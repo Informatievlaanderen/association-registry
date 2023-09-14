@@ -16,6 +16,6 @@ public class Given_A_String_Without_A_Period
     {
         var ctor = () => SocialMedia.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<SocialMediaMissingPeriod>();
+        ctor.Should().Throw<SocialMoetMinstensEenPuntBevatten>();
     }
 }

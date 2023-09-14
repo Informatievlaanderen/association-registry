@@ -14,7 +14,7 @@ public record VerenigingsNaam : IEquatable<string>
 
     public static VerenigingsNaam Create(string naam)
     {
-        Throw<EmptyVerenigingsNaam>.IfNullOrWhiteSpace(naam);
+        Throw<VerenigingsnaamIsLeeg>.IfNullOrWhiteSpace(naam);
         return new VerenigingsNaam(naam);
     }
 

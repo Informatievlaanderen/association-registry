@@ -10,7 +10,7 @@ using TelefoonNummers;
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
     private static void MustNotBeInFuture(Datum datum, DateOnly today)
-        => Throw<StartdatumIsInFuture>.If(datum.IsInFutureOf(today));
+        => Throw<StartdatumMagNietInToekomstZijn>.If(datum.IsInFutureOf(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
@@ -72,7 +72,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        Throw<MaatschappelijkeZetelIsNotAllowed>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
@@ -81,7 +81,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        Throw<MaatschappelijkeZetelIsNotAllowed>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 

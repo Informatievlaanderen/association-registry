@@ -28,6 +28,6 @@ public class Given_A_Contactgegeven_From_Kbo
 
         var wijzigLocatie = () => vereniging.VerwijderContactgegeven(contactgegeven.ContactgegevenId);
 
-        wijzigLocatie.Should().Throw<ContactgegevenFromKboCannotBeRemoved>();
+        wijzigLocatie.Should().Throw<ContactgegevenUitKboKanNietVerwijderdWorden>();
     }
 }

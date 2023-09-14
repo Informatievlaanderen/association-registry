@@ -56,7 +56,7 @@ public record Contactgegeven
             { Waarde: ContactgegevenType.Labels.Telefoon } => TelefoonNummer.Create(waarde, beschrijving, isPrimair),
             { Waarde: ContactgegevenType.Labels.Website } => Website.Create(waarde, beschrijving, isPrimair),
             { Waarde: ContactgegevenType.Labels.SocialMedia } => SocialMedia.Create(waarde, beschrijving, isPrimair),
-            _ => throw new InvalidContactType(),
+            _ => throw new ContactTypeIsOngeldig(),
         };
 
         return contactgegeven with { Bron = Bron.Initiator };
@@ -67,7 +67,7 @@ public record Contactgegeven
 
     public static Contactgegeven Create(string type, string waarde, string? beschrijving, bool isPrimair)
     {
-        Throw<InvalidContactType>.IfNot(IsKnownType(type));
+        Throw<ContactTypeIsOngeldig>.IfNot(IsKnownType(type));
 
         return CreateFromInitiator(ContactgegevenType.Parse(type), waarde, beschrijving, isPrimair);
     }

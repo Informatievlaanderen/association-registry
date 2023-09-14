@@ -16,6 +16,6 @@ public class Given_A_String_With_Non_Numeric_Characters
     public void Then_it_throws_an_InvalidInszCharsException(string insz)
     {
         var factory = () => Insz.Create(insz);
-        factory.Should().Throw<InvalidInszChars>();
+        factory.Should().Throw<InszBevatOngeldigeTekens>();
     }
 }

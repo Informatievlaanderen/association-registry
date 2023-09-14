@@ -23,7 +23,7 @@ public class Given_A_Duplicate
         var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
         var wijzigLocatie = () => vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
 
-        wijzigLocatie.Should().Throw<DuplicateLocatie>();
+        wijzigLocatie.Should().Throw<LocatieIsNietUniek>();
     }
 
     private static Adres HydrateAdres(Registratiedata.Adres gewijzigdeLocatieAdres)

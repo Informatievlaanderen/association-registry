@@ -30,6 +30,6 @@ public class Given_An_InvalidValid_EmailAddres
     public void Then_it_throws_InvalidEmailFormatException(string emailString)
     {
         var ctor = () => Email.Create(emailString);
-        ctor.Should().Throw<InvalidEmailFormat>();
+        ctor.Should().Throw<EmailHeeftEenOngeldigFormaat>();
     }
 }

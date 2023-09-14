@@ -40,6 +40,6 @@ public class Given_A_Duplicate_Contactgegeven
                 _scenario.ContactgegevenWerdToegevoegd2.IsPrimair));
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
-        await handle.Should().ThrowAsync<DuplicateContactgegeven>();
+        await handle.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

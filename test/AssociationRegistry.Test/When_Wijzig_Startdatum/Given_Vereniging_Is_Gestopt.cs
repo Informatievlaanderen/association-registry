@@ -32,7 +32,7 @@ public class Given_Vereniging_Is_Gestopt
         var startdatum = Datum.Hydrate(einddatum.Value.AddDays(1));
         var wijzigStartdatum = () => vereniging.WijzigStartdatum(startdatum, clock);
 
-        wijzigStartdatum.Should().Throw<StartdatumIsAfterEinddatum>();
+        wijzigStartdatum.Should().Throw<StartdatumLigtNaEinddatum>();
     }
 
     [Fact]

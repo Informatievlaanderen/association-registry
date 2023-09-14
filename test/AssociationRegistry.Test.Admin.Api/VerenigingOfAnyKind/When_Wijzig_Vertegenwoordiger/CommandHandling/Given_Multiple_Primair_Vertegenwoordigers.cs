@@ -44,6 +44,6 @@ public class Given_Multiple_Primair_Vertegenwoordigers
                 IsPrimair: true)); // <== changed value
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
-        await handle.Should().ThrowAsync<MultiplePrimaireVertegenwoordigers>();
+        await handle.Should().ThrowAsync<MeerderePrimaireVertegenwoordigers>();
     }
 }

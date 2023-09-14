@@ -57,7 +57,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         MustContain(contactgegevenId);
 
         var teWijzigenContactgegeven = this[contactgegevenId];
-        Throw<ContactgegevenFromKboCannotBeUpdated>.If(teWijzigenContactgegeven.Bron == Bron.KBO);
+        Throw<ContactgegevenUitKboKanNietGewijzigdWorden>.If(teWijzigenContactgegeven.Bron == Bron.KBO);
 
         if (teWijzigenContactgegeven.WouldBeEquivalent(waarde, beschrijving, isPrimair, out var gewijzigdContactgegeven))
             return null;
@@ -86,7 +86,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         MustContain(contactgegevenId);
 
         var contactgegeven = this[contactgegevenId];
-        Throw<ContactgegevenFromKboCannotBeRemoved>.If(contactgegeven.Bron == Bron.KBO);
+        Throw<ContactgegevenUitKboKanNietVerwijderdWorden>.If(contactgegeven.Bron == Bron.KBO);
 
         return contactgegeven;
     }
@@ -108,12 +108,12 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     private void MustContain(int contactgegevenId)
     {
-        Throw<OnbekendContactgegeven>.If(!HasKey(contactgegevenId), contactgegevenId.ToString());
+        Throw<ContactgegevenIsNietGekend>.If(!HasKey(contactgegevenId), contactgegevenId.ToString());
     }
 
     private void MustNotHaveDuplicateOf(Contactgegeven contactgegeven)
     {
-        Throw<DuplicateContactgegeven>.If(
+        Throw<ContactgegevenIsDuplicaat>.If(
             this.Without(contactgegeven)
                 .ContainsMetZelfdeWaarden(contactgegeven),
             contactgegeven.Type);
@@ -121,7 +121,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
     private void MustNotHavePrimairOfTheSameTypeAs(Contactgegeven updatedContactgegeven)
     {
-        Throw<MultiplePrimairContactgegevens>.If(
+        Throw<MeerderePrimaireContactgegevensZijnNietToegestaan>.If(
             updatedContactgegeven.IsPrimair &&
             this.Without(updatedContactgegeven)
                 .HasPrimairForType(updatedContactgegeven.Type),

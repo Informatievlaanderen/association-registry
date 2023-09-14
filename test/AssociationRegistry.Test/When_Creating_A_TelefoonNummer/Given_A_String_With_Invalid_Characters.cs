@@ -14,6 +14,6 @@ public class Given_A_String_With_Invalid_Characters
     public void Then_it_throw_InvalidTelefoonNummerCharacterException(string invalidTelefoonNummer)
     {
         var ctor = () => TelefoonNummer.Create(invalidTelefoonNummer);
-        ctor.Should().Throw<InvalidTelefoonNummerCharacter>();
+        ctor.Should().Throw<TelefoonNummerBevatOngeldigeTekens>();
     }
 }

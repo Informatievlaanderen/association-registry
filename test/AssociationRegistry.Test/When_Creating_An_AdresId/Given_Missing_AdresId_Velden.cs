@@ -20,6 +20,6 @@ public class Given_Missing_AdresId_Velden
         var ctor = () => AdresId.Create(
             adresbron: (Adresbron.CanParse(adresbroncode) ? Adresbron.Parse(adresbroncode) : null)!,
             bronwaarde: waarde);
-        ctor.Should().Throw<IncompleteAdresId>();
+        ctor.Should().Throw<AdresIdIsIncompleet>();
     }
 }

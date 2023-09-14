@@ -49,6 +49,6 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
                 _fixture.Create<CommandMetadata>()));
 
         await secondCall.Should()
-            .NotThrowAsync<DuplicateContactgegeven>();
+            .NotThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

@@ -36,6 +36,6 @@ public class With_An_Unknown_VertegenwoordigerId
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<UnknownVertegenwoordiger>();
+        await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
     }
 }

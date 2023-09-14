@@ -94,7 +94,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
         MustContain(locatieId);
         var teVerwijderenLocatie = this[locatieId];
 
-        Throw<MaatschappelijkeZetelCanNotBeRemoved>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         return teVerwijderenLocatie;
     }
@@ -104,7 +104,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private void MustContain(int locatieId)
     {
-        Throw<UnknownLocatie>.If(!HasKey(locatieId), locatieId.ToString());
+        Throw<LocatieIsNietGekend>.If(!HasKey(locatieId), locatieId.ToString());
     }
 
     private bool HasKey(int locatieId)
@@ -118,15 +118,15 @@ public class Locaties : ReadOnlyCollection<Locatie>
     }
 
     private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
-        => Throw<MultipleCorrespondentieLocaties>.If(
+        => Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>.If(
             locatie.Locatietype == Locatietype.Correspondentie &&
             this.Without(locatie).HasCorrespondentieLocatie());
 
     private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
-        => Throw<MultiplePrimaireLocaties>.If(
+        => Throw<MeerderePrimaireLocatiesZijnNietToegestaan>.If(
             locatie.IsPrimair &&
             this.Without(locatie).HasPrimaireLocatie());
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
-        => Throw<DuplicateLocatie>.If(this.Without(locatie).ContainsEquivalent(locatie));
+        => Throw<LocatieIsNietUniek>.If(this.Without(locatie).ContainsEquivalent(locatie));
 }

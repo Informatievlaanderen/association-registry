@@ -24,7 +24,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
-        Throw<StartdatumIsInFuture>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
+        Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
@@ -64,7 +64,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
         IClock clock)
     {
-        Throw<StartdatumIsInFuture>.If(startdatum?.IsInFutureOf(clock.Today) ?? false);
+        Throw<StartdatumMagNietInToekomstZijn>.If(startdatum?.IsInFutureOf(clock.Today) ?? false);
 
         var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
         var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
@@ -133,8 +133,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (Datum.Equals(State.Startdatum, startDatum))
             return;
 
-        Throw<StartdatumIsAfterEinddatum>.If(State.Einddatum?.IsInPastOf(startDatum) ?? false);
-        Throw<StartdatumIsInFuture>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
+        Throw<StartdatumLigtNaEinddatum>.If(State.Einddatum?.IsInPastOf(startDatum) ?? false);
+        Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
 
         AddEvent(StartdatumWerdGewijzigd.With(State.VCode, startDatum));
     }
@@ -143,8 +143,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         if (einddatum == State.Einddatum) return;
 
-        Throw<EinddatumIsInFuture>.If(einddatum.IsInFutureOf(clock.Today));
-        Throw<EinddatumIsBeforeStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
+        Throw<EinddatumMagNietInToekomstZijn>.If(einddatum.IsInFutureOf(clock.Today));
+        Throw<EinddatumLigtVoorStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
 
         if (State.IsGestopt)
             AddEvent(EinddatumWerdGewijzigd.With(einddatum));
@@ -193,7 +193,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
-        Throw<AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
+        Throw<AfdelingKanNietUitgeschrevenWordenUitPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
 
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
@@ -207,7 +207,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<UnsupportedOperationForVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
         State = obj;
     }
 }

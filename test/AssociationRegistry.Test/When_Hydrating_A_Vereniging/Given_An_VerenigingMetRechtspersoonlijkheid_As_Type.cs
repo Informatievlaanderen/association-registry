@@ -25,7 +25,7 @@ public class Given_An_VerenigingMetRechtspersoonlijkheid_As_Type
         var hydrate = () =>
             new Vereniging().Hydrate(_verenigingState);
 
-        hydrate.Should().Throw<UnsupportedOperationForVerenigingstype>();
+        hydrate.Should().Throw<ActieIsNietToegestaanVoorVerenigingstype>();
     }
 
     [Fact]

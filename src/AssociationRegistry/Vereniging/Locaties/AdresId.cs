@@ -18,10 +18,10 @@ public record AdresId
     public static AdresId Create(Adresbron adresbron, string bronwaarde)
     {
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        Throw<IncompleteAdresId>.If(adresbron is null);
-        Throw<IncompleteAdresId>.If(string.IsNullOrWhiteSpace(bronwaarde));
+        Throw<AdresIdIsIncompleet>.If(adresbron is null);
+        Throw<AdresIdIsIncompleet>.If(string.IsNullOrWhiteSpace(bronwaarde));
 
-        Throw<InvalidBronwaardeForAR>.If(adresbron == Adresbron.AR && !IsValidArBronwaarde(bronwaarde));
+        Throw<BronwaardeVoorAdresIsOngeldig>.If(adresbron == Adresbron.AR && !IsValidArBronwaarde(bronwaarde));
 
         return new AdresId(adresbron!, bronwaarde);
     }

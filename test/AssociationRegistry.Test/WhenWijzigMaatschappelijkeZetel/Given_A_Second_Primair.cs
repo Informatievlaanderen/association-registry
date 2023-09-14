@@ -24,7 +24,7 @@ public class Given_A_Second_Primair
             null,
             true);
 
-        wijzigLocatie.Should().Throw<MultiplePrimaireLocaties>();
+        wijzigLocatie.Should().Throw<MeerderePrimaireLocatiesZijnNietToegestaan>();
     }
 
     public static IEnumerable<object[]> Data

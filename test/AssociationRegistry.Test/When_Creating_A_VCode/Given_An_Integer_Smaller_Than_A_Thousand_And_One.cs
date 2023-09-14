@@ -17,6 +17,6 @@ public class Given_An_Integer_Smaller_Than_A_Thousand_And_One
     public void Then_it_throws_an_InvalidVCodeException(int intCode)
     {
         var ctor = () => VCode.Create(intCode);
-        ctor.Should().Throw<OutOfRangeVCode>();
+        ctor.Should().Throw<VCodeValtBuitenToegelatenWaardes>();
     }
 }

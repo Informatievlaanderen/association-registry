@@ -19,6 +19,6 @@ public class Given_A_String_With_Wrong_Length
     public void Then_it_throws_an_InvalidKboNummerLengthException(string kboNummerString)
     {
         var factory = () => KboNummer.Create(kboNummerString);
-        factory.Should().Throw<InvalidKboNummerLength>();
+        factory.Should().Throw<KboNummerLengteIsOngeldig>();
     }
 }

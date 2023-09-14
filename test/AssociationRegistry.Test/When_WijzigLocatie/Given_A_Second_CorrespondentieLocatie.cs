@@ -27,7 +27,7 @@ public class Given_A_Second_CorrespondentieLocatie
             null,
             null);
 
-        wijzigLocatie.Should().Throw<MultipleCorrespondentieLocaties>();
+        wijzigLocatie.Should().Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>();
     }
 
     public static IEnumerable<object[]> Data

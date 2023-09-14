@@ -22,12 +22,12 @@ public record Doelgroep
         var min = minimumleeftijd ?? StandaardMinimumleeftijd;
         var max = maximumleeftijd ?? StandaardMaximumleeftijd;
 
-        Throw<DoelgroepOutOfRange>.If(IsBelowStandaard(min));
-        Throw<DoelgroepOutOfRange>.If(IsAboveStandaard(min));
-        Throw<DoelgroepOutOfRange>.If(IsBelowStandaard(max));
-        Throw<DoelgroepOutOfRange>.If(IsAboveStandaard(max));
+        Throw<DoelgroepValtBuitenToegestaneWaarden>.If(IsBelowStandaard(min));
+        Throw<DoelgroepValtBuitenToegestaneWaarden>.If(IsAboveStandaard(min));
+        Throw<DoelgroepValtBuitenToegestaneWaarden>.If(IsBelowStandaard(max));
+        Throw<DoelgroepValtBuitenToegestaneWaarden>.If(IsAboveStandaard(max));
 
-        Throw<InvalidDoelgroepRange>.If(min > max);
+        Throw<MinimumLeeftijdMoetKleinerOfGelijkZijnAanMaximumLeeftijd>.If(min > max);
 
         return new Doelgroep
         {

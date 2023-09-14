@@ -16,8 +16,8 @@ public record SocialMedia(string Waarde, string Beschrijving, bool IsPrimair)
         if (string.IsNullOrEmpty(socialMedia))
             return Leeg;
 
-        Throw<InvalidSocialMediaStart>.IfNot(UrlHasCorrectStartingCharacters(socialMedia));
-        Throw<SocialMediaMissingPeriod>.IfNot(UrlContainsAPeriod(socialMedia));
+        Throw<SocialMediaMoetStartenMetHttp>.IfNot(UrlHasCorrectStartingCharacters(socialMedia));
+        Throw<SocialMoetMinstensEenPuntBevatten>.IfNot(UrlContainsAPeriod(socialMedia));
         return new SocialMedia(socialMedia, beschrijving, isPrimair);
     }
 

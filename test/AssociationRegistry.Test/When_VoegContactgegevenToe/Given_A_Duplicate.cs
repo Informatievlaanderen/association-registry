@@ -24,7 +24,7 @@ public class Given_A_Duplicate
                 Contactgegevens = new [] { contactgegeven },
             }));
 
-        Assert.Throws<DuplicateContactgegeven>(() => vereniging.VoegContactgegevenToe(
+        Assert.Throws<ContactgegevenIsDuplicaat>(() => vereniging.VoegContactgegevenToe(
             Contactgegeven.Create(
                 contactgegeven.Type,
                 contactgegeven.Waarde,

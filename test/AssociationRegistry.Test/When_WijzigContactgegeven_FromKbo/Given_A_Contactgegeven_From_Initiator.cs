@@ -28,6 +28,6 @@ public class Given_A_Contactgegeven_From_Initiator
         var wijzig = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdToegevoegd.ContactgegevenId, fixture.Create<string>(),
                                         fixture.Create<bool>());
 
-        wijzig.Should().Throw<UnsupportedOperationForContactgegevenBron>();
+        wijzig.Should().Throw<ActieIsNietToegestaanVoorContactgegevenBron>();
     }
 }

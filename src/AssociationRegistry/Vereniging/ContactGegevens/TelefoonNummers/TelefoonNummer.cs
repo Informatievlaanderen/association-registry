@@ -19,8 +19,8 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
     {
         if (string.IsNullOrEmpty(telefoonNummer))
             return Leeg;
-        Throw<InvalidTelefoonNummerCharacter>.IfNot(IsNumber(Sanitize(telefoonNummer)));
-        Throw<NoNumbersInTelefoonNummer>.IfNot(HasNumber(telefoonNummer));
+        Throw<TelefoonNummerBevatOngeldigeTekens>.IfNot(IsNumber(Sanitize(telefoonNummer)));
+        Throw<TelefoonNummerMoetCijferBevatten>.IfNot(HasNumber(telefoonNummer));
         return new TelefoonNummer(telefoonNummer, beschrijving, isPrimair);
     }
 

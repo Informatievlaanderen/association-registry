@@ -44,6 +44,6 @@ public class With_A_Startdatum_In_The_Future
             _repositoryMock,
             new ClockStub(_commandEnvelope.Command.Startdatum!.Value!.Value.AddDays(-1)));
 
-        await method.Should().ThrowAsync<StartdatumIsInFuture>();
+        await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }
 }

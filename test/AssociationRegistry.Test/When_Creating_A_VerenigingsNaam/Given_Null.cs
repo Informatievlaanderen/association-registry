@@ -13,6 +13,6 @@ public class Given_Null
     public void Then_It_Throws_An_EmptyVerenigingsNaam_Exception()
     {
         var ctor = () => VerenigingsNaam.Create(null!);
-        ctor.Should().Throw<EmptyVerenigingsNaam>();
+        ctor.Should().Throw<VerenigingsnaamIsLeeg>();
     }
 }

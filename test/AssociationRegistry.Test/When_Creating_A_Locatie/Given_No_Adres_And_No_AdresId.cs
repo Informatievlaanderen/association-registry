@@ -21,6 +21,6 @@ public class Given_No_Adres_And_No_AdresId
             fixture.Create<Locatietype>(),
             adresId: null,
             adres: null);
-        ctor.Should().Throw<MissingAdres>();
+        ctor.Should().Throw<AdresOfAdresIdMoetAanwezigZijn>();
     }
 }

@@ -37,7 +37,7 @@ public class Given_A_Duplicate_Contactgegeven
         var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         await handleCall.Should()
-            .ThrowAsync<DuplicateContactgegeven>()
-            .WithMessage(new DuplicateContactgegeven(command.Contactgegeven.Type).Message);
+            .ThrowAsync<ContactgegevenIsDuplicaat>()
+            .WithMessage(new ContactgegevenIsDuplicaat(command.Contactgegeven.Type).Message);
     }
 }
