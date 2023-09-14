@@ -21,10 +21,10 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
     /// <response code="200">De gekende waarden voor hoofdactiviteit</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("")]
-    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public IActionResult GetAll()
         => Ok(
             new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
