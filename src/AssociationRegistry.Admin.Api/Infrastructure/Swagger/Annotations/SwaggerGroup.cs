@@ -20,11 +20,11 @@ public static class SwaggerGroup
         }
     }
 
-    public class VerrijkingenVanKboAttribute : ApiExplorerSettingsAttribute
+    public class WijzigenVanKboAttribute : ApiExplorerSettingsAttribute
     {
-        public VerrijkingenVanKboAttribute()
+        public WijzigenVanKboAttribute()
         {
-            GroupName = "Verrijkingen van gegevens uit KBO";
+            GroupName = "Wijzigen van gegevens uit KBO";
         }
     }
 
@@ -33,21 +33,6 @@ public static class SwaggerGroup
         public OpvragenAttribute()
         {
             GroupName = "Opvragen van verenigingen";
-        }
-    }
-    public class ContextenAttribute : ApiExplorerSettingsAttribute
-    {
-        public ContextenAttribute()
-        {
-            GroupName = "Contexten";
-        }
-    }
-
-    public class ParametersAttribute : ApiExplorerSettingsAttribute
-    {
-        public ParametersAttribute()
-        {
-            GroupName = "Parameters";
         }
     }
 }
