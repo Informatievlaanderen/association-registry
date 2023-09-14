@@ -12,9 +12,10 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<StreamActionResult> Save(VerenigingsBase vereniging,
-                                               CommandMetadata metadata,
-                                               CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(
+        VerenigingsBase vereniging,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default)
     {
         var events = vereniging.UncommittedEvents.ToArray();
 

@@ -17,19 +17,14 @@ public class VerwijderVertegenwoordigerCommandHandler
         CommandEnvelope<VerwijderVertegenwoordigerCommand> message,
         CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var vereniging = await _repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
+                                          .OrWhenUnsupportedOperationForType()
+                                          .Throw<VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers>();
 
-            vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
+        vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
 
-            var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
 
-            return CommandResult.Create(VCode.Create(message.Command.VCode), result);
-        }
-        catch (UnsupportedOperationForVerenigingstype)
-        {
-            throw new VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers();
-        }
+        return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 }

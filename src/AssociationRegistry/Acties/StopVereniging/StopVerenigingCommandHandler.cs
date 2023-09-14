@@ -17,19 +17,14 @@ public class StopVerenigingCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<StopVerenigingCommand> message, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var vereniging = await _repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
-            vereniging.Stop(message.Command.Einddatum, _clock);
+        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
+                                          .OrWhenUnsupportedOperationForType()
+                                          .Throw<VerenigingMetRechtspersoonlijkheidCannotBeStopped>();
 
-            var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+        vereniging.Stop(message.Command.Einddatum, _clock);
 
-            return CommandResult.Create(VCode.Create(message.Command.VCode), result);
+        var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
 
-        }
-        catch (UnsupportedOperationForVerenigingstype)
-        {
-            throw new VerenigingMetRechtspersoonlijkheidCannotBeStopped();
-        }
+        return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 }
