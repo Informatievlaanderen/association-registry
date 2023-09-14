@@ -28,6 +28,6 @@ public class Given_A_Einddatum_In_The_Future
 
         var stopVereniging = () => vereniging.Stop(einddatum, clock);
 
-        stopVereniging.Should().Throw<EinddatumIsInFuture>();
+        stopVereniging.Should().Throw<EinddatumMagNietInToekomstZijn>();
     }
 }

@@ -19,7 +19,7 @@ public class VoegVertegenwoordigerToeCommandHandler
     {
         var vereniging = await _repository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata.ExpectedVersion)
                                           .OrWhenUnsupportedOperationForType()
-                                          .Throw<VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers>();
+                                          .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
         vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
 

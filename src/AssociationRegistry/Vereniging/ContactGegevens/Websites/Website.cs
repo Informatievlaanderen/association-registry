@@ -16,8 +16,8 @@ public record Website(string Waarde, string Beschrijving, bool IsPrimair)
         if (string.IsNullOrEmpty(website))
             return Leeg;
 
-        Throw<InvalidWebsiteStart>.IfNot(UrlHasCorrectStartingCharacters(website));
-        Throw<WebsiteMissingPeriod>.IfNot(UrlContainsAPeriod(website));
+        Throw<WebsiteMoetStartenMetHttps>.IfNot(UrlHasCorrectStartingCharacters(website));
+        Throw<WebsiteMoetMinstensEenPuntBevatten>.IfNot(UrlContainsAPeriod(website));
         return new Website(website, beschrijving, isPrimair);
     }
 

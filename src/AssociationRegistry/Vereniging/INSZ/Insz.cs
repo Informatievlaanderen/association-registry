@@ -33,9 +33,9 @@ public record Insz
 
     private static void Validate(string sanitezedInsz)
     {
-        Throw<InvalidInszLength>.If(sanitezedInsz.Length != 11);
-        Throw<InvalidInszChars>.IfNot(ulong.TryParse(sanitezedInsz, out _));
-        Throw<InvalidInszMod97>.IfNot(Modulo97Correct(sanitezedInsz) ^ Modulo97Correct($"2{sanitezedInsz}"));
+        Throw<InszLengteIsOngeldig>.If(sanitezedInsz.Length != 11);
+        Throw<InszBevatOngeldigeTekens>.IfNot(ulong.TryParse(sanitezedInsz, out _));
+        Throw<InszMod97IsOngeldig>.IfNot(Modulo97Correct(sanitezedInsz) ^ Modulo97Correct($"2{sanitezedInsz}"));
     }
 
     private static bool Modulo97Correct(string value)

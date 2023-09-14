@@ -55,7 +55,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
         var handleCall = async () => await _commandHandler.Handle(secondCommandEnvelope);
 
         await handleCall.Should()
-            .ThrowAsync<MultiplePrimaireVertegenwoordigers>()
-            .WithMessage(new MultiplePrimaireVertegenwoordigers().Message);
+            .ThrowAsync<MeerderePrimaireVertegenwoordigers>()
+            .WithMessage(new MeerderePrimaireVertegenwoordigers().Message);
     }
 }

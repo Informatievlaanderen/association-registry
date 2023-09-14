@@ -19,11 +19,11 @@ public record Adres
 
     public static Adres Create(string straatnaam, string huisnummer, string? busnummer, string postcode, string gemeente, string land)
     {
-        Throw<IncompleteAdres>.If(string.IsNullOrWhiteSpace(straatnaam));
-        Throw<IncompleteAdres>.If(string.IsNullOrWhiteSpace(huisnummer));
-        Throw<IncompleteAdres>.If(string.IsNullOrWhiteSpace(postcode));
-        Throw<IncompleteAdres>.If(string.IsNullOrWhiteSpace(gemeente));
-        Throw<IncompleteAdres>.If(string.IsNullOrWhiteSpace(land));
+        Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(straatnaam));
+        Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(huisnummer));
+        Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(postcode));
+        Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(gemeente));
+        Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(land));
 
         return new Adres(straatnaam, huisnummer, busnummer ?? string.Empty, postcode, gemeente, land);
     }

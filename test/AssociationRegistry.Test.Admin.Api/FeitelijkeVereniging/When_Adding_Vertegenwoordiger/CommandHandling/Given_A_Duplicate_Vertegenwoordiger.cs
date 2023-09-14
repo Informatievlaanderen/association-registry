@@ -39,7 +39,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
         var handleCall = async () => await _commandHandler.Handle(commandEnvelope);
 
         await handleCall.Should()
-            .ThrowAsync<DuplicateInszProvided>()
-            .WithMessage(new DuplicateInszProvided().Message);
+            .ThrowAsync<InszMoetUniekZijn>()
+            .WithMessage(new InszMoetUniekZijn().Message);
     }
 }

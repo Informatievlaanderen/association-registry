@@ -90,8 +90,8 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
     {
         var vertegenwoordigers = this.Append(vertegenwoordiger).ToArray();
 
-        Throw<DuplicateInszProvided>.If(HasDuplicateInsz(vertegenwoordigers));
-        Throw<MultiplePrimaireVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
+        Throw<InszMoetUniekZijn>.If(HasDuplicateInsz(vertegenwoordigers));
+        Throw<MeerderePrimaireVertegenwoordigers>.If(HasMultiplePrimaryVertegenwoordigers(vertegenwoordigers));
     }
 
     public new Vertegenwoordiger this[int vertegenwoordigerId]
@@ -104,12 +104,12 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
         => vertegenwoordigers.DistinctBy(x => x.Insz).Count() != vertegenwoordigers.Length;
 
     public void MustNotHaveDuplicateOf(Vertegenwoordiger vertegenwoordiger)
-        => Throw<DuplicateInszProvided>.If(
+        => Throw<InszMoetUniekZijn>.If(
             HasDuplicateInsz(Items.Append(vertegenwoordiger).ToArray()));
 
     private void MustNotHaveMultiplePrimary(Vertegenwoordiger vertegenwoordiger)
     {
-        Throw<MultiplePrimaireVertegenwoordigers>.If(
+        Throw<MeerderePrimaireVertegenwoordigers>.If(
             Primair is not null && // there is a primair vertegenwoordiger
             Primair.VertegenwoordigerId != vertegenwoordiger.VertegenwoordigerId && // it is not the same
             vertegenwoordiger.IsPrimair); // we want to make it primair
@@ -117,7 +117,7 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
 
     private void MustContain(int vertegenwoordigerId)
     {
-        Throw<UnknownVertegenwoordiger>.IfNot(
+        Throw<VertegenwoordigerIsNietGekend>.IfNot(
             Items.Any(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId == vertegenwoordigerId),
             vertegenwoordigerId.ToString());
     }

@@ -16,6 +16,6 @@ public class Given_A_String_Without_A_Period
     {
         var ctor = () => Website.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<WebsiteMissingPeriod>();
+        ctor.Should().Throw<WebsiteMoetMinstensEenPuntBevatten>();
     }
 }

@@ -38,6 +38,6 @@ public class Given_A_Second_Primair
         var wijzig = () => vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, fixture.Create<string>(),
                                                            true);
 
-        wijzig.Should().Throw<MultiplePrimairContactgegevens>();
+        wijzig.Should().Throw<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }
 }

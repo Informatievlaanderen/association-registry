@@ -32,6 +32,6 @@ public class Given_Missing_Adres_Velden
             postcode,
             gemeente,
             land);
-            ctor.Should().Throw<IncompleteAdres>();
+            ctor.Should().Throw<AdresIsIncompleet>();
     }
 }

@@ -42,7 +42,7 @@ public class HoofdactiviteitVerenigingsloket
     public static HoofdactiviteitVerenigingsloket Create(string key)
     {
         var value = HoofdactiviteitenVerenigingsloket.SingleOrDefault(p => p.Code == key);
-        return value ?? throw new UnknownHoofdactiviteitCode(key);
+        return value ?? throw new HoofdactiviteitCodeIsNietGekend(key);
     }
 
     public static IImmutableList<HoofdactiviteitVerenigingsloket> All()

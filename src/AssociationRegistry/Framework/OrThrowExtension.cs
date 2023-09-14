@@ -9,7 +9,7 @@ public static class OrThrowExtension
         => new(source, type);
 
     public static OrThrowExtensionHelper<TVereniging> OrWhenUnsupportedOperationForType<TVereniging>(this Task<TVereniging> source)
-        => OrWhen(source, typeof(UnsupportedOperationForVerenigingstype));
+        => OrWhen(source, typeof(ActieIsNietToegestaanVoorVerenigingstype));
 
     public class OrThrowExtensionHelper<TVereniging>
     {

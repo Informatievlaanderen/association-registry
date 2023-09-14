@@ -41,6 +41,6 @@ public class Given_A_VCode
     public async Task Then_It_Throws_A_UnsupportedOperationException()
     {
         var loadMethod = ()=> _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, null);
-        await loadMethod.Should().ThrowAsync<UnsupportedOperationForVerenigingstype>();
+        await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
     }
 }

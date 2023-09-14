@@ -17,6 +17,6 @@ public class Given_A_String_With_Non_Numeric_Characters
     public void Then_it_throws_an_InvalidKboNummerCharsException(string kboNummerString)
     {
         var factory = () => KboNummer.Create(kboNummerString);
-        factory.Should().Throw<InvalidKboNummerChars>();
+        factory.Should().Throw<KboNummerBevatOngeldigeTekens>();
     }
 }

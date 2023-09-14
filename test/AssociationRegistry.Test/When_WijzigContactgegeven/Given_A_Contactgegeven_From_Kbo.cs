@@ -26,7 +26,7 @@ public class Given_A_Contactgegeven_From_Kbo
 
         var wijzigContactgegeven = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<bool>());
 
-        wijzigContactgegeven.Should().Throw<ContactgegevenFromKboCannotBeUpdated>();
+        wijzigContactgegeven.Should().Throw<ContactgegevenUitKboKanNietGewijzigdWorden>();
 
     }
 }

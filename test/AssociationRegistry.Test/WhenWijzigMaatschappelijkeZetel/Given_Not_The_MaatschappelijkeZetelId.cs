@@ -35,6 +35,6 @@ public class Given_Not_The_MaatschappelijkeZetelId
             fixture.Create<string>(),
             fixture.Create<bool>());
 
-        wijzigLocatie.Should().Throw<UnsupportedOperationForLocatietype>();
+        wijzigLocatie.Should().Throw<ActieIsNietToegestaanVoorLocatieType>();
     }
 }

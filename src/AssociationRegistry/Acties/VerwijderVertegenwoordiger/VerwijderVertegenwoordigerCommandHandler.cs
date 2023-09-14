@@ -19,7 +19,7 @@ public class VerwijderVertegenwoordigerCommandHandler
     {
         var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
                                           .OrWhenUnsupportedOperationForType()
-                                          .Throw<VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers>();
+                                          .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen>();
 
         vereniging.VerwijderVertegenwoordiger(message.Command.VertegenwoordigerId);
 

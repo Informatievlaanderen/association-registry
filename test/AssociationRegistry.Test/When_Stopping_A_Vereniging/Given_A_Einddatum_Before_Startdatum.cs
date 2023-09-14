@@ -25,6 +25,6 @@ public class Given_A_Einddatum_Before_Startdatum
 
         var stopVereniging = () => vereniging.Stop(einddatum, clock);
 
-        stopVereniging.Should().Throw<EinddatumIsBeforeStartdatum>();
+        stopVereniging.Should().Throw<EinddatumLigtVoorStartdatum>();
     }
 }

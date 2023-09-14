@@ -20,7 +20,7 @@ public class Adresbron
 
     public static Adresbron Parse(string broncode)
     {
-        Throw<InvalidBroncode>.If(!CanParse(broncode));
+        Throw<BroncodeIsOngeldig>.If(!CanParse(broncode));
         return All.Single(t => t.Code == broncode);
     }
 

@@ -46,9 +46,9 @@ public record KboNummer
 
     private static void Validate(string value)
     {
-        Throw<InvalidKboNummerChars>.IfNot(ulong.TryParse(value, out _));
-        Throw<InvalidKboNummerLength>.If(value.Length != 10);
-        Throw<InvalidKboNummerMod97>.IfNot(Modulo97Correct(value));
+        Throw<KboNummerBevatOngeldigeTekens>.IfNot(ulong.TryParse(value, out _));
+        Throw<KboNummerLengteIsOngeldig>.If(value.Length != 10);
+        Throw<KboNummerMod97IsOngeldig>.IfNot(Modulo97Correct(value));
     }
 
     private static bool Modulo97Correct(string value)

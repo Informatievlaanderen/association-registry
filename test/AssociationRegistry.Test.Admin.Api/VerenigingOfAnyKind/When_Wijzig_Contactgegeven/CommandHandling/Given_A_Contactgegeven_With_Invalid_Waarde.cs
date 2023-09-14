@@ -42,6 +42,6 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
 
         var method = ()=> _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        await method.Should().ThrowAsync<InvalidEmailFormat>();
+        await method.Should().ThrowAsync<EmailHeeftEenOngeldigFormaat>();
     }
 }

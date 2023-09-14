@@ -14,6 +14,6 @@ public class Given_A_String_Without_Numbers
     public void Then_it_throw_NoNumbersInTelefoonNummerException(string invalidTelefoonNummer)
     {
         var ctor = () => TelefoonNummer.Create(invalidTelefoonNummer);
-        ctor.Should().Throw<NoNumbersInTelefoonNummer>();
+        ctor.Should().Throw<TelefoonNummerMoetCijferBevatten>();
     }
 }

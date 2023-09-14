@@ -36,6 +36,6 @@ public class With_A_VerenigingMetRechtspersoonlijkheid
     public async Task Then_A_UnsupportedOperationException_Is_Thrown()
     {
         var method = () => _commandHandler.Handle(_envelope, CancellationToken.None);
-        await method.Should().ThrowAsync<VerenigingMetRechtspersoonlijkheidCannotBeStopped>();
+        await method.Should().ThrowAsync<VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden>();
     }
 }

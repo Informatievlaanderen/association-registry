@@ -16,6 +16,6 @@ public class With_A_Invalid_Type
         var fixture = new Fixture();
         var createCall = () => Contactgegeven.Create(fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>(), false);
 
-        createCall.Should().Throw<InvalidContactType>();
+        createCall.Should().Throw<ContactTypeIsOngeldig>();
     }
 }

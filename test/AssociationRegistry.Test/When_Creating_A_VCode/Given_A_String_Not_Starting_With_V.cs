@@ -16,6 +16,6 @@ public class Given_A_String_Not_Starting_With_V
     public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
     {
         var ctor = () => VCode.Create(strCode);
-        ctor.Should().Throw<InvalidVCodeFormat>();
+        ctor.Should().Throw<VCodeFormaatIsOngeldig>();
     }
 }

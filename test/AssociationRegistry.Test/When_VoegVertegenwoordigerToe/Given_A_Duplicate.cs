@@ -26,6 +26,6 @@ public class Given_A_Duplicate
             }));
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(vertegenwoordiger.Insz) };
-        Assert.Throws<DuplicateInszProvided>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
+        Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
     }
 }

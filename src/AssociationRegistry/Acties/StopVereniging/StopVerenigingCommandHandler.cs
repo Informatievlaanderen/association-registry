@@ -19,7 +19,7 @@ public class StopVerenigingCommandHandler
     {
         var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
                                           .OrWhenUnsupportedOperationForType()
-                                          .Throw<VerenigingMetRechtspersoonlijkheidCannotBeStopped>();
+                                          .Throw<VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden>();
 
         vereniging.Stop(message.Command.Einddatum, _clock);
 

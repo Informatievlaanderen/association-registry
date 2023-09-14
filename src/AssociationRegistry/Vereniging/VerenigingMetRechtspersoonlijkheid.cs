@@ -108,7 +108,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (gewijzigdeLocatie is null)
             return;
 
-        Throw<UnsupportedOperationForLocatietype>.If(gewijzigdeLocatie.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<ActieIsNietToegestaanVoorLocatieType>.If(gewijzigdeLocatie.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
     }
@@ -153,7 +153,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (gewijzigdContactgegeven is null)
             return;
 
-        Throw<UnsupportedOperationForContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
+        Throw<ActieIsNietToegestaanVoorContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
 
         AddEvent(ContactgegevenUitKBOWerdGewijzigd.With(gewijzigdContactgegeven));
     }
@@ -184,7 +184,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             Verenigingstype.StichtingVanOpenbaarNut,
         };
 
-        Throw<UnsupportedOperationForVerenigingstype>.If(
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
             !_allowedTypes.Contains(obj.Verenigingstype));
 
         State = obj;

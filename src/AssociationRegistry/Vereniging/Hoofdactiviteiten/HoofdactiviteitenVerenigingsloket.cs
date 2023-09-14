@@ -15,7 +15,7 @@ public class HoofdactiviteitenVerenigingsloket : ReadOnlyCollection<Hoofdactivit
 
     public static HoofdactiviteitenVerenigingsloket FromArray(HoofdactiviteitVerenigingsloket[] hoofdactiviteiten)
     {
-        Throw<DuplicateHoofdactiviteit>.If(HasDuplicateHoofdactiviteit(hoofdactiviteiten));
+        Throw<HoofdactiviteitIsDuplicaat>.If(HasDuplicateHoofdactiviteit(hoofdactiviteiten));
 
         return new HoofdactiviteitenVerenigingsloket(hoofdactiviteiten);
     }

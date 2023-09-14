@@ -22,6 +22,6 @@ public class Given_A_List_Of_Vertegenwoordigers_With_Same_Insz
             vertegenwoordiger2,
         };
 
-        Assert.Throws<DuplicateInszProvided>(() => Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers));
+        Assert.Throws<InszMoetUniekZijn>(() => Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers));
     }
 }

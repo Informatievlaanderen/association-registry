@@ -22,7 +22,7 @@ public class Given_A_List_Of_Hoofdactiviteiten_With_Duplicates
 
         var ctor = () => HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteiten);
 
-        ctor.Should().Throw<DuplicateHoofdactiviteit>();
+        ctor.Should().Throw<HoofdactiviteitIsDuplicaat>();
     }
 }
 

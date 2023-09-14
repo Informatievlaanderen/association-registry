@@ -23,7 +23,7 @@ public record Locatie
 
     public static Locatie Create(string? naam, bool isPrimair, string locatieType, AdresId? adresId = null, Adres? adres = null)
     {
-        Throw<MissingAdres>.If(adresId is null && adres is null);
+        Throw<AdresOfAdresIdMoetAanwezigZijn>.If(adresId is null && adres is null);
 
         return new Locatie(naam, isPrimair, locatieType, adresId, adres);
     }
@@ -80,7 +80,7 @@ public record Locatie
 
     public Locatie Wijzig(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         if (adres is null && adresId is null)
             return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };

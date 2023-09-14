@@ -17,6 +17,6 @@ public class Given_A_String_With_Invalid_Start
     {
         var ctor = () => SocialMedia.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<InvalidSocialMediaStart>();
+        ctor.Should().Throw<SocialMediaMoetStartenMetHttp>();
     }
 }

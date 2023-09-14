@@ -21,7 +21,7 @@ public record Email(string Waarde, string Beschrijving, bool IsPrimair)
     {
         if (string.IsNullOrEmpty(email))
             return Leeg;
-        Throw<InvalidEmailFormat>.IfNot(MatchWithRegex(email));
+        Throw<EmailHeeftEenOngeldigFormaat>.IfNot(MatchWithRegex(email));
         return new Email(email, beschrijving, isPrimair);
     }
 

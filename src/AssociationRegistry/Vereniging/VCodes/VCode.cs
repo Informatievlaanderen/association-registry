@@ -19,16 +19,16 @@ public class VCode : ValueObject<VCode>
 
     public static VCode Create(string vCode)
     {
-        Throw<InvalidVCodeFormat>.IfNot(VCodeHasLengthEight(vCode));
-        Throw<InvalidVCodeFormat>.IfNot(VCodeStartsWith_V(vCode));
-        Throw<InvalidVCodeFormat>.IfNot(VCodeAfterV_IsNumeric(vCode));
+        Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeHasLengthEight(vCode));
+        Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeStartsWith_V(vCode));
+        Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeAfterV_IsNumeric(vCode));
 
         return Create(int.Parse(vCode[1..]));
     }
 
     public static VCode Create(int vCode)
     {
-        Throw<OutOfRangeVCode>.If(VCodeLessThanStartingVCode(vCode));
+        Throw<VCodeValtBuitenToegelatenWaardes>.If(VCodeLessThanStartingVCode(vCode));
         return new VCode(vCode);
     }
     internal static VCode Hydrate(string vCode)
