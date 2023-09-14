@@ -1,5 +1,5 @@
 {
-  "@context": "http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json",
+  "@context": "http://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json",
   "verenigingen": [
     {
       "vCode": "V9999044",

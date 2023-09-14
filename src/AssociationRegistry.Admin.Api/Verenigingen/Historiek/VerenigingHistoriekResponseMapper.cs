@@ -16,7 +16,7 @@ public class VerenigingHistoriekResponseMapper
     public HistoriekResponse Map(string vCode, BeheerVerenigingHistoriekDocument historiek)
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/historiek-vereniging-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/historiek-vereniging-context.json",
             VCode = vCode,
             Gebeurtenissen = historiek.Gebeurtenissen
                 .Select(Map)

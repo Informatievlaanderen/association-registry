@@ -67,7 +67,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
         var expected = $@"
 {{
-    ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
+    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json"}"",
     ""vereniging"": {{
             ""vCode"": ""{_afdelingWerdGeregistreerd.VCode}"",
             ""type"": {{
@@ -116,7 +116,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
         var expected = $@"
 {{
-    ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
+    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json"}"",
     ""vereniging"": {{
             ""vCode"": ""{_moederVCode}"",
             ""type"": {{
