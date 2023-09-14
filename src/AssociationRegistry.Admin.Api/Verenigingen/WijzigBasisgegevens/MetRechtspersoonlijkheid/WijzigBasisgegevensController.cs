@@ -25,7 +25,7 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[SwaggerGroup.VerrijkingenVanKbo]
+[SwaggerGroup.WijzigenVanKbo]
 public class WijzigBasisgegevensController : ApiController
 {
     private readonly AppSettings _appSettings;
