@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Public.Api.Infrastructure.Documentation;
 
+using ConfigurationBindings;
 using System;
 using System.Text;
-using ConfigurationBindings;
 
 public static class Documentation
 {
-    private static string IntroductieText
-        => @"
+    private static Func<AppSettings, string> IntroductieText
+        => appSettings => @$"
 ---
 Het Verenigingsregister verstrekt informatie over verenigingen die in interactie treden met een overheid (in het kader van dienstverlening).
 <br />Het betreft verenigingen zonder rechtspersoonlijkheid (zoals feitelijke verenigingen) en verenigingen met rechtspersoonlijkheid (zoals vzw’s).
 
 Deze API geeft *enkel leesrechten* tot de informatie uit het Verenigingsregister.
-";
+
+Schrijf je in op <a href=""{appSettings.NewsletterUrl}"">onze nieuwsbrief</a> om op de hoogte te blijven met informatie en nieuwigheden over het verenigingsregister.";
 
     private static Func<AppSettings, string> ToegangTotHetRegisterText
         => appSettings => @$"
@@ -69,9 +70,10 @@ Foutmelding | Wanneer                                                           
     {
         var text = new StringBuilder(capacity: 1000);
 
-        text.Append(IntroductieText);
+        text.Append(IntroductieText(appSettings));
         text.AppendLine(ToegangTotHetRegisterText(appSettings));
         text.AppendLine(FoutmeldingenText);
+
         return text.ToString();
     }
 
