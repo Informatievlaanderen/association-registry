@@ -1,3 +1,10 @@
+## [7.27.1](https://github.com/informatievlaanderen/association-registry/compare/v7.27.0...v7.27.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* or-1903 update context url ([9078b03](https://github.com/informatievlaanderen/association-registry/commit/9078b03d57fe9ac8374ea47d6007111847fadce7))
+
 # [7.27.0](https://github.com/informatievlaanderen/association-registry/compare/v7.26.0...v7.27.0) (2023-09-14)
 
 
