@@ -1,3 +1,10 @@
+# [7.25.0](https://github.com/informatievlaanderen/association-registry/compare/v7.24.4...v7.25.0) (2023-09-14)
+
+
+### Features
+
+* or-1904 add duplicate endpoint registreer feitelijke vereinging ([59a6307](https://github.com/informatievlaanderen/association-registry/commit/59a630705e64b3992edaba85db260e9c243813f6))
+
 ## [7.24.4](https://github.com/informatievlaanderen/association-registry/compare/v7.24.3...v7.24.4) (2023-09-13)
 
 
