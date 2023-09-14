@@ -1,3 +1,11 @@
+# [7.26.0](https://github.com/informatievlaanderen/association-registry/compare/v7.25.0...v7.26.0) (2023-09-14)
+
+
+### Features
+
+* or-1902 Remove hoofdactiviteiten endpoint from admin api ([6a86390](https://github.com/informatievlaanderen/association-registry/commit/6a8639050d45758d14933c7b0039830cf19c213e))
+* or-1903 Remove context endpoint from admin api ([65189b0](https://github.com/informatievlaanderen/association-registry/commit/65189b0b120d21d3073cd8ea7fbaf6f2d38bee5e))
+
 # [7.25.0](https://github.com/informatievlaanderen/association-registry/compare/v7.24.4...v7.25.0) (2023-09-14)
 
 
