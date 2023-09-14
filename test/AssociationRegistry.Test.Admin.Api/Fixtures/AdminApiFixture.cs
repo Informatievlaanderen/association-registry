@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using System.Net.Http.Headers;
-using System.Reflection;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
@@ -151,15 +150,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     });
                 options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
             });
-    }
-
-    private static string GetRootDirectoryOrThrow()
-    {
-        var maybeRootDirectory = Directory
-            .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
-        if (maybeRootDirectory is not { } rootDirectory)
-            throw new NullReferenceException("Root directory cannot be null");
-        return rootDirectory;
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
