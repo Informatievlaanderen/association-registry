@@ -30,7 +30,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
             "Feitelijke vereniging",
             new DetailVerenigingResponse
             {
-                Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+                Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001001",
@@ -130,7 +130,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
             "Vereniging met rechtspersoonlijkheid",
             new DetailVerenigingResponse
             {
-                Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+                Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001002",

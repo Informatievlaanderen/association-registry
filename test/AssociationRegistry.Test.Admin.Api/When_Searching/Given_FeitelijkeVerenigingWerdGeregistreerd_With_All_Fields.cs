@@ -17,12 +17,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     private readonly AdminApiClient _adminApiClient;
 
     private const string EmptyVerenigingenResponse =
-        "{\"@context\":\"http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+        "{\"@context\":\"http://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields;
         _adminApiClient = fixture.AdminApiClient;
+
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
@@ -36,8 +37,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     {
         var response = await _adminApiClient.Search("Feestcommittee Oudenaarde");
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "Feestcommittee Oudenaarde");
+           .Replace("{{originalQuery}}", "Feestcommittee Oudenaarde");
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -57,7 +60,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*dena*");
+           .Replace("{{originalQuery}}", "*dena*");
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -68,7 +72,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oudenaarde");
+           .Replace("{{originalQuery}}", "oudenaarde");
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -79,7 +84,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+           .Replace("{{originalQuery}}", _scenario.VCode);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -103,12 +109,13 @@ public class Given_VerenigingWerdGestopt
     private readonly AdminApiClient _adminApiClient;
 
     private const string EmptyVerenigingenResponse =
-        "{\"@context\":\"http://127.0.0.1:11004/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+        "{\"@context\":\"http://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_VerenigingWerdGestopt(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V041FeitelijkeVerenigingWerdGestopt;
         _adminApiClient = fixture.AdminApiClient;
+
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_VerenigingWerdGestopt)}_{nameof(Then_one_vereniging_is_retrieved_by_its_vCode)}");
     }
@@ -124,7 +131,8 @@ public class Given_VerenigingWerdGestopt
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+           .Replace("{{originalQuery}}", _scenario.VCode);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

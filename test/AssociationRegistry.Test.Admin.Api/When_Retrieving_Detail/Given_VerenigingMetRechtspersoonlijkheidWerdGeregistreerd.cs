@@ -55,7 +55,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 
         var expected = $@"
 {{
-    ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
+    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/detail-vereniging-context.json"}"",
     ""vereniging"": {{
             ""vCode"": ""{vCode}"",
             ""type"": {{

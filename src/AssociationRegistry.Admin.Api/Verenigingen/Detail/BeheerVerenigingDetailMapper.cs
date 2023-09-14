@@ -23,7 +23,7 @@ public class BeheerVerenigingDetailMapper
     public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/detail-vereniging-context.json",
             Vereniging = Map(vereniging, _appSettings.BaseUrl),
             Metadata = MapMetadata(vereniging),
         };
