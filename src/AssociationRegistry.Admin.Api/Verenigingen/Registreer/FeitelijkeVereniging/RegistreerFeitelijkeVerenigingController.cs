@@ -101,7 +101,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("feitelijkevereniging")]
+    [HttpPost("feitelijkeverenigingen")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(RegistreerFeitelijkeVerenigingRequest), typeof(RegistreerFeitelijkeVerenigingRequestExamples))]
