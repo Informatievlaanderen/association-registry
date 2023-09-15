@@ -1,3 +1,10 @@
+## [7.27.3](https://github.com/informatievlaanderen/association-registry/compare/v7.27.2...v7.27.3) (2023-09-15)
+
+
+### Bug Fixes
+
+* or-1885 verrijken naar wijzigen ([93e51db](https://github.com/informatievlaanderen/association-registry/commit/93e51db4c7ae5b7b8bd18e55d1a4a763f99749dc))
+
 ## [7.27.2](https://github.com/informatievlaanderen/association-registry/compare/v7.27.1...v7.27.2) (2023-09-14)
 
 
