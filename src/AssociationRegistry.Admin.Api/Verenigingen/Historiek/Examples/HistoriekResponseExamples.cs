@@ -15,7 +15,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
     public HistoriekResponse GetExamples()
         => new()
         {
-            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/historiek-vereniging-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/historiek-vereniging-context.json",
             VCode = "V0000123",
             Gebeurtenissen = new HistoriekGebeurtenisResponse[]
             {

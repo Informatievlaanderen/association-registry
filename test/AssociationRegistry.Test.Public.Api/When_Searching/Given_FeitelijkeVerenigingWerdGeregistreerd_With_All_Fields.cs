@@ -19,7 +19,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     private readonly PublicApiClient _publicApiClient;
 
     private const string EmptyVerenigingenResponse =
-        "{\"@context\":\"https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json\",\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+        "{\"@context\":\"https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json\",\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(GivenEventsFixture fixture)
     {

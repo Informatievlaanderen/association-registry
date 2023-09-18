@@ -24,7 +24,7 @@ public class SearchVerenigingenResponseMapper
         string originalQuery)
         => new()
         {
-            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/zoek-verenigingen-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
                                          .Select(x => Map(x.Source, _appSettings))
                                          .ToArray(),

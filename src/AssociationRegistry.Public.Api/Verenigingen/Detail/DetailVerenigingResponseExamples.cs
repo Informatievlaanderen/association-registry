@@ -18,7 +18,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
     public PubliekVerenigingDetailResponse GetExamples()
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
                 VCode = "V0001001",

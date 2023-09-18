@@ -38,7 +38,7 @@ public class Given_RoepnaamWerdGewijzigd
 
         var expected = $@"
 {{
-    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json"}"",
+    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json"}"",
     ""verenigingen"": [{{
             ""vCode"": ""{_scenario.VCode}"",
             ""type"": {{

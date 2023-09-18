@@ -22,7 +22,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
     public SearchVerenigingenResponse GetExamples()
         => new()
         {
-            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/zoek-verenigingen-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/zoek-verenigingen-context.json",
             Verenigingen = new[]
             {
                 new Vereniging

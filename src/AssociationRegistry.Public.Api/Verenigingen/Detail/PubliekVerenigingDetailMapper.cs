@@ -10,7 +10,7 @@ public static class PubliekVerenigingDetailMapper
     public static PubliekVerenigingDetailResponse Map(PubliekVerenigingDetailDocument document, AppSettings appSettings)
         => new()
         {
-            Context = $"{appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+            Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
                 VCode = document.VCode,
