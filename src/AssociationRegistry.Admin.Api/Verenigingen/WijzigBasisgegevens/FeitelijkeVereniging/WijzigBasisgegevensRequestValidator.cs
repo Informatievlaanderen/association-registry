@@ -37,7 +37,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            request.KorteNaam is not null ||
            request.KorteBeschrijving is not null ||
            request.IsUitgeschrevenUitPubliekeDatastroom is not null ||
-           !request.Startdatum.IsNull ||
+           request.Startdatum is { IsNull: false } ||
            request.Doelgroep is not null ||
            request.HoofdactiviteitenVerenigingsloket is not null;
 }
