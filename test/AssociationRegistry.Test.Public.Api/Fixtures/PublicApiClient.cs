@@ -15,8 +15,11 @@ public class PublicApiClient : IDisposable
     public async Task<HttpResponseMessage> Search(string q)
         => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}");
 
+    public async Task<HttpResponseMessage> Search(string q, string sort)
+        => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}&sort={sort}");
+
     public async Task<HttpResponseMessage> GetDocs()
-        => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
+        => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
 
     public void Dispose()
     {
@@ -24,5 +27,5 @@ public class PublicApiClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> GetHoofdactiviteiten()
-        => await HttpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
+        => await HttpClient.GetAsync("/v1/hoofdactiviteitenVerenigingsloket");
 }
