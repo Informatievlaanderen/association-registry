@@ -1,3 +1,10 @@
+# [7.28.0](https://github.com/informatievlaanderen/association-registry/compare/v7.27.3...v7.28.0) (2023-09-18)
+
+
+### Features
+
+* or-1903 split contexts between beheer and publiek ([465bb6b](https://github.com/informatievlaanderen/association-registry/commit/465bb6b373594d207f0b0146d9cd9d17618faa9e))
+
 ## [7.27.3](https://github.com/informatievlaanderen/association-registry/compare/v7.27.2...v7.27.3) (2023-09-15)
 
 
