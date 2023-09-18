@@ -59,7 +59,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
 
         var expected = $@"
             {{
-                ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/historiek-vereniging-context.json"}"",
+                ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/historiek-vereniging-context.json"}"",
                 ""vCode"": ""{_vCode}"",
                 ""gebeurtenissen"": [
                     {{

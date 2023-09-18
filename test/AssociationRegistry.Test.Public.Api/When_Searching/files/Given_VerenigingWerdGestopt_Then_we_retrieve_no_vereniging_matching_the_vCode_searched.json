@@ -1,5 +1,5 @@
 {
-  "@context": "https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json",
+  "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
   "verenigingen": [],
   "facets": {
     "hoofdactiviteitenVerenigingsloket": []

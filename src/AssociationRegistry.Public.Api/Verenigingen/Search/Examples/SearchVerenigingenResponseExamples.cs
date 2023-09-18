@@ -21,7 +21,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
     public SearchVerenigingenResponse GetExamples()
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/zoek-verenigingen-context.json",
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = new[]
             {
                 new Vereniging
