@@ -1,3 +1,10 @@
+# [7.29.0](https://github.com/informatievlaanderen/association-registry/compare/v7.28.0...v7.29.0) (2023-09-18)
+
+
+### Features
+
+* or-1901 add nullable to all types ([c6a31d1](https://github.com/informatievlaanderen/association-registry/commit/c6a31d1dfbf384323b5f91453c5391c3db121207))
+
 # [7.28.0](https://github.com/informatievlaanderen/association-registry/compare/v7.27.3...v7.28.0) (2023-09-18)
 
 
