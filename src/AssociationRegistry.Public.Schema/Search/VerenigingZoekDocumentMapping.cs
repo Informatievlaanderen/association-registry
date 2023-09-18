@@ -9,16 +9,19 @@ public static class VerenigingZoekDocumentMapping
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.VCode))
+                                                   .Name(document => document.VCode)
+                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Naam))
+                                                   .Name(document => document.Naam)
+                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Roepnaam))
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.KorteNaam))
+                                                   .Name(document => document.KorteNaam)
+                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))

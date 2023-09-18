@@ -31,6 +31,9 @@ public class SearchVerenigingenController : ApiController
     private readonly ElasticClient _elasticClient;
     private readonly SearchVerenigingenResponseMapper _responseMapper;
 
+    private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
+        x => x.Descending(v => v.VCode);
+
     public SearchVerenigingenController(ElasticClient elasticClient, SearchVerenigingenResponseMapper responseMapper)
     {
         _elasticClient = elasticClient;
@@ -80,6 +83,7 @@ public class SearchVerenigingenController : ApiController
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
         [FromQuery] string? q,
+        [FromQuery] string? sort,
         [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
         string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams,
@@ -91,7 +95,7 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-        var searchResponse = await Search(_elasticClient, q, hoofdActiviteitenArray, paginationQueryParams);
+        var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams);
 
         var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
@@ -101,36 +105,40 @@ public class SearchVerenigingenController : ApiController
     private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
         IElasticClient client,
         string q,
+        string? sort,
         string[] hoofdactiviteiten,
         PaginationQueryParams paginationQueryParams)
         => await client.SearchAsync<VerenigingZoekDocument>(
-            s => s
-                .From(paginationQueryParams.Offset)
-                .Size(paginationQueryParams.Limit)
-                .Query(query => query
-                          .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                      .Must(queryContainerDescriptor
-                                                                => MatchQueryString(
-                                                                    queryContainerDescriptor,
-                                                                    $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
-                                                            BeActief
-                                                       )
-                                                      .MustNot(BeUitgeschrevenUitPubliekeDatastroom)
-                           )
-                 )
-                .Aggregations(
-                     agg =>
-                         GlobalAggregation(
-                             agg,
-                             aggregations: agg2 =>
-                                 QueryFilterAggregation(
-                                     agg2,
-                                     q,
-                                     HoofdactiviteitCountAggregation
+            s =>
+            {
+                return s
+                      .From(paginationQueryParams.Offset)
+                      .Size(paginationQueryParams.Limit)
+                      .ParseSort(sort, DefaultSort)
+                      .Query(query => query
+                                .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                                            .Must(queryContainerDescriptor
+                                                                      => MatchQueryString(
+                                                                          queryContainerDescriptor,
+                                                                          $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
+                                                                  BeActief
+                                                             )
+                                                            .MustNot(BeUitgeschrevenUitPubliekeDatastroom)
                                  )
-                         )
-                 )
-        );
+                       )
+                      .Aggregations(
+                           agg =>
+                               GlobalAggregation(
+                                   agg,
+                                   aggregations: agg2 =>
+                                       QueryFilterAggregation(
+                                           agg2,
+                                           q,
+                                           HoofdactiviteitCountAggregation
+                                       )
+                               )
+                       );
+            });
 
     private static IAggregationContainer GlobalAggregation<T>(
         AggregationContainerDescriptor<T> agg,
@@ -219,5 +227,36 @@ public class SearchVerenigingenController : ApiController
         where T : class, IHasStatus
     {
         return q.Terms(t => t.Field(arg => arg.Status).Terms(VerenigingStatus.Actief));
+    }
+}
+
+public static class SearchVerenigingenExtensions
+{
+    public static SearchDescriptor<T> ParseSort<T>(
+        this SearchDescriptor<T> source,
+        string? sort,
+        Func<SortDescriptor<T>, SortDescriptor<T>> defaultSort) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(sort))
+            return source.Sort(defaultSort);
+
+        return source.Sort(_ => SortDescriptor<T>(sort));
+    }
+
+    private static SortDescriptor<T> SortDescriptor<T>(string sort) where T : class
+    {
+        var sortParts = sort.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
+                            .ToArray();
+
+        var sortDescriptor = new SortDescriptor<T>();
+
+        foreach (var sortPart in sortParts)
+        {
+            var descending = sortPart.StartsWith("-");
+            var part = descending ? sortPart.Substring(1) : sortPart;
+            sortDescriptor.Field(part + ".keyword", descending ? SortOrder.Descending : SortOrder.Ascending);
+        }
+
+        return sortDescriptor;
     }
 }
