@@ -379,6 +379,7 @@ public class Program
                             new StringEnumConverter(new DefaultNamingStrategy(), allowIntegerValues: false));
 
                         opt.SerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
+                        opt.SerializerSettings.Converters.Add(new NullableNullOrEmptyDateOnlyJsonConvertor());
                         opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                         opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
                         opt.SerializerSettings.NullValueHandling = NullValueHandling.Include;
@@ -560,6 +561,7 @@ public class Program
     {
         var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
         jsonSerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
+        jsonSerializerSettings.Converters.Add(new NullableNullOrEmptyDateOnlyJsonConvertor());
         jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
         jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
         jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;

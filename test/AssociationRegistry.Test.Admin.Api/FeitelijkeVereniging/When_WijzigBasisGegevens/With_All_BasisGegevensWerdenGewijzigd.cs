@@ -39,13 +39,13 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
             ""naam"":""{Request.Naam}"",
             ""korteNaam"":""{Request.KorteNaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
-            ""startdatum"":""{Request.Startdatum.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"":""{Request.Startdatum!.Value.Value.ToString(WellknownFormats.DateOnly)}"",
             ""doelgroep"": {{
                 ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
                 ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
             }},
             ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!
-                .Select(h => $@"""{h}""").Join(",")}],
+                                                           .Select(h => $@"""{h}""").Join(",")}],
             ""isUitgeschrevenUitPubliekeDatastroom"":true,
             ""initiator"": ""OVO000001""}}";
 
@@ -64,7 +64,9 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     private readonly IDocumentStore _documentStore;
     private readonly AppSettings _appSettings;
 
-    public With_All_BasisGegevensWerdenGewijzigd(When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup, EventsInDbScenariosFixture fixture)
+    public With_All_BasisGegevensWerdenGewijzigd(
+        When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup,
+        EventsInDbScenariosFixture fixture)
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -77,42 +79,54 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     public void Then_it_saves_the_events()
     {
         using var session = _documentStore
-            .LightweightSession();
+           .LightweightSession();
+
         var naamWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+                                       .QueryRawEventDataOnly<NaamWerdGewijzigd>()
+                                       .Single(@event => @event.VCode == _vCode);
+
         var korteNaamWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+                                            .QueryRawEventDataOnly<KorteNaamWerdGewijzigd>()
+                                            .Single(@event => @event.VCode == _vCode);
+
         var korteBeschrijvingWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+                                                    .QueryRawEventDataOnly<KorteBeschrijvingWerdGewijzigd>()
+                                                    .Single(@event => @event.VCode == _vCode);
+
         var startdatumWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-            .Single(@event => @event.VCode == _vCode);
+                                             .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
+                                             .Single(@event => @event.VCode == _vCode);
+
         var hoofactiviteitenVerenigingloketWerdenGewijzigd = session.Events
-            .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+                                                                    .FetchStream(_vCode)
+                                                                    .Single(@event => @event.Data.GetType() ==
+                                                                                      typeof(
+                                                                                          HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+
         var doelgroepWerdGewijzigd = session.Events
-            .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
+                                            .FetchStream(_vCode)
+                                            .Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
+
         session.Events
-            .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
-            .Should().NotBeNull();
+               .FetchStream(_vCode)
+               .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom))
+               .Should().NotBeNull();
 
         naamWerdGewijzigd.Naam.Should().Be(_request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(_request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(_request.KorteBeschrijving);
-        startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum.Value);
+        startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum!.Value.Value);
+
         hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(
                 _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create)
-                    .ToArray()));
+                        .ToArray()));
+
         (doelgroepWerdGewijzigd.Data as DoelgroepWerdGewijzigd)!.Doelgroep.Should()
-            .BeEquivalentTo(
-                new Registratiedata.Doelgroep(_request.Doelgroep!.Minimumleeftijd!.Value,
-                        _request.Doelgroep!.Maximumleeftijd!.Value));
+                                                                .BeEquivalentTo(
+                                                                     new Registratiedata.Doelgroep(
+                                                                         _request.Doelgroep!.Minimumleeftijd!.Value,
+                                                                         _request.Doelgroep!.Maximumleeftijd!.Value));
     }
 
     [Fact]
@@ -123,8 +137,9 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     public void Then_it_returns_a_location_header()
     {
         _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+
         _response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
+                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

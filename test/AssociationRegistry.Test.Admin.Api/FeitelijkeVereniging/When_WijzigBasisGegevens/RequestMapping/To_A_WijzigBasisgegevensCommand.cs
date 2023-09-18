@@ -38,7 +38,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum.Value)));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
 
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
@@ -71,7 +71,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum.Value)));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
 
         doelgroep.Should().BeNull();
         hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
