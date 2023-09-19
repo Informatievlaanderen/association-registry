@@ -1,3 +1,18 @@
+# [7.30.0](https://github.com/informatievlaanderen/association-registry/compare/v7.29.0...v7.30.0) (2023-09-19)
+
+
+### Bug Fixes
+
+* or-1901 add new scenario for startdatum tests ([62dd930](https://github.com/informatievlaanderen/association-registry/commit/62dd930e385ba7f8b978902fd758c4bb93e85429))
+
+
+### Features
+
+* or-1320 add default sort at the end ([c25f77e](https://github.com/informatievlaanderen/association-registry/commit/c25f77e6798825738ba3420dcb808f30faf597eb))
+* or-1320 add sorting on top-level and nested fields ([fb8987e](https://github.com/informatievlaanderen/association-registry/commit/fb8987e058f7925aadf9c52109cc9d4c7147970c))
+* or-1320 implement more advanced sorting ([7eda81a](https://github.com/informatievlaanderen/association-registry/commit/7eda81a7e01d696243df003326834dfe5813d613))
+* or-1320 LocatieId not as number ([02b40c9](https://github.com/informatievlaanderen/association-registry/commit/02b40c9f7cfee92eeb0995e97e448f39a3f70019))
+
 # [7.29.0](https://github.com/informatievlaanderen/association-registry/compare/v7.28.0...v7.29.0) (2023-09-18)
 
 
