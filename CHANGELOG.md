@@ -1,3 +1,10 @@
+# [7.31.0](https://github.com/informatievlaanderen/association-registry/compare/v7.30.0...v7.31.0) (2023-09-19)
+
+
+### Features
+
+* or-1320 add docs ([68fc173](https://github.com/informatievlaanderen/association-registry/commit/68fc173c541f9b8241176d571210fc9251ed1d7a))
+
 # [7.30.0](https://github.com/informatievlaanderen/association-registry/compare/v7.29.0...v7.30.0) (2023-09-19)
 
 
