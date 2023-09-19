@@ -66,8 +66,17 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=...&amp;offset=30&amp;limit=30`
     ///     Er kan enkel gepagineerd worden binnen de eerste 1000 resultaten.
     ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
+    ///
+    ///     Standaard wordt aflopend gesorteerd op vCode.
+    ///     Wil je een eigen sortering meegeven, kan je gebruik maken van `sort=veldNaam`.
+    ///     - Zonder `sort` parameter wordt standaard aflopend gesorteerd op `vCode`.
+    ///     - `sort=naam` Sorteert oplopend op `naam`.
+    ///     - `sort=-naam` Sorteert aflopend op `naam`.
+    ///     - `sort=type.code` Gebruik `.` om te navigeren binnen geneste objecten.
+    ///     - `sort=type.code,-naam` Gebruik `,` om te sorteren op meerdere velden.
     /// </remarks>
     /// <param name="q">De querystring</param>
+    /// <param name="sort">De velden om op te sorteren</param>
     /// <param name="hoofdactiviteitenVerenigingsloket">
     ///     De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar
     ///     niet in de facets te zien is.
@@ -79,8 +88,10 @@ public class SearchVerenigingenController : ApiController
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("zoeken")]
     [ProducesResponseType(typeof(SearchVerenigingenResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SearchVerenigingenResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Zoeken(
