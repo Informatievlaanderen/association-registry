@@ -4,6 +4,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Examples;
+using Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -97,9 +99,24 @@ public class SearchVerenigingenController : ApiController
 
         var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams);
 
+        if (searchResponse.ApiCall.HttpStatusCode == 400)
+            return MapBadRequest(searchResponse);
+
         var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
+    }
+
+    private IActionResult MapBadRequest(
+        ISearchResponse<VerenigingZoekDocument> searchResponse)
+    {
+        var match = Regex.Match(searchResponse.ServerError.Error.RootCause.First().Reason,
+                                pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
+
+        if (match.Success)
+            throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
+
+        throw new ZoekOpdrachtWasIncorrect();
     }
 
     private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
@@ -227,36 +244,5 @@ public class SearchVerenigingenController : ApiController
         where T : class, IHasStatus
     {
         return q.Terms(t => t.Field(arg => arg.Status).Terms(VerenigingStatus.Actief));
-    }
-}
-
-public static class SearchVerenigingenExtensions
-{
-    public static SearchDescriptor<T> ParseSort<T>(
-        this SearchDescriptor<T> source,
-        string? sort,
-        Func<SortDescriptor<T>, SortDescriptor<T>> defaultSort) where T : class
-    {
-        if (string.IsNullOrWhiteSpace(sort))
-            return source.Sort(defaultSort);
-
-        return source.Sort(_ => SortDescriptor<T>(sort));
-    }
-
-    private static SortDescriptor<T> SortDescriptor<T>(string sort) where T : class
-    {
-        var sortParts = sort.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
-                            .ToArray();
-
-        var sortDescriptor = new SortDescriptor<T>();
-
-        foreach (var sortPart in sortParts)
-        {
-            var descending = sortPart.StartsWith("-");
-            var part = descending ? sortPart.Substring(1) : sortPart;
-            sortDescriptor.Field(part + ".keyword", descending ? SortOrder.Descending : SortOrder.Ascending);
-        }
-
-        return sortDescriptor;
     }
 }

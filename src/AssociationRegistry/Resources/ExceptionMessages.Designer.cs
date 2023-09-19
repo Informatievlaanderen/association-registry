@@ -374,5 +374,17 @@ namespace AssociationRegistry {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers", resourceCulture);
             }
         }
+        
+        public static string ZoekOpdrachtWasIncorrect {
+            get {
+                return ResourceManager.GetString("ZoekOpdrachtWasIncorrect", resourceCulture);
+            }
+        }
+        
+        public static string ZoekOpdrachtBevatOnbekendeSorteerVelden {
+            get {
+                return ResourceManager.GetString("ZoekOpdrachtBevatOnbekendeSorteerVelden", resourceCulture);
+            }
+        }
     }
 }
