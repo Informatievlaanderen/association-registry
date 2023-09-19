@@ -1,20 +1,20 @@
-namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 
-public class V010_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsInDbScenario
+public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public V010_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields()
+    public V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = "V9999010";
+        VCode = "V9999046";
         Naam = "De leuke club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {

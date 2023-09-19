@@ -14,7 +14,7 @@ public static class SearchVerenigingenExtensions
         if (string.IsNullOrWhiteSpace(sort))
             return source.Sort(defaultSort);
 
-        return source.Sort(_ => SortDescriptor<T>(sort));
+        return source.Sort(_ => SortDescriptor<T>(sort).ThenBy(defaultSort));
     }
 
     private static SortDescriptor<T> SortDescriptor<T>(string sort) where T : class
@@ -33,4 +33,8 @@ public static class SearchVerenigingenExtensions
 
         return sortDescriptor;
     }
+
+    private static SortDescriptor<T> ThenBy<T>(this SortDescriptor<T> first, Func<SortDescriptor<T>, SortDescriptor<T>> second)
+        where T : class
+        => second(first);
 }
