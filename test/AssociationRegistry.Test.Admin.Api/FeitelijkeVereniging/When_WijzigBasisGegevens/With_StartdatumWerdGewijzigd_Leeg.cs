@@ -23,7 +23,7 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
         {
             Startdatum = NullOrEmpty<DateOnly>.Empty,
         };
-        VCode = fixture.V010FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode;
+        VCode = fixture.V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum.VCode;
 
         const string jsonBody = $@"{{
             ""startdatum"":"""",

@@ -27,7 +27,7 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumNull
 
         const string jsonBody = $@"{{
             ""startdatum"": null,
-""korteNaam"": ""iets"",
+            ""korteNaam"": ""iets"",
             ""Initiator"": ""OVO000001""}}";
 
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody).GetAwaiter().GetResult();
