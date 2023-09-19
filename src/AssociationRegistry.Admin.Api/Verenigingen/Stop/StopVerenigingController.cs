@@ -10,7 +10,6 @@ using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +18,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Threading.Tasks;
 using Vereniging;
 using Wolverine;
+using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
+using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
@@ -60,9 +61,12 @@ public class StopVerenigingController : ApiController
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(StopVerenigingRequest), typeof(StopVerenigingRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string", description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string", description: "De locatie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
+                           description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
+                           description: "De versie van de aangepaste vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
+                           description: "De locatie van de aangepaste vereniging.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status200OK)]
