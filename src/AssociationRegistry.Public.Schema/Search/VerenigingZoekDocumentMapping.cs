@@ -10,24 +10,25 @@ public static class VerenigingZoekDocumentMapping
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.VCode)
-                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                                   .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                                   .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Roepnaam))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                                   .WithKeyword())
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
+                                                   .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom)
+                                                   .WithKeyword())
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Type)
@@ -59,53 +60,62 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
+              .Number(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.LocatieId)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.LocatieId))
+                                        .Name(document => document.Naam)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Naam))
+                                        .Name(document => document.Adresvoorstelling)
+                                        .WithKeyword())
+              .Boolean(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.IsPrimair)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Adresvoorstelling))
+                                        .Name(document => document.Locatietype)
+                                        .WithKeyword())
+              .Keyword(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.Postcode)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.IsPrimair))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Locatietype))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Postcode))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Gemeente));
+                                        .Name(document => document.Gemeente)
+                                        .WithKeyword());
     }
 
     private static class HoofdactiviteitMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
             => map
-              .Text(
+              .Keyword(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Code)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .WithKeyword())
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Naam));
+                                          .Name(document => document.Naam)
+                                          .WithKeyword());
     }
 
     private static class VerenigingsTypeMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.VerenigingsType> map)
             => map
-              .Text(
+              .Keyword(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Code)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .WithKeyword())
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Beschrijving));
+                                          .Name(document => document.Beschrijving)
+                                          .WithKeyword());
     }
 
     private static class DoelgroepMapping
@@ -115,23 +125,26 @@ public static class VerenigingZoekDocumentMapping
               .Number(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Minimumleeftijd)
-                                          .Type(NumberType.Integer))
+                                          .Type(NumberType.Integer)
+                                          .WithKeyword())
               .Number(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Maximumleeftijd)
-                                          .Type(NumberType.Integer));
+                                          .Type(NumberType.Integer)
+                                          .WithKeyword());
     }
 
     private static class SleutelMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Sleutel> map)
             => map
-              .Text(
+              .Keyword(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Bron)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .WithKeyword())
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Waarde));
+                                          .Name(document => document.Waarde)
+                                          .WithKeyword());
     }
 }

@@ -24,6 +24,7 @@ public class Given_Sort_By_NestedField
 
     [Theory]
     [InlineData("type.code")]
+    [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_ascending(string field)
     {
         var response = await _publicApiClient.Search(q: "*", field);
@@ -42,6 +43,7 @@ public class Given_Sort_By_NestedField
 
     [Theory]
     [InlineData("type.code")]
+    [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_descending(string field)
     {
         var response = await _publicApiClient.Search(q: "*", $"-{field}");
