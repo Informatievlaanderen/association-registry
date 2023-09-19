@@ -17,18 +17,19 @@ public static class VerenigingZoekDocumentMapping
                                                    .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Roepnaam))
+                                 .Name(document => document.Roepnaam)
+                                                   .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
                                                    .WithKeyword())
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Status))
+                                 .Name(document => document.Status)
+                                                   .WithKeyword())
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom)
-                                                   .WithKeyword())
+                                                   .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Type)
@@ -60,7 +61,7 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
-              .Number(
+              .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.LocatieId)
                                         .WithKeyword())
