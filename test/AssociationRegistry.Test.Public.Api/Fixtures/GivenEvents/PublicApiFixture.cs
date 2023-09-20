@@ -1,11 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
-using System.Reflection;
-using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;
-using Fixtures;
+using EventStore;
 using Framework.Helpers;
 using Marten;
 using Marten.Events;
@@ -20,8 +17,10 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using Polly;
+using System.Reflection;
 using Xunit;
-using IEvent = global::AssociationRegistry.Framework.IEvent;
+using IEvent = AssociationRegistry.Framework.IEvent;
+using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
@@ -29,11 +28,10 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier = "publicapifixture";
-
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    private IElasticClient ElasticClient
+    public IElasticClient ElasticClient
         => (IElasticClient)_publicApiServer.Services.GetRequiredService(typeof(ElasticClient));
 
     private IDocumentStore ProjectionsDocumentStore
@@ -48,29 +46,29 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     public PublicApiFixture()
     {
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<PublicApiFixture>(),
-                GetConnectionString(GetConfiguration(), RootDatabase))
-            .GetAwaiter().GetResult();
+                    new NullLogger<PublicApiFixture>(),
+                    GetConnectionString(GetConfiguration(), RootDatabase))
+               .GetAwaiter().GetResult();
 
         CreateDatabase(GetConfiguration());
 
         _publicApiServer = new WebApplicationFactory<PublicApiProgram>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder => { builder.UseConfiguration(GetConfiguration()); });
 
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, _publicApiServer.Services.GetRequiredService<ILogger<PublicApiFixture>>())
-            .GetAwaiter().GetResult();
+               .GetAwaiter().GetResult();
 
         OaktonEnvironment.AutoStartHost = true;
 
         _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting("PostgreSQLOptions:database", _identifier);
+                    builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
                     builder.UseConfiguration(GetConfiguration());
-                    builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
+                    builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
@@ -79,21 +77,25 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(GetRootDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+                     .SetBasePath(GetRootDirectory())
+                     .AddJsonFile(path: "appsettings.json", optional: true)
+                     .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
+
         return tempConfiguration;
     }
 
     private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+                                .GetParent(typeof(PublicApiProgram).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
+
         return rootDirectory;
     }
 
@@ -102,27 +104,31 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (!eventsToAdd.Any())
             return;
 
-        if (ProjectionsDocumentStore is not { })
+        if (ProjectionsDocumentStore is null)
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
-        if (ElasticClient is not { })
+        if (ElasticClient is null)
             throw new NullReferenceException("Elastic client cannot be null when adding an event");
 
         using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
 
-        if (daemon is not { })
+        if (daemon is null)
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(ProjectionsDocumentStore);
-        foreach (var @event in eventsToAdd)
-            await eventStore.Save(vCode, metadata, CancellationToken.None, @event);
 
-        var retry = Polly.Policy
-            .Handle<Exception>()
-            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(10*i));
+        foreach (var @event in eventsToAdd)
+        {
+            await eventStore.Save(vCode, metadata, CancellationToken.None, @event);
+        }
+
+        var retry = Policy
+                   .Handle<Exception>()
+                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
+
         await retry.ExecuteAsync(
             async () =>
             {
@@ -150,15 +156,18 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                 var connectionString = GetConnectionString(configuration, configuration["PostgreSQLOptions:database"]);
                 var rootConnectionString = GetConnectionString(configuration, RootDatabase);
                 opts.Connection(connectionString);
-                opts.RetryPolicy(DefaultRetryPolicy.Times(5, _ => true, i => TimeSpan.FromSeconds(i)));
+                opts.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, filter: _ => true, sleep: i => TimeSpan.FromSeconds(i)));
+
                 opts.CreateDatabasesForTenants(
                     c =>
                     {
                         c.MaintenanceDatabase(rootConnectionString);
+
                         c.ForTenant()
-                            .CheckAgainstPgDatabase()
-                            .WithOwner(configuration["PostgreSQLOptions:username"]);
+                         .CheckAgainstPgDatabase()
+                         .WithOwner(configuration["PostgreSQLOptions:username"]);
                     });
+
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
             });
     }
@@ -167,6 +176,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     {
         using var connection = new NpgsqlConnection(GetConnectionString(GetConfiguration(), RootDatabase));
         using var cmd = connection.CreateCommand();
+
         try
         {
             connection.Open();
