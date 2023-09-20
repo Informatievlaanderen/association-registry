@@ -1,12 +1,8 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using System;
 using ConfigurationBindings;
-using Extensions;
-using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Schema;
-using Schema.Search;
 
 public static class ConfigureElasticSearchExtensions
 {
@@ -15,18 +11,12 @@ public static class ConfigureElasticSearchExtensions
         ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
-        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
 
-        services.AddSingleton(_ => elasticClient);
-        services.AddSingleton<IElasticClient>(_ => elasticClient);
+        services.AddSingleton(elasticClient);
+        services.AddSingleton(elasticSearchOptions);
+        services.AddSingleton<IElasticClient>(provider => provider.GetRequiredService<ElasticClient>());
 
         return services;
-    }
-
-    private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
-    {
-        if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)

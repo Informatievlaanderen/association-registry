@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 
-using Schema.Search;
 using Nest;
 using Nest.Specification.IndicesApi;
+using Schema.Search;
 
-public static class ElasticClientExtentions
+public static class ElasticClientExtensions
 {
-    public static void CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-    =>indicesNamespace.Create(
-        index,
-        descriptor =>
-            descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+    public static async Task<CreateIndexResponse> CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
+        => await indicesNamespace.CreateAsync(
+            index,
+            selector: descriptor =>
+                descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 }
