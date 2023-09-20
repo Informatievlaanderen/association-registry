@@ -191,7 +191,7 @@
     <value>Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden.</value>
   </data>
   <data name="ZoekOpdrachtWasIncorrect" xml:space="preserve">
-    <value>Deze zoekopdract kon niet uitgevoerd worden. Controleer alle parameters en probeer opnieuw.</value>
+    <value>Deze zoekopdracht kon niet uitgevoerd worden. Controleer alle parameters en probeer opnieuw.</value>
   </data>
   <data name="ZoekOpdrachtBevatOnbekendeSorteerVelden" xml:space="preserve">
     <value>Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}</value>

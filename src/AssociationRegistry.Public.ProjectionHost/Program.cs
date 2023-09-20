@@ -32,7 +32,8 @@ public class Program
 
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args);
@@ -88,6 +89,7 @@ public class Program
             });
 
         app.SetUpSwagger();
+        await app.EnsureElasticSearchIsInitialized();
         ConfigureHealtChecks(app);
 
         await DistributedLock<Program>.RunAsync(
