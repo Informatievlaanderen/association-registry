@@ -42,11 +42,13 @@ public class PubliekZoekProjectionHandler
                                                                     })
                                                            .ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
+                Relaties = Array.Empty<Relatie>(),
             }
         );
 
     public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
+    {
+        await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
@@ -71,8 +73,34 @@ public class PubliekZoekProjectionHandler
                                                                     })
                                                            .ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
+                Relaties = new[]
+                {
+                    new Relatie
+                    {
+                        Type = RelatieType.IsAfdelingVan.Beschrijving,
+                        AndereVereniging = new GerelateerdeVereniging
+                        {
+                            KboNummer = message.Data.Moedervereniging.KboNummer,
+                            VCode = message.Data.Moedervereniging.VCode,
+                            Naam = message.Data.Moedervereniging.Naam,
+                        },
+                    },
+                },
             }
         );
+
+        if (!string.IsNullOrEmpty(message.Data.Moedervereniging.VCode))
+            await _elasticRepository.AppendRelatie(message.Data.Moedervereniging.VCode, new Relatie
+            {
+                Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                AndereVereniging = new GerelateerdeVereniging
+                {
+                    KboNummer = string.Empty,
+                    VCode = message.Data.VCode,
+                    Naam = message.Data.Naam,
+                },
+            });
+    }
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
@@ -103,6 +131,7 @@ public class PubliekZoekProjectionHandler
                         Waarde = message.Data.KboNummer,
                     },
                 },
+                Relaties = Array.Empty<Relatie>(),
             }
         );
 

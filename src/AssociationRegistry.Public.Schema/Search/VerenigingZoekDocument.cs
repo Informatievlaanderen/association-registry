@@ -11,6 +11,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
+    public Relatie[] Relaties { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Status { get; set; } = null!;
 
@@ -48,4 +49,17 @@ public class Doelgroep
 {
     public int Minimumleeftijd { get; set; }
     public int Maximumleeftijd { get; set; }
+}
+
+public class Relatie
+{
+    public string Type { get; set; } = null!;
+    public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
+}
+
+public class GerelateerdeVereniging
+{
+    public string KboNummer { get; set; } = null!;
+    public string VCode { get; set; } = null!;
+    public string Naam { get; set; } = null!;
 }
