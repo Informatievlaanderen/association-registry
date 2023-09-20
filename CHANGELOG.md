@@ -1,3 +1,13 @@
+# [7.32.0](https://github.com/informatievlaanderen/association-registry/compare/v7.31.1...v7.32.0) (2023-09-20)
+
+
+### Features
+
+* or-1222 add relaties toe publiek zoek ([8cded0b](https://github.com/informatievlaanderen/association-registry/commit/8cded0bdb40cf7454568ad6b64aebd8699b42766))
+* or-1222 Make sure appendXXX calls to ES are idempotent ([c87a2b9](https://github.com/informatievlaanderen/association-registry/commit/c87a2b908a9e263a4bd031bca5ffac98c5afef70))
+* or-1320 remove need to add keyword to all fields ([ff546c4](https://github.com/informatievlaanderen/association-registry/commit/ff546c4ec22c525bd7912f60d9b0ebd5f271cc2c))
+* or-1320 wait for elasticsearch and throw if index cannot be created ([6105371](https://github.com/informatievlaanderen/association-registry/commit/61053717ddead9ef5fa04cc4b257f58fd4271cd8))
+
 ## [7.31.1](https://github.com/informatievlaanderen/association-registry/compare/v7.31.0...v7.31.1) (2023-09-20)
 
 
