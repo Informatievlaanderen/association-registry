@@ -1,3 +1,10 @@
+## [7.31.1](https://github.com/informatievlaanderen/association-registry/compare/v7.31.0...v7.31.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* or-1903 place historiek in beheer folder ([c84facd](https://github.com/informatievlaanderen/association-registry/commit/c84facdbd40494850120e5db7ddd013c6062b47a))
+
 # [7.31.0](https://github.com/informatievlaanderen/association-registry/compare/v7.30.0...v7.31.0) (2023-09-19)
 
 
