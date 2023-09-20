@@ -52,7 +52,9 @@ public class ElasticRepository : IElasticRepository
             id,
             selector: u => u.Script(
                 s => s
-                    .Source("ctx._source.locaties.add(params.locatie)")
+                    .Source("if(! ctx._source.locaties.contains(params.locatie)){" +
+                            "ctx._source.locaties.add(params.locatie)" +
+                            "}")
                     .Params(objects => objects.Add(key: "locatie", locatie))));
 
         if (!response.IsValid)
@@ -63,7 +65,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            u => u.Script(
+            selector: u => u.Script(
                 s => s
                     .Source(
                          "for(l in ctx._source.locaties){" +
@@ -76,8 +78,8 @@ public class ElasticRepository : IElasticRepository
                          "   }" +
                          "}")
                     .Params(objects => objects
-                                      .Add("locatieId", locatie.LocatieId)
-                                      .Add("locatie", locatie))));
+                                      .Add(key: "locatieId", locatie.LocatieId)
+                                      .Add(key: "locatie", locatie))));
 
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);

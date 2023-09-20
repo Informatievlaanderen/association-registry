@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
 
-using System.Reflection;
 using AssociationRegistry.Public.Api;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using AssociationRegistry.Public.Schema.Search;
@@ -8,17 +7,17 @@ using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
+using System.Reflection;
 using Xunit;
 
 public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 {
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
-
-    private IElasticClient? _elasticClient;
+    public IElasticClient? ElasticClient;
     public ElasticRepository? ElasticRepository { get; private set; }
 
-    private string VerenigingenIndexName
+    public string VerenigingenIndexName
         => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
 
     protected ElasticRepositoryFixture(string identifier)
@@ -29,23 +28,27 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        _elasticClient = CreateElasticClient(_configurationRoot);
-        await WaitFor.ElasticSearchToBecomeAvailable(_elasticClient, LoggerFactory.Create(opt => opt.AddConsole()).CreateLogger("waitForElasticSearchTestLogger"));
-        ConfigureElasticClient(_elasticClient, VerenigingenIndexName);
+        ElasticClient = CreateElasticClient(_configurationRoot);
 
-        ElasticRepository = new ElasticRepository(_elasticClient);
+        await WaitFor.ElasticSearchToBecomeAvailable(ElasticClient,
+                                                     LoggerFactory.Create(opt => opt.AddConsole())
+                                                                  .CreateLogger("waitForElasticSearchTestLogger"));
+
+        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+
+        ElasticRepository = new ElasticRepository(ElasticClient);
     }
 
     private IElasticClient CreateElasticClient(IConfiguration configurationRoot)
     {
         var settings = new ConnectionSettings(new Uri(configurationRoot["ElasticClientOptions:Uri"]))
-            .BasicAuthentication(
-                configurationRoot["ElasticClientOptions:Username"],
-                configurationRoot["ElasticClientOptions:Password"])
-            .DefaultMappingFor(
-                typeof(VerenigingZoekDocument),
-                descriptor => descriptor.IndexName(VerenigingenIndexName))
-            .EnableDebugMode();
+                      .BasicAuthentication(
+                           configurationRoot["ElasticClientOptions:Username"],
+                           configurationRoot["ElasticClientOptions:Password"])
+                      .DefaultMappingFor(
+                           typeof(VerenigingZoekDocument),
+                           selector: descriptor => descriptor.IndexName(VerenigingenIndexName))
+                      .EnableDebugMode();
 
         return new ElasticClient(settings);
     }
@@ -57,27 +60,31 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
 
         client.Indices.Create(
             VerenigingenIndexName,
-            c => c
-                .Map<VerenigingZoekDocument>(
+            selector: c => c
+               .Map<VerenigingZoekDocument>(
                     m => m
-                        .AutoMap<VerenigingZoekDocument>()));
+                       .AutoMap<VerenigingZoekDocument>()));
+
         client.Indices.Refresh(Indices.All);
     }
 
     private IConfigurationRoot GetConfiguration()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+                                .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
 
         var builder = new ConfigurationBuilder()
-            .SetBasePath(rootDirectory)
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+                     .SetBasePath(rootDirectory)
+                     .AddJsonFile(path: "appsettings.json", optional: true)
+                     .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] += _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] += _identifier;
+
         return tempConfiguration;
     }
 
@@ -88,7 +95,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     {
         GC.SuppressFinalize(this);
 
-        _elasticClient?.Indices.Delete(VerenigingenIndexName);
-        _elasticClient?.Indices.Refresh(Indices.All);
+        ElasticClient?.Indices.Delete(VerenigingenIndexName);
+        ElasticClient?.Indices.Refresh(Indices.All);
     }
 }
