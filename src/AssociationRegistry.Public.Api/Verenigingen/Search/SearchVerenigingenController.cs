@@ -32,14 +32,19 @@ public class SearchVerenigingenController : ApiController
 {
     private readonly ElasticClient _elasticClient;
     private readonly SearchVerenigingenResponseMapper _responseMapper;
+    private readonly TypeMapping _typeMapping;
 
     private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
         x => x.Descending(v => v.VCode);
 
-    public SearchVerenigingenController(ElasticClient elasticClient, SearchVerenigingenResponseMapper responseMapper)
+    public SearchVerenigingenController(
+        ElasticClient elasticClient,
+        SearchVerenigingenResponseMapper responseMapper,
+        TypeMapping typeMapping)
     {
         _elasticClient = elasticClient;
         _responseMapper = responseMapper;
+        _typeMapping = typeMapping;
     }
 
     /// <summary>
@@ -108,7 +113,7 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-        var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams);
+        var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams, _typeMapping);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(searchResponse);
@@ -135,14 +140,15 @@ public class SearchVerenigingenController : ApiController
         string q,
         string? sort,
         string[] hoofdactiviteiten,
-        PaginationQueryParams paginationQueryParams)
+        PaginationQueryParams paginationQueryParams,
+        TypeMapping typemapping)
         => await client.SearchAsync<VerenigingZoekDocument>(
             s =>
             {
                 return s
                       .From(paginationQueryParams.Offset)
                       .Size(paginationQueryParams.Limit)
-                      .ParseSort(sort, DefaultSort)
+                      .ParseSort(sort, DefaultSort, typemapping)
                       .Query(query => query
                                 .Bool(boolQueryDescriptor => boolQueryDescriptor
                                                             .Must(queryContainerDescriptor
@@ -218,8 +224,7 @@ public class SearchVerenigingenController : ApiController
         return aggregationContainerDescriptor.Terms(
             WellknownFacets.HoofdactiviteitenCountAggregateName,
             selector: valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(h => h.Code)
-                                                                                   .Suffix("keyword"))
+                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(h => h.Code))
                                                         .Size(size: 20)
         );
     }

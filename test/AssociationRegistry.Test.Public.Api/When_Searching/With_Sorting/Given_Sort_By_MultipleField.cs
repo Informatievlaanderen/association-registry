@@ -54,16 +54,16 @@ public class Given_Sort_By_MultipleFields
     [InlineData("type.code", "naam")]
     [InlineData("type.code", "korteNaam")]
     [InlineData("type.code", "vCode")]
-    public async Task? Then_it_sorts_descending_then_ascending(string ascendingField, string descendingField)
+    public async Task? Then_it_sorts_descending_then_ascending(string descendingField, string ascendingField)
     {
-        var response = await _publicApiClient.Search(q: "*", $"-{ascendingField},{descendingField}");
+        var response = await _publicApiClient.Search(q: "*", $"-{descendingField},{ascendingField}");
         var content = await response.Content.ReadAsStringAsync();
 
         var jToken = JToken.Parse(content);
 
         var groups = jToken.SelectTokens("$.verenigingen[*]")
-                           .Select(x => (x.SelectToken($".{ascendingField}").Value<string>(),
-                                         x.SelectToken($".{descendingField}").Value<string>()))
+                           .Select(x => (x.SelectToken($".{descendingField}").Value<string>(),
+                                         x.SelectToken($".{ascendingField}").Value<string>()))
                            .GroupBy(keySelector: x => x.Item1, elementSelector: x => x.Item2)
                            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.ToList());
 
