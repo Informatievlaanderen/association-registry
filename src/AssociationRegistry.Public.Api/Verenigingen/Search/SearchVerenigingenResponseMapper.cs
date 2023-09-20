@@ -9,6 +9,7 @@ using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
+using Relatie = ResponseModels.Relatie;
 
 public class SearchVerenigingenResponseMapper
 {
@@ -58,6 +59,9 @@ public class SearchVerenigingenResponseMapper
             Sleutels = verenigingZoekDocument.Sleutels
                 .Select(Map)
                 .ToArray(),
+            Relaties = verenigingZoekDocument.Relaties
+                                             .Select(r=>Map(appSettings, r))
+                                             .ToArray(),
             Links = Map(verenigingZoekDocument.VCode, appSettings),
         };
 
@@ -149,5 +153,20 @@ public class SearchVerenigingenResponseMapper
         {
             Bron = s.Bron,
             Waarde = s.Waarde,
+        };
+
+    private static Relatie Map(AppSettings appSettings, AssociationRegistry.Public.Schema.Search.Relatie r)
+        => new()
+        {
+            Type = r.Type,
+            AndereVereniging = new Relatie.GerelateerdeVereniging
+            {
+                KboNummer = r.AndereVereniging.KboNummer,
+                VCode = r.AndereVereniging.VCode,
+                Naam = r.AndereVereniging.Naam,
+                Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
+                    ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
+                    : string.Empty,
+            },
         };
 }

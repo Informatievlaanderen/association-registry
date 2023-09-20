@@ -37,5 +37,11 @@ public class Relatie
         /// </summary>
         [DataMember(Name = "Naam")]
         public string Naam { get; set; } = null!;
+
+        /// <summary>
+        /// De link naar het publiek detail van de gerelateerde vereniging
+        /// </summary>
+        [DataMember(Name = "Detail")]
+        public string Detail { get; set; } = string.Empty;
     }
 }

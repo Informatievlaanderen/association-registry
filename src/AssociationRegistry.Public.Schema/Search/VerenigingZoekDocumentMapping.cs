@@ -24,7 +24,7 @@ public static class VerenigingZoekDocumentMapping
                                                    .WithKeyword())
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Status))
+                                                   .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
@@ -53,6 +53,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Sleutels)
                                                    .IncludeInRoot()
                                                    .Properties(SleutelMapping.Get))
+                         .Nested<Relatie>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Relaties)
+                                                   .IncludeInRoot()
+                                                   .Properties(RelatieMapping.Get))
         );
 
     private static class LocationMapping
@@ -141,5 +146,34 @@ public static class VerenigingZoekDocumentMapping
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Waarde)
                                           .WithKeyword());
+    }
+
+    private static class RelatieMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<Relatie> map)
+            => map
+              .Keyword(
+                   propertiesDescriptor => propertiesDescriptor
+                      .Name(document => document.Type))
+              .Nested<GerelateerdeVereniging>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.AndereVereniging)
+                                        .IncludeInRoot()
+                                        .Properties(GerelateerdeVerenigingMapping.Get));
+
+        private static class GerelateerdeVerenigingMapping
+        {
+            public static IPromise<IProperties> Get(PropertiesDescriptor<GerelateerdeVereniging> map)
+                => map
+                  .Keyword(
+                       propertiesDescriptor => propertiesDescriptor
+                          .Name(document => document.KboNummer))
+                  .Keyword(
+                       propertiesDescriptor => propertiesDescriptor
+                          .Name(document => document.VCode))
+                  .Text(
+                       propertiesDescriptor => propertiesDescriptor
+                          .Name(document => document.Naam));
+        }
     }
 }

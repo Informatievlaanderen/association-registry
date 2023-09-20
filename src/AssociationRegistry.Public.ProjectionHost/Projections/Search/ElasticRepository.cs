@@ -103,4 +103,19 @@ public class ElasticRepository : IElasticRepository
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);
     }
+
+    public async Task AppendRelatie(string id, Relatie relatie)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("if(! ctx._source.relaties.contains(params.relatie)){" +
+                            "   ctx._source.relaties.add(params.relatie)" +
+                            "}")
+                    .Params(objects => objects.Add(key: "relatie", relatie))));
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
 }

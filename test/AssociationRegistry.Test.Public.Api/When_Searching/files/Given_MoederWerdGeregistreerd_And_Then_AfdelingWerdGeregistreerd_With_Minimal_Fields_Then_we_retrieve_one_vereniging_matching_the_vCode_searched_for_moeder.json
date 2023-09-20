@@ -2,29 +2,39 @@
   "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
   "verenigingen": [
     {
-      "vCode": "V0001015",
+      "vCode": "V0001008",
       "type": {
         "code": "VZW",
         "beschrijving": "Vereniging zonder winstoogmerk"
       },
-      "naam": "Feesten Affligem",
-      "roepnaam": "The Affligem Party Squad",
+      "naam": "Moeder 0987654321",
       "korteNaam": "",
-      "hoofdactiviteitenVerenigingsloket": [],
+      "roepnaam": "",
       "doelgroep": {
         "minimumleeftijd": 0,
         "maximumleeftijd": 150
       },
       "locaties": [],
+      "hoofdactiviteitenVerenigingsloket": [],
       "sleutels": [
         {
           "bron": "KBO",
           "waarde": "0987654321"
         }
       ],
-      "relaties": [],
+      "relaties": [
+        {
+          "type": "Heeft als afdeling",
+          "andereVereniging": {
+            "kboNummer": "",
+            "vCode": "V0001009",
+            "naam": "Feesten Affligem",
+            "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001009"
+          }
+        }
+      ],
       "links": {
-        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001015"
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001008"
       }
     }
   ],

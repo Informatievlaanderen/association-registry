@@ -30,6 +30,17 @@
         }
       ],
       "sleutels": [],
+      "relaties": [
+        {
+          "type": "Is afdeling van",
+          "andereVereniging": {
+            "kboNummer": "0123456789",
+            "vCode": "",
+            "naam": "Moeder 0123456789",
+            "detail": ""
+          }
+        }
+      ],
       "links": {
         "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001007"
       }
