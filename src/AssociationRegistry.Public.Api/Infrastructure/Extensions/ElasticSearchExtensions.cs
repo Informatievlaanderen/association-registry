@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
 using Schema;
+using Schema.Search;
 using System;
 using System.Text;
 
@@ -16,6 +17,14 @@ public static class ElasticSearchExtensions
         ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = (IServiceProvider serviceProvider) => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
+
+
+        services.AddSingleton(serviceProvider =>
+        {
+            var mapping = elasticClient(serviceProvider).Indices.GetMapping<VerenigingZoekDocument>();
+            return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
+        });
+
 
         services.AddSingleton(serviceProvider => elasticClient(serviceProvider));
         services.AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());

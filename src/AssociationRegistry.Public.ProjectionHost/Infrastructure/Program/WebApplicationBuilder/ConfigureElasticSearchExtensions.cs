@@ -6,10 +6,11 @@ using Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Schema;
+using Schema.Search;
 
 public static class ConfigureElasticSearchExtensions
 {
-   public static IServiceCollection ConfigureElasticSearch(
+    public static IServiceCollection ConfigureElasticSearch(
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
@@ -31,12 +32,13 @@ public static class ConfigureElasticSearchExtensions
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-            .BasicAuthentication(
-                elasticSearchOptions.Username,
-                elasticSearchOptions.Password)
-            .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
+                      .BasicAuthentication(
+                           elasticSearchOptions.Username,
+                           elasticSearchOptions.Password)
+                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         var elasticClient = new ElasticClient(settings);
+
         return elasticClient;
     }
 }

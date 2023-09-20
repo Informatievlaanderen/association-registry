@@ -9,15 +9,14 @@ public static class VerenigingZoekDocumentMapping
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.VCode)
-                                                   .WithKeyword())
+                                 .Name(document => document.VCode))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
                                                    .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Roepnaam)
+                                                   .Name(document => document.Roepnaam)
                                                    .WithKeyword())
                          .Text(
                               propertyDescriptor => propertyDescriptor
@@ -25,11 +24,10 @@ public static class VerenigingZoekDocumentMapping
                                                    .WithKeyword())
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Status)
-                                                   .WithKeyword())
+                                 .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
+                                 .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Type)
@@ -83,8 +81,7 @@ public static class VerenigingZoekDocumentMapping
                                         .WithKeyword())
               .Keyword(
                    propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.Postcode)
-                                        .WithKeyword())
+                      .Name(document => document.Postcode))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Gemeente)
@@ -97,8 +94,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .WithKeyword())
+                      .Name(document => document.Code))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Naam)
@@ -111,8 +107,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .WithKeyword())
+                      .Name(document => document.Code))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Beschrijving)
@@ -141,8 +136,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Bron)
-                                          .WithKeyword())
+                      .Name(document => document.Bron))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Waarde)
