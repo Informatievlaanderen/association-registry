@@ -7,6 +7,7 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Schema.Constants;
 using Schema.VerenigingenPerInsz;
 
 public class VerenigingenPerInszProjection : EventProjection
@@ -64,18 +65,35 @@ public class VerenigingenPerInszProjection : EventProjection
     public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdVerwijderd, ops));
 
-    public async Task Project(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, ops));
+
+    public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(verenigingWerdGestopt, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingWerdGestopt, ops));
+
+        ops.StoreObjects(docs);
+    }
 
     private static class VerenigingenPerInszProjector
     {
-        public static async Task<List<VerenigingenPerInszDocument>> Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd,
+            IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
+
             var vereniging = new Vereniging
             {
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                KboNummer = string.Empty,
             };
 
             foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
@@ -88,13 +106,18 @@ public class VerenigingenPerInszProjection : EventProjection
             return docs;
         }
 
-        public static async Task<List<VerenigingenPerInszDocument>> Apply(AfdelingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            AfdelingWerdGeregistreerd werdGeregistreerd,
+            IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
+
             var vereniging = new Vereniging
             {
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                KboNummer = string.Empty,
             };
 
             foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
@@ -114,14 +137,18 @@ public class VerenigingenPerInszProjection : EventProjection
 
             foreach (var verenigingenPerInszDocument in documents)
             {
-                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode).Naam = naamWerdGewijzigd.Naam;
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode).Naam =
+                    naamWerdGewijzigd.Naam;
+
                 docs.Add(verenigingenPerInszDocument);
             }
 
             return docs;
         }
 
-        public static async Task<VerenigingenPerInszDocument> Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
+        public static async Task<VerenigingenPerInszDocument> Apply(
+            IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+            IDocumentOperations ops)
         {
             var vCode = vertegenwoordigerWerdToegevoegd.StreamKey!;
             var vereniging = await ops.GetVerenigingDocument(vCode);
@@ -132,20 +159,28 @@ public class VerenigingenPerInszProjection : EventProjection
                 {
                     VCode = vereniging.VCode,
                     Naam = vereniging.Naam,
+                    Status = vereniging.Status,
+                    KboNummer = vereniging.KboNummer,
                 });
+
             return document;
         }
 
-        public static async Task<VerenigingenPerInszDocument> Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
+        public static async Task<VerenigingenPerInszDocument> Apply(
+            IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+            IDocumentOperations ops)
         {
             var vCode = vertegenwoordigerWerdVerwijderd.StreamKey!;
             var document = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordigerWerdVerwijderd.Data.Insz);
 
             document.Verenigingen = document.Verenigingen.Where(v => v.VCode != vCode).ToList();
+
             return document;
         }
 
-        public static async Task<VerenigingenPerInszDocument>Apply(IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo, IDocumentOperations ops)
+        public static async Task<VerenigingenPerInszDocument> Apply(
+            IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+            IDocumentOperations ops)
         {
             var vCode = vertegenwoordigerWerdOvergenomenUitKbo.StreamKey!;
             var vereniging = await ops.GetVerenigingDocument(vCode);
@@ -156,8 +191,29 @@ public class VerenigingenPerInszProjection : EventProjection
                 {
                     VCode = vereniging.VCode,
                     Naam = vereniging.Naam,
+                    Status = vereniging.Status,
+                    KboNummer = vereniging.KboNummer,
                 });
+
             return document;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<VerenigingWerdGestopt> verenigingWerdGestopt,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdGestopt.StreamKey!);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == verenigingWerdGestopt.StreamKey!).Status =
+                    VerenigingStatus.Gestopt;
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
         }
     }
 
@@ -168,6 +224,8 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                KboNummer = string.Empty,
             };
 
         public static VerenigingDocument Apply(AfdelingWerdGeregistreerd werdGeregistreerd)
@@ -175,6 +233,8 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                KboNummer = string.Empty,
             };
 
         public static VerenigingDocument Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
@@ -182,12 +242,23 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                KboNummer = werdGeregistreerd.KboNummer,
             };
 
         public static async Task<VerenigingDocument> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
         {
             var verenigingDocument = await ops.GetVerenigingDocument(naamWerdGewijzigd.VCode);
             verenigingDocument.Naam = naamWerdGewijzigd.Naam;
+
+            return verenigingDocument;
+        }
+
+        public static async Task<VerenigingDocument> Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(verenigingWerdGestopt.StreamKey!);
+            verenigingDocument.Status = VerenigingStatus.Gestopt;
+
             return verenigingDocument;
         }
     }

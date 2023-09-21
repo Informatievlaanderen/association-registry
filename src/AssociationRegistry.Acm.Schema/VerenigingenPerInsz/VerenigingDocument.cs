@@ -4,14 +4,10 @@ using Marten.Schema;
 
 public class VerenigingDocument
 {
-    /// <summary>
-    /// De vCode van de vereniging
-    /// </summary>
     [Identity]
     public string VCode { get; set; } = null!;
 
-    /// <summary>
-    /// De naam van de vereniging
-    /// </summary>
     public string Naam { get; set; } = null!;
+    public string Status { get; set; } = null!;
+    public string KboNummer { get; set; } = null!;
 }

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Acm.Api.templates;
 
+using AssociationRegistry.Acm.Schema.Constants;
 using Scriban;
 using Test.Framework;
 
@@ -15,14 +16,18 @@ public class VerenigingenPerInszResponseTemplate
         return this;
     }
 
-    public VerenigingenPerInszResponseTemplate WithVereniging(string vCode, string naam, string status = "Actief", string kboNummer = "")
+    public VerenigingenPerInszResponseTemplate WithVereniging(
+        string vCode,
+        string naam,
+        string status = VerenigingStatus.Actief,
+        string kboNummer = "")
     {
         _verenigingen.Add(new
         {
-            vCode,
-            naam,
-            status,
-            kboNummer,
+            vcode = vCode,
+            naam = naam,
+            status = status,
+            kbonummer = kboNummer,
         });
 
         return this;
