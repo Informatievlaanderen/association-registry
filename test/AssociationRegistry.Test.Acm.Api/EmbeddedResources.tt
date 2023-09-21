@@ -1,0 +1,51 @@
+<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+public static class EmbeddedResources
+{
+<#
+  var csprojPath = Host.ResolvePath("AssociationRegistry.Test.Acm.Api.csproj"); // Adjust this to your file path
+  var xDocument = XDocument.Load(csprojPath);
+  var embeddedResourceElements = xDocument.Descendants("EmbeddedResource");
+
+  foreach (var embeddedResourceElement in embeddedResourceElements)
+  {
+    var includePath = embeddedResourceElement.Attribute("Include").Value;
+    if (includePath.Contains("*")) // Wildcard pattern
+    {
+      var wildcardIndex = includePath.IndexOf('*');
+      var lastDirectorySeparator = includePath.LastIndexOf(value: '\\', wildcardIndex);
+      var directoryPath = includePath.Substring(startIndex: 0, lastDirectorySeparator);
+      var extension = Path.GetExtension(includePath);
+
+      var files = Directory.GetFiles(Host.ResolvePath(directoryPath), "*" + extension);
+      foreach (var file in files)
+      {
+        WriteStaticResourceName(Path.GetFileName(file));
+      }
+    }
+    else // Direct path
+    {
+      WriteStaticResourceName(Path.GetFileName(includePath));
+    }
+  }
+#>
+}
+
+<#+
+  private void WriteStaticResourceName(string resourceName)
+  {
+    // Convert the resource name to a valid C# identifier (if needed)
+    var validResourceName = new string(resourceName
+                                         .Select(ch => char.IsLetterOrDigit(ch) ? ch : '_')
+                                         .ToArray());
+
+    WriteLine($"    public const string {validResourceName} = \"{resourceName}\";");
+  }
+#>

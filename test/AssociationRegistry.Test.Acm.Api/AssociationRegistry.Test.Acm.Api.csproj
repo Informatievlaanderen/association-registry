@@ -14,12 +14,29 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="EmbeddedResources.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmbeddedResources.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Remove="VerenigingenPerInszResponse.json" />
+    <EmbeddedResource Include="templates\*.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="templates\VerenigingenPerInszResponse.json" />
+    <PackageReference Include="Microsoft.Build" Version="17.7.2" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="EmbeddedResources.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmbeddedResources.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <PropertyGroup>
+    <NuGetPackageRoot>$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+  </PropertyGroup>
 </Project>
