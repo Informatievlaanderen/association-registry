@@ -1,3 +1,10 @@
+# [7.33.0](https://github.com/informatievlaanderen/association-registry/compare/v7.32.0...v7.33.0) (2023-09-21)
+
+
+### Features
+
+* or-1831 add status and kboNummer to Acm api ([4885838](https://github.com/informatievlaanderen/association-registry/commit/4885838d0ee5ad601d50af60fa9bbbcc372a6a1e))
+
 # [7.32.0](https://github.com/informatievlaanderen/association-registry/compare/v7.31.1...v7.32.0) (2023-09-20)
 
 
