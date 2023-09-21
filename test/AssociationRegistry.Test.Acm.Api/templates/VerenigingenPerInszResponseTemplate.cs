@@ -35,7 +35,7 @@ public class VerenigingenPerInszResponseTemplate
 
     public string Build()
     {
-        var json = GetType().Assembly.GetAssemblyResource(name: EmbeddedResources.VerenigingenPerInszResponse_json);
+        var json = GetType().Assembly.GetAssemblyResource(name: EmbeddedResources.templates_VerenigingenPerInszResponse_json);
 
         var responseTemplate = Template.Parse(json);
 
