@@ -9,3 +9,6 @@ FluentAssertions
 FluentAssertions.Json
 Moq
 Microsoft.AspNetCore.Mvc.Testing
+
+group Testing
+  Scriban

@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_VertegenwoordigerWerdToegevoegd;
 
-using System.Net;
 using Fixtures;
 using Fixtures.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
+using System.Net;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,16 +32,12 @@ public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var expected = $@"
-        {{
-            ""insz"":""{_scenario.Insz}"",
-            ""verenigingen"":[
-                {{
-                    ""vCode"":""{_scenario.VCode}"",
-                    ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}"",
-                }}
-            ]
-        }}";
+        var expected = new VerenigingenPerInszResponseTemplate()
+                            .WithInsz(_scenario.Insz)
+                            .WithVereniging(
+                                 _scenario.VCode,
+                                 _scenario.NaamWerdGewijzigd.Naam
+                             );
 
         content.Should().BeEquivalentJson(expected);
     }

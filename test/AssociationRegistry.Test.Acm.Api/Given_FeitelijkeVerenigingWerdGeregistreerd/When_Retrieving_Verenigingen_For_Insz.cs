@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_FeitelijkeVerenigingWerdGeregistreerd;
 
-using System.Net;
 using Fixtures;
-using Framework;
 using Fixtures.Scenarios;
 using FluentAssertions;
+using Framework;
+using System.Net;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,16 +32,13 @@ public class When_Retrieving_Verenigingen_For_Insz
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var expected = $@"
-        {{
-            ""insz"":""{_scenario.Insz}"",
-            ""verenigingen"":[
-                {{
-                    ""vCode"":""{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}"",
-                    ""naam"":""{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}"",
-                }}
-            ]
-        }}";
+        var expected =
+            new VerenigingenPerInszResponseTemplate()
+               .WithInsz(_scenario.Insz)
+               .WithVereniging(
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam
+                );
 
         content.Should().BeEquivalentJson(expected);
     }

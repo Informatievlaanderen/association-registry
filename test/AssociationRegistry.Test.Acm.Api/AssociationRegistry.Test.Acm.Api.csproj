@@ -15,5 +15,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="VerenigingenPerInszResponse.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="templates\VerenigingenPerInszResponse.json" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
