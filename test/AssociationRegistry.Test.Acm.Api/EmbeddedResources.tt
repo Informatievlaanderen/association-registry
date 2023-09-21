@@ -9,7 +9,18 @@
 
 public static class EmbeddedResources
 {
+
+
 <#
+  static string GetRelativePath(string fromPath, string toPath)
+  {
+    var fromUri = new Uri(fromPath);
+    var toUri = new Uri(toPath);
+    var relativeUri = fromUri.MakeRelativeUri(toUri);
+    var relativePath = Uri.UnescapeDataString(relativeUri.ToString());
+    return relativePath.Replace('/', Path.DirectorySeparatorChar);
+  }
+
   var csprojPath = Host.ResolvePath("AssociationRegistry.Test.Acm.Api.csproj"); // Adjust this to your file path
   var xDocument = XDocument.Load(csprojPath);
   var embeddedResourceElements = xDocument.Descendants("EmbeddedResource");
@@ -20,14 +31,15 @@ public static class EmbeddedResources
     if (includePath.Contains("*")) // Wildcard pattern
     {
       var wildcardIndex = includePath.IndexOf('*');
-      var lastDirectorySeparator = includePath.LastIndexOf(value: '\\', wildcardIndex);
-      var directoryPath = includePath.Substring(startIndex: 0, lastDirectorySeparator);
+      var lastDirectorySeparator = includePath.LastIndexOf('\\', wildcardIndex);
+      var directoryPath = includePath.Substring(0, lastDirectorySeparator);
       var extension = Path.GetExtension(includePath);
 
       var files = Directory.GetFiles(Host.ResolvePath(directoryPath), "*" + extension);
       foreach (var file in files)
       {
-        WriteStaticResourceName(Path.GetFileName(file));
+        var relativePath = GetRelativePath(csprojPath, file).Replace('\\', '.').Replace('/', '.');
+        WriteStaticResourceName(relativePath);
       }
     }
     else // Direct path

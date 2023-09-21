@@ -1,6 +1,8 @@
 ﻿
 public static class EmbeddedResources
 {
-    public const string VerenigingenPerInszResponse_json = "VerenigingenPerInszResponse.json";
+
+
+    public const string templates_VerenigingenPerInszResponse_json = "templates.VerenigingenPerInszResponse.json";
 }
 
