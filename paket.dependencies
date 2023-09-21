@@ -123,3 +123,9 @@ group Critter
   nuget Marten.CommandLine > 6.0.0
   nuget Npgsql
   nuget WolverineFx
+
+group Testing
+  framework: net6.0, net472
+  source https://api.nuget.org/v3/index.json
+
+  nuget Scriban
