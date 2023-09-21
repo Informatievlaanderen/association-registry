@@ -15,13 +15,9 @@ Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
 
 Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 
-
 Marten
-
 
 group Testing
 Scriban
 Microsoft.AspNetCore.Hosting
 Microsoft.AspNetCore.TestHost
-
-

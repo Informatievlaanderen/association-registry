@@ -6,6 +6,7 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using Framework;
 using FluentAssertions;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,18 +16,12 @@ using Xunit.Categories;
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
 {
     private readonly V001_FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
-
-    private const string EmptyVerenigingenResponse =
-        "{\"@context\":\"https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json\",\"verenigingen\": [], \"facets\": {\"hoofdactiviteitenVerenigingsloket\":[]}, \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields(GivenEventsFixture fixture)
     {
         _scenario = fixture.V001FeitelijkeVerenigingWerdGeregistreerdScenario;
         _publicApiClient = fixture.PublicApiClient;
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]
@@ -36,52 +31,65 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var response = await _publicApiClient.Search(_scenario.Naam);
+        var query = "Feestcommittee Oudenaarde";
+        var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.Naam);
+
+        var goldenMaster = GoldenMaster(query);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
+
+    private string GoldenMaster(string query)
+        => new ZoekVerenigingenResponseTemplate()
+          .FromQuery(query)
+          .WithVereniging()
+          .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+          .And().Build();
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var response = await _publicApiClient.Search("dena");
+        var query = "dena";
+        var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
-        var response = await _publicApiClient.Search("*dena*");
+        var query = "*dena*";
+        var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*dena*");
+        var goldenMaster = GoldenMaster(query);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
-        var response = await _publicApiClient.Search("oudenaarde");
+        var query = "oudenaarde";
+        var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oudenaarde");
+        var goldenMaster = GoldenMaster(query);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
-        var response = await _publicApiClient.Search(_scenario.VCode);
+        var query = _scenario.VCode;
+        var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+        var goldenMaster = GoldenMaster(query);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -91,7 +99,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         var response = await _publicApiClient.Search("001");
         var content = await response.Content.ReadAsStringAsync();
 
-        content.Should().BeEquivalentJson(EmptyVerenigingenResponse);
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
     }
 
     [Fact]

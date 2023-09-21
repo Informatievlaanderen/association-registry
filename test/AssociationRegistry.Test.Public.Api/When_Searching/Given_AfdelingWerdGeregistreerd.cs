@@ -5,6 +5,7 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using Framework;
 using FluentAssertions;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,15 +15,12 @@ using Xunit.Categories;
 public class Given_AfdelingWerdGeregistreerd
 {
     private readonly V007_AfdelingWerdGeregistreerdScenario _scenario;
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
     public Given_AfdelingWerdGeregistreerd(GivenEventsFixture fixture)
     {
         _scenario = fixture.V007AfdelingWerdGeregistreerdScenario;
         _publicApiClient = fixture.PublicApiClient;
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_AfdelingWerdGeregistreerd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_vCode_searched)}");
     }
 
     [Fact]
@@ -34,8 +32,15 @@ public class Given_AfdelingWerdGeregistreerd
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster =
+            new ZoekVerenigingenResponseTemplate()
+               .FromQuery(_scenario.VCode)
+               .WithVereniging()
+               .FromEvent(_scenario.AfdelingWerdGeregistreerd)
+               .And()
+               .Build();
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

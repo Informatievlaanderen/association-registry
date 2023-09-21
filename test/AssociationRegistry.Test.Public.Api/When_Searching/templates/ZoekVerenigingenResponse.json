@@ -1,0 +1,75 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {{ for vereniging in verenigingen }}
+    {
+      "vCode": "{{vereniging.vcode}}",
+      "type": {
+        "code": "{{vereniging.type.code}}",
+        "beschrijving": "{{vereniging.type.beschrijving}}"
+      },
+      "naam": "{{vereniging.naam}}",
+      "korteNaam": "{{vereniging.kortenaam}}",
+      "hoofdactiviteitenVerenigingsloket": [
+        {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+        {
+          "code": "{{hoofdactiviteit.code}}",
+          "beschrijving": "{{hoofdactiviteit.beschrijving}}"
+        },
+        {{end}}
+      ],
+      "doelgroep": {
+        "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+        "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+      },
+      "locaties": [
+      {{for locatie in vereniging.locaties}}
+        {
+          "locatietype": "{{locatie.type}}",
+          "isPrimair": {{locatie.isprimair}},
+          "adresvoorstelling": "{{locatie.adresvoorstelling}}",
+          "naam": "{{locatie.naam}}",
+          "postcode": "{{locatie.postcode}}",
+          "gemeente": "{{locatie.gemeente}}",
+        },
+      {{end}}
+      ],
+      "sleutels": [],
+      "relaties": [
+      {{for relatie in vereniging.relaties}}
+        {
+          "type": "{{relatie.type}}",
+          "andereVereniging": {
+            "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
+            "vCode": "{{relatie.anderevereniging.vcode}}",
+            "naam": "{{relatie.anderevereniging.naam}}",
+            "detail": {{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}"https://127.0.0.1:11003/v1/verenigingen/{{relatie.anderevereniging.vcode}}"{{else}}""{{end}},
+          }
+        },
+      {{end}}
+      ],
+      "links": {
+        "detail": "https://127.0.0.1:11003/v1/verenigingen/{{vereniging.vcode}}"
+      }
+    },
+    {{end}}
+  ],
+  "facets": {
+    "hoofdactiviteitenVerenigingsloket": [
+      {{for facet in facets}}
+      {
+        "code": "{{facet.code}}",
+        "aantal":{{facet.count}},
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.hoofdactiviteitenVerenigingsloket={{facet.code}}",
+      },
+      {{end}}
+    ]
+  },
+  "metadata": {
+    "pagination": {
+      "totalCount": {{verenigingen.size}},
+      "offset": {{pagination.offset}},
+      "limit": {{pagination.limit}}
+    }
+  }
+}
