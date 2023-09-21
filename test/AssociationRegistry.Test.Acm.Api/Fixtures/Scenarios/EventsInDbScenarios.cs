@@ -249,3 +249,33 @@ public class AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEvent
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
+
+public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingWerdGestopt VerenigingWerdGestopt;
+    public readonly CommandMetadata Metadata;
+
+    public FeitelijkeVerenigingWerdGestopt_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAcmApi();
+        VCode = "V0003008";
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingWerdGestopt = fixture.Create<VerenigingWerdGestopt>();
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public string Insz
+        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+            { FeitelijkeVerenigingWerdGeregistreerd,
+                VerenigingWerdGestopt};
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}

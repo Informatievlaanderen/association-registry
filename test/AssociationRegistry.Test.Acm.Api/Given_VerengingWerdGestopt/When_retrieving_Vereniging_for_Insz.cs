@@ -1,25 +1,26 @@
-namespace AssociationRegistry.Test.Acm.Api.Given_AfdelingWerdGeregistreerd;
+﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdGestopt;
 
-using System.Net;
+using AssociationRegistry.Acm.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios;
-using Framework;
 using FluentAssertions;
+using System.Net;
 using templates;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AcmApiCollection))]
 [Category("AcmApi")]
 [IntegrationTest]
-public class When_Retrieving_Verenigingen_For_Insz
+public class When_retrieving_Vereniging_for_Insz
 {
     private readonly HttpResponseMessage _response;
-    private readonly AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGestopt_EventsInDbScenario _scenario;
 
-    public When_Retrieving_Verenigingen_For_Insz(EventsInDbScenariosFixture fixture)
+    public When_retrieving_Vereniging_for_Insz(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.AfdelingWerdGeregistreerdWithAllFieldsEventsInDbScenario;
+        _scenario = fixture.FeitelijkeVerenigingWerdGestoptEventsInDbScenario;
         _response = fixture.DefaultClient.GetVerenigingenForInsz(_scenario.Insz).GetAwaiter().GetResult();
     }
 
@@ -36,8 +37,9 @@ public class When_Retrieving_Verenigingen_For_Insz
             new VerenigingenPerInszResponseTemplate()
                .WithInsz(_scenario.Insz)
                .WithVereniging(
-                    _scenario.AfdelingWerdGeregistreerd.VCode,
-                    _scenario.AfdelingWerdGeregistreerd.Naam
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+                    status: VerenigingStatus.Gestopt
                 );
 
         content.Should().BeEquivalentJson(expected);

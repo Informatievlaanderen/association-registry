@@ -3,10 +3,10 @@
   "verenigingen": [
     {{ for vereniging in verenigingen }}
     {
-      "vCode": "{{vereniging.vCode}}",
+      "vCode": "{{vereniging.vcode}}",
       "naam": "{{vereniging.naam}}",
       "status": "{{vereniging.status}}",
-      "kbonummer": "{{vereniging.kbonummer}}"
+      "kboNummer": "{{vereniging.kbonummer}}"
     }
     {{ end }}
   ]
