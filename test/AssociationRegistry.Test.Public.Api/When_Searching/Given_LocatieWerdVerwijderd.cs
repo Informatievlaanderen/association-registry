@@ -5,6 +5,8 @@ using Fixtures.GivenEvents;
 using Framework;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,7 +15,6 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_LocatieWerdVerwijderd
 {
-    private readonly string _goldenMaster;
     private readonly V012_LocatieWerdVerwijderdScenario _scenario;
     private readonly PublicApiClient _publicApiClient;
 
@@ -21,8 +22,6 @@ public class Given_LocatieWerdVerwijderd
     {
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V012LocatieWerdVerwijderdScenario;
-        _goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_LocatieWerdVerwijderd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_vcode_searched)}");
     }
 
     [Fact]
@@ -34,8 +33,15 @@ public class Given_LocatieWerdVerwijderd
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMaster
-            .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(_scenario.VCode)
+                          .WithVereniging()
+                          .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
+                          .WithType(Verenigingstype.FeitelijkeVereniging)
+                          .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                          .And().Build();
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }
