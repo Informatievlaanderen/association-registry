@@ -42,7 +42,7 @@ public class ZoekVerenigingenResponseTemplate
 
     public string Build()
     {
-        var json = GetType().Assembly.GetAssemblyResource(name: "When_Searching.templates.ZoekVerenigingenResponse.json");
+        var json = GetType().Assembly.GetAssemblyResource(name: "templates.ZoekVerenigingenResponse.json");
 
         var responseTemplate = Template.Parse(json);
 
