@@ -36,10 +36,10 @@ public class Given_AfdelingWerdGeregistreerd
         var goldenMaster =
             new ZoekVerenigingenResponseTemplate()
                .FromQuery(_scenario.VCode)
-               .WithVereniging()
-               .FromEvent(_scenario.AfdelingWerdGeregistreerd)
-               .And()
-               .Build();
+               .WithVereniging(
+                    v => v
+                       .FromEvent(_scenario.AfdelingWerdGeregistreerd)
+                );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

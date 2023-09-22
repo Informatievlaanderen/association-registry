@@ -6,7 +6,6 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Framework;
 using templates;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,13 +32,15 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .WithRoepnaam(_scenario.RoepnaamWerdGewijzigd.Roepnaam)
-                          .And()
-                          .Build();
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .WithRoepnaam(_scenario.RoepnaamWerdGewijzigd.Roepnaam)
+                           );
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

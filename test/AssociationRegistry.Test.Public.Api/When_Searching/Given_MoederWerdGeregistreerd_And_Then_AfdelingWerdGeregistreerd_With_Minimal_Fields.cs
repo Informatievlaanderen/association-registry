@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
-using AssociationRegistry.Test.Public.Api.Framework;
+using Fixtures.GivenEvents;
+using Framework;
 using Fixtures;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
-using System.Text.RegularExpressions;
 using templates;
 using Xunit;
 using Xunit.Categories;
@@ -37,11 +36,10 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.AfdelingWerdGeregistreerd)
-                          .And()
-                          .Build()
-                          .Replace("{{originalQuery}}", _scenario.VCode);
+                          .WithVereniging(
+                               v => v
+                                  .FromEvent(_scenario.AfdelingWerdGeregistreerd)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -58,11 +56,11 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.MoederVCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.MoederWerdGeregistreerd)
-                          .HeeftAfdeling(_scenario.AfdelingWerdGeregistreerd.VCode, _scenario.AfdelingWerdGeregistreerd.Naam)
-                          .And()
-                          .Build();
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.MoederWerdGeregistreerd)
+                                   .HeeftAfdeling(_scenario.AfdelingWerdGeregistreerd.VCode, _scenario.AfdelingWerdGeregistreerd.Naam)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

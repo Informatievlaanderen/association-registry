@@ -22,7 +22,6 @@ public class Given_BasisGegevenWerdGewijzigd
     {
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V003BasisgegevensWerdenGewijzigdScenario;
-
     }
 
     [Fact]
@@ -38,14 +37,14 @@ public class Given_BasisGegevenWerdGewijzigd
         var goldenMaster =
             new ZoekVerenigingenResponseTemplate()
                .FromQuery(_query)
-               .WithVereniging()
-               .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-               .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
-               .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
-               .WithDoelgroep(_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
-                              _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
-               .And()
-               .Build();
+               .WithVereniging(
+                    v => v
+                        .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                        .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
+                        .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
+                        .WithDoelgroep(_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
+                                       _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
+                );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

@@ -43,9 +43,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     private string GoldenMaster(string query)
         => new ZoekVerenigingenResponseTemplate()
           .FromQuery(query)
-          .WithVereniging()
-          .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-          .And().Build();
+          .WithVereniging(
+               v => v
+                  .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+           );
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()

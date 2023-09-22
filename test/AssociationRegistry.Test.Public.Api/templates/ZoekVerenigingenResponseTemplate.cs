@@ -1,19 +1,18 @@
-namespace AssociationRegistry.Test.Public.Api.When_Searching.templates;
+namespace AssociationRegistry.Test.Public.Api.templates;
 
-using Acm.Schema.Constants;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formatters;
 using AssociationRegistry.Test.Framework;
-using Events;
-using Formatters;
+using AssociationRegistry.Vereniging;
 using Scriban;
 using System.Dynamic;
-using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate
 {
     private readonly List<object> _verenigingen = new();
-    private object _pagination;
-    private string _query;
-    private List<dynamic> _facets = new();
+    private readonly List<dynamic> _facets = new();
+    private object _pagination = new { };
+    private string _query = string.Empty;
 
     public ZoekVerenigingenResponseTemplate()
     {
@@ -38,7 +37,12 @@ public class ZoekVerenigingenResponseTemplate
         return this;
     }
 
-    public VerenigingTemplate WithVereniging() => new(this);
+    public ZoekVerenigingenResponseTemplate WithVereniging(Func<VerenigingTemplate, VerenigingTemplate> verenigingTemplateAction)
+    {
+        _verenigingen.Add(verenigingTemplateAction(new VerenigingTemplate(this)).ToObject());
+
+        return this;
+    }
 
     public string Build()
     {
@@ -250,32 +254,20 @@ public class ZoekVerenigingenResponseTemplate
             return template;
         }
 
-        public ZoekVerenigingenResponseTemplate And()
-        {
-            _zoekVerenigingenResponseTemplate.AddVereniging(ToObject());
-
-            return _zoekVerenigingenResponseTemplate;
-        }
-
-        private object ToObject()
+        internal object ToObject()
             => _vereniging;
     }
 
     private void UpdateFacet(string code)
     {
-        var f = _facets.SingleOrDefault(f => f.code == code);
+        var maybeFacet = _facets.SingleOrDefault(f => f.code == code);
 
-        if (f is not null) _facets.Remove(f);
+        if (maybeFacet is not null) _facets.Remove(maybeFacet);
 
         _facets.Add(new
         {
             code = code,
-            count = (f?.count ?? 0) + 1,
+            count = (maybeFacet?.count ?? 0) + 1,
         });
-    }
-
-    private void AddVereniging(object vereniging)
-    {
-        _verenigingen.Add(vereniging);
     }
 }
