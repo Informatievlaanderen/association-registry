@@ -37,17 +37,17 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .WithLocatie(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                       _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
-                                       _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.IsPrimair
-                           )
-                          .And()
-                          .Build();
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .WithLocatie(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                                _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
+                                                _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.IsPrimair
+                                    )
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

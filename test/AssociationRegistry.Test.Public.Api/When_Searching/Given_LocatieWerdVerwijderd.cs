@@ -36,11 +36,12 @@ public class Given_LocatieWerdVerwijderd
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
-                          .WithType(Verenigingstype.FeitelijkeVereniging)
-                          .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
-                          .And().Build();
+                          .WithVereniging(
+                               v => v
+                                   .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
+                                   .WithType(Verenigingstype.FeitelijkeVereniging)
+                                   .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

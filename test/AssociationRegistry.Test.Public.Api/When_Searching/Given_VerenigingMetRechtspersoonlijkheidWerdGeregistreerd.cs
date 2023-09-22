@@ -21,7 +21,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         _scenario = fixture.V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario;
         _publicApiClient = fixture.PublicApiClient;
-        }
+    }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
@@ -32,12 +32,14 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .And()
-                          .Build();
+                          .WithVereniging(
+                               v => v
+                                  .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                           );
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

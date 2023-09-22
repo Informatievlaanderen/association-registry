@@ -37,16 +37,16 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .WithLocatie(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                       string.Empty,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente
-                           )
-                          .And()
-                          .Build();
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .WithLocatie(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                                string.Empty,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente
+                                    )
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

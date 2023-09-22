@@ -36,15 +36,16 @@ public class Given_LocatieWerdToegevoegd
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-                          .WithLocatie(_scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
-                                       _scenario.LocatieWerdToegevoegd.Locatie.Naam,
-                                       _scenario.LocatieWerdToegevoegd.Locatie.Adres?.ToAdresString(),
-                                       _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Postcode,
-                                       _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Gemeente,
-                                       _scenario.LocatieWerdToegevoegd.Locatie.IsPrimair)
-                          .And().Build();
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                                   .WithLocatie(_scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
+                                                _scenario.LocatieWerdToegevoegd.Locatie.Naam,
+                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres?.ToAdresString(),
+                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Postcode,
+                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Gemeente,
+                                                _scenario.LocatieWerdToegevoegd.Locatie.IsPrimair)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

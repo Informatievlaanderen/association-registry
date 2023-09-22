@@ -37,17 +37,18 @@ public class Given_LocatieWerdGewijzigd
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
-                          .WithVereniging()
-                          .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
-                          .WithType(Verenigingstype.FeitelijkeVereniging)
-                          .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
-                          .WithLocatie(_scenario.LocatieWerdGewijzigd.Locatie.Locatietype,
-                                       _scenario.LocatieWerdGewijzigd.Locatie.Naam,
-                                       _scenario.LocatieWerdGewijzigd.Locatie.Adres?.ToAdresString(),
-                                       _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Postcode,
-                                       _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Gemeente,
-                                       _scenario.LocatieWerdGewijzigd.Locatie.IsPrimair)
-                          .And().Build();
+                          .WithVereniging(
+                               v => v
+                                   .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
+                                   .WithType(Verenigingstype.FeitelijkeVereniging)
+                                   .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                                   .WithLocatie(_scenario.LocatieWerdGewijzigd.Locatie.Locatietype,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Naam,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.ToAdresString(),
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Postcode,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Gemeente,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.IsPrimair)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
