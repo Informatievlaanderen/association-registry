@@ -22,7 +22,6 @@
     <EmbeddedResource Include="Given_an_Event_That_Is_Not_Handled\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="When_Retrieving_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
     <EmbeddedResource Include="When_Retrieving_Detail\files\*.json" />
-    <EmbeddedResource Include="When_Searching\files\*.json" />
     <EmbeddedResource Include="When_Searching\templates\ZoekVerenigingenResponse.json" />
    </ItemGroup>
   <ItemGroup>
