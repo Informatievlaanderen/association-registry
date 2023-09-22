@@ -10,6 +10,7 @@
       },
       "naam": "{{vereniging.naam}}",
       "korteNaam": "{{vereniging.kortenaam}}",
+      {{if vereniging.roepnaam}}"roepnaam":"{{vereniging.roepnaam}}",{{end}}
       "hoofdactiviteitenVerenigingsloket": [
         {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
         {
@@ -34,7 +35,14 @@
         },
       {{end}}
       ],
-      "sleutels": [],
+      "sleutels": [
+      {{for sleutel in vereniging.sleutels}}
+      {
+        "bron": "{{sleutel.bron}}",
+        "waarde": "{{sleutel.waarde}}"
+      },
+      {{end}}
+    ],
       "relaties": [
       {{for relatie in vereniging.relaties}}
         {

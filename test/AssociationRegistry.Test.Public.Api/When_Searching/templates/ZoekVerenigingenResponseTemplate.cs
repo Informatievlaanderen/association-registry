@@ -70,6 +70,7 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging.locaties = new List<object>();
             _vereniging.hoofdactiviteiten = new List<object>();
             _vereniging.relaties = new List<object>();
+            _vereniging.sleutels = new List<object>();
 
             WithKorteNaam(string.Empty);
             WithDoelgroep();
@@ -100,6 +101,13 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate WithRoepnaam(string roepnaam)
+        {
+            _vereniging.roepnaam = roepnaam;
+
+            return this;
+        }
+
         public VerenigingTemplate WithKorteNaam(string korteNaam)
         {
             _vereniging.kortenaam = korteNaam;
@@ -116,6 +124,17 @@ public class ZoekVerenigingenResponseTemplate
             });
 
             _zoekVerenigingenResponseTemplate.UpdateFacet(code);
+
+            return this;
+        }
+
+        public VerenigingTemplate WithKboNummer(string kboNummer)
+        {
+            _vereniging.sleutels.Add(new
+            {
+                bron = Sleutelbron.Kbo.Waarde,
+                waarde = kboNummer,
+            });
 
             return this;
         }
@@ -168,6 +187,22 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate HeeftAfdeling(string vCode, string naam)
+        {
+            _vereniging.relaties.Add(new
+            {
+                type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                anderevereniging = new
+                {
+                    kbonummer = string.Empty,
+                    vcode = vCode,
+                    naam = naam,
+                },
+            });
+
+            return this;
+        }
+
         public VerenigingTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)
@@ -206,9 +241,11 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)
-                          .WithType(Verenigingstype.Afdeling)
+                          .WithType(Verenigingstype.Parse(e.Rechtsvorm))
                           .WithNaam(e.Naam)
-                          .WithKorteNaam(e.KorteNaam);
+                          .WithRoepnaam(string.Empty)
+                          .WithKorteNaam(e.KorteNaam)
+                          .WithKboNummer(e.KboNummer);
 
             return template;
         }

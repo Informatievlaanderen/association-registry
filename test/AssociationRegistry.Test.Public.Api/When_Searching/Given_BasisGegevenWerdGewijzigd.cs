@@ -14,7 +14,6 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_BasisGegevenWerdGewijzigd
 {
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
     private readonly V003_BasisgegevensWerdenGewijzigdScenario _scenario;
     private string _query = "Oarelbeke Weireldstad";
@@ -24,8 +23,6 @@ public class Given_BasisGegevenWerdGewijzigd
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V003BasisgegevensWerdenGewijzigdScenario;
 
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_BasisGegevenWerdGewijzigd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]

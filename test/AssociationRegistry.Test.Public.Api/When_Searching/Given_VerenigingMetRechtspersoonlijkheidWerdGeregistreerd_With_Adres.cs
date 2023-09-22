@@ -4,7 +4,10 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using Formatters;
 using Framework;
+using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,15 +17,12 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres
 {
     private readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario _scenario;
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly PublicApiClient _publicApiClient;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres(GivenEventsFixture fixture)
     {
         _scenario = fixture.V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario;
         _publicApiClient = fixture.PublicApiClient;
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_vCode_searched)}");
     }
 
     [Fact]
@@ -34,8 +34,20 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(_scenario.VCode)
+                          .WithVereniging()
+                          .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                          .WithLocatie(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                       string.Empty,
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente
+                           )
+                          .And()
+                          .Build();
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }
