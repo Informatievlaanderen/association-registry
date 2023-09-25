@@ -121,15 +121,15 @@ group Testing
   source https://api.nuget.org/v3/index.json
 
   nuget Scriban
-nuget Microsoft.AspNetCore.TestHost 6.0.4
-nuget Microsoft.AspNetCore.Hosting 2.2.7
+  nuget Microsoft.AspNetCore.TestHost 6.0.4
+  nuget Microsoft.AspNetCore.Hosting 2.2.7
 
-nuget Microsoft.Extensions.Configuration 6.0.1
-nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
-nuget Microsoft.Extensions.Configuration.FileExtensions >= 6
-nuget Microsoft.Extensions.FileProviders.Physical >= 7.0
-nuget Microsoft.Extensions.FileSystemGlobbing >= 7.0
-nuget Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.1
-nuget Microsoft.Extensions.Configuration.Json 6.0.0
+  nuget Microsoft.Extensions.Configuration 6.0.1
+  nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
+  nuget Microsoft.Extensions.Configuration.FileExtensions >= 6
+  nuget Microsoft.Extensions.FileProviders.Physical >= 7.0
+  nuget Microsoft.Extensions.FileSystemGlobbing >= 7.0
+  nuget Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.1
+  nuget Microsoft.Extensions.Configuration.Json 6.0.0
 
-nuget Microsoft.Extensions.DependencyInjection 6.0.0
+  nuget Microsoft.Extensions.DependencyInjection 6.0.0
