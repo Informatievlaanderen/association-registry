@@ -137,23 +137,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     private static void EnsureDbExists(IConfigurationRoot configuration)
     {
-        // using var documentStore = Marten.DocumentStore.For(
-        //     options =>
-        //     {
-        //         options.Connection(postgreSqlOptionsSection.GetConnectionString());
-        //
-        //         options.CreateDatabasesForTenants(
-        //             databaseConfig =>
-        //             {
-        //                 databaseConfig.MaintenanceDatabase(GetRootConnectionString(postgreSqlOptionsSection));
-        //
-        //                 databaseConfig.ForTenant()
-        //                               .CheckAgainstPgDatabase()
-        //                               .WithOwner(postgreSqlOptionsSection.Username!);
-        //             });
-        //
-        //         options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, filter: _ => true, sleep: i => TimeSpan.FromSeconds(i)));
-        //     });
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
         using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
 
@@ -260,36 +243,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected abstract Task Given();
 }
-
-// public class DatabaseInitializer : IDatabaseInitializer
-// {
-//     private readonly PostgreSqlOptionsSection _postgreSqlOptions;
-//
-//     public DatabaseInitializer(PostgreSqlOptionsSection postgreSqlOptions)
-//     {
-//         _postgreSqlOptions = postgreSqlOptions;
-//     }
-//
-//     public void InitializeDatabase(StoreOptions storeOptions)
-//     {
-//
-//         storeOptions.CreateDatabasesForTenants(
-//             databaseConfig =>
-//             {
-//                 databaseConfig.MaintenanceDatabase(GetRootConnectionString(_postgreSqlOptions));
-//
-//                 databaseConfig.ForTenant()
-//                               .CheckAgainstPgDatabase()
-//                               .WithOwner(_postgreSqlOptions.Username!);
-//             });
-//     }
-//
-//     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
-//         => $"host={postgreSqlOptionsSection.Host}:5432;" +
-//            "database=postgres;" +
-//            $"password={postgreSqlOptionsSection.Password};" +
-//            $"username={postgreSqlOptionsSection.Username}";
-// }
 
 public class Clients : IDisposable
 {
