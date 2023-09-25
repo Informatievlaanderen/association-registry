@@ -29,7 +29,7 @@ using IEvent = global::AssociationRegistry.Framework.IEvent;
 public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "acmApiFixture";
+    private readonly string _identifier = "acmapifixture";
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
 
@@ -52,7 +52,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                 GetConnectionString(GetConfiguration(), RootDatabase))
             .GetAwaiter().GetResult();
 
-        EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
+        EnsureDbExists(GetConfiguration());
 
         WaitFor.PostGreSQLToBecomeAvailable(
                 new NullLogger<AcmApiFixture>(),
@@ -108,22 +108,29 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
     }
 
-    private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
+    private static void EnsureDbExists(IConfigurationRoot configuration)
     {
-        using var documentStore = Marten.DocumentStore.For(
-            options =>
-            {
-                options.Connection(postgreSqlOptionsSection.GetConnectionString());
-                options.CreateDatabasesForTenants(
-                    databaseConfig =>
-                    {
-                        databaseConfig.MaintenanceDatabase(GetRootConnectionString(postgreSqlOptionsSection));
-                        databaseConfig.ForTenant()
-                            .CheckAgainstPgDatabase()
-                            .WithOwner(postgreSqlOptionsSection.Username!);
-                    });
-                options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
-            });
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
+
+        using var cmd = connection.CreateCommand();
+
+        try
+        {
+            connection.Open();
+            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.ExecuteNonQuery();
+        }
+        catch (PostgresException ex)
+        {
+            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
+                throw;
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
+        }
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)

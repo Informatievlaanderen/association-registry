@@ -103,8 +103,7 @@ public class Program
         builder.Host.UseWolverine(
             options =>
             {
-                options.Handlers.Discovery(
-                    source => { source.IncludeAssembly(typeof(Vereniging).Assembly); });
+                options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
 
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });

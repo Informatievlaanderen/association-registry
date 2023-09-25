@@ -56,8 +56,7 @@ public class Program
         builder.Host.UseWolverine(
             options =>
             {
-                options.Handlers.Discovery(source =>
-                                               source.IncludeType<PubliekZoekProjectionHandler>());
+                options.Discovery.IncludeType<PubliekZoekProjectionHandler>();
 
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });

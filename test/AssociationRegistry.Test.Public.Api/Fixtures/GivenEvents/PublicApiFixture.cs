@@ -150,26 +150,20 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private static void CreateDatabase(IConfiguration configuration)
     {
-        using var documentStore = DocumentStore.For(
-            opts =>
-            {
-                var connectionString = GetConnectionString(configuration, configuration["PostgreSQLOptions:database"]);
-                var rootConnectionString = GetConnectionString(configuration, RootDatabase);
-                opts.Connection(connectionString);
-                opts.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, filter: _ => true, sleep: i => TimeSpan.FromSeconds(i)));
+        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
+        using var cmd = connection.CreateCommand();
 
-                opts.CreateDatabasesForTenants(
-                    c =>
-                    {
-                        c.MaintenanceDatabase(rootConnectionString);
-
-                        c.ForTenant()
-                         .CheckAgainstPgDatabase()
-                         .WithOwner(configuration["PostgreSQLOptions:username"]);
-                    });
-
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-            });
+        try
+        {
+            connection.Open();
+            cmd.CommandText += $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+            cmd.ExecuteNonQuery();
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
+        }
     }
 
     private void DropDatabase()
