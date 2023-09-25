@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 using AssociationRegistry.Public.Api.Constants;
 using Fixtures;
 using Fixtures.GivenEvents;
+using Fixtures.GivenEvents.Scenarios;
 using Framework;
 using FluentAssertions;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,38 +17,38 @@ using Xunit.Categories;
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
 {
     private readonly PublicApiClient _publicApiClient;
-    private readonly string _vCode;
+    private V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario _scenario;
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
-        _vCode = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario.VCode;
+        _scenario = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response()
     {
-        var response = await _publicApiClient.GetDetail(_vCode);
+        var response = await _publicApiClient.GetDetail(_scenario.VCode);
         response.Should().BeSuccessful();
     }
 
     [Fact]
     public async Task Then_we_get_json_ld_as_content_type()
     {
-        var response = await _publicApiClient.GetDetail(_vCode);
+        var response = await _publicApiClient.GetDetail(_scenario.VCode);
         response.Content.Headers.ContentType!.MediaType.Should().Be(WellknownMediaTypes.JsonLd);
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var responseMessage = await _publicApiClient.GetDetail(_vCode);
+        var responseMessage = await _publicApiClient.GetDetail(_scenario.VCode);
 
         var content = await responseMessage.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields)}_{nameof(Then_we_get_a_detail_vereniging_response)}");
+        var goldenMaster = new DetailVerenigingResponseTemplate()
+                          .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                          .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
