@@ -1,3 +1,10 @@
+# [7.34.0](https://github.com/informatievlaanderen/association-registry/compare/v7.33.1...v7.34.0) (2023-09-25)
+
+
+### Features
+
+* OR-1924 upgrade critter stack ([#521](https://github.com/informatievlaanderen/association-registry/issues/521)) ([f92c73a](https://github.com/informatievlaanderen/association-registry/commit/f92c73aa1ba1cc5d1976ddced1f4a5430076477f))
+
 ## [7.33.1](https://github.com/informatievlaanderen/association-registry/compare/v7.33.0...v7.33.1) (2023-09-21)
 
 # [7.33.0](https://github.com/informatievlaanderen/association-registry/compare/v7.32.0...v7.33.0) (2023-09-21)
