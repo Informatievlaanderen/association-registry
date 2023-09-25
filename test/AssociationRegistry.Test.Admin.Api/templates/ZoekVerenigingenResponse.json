@@ -1,0 +1,60 @@
+{
+  "@context": "http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {{ for vereniging in verenigingen }}
+    {
+      "vCode": "{{vereniging.vcode}}",
+      "type": {
+        "code": "{{vereniging.type.code}}",
+        "beschrijving": "{{vereniging.type.beschrijving}}"
+      },
+      "naam": "{{vereniging.naam}}",
+      "korteNaam": "{{vereniging.kortenaam}}",
+      {{if vereniging.roepnaam}}"roepnaam":"{{vereniging.roepnaam}}",{{end}}
+      "status": "{{vereniging.status}}",
+      "hoofdactiviteitenVerenigingsloket": [
+        {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+        {
+          "code": "{{hoofdactiviteit.code}}",
+          "beschrijving": "{{hoofdactiviteit.beschrijving}}"
+        },
+        {{end}}
+      ],
+      "doelgroep": {
+        "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+        "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+      },
+      "locaties": [
+      {{for locatie in vereniging.locaties}}
+        {
+          "locatietype": "{{locatie.type}}",
+          "isPrimair": {{locatie.isprimair}},
+          "adresvoorstelling": "{{locatie.adresvoorstelling}}",
+          "naam": "{{locatie.naam}}",
+          "postcode": "{{locatie.postcode}}",
+          "gemeente": "{{locatie.gemeente}}",
+        },
+      {{end}}
+      ],
+      "sleutels": [
+      {{for sleutel in vereniging.sleutels}}
+      {
+        "bron": "{{sleutel.bron}}",
+        "waarde": "{{sleutel.waarde}}"
+      },
+      {{end}}
+    ],
+      "links": {
+        "detail": "http://127.0.0.1:11004/v1/verenigingen/{{vereniging.vcode}}"
+      }
+    },
+    {{end}}
+  ],
+  "metadata": {
+    "pagination": {
+      "totalCount": {{verenigingen.size}},
+      "offset": {{pagination.offset}},
+      "limit": {{pagination.limit}}
+    }
+  }
+}

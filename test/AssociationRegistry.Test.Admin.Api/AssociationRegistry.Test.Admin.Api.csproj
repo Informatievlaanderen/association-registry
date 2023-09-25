@@ -28,6 +28,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\*.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
+    <EmbeddedResource Include="templates\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
