@@ -3,7 +3,9 @@
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formatters;
 using Framework;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -20,6 +22,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     {
         _scenario = fixture.V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo;
         _adminApiClient = fixture.AdminApiClient;
+
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"files.{nameof(Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_vCode_searched)}");
     }
@@ -33,8 +36,20 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     {
         var response = await _adminApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-           .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(_scenario.VCode)
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                                _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Postcode,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Gemeente,
+                                                _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.IsPrimair
+                                    ));
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

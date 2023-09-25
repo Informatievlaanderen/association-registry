@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Searching;
 
+using AssociationRegistry.Admin.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
-using Formatters;
 using Framework;
 using templates;
 using Xunit;
@@ -12,15 +12,22 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_LocatieWerdToegevoegd
+public class Given_VerenigingWerdGestopt
 {
-    private readonly V023_LocatieWerdToegevoegd _scenario;
+    private readonly V041_FeitelijkeVerenigingWerdGestopt _scenario;
+    private readonly string _goldenMasterWithOneVereniging;
     private readonly AdminApiClient _adminApiClient;
 
-    public Given_LocatieWerdToegevoegd(EventsInDbScenariosFixture fixture)
+    private const string EmptyVerenigingenResponse =
+        "{\"@context\":\"http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json\",\"verenigingen\": [], \"metadata\": {\"pagination\": {\"totalCount\": 0,\"offset\": 0,\"limit\": 50}}}";
+
+    public Given_VerenigingWerdGestopt(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V023LocatieWerdToegevoegd;
+        _scenario = fixture.V041FeitelijkeVerenigingWerdGestopt;
         _adminApiClient = fixture.AdminApiClient;
+
+        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
+            $"files.{nameof(Given_VerenigingWerdGestopt)}_{nameof(Then_one_vereniging_is_retrieved_by_its_vCode)}");
     }
 
     [Fact]
@@ -28,7 +35,7 @@ public class Given_LocatieWerdToegevoegd
         => (await _adminApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_we_retrieve_one_vereniging_with_the_added_Locatie()
+    public async Task? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
         var response = await _adminApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
@@ -38,14 +45,7 @@ public class Given_LocatieWerdToegevoegd
                           .WithVereniging(
                                v => v
                                    .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-                                   .WithLocatie(_scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
-                                                _scenario.LocatieWerdToegevoegd.Locatie.Naam,
-                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres.ToAdresString(),
-                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Postcode,
-                                                _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Gemeente,
-                                                _scenario.LocatieWerdToegevoegd.Locatie.IsPrimair
-                                    )
-                           );
+                                   .WithStatus(VerenigingStatus.Gestopt));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
