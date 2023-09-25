@@ -1,3 +1,11 @@
+# [7.35.0](https://github.com/informatievlaanderen/association-registry/compare/v7.34.0...v7.35.0) (2023-09-25)
+
+
+### Features
+
+* OR-1222 Ensure no null properties in examples ([17d1f97](https://github.com/informatievlaanderen/association-registry/commit/17d1f9768b3840708589bf9f9e5f6b242efa50b7))
+* OR-1222 fix documentation line breaks ([8287a6e](https://github.com/informatievlaanderen/association-registry/commit/8287a6ec10c271108bcf87efb0e94ce4a71c8ca4))
+
 # [7.34.0](https://github.com/informatievlaanderen/association-registry/compare/v7.33.1...v7.34.0) (2023-09-25)
 
 
