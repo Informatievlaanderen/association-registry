@@ -5,7 +5,6 @@ using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
 using Marten;
-using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +18,6 @@ using Oakton;
 using Polly;
 using System.Reflection;
 using Xunit;
-using IEvent = AssociationRegistry.Framework.IEvent;
 using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
@@ -42,6 +40,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
+
+    public IServiceProvider ServiceProvider => _publicApiServer.Services;
 
     public PublicApiFixture()
     {
@@ -156,7 +156,10 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
+            cmd.CommandText +=
+                $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
             cmd.ExecuteNonQuery();
         }
         finally

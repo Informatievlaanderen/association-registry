@@ -34,7 +34,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                         Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
                     },
-                    HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
+                    HoofdactiviteitenVerenigingsloket = new[]
+                        { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
@@ -47,9 +48,23 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
                             Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
-                            Naam = null,
+                            Naam = "",
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
+                        },
+                    },
+                    Sleutels = Array.Empty<Sleutel>(),
+                    Relaties = new[]
+                    {
+                        new Relatie
+                        {
+                            Type = RelatieType.IsAfdelingVan.Beschrijving,
+                            AndereVereniging = new Relatie.GerelateerdeVereniging
+                            {
+                                KboNummer = "0123456789",
+                                VCode = "V0001001",
+                                Naam = "Gerelateerde Vereniging",
+                            },
                         },
                     },
                     Links = new VerenigingLinks
@@ -96,6 +111,27 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"),
+                    },
+                    Sleutels = new[]
+                    {
+                        new Sleutel
+                        {
+                            Waarde = "0123456789",
+                            Bron = Sleutelbron.Kbo.Waarde,
+                        },
+                    },
+                    Relaties = new[]
+                    {
+                        new Relatie
+                        {
+                            Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                            AndereVereniging = new Relatie.GerelateerdeVereniging
+                            {
+                                KboNummer = "",
+                                VCode = "V0001002",
+                                Naam = "Gerelateerde Afdeling",
+                            },
+                        },
                     },
                 },
             },
