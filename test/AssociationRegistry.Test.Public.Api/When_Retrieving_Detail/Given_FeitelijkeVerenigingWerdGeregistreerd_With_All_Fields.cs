@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
-using System.Text.RegularExpressions;
 using AssociationRegistry.Public.Api.Constants;
 using Fixtures;
 using Fixtures.GivenEvents;

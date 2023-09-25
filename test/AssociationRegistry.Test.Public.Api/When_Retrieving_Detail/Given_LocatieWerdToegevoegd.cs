@@ -23,7 +23,6 @@ public class Given_LocatieWerdToegevoegd
     {
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V011LocatieWerdToegevoegdScenario;
-        _response = _publicApiClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -41,7 +40,9 @@ public class Given_LocatieWerdToegevoegd
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var content = await _response.Content.ReadAsStringAsync();
+        var response = await _publicApiClient.GetDetail(_scenario.VCode);
+
+        var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
