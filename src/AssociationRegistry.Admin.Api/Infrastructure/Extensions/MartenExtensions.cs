@@ -16,10 +16,14 @@ using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
 using Vereniging;
+using Weasel.Core;
 
 public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
+    public static IServiceCollection AddMarten(
+        this IServiceCollection services,
+        PostgreSqlOptionsSection postgreSqlOptions,
+        IConfiguration configuration)
     {
         var martenConfiguration = services.AddMarten(
             serviceProvider =>
@@ -41,12 +45,17 @@ public static class MartenExtensions
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+
+                    // serviceProvider.GetRequiredService<IDatabaseInitializer>()
+                    //                .InitializeDatabase(opts);
                 }
                 else
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Auto;
                     opts.SourceCodeWritingEnabled = false;
                 }
+
+                opts.AutoCreateSchemaObjects = AutoCreate.All;
 
                 return opts;
             });

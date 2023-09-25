@@ -1,6 +1,3 @@
-Marten
-Marten.CommandLine
-WolverineFx
 
 NEST
 
@@ -33,3 +30,9 @@ Serilog.Sinks.File
 Destructurama.JsonNet
 
 FluentValidation
+
+
+
+Marten
+Marten.CommandLine
+WolverineFx

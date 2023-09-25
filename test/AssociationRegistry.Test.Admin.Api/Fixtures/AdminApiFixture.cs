@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
-using System.Net.Http.Headers;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
@@ -24,6 +23,7 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using Polly;
+using System.Net.Http.Headers;
 using Xunit;
 using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
@@ -32,9 +32,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private readonly string _identifier = "adminapifixture";
-
     private readonly WebApplicationFactory<Program> _adminApiServer;
-
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
     private IElasticClient ElasticClient
@@ -52,54 +50,57 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     protected AdminApiFixture()
     {
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AdminApiFixture>(),
-                GetConnectionString(GetConfiguration(), RootDatabase))
-            .GetAwaiter().GetResult();
+                    new NullLogger<AdminApiFixture>(),
+                    GetConnectionString(GetConfiguration(), RootDatabase))
+               .GetAwaiter().GetResult();
 
         DropDatabase();
 
-        EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
-
-        WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AdminApiFixture>(),
-                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
-            .GetAwaiter().GetResult();
+        EnsureDbExists(GetConfiguration());
 
         OaktonEnvironment.AutoStartHost = true;
 
         _adminApiServer = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting("PostgreSQLOptions:database", _identifier);
+                    builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
                     builder.UseConfiguration(GetConfiguration());
-                    builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
+                    builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
+        _adminApiServer.CreateClient();
+
+        Clients = new Clients(
+            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
+                              .Get<OAuth2IntrospectionOptions>(),
+            _adminApiServer.CreateClient);
+
+        WaitFor.PostGreSQLToBecomeAvailable(
+                    new NullLogger<AdminApiFixture>(),
+                    GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+               .GetAwaiter().GetResult();
+
         var postgreSqlOptionsSection = _adminApiServer.Services.GetRequiredService<PostgreSqlOptionsSection>();
+
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
-            .GetAwaiter().GetResult();
+               .GetAwaiter().GetResult();
 
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
-            .GetAwaiter().GetResult();
+               .GetAwaiter().GetResult();
 
         _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
                     builder.UseConfiguration(GetConfiguration());
-                    builder.UseSetting("ElasticClientOptions:Indices:Verenigingen", _identifier);
+                    builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
         ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
-
-        Clients = new Clients(
-            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
-                .Get<OAuth2IntrospectionOptions>(),
-            _adminApiServer.CreateClient);
     }
 
     public IDocumentStore ApiDocumentStore
@@ -134,22 +135,29 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
     }
 
-    private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
+    private static void EnsureDbExists(IConfigurationRoot configuration)
     {
-        using var documentStore = Marten.DocumentStore.For(
-            options =>
-            {
-                options.Connection(postgreSqlOptionsSection.GetConnectionString());
-                options.CreateDatabasesForTenants(
-                    databaseConfig =>
-                    {
-                        databaseConfig.MaintenanceDatabase(GetRootConnectionString(postgreSqlOptionsSection));
-                        databaseConfig.ForTenant()
-                            .CheckAgainstPgDatabase()
-                            .WithOwner(postgreSqlOptionsSection.Username!);
-                    });
-                options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
-            });
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
+
+        using var cmd = connection.CreateCommand();
+
+        try
+        {
+            connection.Open();
+            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.ExecuteNonQuery();
+        }
+        catch (PostgresException ex)
+        {
+            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
+                throw;
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
+        }
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
@@ -188,8 +196,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy
-            .Handle<Exception>()
-            .WaitAndRetryAsync(retryCount: 3, i => TimeSpan.FromSeconds(10 * i));
+                   .Handle<Exception>()
+                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
             async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
@@ -204,6 +212,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         var tempConfiguration = ConfigurationHelper.GetConfiguration();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
+
         return tempConfiguration;
     }
 
@@ -211,6 +220,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     {
         using var connection = new NpgsqlConnection(GetConnectionString(GetConfiguration(), RootDatabase));
         using var cmd = connection.CreateCommand();
+
         try
         {
             connection.Open();
@@ -246,7 +256,7 @@ public class Clients : IDisposable
     }
 
     public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor("vloketClient", Security.Scopes.Admin, "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
 
     public AdminApiClient Authenticated
         => new(GetAuthenticatedHttpClient());
@@ -255,7 +265,7 @@ public class Clients : IDisposable
         => new(_createClientFunc());
 
     public AdminApiClient Unauthorized
-        => new(CreateMachine2MachineClientFor("vloketClient", "vo_info", "secret").GetAwaiter().GetResult());
+        => new(CreateMachine2MachineClientFor(clientId: "vloketClient", scope: "vo_info", clientSecret: "secret").GetAwaiter().GetResult());
 
     public void Dispose()
     {
@@ -267,7 +277,7 @@ public class Clients : IDisposable
         string clientSecret)
     {
         var tokenClient = new TokenClient(
-            () => new HttpClient(),
+            client: () => new HttpClient(),
             new TokenClientOptions
             {
                 Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
@@ -276,7 +286,7 @@ public class Clients : IDisposable
                 Parameters = new Parameters(
                     new[]
                     {
-                        new KeyValuePair<string, string>("scope", scope),
+                        new KeyValuePair<string, string>(key: "scope", scope),
                     }),
             });
 
@@ -285,7 +295,8 @@ public class Clients : IDisposable
         var token = acmResponse.AccessToken;
         var httpClientFor = _createClientFunc();
         httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", token);
+
         return httpClientFor;
     }
 }

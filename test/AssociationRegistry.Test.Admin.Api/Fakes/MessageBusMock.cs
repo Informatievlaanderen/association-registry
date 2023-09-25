@@ -3,12 +3,26 @@ namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
 using Wolverine;
 
-public class MessageBusMock:IMessageBus
+public class MessageBusMock : IMessageBus
 {
     public async Task InvokeAsync(object message, CancellationToken cancellation = new(), TimeSpan? timeout = null)
         => throw new NotImplementedException();
 
     public async Task<T> InvokeAsync<T>(object message, CancellationToken cancellation = new(), TimeSpan? timeout = null)
+        => throw new NotImplementedException();
+
+    public async Task InvokeForTenantAsync(
+        string tenantId,
+        object message,
+        CancellationToken cancellation = new(),
+        TimeSpan? timeout = null)
+        => throw new NotImplementedException();
+
+    public async Task<T> InvokeForTenantAsync<T>(
+        string tenantId,
+        object message,
+        CancellationToken cancellation = new(),
+        TimeSpan? timeout = null)
         => throw new NotImplementedException();
 
     public IDestinationEndpoint EndpointFor(string endpointName)
@@ -28,4 +42,6 @@ public class MessageBusMock:IMessageBus
 
     public async ValueTask BroadcastToTopicAsync(string topicName, object message, DeliveryOptions? options = null)
         => throw new NotImplementedException();
+
+    public string? TenantId { get; set; }
 }

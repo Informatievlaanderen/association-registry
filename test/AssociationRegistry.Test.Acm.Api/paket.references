@@ -1,6 +1,4 @@
 Microsoft.NET.Test.Sdk
-Microsoft.AspNetCore.Hosting
-Microsoft.AspNetCore.TestHost
 xunit
 xunit.runner.visualstudio
 xunit.categories
@@ -12,3 +10,5 @@ Microsoft.AspNetCore.Mvc.Testing
 
 group Testing
   Scriban
+Microsoft.AspNetCore.Hosting
+Microsoft.AspNetCore.TestHost

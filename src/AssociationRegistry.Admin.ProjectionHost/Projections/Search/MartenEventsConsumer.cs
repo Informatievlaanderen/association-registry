@@ -1,12 +1,9 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Marten.Events;
 using Wolverine;
 using Wolverine.Runtime.Routing;
+using IEvent = Marten.Events.IEvent;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {
@@ -21,7 +18,9 @@ public class MartenEventsConsumer : IMartenEventsConsumer
     {
         foreach (var @event in streamActions.SelectMany(streamAction => streamAction.Events))
         {
-            var eventEnvelope = (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+            var eventEnvelope =
+                (IEventEnvelope)Activator.CreateInstance(typeof(EventEnvelope<>).MakeGenericType(@event.EventType), @event)!;
+
             try
             {
                 await _bus.InvokeAsync(eventEnvelope);
@@ -46,7 +45,9 @@ public class EventEnvelope<T> : IEventEnvelope
         => Event.Headers;
 
     public EventEnvelope(IEvent @event)
-        => Event = @event;
+    {
+        Event = @event;
+    }
 
     private IEvent Event { get; }
 }
