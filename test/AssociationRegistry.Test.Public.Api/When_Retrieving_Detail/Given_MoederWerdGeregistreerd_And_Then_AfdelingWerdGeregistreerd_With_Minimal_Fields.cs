@@ -1,9 +1,12 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
+using Events;
 using System.Text.RegularExpressions;
 using Fixtures.GivenEvents;
+using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Framework;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,27 +17,25 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
 {
     private readonly HttpResponseMessage _afdelingResponse;
     private readonly HttpResponseMessage _moederResponse;
+    private readonly V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario _scenario;
 
     public Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields(GivenEventsFixture fixture)
     {
-        var moederWerdGeregistreerd = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.MoederWerdGeregistreerd;
-
-        string afdelingVCode = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario.VCode;
-        var moederVCode = moederWerdGeregistreerd.VCode;
+        _scenario = fixture.V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario;
 
         var publicApiClient = fixture.PublicApiClient;
-        _afdelingResponse = publicApiClient.GetDetail(afdelingVCode).GetAwaiter().GetResult();
-        _moederResponse = publicApiClient.GetDetail(moederVCode).GetAwaiter().GetResult();
+        _afdelingResponse = publicApiClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
+        _moederResponse = publicApiClient.GetDetail(_scenario.MoederWerdGeregistreerd.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Then_we_get_a_detail_afdeling_response()
     {
         var content = await _afdelingResponse.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields)}_{nameof(Then_we_get_a_detail_afdeling_response)}");
+        var goldenMaster = new DetailVerenigingResponseTemplate()
+                          .FromEvent(_scenario.AfdelingWerdGeregistreerd)
+                          .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -43,10 +44,11 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
     public async Task Then_we_get_a_detail_moeder_response()
     {
         var content = await _moederResponse.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
 
-        var goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_With_Minimal_Fields)}_{nameof(Then_we_get_a_detail_moeder_response)}");
+        var goldenMaster = new DetailVerenigingResponseTemplate()
+                          .FromEvent(_scenario.MoederWerdGeregistreerd)
+                          .HeeftAfdeling(_scenario.AfdelingWerdGeregistreerd.VCode, _scenario.AfdelingWerdGeregistreerd.Naam)
+                          .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

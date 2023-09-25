@@ -7,27 +7,29 @@ using NodaTime;
 
 public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
-    private readonly string Naam = "Feesten Hulste";
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
+        "V0001002",
+        "Feesten Hulste",
+        string.Empty,
+        string.Empty,
+        Startdatum: null,
+        Registratiedata.Doelgroep.With(Doelgroep.Null),
+        false,
+        Array.Empty<Registratiedata.Contactgegeven>(),
+        Array.Empty<Registratiedata.Locatie>(),
+        Array.Empty<Registratiedata.Vertegenwoordiger>(),
+        Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
     public VCode VCode
-        => VCode.Create("V0001002");
+        => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()
     {
+
+
         return new IEvent[]
         {
-            new FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                string.Empty,
-                string.Empty,
-                Startdatum: null,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
-                false,
-                Array.Empty<Registratiedata.Contactgegeven>(),
-                Array.Empty<Registratiedata.Locatie>(),
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            FeitelijkeVerenigingWerdGeregistreerd,
         };
     }
 

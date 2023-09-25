@@ -1,0 +1,106 @@
+{
+  "@context": "https://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json",
+  "vereniging": {
+    "vCode": "{{vereniging.vcode}}",
+    "type": {
+      "code": "{{vereniging.type.code}}",
+      "beschrijving": "{{vereniging.type.beschrijving}}"
+    },
+    "naam": "{{vereniging.naam}}",
+    "korteNaam": "{{vereniging.kortenaam}}",
+    "korteBeschrijving" : "{{vereniging.kortebeschrijving}}",
+{{if vereniging.roepnaam}}
+    "roepnaam":"{{vereniging.roepnaam}}",
+{{end}}
+    "startdatum":
+{{if vereniging.startdatum}}
+      "{{vereniging.startdatum}}",
+{{else}}
+      null,
+{{end}}
+    "status": "{{vereniging.status}}",
+    "contactgegevens": [
+{{for contactgegeven in vereniging.contactgegevens}}
+      {
+        "type": "{{contactgegeven.type}}",
+        "waarde": "{{contactgegeven.waarde}}",
+        "beschrijving": "{{contactgegeven.beschrijving}}",
+        "isPrimair": {{contactgegeven.isprimair}}
+      },
+{{end}}
+    ],
+    "hoofdactiviteitenVerenigingsloket": [
+{{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+      {
+        "code": "{{hoofdactiviteit.code}}",
+        "beschrijving": "{{hoofdactiviteit.beschrijving}}"
+      },
+{{end}}
+    ],
+    "doelgroep": {
+      "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+      "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+    },
+    "locaties": [
+{{for locatie in vereniging.locaties}}
+      {
+        "locatietype": "{{locatie.type}}",
+        "isPrimair": {{locatie.isprimair}},
+        "adresvoorstelling": "{{locatie.adresvoorstelling}}",
+        "naam": "{{locatie.naam}}",
+        "adres":
+{{if locatie.adres}}
+        {
+          "straatnaam": "{{locatie.adres.straatnaam}}",
+          "huisnummer": "{{locatie.adres.huisnummer}}",
+          "busnummer": "{{locatie.adres.busnummer}}",
+          "postcode": "{{locatie.adres.postcode}}",
+          "gemeente": "{{locatie.adres.gemeente}}",
+          "land": "{{locatie.adres.land}}"
+        },
+{{else}}
+        null,
+{{end}}
+      "adresId":
+{{if locatie.adresid}}
+        {
+          "bronwaarde": "{{locatie.adresid.bronwaarde}}",
+          "broncode": "{{locatie.adresid.broncode}}"
+        }
+{{else}}
+        null,
+{{end}}
+      },
+{{end}}
+    ],
+    "sleutels": [
+{{for sleutel in vereniging.sleutels}}
+      {
+        "bron": "{{sleutel.bron}}",
+        "waarde": "{{sleutel.waarde}}"
+      },
+{{end}}
+    ],
+    "relaties": [
+{{for relatie in vereniging.relaties}}
+      {
+        "type": "{{relatie.type}}",
+        "andereVereniging": {
+          "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
+          "vCode": "{{relatie.anderevereniging.vcode}}",
+          "naam": "{{relatie.anderevereniging.naam}}",
+          "detail":
+{{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}
+            "https://127.0.0.1:11003/v1/verenigingen/{{relatie.anderevereniging.vcode}}",
+{{else}}
+            "",
+{{end}}
+        }
+      },
+{{end}}
+    ]
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"
+  }
+}
