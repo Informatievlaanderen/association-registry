@@ -57,28 +57,37 @@ public class SearchVerenigingenController : ApiController
     ///     - `q=Liedeke*` zoekt in alle velden naar een term die begint met 'Liedeke',
     ///     - `q=*kerke` zoekt in alle velden naar een term die eindigt op 'kerke',
     ///     - `q=*kerke*` zoekt in alle velden naar een term die 'kerke' bevat.
+    ///
     ///     Om te zoeken binnen een bepaald veld, gebruik je de naam van het veld.
     ///     - `q=gemeente:Liedekerke`
     ///     - `q=korteNaam:DV*`
+    ///
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`
+    ///
     ///     Standaard gebruiken we een paginatie limiet van 50 verenigingen.
     ///     Om een andere limiet te gebruiken, geef je de parameter `limit` mee.
     ///     De maximum limiet die kan gebruikt worden is 1000.
     ///     - `q=...&amp;limit=100`
+    ///
     ///     Om de volgende pagina's op te vragen, geef je de parameter `offset` mee.
     ///     - `q=...&amp;offset=50`
     ///     - `q=...&amp;offset=30&amp;limit=30`
+    ///
     ///     Er kan enkel gepagineerd worden binnen de eerste 1000 resultaten.
     ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
     ///
     ///     Standaard wordt aflopend gesorteerd op vCode.
     ///     Wil je een eigen sortering meegeven, kan je gebruik maken van `sort=veldNaam`.
     ///     - Zonder `sort` parameter wordt standaard aflopend gesorteerd op `vCode`.
-    ///     - `sort=naam` Sorteert oplopend op `naam`.
-    ///     - `sort=-naam` Sorteert aflopend op `naam`.
-    ///     - `sort=type.code` Gebruik `.` om te navigeren binnen geneste objecten.
-    ///     - `sort=type.code,-naam` Gebruik `,` om te sorteren op meerdere velden.
+    ///     - `sort=naam` sorteert oplopend op `naam`.
+    ///     - `sort=-naam` sorteert aflopend op `naam`.
+    ///
+    ///     Gebruik `.` om te navigeren binnen geneste objecten.
+    ///     - `sort=type.code`
+    ///
+    ///     Gebruik `,` om te sorteren op meerdere velden
+    ///     - `sort=type.code,-naam`
     /// </remarks>
     /// <param name="q">De querystring</param>
     /// <param name="sort">De velden om op te sorteren</param>
