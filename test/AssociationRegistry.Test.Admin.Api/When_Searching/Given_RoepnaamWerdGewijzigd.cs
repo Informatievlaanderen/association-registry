@@ -5,7 +5,6 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using templates;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

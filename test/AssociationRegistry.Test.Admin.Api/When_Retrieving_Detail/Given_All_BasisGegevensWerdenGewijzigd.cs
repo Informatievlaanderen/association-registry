@@ -1,18 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using System.Net;
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Framework;
-using Events;
 using EventStore;
 using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
-using Formatters;
 using Framework;
-using JasperFx.Core;
-using Vereniging;
-using Vereniging.Bronnen;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,135 +16,47 @@ using Xunit.Categories;
 public class Given_All_BasisGegevensWerdenGewijzigd
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly KorteBeschrijvingWerdGewijzigd _korteBeschrijvingWerdGewijzigd;
-    private readonly KorteNaamWerdGewijzigd _korteNaamWerdGewijzigd;
-    private readonly CommandMetadata _metadata;
-    private readonly NaamWerdGewijzigd _naamWerdGewijzigd;
-    private readonly HttpResponseMessage _response;
     private readonly StreamActionResult _result;
-    private readonly StartdatumWerdGewijzigd _startdatumWerdGewijzigd;
-    private readonly string _vCode;
-    private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
-    private readonly DoelgroepWerdGewijzigd _doelgroepWerdGewijzigd;
+    private readonly V004_AlleBasisGegevensWerdenGewijzigd _scenario;
 
     public Given_All_BasisGegevensWerdenGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _vCode = fixture.V004AlleBasisGegevensWerdenGewijzigd.VCode;
+        _scenario = fixture.V004AlleBasisGegevensWerdenGewijzigd;
         _adminApiClient = fixture.DefaultClient;
-        _feitelijkeVerenigingWerdGeregistreerd = fixture.V004AlleBasisGegevensWerdenGewijzigd.FeitelijkeVerenigingWerdGeregistreerd;
-        _naamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.NaamWerdGewijzigd;
-        _korteNaamWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteNaamWerdGewijzigd;
-        _korteBeschrijvingWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.KorteBeschrijvingWerdGewijzigd;
-        _startdatumWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.StartdatumWerdGewijzigd;
-        _doelgroepWerdGewijzigd = fixture.V004AlleBasisGegevensWerdenGewijzigd.DoelgroepWerdGewijzigd;
-        _metadata = fixture.V004AlleBasisGegevensWerdenGewijzigd.Metadata;
-        _result = fixture.V004AlleBasisGegevensWerdenGewijzigd.Result;
-        _response = fixture.DefaultClient.GetDetail(_vCode).GetAwaiter().GetResult();
+        _result = _scenario.Result;
     }
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, _result.Sequence))
+        => (await _adminApiClient.GetDetail(_scenario.VCode, _result.Sequence))
           .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
-        => (await _adminApiClient.GetDetail(_vCode))
+        => (await _adminApiClient.GetDetail(_scenario.VCode))
           .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
-        => (await _adminApiClient.GetDetail(_vCode, long.MaxValue))
+        => (await _adminApiClient.GetDetail(_scenario.VCode, long.MaxValue))
           .StatusCode
           .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_a_detail_vereniging_response()
     {
-        var content = await _response.Content.ReadAsStringAsync();
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        var content = await response.Content.ReadAsStringAsync();
 
-        var contactgegevens = Array.Empty<AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven>()
-                                   .Append(
-                                        _feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
-                                            c =>
-                                                new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
-                                                {
-                                                    ContactgegevenId = c.ContactgegevenId,
-                                                    Type = c.Type,
-                                                    Waarde = c.Waarde,
-                                                    Beschrijving = c.Beschrijving,
-                                                    IsPrimair = c.IsPrimair,
-                                                }));
-
-        var expected = $@"
-        {{
-            ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json"}"",
-            ""vereniging"": {{
-                    ""vCode"": ""{_vCode}"",
-                    ""type"": {{
-                        ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
-                        ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Beschrijving}"",
-                    }},
-                    ""naam"": ""{_naamWerdGewijzigd.Naam}"",
-                    ""korteNaam"": ""{_korteNaamWerdGewijzigd.KorteNaam}"",
-                    ""korteBeschrijving"": ""{_korteBeschrijvingWerdGewijzigd.KorteBeschrijving}"",
-                    ""startdatum"": ""{_startdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-                    ""einddatum"": null,
-                    ""doelgroep"" : {{
-                        ""minimumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd},
-                        ""maximumleeftijd"": {_doelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}
-                    }},
-                    ""isUitgeschrevenUitPubliekeDatastroom"": false,
-                    ""status"": ""Actief"",
-                    ""contactgegevens"": [{string.Join(separator: ',', contactgegevens.Select(y => $@"{{
-                        ""contactgegevenId"": {y.ContactgegevenId},
-                        ""type"": ""{y.Type}"",
-                        ""waarde"": ""{y.Waarde}"",
-                        ""beschrijving"": ""{y.Beschrijving}"",
-                        ""isPrimair"": {(y.IsPrimair ? "true" : "false")},
-                        ""bron"": ""{Bron.Initiator.Waarde}"",
-                    }}"))}],
-                    ""locaties"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(x => $@"{{
-                        ""locatieId"": {x.LocatieId}
-                        ""locatietype"": ""{x.Locatietype}"",
-                        ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
-                        ""adres"": ""{x.Adres.ToAdresString()}"",
-                        ""naam"": ""{x.Naam}"",
-                        ""straatnaam"": ""{x.Adres!.Straatnaam}"",
-                        ""huisnummer"": ""{x.Adres!.Huisnummer}"",
-                        ""busnummer"": ""{x.Adres!.Busnummer}"",
-                        ""postcode"": ""{x.Adres!.Postcode}"",
-                        ""gemeente"": ""{x.Adres!.Gemeente}"",
-                        ""land"": ""{x.Adres!.Land}"",
-                        ""bron"": ""{Bron.Initiator.Waarde}""
-                    }}"))}
-                    ],
-                    ""vertegenwoordigers"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Select(x => $@"{{
-                            ""vertegenwoordigerId"": {x.VertegenwoordigerId},
-                            ""voornaam"": ""{x.Voornaam}"",
-                            ""achternaam"": ""{x.Achternaam}"",
-                            ""rol"": ""{x.Rol}"",
-                            ""roepnaam"": ""{x.Roepnaam}"",
-                            ""isPrimair"": {(x.IsPrimair ? "true" : "false")},
-                            ""e-mail"":""{x.Email}"",
-                            ""telefoon"":""{x.Telefoon}"",
-                            ""mobiel"":""{x.Mobiel}"",
-                            ""socialMedia"":""{x.SocialMedia}"",
-                            ""bron"": ""{Bron.Initiator.Waarde}""
-                    }}"))}],
-                    ""hoofdactiviteitenVerenigingsloket"":[{string.Join(separator: ',', _feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => $@"{{
-                        ""code"":""{x.Code}"",
-                        ""beschrijving"":""{x.Beschrijving}""
-                    }}"))}],
-                    ""sleutels"":[],
-                    ""relaties"":[],
-                    ""bron"": ""{Bron.Initiator.Waarde}"",
-                }},
-                ""metadata"": {{
-                    ""datumLaatsteAanpassing"": ""{_metadata.Tijdstip.ToBelgianDate()}"",
-                    }}
-                }}
-        ";
+        var expected = new DetailVerenigingResponseTemplate()
+                      .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                      .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
+                      .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
+                      .WithKorteBeschrijving(_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving)
+                      .WithStartdatum(_scenario.StartdatumWerdGewijzigd.Startdatum)
+                      .WithDoelgroep(_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
+                                     _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
+                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);
 
         content.Should().BeEquivalentJson(expected);
     }

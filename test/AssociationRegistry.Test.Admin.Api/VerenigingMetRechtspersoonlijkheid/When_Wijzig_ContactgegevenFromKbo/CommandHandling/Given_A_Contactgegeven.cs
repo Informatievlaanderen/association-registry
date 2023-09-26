@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.CommandHandling;
 
 using Acties.WijzigContactgegevenFromKbo;
-using Acties.WijzigMaatschappelijkeZetel;
 using Events;
 using AssociationRegistry.Framework;
 using Fakes;
