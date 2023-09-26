@@ -1,5 +1,5 @@
 {
-  "@context": "https://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json",
+  "@context": "http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json",
   "vereniging": {
     "vCode": "{{vereniging.vcode}}",
     "type": {
@@ -18,14 +18,23 @@
 {{else}}
       null,
 {{end}}
+    "einddatum":
+{{if vereniging.einddatum}}
+    "{{vereniging.einddatum}}",
+{{else}}
+    null,
+{{end}}
     "status": "{{vereniging.status}}",
+    "isUitgeschrevenUitPubliekeDatastroom": {{vereniging.isuitgeschreven}},
     "contactgegevens": [
 {{for contactgegeven in vereniging.contactgegevens}}
       {
+        "contactgegevenId": {{contactgegeven.id}},
         "type": "{{contactgegeven.type}}",
         "waarde": "{{contactgegeven.waarde}}",
         "beschrijving": "{{contactgegeven.beschrijving}}",
-        "isPrimair": {{contactgegeven.isprimair}}
+        "isPrimair": {{contactgegeven.isprimair}},
+        "bron": "{{contactgegeven.bron}}"
       },
 {{end}}
     ],
@@ -44,10 +53,12 @@
     "locaties": [
 {{for locatie in vereniging.locaties}}
       {
+        "locatieId":{{locatie.id}},
         "locatietype": "{{locatie.type}}",
         "isPrimair": {{locatie.isprimair}},
         "adresvoorstelling": "{{locatie.adresvoorstelling}}",
         "naam": "{{locatie.naam}}",
+        "bron": "{{locatie.bron}}",
         "adres":
 {{if locatie.adres}}
         {
@@ -73,6 +84,24 @@
       },
 {{end}}
     ],
+    "vertegenwoordigers": [
+{{for vertegenwoordiger in vereniging.vertegenwoordigers}}
+      {
+        "vertegenwoordigerId": {{vertegenwoordiger.id}},
+        "insz":"{{vertegenwoordiger.insz}}",
+        "voornaam": "{{vertegenwoordiger.voornaam}}",
+        "achternaam": "{{vertegenwoordiger.achternaam}}",
+        "rol": "{{vertegenwoordiger.rol}}",
+        "roepnaam": "{{vertegenwoordiger.roepnaam}}",
+        "isPrimair": {{vertegenwoordiger.isprimair}},
+        "e-mail":"{{vertegenwoordiger.email}}",
+        "telefoon":"{{vertegenwoordiger.telefoon}}",
+        "mobiel":"{{vertegenwoordiger.mobiel}}",
+        "socialMedia":"{{vertegenwoordiger.socialmedia}}",
+        "bron": "{{vertegenwoordiger.bron}}"
+      },
+{{end}}
+    ],
     "sleutels": [
 {{for sleutel in vereniging.sleutels}}
       {
@@ -91,14 +120,15 @@
           "naam": "{{relatie.anderevereniging.naam}}",
           "detail":
 {{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}
-            "https://127.0.0.1:11003/v1/verenigingen/{{relatie.anderevereniging.vcode}}",
+            "http://127.0.0.1:11004/v1/verenigingen/{{relatie.anderevereniging.vcode}}",
 {{else}}
             "",
 {{end}}
         }
       },
 {{end}}
-    ]
+    ],
+    "bron": "{{vereniging.bron}}"
   },
   "metadata": {
     "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"

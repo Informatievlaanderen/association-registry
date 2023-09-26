@@ -5,9 +5,11 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
+using templates;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
@@ -19,16 +21,13 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly HttpResponseMessage _response;
-    private V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO _scenario;
+    private readonly V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO(
         EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo;
-
         _adminApiClient = fixture.DefaultClient;
-        _response = fixture.DefaultClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -50,74 +49,35 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     [Fact]
     public async Task Then_we_get_a_detail_response()
     {
-        var content = await _response.Content.ReadAsStringAsync();
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        var content = await response.Content.ReadAsStringAsync();
 
-        var vCode = _scenario.VCode;
-
-        var expected = $@"
-{{
-    ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json"}"",
-    ""vereniging"": {{
-            ""vCode"": ""{vCode}"",
-            ""type"": {{
-                ""code"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
-                ""beschrijving"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
-            }},
-            ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
-            ""roepnaam"": """",
-            ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": """",
-            ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""einddatum"": null,
-            ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
-            ""status"": ""Actief"",
-            ""isUitgeschrevenUitPubliekeDatastroom"": false,
-            ""contactgegevens"": [],
-            ""locaties"":[
-                {{
-                ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
-                ""locatietype"": ""Maatschappelijke zetel volgens KBO"",
-                ""isPrimair"": true,
-                ""naam"": ""{_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam}"",
-                ""adres"": {{
-                    ""straatnaam"": ""Stationsstraat"",
-                    ""huisnummer"": ""1"",
-                    ""busnummer"": ""B"",
-                    ""postcode"": ""1790"",
-                    ""gemeente"": ""Affligem"",
-                    ""land"": ""België""
-                }},
-                ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
-                ""adresId"": null,
-                ""bron"": ""{Bron.KBO.Waarde}"",
-            }}
-            ],
-            ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenVerenigingsloket"":[],
-            ""sleutels"":[
-                {{
-                    ""bron"": ""KBO"",
-                    ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
-                }}],
-            ""relaties"":[],
-            ""bron"": ""{Bron.KBO.Waarde}"",
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
-        }}
-}}
-";
+        var expected = new DetailVerenigingResponseTemplate()
+                      .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
+                      .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                   _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.Naam,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land,
+                                   _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.IsPrimair,
+                                   Bron.KBO);
 
         content.Should().BeEquivalentJson(expected);
     }
 
     [Fact]
-    public void Then_it_returns_an_etag_header()
+    public async Task Then_it_returns_an_etag_header()
     {
-        _response.Headers.ETag.Should().NotBeNull();
-        var etagValues = _response.Headers.GetValues(HeaderNames.ETag).ToList();
-        etagValues.Should().HaveCount(expected: 1);
-        var etag = etagValues[index: 0];
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        response.Headers.ETag.Should().NotBeNull();
+
+        var etag = response.Headers.GetValues(HeaderNames.ETag).ToList().Should().ContainSingle().Subject;
         etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
 }
