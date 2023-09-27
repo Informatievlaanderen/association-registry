@@ -38,10 +38,10 @@ public class VerenigingenPerInszResponse
         public string Status { get; init; } = null!;
 
         /// <summary>
-        /// Het kbonummer van de vereniging
+        /// Het kbo nummer van de vereniging
         /// </summary>
         [DataMember]
-        public string? Kbonummer { get; init; }
+        public string? KboNummer { get; init; }
 
     }
 }
