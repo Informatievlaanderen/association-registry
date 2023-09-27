@@ -30,6 +30,7 @@ public static class SwaggerExtensions
                    options.DescribeAllParametersInCamelCase();
                    options.UseAllOfToExtendReferenceSchemas();
                    options.SupportNonNullableReferenceTypes();
+                   options.SchemaFilter<DisableNullableFilter>();
                    options.SchemaFilter<ExampleSchemaFilter>();
                    options.OperationFilter<CapitalizeParameterFilter>();
 
