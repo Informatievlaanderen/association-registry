@@ -38,13 +38,17 @@ public class VerenigingenPerInszController : ApiController
         [FromQuery] string insz)
     {
         await using var session = documentStore.LightweightSession();
-        var document = await session.Query<VerenigingenPerInszDocument>()
-            .Where(x => x.Insz.Equals(insz, StringComparison.CurrentCultureIgnoreCase))
-            .SingleOrDefaultAsync();
 
-        if (document is null)
-            return Ok(new VerenigingenPerInszDocument { Insz = insz });
+        var document = await GetDocument(session, insz);
 
-        return Ok(document);
+        return Ok(document.ToResponse());
+    }
+
+    private static async Task<VerenigingenPerInszDocument> GetDocument(IDocumentSession session, string insz)
+    {
+        return await session.Query<VerenigingenPerInszDocument>()
+                            .Where(x => x.Insz.Equals(insz, StringComparison.CurrentCultureIgnoreCase))
+                            .SingleOrDefaultAsync()
+            ?? new VerenigingenPerInszDocument { Insz = insz };
     }
 }
