@@ -1,3 +1,18 @@
+# [7.36.0](https://github.com/informatievlaanderen/association-registry/compare/v7.35.0...v7.36.0) (2023-09-27)
+
+
+### Features
+
+* or-1831 add mapper class ([d49a8bc](https://github.com/informatievlaanderen/association-registry/commit/d49a8bc2ab30932eeacc53cc1941d82cb952611c))
+* or-1831 add template for publiek zoek met feitelijke verenigingen ([b0e012d](https://github.com/informatievlaanderen/association-registry/commit/b0e012d4654ec45edc007db1b93810588038b175))
+* or-1831 make beheer detail template ([03246f8](https://github.com/informatievlaanderen/association-registry/commit/03246f814f86e690209ed67358e763e96bc39aaa))
+* or-1831 make template for beheer zoek ([f4543a0](https://github.com/informatievlaanderen/association-registry/commit/f4543a08ca0c745797fee544f5d3b9c7ba7e6399))
+* or-1831 make template for publiek detail ([bf1d100](https://github.com/informatievlaanderen/association-registry/commit/bf1d100e086e7c562bbf22ddf37bb178e78a89e2))
+* or-1831 move templates to project root ([8c25e8b](https://github.com/informatievlaanderen/association-registry/commit/8c25e8be9f7150ea891fedcc7b5bc8274a590c2b))
+* or-1831 rework tests ([f236a06](https://github.com/informatievlaanderen/association-registry/commit/f236a06cb3e512414f758bc1b244a5d0bffac68a))
+* or-1831 update test for vereniging met rechtspersoonlijkheid ([b5822b2](https://github.com/informatievlaanderen/association-registry/commit/b5822b2ad2907c31c49a82d865873992693d826e))
+* or-1831 use lambda for WithVereniging ([1e7cf66](https://github.com/informatievlaanderen/association-registry/commit/1e7cf66c11c1fc5235eb048402ff8797fcc83578))
+
 # [7.35.0](https://github.com/informatievlaanderen/association-registry/compare/v7.34.0...v7.35.0) (2023-09-25)
 
 
