@@ -1,3 +1,10 @@
+# [7.38.0](https://github.com/informatievlaanderen/association-registry/compare/v7.37.0...v7.38.0) (2023-09-28)
+
+
+### Features
+
+* or-1918 remove old endpoint ([a2e1fb8](https://github.com/informatievlaanderen/association-registry/commit/a2e1fb8b91627bf16299f4bb4f8ccff815e64400))
+
 # [7.37.0](https://github.com/informatievlaanderen/association-registry/compare/v7.36.0...v7.37.0) (2023-09-28)
 
 
