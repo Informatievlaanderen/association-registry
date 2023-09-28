@@ -65,6 +65,8 @@ public class SearchVerenigingenController : ApiController
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `q=locaties.postcode:1000`
     ///
+    ///     ### Paginatie
+    ///
     ///     Standaard gebruiken we een paginatie limiet van 50 verenigingen.
     ///     Om een andere limiet te gebruiken, geef je de parameter `limit` mee.
     ///     De maximum limiet die kan gebruikt worden is 1000.
@@ -77,17 +79,32 @@ public class SearchVerenigingenController : ApiController
     ///     Er kan enkel gepagineerd worden binnen de eerste 1000 resultaten.
     ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
     ///
+    ///     ### Sortering
+    ///
     ///     Standaard wordt aflopend gesorteerd op vCode.
     ///     Wil je een eigen sortering meegeven, kan je gebruik maken van `sort=veldNaam`.
     ///     - Zonder `sort` parameter wordt standaard aflopend gesorteerd op `vCode`.
     ///     - `sort=naam` sorteert oplopend op `naam`.
     ///     - `sort=-naam` sorteert aflopend op `naam`.
     ///
-    ///     Gebruik `.` om te navigeren binnen geneste objecten.
+    ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
     ///     - `sort=type.code`
     ///
-    ///     Gebruik `,` om te sorteren op meerdere velden
+    ///     Om te sorteren op meerdere velden, combineer je de verschillende velden gescheiden door een komma.
     ///     - `sort=type.code,-naam`
+    ///
+    ///     De volgende velden worden ondersteund voor gebruik bij het sorteren:
+    ///     - `vCode`
+    ///     - `type.code`
+    ///     - `type.beschrijving`
+    ///     - `roepnaam`
+    ///     - `naam`
+    ///     - `korteNaam`
+    ///     - `doelgroep.minimumleeftijd`
+    ///     - `doelgroep.maximumleeftijd`
+    ///
+    ///     Het gedrag van het sorteren op andere velden kan niet gegarandeerd worden.
+    ///
     /// </remarks>
     /// <param name="q">De querystring</param>
     /// <param name="sort">De velden om op te sorteren</param>
