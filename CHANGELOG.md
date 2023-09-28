@@ -1,3 +1,10 @@
+# [7.40.0](https://github.com/informatievlaanderen/association-registry/compare/v7.39.0...v7.40.0) (2023-09-28)
+
+
+### Features
+
+* or-1927 rework projections ([f2f3508](https://github.com/informatievlaanderen/association-registry/commit/f2f350880acc3445e69d29af04390bdb4b625ec4))
+
 # [7.39.0](https://github.com/informatievlaanderen/association-registry/compare/v7.38.0...v7.39.0) (2023-09-28)
 
 
