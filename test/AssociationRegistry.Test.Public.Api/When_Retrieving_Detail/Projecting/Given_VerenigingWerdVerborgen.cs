@@ -24,7 +24,6 @@ public class Given_VerenigingWerdVerwijderdUitPubliekeDatastroom
         PubliekVerenigingDetailProjector.Apply(verenigingWerdVerwijderdUitPubliekeDatastroom, doc);
 
         doc.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
-        doc.DatumLaatsteAanpassing.Should().Be(verenigingWerdVerwijderdUitPubliekeDatastroom.Tijdstip.ToBelgianDate());
 
     }
 }

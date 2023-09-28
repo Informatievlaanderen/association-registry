@@ -24,6 +24,5 @@ public class Given_KorteBeschrijvingWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
 
         doc.KorteBeschrijving.Should().Be(korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving);
-        doc.DatumLaatsteAanpassing.Should().Be(korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

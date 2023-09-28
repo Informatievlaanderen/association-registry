@@ -24,6 +24,5 @@ public class Given_NaamWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigd.Data.Naam);
-        doc.DatumLaatsteAanpassing.Should().Be(naamWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

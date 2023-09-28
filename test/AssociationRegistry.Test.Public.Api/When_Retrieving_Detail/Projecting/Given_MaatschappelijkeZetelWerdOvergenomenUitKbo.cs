@@ -53,6 +53,5 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     },
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDate());
     }
 }

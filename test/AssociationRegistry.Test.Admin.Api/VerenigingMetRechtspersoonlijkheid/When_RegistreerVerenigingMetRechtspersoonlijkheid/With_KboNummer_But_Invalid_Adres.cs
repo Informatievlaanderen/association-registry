@@ -28,7 +28,7 @@ public class With_KboNummer_But_Invalid_Adres : With_KboNummer_For_Supported_Ver
             .LightweightSession();
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Should().ContainSingle(e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer).Subject;
+            .Should().ContainSingle(e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer).Subject;
 
         using (new AssertionScope())
         {

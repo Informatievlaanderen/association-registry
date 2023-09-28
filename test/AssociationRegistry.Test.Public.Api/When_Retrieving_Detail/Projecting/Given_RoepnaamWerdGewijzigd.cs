@@ -1,27 +1,28 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_KorteNaamWerdGewijzigd
+public class Given_RoepnaamWerdGewijzigd
 {
     [Fact]
-    public void Then_it_modifies_the_korteNaam()
+    public void Then_it_modifies_the_roepnaam()
     {
         var fixture = new Fixture().CustomizePublicApi();
-        var korteNaamWerdGewijzigd = fixture.Create<TestEvent<KorteNaamWerdGewijzigd>>();
+        var roepnaamWerdGewijzigd = fixture.Create<TestEvent<RoepnaamWerdGewijzigd>>();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        PubliekVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
+        PubliekVerenigingDetailProjector.Apply(roepnaamWerdGewijzigd, doc);
 
-        doc.KorteNaam.Should().Be(korteNaamWerdGewijzigd.Data.KorteNaam);
+        doc.Roepnaam.Should().Be(roepnaamWerdGewijzigd.Data.Roepnaam);
     }
 }

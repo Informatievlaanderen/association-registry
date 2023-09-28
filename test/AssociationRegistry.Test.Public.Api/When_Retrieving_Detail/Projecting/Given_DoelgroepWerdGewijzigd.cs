@@ -24,6 +24,5 @@ public class Given_DoelgroepWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(doelgroepWerdGewijzigd, doc);
 
         doc.Doelgroep.Should().BeEquivalentTo(doelgroepWerdGewijzigd.Data.Doelgroep);
-        doc.DatumLaatsteAanpassing.Should().Be(doelgroepWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

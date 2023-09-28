@@ -31,6 +31,5 @@ public class Given_LocatieWerdVerwijderd
 
         doc.Locaties.Should().NotContain(teVerwijderenLocatie);
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdVerwijderd.Tijdstip.ToBelgianDate());
     }
 }

@@ -42,6 +42,5 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
                 AdresId = locatie.AdresId,
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(maatschappelijkeZetelVolgensKboWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

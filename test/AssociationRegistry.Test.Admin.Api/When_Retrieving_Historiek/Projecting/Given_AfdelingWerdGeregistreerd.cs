@@ -23,20 +23,15 @@ public class Given_AfdelingWerdGeregistreerd
 
         var document = BeheerVerenigingHistoriekProjector.Create(afdelingWerdGeregistreerd);
 
-        document.Should().BeEquivalentTo(
-            new BeheerVerenigingHistoriekDocument
+        document.Gebeurtenissen.Should().BeEquivalentTo(
+            new List<BeheerVerenigingHistoriekGebeurtenis>
             {
-                VCode = afdelingWerdGeregistreerd.Data.VCode,
-                Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
-                {
-                    new(
-                        $"Afdeling werd geregistreerd met naam '{afdelingWerdGeregistreerd.Data.Naam}'.",
-                        nameof(AfdelingWerdGeregistreerd),
-                        AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-                        afdelingWerdGeregistreerd.Initiator,
-                        afdelingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
-                },
-                Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
+                new(
+                    $"Afdeling werd geregistreerd met naam '{afdelingWerdGeregistreerd.Data.Naam}'.",
+                    nameof(AfdelingWerdGeregistreerd),
+                    AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
+                    afdelingWerdGeregistreerd.Initiator,
+                    afdelingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
             }
         );
     }

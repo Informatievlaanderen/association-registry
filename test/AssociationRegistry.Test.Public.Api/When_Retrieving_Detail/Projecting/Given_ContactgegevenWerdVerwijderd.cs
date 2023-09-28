@@ -34,6 +34,5 @@ public class Given_ContactgegevenWerdVerwijderd
 
         doc.Contactgegevens.Should().NotContain(c => c.ContactgegevenId == contactgegevenWerdVerwijderd.Data.ContactgegevenId);
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDate());
     }
 }

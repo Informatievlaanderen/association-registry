@@ -49,6 +49,5 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
                 });
 
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenUitKboWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }
