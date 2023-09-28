@@ -31,6 +31,6 @@ public class Given_VertegenwoordigerWerdVerwijderd
                 nameof(VertegenwoordigerWerdVerwijderd),
                 VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
                 vertegenwoordigerWerdVerwijderd.Initiator,
-                vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdVerwijderd.Tijdstip.ToZuluTime()));
     }
 }

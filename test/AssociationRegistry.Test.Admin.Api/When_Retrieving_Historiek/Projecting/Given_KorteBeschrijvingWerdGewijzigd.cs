@@ -30,6 +30,6 @@ public class Given_KorteBeschrijvingWerdGewijzigd
                 nameof(KorteBeschrijvingWerdGewijzigd),
                 korteBeschrijvingWerdGewijzigd.Data,
                 korteBeschrijvingWerdGewijzigd.Initiator,
-                korteBeschrijvingWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                korteBeschrijvingWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

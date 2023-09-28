@@ -36,6 +36,6 @@ public class Given_ContactgegevenUitKboWerdGewijzigd
                 nameof(ContactgegevenUitKBOWerdGewijzigd),
                 contactgegevenWerdGewijzigdVolgensKBO.Data,
                 contactgegevenWerdGewijzigdVolgensKBO.Initiator,
-                contactgegevenWerdGewijzigdVolgensKBO.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdGewijzigdVolgensKBO.Tijdstip.ToZuluTime()));
     }
 }

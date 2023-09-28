@@ -33,6 +33,6 @@ public class Given_LocatieWerdGewijzigd
                 nameof(LocatieWerdGewijzigd),
                 locatieWerdGewijzigd.Data.Locatie,
                 locatieWerdGewijzigd.Initiator,
-                locatieWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                locatieWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

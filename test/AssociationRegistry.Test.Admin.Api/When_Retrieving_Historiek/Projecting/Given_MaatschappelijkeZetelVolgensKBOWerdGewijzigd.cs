@@ -29,6 +29,6 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd
                 nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd),
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Initiator,
-                maatschappelijkeZetelVolgensKboWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                maatschappelijkeZetelVolgensKboWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

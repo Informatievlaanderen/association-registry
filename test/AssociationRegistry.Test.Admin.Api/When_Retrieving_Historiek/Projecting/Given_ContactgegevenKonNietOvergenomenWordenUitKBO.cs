@@ -29,6 +29,6 @@ public class Given_ContactgegevenKonNietOvergenomenWordenUitKBO
                 nameof(ContactgegevenKonNietOvergenomenWordenUitKBO),
                 contactgegevenKonNietOvergenomenWorden.Data,
                 contactgegevenKonNietOvergenomenWorden.Initiator,
-                contactgegevenKonNietOvergenomenWorden.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenKonNietOvergenomenWorden.Tijdstip.ToZuluTime()));
     }
 }

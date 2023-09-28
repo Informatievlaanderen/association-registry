@@ -31,7 +31,7 @@ public class Given_NaamWerdGewijzigd
                 nameof(NaamWerdGewijzigd),
                 korteNaamWerdGewijzigd.Data,
                 korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                korteNaamWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }
 
@@ -55,7 +55,7 @@ public class Given_VerenigingWerdGestopt
                 nameof(VerenigingWerdGestopt),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                verenigingWerdGestopt.Tijdstip.ToBelgianDateAndTime()));
+                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
     }
 }
 
@@ -80,6 +80,6 @@ public class Given_EinddatumWerdGewijzigd
                 nameof(EinddatumWerdGewijzigd),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                verenigingWerdGestopt.Tijdstip.ToBelgianDateAndTime()));
+                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
     }
 }

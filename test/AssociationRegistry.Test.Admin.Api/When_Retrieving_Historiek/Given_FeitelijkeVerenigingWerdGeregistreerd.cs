@@ -67,7 +67,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

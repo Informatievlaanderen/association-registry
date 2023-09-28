@@ -30,6 +30,6 @@ public class Given_KorteNaamWerdGewijzigd
                 nameof(KorteNaamWerdGewijzigd),
                 korteNaamWerdGewijzigd.Data,
                 korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                korteNaamWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

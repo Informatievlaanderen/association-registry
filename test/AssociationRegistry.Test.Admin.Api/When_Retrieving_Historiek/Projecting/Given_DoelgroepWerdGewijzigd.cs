@@ -30,6 +30,6 @@ public class Given_DoelgroepWerdGewijzigd
                 nameof(DoelgroepWerdGewijzigd),
                 doelgroepWerdGewijzigd.Data,
                 doelgroepWerdGewijzigd.Initiator,
-                doelgroepWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                doelgroepWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

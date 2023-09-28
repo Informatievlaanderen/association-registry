@@ -77,56 +77,56 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Naam werd gewijzigd naar '{_scenario.NaamWerdGewijzigd.Naam}'."",
                         ""gebeurtenis"":""NaamWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.NaamWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte naam werd gewijzigd naar '{_scenario.KorteNaamWerdGewijzigd.KorteNaam}'."",
                         ""gebeurtenis"":""KorteNaamWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.KorteNaamWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Korte beschrijving werd gewijzigd naar '{_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving}'."",
                         ""gebeurtenis"":""KorteBeschrijvingWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.KorteBeschrijvingWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Startdatum werd gewijzigd naar '{_scenario.StartdatumWerdGewijzigd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'."",
                         ""gebeurtenis"":""StartdatumWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.StartdatumWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Vereniging werd uitgeschreven uit de publieke datastroom."",
                         ""gebeurtenis"":""VerenigingWerdUitgeschrevenUitPubliekeDatastroom"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdUitgeschrevenUitPubliekeDatastroom)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Vereniging werd ingeschreven in de publieke datastroom."",
                         ""gebeurtenis"":""VerenigingWerdIngeschrevenInPubliekeDatastroom"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingWerdIngeschrevenInPubliekeDatastroom)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Doelgroep werd gewijzigd naar '{_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd} - {_scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd}'."",
                         ""gebeurtenis"":""DoelgroepWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.DoelgroepWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
-                        ""tijdstip"":""{Metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

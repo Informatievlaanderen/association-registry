@@ -31,7 +31,7 @@ public class Given_AfdelingWerdGeregistreerd
                     nameof(AfdelingWerdGeregistreerd),
                     AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
                     afdelingWerdGeregistreerd.Initiator,
-                    afdelingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                    afdelingWerdGeregistreerd.Tijdstip.ToZuluTime()),
             }
         );
     }

@@ -37,7 +37,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
                     _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data,
                     _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Initiator,
-                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToZuluTime()),
             }
         );
     }

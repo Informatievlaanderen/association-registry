@@ -33,6 +33,6 @@ public class Given_LocatieWerdVerwijderd
                 nameof(LocatieWerdVerwijderd),
                 locatieWerdVerwijderd.Data.Locatie,
                 locatieWerdVerwijderd.Initiator,
-                locatieWerdVerwijderd.Tijdstip.ToBelgianDateAndTime()));
+                locatieWerdVerwijderd.Tijdstip.ToZuluTime()));
     }
 }
