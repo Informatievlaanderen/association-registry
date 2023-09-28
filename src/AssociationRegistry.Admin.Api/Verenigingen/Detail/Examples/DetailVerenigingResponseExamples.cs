@@ -194,6 +194,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             {
                                 Straatnaam = "Zeebank",
                                 Huisnummer = "10",
+                                Busnummer = "",
                                 Postcode = "8400",
                                 Gemeente = "Oostende",
                                 Land = "België",
@@ -211,6 +212,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             {
                                 Straatnaam = "De pier",
                                 Huisnummer = "1",
+                                Busnummer = "",
                                 Postcode = "8430",
                                 Gemeente = "Westende",
                                 Land = "België",
