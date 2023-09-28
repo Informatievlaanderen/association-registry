@@ -1,3 +1,12 @@
+# [7.39.0](https://github.com/informatievlaanderen/association-registry/compare/v7.38.0...v7.39.0) (2023-09-28)
+
+
+### Features
+
+* or-1320 clarify which fields can be used for sorting ([992339b](https://github.com/informatievlaanderen/association-registry/commit/992339b1c604f4942cd6b832e5d9213f56c9c310))
+* or-1927 fix tests and cleanup ([aa9b9a4](https://github.com/informatievlaanderen/association-registry/commit/aa9b9a4dc36adb62e027cb922cd356fe9a241d0e))
+* or-1927 rework projector and projections to always update version ([0957e21](https://github.com/informatievlaanderen/association-registry/commit/0957e2115c2b2eb13e711ca626b9cdc0977bb014))
+
 # [7.38.0](https://github.com/informatievlaanderen/association-registry/compare/v7.37.0...v7.38.0) (2023-09-28)
 
 
