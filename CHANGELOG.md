@@ -1,3 +1,16 @@
+# [8.0.0](https://github.com/informatievlaanderen/association-registry/compare/v7.40.0...v8.0.0) (2023-09-28)
+
+
+### Features
+
+* or-1925 display historiek item in zulu time ([6e93bab](https://github.com/informatievlaanderen/association-registry/commit/6e93bab7ef984ecb85a808dc063989b42d72addc))
+
+
+### BREAKING CHANGES
+
+* historiek item is now displayed in zulu format
+(yyyy-MM-ddTHH:mm:ssZ).
+
 # [7.40.0](https://github.com/informatievlaanderen/association-registry/compare/v7.39.0...v7.40.0) (2023-09-28)
 
 
