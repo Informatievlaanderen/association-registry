@@ -20,7 +20,6 @@ public class VerenigingDetail
 
     /// <summary>Roepnaam van de vereniging. Dit veld is enkel aanwezig bij verenigingen met rechtspersoonlijkheid</summary>
     [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
-    [DefaultValue(null)]
     public string Roepnaam { get; init; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
