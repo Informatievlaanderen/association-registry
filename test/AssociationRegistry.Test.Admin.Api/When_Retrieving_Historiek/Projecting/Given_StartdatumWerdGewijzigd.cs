@@ -31,7 +31,7 @@ public class Given_StartdatumWerdGewijzigd
                 nameof(StartdatumWerdGewijzigd),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
-                startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }
 
@@ -59,6 +59,6 @@ public class Given_StartdatumWerdGewijzigd_With_Null
                 nameof(StartdatumWerdGewijzigd),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
-                startdatumWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

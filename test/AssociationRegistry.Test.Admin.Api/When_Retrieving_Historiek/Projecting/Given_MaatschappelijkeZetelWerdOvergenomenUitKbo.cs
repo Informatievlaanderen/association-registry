@@ -29,7 +29,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDateAndTime()));
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
     }
 }
 
@@ -52,6 +52,6 @@ public class Given_MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
                 nameof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDateAndTime()));
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
     }
 }

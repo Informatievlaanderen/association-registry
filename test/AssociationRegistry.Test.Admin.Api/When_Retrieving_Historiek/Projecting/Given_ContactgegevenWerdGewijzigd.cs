@@ -29,6 +29,6 @@ public class Given_ContactgegevenWerdGewijzigd
                 nameof(ContactgegevenWerdGewijzigd),
                 contactgegevenWerdGewijzigd.Data,
                 contactgegevenWerdGewijzigd.Initiator,
-                contactgegevenWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

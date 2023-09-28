@@ -30,6 +30,6 @@ public class Given_RoepnaamWerdGewijzigd
                 nameof(RoepnaamWerdGewijzigd),
                 roepnaamWerdGewijzigd.Data,
                 roepnaamWerdGewijzigd.Initiator,
-                roepnaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                roepnaamWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

@@ -74,7 +74,7 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                         ""gebeurtenis"":""AfdelingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(AfdelingWerdGeregistreerdData.Create(_scenario.AfdelingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}
@@ -99,14 +99,14 @@ public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_Wi
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MoederWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""'{_scenario.AfdelingWerdGeregistreerd.Naam}' werd geregistreerd als afdeling."",
                         ""gebeurtenis"":""AfdelingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(AfdelingWerdGeregistreerdData.Create(_scenario.AfdelingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

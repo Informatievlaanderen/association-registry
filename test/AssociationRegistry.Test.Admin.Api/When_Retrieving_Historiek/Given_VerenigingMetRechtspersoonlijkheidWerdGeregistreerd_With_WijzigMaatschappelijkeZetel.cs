@@ -66,21 +66,21 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""Maatschappelijke zetel volgens KBO werd gewijzigd."",
                         ""gebeurtenis"":""MaatschappelijkeZetelVolgensKBOWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

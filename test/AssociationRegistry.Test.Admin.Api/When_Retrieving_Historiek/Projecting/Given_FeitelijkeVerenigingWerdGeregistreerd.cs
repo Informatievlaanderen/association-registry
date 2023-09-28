@@ -31,7 +31,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     nameof(FeitelijkeVerenigingWerdGeregistreerd),
                     FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
                     feitelijkeVerenigingWerdGeregistreerd.Initiator,
-                    feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
+                    feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToZuluTime()),
             }
         );
     }

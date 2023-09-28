@@ -30,6 +30,6 @@ public class Given_ContactgegevenWerdVerwijderd
                 nameof(ContactgegevenWerdVerwijderd),
                 contactgegevenWerdVerwijderd.Data,
                 contactgegevenWerdVerwijderd.Initiator,
-                contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdVerwijderd.Tijdstip.ToZuluTime()));
     }
 }

@@ -67,7 +67,7 @@ public class Given_VerenigingWerdGestopt
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
 {{
       ""beschrijving"": ""De vereniging werd gestopt met einddatum '2023-09-06'."",
@@ -76,7 +76,7 @@ public class Given_VerenigingWerdGestopt
         ""einddatum"": ""2023-09-06""
       }},
       ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
     }},
     {{
       ""beschrijving"": ""De einddatum van de vereniging werd gewijzigd naar '1990-01-01'."",
@@ -85,7 +85,7 @@ public class Given_VerenigingWerdGestopt
         ""einddatum"": ""1990-01-01""
       }},
       ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
     }}
                 ]
             }}

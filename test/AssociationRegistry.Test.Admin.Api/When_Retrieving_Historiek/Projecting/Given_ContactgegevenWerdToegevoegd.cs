@@ -30,6 +30,6 @@ public class Given_ContactgegevenWerdToegevoegd
                 nameof(ContactgegevenWerdToegevoegd),
                 contactgegevenWerdToegevoegd.Data,
                 contactgegevenWerdToegevoegd.Initiator,
-                contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdToegevoegd.Tijdstip.ToZuluTime()));
     }
 }

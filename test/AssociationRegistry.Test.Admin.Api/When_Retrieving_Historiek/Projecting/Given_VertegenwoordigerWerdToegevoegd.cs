@@ -30,7 +30,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 nameof(VertegenwoordigerWerdToegevoegd),
                 VertegenwoordigerData.Create(vertegenwoordigerWerdToegevoegd.Data),
                 vertegenwoordigerWerdToegevoegd.Initiator,
-                vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdToegevoegd.Tijdstip.ToZuluTime()));
     }
 }
 
@@ -53,6 +53,6 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
                 nameof(VertegenwoordigerWerdOvergenomenUitKBO),
                 VertegenwoordigerData.Create(vertegenwoordigerWerdOvergenomenUitKbo.Data),
                 vertegenwoordigerWerdOvergenomenUitKbo.Initiator,
-                vertegenwoordigerWerdOvergenomenUitKbo.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
     }
 }

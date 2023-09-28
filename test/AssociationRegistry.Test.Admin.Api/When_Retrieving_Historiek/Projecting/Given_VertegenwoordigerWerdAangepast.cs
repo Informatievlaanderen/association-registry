@@ -30,6 +30,6 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 nameof(VertegenwoordigerWerdGewijzigd),
                 vertegenwoordigerWerdGewijzigd.Data,
                 vertegenwoordigerWerdGewijzigd.Initiator,
-                vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

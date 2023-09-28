@@ -29,6 +29,6 @@ public class Given_ContactgegevenWerdOvergenomenUitKbo
                 nameof(ContactgegevenWerdOvergenomenUitKBO),
                 contactgegevenWerdOvergenomen.Data,
                 contactgegevenWerdOvergenomen.Initiator,
-                contactgegevenWerdOvergenomen.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdOvergenomen.Tijdstip.ToZuluTime()));
     }
 }

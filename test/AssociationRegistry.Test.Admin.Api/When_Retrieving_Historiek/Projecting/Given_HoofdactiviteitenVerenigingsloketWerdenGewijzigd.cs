@@ -30,6 +30,6 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd
                 nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
                 hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data,
                 hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Initiator,
-                hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

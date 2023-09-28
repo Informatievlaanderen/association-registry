@@ -33,6 +33,6 @@ public class Given_LocatieWerdToegevoegd
                 nameof(LocatieWerdToegevoegd),
                 locatieWerdToegevoegd.Data.Locatie,
                 locatieWerdToegevoegd.Initiator,
-                locatieWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
+                locatieWerdToegevoegd.Tijdstip.ToZuluTime()));
     }
 }
