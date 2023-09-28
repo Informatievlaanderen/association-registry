@@ -63,44 +63,6 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost]
-    [ConsumesJson]
-    [ProducesJson]
-    [SwaggerRequestExample(typeof(RegistreerFeitelijkeVerenigingRequest), typeof(RegistreerFeitelijkeVerenigingRequestExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
-    [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(PotentialDuplicatesResponseExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string", description: "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string", description: "De versie van de geregistreerde vereniging.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string", description: "De locatie van de geregistreerde vereniging.")]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(PotentialDuplicatesResponse), StatusCodes.Status409Conflict)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [Obsolete("Please use Post")]
-    public async Task<IActionResult> PostDepricated(
-        [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
-        [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
-        string? bevestigingsToken = null)
-        => await Post(request, metadataProvider, bevestigingsToken);
-
-    /// <summary>
-    ///     Registreer een feitelijke vereniging.
-    /// </summary>
-    /// <remarks>
-    ///     Bij het registreren van de vereniging wordt een sequentie teruggegeven via de `VR-Sequence` header.
-    ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde vereniging
-    ///     al is doorgestroomd naar deze endpoints.
-    /// </remarks>
-    /// <param name="request">De gegevens van de te registreren vereniging</param>
-    /// <param name="metadataProvider"></param>
-    /// <param name="bevestigingsToken">Dit token wordt gebruikt als bevestiging dat de vereniging uniek is,
-    /// ondanks de voorgestelde duplicaten.</param>
-    /// <response code="202">De feitelijke vereniging werd geregistreerd.</response>
-    /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
-    /// <response code="409">Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</response>
-    /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("feitelijkeverenigingen")]
     [ConsumesJson]
     [ProducesJson]
