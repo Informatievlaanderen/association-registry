@@ -31,7 +31,7 @@ public class AdminApiClient : IDisposable
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
         WithHeaders(null, initiator);
-        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen", content.AsJsonContent());
+        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen/feitelijkeverenigingen", content.AsJsonContent());
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
         return httpResponseMessage;
     }

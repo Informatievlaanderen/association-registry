@@ -23,6 +23,6 @@ public class With_A_Null_Request
     public async Task Then_it_throws_a_CouldNotParseRequestException()
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
-            async () => await _controller.PostDepricated(request: null, new CommandMetadataProviderStub { Initiator= "OVO000001" }, string.Empty));
+            async () => await _controller.Post(request: null, new CommandMetadataProviderStub { Initiator= "OVO000001" }, string.Empty));
     }
 }
