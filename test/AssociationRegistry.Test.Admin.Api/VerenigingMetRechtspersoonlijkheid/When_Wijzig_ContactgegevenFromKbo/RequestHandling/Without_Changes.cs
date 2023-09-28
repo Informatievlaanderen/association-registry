@@ -44,7 +44,7 @@ public class Without_Changes : IAsyncLifetime
             new WijzigContactgegevenRequest
             { Contactgegeven = new TeWijzigenContactgegeven()
             {
-                Beschrijving = "Beschrijving"
+                Beschrijving = "Beschrijving",
             } },
             new CommandMetadataProviderStub { Initiator = "OVO000001" },
             "W/\"1\"");

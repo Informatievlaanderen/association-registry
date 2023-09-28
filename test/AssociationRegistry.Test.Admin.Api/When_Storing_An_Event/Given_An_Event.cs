@@ -57,7 +57,7 @@ public class Given_An_Event
 
     private static async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId, IDocumentStore documentStore)
     {
-        await using var session = documentStore.OpenSession();
+        await using var session = documentStore.LightweightSession();
 
         return await session.Events.FetchStreamAsync(streamId);
     }

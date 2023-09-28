@@ -23,10 +23,6 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
 
-        var naam = string.IsNullOrEmpty(maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam)
-            ? string.Empty
-            : $"'{maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam}' ";
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 "Maatschappelijke zetel volgens KBO werd gewijzigd.",

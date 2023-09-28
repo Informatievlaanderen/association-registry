@@ -5,7 +5,6 @@ using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
 using Marten;
-using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,6 @@ using Nest;
 using NodaTime.Extensions;
 using Npgsql;
 using System.Reflection;
-using Weasel.Core;
 using Xunit;
 using Xunit.Sdk;
 using IEvent = AssociationRegistry.Framework.IEvent;
@@ -33,7 +31,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private readonly IElasticClient _elasticClient;
 
     private string VerenigingenIndexName
-        => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"];
+        => _configurationRoot["ElasticClientOptions:Indices:Verenigingen"]!;
 
     protected ProjectionHostFixture(string identifier)
     {

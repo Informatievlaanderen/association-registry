@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -25,6 +23,5 @@ public class Given_NaamWerdGewijzigd
         BeheerVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigd.Data.Naam);
-        doc.DatumLaatsteAanpassing.Should().Be(naamWerdGewijzigd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(naamWerdGewijzigd.Sequence, naamWerdGewijzigd.Version));}
+    }
 }

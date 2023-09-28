@@ -1,18 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Constants;
-using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
-using JasperFx.Core;
 using System.Net;
 using templates;
-using Vereniging;
-using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 

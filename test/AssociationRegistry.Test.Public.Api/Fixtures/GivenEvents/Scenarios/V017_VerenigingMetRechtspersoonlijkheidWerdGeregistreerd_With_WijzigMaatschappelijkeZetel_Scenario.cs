@@ -42,7 +42,7 @@ public class V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijzi
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
-            MaatschappelijkeZetelVolgensKBOWerdGewijzigd
+            MaatschappelijkeZetelVolgensKBOWerdGewijzigd,
         };
     }
 

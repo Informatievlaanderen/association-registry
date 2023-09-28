@@ -25,7 +25,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
                 ContactgegevenType.Email,
                 "info@FOud.be",
                 "Algemeen",
-                IsPrimair: true)
+                IsPrimair: true),
         },
         new[]
         {
@@ -40,7 +40,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
                                                  "2000",
                                                  "Antwerpen",
                                                  "België"),
-                null)
+                null),
         },
         new[]
         {
@@ -55,7 +55,7 @@ public class V007_AfdelingWerdGeregistreerdScenario : IScenario
                 "asgard@world.tree",
                 "",
                 "",
-                "")
+                ""),
         },
         new Registratiedata.HoofdactiviteitVerenigingsloket[]
         {

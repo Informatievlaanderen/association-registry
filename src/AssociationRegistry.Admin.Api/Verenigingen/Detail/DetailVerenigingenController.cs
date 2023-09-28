@@ -5,7 +5,6 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Http;

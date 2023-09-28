@@ -38,7 +38,7 @@ public class With_Invalid_ETag
                 new WijzigContactgegevenRequest
                 { Contactgegeven = new TeWijzigenContactgegeven()
                     {
-                        Beschrijving = "Beschrijving"
+                        Beschrijving = "Beschrijving",
                     } },
                 new CommandMetadataProviderStub { Initiator= "OVO000001" },
                 eTagValue);

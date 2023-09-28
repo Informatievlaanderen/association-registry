@@ -7,7 +7,6 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
 using Infrastructure;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +17,6 @@ using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
-using WellknownMediaTypes = Constants.WellknownMediaTypes;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

@@ -14,7 +14,6 @@ using DuplicateVerenigingDetection;
 using Examples;
 using FluentValidation;
 using Infrastructure.Middleware;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

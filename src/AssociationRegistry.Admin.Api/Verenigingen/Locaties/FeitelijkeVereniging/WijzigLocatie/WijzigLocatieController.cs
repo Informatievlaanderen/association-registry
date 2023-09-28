@@ -11,7 +11,6 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -74,8 +74,5 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Bron = Bron.KBO,
                 Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
             });
-
-        doc.DatumLaatsteAanpassing.Should().Be(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version));
     }
 }

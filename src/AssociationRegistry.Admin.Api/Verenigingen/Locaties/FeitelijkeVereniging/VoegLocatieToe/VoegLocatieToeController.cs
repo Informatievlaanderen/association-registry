@@ -10,7 +10,6 @@ using Framework;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
-using Infrastructure.Swagger;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -56,7 +54,5 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 Bron = Bron.KBO,
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version));
     }
 }

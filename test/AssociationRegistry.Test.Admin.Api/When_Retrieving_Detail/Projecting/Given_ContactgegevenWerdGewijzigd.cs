@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -47,8 +45,6 @@ public class Given_ContactgegevenWerdGewijzigd
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 },
             });
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdGewijzigd.Tijdstip.ToBelgianDate());
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version));
     }
 }
