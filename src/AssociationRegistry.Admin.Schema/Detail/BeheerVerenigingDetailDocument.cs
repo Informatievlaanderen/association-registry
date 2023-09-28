@@ -27,9 +27,9 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
-    public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();
+    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Metadata Metadata { get; set; } = null!;
-    public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
+    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
 
