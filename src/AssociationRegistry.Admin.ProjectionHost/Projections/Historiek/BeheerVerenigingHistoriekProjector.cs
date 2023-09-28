@@ -146,8 +146,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"{contactgegevenWerdToegevoegd.Data.Type} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
@@ -157,8 +155,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"{contactgegevenWerdVerwijderd.Data.Type} '{contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -168,8 +164,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"{contactgegevenWerdGewijzigd.Data.Type} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -182,8 +176,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam}' werd toegevoegd als vertegenwoordiger."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
     public static void Apply(
@@ -196,8 +188,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam}' werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -210,8 +200,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam}' werd verwijderd."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
     public static void Apply(
@@ -224,9 +212,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             "Vereniging werd uitgeschreven uit de publieke datastroom."
         );
-
-        document.Metadata = new Metadata(verenigingWerdUitgeschrevenUitPubliekeDatastroom.Sequence,
-                                         verenigingWerdUitgeschrevenUitPubliekeDatastroom.Version);
     }
 
     public static void Apply(
@@ -239,9 +224,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             "Vereniging werd ingeschreven in de publieke datastroom."
         );
-
-        document.Metadata = new Metadata(verenigingWerdIngeschrevenInPubliekeDatastroom.Sequence,
-                                         verenigingWerdIngeschrevenInPubliekeDatastroom.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
@@ -256,8 +238,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd."
         );
-
-        document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -272,8 +252,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdGewijzigd.Data.Locatie.Locatietype}' locatie {naam}werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
@@ -288,8 +266,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdVerwijderd.Data.Locatie.Locatietype}' locatie {naam}werd verwijderd."
         );
-
-        document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
@@ -305,8 +281,6 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
-
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
@@ -322,8 +296,6 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
-
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
     public static void Apply(
@@ -336,9 +308,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."
         );
-
-        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,
-                                         maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
     public static void Apply(
@@ -360,9 +329,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"{type} '{waarde}' werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(contactgegevenUitKboWerdGewijzigd.Sequence,
-                                         contactgegevenUitKboWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -379,9 +345,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             beschrijving: "Maatschappelijke zetel volgens KBO werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(maatschappelijkeZetelVolgensKboWerdGewijzigd.Sequence,
-                                         maatschappelijkeZetelVolgensKboWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -394,9 +357,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."
         );
-
-        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence,
-                                         maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
     public static void Apply(
@@ -408,8 +368,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.TypeVolgensKbo}' werd overgenomen uit KBO."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdOvergenomen.Sequence, contactgegevenWerdOvergenomen.Version);
     }
 
     public static void Apply(
@@ -421,8 +379,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."
         );
-
-        document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWorden.Sequence, contactgegevenKonNietOvergenomenWorden.Version);
     }
 
     public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingHistoriekDocument document)
@@ -432,8 +388,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"De vereniging werd gestopt met einddatum '{verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
         );
-
-        document.Metadata = new Metadata(verenigingWerdGestopt.Sequence, verenigingWerdGestopt.Version);
     }
 
     public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -443,8 +397,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"De einddatum van de vereniging werd gewijzigd naar '{einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
         );
-
-        document.Metadata = new Metadata(einddatumWerdGewijzigd.Sequence, einddatumWerdGewijzigd.Version);
     }
 
     public static void Apply(
@@ -457,7 +409,10 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam} {vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam}' werd overgenomen uit KBO."
         );
+    }
 
-        document.Metadata = new Metadata(vertegenwoordigerWerdOvergenomenUitKbo.Sequence, vertegenwoordigerWerdOvergenomenUitKbo.Version);
+    public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 }

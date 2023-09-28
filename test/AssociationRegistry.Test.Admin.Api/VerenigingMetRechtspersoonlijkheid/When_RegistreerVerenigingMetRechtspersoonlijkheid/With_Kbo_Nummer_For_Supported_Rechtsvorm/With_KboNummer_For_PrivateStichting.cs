@@ -28,7 +28,7 @@ public class With_KboNummer_For_PrivateStichting: With_KboNummer_For_Supported_V
             .LightweightSession();
 
         var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Should().ContainSingle(e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer).Subject;
+            .Should().ContainSingle(e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer).Subject;
         using (new AssertionScope())
         {
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Kom op tegen Kanker");
@@ -50,7 +50,7 @@ public class With_KboNummer_For_PrivateStichting: With_KboNummer_For_Supported_V
                                                                  .QueryRawEventDataOnly<
                                                                       VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                                                  .Should().ContainSingle(
-                                                                      e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup
+                                                                      e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
         var vertegenwoordigers =

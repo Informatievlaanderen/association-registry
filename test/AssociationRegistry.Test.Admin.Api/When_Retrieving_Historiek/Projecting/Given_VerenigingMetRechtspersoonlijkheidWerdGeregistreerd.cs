@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AutoFixture;
 using Events;
@@ -20,7 +19,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
+
+        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
 
         _document = BeheerVerenigingHistoriekProjector.Create(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
     }
@@ -28,20 +29,15 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     [Fact]
     public void Then_it_creates_a_new_document()
     {
-        _document.Should().BeEquivalentTo(
-            new BeheerVerenigingHistoriekDocument
+        _document.Gebeurtenissen.Should().BeEquivalentTo(
+            new List<BeheerVerenigingHistoriekGebeurtenis>
             {
-                VCode = _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
-                {
-                    new(
-                        $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam}'.",
-                        nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
-                        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data,
-                        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Initiator,
-                        _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
-                },
-                Metadata = new Metadata(_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
+                new(
+                    $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{_verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam}'.",
+                    nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
+                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data,
+                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Initiator,
+                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
             }
         );
     }

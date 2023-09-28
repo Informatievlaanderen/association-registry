@@ -24,7 +24,6 @@ public class Given_VerenigingWerdToegevoegdAanPubliekeDatastroom
         PubliekVerenigingDetailProjector.Apply(verenigingWerdToegevoegdAanPubliekeDatastroom, doc);
 
         doc.IsUitgeschrevenUitPubliekeDatastroom.Should().BeFalse();
-        doc.DatumLaatsteAanpassing.Should().Be(verenigingWerdToegevoegdAanPubliekeDatastroom.Tijdstip.ToBelgianDate());
 
     }
 }

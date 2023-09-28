@@ -44,6 +44,5 @@ public class Given_ContactgegevenWerdGewijzigd
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 });
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

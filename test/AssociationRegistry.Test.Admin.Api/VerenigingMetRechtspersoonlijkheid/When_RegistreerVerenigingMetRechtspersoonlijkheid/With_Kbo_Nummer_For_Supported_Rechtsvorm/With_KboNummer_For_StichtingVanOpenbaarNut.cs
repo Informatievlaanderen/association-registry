@@ -20,8 +20,8 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
 {
     public With_KboNummer_For_StichtingVanOpenbaarNut(
         EventsInDbScenariosFixture fixture,
-        RegistreerStichtingVanOpenbaarNutSetup registreerVereniginMetRechtspersoonlijkheidSetup) : base(
-        fixture, registreerVereniginMetRechtspersoonlijkheidSetup)
+        RegistreerStichtingVanOpenbaarNutSetup registreerVerenigingMetRechtspersoonlijkheidSetup) : base(
+        fixture, registreerVerenigingMetRechtspersoonlijkheidSetup)
     {
     }
 
@@ -36,7 +36,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
                                                                  .QueryRawEventDataOnly<
                                                                       VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                                                  .Should().ContainSingle(
-                                                                      e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup
+                                                                      e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
         using (new AssertionScope())
@@ -82,7 +82,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
                                                                  .QueryRawEventDataOnly<
                                                                       VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                                                  .Should().ContainSingle(
-                                                                      e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup
+                                                                      e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
         var vertegenwoordigers =

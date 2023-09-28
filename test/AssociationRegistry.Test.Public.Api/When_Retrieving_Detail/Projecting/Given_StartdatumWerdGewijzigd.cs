@@ -24,6 +24,5 @@ public class Given_StartdatumWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum);
-        doc.DatumLaatsteAanpassing.Should().Be(startdatumWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

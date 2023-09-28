@@ -33,7 +33,7 @@ public class With_KboNummer_For_Vzw : With_KboNummer_For_Supported_Vereniging, I
                                                                  .QueryRawEventDataOnly<
                                                                       VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                                                  .Should().ContainSingle(
-                                                                      e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup
+                                                                      e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
         using (new AssertionScope())
@@ -56,7 +56,7 @@ public class With_KboNummer_For_Vzw : With_KboNummer_For_Supported_Vereniging, I
                                                                  .QueryRawEventDataOnly<
                                                                       VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                                                  .Should().ContainSingle(
-                                                                      e => e.KboNummer == _registreerVereniginMetRechtspersoonlijkheidSetup
+                                                                      e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
         var vertegenwoordigers =

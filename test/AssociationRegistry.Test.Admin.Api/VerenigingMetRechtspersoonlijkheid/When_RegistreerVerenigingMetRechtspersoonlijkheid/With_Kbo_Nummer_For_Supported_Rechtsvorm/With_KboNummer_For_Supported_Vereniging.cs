@@ -18,28 +18,28 @@ using Xunit.Categories;
 public abstract class With_KboNummer_For_Supported_Vereniging
 {
     protected readonly EventsInDbScenariosFixture _fixture;
-    protected readonly RegistreerVereniginMetRechtspersoonlijkheidSetup _registreerVereniginMetRechtspersoonlijkheidSetup;
+    protected readonly RegistreerVereniginMetRechtspersoonlijkheidSetup RegistreerVerenigingMetRechtspersoonlijkheidSetup;
 
     public With_KboNummer_For_Supported_Vereniging(
         EventsInDbScenariosFixture fixture,
-        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
+        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVerenigingMetRechtspersoonlijkheidSetup)
     {
         _fixture = fixture;
-        _registreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup = registreerVerenigingMetRechtspersoonlijkheidSetup;
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response_with_correct_headers()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(HeaderNames.Location);
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(HeaderNames.Location);
 
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Location!.OriginalString.Should()
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Location!.OriginalString.Should()
                                                          .StartWith(
                                                               $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
@@ -47,9 +47,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     [Fact]
     public void Then_it_returns_a_sequence_header()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
 
-        var sequenceValues = _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.GetValues(WellknownHeaderNames.Sequence)
+        var sequenceValues = RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.GetValues(WellknownHeaderNames.Sequence)
                                                                               .ToList();
 
         sequenceValues.Should().HaveCount(expected: 1);
@@ -61,7 +61,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     public async Task Then_it_stores_a_call_reference()
     {
         var hasCorrelationIdHeader =
-            _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(
+            RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(
                 WellknownHeaderNames.CorrelationId, out var correlationIdValues);
 
         hasCorrelationIdHeader.Should().BeTrue();
@@ -84,7 +84,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
                 Context = "Registreer vereniging met rechtspersoonlijkheid",
                 AanroependeDienst = "Verenigingsregister Beheer Api",
                 OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
-                OpgevraagdOnderwerp = _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
                 Initiator = "OVO000001",
             },
             config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));

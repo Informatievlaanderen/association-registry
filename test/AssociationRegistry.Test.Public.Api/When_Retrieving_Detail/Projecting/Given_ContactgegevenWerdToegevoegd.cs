@@ -35,6 +35,5 @@ public class Given_ContactgegevenWerdToegevoegd
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 });
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());
     }
 }

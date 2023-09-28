@@ -18,287 +18,118 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         Options.BatchSize = 1;
     }
 
-    public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd, IDocumentOperations ops)
+    public void Project(
+        IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event,
+        IDocumentOperations ops)
+        => Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
+
+    public async Task Project(IEvent<AfdelingWerdGeregistreerd> @event, IDocumentOperations ops)
     {
-        var doc = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
+        Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
-        ops.Insert(doc);
-    }
-
-    public async Task Project(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, IDocumentOperations ops)
-    {
-        var doc = BeheerVerenigingHistoriekProjector.Create(afdelingWerdGeregistreerd);
-
-        ops.Insert(doc);
-
-        if (string.IsNullOrEmpty(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))
-            return;
-
-        var moeder = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(afdelingWerdGeregistreerd.Data.Moedervereniging.VCode))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(afdelingWerdGeregistreerd, moeder);
-
-        ops.Store(moeder);
+        if (!string.IsNullOrEmpty(@event.Data.Moedervereniging.VCode))
+            await Update(@event.Data.Moedervereniging.VCode, @event, ops,
+                         BeheerVerenigingHistoriekProjector.Apply);
     }
 
     public void Project(
-        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
-    {
-        var doc = BeheerVerenigingHistoriekProjector.Create(verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
+        => Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
-        ops.Insert(doc);
-    }
+    public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(naamWerdGewijzigd.StreamKey!))!;
+    public async Task Project(IEvent<KorteNaamWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(naamWerdGewijzigd, doc);
+    public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<StartdatumWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(korteNaamWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(korteBeschrijvingWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(korteBeschrijvingWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(startdatumWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(doelgroepWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(doelgroepWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<DoelgroepWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(hoofdactiviteitenVerenigingsloketWerdenGewijzigd.StreamKey!))!;
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
+    public async Task Project(IEvent<ContactgegevenWerdToegevoegd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<ContactgegevenWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdToegevoegd.StreamKey!))!;
+    public async Task Project(IEvent<ContactgegevenWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdToegevoegd, doc);
+    public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdVerwijderd.StreamKey!))!;
+    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdVerwijderd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(contactgegevenUitKboWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(contactgegevenUitKboWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdToegevoegd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdVerwijderd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
-
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<VertegenwoordigerWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom,
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdUitgeschrevenUitPubliekeDatastroom.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdUitgeschrevenUitPubliekeDatastroom, doc);
-
-        ops.Store(doc);
-    }
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom,
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdIngeschrevenInPubliekeDatastroom.StreamKey!))!;
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdIngeschrevenInPubliekeDatastroom, doc);
+    public async Task Project(IEvent<LocatieWerdToegevoegd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<LocatieWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdToegevoegd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(locatieWerdToegevoegd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<LocatieWerdGewijzigd> locatieWerdToegevoegd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdToegevoegd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(locatieWerdToegevoegd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(locatieWerdVerwijderd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(locatieWerdVerwijderd, doc);
-
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
-
-        ops.Store(doc);
-    }
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelVolgensKboWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<ContactgegevenWerdOvergenomenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IEvent<ContactgegevenWerdOvergenomenUitKBO> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
-
-        ops.Store(doc);
-    }
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelWerdOvergenomenUitKbo.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
-
-        ops.Store(doc);
-    }
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelKonNietOvergenomenWordenUitKbo,
+        IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> @event,
         IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(maatschappelijkeZetelKonNietOvergenomenWordenUitKbo.StreamKey!))!;
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelKonNietOvergenomenWordenUitKbo, doc);
+    public async Task Project(IEvent<RoepnaamWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<VerenigingWerdGestopt> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(roepnaamWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(roepnaamWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(verenigingWerdGestopt.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdGestopt, doc);
-
-        ops.Store(doc);
-    }
-
-    public async Task Project(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, IDocumentOperations ops)
-    {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(einddatumWerdGewijzigd.StreamKey!))!;
-
-        BeheerVerenigingHistoriekProjector.Apply(einddatumWerdGewijzigd, doc);
-
-        ops.Store(doc);
-    }
+    public async Task Project(IEvent<EinddatumWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
@@ -309,5 +140,35 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
 
         ops.Store(doc);
+    }
+
+    private static async Task Update<T>(
+        IEvent<T> @event,
+        IDocumentOperations ops,
+        Action<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
+        => await Update(@event.StreamKey!, @event, ops, action);
+
+    private static async Task Update<T>(
+        string vCode,
+        IEvent<T> @event,
+        IDocumentOperations ops,
+        Action<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vCode))!;
+
+        action(@event, doc);
+        BeheerVerenigingHistoriekProjector.UpdateMetadata(@event, doc);
+
+        ops.Store(doc);
+    }
+
+    private static void Create<T>(
+        IEvent<T> @event,
+        IDocumentOperations ops,
+        Func<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
+    {
+        var doc = action(@event);
+        BeheerVerenigingHistoriekProjector.UpdateMetadata(@event, doc);
+        ops.Insert(doc);
     }
 }

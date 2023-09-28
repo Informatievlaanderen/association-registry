@@ -53,6 +53,5 @@ public class Given_LocatieWerdToegevoegd
                     },
             });
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdToegevoegd.Tijdstip.ToBelgianDate());
     }
 }
