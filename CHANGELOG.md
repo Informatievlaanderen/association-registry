@@ -1,3 +1,10 @@
+# [7.37.0](https://github.com/informatievlaanderen/association-registry/compare/v7.36.0...v7.37.0) (2023-09-28)
+
+
+### Features
+
+* or-1926 add schema filter to remove nullables ([c38123a](https://github.com/informatievlaanderen/association-registry/commit/c38123a47ea9d78449fe590174032eb98feef670))
+
 # [7.36.0](https://github.com/informatievlaanderen/association-registry/compare/v7.35.0...v7.36.0) (2023-09-27)
 
 
