@@ -13,7 +13,7 @@ using Vereniging;
 
 public class DetailVerenigingResponseTemplate
 {
-    private dynamic _vereniging;
+    private readonly dynamic _vereniging;
     private object _datumLaatsteAanpassing;
 
     public DetailVerenigingResponseTemplate()
@@ -149,7 +149,7 @@ public class DetailVerenigingResponseTemplate
                 busnummer = busnummer,
                 postcode = postcode,
                 gemeente = gemeente,
-                land = land
+                land = land,
             },
             isprimair = isPrimair,
         });
@@ -201,7 +201,7 @@ public class DetailVerenigingResponseTemplate
                 busnummer = busnummer,
                 postcode = postcode,
                 gemeente = gemeente,
-                land = land
+                land = land,
             },
             adresid = new
             {

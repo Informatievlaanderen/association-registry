@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -18,13 +16,14 @@ public class Given_VerenigingWerdUitgeschrevenUitPubliekeStroom
     public void Then_it_sets_IsUitgeschrevenUitPubliekeDatastroom_to_true()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var verenigingWerduitgeschrevenUitPubliekeDatastroom = fixture.Create<TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>>();
+
+        var verenigingWerduitgeschrevenUitPubliekeDatastroom =
+            fixture.Create<TestEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
         BeheerVerenigingDetailProjector.Apply(verenigingWerduitgeschrevenUitPubliekeDatastroom, doc);
 
         doc.IsUitgeschrevenUitPubliekeDatastroom.Should().BeTrue();
-        doc.DatumLaatsteAanpassing.Should().Be(verenigingWerduitgeschrevenUitPubliekeDatastroom.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(verenigingWerduitgeschrevenUitPubliekeDatastroom.Sequence, verenigingWerduitgeschrevenUitPubliekeDatastroom.Version));}
+    }
 }

@@ -43,8 +43,8 @@ public class With_Valid_ETag : IAsyncLifetime
             {
                 Contactgegeven = new TeWijzigenContactgegeven()
                 {
-                    Beschrijving = "Beschrijving"
-                }
+                    Beschrijving = "Beschrijving",
+                },
             },
             new CommandMetadataProviderStub { Initiator = "OVO0001000" },
             $"W/\"{ETagNumber}\"");

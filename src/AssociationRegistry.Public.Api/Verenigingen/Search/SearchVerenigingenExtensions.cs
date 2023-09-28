@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using Nest;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 public static class SearchVerenigingenExtensions

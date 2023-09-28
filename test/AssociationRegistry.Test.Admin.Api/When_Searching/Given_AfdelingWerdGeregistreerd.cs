@@ -13,7 +13,6 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_AfdelingWerdGeregistreerd
 {
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly AdminApiClient _adminApiClient;
     private readonly V019_AfdelingWerdGeregistreerd_WithMinimalFields _scenario;
 

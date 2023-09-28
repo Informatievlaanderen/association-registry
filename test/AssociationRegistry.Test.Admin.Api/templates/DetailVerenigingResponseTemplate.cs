@@ -242,7 +242,7 @@ public class DetailVerenigingResponseTemplate
                 busnummer = busnummer,
                 postcode = postcode,
                 gemeente = gemeente,
-                land = land
+                land = land,
             },
             adresid = new
             {

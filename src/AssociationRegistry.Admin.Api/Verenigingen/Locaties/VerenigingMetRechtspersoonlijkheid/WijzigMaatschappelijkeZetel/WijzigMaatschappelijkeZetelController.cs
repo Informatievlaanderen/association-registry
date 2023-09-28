@@ -4,7 +4,6 @@ using Acties.WijzigMaatschappelijkeZetel;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
-using Infrastructure.Swagger;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Framework;
 using Vereniging;

@@ -39,7 +39,6 @@ public class Given_LocatieWerdGewijzigd
                           .WithVereniging(
                                v =>
                                {
-                                   var l1 = _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0];
                                    var l2 = _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[1];
                                    var l3 = _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[2];
 

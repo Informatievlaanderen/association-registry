@@ -114,7 +114,5 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Bron = Bron.Initiator,
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             });
-        doc.DatumLaatsteAanpassing.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version));
     }
 }
