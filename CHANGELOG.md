@@ -1,3 +1,11 @@
+# [8.1.0](https://github.com/informatievlaanderen/association-registry/compare/v8.0.0...v8.1.0) (2023-09-28)
+
+
+### Features
+
+* or-1926 add emtpy busnummer ([78c473c](https://github.com/informatievlaanderen/association-registry/commit/78c473c5b0b0643d0344c1ffde62ebe4989b3419))
+* or-1926 remove default value from roepnaam ([984d40f](https://github.com/informatievlaanderen/association-registry/commit/984d40f2edebb1bfa6a329c3698cd6e31e06afc3))
+
 # [8.0.0](https://github.com/informatievlaanderen/association-registry/compare/v7.40.0...v8.0.0) (2023-09-28)
 
 
