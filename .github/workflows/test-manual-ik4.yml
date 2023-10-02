@@ -1,4 +1,4 @@
-name: Manual Deploy To Test
+name: Manual Deploy To Test (IK4)
 
 on:
   workflow_dispatch:
