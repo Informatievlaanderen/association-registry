@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/informatievlaanderen/association-registry/compare/v8.1.0...v8.2.0) (2023-10-02)
+
+
+### Features
+
+* deploy images to ik4 ecr ([9356ec6](https://github.com/informatievlaanderen/association-registry/commit/9356ec69d87404e77c64a7300913565faab1cb62))
+
 # [8.1.0](https://github.com/informatievlaanderen/association-registry/compare/v8.0.0...v8.1.0) (2023-09-28)
 
 
