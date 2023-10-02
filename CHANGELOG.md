@@ -1,3 +1,10 @@
+# [8.3.0](https://github.com/informatievlaanderen/association-registry/compare/v8.2.0...v8.3.0) (2023-10-02)
+
+
+### Features
+
+* use correct build credentials ([30d64c2](https://github.com/informatievlaanderen/association-registry/commit/30d64c2c3300cf4293c93118e713ff63fc03c750))
+
 # [8.2.0](https://github.com/informatievlaanderen/association-registry/compare/v8.1.0...v8.2.0) (2023-10-02)
 
 
