@@ -15,7 +15,9 @@ using Projections.Historiek;
 using Projections.Search;
 using Schema.Detail;
 using Schema.Historiek;
+using System.Configuration;
 using Wolverine;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
@@ -61,7 +63,8 @@ public static class ConfigureMartenExtensions
             serviceProvider =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
-                                                            .Get<PostgreSqlOptionsSection>();
+                                                            .Get<PostgreSqlOptionsSection>() ??
+                                        throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 

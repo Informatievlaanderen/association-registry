@@ -27,6 +27,8 @@ Serilog.Settings.Configuration
 Serilog.Sinks.Console
 Serilog.Sinks.File
 
+System.Configuration.ConfigurationManager
+
 Destructurama.JsonNet
 
 FluentValidation
