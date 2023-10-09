@@ -1,3 +1,10 @@
+# [8.6.0](https://github.com/informatievlaanderen/association-registry/compare/v8.5.0...v8.6.0) (2023-10-09)
+
+
+### Features
+
+* or-1930 insert old registry ([ee51c3e](https://github.com/informatievlaanderen/association-registry/commit/ee51c3e261f52dddc00de15d7a9d22d858b8af5f))
+
 # [8.5.0](https://github.com/informatievlaanderen/association-registry/compare/v8.4.0...v8.5.0) (2023-10-09)
 
 
