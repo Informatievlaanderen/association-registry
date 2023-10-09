@@ -9,7 +9,7 @@
     "url": "git@github.com:informatievlaanderen/association-registry.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.6.7",
+    "@commitlint/cli": "17.7.2",
     "@commitlint/config-conventional": "17.6.6",
     "@commitlint/prompt": "17.6.7",
     "@semantic-release/changelog": "6.0.2",
