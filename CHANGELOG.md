@@ -1,3 +1,10 @@
+# [8.4.0](https://github.com/informatievlaanderen/association-registry/compare/v8.3.0...v8.4.0) (2023-10-09)
+
+
+### Features
+
+* throw when missing postgres config ([a32e9b4](https://github.com/informatievlaanderen/association-registry/commit/a32e9b496b49ffa919316a0c2d9a96e56f84056d))
+
 # [8.3.0](https://github.com/informatievlaanderen/association-registry/compare/v8.2.0...v8.3.0) (2023-10-02)
 
 
