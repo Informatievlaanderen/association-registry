@@ -1,3 +1,10 @@
+# [8.5.0](https://github.com/informatievlaanderen/association-registry/compare/v8.4.0...v8.5.0) (2023-10-09)
+
+
+### Features
+
+* or-1930 use new structure for docker registry ([325103a](https://github.com/informatievlaanderen/association-registry/commit/325103a6328ca46d78e19faa4a385244ded478c5))
+
 # [8.4.0](https://github.com/informatievlaanderen/association-registry/compare/v8.3.0...v8.4.0) (2023-10-09)
 
 
