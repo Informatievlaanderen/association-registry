@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using EventStore;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -56,7 +57,8 @@ public class DetailVerenigingenController : ApiController
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
+            throw new UnexpectedAggregateVersionException();
+            // return StatusCode(StatusCodes.Status412PreconditionFailed);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
                                            .WithVCode(vCode)
