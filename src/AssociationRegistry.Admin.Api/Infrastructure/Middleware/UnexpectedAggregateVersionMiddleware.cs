@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using System.Threading.Tasks;
 using EventStore;
+using Extensions;
 using Microsoft.AspNetCore.Http;
 
 public class UnexpectedAggregateVersionMiddleware
@@ -13,7 +15,7 @@ public class UnexpectedAggregateVersionMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper)
     {
         try
         {
@@ -23,6 +25,7 @@ public class UnexpectedAggregateVersionMiddleware
         {
             context.Response.Clear();
             context.Response.StatusCode = StatusCodes.Status412PreconditionFailed;
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.");
         }
     }
 }

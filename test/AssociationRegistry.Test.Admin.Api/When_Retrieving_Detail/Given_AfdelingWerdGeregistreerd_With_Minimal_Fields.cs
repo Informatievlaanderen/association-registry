@@ -41,6 +41,20 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
           .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
+    public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence_2()
+    {
+        var response = await _adminApiClient.GetDetail(_scenario.VCode, long.MaxValue);
+        var content = await response.Content.ReadAsStringAsync();
+
+        response
+            .StatusCode
+            .Should().Be(HttpStatusCode.PreconditionFailed);
+
+        content
+           .Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task Then_we_get_a_detail_afdeling_response()
     {
         var response = await _adminApiClient.GetDetail(_scenario.VCode);
