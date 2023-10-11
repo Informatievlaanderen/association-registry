@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure;
+namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;

@@ -21,11 +21,9 @@ public class UnexpectedAggregateVersionMiddleware
         {
             await _next(context);
         }
-        catch (UnexpectedAggregateVersionException)
+        catch (UnexpectedAggregateVersionException ex)
         {
-            context.Response.Clear();
-            context.Response.StatusCode = StatusCodes.Status412PreconditionFailed;
-            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.");
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, ex.Message, ex.StatusCode);
         }
     }
 }

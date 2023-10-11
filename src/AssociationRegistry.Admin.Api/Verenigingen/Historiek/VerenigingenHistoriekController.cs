@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using EventStore;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -53,10 +54,14 @@ public class VerenigingenHistoriekController : ApiController
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}/historiek")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> Historiek(
@@ -67,7 +72,7 @@ public class VerenigingenHistoriekController : ApiController
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
+            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
             .WithVCode(vCode)
@@ -79,6 +84,42 @@ public class VerenigingenHistoriekController : ApiController
         return Ok(
             _mapper.Map(vCode, historiek));
     }
+}
 
+public class PreconditionFailedProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+{
+    private readonly ProblemDetailsHelper _helper;
 
+    public PreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper)
+    {
+        _helper = helper;
+    }
+    public ProblemDetails GetExamples()
+        => new()
+        {
+            HttpStatus = StatusCodes.Status412PreconditionFailed,
+            Title = ProblemDetails.DefaultTitle,
+            Detail = ValidationMessages.Status412Historiek,
+            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+        };
+}
+
+public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+{
+    private readonly ProblemDetailsHelper _helper;
+
+    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper)
+    {
+        _helper = helper;
+    }
+    public ProblemDetails GetExamples()
+        => new()
+        {
+            HttpStatus = StatusCodes.Status404NotFound,
+            Title = ProblemDetails.DefaultTitle,
+            Detail = ValidationMessages.Status404Historiek,
+            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+        };
 }

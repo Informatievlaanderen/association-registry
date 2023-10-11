@@ -21,6 +21,7 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
+using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
@@ -204,6 +205,7 @@ public class Program
             {
                 new BadHttpRequestExceptionHandler(problemDetailsHelper),
                 new CouldNotParseRequestExceptionHandler(problemDetailsHelper),
+                new UnexpectedAggregateVersionExceptionHandler(problemDetailsHelper),
                 new JsonReaderExceptionHandler(problemDetailsHelper),
             },
             problemDetailsHelper);

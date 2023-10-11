@@ -21,4 +21,64 @@
   <data name="VeldIsVerplicht" xml:space="preserve">
     <value>'{0}' is verplicht.</value>
   </data>
+  <data name="Status404Detail" xml:space="preserve">
+    <value>De gevraagde vereniging werd niet gevonden.</value>
+  </data>
+  <data name="Status412Detail" xml:space="preserve">
+    <value>Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status404Historiek" xml:space="preserve">
+    <value>De historiek van de gevraagde vereniging is niet gevonden.</value>
+  </data>
+  <data name="Status412Historiek" xml:space="preserve">
+    <value>De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412Zoek" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VoegContactGegevenToe" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VerwijderContactGegeven" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigContactGegeven" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VoegLocatieToe" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VerwijderLocatie" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigLocatie" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412Stop" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VoegVertegenwoordigerToe" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412VerwijderVertegenwoordiger" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigVertegenwoordiger" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigKboBasisgegevens" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigKboContactgegevens" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status412WijzigKboMaatschappelijkeZetel" xml:space="preserve">
+    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status409RegistratieAfdeling" xml:space="preserve">
+    <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
+  </data>
+  <data name="Status409RegistratieFeitelijkeVereniging" xml:space="preserve">
+    <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
+  </data>
 </root>
