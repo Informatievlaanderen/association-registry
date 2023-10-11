@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure;
+namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 
 using System;
 

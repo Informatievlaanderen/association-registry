@@ -43,10 +43,14 @@ public class DetailVerenigingenController : ApiController
     [HttpGet("{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status200OK, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> Detail(
@@ -57,8 +61,7 @@ public class DetailVerenigingenController : ApiController
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
-            throw new UnexpectedAggregateVersionException();
-            // return StatusCode(StatusCodes.Status412PreconditionFailed);
+            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Detail);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
                                            .WithVCode(vCode)
@@ -71,4 +74,42 @@ public class DetailVerenigingenController : ApiController
 
         return Ok(_mapper.Map(vereniging));
     }
+}
+
+public class PreconditionFailedProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+{
+    private readonly ProblemDetailsHelper _helper;
+
+    public PreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper)
+    {
+        _helper = helper;
+    }
+    public ProblemDetails GetExamples()
+        => new()
+        {
+            HttpStatus = StatusCodes.Status412PreconditionFailed,
+            Title = ProblemDetails.DefaultTitle,
+            Detail = ValidationMessages.Status412Detail,
+            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+        };
+}
+
+public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+{
+    private readonly ProblemDetailsHelper _helper;
+
+    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper)
+    {
+        _helper = helper;
+    }
+    public ProblemDetails GetExamples()
+        => new()
+        {
+            HttpStatus = StatusCodes.Status404NotFound,
+            Title = ProblemDetails.DefaultTitle,
+            Detail = ValidationMessages.Status404Detail,
+            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+        };
 }

@@ -10,14 +10,14 @@ using Newtonsoft.Json;
 
 public static class HttpResponseExtensions
 {
-    public static async Task WriteProblemDetailsAsync(this HttpResponse response, ProblemDetailsHelper problemDetailsHelper, string problemDetailsMessage)
+    public static async Task WriteProblemDetailsAsync(this HttpResponse response, ProblemDetailsHelper problemDetailsHelper, string problemDetailsMessage, int statusCode = StatusCodes.Status400BadRequest)
     {
-        response.StatusCode = StatusCodes.Status400BadRequest;
+        response.StatusCode = statusCode;
         await response.WriteAsync(
             JsonConvert.SerializeObject(
                 new ProblemDetails
                 {
-                    HttpStatus = StatusCodes.Status400BadRequest,
+                    HttpStatus = statusCode,
                     Title = ProblemDetails.DefaultTitle,
                     Detail = problemDetailsMessage,
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",

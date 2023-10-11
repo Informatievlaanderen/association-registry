@@ -1,0 +1,6 @@
+{
+  "type": "urn:associationregistry.admin.api:validation",
+  "title": "Er heeft zich een fout voorgedaan!",
+  "detail": "Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.",
+  "status": 412
+}

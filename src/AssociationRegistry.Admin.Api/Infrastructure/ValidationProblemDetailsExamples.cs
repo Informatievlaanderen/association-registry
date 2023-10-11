@@ -24,11 +24,12 @@ public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProb
             },
         };
 }
-public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+
+public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
 
-    public ProblemDetailsExamples(ProblemDetailsHelper helper)
+    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper)
     {
         _helper = helper;
     }

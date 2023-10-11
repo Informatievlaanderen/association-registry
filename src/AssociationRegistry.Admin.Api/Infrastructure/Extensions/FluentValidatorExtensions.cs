@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using ExceptionHandlers;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
