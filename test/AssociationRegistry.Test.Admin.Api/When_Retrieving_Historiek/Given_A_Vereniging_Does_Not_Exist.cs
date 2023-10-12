@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
+using AssociationRegistry.Admin.Api;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using System.Net;
 using Fixtures;
@@ -32,6 +33,6 @@ public class Given_A_Vereniging_Does_Not_Exist
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Detail.Should().NotBeEmpty();
-        problemDetails.Detail.Should().Be("De gevraagde vereniging werd niet gevonden");
+        problemDetails.Detail.Should().Be(ValidationMessages.Status404NotFound);
     }
 }
