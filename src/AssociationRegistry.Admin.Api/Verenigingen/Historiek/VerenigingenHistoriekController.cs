@@ -8,6 +8,7 @@ using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Swagger.Annotations;
+using Infrastructure.Swagger.Examples;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -72,7 +73,7 @@ public class VerenigingenHistoriekController : ApiController
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
-            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek);
+            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412PreconditionFailed);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
             .WithVCode(vCode)
@@ -84,42 +85,4 @@ public class VerenigingenHistoriekController : ApiController
         return Ok(
             _mapper.Map(vCode, historiek));
     }
-}
-
-public class PreconditionFailedProblemDetailsExamples : IExamplesProvider<ProblemDetails>
-{
-    private readonly ProblemDetailsHelper _helper;
-
-    public PreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper)
-    {
-        _helper = helper;
-    }
-    public ProblemDetails GetExamples()
-        => new()
-        {
-            HttpStatus = StatusCodes.Status412PreconditionFailed,
-            Title = ProblemDetails.DefaultTitle,
-            Detail = ValidationMessages.Status412Historiek,
-            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
-        };
-}
-
-public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
-{
-    private readonly ProblemDetailsHelper _helper;
-
-    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper)
-    {
-        _helper = helper;
-    }
-    public ProblemDetails GetExamples()
-        => new()
-        {
-            HttpStatus = StatusCodes.Status404NotFound,
-            Title = ProblemDetails.DefaultTitle,
-            Detail = ValidationMessages.Status404Historiek,
-            ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
-        };
 }
