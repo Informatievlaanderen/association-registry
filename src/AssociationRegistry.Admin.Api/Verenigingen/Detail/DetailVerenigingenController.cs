@@ -34,6 +34,7 @@ public class DetailVerenigingenController : ApiController
     ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
@@ -56,6 +57,7 @@ public class DetailVerenigingenController : ApiController
     [ProducesJson]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
+        [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence)
     {
@@ -69,7 +71,7 @@ public class DetailVerenigingenController : ApiController
                                            .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
-            return NotFound();
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper, ValidationMessages.Status404Detail);
 
         Response.AddETagHeader(vereniging.Metadata.Version);
 

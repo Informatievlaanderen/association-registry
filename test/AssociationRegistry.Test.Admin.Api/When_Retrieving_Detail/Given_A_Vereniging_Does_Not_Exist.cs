@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
+namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
 using AssociationRegistry.Admin.Api;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,7 +19,7 @@ public class Given_A_Vereniging_Does_Not_Exist
 
     public Given_A_Vereniging_Does_Not_Exist(EventsInDbScenariosFixture fixture)
     {
-        _response = fixture.DefaultClient.GetHistoriek(VCode).GetAwaiter().GetResult();
+        _response = fixture.DefaultClient.GetDetail(VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -33,6 +33,6 @@ public class Given_A_Vereniging_Does_Not_Exist
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Detail.Should().NotBeEmpty();
-        problemDetails.Detail.Should().Be(ValidationMessages.Status404NotFound);
+        problemDetails.Detail.Should().Be(ValidationMessages.Status404Detail);
     }
 }

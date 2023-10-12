@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
+using Be.Vlaanderen.Basisregisters.Api.ETag;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
 using Examples;
@@ -44,8 +45,8 @@ public class VerenigingenHistoriekController : ApiController
     /// Contactgegevens, locaties en vertegenwoordigers maken geen onderdeel uit van de basisgegevens.
     /// Wijzigingen op deze data genereren gebeurtenissen met de namen “WerdToegevoegd”, “WerdGewijzigd” en “WerdVerwijderd”.
     /// </remarks>
-
     /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">De historiek van een vereniging</response>
@@ -67,6 +68,7 @@ public class VerenigingenHistoriekController : ApiController
     [ProducesJson]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,
+        [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence)
     {
@@ -80,7 +82,7 @@ public class VerenigingenHistoriekController : ApiController
             .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)
-            return NotFound();
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper);
 
         return Ok(
             _mapper.Map(vCode, historiek));
