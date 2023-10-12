@@ -3,7 +3,6 @@
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:element name="root" msdata:IsDataSet="true">
-
     </xsd:element>
   </xsd:schema>
   <resheader name="resmimetype">
@@ -34,51 +33,57 @@
     <value>De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412Zoek" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VoegContactGegevenToe" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VerwijderContactGegeven" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigContactGegeven" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VoegLocatieToe" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VerwijderLocatie" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigLocatie" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412Stop" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VoegVertegenwoordigerToe" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412VerwijderVertegenwoordiger" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigVertegenwoordiger" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigKboBasisgegevens" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigKboContactgegevens" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status412WijzigKboMaatschappelijkeZetel" xml:space="preserve">
-    <value>De gevraagde vereniging heeft de verwachte sequentiewaarde.</value>
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
   <data name="Status409RegistratieAfdeling" xml:space="preserve">
     <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
   </data>
   <data name="Status409RegistratieFeitelijkeVereniging" xml:space="preserve">
     <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
+  </data>
+  <data name="Status412PreconditionFailed" xml:space="preserve">
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="Status404NotFound" xml:space="preserve">
+    <value>De gevraagde vereniging werd niet gevonden.</value>
   </data>
 </root>

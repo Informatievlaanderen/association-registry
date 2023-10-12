@@ -78,6 +78,15 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De gevraagde vereniging werd niet gevonden..
+        /// </summary>
+        public static string Status404NotFound {
+            get {
+                return ResourceManager.GetString("Status404NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden..
         /// </summary>
         public static string Status409RegistratieAfdeling {
@@ -114,7 +123,16 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
+        /// </summary>
+        public static string Status412PreconditionFailed {
+            get {
+                return ResourceManager.GetString("Status412PreconditionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412Stop {
             get {
@@ -123,7 +141,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VerwijderContactGegeven {
             get {
@@ -132,7 +150,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VerwijderLocatie {
             get {
@@ -141,7 +159,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VerwijderVertegenwoordiger {
             get {
@@ -150,7 +168,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VoegContactGegevenToe {
             get {
@@ -159,7 +177,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VoegLocatieToe {
             get {
@@ -168,7 +186,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412VoegVertegenwoordigerToe {
             get {
@@ -177,7 +195,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigContactGegeven {
             get {
@@ -186,7 +204,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigKboBasisgegevens {
             get {
@@ -195,7 +213,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigKboContactgegevens {
             get {
@@ -204,7 +222,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigKboMaatschappelijkeZetel {
             get {
@@ -213,7 +231,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigLocatie {
             get {
@@ -222,7 +240,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412WijzigVertegenwoordiger {
             get {
@@ -231,7 +249,7 @@ namespace AssociationRegistry.Admin.Api {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft de verwachte sequentiewaarde..
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
         public static string Status412Zoek {
             get {
