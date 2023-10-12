@@ -23,7 +23,7 @@ public class UnexpectedAggregateVersionMiddleware
         }
         catch (UnexpectedAggregateVersionException ex)
         {
-            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, ex.Message, ex.StatusCode);
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, ex.Message, StatusCodes.Status412PreconditionFailed);
         }
     }
 }
