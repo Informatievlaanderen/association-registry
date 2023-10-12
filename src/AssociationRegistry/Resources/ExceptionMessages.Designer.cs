@@ -386,5 +386,11 @@ namespace AssociationRegistry {
                 return ResourceManager.GetString("ZoekOpdrachtBevatOnbekendeSorteerVelden", resourceCulture);
             }
         }
+        
+        public static string UnexpectedAggregateVersion {
+            get {
+                return ResourceManager.GetString("UnexpectedAggregateVersion", resourceCulture);
+            }
+        }
     }
 }

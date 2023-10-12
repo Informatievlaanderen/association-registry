@@ -50,6 +50,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
                     GetConnectionString(GetConfiguration(), RootDatabase))
                .GetAwaiter().GetResult();
 
+        DropDatabase();
         CreateDatabase(GetConfiguration());
 
         _publicApiServer = new WebApplicationFactory<PublicApiProgram>()

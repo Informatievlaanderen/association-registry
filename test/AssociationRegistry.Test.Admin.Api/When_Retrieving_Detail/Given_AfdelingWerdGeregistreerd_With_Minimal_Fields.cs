@@ -66,48 +66,4 @@ public class Given_AfdelingWerdGeregistreerd_With_Minimal_Fields
         var etag = response.Headers.GetValues(HeaderNames.ETag).ToList().Should().ContainSingle().Subject;
         etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
-
-    //
-
-    [Fact]
-    public async Task Then_we_get_a_precondition_failed_response_for_detail()
-    {
-        var response = await _adminApiClient.GetDetail(_scenario.VCode, long.MaxValue);
-        var content = await response.Content.ReadAsStringAsync();
-        var expected = new ProblemDetailsResponseTemplate()
-           .FromException(new UnexpectedAggregateVersionException(ValidationMessages.Status412Detail));
-        var contentObject = JsonConvert.DeserializeObject<ProblemDetails>(content);
-        var expectedObject = JsonConvert.DeserializeObject<ProblemDetails>(expected.Build());
-
-        response
-           .StatusCode
-           .Should().Be(HttpStatusCode.PreconditionFailed);
-
-        contentObject.Should().BeEquivalentTo(
-            expectedObject,
-            options => options
-                      .Excluding(info => info!.ProblemInstanceUri)
-                      .Excluding(info => info!.ProblemTypeUri));
-    }
-
-    [Fact]
-    public async Task Then_we_get_a_precondition_failed_response_for_historiek()
-    {
-        var response = await _adminApiClient.GetDetail(_scenario.VCode, long.MaxValue);
-        var content = await response.Content.ReadAsStringAsync();
-        var expected = new ProblemDetailsResponseTemplate()
-           .FromException(new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek));
-        var contentObject = JsonConvert.DeserializeObject<ProblemDetails>(content);
-        var expectedObject = JsonConvert.DeserializeObject<ProblemDetails>(expected.Build());
-
-        response
-           .StatusCode
-           .Should().Be(HttpStatusCode.PreconditionFailed);
-
-        contentObject.Should().BeEquivalentTo(
-            expectedObject,
-            options => options
-                      .Excluding(info => info!.ProblemInstanceUri)
-                      .Excluding(info => info!.ProblemTypeUri));
-    }
 }

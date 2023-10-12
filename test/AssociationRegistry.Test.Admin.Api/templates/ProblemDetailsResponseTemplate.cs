@@ -46,7 +46,7 @@ public class ProblemDetailsResponseTemplate
 
     public ProblemDetailsResponseTemplate FromException(UnexpectedAggregateVersionException ex)
         => this
-          .WithStatus(ex.StatusCode)
+          .WithStatus(StatusCodes.Status412PreconditionFailed)
           .WithDetail(ex.Message);
 
     public static implicit operator string(ProblemDetailsResponseTemplate source)
