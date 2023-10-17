@@ -11,6 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Display disk space
+        run: |
+          df -h
+    
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Display disk space
+        run: |
+          df -h
 
       - name: Checkout Code
         uses: actions/checkout@v3
