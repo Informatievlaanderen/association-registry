@@ -1,3 +1,10 @@
+## [8.7.1](https://github.com/informatievlaanderen/association-registry/compare/v8.7.0...v8.7.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* or-1949 rm unnecessary response docs ([533fb37](https://github.com/informatievlaanderen/association-registry/commit/533fb37c326899f35af74e9e810fa77216e91367))
+
 # [8.7.0](https://github.com/informatievlaanderen/association-registry/compare/v8.6.0...v8.7.0) (2023-10-17)
 
 
