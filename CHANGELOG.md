@@ -1,3 +1,18 @@
+# [8.7.0](https://github.com/informatievlaanderen/association-registry/compare/v8.6.0...v8.7.0) (2023-10-17)
+
+
+### Bug Fixes
+
+* add good default for magda ([7c8b476](https://github.com/informatievlaanderen/association-registry/commit/7c8b4767e37f7dfab1e56e3966d235be2732f0d0))
+* OR-1949 add documentation and response types ([44798a0](https://github.com/informatievlaanderen/association-registry/commit/44798a025b8f938303b934a895fc3df1db26298c))
+* or-1949 unify 412 problemdetails and examples ([3c291e2](https://github.com/informatievlaanderen/association-registry/commit/3c291e2b841a20b73be8269ea34ccbd9f13ec4dd))
+
+
+### Features
+
+* OR-1949 add response detail when not found result ([fef1188](https://github.com/informatievlaanderen/association-registry/commit/fef118837334b98a5e8626e50f1b150b2af88f60))
+* OR-1949 return 404 response which has detail filled in ([f6dfa50](https://github.com/informatievlaanderen/association-registry/commit/f6dfa50b2f86204086947ff83682dc451169ee6d))
+
 # [8.6.0](https://github.com/informatievlaanderen/association-registry/compare/v8.5.0...v8.6.0) (2023-10-09)
 
 
