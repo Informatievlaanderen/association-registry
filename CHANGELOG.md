@@ -1,3 +1,16 @@
+# [8.8.0](https://github.com/informatievlaanderen/association-registry/compare/v8.7.1...v8.8.0) (2023-10-19)
+
+
+### Bug Fixes
+
+* or-1941 include devDeps for generate_token ([10119d9](https://github.com/informatievlaanderen/association-registry/commit/10119d9fb1dbc52d748a38ca09c8ebc758a1717b))
+* or-1941 install npm deps ([84963dd](https://github.com/informatievlaanderen/association-registry/commit/84963dd63304c0d91733dcee094ef227559ec361))
+
+
+### Features
+
+* or-1941 use token for github hardening ([90d946f](https://github.com/informatievlaanderen/association-registry/commit/90d946f5ee75c0dbd216df11f74eac4232a2c71e))
+
 ## [8.7.1](https://github.com/informatievlaanderen/association-registry/compare/v8.7.0...v8.7.1) (2023-10-17)
 
 
