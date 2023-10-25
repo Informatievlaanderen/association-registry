@@ -105,6 +105,7 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
+
   set-release-version:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Decide next version
@@ -243,6 +244,7 @@ jobs:
       pre-gen-marten: true
       run-docker-elasticsearch: true
     secrets: inherit
+
   #
   #  build-acm-api:
   #    if: github.repository_owner == 'Informatievlaanderen'
