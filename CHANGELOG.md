@@ -1,3 +1,10 @@
+## [8.8.1](https://github.com/informatievlaanderen/association-registry/compare/v8.8.0...v8.8.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* OR-1956 add nightly build ([88f0e7f](https://github.com/informatievlaanderen/association-registry/commit/88f0e7f97d69ff98fa40ae3ac43b9fa7b5775dda))
+
 # [8.8.0](https://github.com/informatievlaanderen/association-registry/compare/v8.7.1...v8.8.0) (2023-10-19)
 
 
