@@ -1,3 +1,10 @@
+# [8.9.0](https://github.com/informatievlaanderen/association-registry/compare/v8.8.1...v8.9.0) (2023-10-26)
+
+
+### Features
+
+* or-1929 push images to test env (ik4) ([394b2e6](https://github.com/informatievlaanderen/association-registry/commit/394b2e69ab84f8bc96c087a3bdf1b86a4558c880))
+
 ## [8.8.1](https://github.com/informatievlaanderen/association-registry/compare/v8.8.0...v8.8.1) (2023-10-25)
 
 
