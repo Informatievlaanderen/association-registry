@@ -30,7 +30,7 @@ public static class WaitFor
                 var response = await client.PingAsync(ct: cancellationToken);
 
                 if (!response.IsValid)
-                    throw new Exception("Could not Ping to ES");
+                    throw new Exception($"Could not Ping to ES: {response.DebugInformation}");
             },
             serviceName: "ElasticSearch",
             cancellationToken);
