@@ -786,16 +786,16 @@ jobs:
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/adminapi:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/adminprojections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-projections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/publicapi:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/publicprojections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-projections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
