@@ -1,3 +1,11 @@
+# [8.12.0](https://github.com/informatievlaanderen/association-registry/compare/v8.11.0...v8.12.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 add debug information when not able to connect to ES ([0819a9a](https://github.com/informatievlaanderen/association-registry/commit/0819a9ae4ea9817436f9fd8e2313ab5a304e507d))
+* or-1965 correct names of local images ([185027c](https://github.com/informatievlaanderen/association-registry/commit/185027c5002d1e33750c2037ba24cb805b6c1d55))
+
 # [8.11.0](https://github.com/informatievlaanderen/association-registry/compare/v8.10.0...v8.11.0) (2023-10-30)
 
 
