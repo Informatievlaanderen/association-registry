@@ -1,3 +1,10 @@
+# [8.11.0](https://github.com/informatievlaanderen/association-registry/compare/v8.10.0...v8.11.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 deploy using correct service names ([88fe815](https://github.com/informatievlaanderen/association-registry/commit/88fe815ccc18434f872ebd4039c84749bd08c3a1))
+
 # [8.10.0](https://github.com/informatievlaanderen/association-registry/compare/v8.9.0...v8.10.0) (2023-10-30)
 
 
