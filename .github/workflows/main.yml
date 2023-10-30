@@ -786,16 +786,16 @@ jobs:
           docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/adminapi:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/adminprojections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/publicapi:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
 
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
+          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/publicprojections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
@@ -942,11 +942,11 @@ jobs:
       matrix:
         services:
           [
-            'association-registry-acm-api',
-            'association-registry-public-api',
-            'association-registry-public-projections',
-            'association-registry-admin-api',
-            'association-registry-admin-projections',
+            'acmapi',
+            'publicapi',
+            'publicprojections',
+            'adminapi',
+            'adminprojections',
           ]
     steps:
       - name: debug_output
@@ -957,7 +957,7 @@ jobs:
         if: needs.release.outputs.version != 'none'
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API_IK4 }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_API_IK4 }}/${{matrix.services}}
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_IK4 }}/${{matrix.services}}
         uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: test
