@@ -1,3 +1,10 @@
+# [8.13.0](https://github.com/informatievlaanderen/association-registry/compare/v8.12.0...v8.13.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 use vr version of polling action ([9ad04ac](https://github.com/informatievlaanderen/association-registry/commit/9ad04ac952ec6f22649ad9c7d0e394c02c28ea6c))
+
 # [8.12.0](https://github.com/informatievlaanderen/association-registry/compare/v8.11.0...v8.12.0) (2023-10-30)
 
 
