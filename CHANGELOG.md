@@ -1,3 +1,10 @@
+# [8.10.0](https://github.com/informatievlaanderen/association-registry/compare/v8.9.0...v8.10.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 deploy using ik4 api ([645ff37](https://github.com/informatievlaanderen/association-registry/commit/645ff372164f743415c44bc37c37fe23c7a49a77))
+
 # [8.9.0](https://github.com/informatievlaanderen/association-registry/compare/v8.8.1...v8.9.0) (2023-10-26)
 
 
