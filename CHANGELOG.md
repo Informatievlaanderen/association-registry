@@ -1,3 +1,10 @@
+# [8.14.0](https://github.com/informatievlaanderen/association-registry/compare/v8.13.0...v8.14.0) (2023-10-31)
+
+
+### Features
+
+* or-1965 use vr version in manual deploy ([e79bce7](https://github.com/informatievlaanderen/association-registry/commit/e79bce784cc7de6a84ca311f6396520c04ab550c))
+
 # [8.13.0](https://github.com/informatievlaanderen/association-registry/compare/v8.12.0...v8.13.0) (2023-10-30)
 
 
