@@ -25,7 +25,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API_IK4 }}/${{matrix.services}}
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_IK4 }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@vr
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: test
           version: ${{ github.event.inputs.version }}
