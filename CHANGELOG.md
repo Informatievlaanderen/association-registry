@@ -1,3 +1,12 @@
+# [8.15.0](https://github.com/informatievlaanderen/association-registry/compare/v8.14.0...v8.15.0) (2023-10-31)
+
+
+### Features
+
+* or-1965 always output ([3573337](https://github.com/informatievlaanderen/association-registry/commit/3573337f2b385a4e9ad59721f3758d351807ff1b))
+* or-1965 use correct names in manual deploy ([b2a63a5](https://github.com/informatievlaanderen/association-registry/commit/b2a63a5f9ebe43fdfb5545de933ce28b3798f4d3))
+* or-1965 use main branch again ([c289a9b](https://github.com/informatievlaanderen/association-registry/commit/c289a9bc98fc6ffe699fa3bb533b4027bcc3bb12))
+
 # [8.14.0](https://github.com/informatievlaanderen/association-registry/compare/v8.13.0...v8.14.0) (2023-10-31)
 
 
