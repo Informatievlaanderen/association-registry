@@ -958,7 +958,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API_IK4 }}/${{matrix.services}}
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_IK4 }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@vr
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: test
           version: ${{ needs.release.outputs.version }}
@@ -970,6 +970,7 @@ jobs:
           interval: 2
       - name: output
         shell: bash
+        if: always()
         run: |
           echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
