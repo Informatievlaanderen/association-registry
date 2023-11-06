@@ -25,7 +25,7 @@ jobs:
       - name: CD
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_IK4 }}/${{matrix.services}}
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
         uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: test
