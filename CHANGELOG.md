@@ -1,3 +1,12 @@
+# [8.17.0](https://github.com/informatievlaanderen/association-registry/compare/v8.16.0...v8.17.0) (2023-11-06)
+
+
+### Features
+
+* or-1932 use separate environment for test in CI ([466e42e](https://github.com/informatievlaanderen/association-registry/commit/466e42e241c6b25047a0c9dabf1a4a25062a71e8))
+* or-1932 use separate environments ([97011c4](https://github.com/informatievlaanderen/association-registry/commit/97011c4dc2131ca232948a27cfeddd01a22b9ec6))
+* or-1932 use separate environments for status url ([adfef11](https://github.com/informatievlaanderen/association-registry/commit/adfef116ad1f55554ef4e7e8a886cb60bad93c41))
+
 # [8.16.0](https://github.com/informatievlaanderen/association-registry/compare/v8.15.0...v8.16.0) (2023-11-06)
 
 
