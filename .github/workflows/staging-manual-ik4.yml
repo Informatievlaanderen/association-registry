@@ -9,6 +9,7 @@ on:
 
 jobs:
   deployment:
+    environment: staging_ik4
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,8 +24,8 @@ jobs:
     steps:
       - name: CD
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API_IK4 }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_IK4 }}/${{matrix.services}}
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API_STAGING }}/${{matrix.services}}
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API_STAGING_IK4 }}/${{matrix.services}}
         uses: informatievlaanderen/awscurl-polling-action/polling-action@main
         with:
           environment: stg
