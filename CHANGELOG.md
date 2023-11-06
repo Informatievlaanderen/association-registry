@@ -1,3 +1,10 @@
+# [8.16.0](https://github.com/informatievlaanderen/association-registry/compare/v8.15.0...v8.16.0) (2023-11-06)
+
+
+### Features
+
+* or-1932 add manual deploy staging script ([483a07c](https://github.com/informatievlaanderen/association-registry/commit/483a07cf234e670e95a899c8c8044fe1f4eba301))
+
 # [8.15.0](https://github.com/informatievlaanderen/association-registry/compare/v8.14.0...v8.15.0) (2023-10-31)
 
 
