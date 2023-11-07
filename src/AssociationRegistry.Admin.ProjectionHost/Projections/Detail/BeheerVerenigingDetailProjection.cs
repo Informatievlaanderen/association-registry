@@ -36,7 +36,15 @@ public class BeheerVerenigingDetailProjection : EventProjection
     }
 
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
-        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
+
+        // ops.Query<BeheerVerenigingDetailDocument>()
+
+        BeheerVerenigingDetailProjector.Apply(@event, doc);
+        BeheerVerenigingDetailProjector.UpdateMetadata(@event, doc);
+        ops.Store(doc);
+    }
 
     public async Task Project(IEvent<KorteNaamWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
