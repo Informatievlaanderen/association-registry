@@ -1,3 +1,10 @@
+# [8.18.0](https://github.com/informatievlaanderen/association-registry/compare/v8.17.0...v8.18.0) (2023-11-07)
+
+
+### Features
+
+* add deploy target ([65b155a](https://github.com/informatievlaanderen/association-registry/commit/65b155a6da5dc7bdd0e6f97ada0f493b9224e98c))
+
 # [8.17.0](https://github.com/informatievlaanderen/association-registry/compare/v8.16.0...v8.17.0) (2023-11-06)
 
 
