@@ -126,6 +126,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum
         V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum = new();
 
+    public readonly V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_ForNaamWijzigen
+        V047AfdelingWerdGeregistreerdMetBestaandeMoederForNaamWijzigen = new();
+
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -174,6 +178,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
             V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
+            V047AfdelingWerdGeregistreerdMetBestaandeMoederForNaamWijzigen
         };
 
         foreach (var scenario in scenarios)
