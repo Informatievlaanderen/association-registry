@@ -6,13 +6,13 @@ using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
 
-public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_ForNaamWijzigen : IEventsInDbScenario
+public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd MoederWerdGeregistreerd;
     public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_ForNaamWijzigen()
+    public V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
