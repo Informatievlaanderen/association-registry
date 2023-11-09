@@ -26,6 +26,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
+using JasperFx.Core;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;

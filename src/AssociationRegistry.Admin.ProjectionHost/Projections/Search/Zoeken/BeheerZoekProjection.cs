@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
+namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Events;
 using Formatters;
