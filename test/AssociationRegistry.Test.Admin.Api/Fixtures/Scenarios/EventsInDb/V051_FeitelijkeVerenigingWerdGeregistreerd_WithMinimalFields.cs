@@ -16,10 +16,37 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9990000";
 
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+        /**
+         * Hoofdletter ongevoelig → Vereniging = verEniging
+         * Spatie ongevoelig
+         * leading spaces → Grote vereniging =  Grote vereniging
+         * trailing spaces → Grote vereniging = Grote vereniging
+         * dubbele spaces → Grote vereniging = Grote     vereniging
+         * Accent ongevoelig → Cafésport = Cafesport
+         * leesteken ongevoelig → Sint-Servaas = Sint Servaas
+         * functiewoorden weglaten → De pottestampers = Pottestampers
+         * de, het, van, … idealiter is deze lijst configureerbaar
+         * fuzzy search = kleine schrijfverschillen negeren. Deze zijn de elastic mogelijkheden:
+         * ander karakter gebruiken → Uitnodiging = Uitnodiding
+         * 1 karakter minder → Vereniging = Verenging
+         * 1 karakter meer → Vereniging = Vereeniging
+         * 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
+         **/
+
+        var verenigingen = new List<FeitelijkeVerenigingWerdGeregistreerd>
+        {
+            VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging"),
+        };
+
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    private FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(Fixture fixture, string naam)
+        => fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Naam = "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling",
+            Naam = naam,
             Locaties = Array.Empty<Registratiedata.Locatie>(),
             KorteNaam = string.Empty,
             Startdatum = null,
@@ -28,9 +55,6 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
         };
-
-        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
-    }
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
