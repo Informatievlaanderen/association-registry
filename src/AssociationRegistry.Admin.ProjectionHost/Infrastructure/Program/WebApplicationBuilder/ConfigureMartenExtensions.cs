@@ -17,11 +17,13 @@ using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
 using Wolverine;
-using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
+using ConfigurationManager = ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
-    public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
+    public static IServiceCollection ConfigureProjectionsWithMarten(
+        this IServiceCollection source,
+        ConfigurationManager configurationManager)
     {
         source
            .AddTransient<IElasticRepository, ElasticRepository>();

@@ -47,6 +47,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 
+    private string DuplicateDetectionIndexName
+        => GetConfiguration()["ElasticClientOptions:Indices:DuplicateDetection"];
+
     protected AdminApiFixture()
     {
         WaitFor.PostGreSQLToBecomeAvailable(
@@ -100,7 +103,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        ConfigureElasticClient(ElasticClient, VerenigingenIndexName);
+        ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
     }
 
     public IDocumentStore ApiDocumentStore
@@ -160,12 +163,20 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         }
     }
 
-    private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
+    private static void ConfigureElasticClient(
+        IElasticClient client,
+        string verenigingenIndexName,
+        string duplicateDetectionIndexName)
     {
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
         client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+
+        if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
+            client.Indices.Delete(duplicateDetectionIndexName);
+
+        client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
 
         client.Indices.Refresh(Indices.All);
     }
