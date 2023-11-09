@@ -10,6 +10,7 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
+    public IEvent[] Verenigingen { get; }
 
     public V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields()
     {
@@ -33,10 +34,13 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
          * 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
          **/
 
-        var verenigingen = new List<FeitelijkeVerenigingWerdGeregistreerd>
+        Verenigingen = new[]
         {
             VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
             VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Cafésport"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas"),
+            VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers"),
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -47,7 +51,17 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
         {
             VCode = VCode,
             Naam = naam,
-            Locaties = Array.Empty<Registratiedata.Locatie>(),
+            Locaties = new[]
+            {
+                fixture.Create<Registratiedata.Locatie>() with
+                {
+                    Adres = fixture.Create<Registratiedata.Adres>()
+                        with
+                        {
+                            Postcode = "9832",
+                        },
+                },
+            },
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
@@ -60,8 +74,7 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
-        => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd };
+        => Verenigingen;
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

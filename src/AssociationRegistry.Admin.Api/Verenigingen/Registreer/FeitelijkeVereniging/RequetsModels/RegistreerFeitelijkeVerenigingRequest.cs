@@ -14,19 +14,19 @@ public class RegistreerFeitelijkeVerenigingRequest
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]
-    public string Naam { get; init; } = null!;
+    public string Naam { get; set; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember]
-    public string? KorteNaam { get; init; }
+    public string? KorteNaam { get; set; }
 
     /// <summary>Korte beschrijving van de vereniging</summary>
     [DataMember]
-    public string? KorteBeschrijving { get; init; }
+    public string? KorteBeschrijving { get; set; }
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember]
-    public DateOnly? Startdatum { get; init; }
+    public DateOnly? Startdatum { get; set; }
 
     /// <summary>
     /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
