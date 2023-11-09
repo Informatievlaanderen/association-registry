@@ -6,12 +6,12 @@ using Events;
 using EventStore;
 using Framework;
 
-public class VXXX_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbScenario
+public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public VXXX_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields()
+    public V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9990000";

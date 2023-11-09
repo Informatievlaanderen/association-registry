@@ -28,110 +28,61 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             await _client
                .SearchAsync<DuplicateDetectionDocument>(
                     s => s
-                        .Query(
-                             q => q.Bool(
-                                 b => b.Must(must => must
-                                                .Match(m => m
-                                                           .Field(f => f.Naam)
-                                                           .Query(naam)
-                                                           .Analyzer(DuplicateDetectionDocumentMapping
-                                                                        .DuplicateAnalyzer)
-                                                           .Fuzziness(
-                                                                Fuzziness
-                                                                   .Auto) // Assumes this analyzer applies lowercase and asciifolding
-                                                           .MinimumShouldMatch("90%") // You can adjust this percentage as needed
-                                                 )).Filter(f => f
-                                                              .Bool(fb => fb
-                                                                         .Should( // Use should within a filter context for municipalities and postal codes
-                                                                              gemeentesQuery => gemeentesQuery
-                                                                                 .Nested(n => n
-                                                                                            .Path(p => p.Locaties)
-                                                                                            .Query(nq => nq
-                                                                                                .Match(m => m
-                                                                                                    .Field(f => f.Locaties
-                                                                                                        .First()
-                                                                                                        .Gemeente)
-                                                                                                    .Query(
-                                                                                                         string.Join(
-                                                                                                             separator: " ",
-                                                                                                             gemeentes))
-                                                                                                    .Fuzziness(
-                                                                                                         Fuzziness.Auto)
-                                                                                                    .Analyzer(
-                                                                                                         DuplicateDetectionDocumentMapping
-                                                                                                            .DuplicateAnalyzer)
-                                                                                                 )
-                                                                                             )
-                                                                                  ),
-                                                                              postalCodesQuery => postalCodesQuery
-                                                                                 .Nested(n => n
-                                                                                            .Path(p => p.Locaties)
-                                                                                            .Query(nq => nq
-                                                                                                .Terms(t => t
-                                                                                                    .Field(f => f.Locaties
-                                                                                                        .First()
-                                                                                                        .Postcode)
-                                                                                                    .Terms(postcodes)
-                                                                                                 )
-                                                                                             )
-                                                                                  )
-                                                                          )
-                                                                         .MinimumShouldMatch(
-                                                                              1) // At least one of the location conditions must match
-                                                               )
-                                 )
-                             )
-                         ).TrackScores().Explain().Highlight(x => x.Fields(f => f.Field(p => p.Naam).PreTags("<em>").PostTags("</em>")))
-                );
-
-        var mlt =
-            _client.Search<DuplicateDetectionDocument>(
-                s => s
-                   .Query(q => q
-                             .Bool(b => b
-                                       .Must(mu => mu
-                                                .MoreLikeThis(mlt => mlt
-                                                                    .Fields(f => f
-                                                                               .Field(ff => ff.Naam)
-                                                                     )
-                                                                    .Like(l => l.Text(naam))
-                                                                    .MinTermFrequency(1)
-                                                                    .MinDocumentFrequency(1)
-                                                 )
-                                        )
-                                       .Filter(f => f
-                                                  .Bool(fb => fb
-                                                             .Should(
-                                                                  gemeentesQuery => gemeentesQuery
-                                                                     .Nested(n => n
-                                                                                 .Path(p => p.Locaties)
-                                                                                 .Query(nq => nq
-                                                                                           .Match(m => m
-                                                                                               .Field(f => f.Locaties.First()
-                                                                                                   .Gemeente)
-                                                                                               .Query(string.Join(separator: " ",
-                                                                                                    gemeentes))
+                       .Query(
+                            q => q.Bool(
+                                b => b.Must(must => must
+                                               .Match(m => m
+                                                          .Field(f => f.Naam)
+                                                          .Query(naam)
+                                                          .Analyzer(DuplicateDetectionDocumentMapping
+                                                                       .DuplicateAnalyzer)
+                                                          .Fuzziness(
+                                                               Fuzziness
+                                                                  .Auto) // Assumes this analyzer applies lowercase and asciifolding
+                                                          .MinimumShouldMatch("90%") // You can adjust this percentage as needed
+                                                )).Filter(f => f
+                                                             .Bool(fb => fb
+                                                                        .Should( // Use should within a filter context for municipalities and postal codes
+                                                                             gemeentesQuery => gemeentesQuery
+                                                                                .Nested(n => n
+                                                                                           .Path(p => p.Locaties)
+                                                                                           .Query(nq => nq
+                                                                                                       .Match(m => m
+                                                                                                                   .Field(f => f.Locaties
+                                                                                                                           .First()
+                                                                                                                           .Gemeente)
+                                                                                                                   .Query(
+                                                                                                                        string.Join(
+                                                                                                                            separator: " ",
+                                                                                                                            gemeentes))
+                                                                                                                   .Fuzziness(
+                                                                                                                        Fuzziness.Auto)
+                                                                                                                   .Analyzer(
+                                                                                                                        DuplicateDetectionDocumentMapping
+                                                                                                                           .DuplicateAnalyzer)
+                                                                                                        )
                                                                                             )
-                                                                                  )
-                                                                      ),
-                                                                  postalCodesQuery => postalCodesQuery
-                                                                     .Nested(n => n
-                                                                                 .Path(p => p.Locaties)
-                                                                                 .Query(nq => nq
-                                                                                           .Terms(t => t
-                                                                                               .Field(f => f.Locaties.First()
-                                                                                                   .Postcode)
-                                                                                               .Terms(postcodes)
+                                                                                 ),
+                                                                             postalCodesQuery => postalCodesQuery
+                                                                                .Nested(n => n
+                                                                                           .Path(p => p.Locaties)
+                                                                                           .Query(nq => nq
+                                                                                                       .Terms(t => t
+                                                                                                                   .Field(f => f.Locaties
+                                                                                                                           .First()
+                                                                                                                           .Postcode)
+                                                                                                                   .Terms(postcodes)
+                                                                                                        )
                                                                                             )
-                                                                                  )
-                                                                      )
+                                                                                 )
+                                                                         )
+                                                                        .MinimumShouldMatch(
+                                                                             1) // At least one of the location conditions must match
                                                               )
-                                                             .MinimumShouldMatch(1)
-                                                   )
-                                        )
-                              )
-                    )
-            );
+                                )
+                            )
+                        )
+                );
 
         return searchResponse.Documents.Select(ToDuplicateVereniging)
                              .ToArray();
@@ -146,7 +97,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             ImmutableArray<DuplicaatVereniging.HoofdactiviteitVerenigingsloket>.Empty,
             document.Locaties.Select(ToLocatie).ToImmutableArray());
 
-    private static DuplicaatVereniging.Locatie ToLocatie(VerenigingZoekDocument.Locatie loc)
+    private static DuplicaatVereniging.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)
         => new(
             loc.Locatietype,
             loc.IsPrimair,

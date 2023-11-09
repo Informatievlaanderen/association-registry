@@ -14,13 +14,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_An_Accented_Word
 {
-    private readonly VXXX_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields _scenario;
+    private readonly V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields _scenario;
     private readonly AdminApiClient _adminApiClient;
     private readonly IDuplicateVerenigingDetectionService _duplicateDetectionService;
 
     public Given_An_Accented_Word(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.VxxxFeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
+        _scenario = fixture.V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         _adminApiClient = fixture.AdminApiClient;
         _duplicateDetectionService = fixture.ServiceProvider.GetRequiredService<IDuplicateVerenigingDetectionService>();
     }
