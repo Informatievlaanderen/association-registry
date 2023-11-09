@@ -15,7 +15,7 @@ public class V016_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_AlsMoeder_
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999016";
-        Naam = "Dee coolste moeder";
+        Naam = "De coolste moeder";
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,

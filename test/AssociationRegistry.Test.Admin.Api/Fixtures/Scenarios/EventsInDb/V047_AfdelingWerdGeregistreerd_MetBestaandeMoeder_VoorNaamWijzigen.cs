@@ -16,8 +16,8 @@ public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen 
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VCodeMoeder = "V9999017";
-        NaamMoeder = "Dee coolste moeder";
+        VCodeMoeder = "V9999047";
+        NaamMoeder = "De coolste moeder";
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCodeMoeder,
@@ -25,7 +25,7 @@ public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen 
         };
         KboNummerMoeder = MoederWerdGeregistreerd.KboNummer;
 
-        VCode = "V9999018";
+        VCode = "V9999048";
         AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with
         {
             VCode = VCode,
