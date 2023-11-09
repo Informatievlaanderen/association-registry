@@ -417,7 +417,7 @@ public class DuplicateDetectionSetup
             Naam = "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Hulste",
                     Postcode = "8531",
@@ -431,7 +431,7 @@ public class DuplicateDetectionSetup
             Naam = "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Bavikhove",
                     Postcode = "8531",
@@ -445,7 +445,7 @@ public class DuplicateDetectionSetup
             Naam = "Vereniging X",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Ooigem",
                     Postcode = "8532",
@@ -459,7 +459,7 @@ public class DuplicateDetectionSetup
             Naam = "Vereniging Y",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Alveringem",
                     Postcode = "8533",
@@ -473,7 +473,7 @@ public class DuplicateDetectionSetup
             Naam = "Vereniging Z",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Poperinge",
                     Postcode = "8513",
@@ -487,7 +487,7 @@ public class DuplicateDetectionSetup
             Naam = "Werenigung Z",
             Locaties = new[]
             {
-                new VerenigingZoekDocument.Locatie
+                new DuplicateDetectionDocument.Locatie
                 {
                     Gemeente = "Poperinge",
                     Postcode = "8513",

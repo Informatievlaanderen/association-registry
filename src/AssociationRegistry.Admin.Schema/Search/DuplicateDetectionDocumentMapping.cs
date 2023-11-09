@@ -17,7 +17,7 @@ public static class DuplicateDetectionDocumentMapping
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Naam)
                                                        .Analyzer(DuplicateAnalyzer))
-                             .Nested<VerenigingZoekDocument.Locatie>(
+                             .Nested<DuplicateDetectionDocument.Locatie>(
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Locaties)
                                                        .IncludeInRoot()
@@ -26,7 +26,7 @@ public static class DuplicateDetectionDocumentMapping
 
     private static class LocationMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<DuplicateDetectionDocument.Locatie> map)
             => map
               .Text(
                    descriptor => descriptor

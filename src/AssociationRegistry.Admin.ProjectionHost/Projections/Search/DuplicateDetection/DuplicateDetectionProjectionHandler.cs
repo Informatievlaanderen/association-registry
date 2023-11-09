@@ -41,7 +41,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 Naam = message.Data.Naam,
-                                Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
 
             }
         );
@@ -52,12 +52,12 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 Naam = message.Data.Naam,
-                                Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
 
             }
         );
 
-    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
+    private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
         {
             LocatieId = locatie.LocatieId,
