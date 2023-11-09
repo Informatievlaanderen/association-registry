@@ -1,25 +1,36 @@
 namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AutoFixture;
 using DuplicateVerenigingDetection;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Framework;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Locatie = Vereniging.Locatie;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_An_Accented_Word
+public class Given_Some_FeitelijkeVerenigingenGeregistreerd
 {
     private readonly V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields _scenario;
     private readonly AdminApiClient _adminApiClient;
     private readonly IDuplicateVerenigingDetectionService _duplicateDetectionService;
+    private readonly Fixture _fixture;
 
-    public Given_An_Accented_Word(EventsInDbScenariosFixture fixture)
+    public Given_Some_FeitelijkeVerenigingenGeregistreerd(EventsInDbScenariosFixture fixture)
     {
+        _fixture = new Fixture().CustomizeAdminApi();
+
         _scenario = fixture.V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         _adminApiClient = fixture.AdminApiClient;
         _duplicateDetectionService = fixture.ServiceProvider.GetRequiredService<IDuplicateVerenigingDetectionService>();
@@ -30,16 +41,27 @@ public class Given_An_Accented_Word
         => (await _adminApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_A_DuplicateIsDetected_WithExactlyTheSameName()
+    public async Task? Then_A_DuplicateIsDetected_WithLeadingSpaces()
     {
-        var duplicates =
-            await _duplicateDetectionService.GetDuplicates(
-                VerenigingsNaam.Create("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
-                Array.Empty<Locatie>());
+        var request = _fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+        request.Naam = " Grote vereniging";
 
-        duplicates.Should().HaveCount(1);
+        var toeTeVoegenLocatie = _fixture.Create<ToeTeVoegenLocatie>();
+        toeTeVoegenLocatie.Adres!.Postcode = "9832";
 
-        duplicates.Single().Naam.Should().Be("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling");
+        request.Locaties = new[]
+        {
+            toeTeVoegenLocatie,
+        };
+
+        var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
+
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == "Grote vereniging").Should().BeTrue();
     }
 
     [Fact]
