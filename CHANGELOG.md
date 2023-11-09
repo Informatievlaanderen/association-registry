@@ -1,3 +1,10 @@
+# [8.19.0](https://github.com/informatievlaanderen/association-registry/compare/v8.18.0...v8.19.0) (2023-11-09)
+
+
+### Features
+
+* OR-1759 add rename on related associations ([145708f](https://github.com/informatievlaanderen/association-registry/commit/145708f8337113f8a23a0f9a4b19f972ac561c92))
+
 # [8.18.0](https://github.com/informatievlaanderen/association-registry/compare/v8.17.0...v8.18.0) (2023-11-07)
 
 
