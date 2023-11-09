@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
-using System.Threading.Tasks;
 using Events;
 using Marten;
 using Marten.Events;
@@ -37,13 +36,35 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
+        var updateDocs = Enumerable.Empty<BeheerVerenigingDetailDocument>().ToList();
+        var afdeling = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
 
-        // ops.Query<BeheerVerenigingDetailDocument>()
+        var gerelateerdeVerenigingen = ops.Query<BeheerVerenigingDetailDocument>()
+                                          .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == afdeling.VCode))
+                                          .ToList();
 
-        BeheerVerenigingDetailProjector.Apply(@event, doc);
-        BeheerVerenigingDetailProjector.UpdateMetadata(@event, doc);
-        ops.Store(doc);
+        foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
+        {
+            gerelateerdeVereniging.Relaties = gerelateerdeVereniging.Relaties.UpdateSingleWith(
+                                                                         identityFunc: relatie
+                                                                             => relatie.AndereVereniging.VCode == @event.Data.VCode,
+                                                                         update: r => r with
+                                                                         {
+                                                                             AndereVereniging = r.AndereVereniging with
+                                                                             {
+                                                                                 Naam = @event.Data.Naam,
+                                                                             },
+                                                                         })
+                                                                    .ToArray();
+
+            BeheerVerenigingDetailProjector.UpdateMetadata(@event, gerelateerdeVereniging);
+            updateDocs.Add(gerelateerdeVereniging);
+        }
+
+        BeheerVerenigingDetailProjector.Apply(@event, afdeling);
+        BeheerVerenigingDetailProjector.UpdateMetadata(@event, afdeling);
+        updateDocs.Add(afdeling);
+        ops.StoreObjects(updateDocs);
     }
 
     public async Task Project(IEvent<KorteNaamWerdGewijzigd> @event, IDocumentOperations ops)

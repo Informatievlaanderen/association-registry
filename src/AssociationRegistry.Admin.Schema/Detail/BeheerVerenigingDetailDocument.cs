@@ -92,12 +92,12 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Waarde { get; init; } = null!;
     }
 
-    public class Relatie
+    public record Relatie
     {
         public string Type { get; init; } = null!;
         public GerelateerdeVereniging AndereVereniging { get; init; } = null!;
 
-        public class GerelateerdeVereniging
+        public record GerelateerdeVereniging
         {
             public string KboNummer { get; init; } = null!;
             public string VCode { get; init; } = null!;

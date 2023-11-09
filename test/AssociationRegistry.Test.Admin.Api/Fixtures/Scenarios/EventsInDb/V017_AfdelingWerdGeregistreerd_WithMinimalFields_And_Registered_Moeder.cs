@@ -17,7 +17,7 @@ public class V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moe
         var fixture = new Fixture().CustomizeAdminApi();
 
         VCodeMoeder = "V9999017";
-        NaamMoeder = "Dee coolste moeder";
+        NaamMoeder = "De coolste moeder";
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCodeMoeder,

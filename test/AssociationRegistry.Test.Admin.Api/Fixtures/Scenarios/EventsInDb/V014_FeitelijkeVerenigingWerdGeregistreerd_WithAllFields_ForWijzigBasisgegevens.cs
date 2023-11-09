@@ -15,7 +15,7 @@ public class V014_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForWijzigB
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999014";
-        Naam = "Dee coolste club";
+        Naam = "De coolste club";
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
