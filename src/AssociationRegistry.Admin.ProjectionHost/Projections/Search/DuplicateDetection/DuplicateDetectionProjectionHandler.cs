@@ -19,8 +19,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 Naam = message.Data.Naam,
-                                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
             }
         );
 
@@ -30,8 +29,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 Naam = message.Data.Naam,
-                                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
             }
         );
 
@@ -41,8 +39,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 Naam = message.Data.Naam,
-                                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
-
+                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
             }
         );
 
@@ -52,8 +49,7 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 Naam = message.Data.Naam,
-                                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
-
+                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
             }
         );
 
@@ -68,5 +64,4 @@ public class DuplicateDetectionProjectionHandler
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
-
 }

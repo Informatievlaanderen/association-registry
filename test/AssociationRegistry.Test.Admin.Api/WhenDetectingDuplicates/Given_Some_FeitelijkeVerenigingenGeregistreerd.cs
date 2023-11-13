@@ -15,7 +15,7 @@ using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Locatie = Vereniging.Locatie;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
@@ -27,10 +27,24 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd
     private readonly IDuplicateVerenigingDetectionService _duplicateDetectionService;
     private readonly Fixture _fixture;
 
+    /// <remarks>
+    /// Hoofdletter ongevoelig → Vereniging = verEniging
+    /// Spatie ongevoelig
+    /// Leading spaces → Grote vereniging =  Grote vereniging
+    /// Trailing spaces → Grote vereniging = Grote vereniging
+    /// Dubbele spaces → Grote vereniging = Grote     vereniging
+    /// Accent ongevoelig → Cafésport = Cafesport
+    /// Leesteken ongevoelig → Sint-Servaas = Sint Servaas
+    /// Functiewoorden weglaten → De pottestampers = Pottestampers : de, het, van, … idealiter is deze lijst configureerbaar
+    /// Fuzzy search = kleine schrijfverschillen negeren. Deze zijn de elastic mogelijkheden:
+    /// Ander karakter gebruiken → Uitnodiging = Uitnodiding
+    /// 1 karakter minder → Vereniging = Verenging
+    /// 1 karakter meer → Vereniging = Vereeniging
+    /// 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
+    /// </remarks>
     public Given_Some_FeitelijkeVerenigingenGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
-
         _scenario = fixture.V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         _adminApiClient = fixture.AdminApiClient;
         _duplicateDetectionService = fixture.ServiceProvider.GetRequiredService<IDuplicateVerenigingDetectionService>();
@@ -40,53 +54,122 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd
     public async Task Then_we_get_a_successful_response()
         => (await _adminApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
-    [Fact]
-    public async Task? Then_A_DuplicateIsDetected_WithLeadingSpaces()
+    [Theory]
+    [InlineData("Grote vereniging", "Grote Vereniging")]
+    [InlineData("GROTE VERENIGING", "Grote Vereniging")]
+    [InlineData("grote vereniging", "Grote Vereniging")]
+    [InlineData("De Pottestampers", "De pottestampers")]
+    [InlineData("DE POTTESTAMPERS", "De pottestampers")]
+    [InlineData("de pottestampers", "De pottestampers")]
+    public async Task? Then_A_DuplicateIsDetected_WithDifferentCapitalization(string naamClean, string naamOriginal)
     {
-        var request = _fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Naam = " Grote vereniging";
-
-        var toeTeVoegenLocatie = _fixture.Create<ToeTeVoegenLocatie>();
-        toeTeVoegenLocatie.Adres!.Postcode = "9832";
-
-        request.Locaties = new[]
-        {
-            toeTeVoegenLocatie,
-        };
-
+        var request = MaakRegistreerFeitelijkeVerenigingRequest(naamClean);
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+        var responseContent = await response.Content.ReadAsStringAsync();
 
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
         var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
-
-        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == "Grote vereniging").Should().BeTrue();
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == naamOriginal).Should().BeTrue();
     }
 
-    [Fact]
-    public async Task? Then_A_DuplicateIsDetected_WithNoAccents()
+    [Theory]
+    [InlineData("Grote-Vereniging", "Grote Vereniging")]
+    [InlineData("Sint Servaas", "Sint-Servaas")]
+    [InlineData("Grote Vereniging!", "Grote Vereniging")]
+    [InlineData("Sint-Servaas!", "Sint-Servaas")]
+    [InlineData("Grote-Vereniging!", "Grote Vereniging")]
+    [InlineData("Sint Servaas!", "Sint-Servaas")]
+    public async Task? Then_A_DuplicateIsDetected_WithDifferentPunctuation(string naamClean, string naamOriginal)
     {
-        var duplicates =
-            await _duplicateDetectionService.GetDuplicates(
-                VerenigingsNaam.Create("Vereniging van Technologieenthousiasten: Innovacie & Ontwikkeling"),
-                Array.Empty<Locatie>());
+        var request = MaakRegistreerFeitelijkeVerenigingRequest(naamClean);
+        var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+        var responseContent = await response.Content.ReadAsStringAsync();
 
-        duplicates.Should().HaveCount(1);
-
-        duplicates.Single().Naam.Should().Be("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling");
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == naamOriginal).Should().BeTrue();
     }
 
-    [Fact]
-    public async Task? Then_A_DuplicateIsDetected_WithMoreAccents()
+    [Theory]
+    [InlineData("   Grote Vereniging", "Grote Vereniging")]
+    [InlineData("Grote Vereniging   ", "Grote Vereniging")]
+    [InlineData("Grote    Vereniging", "Grote Vereniging")]
+    [InlineData(" Grote  Vereniging ", "Grote Vereniging")]
+    public async Task? Then_A_DuplicateIsDetected_WithAdditionalSpaces(string naamClean, string naamOriginal)
     {
-        var duplicates =
-            await _duplicateDetectionService.GetDuplicates(
-                VerenigingsNaam.Create("Vërëniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
-                Array.Empty<Locatie>());
+        var request = MaakRegistreerFeitelijkeVerenigingRequest(naamClean);
+        var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+        var responseContent = await response.Content.ReadAsStringAsync();
 
-        duplicates.Should().HaveCount(1);
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == naamOriginal).Should().BeTrue();
+    }
 
-        duplicates.Single().Naam.Should().Be("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling");
+    [Theory]
+    [InlineData("Vereniging van Technologieenthousiasten: Innovacie & Ontwikkeling",
+                "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling")]
+    [InlineData("Cafesport", "Cafésport")]
+    public async Task? Then_A_DuplicateIsDetected_WithNoAccents(string naamClean, string naamOriginal)
+    {
+        var request = MaakRegistreerFeitelijkeVerenigingRequest(naamClean);
+        var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == naamOriginal).Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData("Grote Veréniging", "Grote Vereniging")]
+    [InlineData("Dé pottestampers", "De pottestampers")]
+    public async Task? Then_A_DuplicateIsDetected_WithMoreAccents(string naamClean, string naamOriginal)
+    {
+        var request = MaakRegistreerFeitelijkeVerenigingRequest(naamClean);
+        var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
+        var responseContent = await response.Content.ReadAsStringAsync();
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+        var duplicates = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(responseContent);
+        duplicates!.MogelijkeDuplicateVerenigingen.Any(x => x.Naam == naamOriginal).Should().BeTrue();
+    }
+
+    private RegistreerFeitelijkeVerenigingRequest MaakRegistreerFeitelijkeVerenigingRequest(string naam)
+    {
+        var request = new RegistreerFeitelijkeVerenigingRequest
+        {
+            Naam = naam,
+            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            KorteNaam = "",
+            KorteBeschrijving = "",
+            Locaties = new[]
+            {
+                new ToeTeVoegenLocatie
+                {
+                    Locatietype = Locatietype.Correspondentie,
+                    Adres = new Adres
+                    {
+                        Straatnaam = _fixture.Create<string>(),
+                        Huisnummer = _fixture.Create<string>(),
+                        Postcode = "9832",
+                        Gemeente = _fixture.Create<string>(),
+                        Land = _fixture.Create<string>(),
+                    },
+                },
+            },
+        };
+
+        // var toeTeVoegenLocatie = _fixture.Create<ToeTeVoegenLocatie>();
+        // toeTeVoegenLocatie.Adres!.Postcode = "9832";
+        // var request = _fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+        // request.Naam = naam;
+        //
+        // request.Locaties = new[]
+        // {
+        //     toeTeVoegenLocatie,
+        // };
+
+        return request;
     }
 }

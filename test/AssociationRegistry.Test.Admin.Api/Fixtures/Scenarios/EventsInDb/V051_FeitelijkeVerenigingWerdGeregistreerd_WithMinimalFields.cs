@@ -20,15 +20,14 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
         /**
          * Hoofdletter ongevoelig → Vereniging = verEniging
          * Spatie ongevoelig
-         * leading spaces → Grote vereniging =  Grote vereniging
-         * trailing spaces → Grote vereniging = Grote vereniging
-         * dubbele spaces → Grote vereniging = Grote     vereniging
+         * Leading spaces → Grote vereniging =  Grote vereniging
+         * Trailing spaces → Grote vereniging = Grote vereniging
+         * Dubbele spaces → Grote vereniging = Grote     vereniging
          * Accent ongevoelig → Cafésport = Cafesport
-         * leesteken ongevoelig → Sint-Servaas = Sint Servaas
-         * functiewoorden weglaten → De pottestampers = Pottestampers
-         * de, het, van, … idealiter is deze lijst configureerbaar
-         * fuzzy search = kleine schrijfverschillen negeren. Deze zijn de elastic mogelijkheden:
-         * ander karakter gebruiken → Uitnodiging = Uitnodiding
+         * Leesteken ongevoelig → Sint-Servaas = Sint Servaas
+         * Functiewoorden weglaten → De pottestampers = Pottestampers - de, het, van, … idealiter is deze lijst configureerbaar
+         * Fuzzy search = kleine schrijfverschillen negeren. Deze zijn de elastic mogelijkheden:
+         * Ander karakter gebruiken → Uitnodiging = Uitnodiding
          * 1 karakter minder → Vereniging = Verenging
          * 1 karakter meer → Vereniging = Vereeniging
          * 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
@@ -58,7 +57,11 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
                     Adres = fixture.Create<Registratiedata.Adres>()
                         with
                         {
+                            Straatnaam = fixture.Create<string>(),
+                            Huisnummer = fixture.Create<string>(),
                             Postcode = "9832",
+                            Gemeente = fixture.Create<string>(),
+                            Land = fixture.Create<string>(),
                         },
                 },
             },
