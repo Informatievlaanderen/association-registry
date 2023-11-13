@@ -133,8 +133,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         V049AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
 
 
-    public readonly V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields
-        V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields = new();
+    public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
+        V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer = new();
 
     protected override async Task Given()
     {
@@ -184,7 +184,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
             V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
-            V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields,
+            V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer,
             V047AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
             V049AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
         };

@@ -6,17 +6,14 @@ using Events;
 using EventStore;
 using Framework;
 
-public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEventsInDbScenario
+public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer : IEventsInDbScenario
 {
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
     public IEvent[] Verenigingen { get; }
 
-    public V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields()
+    public V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = "V9990000";
-
         /**
          * Hoofdletter ongevoelig → Vereniging = verEniging
          * Spatie ongevoelig
@@ -36,10 +33,10 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
         Verenigingen = new[]
         {
             VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
-            VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging"),
-            VerenigingWerdGeregistreerd(fixture, naam: "Cafésport"),
-            VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas"),
-            VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers"),
+            // VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging", vCode: "V9999048"),
+            // VerenigingWerdGeregistreerd(fixture, naam: "Cafésport", vCode: "V9999049"),
+            // VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas", vCode: "V9999050"),
+            // VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers", vCode: "V9999051"),
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
@@ -73,7 +70,7 @@ public class V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields : IEve
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
         };
 
-    public string VCode { get; set; }
+    public string VCode { get; set; } = "V9999047";
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
