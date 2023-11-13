@@ -47,7 +47,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                Fuzziness
                                                                   .Auto) // Assumes this analyzer applies lowercase and asciifolding
                                                           .MinimumShouldMatch("90%") // You can adjust this percentage as needed
-                                                )))));
+                                                 )))));
                                       // .Filter(f => f
                                       //                        .Bool(fb => fb
                                       //                                   .Should( // Use should within a filter context for municipalities and postal codes

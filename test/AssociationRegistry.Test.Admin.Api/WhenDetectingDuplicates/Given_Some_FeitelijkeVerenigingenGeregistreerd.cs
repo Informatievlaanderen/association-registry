@@ -22,7 +22,7 @@ using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 [IntegrationTest]
 public class Given_Some_FeitelijkeVerenigingenGeregistreerd
 {
-    private readonly V051_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields _scenario;
+    private readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer _scenario;
     private readonly AdminApiClient _adminApiClient;
     private readonly IDuplicateVerenigingDetectionService _duplicateDetectionService;
     private readonly Fixture _fixture;
@@ -45,7 +45,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd
     public Given_Some_FeitelijkeVerenigingenGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _scenario = fixture.V051FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
+        _scenario = fixture.V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer;
         _adminApiClient = fixture.AdminApiClient;
         _duplicateDetectionService = fixture.ServiceProvider.GetRequiredService<IDuplicateVerenigingDetectionService>();
     }
