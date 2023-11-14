@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
+using Infrastructure.Extensions;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
@@ -35,7 +36,39 @@ public class PubliekVerenigingDetailProjection : EventProjection
     }
 
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
-        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+    {
+        var updateDocs = Enumerable.Empty<PubliekVerenigingDetailDocument>().ToList();
+        var vereniging = (await ops.LoadAsync<PubliekVerenigingDetailDocument>(@event.StreamKey!))!;
+
+        var gerelateerdeVerenigingen = ops.Query<PubliekVerenigingDetailDocument>()
+                                          .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == vereniging.VCode))
+                                          .ToList();
+
+        foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
+        {
+            gerelateerdeVereniging.Relaties = gerelateerdeVereniging.Relaties
+                                                                    .UpdateSingle(
+                                                                         identityFunc: relatie
+                                                                             => relatie.AndereVereniging.VCode == @event.Data.VCode,
+                                                                         update: r =>
+                                                                         {
+                                                                             r.AndereVereniging.Naam = @event.Data.Naam;
+
+                                                                             return r;
+                                                                         })
+                                                                    .ToArray();
+
+            PubliekVerenigingDetailProjector.UpdateMetadata(@event, gerelateerdeVereniging);
+            updateDocs.Add(gerelateerdeVereniging);
+        }
+
+
+        PubliekVerenigingDetailProjector.Apply(@event, vereniging);
+        PubliekVerenigingDetailProjector.UpdateMetadata(@event, vereniging);
+
+        updateDocs.Add(vereniging);
+        ops.StoreObjects(updateDocs);
+    }
 
     public async Task Project(IEvent<RoepnaamWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);

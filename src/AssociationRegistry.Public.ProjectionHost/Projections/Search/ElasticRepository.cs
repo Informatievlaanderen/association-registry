@@ -120,4 +120,56 @@ public class ElasticRepository : IElasticRepository
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);
     }
+
+    public async Task UpdateNaamInRelaties(VerenigingZoekDocument documentToUpdate)
+    {
+        var matches = _elasticClient.Search<VerenigingZoekDocument>(descriptor => descriptor.Query(
+                                                                        q => q
+                                                                           .Nested(n => n
+                                                                                       .Path(document => document.Relaties)
+                                                                                       .Query(nq => nq
+                                                                                           .Nested(n => n
+                                                                                               .Path(doc => doc.Relaties.First()
+                                                                                                   .AndereVereniging)
+                                                                                               .Query(nq2 => nq2
+                                                                                                   .Term(m => m
+                                                                                                       .Field(
+                                                                                                            doc => doc
+                                                                                                               .Relaties
+                                                                                                               .First()
+                                                                                                               .AndereVereniging
+                                                                                                               .VCode)
+                                                                                                       .Value(
+                                                                                                            documentToUpdate
+                                                                                                               .VCode)))))
+                                                                            )
+                                                                    ));
+
+        var response = await _elasticClient.UpdateByQueryAsync<VerenigingZoekDocument>(
+            u => u
+                .Query(
+                     q => q
+                        .Nested(n => n
+                                    .Path(document => document.Relaties)
+                                    .Query(nq => nq
+                                              .Nested(n => n
+                                                          .Path(doc => doc.Relaties.First().AndereVereniging)
+                                                          .Query(nq2 => nq2
+                                                                    .Term(m => m
+                                                                              .Field(doc => doc.Relaties.First().AndereVereniging.VCode)
+                                                                              .Value(documentToUpdate.VCode)))))
+                         )
+                 )
+                .Script(s => s
+                            .Source("for(r in ctx._source.relaties){" +
+                                    "   if(r.andereVereniging.vCode == params.gewijzigdeVereniging.vCode){" +
+                                    "       r.andereVereniging.naam = params.gewijzigdeVereniging.naam" +
+                                    "   }" +
+                                    "}")
+                            .Params(objects => objects.Add(key: "gewijzigdeVereniging", documentToUpdate)))
+        );
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
 }

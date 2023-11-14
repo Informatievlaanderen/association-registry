@@ -37,10 +37,10 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var updateDocs = Enumerable.Empty<BeheerVerenigingDetailDocument>().ToList();
-        var afdeling = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
+        var vereniging = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey!))!;
 
         var gerelateerdeVerenigingen = ops.Query<BeheerVerenigingDetailDocument>()
-                                          .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == afdeling.VCode))
+                                          .Where(d => d.Relaties.Any(r => r.AndereVereniging.VCode == vereniging.VCode))
                                           .ToList();
 
         foreach (var gerelateerdeVereniging in gerelateerdeVerenigingen)
@@ -61,9 +61,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
             updateDocs.Add(gerelateerdeVereniging);
         }
 
-        BeheerVerenigingDetailProjector.Apply(@event, afdeling);
-        BeheerVerenigingDetailProjector.UpdateMetadata(@event, afdeling);
-        updateDocs.Add(afdeling);
+        BeheerVerenigingDetailProjector.Apply(@event, vereniging);
+        BeheerVerenigingDetailProjector.UpdateMetadata(@event, vereniging);
+        updateDocs.Add(vereniging);
         ops.StoreObjects(updateDocs);
     }
 
