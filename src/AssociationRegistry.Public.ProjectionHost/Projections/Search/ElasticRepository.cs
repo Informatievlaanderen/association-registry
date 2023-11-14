@@ -1,7 +1,9 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
+using Elasticsearch.Net;
 using Nest;
 using Schema.Search;
+using Vereniging;
 
 public class ElasticRepository : IElasticRepository
 {
@@ -128,20 +130,20 @@ public class ElasticRepository : IElasticRepository
                                                                            .Nested(n => n
                                                                                        .Path(document => document.Relaties)
                                                                                        .Query(nq => nq
-                                                                                           .Nested(n => n
-                                                                                               .Path(doc => doc.Relaties.First()
-                                                                                                   .AndereVereniging)
-                                                                                               .Query(nq2 => nq2
-                                                                                                   .Term(m => m
-                                                                                                       .Field(
-                                                                                                            doc => doc
-                                                                                                               .Relaties
-                                                                                                               .First()
-                                                                                                               .AndereVereniging
-                                                                                                               .VCode)
-                                                                                                       .Value(
-                                                                                                            documentToUpdate
-                                                                                                               .VCode)))))
+                                                                                               .Nested(n => n
+                                                                                                       .Path(doc => doc.Relaties.First()
+                                                                                                               .AndereVereniging)
+                                                                                                       .Query(nq2 => nq2
+                                                                                                               .Term(m => m
+                                                                                                                       .Field(
+                                                                                                                            doc => doc
+                                                                                                                               .Relaties
+                                                                                                                               .First()
+                                                                                                                               .AndereVereniging
+                                                                                                                               .VCode)
+                                                                                                                       .Value(
+                                                                                                                            documentToUpdate
+                                                                                                                               .VCode)))))
                                                                             )
                                                                     ));
 
@@ -171,5 +173,43 @@ public class ElasticRepository : IElasticRepository
 
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
+    public async Task WijzigNaamAfdeling(string vCode, string nieuweNaam)
+    {
+        var afdeling = _elasticClient.Get<VerenigingZoekDocument>(vCode);
+
+        if (afdeling.Source.Type.Code == Verenigingstype.Afdeling.Code)
+        {
+            var bulkResponse = await _elasticClient.BulkAsync(b => b
+                                                                   // Update the Association's name and perform version check
+                                                                  .Update<VerenigingZoekDocument>(u => u
+                                                                          .Id(vCode)
+                                                                          .IfSequenceNumber(afdeling.SequenceNumber)
+                                                                      .IfPrimaryTerm(afdeling.PrimaryTerm)
+                                                                          .Doc(new VerenigingZoekDocument
+                                                                                   { Naam = nieuweNaam }))
+                                                                   // Update the Mother Association's relation's name and perform version check
+                                                                  .Update<VerenigingZoekDocument>(u => u
+                                                                          .Id(afdeling.Source.Relaties.First().AndereVereniging.VCode)
+                                                                          .ScriptedUpsert()
+                                                                          .Script(s => s
+                                                                                      .Source(
+                                                                                           "for (relatie in ctx._source.relaties) { if (relatie.andereVereniging.vCode == params.associationId) { relatie.andereVereniging.naam = params.newName; } }")
+                                                                                      .Params(p => p
+                                                                                              .Add(key: "newName", nieuweNaam)
+                                                                                              .Add(key: "associationId", vCode))))
+                                                                  .Refresh(Refresh.True));
+        }
+        else
+        {
+            await UpdateAsync(
+                vCode,
+                new VerenigingZoekDocument
+                {
+                    Naam = nieuweNaam,
+                }
+            );
+        }
     }
 }

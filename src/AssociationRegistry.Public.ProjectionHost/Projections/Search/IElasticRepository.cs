@@ -18,4 +18,5 @@ public interface IElasticRepository
     Task Remove(string id);
     Task AppendRelatie(string id, Relatie relatie);
     Task UpdateNaamInRelaties(VerenigingZoekDocument documentToUpdate);
+    Task WijzigNaamAfdeling(string vCode, string nieuweNaam);
 }
