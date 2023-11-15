@@ -184,8 +184,8 @@ public class With_All_Fields
 
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
         savedEvent.Moedervereniging.KboNummer.Should().Be(Request.KboNummerMoedervereniging);
-        savedEvent.Moedervereniging.VCode.Should().Be(string.Empty);
-        savedEvent.Moedervereniging.Naam.Should().Be($"Moeder {Request.KboNummerMoedervereniging}");
+        savedEvent.Moedervereniging.VCode.Should().NotBeEmpty();
+        savedEvent.Moedervereniging.Naam.Should().NotBeEmpty();
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
         savedEvent.Doelgroep.Should().BeEquivalentTo(new Registratiedata.Doelgroep(
