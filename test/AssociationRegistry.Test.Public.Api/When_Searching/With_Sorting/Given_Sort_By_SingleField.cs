@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
 using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -39,7 +40,7 @@ public class Given_Sort_By_SingleField
                           .ToList();
 
         names.Should().NotBeEmpty();
-        names.Should().BeInAscendingOrder();
+        names.Should().BeInAscendingOrder(new CaseSensitiveComparer());
         names.ForEach(_outputHelper.WriteLine);
     }
 
@@ -59,7 +60,7 @@ public class Given_Sort_By_SingleField
                           .ToList();
 
         names.Should().NotBeEmpty();
-        names.Should().BeInDescendingOrder();
+        names.Should().BeInDescendingOrder(new CaseSensitiveComparer());
         names.ForEach(_outputHelper.WriteLine);
     }
 }
