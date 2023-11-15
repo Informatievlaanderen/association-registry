@@ -1,3 +1,15 @@
+# [8.21.0](https://github.com/informatievlaanderen/association-registry/compare/v8.20.0...v8.21.0) (2023-11-15)
+
+
+### Bug Fixes
+
+* or-1952 fix faulty test ([cc8e76c](https://github.com/informatievlaanderen/association-registry/commit/cc8e76cb0dd497f0f7f4c693d28b657eef215950))
+
+
+### Features
+
+* or-1952 registratie Moedervereniging uit KBO when registratie afdeling ([600be4a](https://github.com/informatievlaanderen/association-registry/commit/600be4a5e6cc06466b9ff6a18a5e2b53998e99aa))
+
 # [8.20.0](https://github.com/informatievlaanderen/association-registry/compare/v8.19.0...v8.20.0) (2023-11-15)
 
 
