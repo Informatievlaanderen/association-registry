@@ -1,34 +1,32 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
-public sealed class When_RegistreerAfdeling_With_An_Existing_Moeder
+public sealed class When_RegistreerAfdeling_With_Moeder_Niet_Geregistreerd
 {
     public readonly RegistreerAfdelingRequest Request;
     public readonly HttpResponseMessage Response;
 
-    public When_RegistreerAfdeling_With_An_Existing_Moeder(EventsInDbScenariosFixture fixture)
+    public When_RegistreerAfdeling_With_Moeder_Niet_Geregistreerd(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         Request = new RegistreerAfdelingRequest
         {
             Naam = autoFixture.Create<string>(),
-            KboNummerMoedervereniging = fixture
-                                       .V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling
-                                       .VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
+            KboNummerMoedervereniging = "0407622110",
         };
 
         Response ??= fixture.DefaultClient.RegistreerAfdeling(GetJsonBody(Request)).GetAwaiter().GetResult();
@@ -44,20 +42,16 @@ public sealed class When_RegistreerAfdeling_With_An_Existing_Moeder
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_An_Existing_Moeder : IClassFixture<When_RegistreerAfdeling_With_An_Existing_Moeder>
+public class With_Moeder_Niet_Geregistreerd : IClassFixture<When_RegistreerAfdeling_With_Moeder_Niet_Geregistreerd>
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly RegistreerAfdelingRequest _request;
     private readonly HttpResponseMessage _response;
-    private readonly string _vCodeMoeder;
-    private readonly string _naamMoeder;
 
-    public With_An_Existing_Moeder(When_RegistreerAfdeling_With_An_Existing_Moeder setup, EventsInDbScenariosFixture fixture)
+    public With_Moeder_Niet_Geregistreerd(When_RegistreerAfdeling_With_Moeder_Niet_Geregistreerd setup, EventsInDbScenariosFixture fixture)
     {
         _request = setup.Request;
         _response = setup.Response;
-        _vCodeMoeder = fixture.V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling.VCode;
-        _naamMoeder = fixture.V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling.Naam;
         _fixture = fixture;
     }
 
@@ -67,24 +61,17 @@ public class With_An_Existing_Moeder : IClassFixture<When_RegistreerAfdeling_Wit
         using var session = _fixture.DocumentStore
                                     .LightweightSession();
 
+        var savedMoederEvent = session.Events
+                                      .QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                                      .Single(e => e.KboNummer == _request.KboNummerMoedervereniging);
+
         var savedEvent = session.Events
                                 .QueryRawEventDataOnly<AfdelingWerdGeregistreerd>()
                                 .Single(e => e.Naam == _request.Naam);
 
         savedEvent.Moedervereniging.KboNummer.Should().Be(_request.KboNummerMoedervereniging);
-        savedEvent.Moedervereniging.VCode.Should().Be(_vCodeMoeder);
-        savedEvent.Moedervereniging.Naam.Should().Be(_naamMoeder);
-    }
-
-    [Fact]
-    public void Then_it_does_not_save_an_extra_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_event()
-    {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
-
-        session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-               .Should()
-               .ContainSingle(e => e.KboNummer == _request.KboNummerMoedervereniging);
+        savedEvent.Moedervereniging.VCode.Should().Be(savedMoederEvent.VCode);
+        savedEvent.Moedervereniging.Naam.Should().Be(savedMoederEvent.Naam);
     }
 
     [Fact]
