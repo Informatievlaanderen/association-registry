@@ -1,3 +1,17 @@
+# [8.20.0](https://github.com/informatievlaanderen/association-registry/compare/v8.19.0...v8.20.0) (2023-11-15)
+
+
+### Bug Fixes
+
+* or-1759 compare case sensitive ([97cf254](https://github.com/informatievlaanderen/association-registry/commit/97cf254185c3a33f38b0bf97016674cf56e2d9b6))
+* or-1759 possible solution for naamswijziging afdeling ([2f57eff](https://github.com/informatievlaanderen/association-registry/commit/2f57eff507cb94b5c765c59e40c088c9efd7ac1a))
+
+
+### Features
+
+* or-1759 add naamwerdgewijzigd to publiek detail ([1a04da2](https://github.com/informatievlaanderen/association-registry/commit/1a04da2222c905935618ac5626e4d01fa7604ab0))
+* or-1759 remove redundant method ([a5ed8d8](https://github.com/informatievlaanderen/association-registry/commit/a5ed8d8ff5bc0df48a5a97022fc87ec507924568))
+
 # [8.19.0](https://github.com/informatievlaanderen/association-registry/compare/v8.18.0...v8.19.0) (2023-11-09)
 
 
