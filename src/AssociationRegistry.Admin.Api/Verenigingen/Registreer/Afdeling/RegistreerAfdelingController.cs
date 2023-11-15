@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 
 using Acties.RegistreerAfdeling;
+using Acties.RegistreerVerenigingUitKbo;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DuplicateVerenigingDetection;
@@ -87,15 +88,11 @@ public class RegistreerAfdelingController : ApiController
         var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
         Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
 
-        var command = request.ToCommand()
-            with
-            {
-                SkipDuplicateDetection = skipDuplicateDetection,
-            };
+        var registratieMoederResult = await RegistreerMoeder(
+            metadataProvider,
+            request.KboNummerMoedervereniging);
 
-        var metaData = metadataProvider.GetMetadata();
-        var envelope = new CommandEnvelope<RegistreerAfdelingCommand>(command, metaData);
-        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
+        var registratieResult = await RegistreerAfdeling(metadataProvider, request, skipDuplicateDetection);
 
         return registratieResult switch
         {
@@ -109,5 +106,36 @@ public class RegistreerAfdelingController : ApiController
 
             _ => throw new ArgumentOutOfRangeException(),
         };
+    }
+
+    private async Task<object> RegistreerMoeder(ICommandMetadataProvider metadataProvider,
+                                                string kboNummerMoedervereniging
+                                                )
+    {
+        var command = new RegistreerVerenigingUitKboCommand(KboNummer.Create(kboNummerMoedervereniging));
+        var metaData = metadataProvider.GetMetadata();
+        var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, metaData);
+        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
+
+        return registratieResult;
+
+    }
+
+    private async Task<Result> RegistreerAfdeling(
+        ICommandMetadataProvider metadataProvider,
+        RegistreerAfdelingRequest request,
+        bool skipDuplicateDetection)
+    {
+        var command = request.ToCommand()
+            with
+            {
+                SkipDuplicateDetection = skipDuplicateDetection,
+            };
+
+        var metaData = metadataProvider.GetMetadata();
+        var envelope = new CommandEnvelope<RegistreerAfdelingCommand>(command, metaData);
+        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
+
+        return registratieResult;
     }
 }

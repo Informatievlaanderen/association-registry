@@ -62,7 +62,6 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _magdaGeefVerenigingService.Invocations.Should().BeEmpty();
     }
 
-
     public Task DisposeAsync()
         => Task.CompletedTask;
 }
