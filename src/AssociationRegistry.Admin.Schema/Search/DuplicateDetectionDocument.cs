@@ -9,7 +9,7 @@ public record DuplicateDetectionDocument
     public string KorteNaam { get; set; } = null!;
     public string[] HoofdactiviteitVerenigingsloket { get; set; } = Array.Empty<string>();
 
-    public record Locatie
+    public record Locatie : ILocatie
     {
         public int LocatieId { get; init; }
         public string Locatietype { get; init; } = null!;

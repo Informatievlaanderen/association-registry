@@ -187,21 +187,21 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<LocatieWerdToegevoegd> message)
     {
-        await _elasticRepository.AppendLocatie(
+        await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
-        await _elasticRepository.UpdateLocatie(
+        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
     {
-        await _elasticRepository.RemoveLocatie(
+        await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
             message.VCode,
             message.Data.Locatie.LocatieId);
     }
@@ -227,14 +227,14 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
     {
-        await _elasticRepository.AppendLocatie(
+        await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
             Map(message.Data.Locatie));
     }
 
     public async Task Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message)
     {
-        await _elasticRepository.UpdateLocatie(
+        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
             new VerenigingZoekDocument.Locatie
             {

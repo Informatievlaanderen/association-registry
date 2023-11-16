@@ -31,16 +31,39 @@ public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDup
          * 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
          **/
 
+        var verenigingWerdGeregistreerdOmTeWijzigen = VerenigingWerdGeregistreerd(fixture, naam: "XXX van Technologïeënthusiasten: Inováçie & Ëntwikkeling", vCode: "V9999047",
+                                                                      postcode: "9832", gemeente: "Neder-over-opper-onder-heembeek");
+
+        var locatie = fixture.Create<Registratiedata.Locatie>();
+        var locatieTeVerwijderen = fixture.Create<Registratiedata.Locatie>();
+
+        verenigingWerdGeregistreerdOmTeWijzigen.Item2 =
+            verenigingWerdGeregistreerdOmTeWijzigen
+               .Item2
+               .Concat(new IEvent[]
+                {
+                    new NaamWerdGewijzigd("V9999047", "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
+                    new KorteNaamWerdGewijzigd("V9999047", "Korte Naam Test"),
+                    new HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
+                        HoofdactiviteitVerenigingsloket.All().Take(3).Select(Registratiedata.HoofdactiviteitVerenigingsloket.With)
+                                                       .ToArray()),
+                    new LocatieWerdToegevoegd(locatie),
+                    new LocatieWerdGewijzigd(locatie with { Naam = "Erembodegem"}),
+                    new LocatieWerdToegevoegd(locatieTeVerwijderen),
+
+                })
+               .ToArray();
+
         EventsPerVCode = new[]
         {
-            VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling", vCode: "V9999047",
-                                        postcode: "9832", gemeente: "Neder-over-opper-onder-heembeek"),
+            verenigingWerdGeregistreerdOmTeWijzigen,
             VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging", vCode: "V9999048", postcode: "9832",
                                         gemeente: "Neder-over-opper-onder-heembeek"),
             VerenigingWerdGeregistreerd(fixture, naam: "Cafésport", vCode: "V9999049", postcode: "8800", gemeente: "Rumbeke"),
             VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas", vCode: "V9999050", postcode: "8800", gemeente: "Roeselare"),
             VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers", vCode: "V9999051", postcode: "9830",
                                         gemeente: "Heist-op-den-Berg"),
+
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
