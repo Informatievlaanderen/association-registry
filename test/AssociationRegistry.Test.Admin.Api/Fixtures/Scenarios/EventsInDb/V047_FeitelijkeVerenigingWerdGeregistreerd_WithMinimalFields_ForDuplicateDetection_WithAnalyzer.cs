@@ -5,11 +5,12 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using Vereniging;
 
-public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer : IEventsInDbScenario
+public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
 {
     public readonly CommandMetadata Metadata;
-    public IEvent[] Verenigingen { get; }
+    public (VCode, IEvent[])[] EventsPerVCode { get; }
 
     public V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer()
     {
@@ -30,51 +31,53 @@ public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDup
          * 2 karakters van plaats wisselen → Pottestampers = Pottestapmers
          **/
 
-        Verenigingen = new[]
+        EventsPerVCode = new[]
         {
-            VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
-            // VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging", vCode: "V9999048"),
-            // VerenigingWerdGeregistreerd(fixture, naam: "Cafésport", vCode: "V9999049"),
-            // VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas", vCode: "V9999050"),
-            // VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers", vCode: "V9999051"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling", vCode: "V9999047",
+                                        postcode: "9832", gemeente: "Neder-over-opper-onder-heembeek"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Grote Vereniging", vCode: "V9999048", postcode: "9832",
+                                        gemeente: "Neder-over-opper-onder-heembeek"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Cafésport", vCode: "V9999049", postcode: "8800", gemeente: "Rumbeke"),
+            VerenigingWerdGeregistreerd(fixture, naam: "Sint-Servaas", vCode: "V9999050", postcode: "8800", gemeente: "Roeselare"),
+            VerenigingWerdGeregistreerd(fixture, naam: "De pottestampers", vCode: "V9999051", postcode: "9830",
+                                        gemeente: "Heist-op-den-Berg"),
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
-    private FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd(Fixture fixture, string naam)
-        => fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+    private (VCode, IEvent[]) VerenigingWerdGeregistreerd(Fixture fixture, string naam, string vCode, string postcode, string gemeente)
+        => (VCode.Create(vCode), new IEvent[]
         {
-            VCode = VCode,
-            Naam = naam,
-            Locaties = new[]
+            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
             {
-                fixture.Create<Registratiedata.Locatie>() with
+                VCode = vCode,
+                Naam = naam,
+                Locaties = new[]
                 {
-                    Adres = fixture.Create<Registratiedata.Adres>()
-                        with
-                        {
-                            Straatnaam = fixture.Create<string>(),
-                            Huisnummer = fixture.Create<string>(),
-                            Postcode = "9832",
-                            Gemeente = fixture.Create<string>(),
-                            Land = fixture.Create<string>(),
-                        },
+                    fixture.Create<Registratiedata.Locatie>() with
+                    {
+                        Adres = fixture.Create<Registratiedata.Adres>()
+                            with
+                            {
+                                Straatnaam = fixture.Create<string>(),
+                                Huisnummer = fixture.Create<string>(),
+                                Postcode = postcode,
+                                Gemeente = gemeente,
+                                Land = fixture.Create<string>(),
+                            },
+                    },
                 },
+                KorteNaam = string.Empty,
+                Startdatum = null,
+                KorteBeschrijving = string.Empty,
+                Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+                Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
             },
-            KorteNaam = string.Empty,
-            Startdatum = null,
-            KorteBeschrijving = string.Empty,
-            Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
-            Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-        };
+        });
 
-    public string VCode { get; set; } = "V9999047";
     public StreamActionResult Result { get; set; } = null!;
-
-    public IEvent[] GetEvents()
-        => Verenigingen;
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

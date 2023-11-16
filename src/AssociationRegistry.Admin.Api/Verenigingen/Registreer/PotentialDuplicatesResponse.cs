@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
+using DuplicateVerenigingDetection;
+using Infrastructure.ConfigurationBindings;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Runtime.Serialization;
-using DuplicateVerenigingDetection;
-using Infrastructure.ConfigurationBindings;
 
 [DataContract]
 public class PotentialDuplicatesResponse

@@ -5,32 +5,39 @@ using EventStore;
 using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
+using Vereniging;
 
-public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen : IEventsInDbScenario
+public class V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd MoederWerdGeregistreerd;
     public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
+    public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
-    public V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen()
+    public V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VCodeMoeder = "V9999047";
+        VCodeMoeder = "V9999054";
         NaamMoeder = "De coolste moeder";
+
+        VCode = "V9999050";
+        NaamAfdeling = "De coolste afdeling";
+
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCodeMoeder,
             Naam = NaamMoeder,
+            Rechtsvorm = "SVON"
         };
         KboNummerMoeder = MoederWerdGeregistreerd.KboNummer;
 
-        VCode = "V9999048";
         AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with
         {
             VCode = VCode,
             Moedervereniging = new AfdelingWerdGeregistreerd.MoederverenigingsData(KboNummerMoeder, VCodeMoeder, NaamMoeder),
             Locaties = Array.Empty<Registratiedata.Locatie>(),
+            Naam = "De minder coole afdeling",
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
@@ -38,12 +45,21 @@ public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen 
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
         };
+
+        NaamWerdGewijzigd = fixture.Create<NaamWerdGewijzigd>() with
+        {
+            VCode = VCode,
+            Naam = NaamAfdeling
+        };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string KboNummerMoeder { get; set; }
 
     public string NaamMoeder { get; set; }
+
+    public string NaamAfdeling { get; set; }
 
     public string VCodeMoeder { get; set; }
 
@@ -52,7 +68,7 @@ public class V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen 
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { MoederWerdGeregistreerd, AfdelingWerdGeregistreerd };
+            { MoederWerdGeregistreerd, AfdelingWerdGeregistreerd, NaamWerdGewijzigd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

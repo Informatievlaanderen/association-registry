@@ -18,12 +18,12 @@ using Xunit.Categories;
 public sealed class When_NaamGewijzigd_Setup
 {
     public WijzigBasisgegevensRequest Request { get; }
-    public V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen Scenario { get; }
+    public V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen Scenario { get; }
     public HttpResponseMessage Response { get; }
 
     public When_NaamGewijzigd_Setup(EventsInDbScenariosFixture fixture)
     {
-        Scenario = fixture.V047AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen;
+        Scenario = fixture.V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen;
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
