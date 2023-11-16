@@ -36,22 +36,10 @@
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="appsettings.kratos.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="appsettings.LAPTOP-10LRP5E7.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Remove="appsettings.json" />
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.laptop.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="appsettings.kratos.json">
+    <Content Update="appsettings.*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
