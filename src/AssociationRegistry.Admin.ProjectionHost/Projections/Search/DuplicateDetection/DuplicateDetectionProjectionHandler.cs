@@ -49,7 +49,8 @@ public class DuplicateDetectionProjectionHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
-                HoofdactiviteitVerenigingsloket = Array.Empty<string>(),            }
+                HoofdactiviteitVerenigingsloket = Array.Empty<string>(),
+            }
         );
 
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
@@ -58,9 +59,35 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 Naam = message.Data.Naam,
-                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
             }
         );
+
+    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.Data.VCode,
+            new DuplicateDetectionDocument
+            {
+                KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
+            }
+        );
+
+    public async Task Handle(EventEnvelope<LocatieWerdToegevoegd> message)
+        => await _elasticRepository.AppendLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie));
+
+    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie));
+
+    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.Locatie.LocatieId);
 
     private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()

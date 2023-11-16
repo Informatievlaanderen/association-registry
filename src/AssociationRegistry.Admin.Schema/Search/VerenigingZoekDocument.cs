@@ -14,7 +14,7 @@ public class VerenigingZoekDocument
     public Sleutel[] Sleutels { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
-    public class Locatie
+    public class Locatie : ILocatie
     {
         public int LocatieId { get; init; }
         public string Locatietype { get; init; } = null!;

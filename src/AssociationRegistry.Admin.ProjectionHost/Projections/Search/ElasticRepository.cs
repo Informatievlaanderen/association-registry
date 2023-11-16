@@ -50,9 +50,9 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    public async Task AppendLocatie<T>(string id, ILocatie locatie) where T : class
     {
-        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+        var response = await _elasticClient.UpdateAsync<T>(
             id,
             selector: u => u.Script(
                 s => s
@@ -64,9 +64,9 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task UpdateLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    public async Task UpdateLocatie<T>(string id, ILocatie locatie) where T : class
     {
-        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+        var response = await _elasticClient.UpdateAsync<T>(
             id,
             selector: u => u.Script(
                 s => s
@@ -89,9 +89,9 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task RemoveLocatie(string id, int locatieId)
+    public async Task RemoveLocatie<T>(string id, int locatieId) where T : class
     {
-        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+        var response = await _elasticClient.UpdateAsync<T>(
             id,
             selector: u => u.Script(
                 s => s
