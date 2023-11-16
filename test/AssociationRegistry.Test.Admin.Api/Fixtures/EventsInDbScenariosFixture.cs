@@ -126,11 +126,11 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum
         V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum = new();
 
-    public readonly V047_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
-        V047AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
+    public readonly V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
+        V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
 
-    public readonly V049_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
-        V049AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
+    public readonly V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
+        V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
 
 
     public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
@@ -184,14 +184,18 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
             V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
-            V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer,
-            V047AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
-            V049AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
+            V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
+            V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
         };
 
         foreach (var scenario in scenarios)
         {
             scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+        }
+
+        foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer.EventsPerVCode)
+        {
+            await AddEvents(vCode, events);
         }
     }
 }

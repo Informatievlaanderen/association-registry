@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateD
 using Events;
 using Formatters;
 using Schema.Search;
+using Vereniging;
 
 public class DuplicateDetectionProjectionHandler
 {
@@ -18,8 +19,11 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 VCode = message.Data.VCode,
+                VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
             }
         );
 
@@ -28,8 +32,11 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 VCode = message.Data.VCode,
+                VerenigingsTypeCode = Verenigingstype.Afdeling.Code,
                 Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
             }
         );
 
@@ -38,9 +45,11 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument
             {
                 VCode = message.Data.VCode,
+                VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                 Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
-            }
+                HoofdactiviteitVerenigingsloket = Array.Empty<string>(),            }
         );
 
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
@@ -64,4 +73,10 @@ public class DuplicateDetectionProjectionHandler
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
+
+    private static string[] MapHoofdactiviteitVerenigingsloket(
+        IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
+    {
+        return hoofdactiviteitenVerenigingsloket.Select(x => x.Code).ToArray();
+    }
 }

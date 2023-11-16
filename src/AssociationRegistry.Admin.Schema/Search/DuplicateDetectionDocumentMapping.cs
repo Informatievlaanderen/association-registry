@@ -17,6 +17,14 @@ public static class DuplicateDetectionDocumentMapping
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Naam)
                                                        .Analyzer(DuplicateAnalyzer))
+                             .Text(propertyDescriptor => propertyDescriptor
+                                      .Name(document => document.KorteNaam)
+                              )
+                             .Text(propertyDescriptor => propertyDescriptor
+                                      .Name(document => document.VerenigingsTypeCode)
+                              )
+                             .Text(propertyDescriptor => propertyDescriptor
+                                      .Name(document => document.HoofdactiviteitVerenigingsloket))
                              .Nested<DuplicateDetectionDocument.Locatie>(
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Locaties)
