@@ -18,17 +18,20 @@ public static class ElasticClientExtensions
             selector: c => c
                           .Settings(s => s
                                        .Analysis(a => a
-                                                     .Analyzers(ad => ad
-                                                                   .Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer, selector: ca
-                                                                               => ca
-                                                                                 .Tokenizer("standard")
-                                                                                 .Filters("lowercase", "asciifolding", "dutch_stop")
-                                                                    ))
-                                                     .TokenFilters(tf => tf
-                                                                      .Stop(name: "dutch_stop", selector: st => st
-                                                                               .StopWords("_dutch_") // Or provide your custom list
-                                                                       )
-                                                      )
-                                        ))
+                                                     .Analyzers(AddDuplicateDetectionAnalyzer)
+                                                     .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
+
+    private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
+        => tf.Stop(name: "dutch_stop", selector: st => st
+                      .StopWords("_dutch_") // Or provide your custom list
+        );
+
+    private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)
+        => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
+                     selector: ca
+                         => ca
+                           .Tokenizer("standard")
+                           .Filters("lowercase", "asciifolding", "dutch_stop")
+        );
 }
