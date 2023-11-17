@@ -1,3 +1,20 @@
+# [8.22.0](https://github.com/informatievlaanderen/association-registry/compare/v8.21.0...v8.22.0) (2023-11-17)
+
+
+### Bug Fixes
+
+* OR-1972 cleanup csproj files ([a99a3f9](https://github.com/informatievlaanderen/association-registry/commit/a99a3f922bf04124f6f1bf6592665f7a6b05383b))
+* OR-1972 make machine appsettings optional ([5574026](https://github.com/informatievlaanderen/association-registry/commit/5574026b78a214e73d5a2dff9e34c531bd2a07ae))
+
+
+### Features
+
+* or-1972 clean up, make separate location type ([f53fb5d](https://github.com/informatievlaanderen/association-registry/commit/f53fb5d07bb0d92a231d667453f369e6741ae3df))
+* or-1972 detect duplicates with foezie search ([30744f5](https://github.com/informatievlaanderen/association-registry/commit/30744f5afa73f41793d61943659ec2c462f52863))
+* or-1972 first try ([c0d5984](https://github.com/informatievlaanderen/association-registry/commit/c0d5984d2754fe32dc03956c223997263706dda1))
+* or-1972 fix scenario ([44634fd](https://github.com/informatievlaanderen/association-registry/commit/44634fd5ec9041d73a04af721b5b86e8dbeb5b0a))
+* or-1972 set up integration test ([34d65dc](https://github.com/informatievlaanderen/association-registry/commit/34d65dcd0de6823a9ab6f48ca6131dc849e79c7a))
+
 # [8.21.0](https://github.com/informatievlaanderen/association-registry/compare/v8.20.0...v8.21.0) (2023-11-15)
 
 
