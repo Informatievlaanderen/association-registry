@@ -45,7 +45,8 @@ public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDup
                     new NaamWerdGewijzigd("V9999047", "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
                     new KorteNaamWerdGewijzigd("V9999047", "Korte Naam Test"),
                     new HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-                        HoofdactiviteitVerenigingsloket.All().Take(3).Select(Registratiedata.HoofdactiviteitVerenigingsloket.With)
+                        HoofdactiviteitVerenigingsloket.All().Take(3)
+                                                       .Select(Registratiedata.HoofdactiviteitVerenigingsloket.With)
                                                        .ToArray()),
                     new LocatieWerdToegevoegd(locatie),
                     new LocatieWerdGewijzigd(locatie with { Naam = "Erembodegem"}),

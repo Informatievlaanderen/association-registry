@@ -106,7 +106,7 @@ public class DuplicateDetectionSetup
         var configuration = new ConfigurationBuilder()
                            .SetBasePath(rootDirectory)
                            .AddJsonFile("appsettings.json")
-                           .AddJsonFile($"appsettings.{Environment.MachineName.ToLower()}.json")
+                           .AddJsonFile($"appsettings.{Environment.MachineName.ToLower()}.json", optional: true)
                            .Build();
 
         var elasticSearchOptions = configuration.GetSection("ElasticClientOptions")
