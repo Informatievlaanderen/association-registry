@@ -1,3 +1,10 @@
+## [8.23.1](https://github.com/informatievlaanderen/association-registry/compare/v8.23.0...v8.23.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* update workflow for staging IK4 ([f973c34](https://github.com/informatievlaanderen/association-registry/commit/f973c349a6c8b8693ca791a02ea3095f1ea115c4))
+
 # [8.23.0](https://github.com/informatievlaanderen/association-registry/compare/v8.22.0...v8.23.0) (2023-11-20)
 
 
