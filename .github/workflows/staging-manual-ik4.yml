@@ -22,6 +22,12 @@ jobs:
             'adminprojections',
           ]
     steps:
+      - name: secrets
+        shell: bash
+        if: always()
+        run: |
+          echo Build API: ${{ secrets.VBR_AWS_BUILD_API }}
+          echo Status: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}
       - name: CD
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
