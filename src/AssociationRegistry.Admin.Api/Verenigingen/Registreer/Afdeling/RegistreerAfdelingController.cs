@@ -54,6 +54,8 @@ public class RegistreerAfdelingController : ApiController
     ///     Bij het registreren van de afdeling wordt een sequentie teruggegeven via de `VR-Sequence` header.
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de zonet geregistreerde afdeling
     ///     al is doorgestroomd naar deze endpoints.
+    ///
+    ///     Indien de moedervereniging nog niet in het verenigingsregister aanwezig is, zal deze automatisch geregistreerd worden door deze actie.
     /// </remarks>
     /// <param name="request">De gegevens van de te registreren afdeling</param>
     /// <param name="metadataProvider"></param>
