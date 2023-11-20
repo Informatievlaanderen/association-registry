@@ -1,3 +1,10 @@
+# [8.23.0](https://github.com/informatievlaanderen/association-registry/compare/v8.22.0...v8.23.0) (2023-11-20)
+
+
+### Features
+
+* or-1952 add docs for auto-register moedervereniging ([df45654](https://github.com/informatievlaanderen/association-registry/commit/df4565434222209f36615eb9d5256fa13f766783))
+
 # [8.22.0](https://github.com/informatievlaanderen/association-registry/compare/v8.21.0...v8.22.0) (2023-11-17)
 
 
