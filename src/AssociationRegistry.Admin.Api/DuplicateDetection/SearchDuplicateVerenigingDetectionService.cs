@@ -23,6 +23,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
     {
         var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
+        if (locatiesMetAdres.Length == 0) return Array.Empty<DuplicaatVereniging>();
+
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente).ToArray();
 
