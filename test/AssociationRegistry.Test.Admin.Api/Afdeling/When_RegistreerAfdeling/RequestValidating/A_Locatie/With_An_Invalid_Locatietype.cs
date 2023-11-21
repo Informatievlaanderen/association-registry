@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using Framework;
 using AutoFixture;
+using Fakes;
 using FluentValidation.TestHelper;
 using Vereniging;
 using Xunit;
@@ -16,7 +17,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
     [Fact]
     public void Has_validation_error__locatieType_moet_juiste_waarde_hebben()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Locaties = new[]

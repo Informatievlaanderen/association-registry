@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Registree
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -12,7 +13,7 @@ public class A_Doelgroep
     [Fact]
     public void Uses_DoelgroepValidator()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
 
         validator.ShouldHaveChildValidator(request => request.Doelgroep, typeof(DoelgroepRequestValidator));
     }

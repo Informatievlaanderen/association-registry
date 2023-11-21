@@ -6,8 +6,10 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Framework;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_An_Empty_Broncode : ValidatorTest
@@ -15,7 +17,7 @@ public class With_An_Empty_Broncode : ValidatorTest
     [Fact]
     public void Has_validation_error__broncode_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Broncode = string.Empty;
 

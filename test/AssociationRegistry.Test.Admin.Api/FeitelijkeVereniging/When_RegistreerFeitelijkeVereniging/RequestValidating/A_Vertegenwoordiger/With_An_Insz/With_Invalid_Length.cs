@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,7 +16,7 @@ public class With_Invalid_Length
     [InlineData("0123456")]
     public void Has_validation_error__insz_moet_11_cijfers_bevatten(string insz)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Vertegenwoordigers = new[]

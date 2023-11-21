@@ -7,8 +7,10 @@ using Framework;
 using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_A_Valid_Broncode : ValidatorTest
@@ -17,7 +19,7 @@ public class With_A_Valid_Broncode : ValidatorTest
     [InlineData("AR")]
     public void Has_no_validation_errors(string adresBroncode)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Broncode = Adresbron.Parse(adresBroncode);
         var result = validator.TestValidate(request);

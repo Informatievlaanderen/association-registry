@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using Framework;
 using FluentValidation.TestHelper;
 using Vereniging;
@@ -15,7 +16,7 @@ public class With_Two_Different_Locations : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,

@@ -17,7 +17,7 @@ public class With_A_Null_Request
     public With_A_Null_Request()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new RegistreerFeitelijkeVerenigingController(messageBusMock, new RegistreerFeitelijkeVerenigingRequestValidator(), new AppSettings());
+        _controller = new RegistreerFeitelijkeVerenigingController(messageBusMock, new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue)), new AppSettings());
     }
 
     [Fact]

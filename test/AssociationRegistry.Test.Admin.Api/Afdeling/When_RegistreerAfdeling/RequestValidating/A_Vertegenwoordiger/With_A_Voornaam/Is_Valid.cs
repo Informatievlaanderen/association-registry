@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -16,7 +17,7 @@ public class Is_Valid
     [InlineData("@#(!i i")]
     public void Has_no_validation_errors(string voornaam)
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Vertegenwoordigers = new []

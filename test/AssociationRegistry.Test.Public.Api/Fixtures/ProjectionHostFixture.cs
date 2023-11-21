@@ -41,6 +41,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<ProjectionHostFixture>(), GetConnectionString(_configurationRoot, RootDatabase))
                .GetAwaiter().GetResult();
 
+        DropDatabase();
         CreateDatabase();
 
         ProjectionHost = RunProjectionHost();

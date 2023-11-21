@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using Framework;
 using FluentValidation.TestHelper;
 using Vereniging;
@@ -13,7 +14,7 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
     [Fact]
     public void Has_validation_error__niet_meer_dan_1_corresporentie_locatie()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Locaties = new[]

@@ -213,6 +213,7 @@ public class With_All_Fields
     [Fact]
     public void Then_it_returns_an_accepted_response()
     {
+        var response = Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 

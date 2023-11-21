@@ -125,7 +125,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
         var request1 = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = naam,
-            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            Startdatum = null,
             KorteNaam = "",
             KorteBeschrijving = "",
             Locaties = new[]

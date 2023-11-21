@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -15,7 +16,7 @@ public class Without_Letter
     [InlineData("@#(!")]
     public void Has_validation_error__Voornaam_moet_minstens_een_letter_bevatten(string voornaam)
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Vertegenwoordigers = new []
