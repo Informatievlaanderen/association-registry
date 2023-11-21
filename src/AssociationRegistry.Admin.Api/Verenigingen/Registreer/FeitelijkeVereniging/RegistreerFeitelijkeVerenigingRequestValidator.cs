@@ -6,12 +6,18 @@ using System.Linq;
 using Infrastructure.Validation;
 using Common;
 using FluentValidation;
+using Framework;
 using RequetsModels;
+using System;
+using Vereniging.Exceptions;
 
 public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<RegistreerFeitelijkeVerenigingRequest>
 {
-    public RegistreerFeitelijkeVerenigingRequestValidator()
+    private readonly IClock _clock;
+
+    public RegistreerFeitelijkeVerenigingRequestValidator(IClock clock)
     {
+        _clock = clock;
         this.RequireNotNullOrEmpty(request => request.Naam);
 
         RuleFor(request => request.Locaties)
@@ -30,6 +36,11 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
             .Must(NotHaveDuplicates)
             .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 
+        RuleFor(request => request.Startdatum)
+           .Must(BeTodayOrBefore)
+           .When(r => r.Startdatum is not null)
+           .WithMessage(new StartdatumMagNietInToekomstZijn().Message);
+
         RuleFor(request => request.Doelgroep)
             .SetValidator(new DoelgroepRequestValidator()!)
             .When(r => r.Doelgroep is not null);
@@ -43,6 +54,9 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
         RuleForEach(request => request.Vertegenwoordigers)
             .SetValidator(new ToeTeVoegenVertegenwoordigerValidator());
     }
+
+    private bool BeTodayOrBefore(DateOnly? date)
+        => _clock.Today >= date;
 
     private static bool NotHaveDuplicates(string[] values)
         => values.Length == values.DistinctBy(v => v.ToLower()).Count();

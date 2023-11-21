@@ -3,12 +3,13 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_An_Invalid_Locatietype : ValidatorTest
@@ -16,7 +17,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
     [Fact]
     public void Has_validation_error__locatieType_moet_juiste_waarde_hebben()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]

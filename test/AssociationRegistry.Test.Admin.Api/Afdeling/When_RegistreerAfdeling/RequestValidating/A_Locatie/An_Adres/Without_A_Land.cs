@@ -3,11 +3,12 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class Without_A_Land : ValidatorTest
@@ -15,7 +16,7 @@ public class Without_A_Land : ValidatorTest
     [Fact]
     public void Has_validation_error__land_is_verplicht()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Locaties = new[]

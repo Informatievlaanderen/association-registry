@@ -6,8 +6,10 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_A_Null_Bronwaarde : ValidatorTest
@@ -15,7 +17,7 @@ public class With_A_Null_Bronwaarde : ValidatorTest
     [Fact]
     public void Has_validation_error__bronwaarde_mag_niet_null_zijn()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Bronwaarde = null!;
 

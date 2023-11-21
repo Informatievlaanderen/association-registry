@@ -2,10 +2,11 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class Has_Duplicates : ValidatorTest
@@ -16,7 +17,7 @@ public class Has_Duplicates : ValidatorTest
     [InlineData("BLABLAbla", "BlAbLaBlA")]
     public void Has_a_validation_error_for_hoofdactiviteitenLijst(string hoofdactivitetiCode1, string hoofdactivitetiCode2)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             HoofdactiviteitenVerenigingsloket = new[] { hoofdactivitetiCode1, hoofdactivitetiCode2 },

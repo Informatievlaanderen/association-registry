@@ -3,11 +3,12 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_Two_Different_Locations : ValidatorTest
@@ -15,7 +16,7 @@ public class With_Two_Different_Locations : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,

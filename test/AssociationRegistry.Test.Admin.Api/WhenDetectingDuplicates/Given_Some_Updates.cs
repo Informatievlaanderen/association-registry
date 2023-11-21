@@ -61,7 +61,7 @@ public class Given_Some_Updates
         return new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = naam,
-            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            Startdatum = null,
             KorteNaam = "",
             KorteBeschrijving = "",
             Locaties = new[]

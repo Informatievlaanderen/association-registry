@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -15,7 +16,7 @@ public class With_Numbers
     [InlineData("@#(!i i2")]
     public void Has_validation_error__Achternaam_mag_geen_cijfers_bevatten(string achternaam)
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Vertegenwoordigers = new []

@@ -98,7 +98,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
         return new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = @event.Naam,
-            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            Startdatum = null,
             KorteNaam = "",
             KorteBeschrijving = "",
             Locaties = new[]

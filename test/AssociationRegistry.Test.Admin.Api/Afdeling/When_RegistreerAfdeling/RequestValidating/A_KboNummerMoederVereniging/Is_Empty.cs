@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -13,7 +14,7 @@ public class Is_Empty : ValidatorTest
     [Fact]
     public void Has_validation_error__KboNummerMoedervereniging_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var result = validator.TestValidate(new RegistreerAfdelingRequest { KboNummerMoedervereniging = "" });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.KboNummerMoedervereniging)

@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -13,7 +14,7 @@ public class Is_Empty
     [Fact]
     public void Has_validation_error__Achternaam_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new RegistreerAfdelingRequest
         {
             Vertegenwoordigers = new[]

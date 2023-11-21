@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using Framework;
 using AutoFixture;
+using Fakes;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
@@ -15,7 +16,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     [Fact]
     public void Has_no_validation_error_for_locatie_0_With_Only_Adres()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
         request.Locaties[0].Adres = new Adres();
         request.Locaties[0].AdresId = null;
@@ -28,7 +29,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     [Fact]
     public void Has_no_validation_error_for_locatie_0_With_Only_AdresId()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
         request.Locaties[0].Adres = null;
         request.Locaties[0].AdresId = new AdresId();
@@ -41,7 +42,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     [Fact]
     public void Has_no_validation_error_for_locatie_0_With_Both()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
         request.Locaties[0].Adres = new Adres();
         request.Locaties[0].AdresId = new AdresId();
@@ -54,7 +55,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     [Fact]
     public void Has_validation_error_for_locatie_0_With_Neither()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerAfdelingRequest>();
         request.Locaties[0].Adres = null;
         request.Locaties[0].AdresId = null;

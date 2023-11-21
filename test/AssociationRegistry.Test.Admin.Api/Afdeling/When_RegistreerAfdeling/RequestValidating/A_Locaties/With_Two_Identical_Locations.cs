@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using Fakes;
 using Framework;
 using Framework.Helpers;
 using FluentValidation.TestHelper;
@@ -16,7 +17,7 @@ public class With_Two_Identical_Locations : ValidatorTest
     [Fact]
     public void Has_validation_error__idenitiek_locaties_verboden()
     {
-        var validator = new RegistreerAfdelingRequestValidator();
+        var validator = new RegistreerAfdelingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var identiekLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
