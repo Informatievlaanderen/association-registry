@@ -1,3 +1,10 @@
+## [8.23.2](https://github.com/informatievlaanderen/association-registry/compare/v8.23.1...v8.23.2) (2023-11-22)
+
+
+### Bug Fixes
+
+* added output for staging ik4 ([30c15ad](https://github.com/informatievlaanderen/association-registry/commit/30c15adfed167296096d348847cdb63e56482db9))
+
 ## [8.23.1](https://github.com/informatievlaanderen/association-registry/compare/v8.23.0...v8.23.1) (2023-11-20)
 
 
