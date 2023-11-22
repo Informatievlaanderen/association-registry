@@ -1,3 +1,11 @@
+# [8.24.0](https://github.com/informatievlaanderen/association-registry/compare/v8.23.2...v8.24.0) (2023-11-22)
+
+
+### Features
+
+* or-1972 do not try to find duplicates if no adres is given ([6f65928](https://github.com/informatievlaanderen/association-registry/commit/6f65928a2bdf471e175c7aa58e58c323c33be27a))
+* or-1972 validate startdatum before dupplicate check ([e7c9bc5](https://github.com/informatievlaanderen/association-registry/commit/e7c9bc5804fcaa15e31b9eb700e895f87e2632b3))
+
 ## [8.23.2](https://github.com/informatievlaanderen/association-registry/compare/v8.23.1...v8.23.2) (2023-11-22)
 
 
