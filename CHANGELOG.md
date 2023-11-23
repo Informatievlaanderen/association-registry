@@ -1,3 +1,10 @@
+## [8.24.1](https://github.com/informatievlaanderen/association-registry/compare/v8.24.0...v8.24.1) (2023-11-23)
+
+
+### Bug Fixes
+
+* OR-1972 update elastic search for duplicates ([8342130](https://github.com/informatievlaanderen/association-registry/commit/8342130815c918120218de035a2680ad8ebb3687))
+
 # [8.24.0](https://github.com/informatievlaanderen/association-registry/compare/v8.23.2...v8.24.0) (2023-11-22)
 
 
