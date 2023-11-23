@@ -23,24 +23,32 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
     {
         var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
+
         if (locatiesMetAdres.Length == 0) return Array.Empty<DuplicaatVereniging>();
 
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente).ToArray();
 
+        _client.Indices.Refresh(new RefreshRequest());
+
         var searchResponse =
             await _client
                .SearchAsync<DuplicateDetectionDocument>(
-                    s => s.Query(
-                        q => q.Bool(
-                            b => b.Must(must => must.Match(m => FuzzyMatchOpNaam(m, f => f.Naam, naam)))
-                                  .Filter(f => f.Bool(
-                                              fb => fb.Should(MatchGemeente(gemeentes),
-                                                              MatchPostcode(postcodes))
-                                                      .MinimumShouldMatch(1))))));
+                    s => s
+                        .Size(50)
+                        .Query(
+                             q => q.Bool(
+                                 b => b.Must(must => must
+                                                .Match(m => FuzzyMatchOpNaam(m, path: f => f.Naam, naam))
+                                        )
+                                       .Filter(f => f.Bool(
+                                                   fb => fb.Should(
+                                                                MatchGemeente(gemeentes),
+                                                                MatchPostcode(postcodes)
+                                                            )
+                                                           .MinimumShouldMatch(1))))));
 
-        return searchResponse.Documents.Select(ToDuplicateVereniging)
-                             .ToArray();
+        return searchResponse.Documents.Select(ToDuplicateVereniging).ToArray();
     }
 
     private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchPostcode(string[] postcodes)
@@ -67,9 +75,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                        .Query(nq => nq
                                  .Match(m =>
                                             FuzzyMatchOpNaam(m,
-                                                             f => f.Locaties
-                                                                   .First()
-                                                                   .Gemeente, string.Join(
+                                                             path: f => f.Locaties
+                                                                         .First()
+                                                                         .Gemeente, string.Join(
                                                                  separator: " ",
                                                                  gemeentes))
                                   )
@@ -81,15 +89,12 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         MatchQueryDescriptor<DuplicateDetectionDocument> m,
         Expression<Func<DuplicateDetectionDocument, string>> path,
         string query)
-    {
-        return m
-              .Field(path)
-              .Query(query)
-              .Analyzer(DuplicateDetectionDocumentMapping
-                           .DuplicateAnalyzer)
-              .Fuzziness(Fuzziness.Auto) // Assumes this analyzer applies lowercase and asciifolding
-              .MinimumShouldMatch("90%");
-    }
+        => m
+          .Field(path)
+          .Query(query)
+          .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
+          .Fuzziness(Fuzziness.Auto) // Assumes this analyzer applies lowercase and asciifolding
+          .MinimumShouldMatch("70%");
 
     private static DuplicaatVereniging ToDuplicateVereniging(DuplicateDetectionDocument document)
         => new(
