@@ -16,11 +16,11 @@ using Xunit.Categories;
 public class Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_AndThen_NaamWerdGewijzigd
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd _scenario;
+    private readonly V055_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd _scenario;
 
     public Given_MoederWerdGeregistreerd_And_Then_AfdelingWerdGeregistreerd_AndThen_NaamWerdGewijzigd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd;
+        _scenario = fixture.V055AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd;
         _adminApiClient = fixture.DefaultClient;
     }
 

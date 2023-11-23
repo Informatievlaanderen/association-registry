@@ -7,21 +7,21 @@ using Framework;
 using AutoFixture;
 using Vereniging;
 
-public class V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd : IEventsInDbScenario
+public class V055_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd MoederWerdGeregistreerd;
     public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly CommandMetadata Metadata;
 
-    public V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd()
+    public V055_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VCodeMoeder = "V9999054";
+        VCodeMoeder = "V9999055";
         NaamMoeder = "De coolste moeder";
 
-        VCode = "V9999050";
+        VCode = "V9999056";
         NaamAfdeling = "De coolste afdeling";
 
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with

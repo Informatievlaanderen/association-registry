@@ -89,6 +89,9 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
         => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.Locatie.LocatieId);
 
+    public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
+        => await _elasticRepository.Remove<DuplicateDetectionDocument>(message.VCode);
+
     private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
         {

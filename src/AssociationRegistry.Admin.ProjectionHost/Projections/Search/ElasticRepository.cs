@@ -102,4 +102,12 @@ public class ElasticRepository : IElasticRepository
             // todo: log ? (should never happen in test/staging/production)
             throw new IndexDocumentFailed(response.DebugInformation);
     }
+
+    public async Task Remove<T>(string id) where T : class
+    {
+        var response =await _elasticClient.DeleteAsync<T>(id);
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
 }

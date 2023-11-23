@@ -126,11 +126,11 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum
         V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum = new();
 
-    public readonly V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
-        V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
+    public readonly V053_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
+        V053AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
 
-    public readonly V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
-        V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
+    public readonly V055_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
+        V055AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
 
 
     public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
@@ -184,8 +184,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
             V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
-            V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
-            V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
+            V053AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
+            V055AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
         };
 
         foreach (var scenario in scenarios)

@@ -6,17 +6,17 @@ using AssociationRegistry.Framework;
 using Framework;
 using AutoFixture;
 
-public class V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen : IEventsInDbScenario
+public class V053_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd MoederWerdGeregistreerd;
     public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
 
-    public V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen()
+    public V053_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        VCodeMoeder = "V9999052";
+        VCodeMoeder = "V9999053";
         NaamMoeder = "De coolste moeder";
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
@@ -25,7 +25,7 @@ public class V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen 
         };
         KboNummerMoeder = MoederWerdGeregistreerd.KboNummer;
 
-        VCode = "V9999053";
+        VCode = "V9999054";
         AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with
         {
             VCode = VCode,
