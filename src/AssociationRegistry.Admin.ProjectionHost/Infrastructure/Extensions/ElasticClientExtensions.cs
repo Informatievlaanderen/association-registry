@@ -31,7 +31,7 @@ public static class ElasticClientExtensions
         => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
                      selector: ca
                          => ca
-                           .Tokenizer("standard")
-                           .Filters("lowercase", "asciifolding", "dutch_stop")
+                           .Tokenizer("lowercase")
+                           .Filters("asciifolding", "dutch_stop")
         );
 }
