@@ -62,7 +62,7 @@ public class BeheerVerenigingDetailMapper
     private static Relatie Map(BeheerVerenigingDetailDocument.Relatie relatie, string baseUrl)
         => new()
         {
-            Type = relatie.Type,
+            Relatietype = relatie.Relatietype,
             AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
         };
 

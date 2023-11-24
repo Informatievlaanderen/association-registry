@@ -37,8 +37,8 @@
         "bron": "{{contactgegeven.bron}}"
       },
 {{end}}
-    ],
-    "hoofdactiviteitenVerenigingsloket": [
+],
+"hoofdactiviteitenVerenigingsloket": [
 {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
       {
         "code": "{{hoofdactiviteit.code}}",
@@ -113,7 +113,7 @@
     "relaties": [
 {{for relatie in vereniging.relaties}}
       {
-        "type": "{{relatie.type}}",
+        "relatietype": "{{relatie.relatietype}}",
         "andereVereniging": {
           "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
           "vCode": "{{relatie.anderevereniging.vcode}}",

@@ -58,7 +58,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Relatie
                         {
-                            Type = RelatieType.IsAfdelingVan.Beschrijving,
+                            Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
                             AndereVereniging = new Relatie.GerelateerdeVereniging
                             {
                                 KboNummer = "0123456789",
@@ -124,7 +124,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Relatie
                         {
-                            Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                            Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
                             AndereVereniging = new Relatie.GerelateerdeVereniging
                             {
                                 KboNummer = "",

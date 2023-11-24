@@ -6,16 +6,14 @@ using System.Runtime.Serialization;
 public class Relatie
 {
     /// <summary>
-    /// Het type relatie
+    ///     Het type relatie
     /// </summary>
-    [DataMember(Name = "Type")]
-    public string Type { get; set; } = null!;
+    [DataMember(Name = "Relatietype")]
+    public string Relatietype { get; set; } = null!;
 
     /// <summary>
-    /// de gerelateerde vereniging
+    ///     de gerelateerde vereniging
     /// </summary>
     [DataMember(Name = "AndereVereniging")]
     public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
-
-
 }

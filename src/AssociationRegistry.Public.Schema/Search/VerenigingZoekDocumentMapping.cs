@@ -24,7 +24,7 @@ public static class VerenigingZoekDocumentMapping
                                                    .WithKeyword())
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Status))
+                                 .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
@@ -154,7 +154,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Type))
+                      .Name(document => document.Relatietype))
               .Nested<GerelateerdeVereniging>(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.AndereVereniging)

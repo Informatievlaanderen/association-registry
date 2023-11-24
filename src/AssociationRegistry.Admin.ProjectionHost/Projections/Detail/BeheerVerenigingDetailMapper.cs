@@ -104,7 +104,7 @@ public class BeheerVerenigingDetailMapper
         AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
         => new()
         {
-            Type = RelatieType.IsAfdelingVan.Beschrijving,
+            Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
             AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
             {
                 KboNummer = moederverenigingsData.KboNummer,

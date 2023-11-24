@@ -46,7 +46,7 @@
       "relaties": [
       {{for relatie in vereniging.relaties}}
         {
-          "type": "{{relatie.type}}",
+          "relatietype": "{{relatie.relatietype}}",
           "andereVereniging": {
             "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
             "vCode": "{{relatie.anderevereniging.vcode}}",

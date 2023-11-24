@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Constants;
 using Infrastructure.ConfigurationBindings;
 using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Relatie = ResponseModels.Relatie;
 
 public class SearchVerenigingenResponseMapper
@@ -29,8 +29,8 @@ public class SearchVerenigingenResponseMapper
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
-                .Select(x => Map(x.Source, _appSettings))
-                .ToArray(),
+                                         .Select(x => Map(x.Source, _appSettings))
+                                         .ToArray(),
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
@@ -51,16 +51,16 @@ public class SearchVerenigingenResponseMapper
             KorteNaam = verenigingZoekDocument.KorteNaam,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                .Select(Map)
-                .ToArray(),
+                                                                      .Select(Map)
+                                                                      .ToArray(),
             Locaties = verenigingZoekDocument.Locaties
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
             Sleutels = verenigingZoekDocument.Sleutels
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
             Relaties = verenigingZoekDocument.Relaties
-                                             .Select(r=>Map(appSettings, r))
+                                             .Select(r => Map(appSettings, r))
                                              .ToArray(),
             Links = Map(verenigingZoekDocument.VCode, appSettings),
         };
@@ -103,12 +103,12 @@ public class SearchVerenigingenResponseMapper
         string[] hoofdactiviteiten)
     {
         return searchResponse.Aggregations
-            .Filter(WellknownFacets.GlobalAggregateName)
-            .Filter(WellknownFacets.FilterAggregateName)
-            .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-            .Buckets
-            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-            .ToArray();
+                             .Filter(WellknownFacets.GlobalAggregateName)
+                             .Filter(WellknownFacets.FilterAggregateName)
+                             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+                             .Buckets
+                             .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
+                             .ToArray();
     }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
@@ -128,7 +128,11 @@ public class SearchVerenigingenResponseMapper
         };
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
+    public static string AddHoofdactiviteitToQuery(
+        AppSettings appSettings,
+        string hoofdactiviteitenVerenigingsloketCode,
+        string originalQuery,
+        string[] hoofdactiviteiten)
         => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
@@ -147,7 +151,6 @@ public class SearchVerenigingenResponseMapper
             Gemeente = loc.Gemeente,
         };
 
-
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
         {
@@ -155,10 +158,10 @@ public class SearchVerenigingenResponseMapper
             Waarde = s.Waarde,
         };
 
-    private static Relatie Map(AppSettings appSettings, AssociationRegistry.Public.Schema.Search.Relatie r)
+    private static Relatie Map(AppSettings appSettings, Schema.Search.Relatie r)
         => new()
         {
-            Type = r.Type,
+            Relatietype = r.Relatietype,
             AndereVereniging = new Relatie.GerelateerdeVereniging
             {
                 KboNummer = r.AndereVereniging.KboNummer,

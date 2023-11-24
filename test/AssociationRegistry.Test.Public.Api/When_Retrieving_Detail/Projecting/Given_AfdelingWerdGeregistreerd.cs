@@ -94,7 +94,7 @@ public class Given_AfdelingWerdGeregistreerd
                 {
                     new PubliekVerenigingDetailDocument.Relatie
                     {
-                        Type = RelatieType.IsAfdelingVan.Beschrijving, AndereVereniging =
+                        Relatietype = Relatietype.IsAfdelingVan.Beschrijving, AndereVereniging =
                             new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                             {
                                 KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,

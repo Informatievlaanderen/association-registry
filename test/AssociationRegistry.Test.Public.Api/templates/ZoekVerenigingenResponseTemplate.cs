@@ -1,16 +1,16 @@
 namespace AssociationRegistry.Test.Public.Api.templates;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Formatters;
-using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
+using Events;
+using Formatters;
 using Scriban;
 using System.Dynamic;
+using Test.Framework;
+using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate
 {
-    private readonly List<object> _verenigingen = new();
     private readonly List<dynamic> _facets = new();
+    private readonly List<object> _verenigingen = new();
     private object _pagination = new { };
     private string _query = string.Empty;
 
@@ -62,10 +62,23 @@ public class ZoekVerenigingenResponseTemplate
     public static implicit operator string(ZoekVerenigingenResponseTemplate source)
         => source.Build();
 
+    private void UpdateFacet(string code)
+    {
+        var maybeFacet = _facets.SingleOrDefault(f => f.code == code);
+
+        if (maybeFacet is not null) _facets.Remove(maybeFacet);
+
+        _facets.Add(new
+        {
+            code = code,
+            count = (maybeFacet?.count ?? 0) + 1,
+        });
+    }
+
     public class VerenigingTemplate
     {
-        private readonly ZoekVerenigingenResponseTemplate _zoekVerenigingenResponseTemplate;
         private readonly dynamic _vereniging;
+        private readonly ZoekVerenigingenResponseTemplate _zoekVerenigingenResponseTemplate;
 
         public VerenigingTemplate(ZoekVerenigingenResponseTemplate zoekVerenigingenResponseTemplate)
         {
@@ -179,7 +192,7 @@ public class ZoekVerenigingenResponseTemplate
         {
             _vereniging.relaties.Add(new
             {
-                type = RelatieType.IsAfdelingVan.Beschrijving,
+                relatietype = Relatietype.IsAfdelingVan.Beschrijving,
                 anderevereniging = new
                 {
                     kbonummer = kboNummer,
@@ -195,7 +208,7 @@ public class ZoekVerenigingenResponseTemplate
         {
             _vereniging.relaties.Add(new
             {
-                type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
                 anderevereniging = new
                 {
                     kbonummer = string.Empty,
@@ -216,10 +229,14 @@ public class ZoekVerenigingenResponseTemplate
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+            {
                 template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
 
             foreach (var l in e.Locaties)
+            {
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
+            }
 
             return template;
         }
@@ -234,10 +251,14 @@ public class ZoekVerenigingenResponseTemplate
                           .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+            {
                 template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
 
             foreach (var l in e.Locaties)
+            {
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
+            }
 
             return template;
         }
@@ -256,18 +277,5 @@ public class ZoekVerenigingenResponseTemplate
 
         internal object ToObject()
             => _vereniging;
-    }
-
-    private void UpdateFacet(string code)
-    {
-        var maybeFacet = _facets.SingleOrDefault(f => f.code == code);
-
-        if (maybeFacet is not null) _facets.Remove(maybeFacet);
-
-        _facets.Add(new
-        {
-            code = code,
-            count = (maybeFacet?.count ?? 0) + 1,
-        });
     }
 }
