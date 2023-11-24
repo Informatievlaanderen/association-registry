@@ -33,7 +33,7 @@ public class Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging: IAsyncLife
         DocumentStore = _fixture.DocumentStore;
 
         var contactgegeven = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.First();
-        WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(contactgegeven.Type).Waarde;
+        WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(contactgegeven.Contactgegeventype).Waarde;
         _jsonBody = $@"{{
             ""contactgegeven"":
                 {{
@@ -76,7 +76,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Contactgeg
             .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdGewijzigd));
 
         contactgegevenWerdAangepast.Data.Should()
-            .BeEquivalentTo(new ContactgegevenWerdGewijzigd(_classFixture.AanTePassenContactGegeven.ContactgegevenId, _classFixture.AanTePassenContactGegeven.Type, _classFixture.WaardeVolgensType, "algemeen", false));
+            .BeEquivalentTo(new ContactgegevenWerdGewijzigd(_classFixture.AanTePassenContactGegeven.ContactgegevenId, _classFixture.AanTePassenContactGegeven.Contactgegeventype, _classFixture.WaardeVolgensType, "algemeen", false));
     }
 
     [Fact]

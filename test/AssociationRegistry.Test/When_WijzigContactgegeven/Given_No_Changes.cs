@@ -55,7 +55,7 @@ public class Given_No_Changes
                 {
                     new VerenigingState()
                         .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-                        .Apply(new ContactgegevenWerdToegevoegd(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Beschrijving, contactgegeven.IsPrimair)),
+                        .Apply(new ContactgegevenWerdToegevoegd(contactgegeven.ContactgegevenId, contactgegeven.Contactgegeventype, contactgegeven.Waarde, contactgegeven.Beschrijving, contactgegeven.IsPrimair)),
                     gewijzigdeLocatie,
                 },
             };

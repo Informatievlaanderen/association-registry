@@ -60,7 +60,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Delete_An_Existing_Con
                     _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .ContactgegevenId,
                     _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
-                        .Type,
+                        .Contactgegeventype,
                     _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                         .Waarde,
                     _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]

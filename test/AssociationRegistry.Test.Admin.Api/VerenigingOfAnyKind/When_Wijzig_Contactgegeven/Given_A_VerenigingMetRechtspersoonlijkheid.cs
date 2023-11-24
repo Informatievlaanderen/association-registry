@@ -31,7 +31,7 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
         Scenario = fixture.V036VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithMinimalFieldsForWijzigenContactgegeven;
         DocumentStore = _fixture.DocumentStore;
 
-        WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(Scenario.ContactgegevenWerdToegevoegd.Type).Waarde;
+        WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype).Waarde;
         _jsonBody = $@"{{
             ""contactgegeven"":
                 {{
@@ -73,7 +73,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_
             .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdGewijzigd));
 
         contactgegevenWerdAangepast.Data.Should()
-            .BeEquivalentTo(new ContactgegevenWerdGewijzigd(_classFixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _classFixture.Scenario.ContactgegevenWerdToegevoegd.Type, _classFixture.WaardeVolgensType, "algemeen", false));
+            .BeEquivalentTo(new ContactgegevenWerdGewijzigd(_classFixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _classFixture.Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype, _classFixture.WaardeVolgensType, "algemeen", false));
     }
 
     [Fact]

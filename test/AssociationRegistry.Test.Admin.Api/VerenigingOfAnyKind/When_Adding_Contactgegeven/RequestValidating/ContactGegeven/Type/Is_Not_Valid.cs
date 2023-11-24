@@ -18,11 +18,11 @@ public class Is_Not_Valid : ValidatorTest
             {
                 Contactgegeven = new ToeTeVoegenContactgegeven
                 {
-                    Type = "iemeel",
+                    Contactgegeventype = "iemeel",
                 },
             });
 
-        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Type))
+        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
             .WithErrorMessage($"De waarde 'iemeel' is geen gekend contactgegeven type.")
             .Only();
     }

@@ -18,12 +18,12 @@ public class Is_Empty : ValidatorTest
             {
                 Contactgegeven = new ToeTeVoegenContactgegeven
                 {
-                    Type = "",
+                    Contactgegeventype = "",
                 },
             });
 
-        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Type))
-            .WithErrorMessage("'Type' mag niet leeg zijn.")
+        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
+            .WithErrorMessage("'Contactgegeventype' mag niet leeg zijn.")
             .Only();
     }
 }

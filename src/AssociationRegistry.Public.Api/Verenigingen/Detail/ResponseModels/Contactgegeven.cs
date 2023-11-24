@@ -6,8 +6,8 @@ using System.Runtime.Serialization;
 public class Contactgegeven
 {
     /// <summary>Het type contactgegeven</summary>
-    [DataMember(Name = "type")]
-    public string Type { get; init; } = null!;
+    [DataMember(Name = "contactgegeventype")]
+    public string Contactgegeventype { get; init; } = null!;
 
     /// <summary>De waarde van het contactgegeven</summary>
     [DataMember(Name = "waarde")]

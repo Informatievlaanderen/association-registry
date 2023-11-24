@@ -260,7 +260,7 @@ public class DetailVerenigingResponseTemplate
             template.WithHoofdactiviteit(h.Code, h.Naam);
 
         foreach (var c in e.Contactgegevens)
-            template.WithContactgegeven(c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+            template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
 
         foreach (var l in e.Locaties)
             WithLocatie(l);
@@ -283,7 +283,7 @@ public class DetailVerenigingResponseTemplate
             template.WithHoofdactiviteit(h.Code, h.Naam);
 
         foreach (var c in e.Contactgegevens)
-            template.WithContactgegeven(c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+            template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
 
         foreach (var l in e.Locaties)
             WithLocatie(l);
@@ -345,7 +345,7 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.contactgegevens.Add(new
         {
-            type = type,
+            contactgegeventype = type,
             waarde = waarde,
             beschrijving = beschrijving,
             isprimair = isPrimair,

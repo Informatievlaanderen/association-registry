@@ -63,7 +63,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            Type = "E-mail",
+                            Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
                             ContactgegevenId = 1,
@@ -164,7 +164,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            Type = "E-mail",
+                            Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
                             ContactgegevenId = 1,
@@ -173,7 +173,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                         new Contactgegeven
                         {
-                            Type = ContactgegevenType.SocialMedia,
+                            Contactgegeventype = Contactgegeventype.SocialMedia,
                             Beschrijving = "BlubBlub",
                             Waarde = "blubblub.com/vissen",
                             ContactgegevenId = 2,

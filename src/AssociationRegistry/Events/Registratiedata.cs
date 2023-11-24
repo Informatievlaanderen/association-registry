@@ -4,7 +4,7 @@ public static class Registratiedata
 {
     public record Contactgegeven(
         int ContactgegevenId,
-        string Type,
+        string Contactgegeventype,
         string Waarde,
         string Beschrijving,
         bool IsPrimair)
@@ -12,7 +12,7 @@ public static class Registratiedata
         public static Contactgegeven With(Vereniging.Contactgegeven contactgegeven)
             => new(
                 contactgegeven.ContactgegevenId,
-                contactgegeven.Type,
+                contactgegeven.Contactgegeventype,
                 contactgegeven.Waarde,
                 contactgegeven.Beschrijving,
                 contactgegeven.IsPrimair);

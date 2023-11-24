@@ -8,7 +8,7 @@ public record ContactgegevenWerdVerwijderd(int ContactgegevenId, string Type, st
     public static ContactgegevenWerdVerwijderd With(Contactgegeven contactgegeven)
         => new(
             contactgegeven.ContactgegevenId,
-            contactgegeven.Type,
+            contactgegeven.Contactgegeventype,
             contactgegeven.Waarde,
             contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);

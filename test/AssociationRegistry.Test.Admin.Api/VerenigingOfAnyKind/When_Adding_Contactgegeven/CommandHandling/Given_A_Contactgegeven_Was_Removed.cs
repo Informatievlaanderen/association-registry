@@ -1,22 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
 using Acties.VoegContactgegevenToe;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 public class Given_A_Contactgegeven_Was_Removed
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario _scenario;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Contactgegeven_Was_Removed()
     {
@@ -36,7 +36,8 @@ public class Given_A_Contactgegeven_Was_Removed
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(2, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
+            new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
+                                             command.Contactgegeven.Beschrijving, IsPrimair: false)
         );
     }
 }

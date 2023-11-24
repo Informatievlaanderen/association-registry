@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
 using Acties.VoegContactgegevenToe;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,23 +27,24 @@ public class Given_A_NietPrimair_Contactgegeven
         var fixture = new Fixture().CustomizeAdminApi();
 
         var commandHandler = new VoegContactgegevenToeCommandHandler(verenigingRepositoryMock);
+
         var command = new VoegContactgegevenToeCommand(
             scenario.VCode,
             Contactgegeven.Create(
                 type,
                 waarde,
                 fixture.Create<string>(),
-                false));
+                isPrimair: false));
 
         await commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, fixture.Create<CommandMetadata>()));
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdToegevoegd(
                 scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Max(c => c.ContactgegevenId) + 1,
-                command.Contactgegeven.Type,
+                command.Contactgegeven.Contactgegeventype,
                 command.Contactgegeven.Waarde,
                 command.Contactgegeven.Beschrijving,
-                false)
+                IsPrimair: false)
         );
     }
 }

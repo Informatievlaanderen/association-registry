@@ -22,7 +22,7 @@
     "contactgegevens": [
 {{for contactgegeven in vereniging.contactgegevens}}
       {
-        "type": "{{contactgegeven.type}}",
+        "contactgegeventype": "{{contactgegeven.contactgegeventype}}",
         "waarde": "{{contactgegeven.waarde}}",
         "beschrijving": "{{contactgegeven.beschrijving}}",
         "isPrimair": {{contactgegeven.isprimair}}

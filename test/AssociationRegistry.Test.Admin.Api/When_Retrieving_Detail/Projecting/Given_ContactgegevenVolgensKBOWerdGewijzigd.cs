@@ -39,7 +39,7 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                 Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
+                Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Bron = Bron.KBO,
             });

@@ -51,7 +51,7 @@ public class Given_AfdelingWerdGeregistreerd
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {
                         ContactgegevenId = c.ContactgegevenId,
-                        Type = c.Type.ToString(),
+                        Contactgegeventype = c.Contactgegeventype.ToString(),
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,

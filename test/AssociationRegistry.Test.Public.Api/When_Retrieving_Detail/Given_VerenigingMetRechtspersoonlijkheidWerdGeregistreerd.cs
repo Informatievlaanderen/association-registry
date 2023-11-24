@@ -37,11 +37,11 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .WithContactgegeven(_scenario.EmailWerdOvergenomenUitKBO.Type, _scenario.EmailWerdOvergenomenUitKBO.Waarde,
+                          .WithContactgegeven(_scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype, _scenario.EmailWerdOvergenomenUitKBO.Waarde,
                                               _scenario.EmailWerdGewijzigd.Beschrijving, _scenario.EmailWerdGewijzigd.IsPrimair)
-                          .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.Type, _scenario.WebsiteWerdOvergenomenUitKBO.Waarde)
-                          .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.Type, _scenario.TelefoonWerdOvergenomenUitKBO.Waarde)
-                          .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.Type, _scenario.GSMWerdOvergenomenUitKBO.Waarde)
+                          .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype, _scenario.WebsiteWerdOvergenomenUitKBO.Waarde)
+                          .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype, _scenario.TelefoonWerdOvergenomenUitKBO.Waarde)
+                          .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype, _scenario.GSMWerdOvergenomenUitKBO.Waarde)
                           .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
                                        _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
                                        _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),

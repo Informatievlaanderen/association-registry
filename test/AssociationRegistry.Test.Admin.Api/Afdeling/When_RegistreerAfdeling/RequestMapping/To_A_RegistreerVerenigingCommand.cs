@@ -76,7 +76,7 @@ public class To_A_RegistreerAfdelingCommand
     {
         contactgegevens[0].Should().BeEquivalentTo(
             Contactgegeven.CreateFromInitiator(
-                ContactgegevenType.Parse(request.Contactgegevens[0].Type),
+                Contactgegeventype.Parse(request.Contactgegevens[0].Contactgegeventype),
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Beschrijving,
                 request.Contactgegevens[0].IsPrimair));

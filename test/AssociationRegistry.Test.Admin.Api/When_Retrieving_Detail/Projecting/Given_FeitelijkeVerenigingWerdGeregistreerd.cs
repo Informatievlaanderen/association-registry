@@ -17,6 +17,7 @@ using Xunit;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Schema.Detail.Adres;
 using AdresId = AssociationRegistry.Admin.Schema.Detail.AdresId;
+using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -42,7 +43,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
@@ -53,7 +54,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     c => new BeheerVerenigingDetailDocument.Contactgegeven
                     {
                         ContactgegevenId = c.ContactgegevenId,
-                        Type = c.Type.ToString(),
+                        Contactgegeventype = c.Contactgegeventype.ToString(),
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,

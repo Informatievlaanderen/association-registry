@@ -9,16 +9,15 @@ using Vereniging;
 
 public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data : IEventsInDbScenario
 {
-    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
-    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
-    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO;
-    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO;
-    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
-    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
-    public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
     public readonly ContactgegevenUitKBOWerdGewijzigd EmailWerdGewijzigd;
-
+    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO;
+    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO;
+    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
     public readonly CommandMetadata Metadata;
+    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO;
+    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
+    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO;
 
     public V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data()
     {
@@ -43,32 +42,37 @@ public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
                 Naam = string.Empty,
                 IsPrimair = false,
                 Adres = new Registratiedata.Adres(
-                    "Stationsstraat",
-                    "1",
-                    "B",
-                    "1790",
-                    "Affligem",
-                    "België"),
+                    Straatnaam: "Stationsstraat",
+                    Huisnummer: "1",
+                    Busnummer: "B",
+                    Postcode: "1790",
+                    Gemeente: "Affligem",
+                    Land: "België"),
                 AdresId = null,
             });
 
         EmailWerdOvergenomenUitKBO =
-            new ContactgegevenWerdOvergenomenUitKBO(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email,
-                                                    "email@testdata.com");
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 1, Contactgegeventype.Email.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Email,
+                                                    Waarde: "email@testdata.com");
 
         WebsiteWerdOvergenomenUitKBO =
-            new ContactgegevenWerdOvergenomenUitKBO(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website,
-                                                    "https://www.testdata.com");
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 2, Contactgegeventype.Website.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Website,
+                                                    Waarde: "https://www.testdata.com");
 
         TelefoonWerdOvergenomenUitKBO =
-            new ContactgegevenWerdOvergenomenUitKBO(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon,
-                                                    "0123456789");
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 3, Contactgegeventype.Telefoon.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Telefoon,
+                                                    Waarde: "0123456789");
 
-        GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
+        GSMWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 4, Contactgegeventype.Telefoon.Waarde,
+                                                                           ContactgegeventypeVolgensKbo.GSM, Waarde: "0987654321");
 
-        VertegenwoordigerWerdOvergenomenUitKBO = new VertegenwoordigerWerdOvergenomenUitKBO(1, "0123456789", "Jhon", "Doo");
+        VertegenwoordigerWerdOvergenomenUitKBO =
+            new VertegenwoordigerWerdOvergenomenUitKBO(VertegenwoordigerId: 1, Insz: "0123456789", Voornaam: "Jhon", Achternaam: "Doo");
 
-        EmailWerdGewijzigd = new ContactgegevenUitKBOWerdGewijzigd(1, "TestEmail", true);
+        EmailWerdGewijzigd = new ContactgegevenUitKBOWerdGewijzigd(ContactgegevenId: 1, Beschrijving: "TestEmail", IsPrimair: true);
 
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

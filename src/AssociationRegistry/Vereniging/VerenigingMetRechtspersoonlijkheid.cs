@@ -10,6 +10,22 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 {
     private static Verenigingstype[] _allowedTypes;
 
+    public void Hydrate(VerenigingState obj)
+    {
+        _allowedTypes = new[]
+        {
+            Verenigingstype.VZW,
+            Verenigingstype.IVZW,
+            Verenigingstype.PrivateStichting,
+            Verenigingstype.StichtingVanOpenbaarNut,
+        };
+
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
+            !_allowedTypes.Contains(obj.Verenigingstype));
+
+        State = obj;
+    }
+
     public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
@@ -27,10 +43,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (verenigingVolgensKbo.Contactgegevens is not null) // TODO: question: is this only for test purposes?
         {
-            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
-            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
-            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
-            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegeventypeVolgensKbo.Telefoon);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
         }
 
         vereniging.VoegVertegenwoordigersToe(verenigingVolgensKbo.Vertegenwoordigers);
@@ -113,16 +129,16 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
     }
 
-    private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
+    private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
         AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
     }
 
-    private void VoegFoutiefContactgegevenToe(ContactgegevenTypeVolgensKbo type, string waarde)
+    private void VoegFoutiefContactgegevenToe(ContactgegeventypeVolgensKbo type, string waarde)
     {
-        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
+        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.Contactgegeventype.Waarde, type.Waarde, waarde));
     }
 
     private void VoegFoutieveMaatschappelijkeZetelToe(AdresVolgensKbo adres)
@@ -130,7 +146,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
     }
 
-    private void VoegContactgegevenToe(string? waarde, ContactgegevenTypeVolgensKbo type)
+    private void VoegContactgegevenToe(string? waarde, ContactgegeventypeVolgensKbo type)
     {
         if (waarde is null) return;
 
@@ -172,21 +188,5 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         }
 
         VoegMaatschappelijkeZetelToe(adres);
-    }
-
-    public void Hydrate(VerenigingState obj)
-    {
-        _allowedTypes = new[]
-        {
-            Verenigingstype.VZW,
-            Verenigingstype.IVZW,
-            Verenigingstype.PrivateStichting,
-            Verenigingstype.StichtingVanOpenbaarNut,
-        };
-
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
-            !_allowedTypes.Contains(obj.Verenigingstype));
-
-        State = obj;
     }
 }

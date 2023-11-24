@@ -45,7 +45,7 @@ public class Given_ContactgegevenWerdToegevoegd
 
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-                          .WithContactgegeven(_scenario.ContactgegevenWerdToegevoegd.Type,
+                          .WithContactgegeven(_scenario.ContactgegevenWerdToegevoegd.Contactgegeventype,
                                               _scenario.ContactgegevenWerdToegevoegd.Waarde,
                                               _scenario.ContactgegevenWerdToegevoegd.Beschrijving,
                                               _scenario.ContactgegevenWerdToegevoegd.IsPrimair)

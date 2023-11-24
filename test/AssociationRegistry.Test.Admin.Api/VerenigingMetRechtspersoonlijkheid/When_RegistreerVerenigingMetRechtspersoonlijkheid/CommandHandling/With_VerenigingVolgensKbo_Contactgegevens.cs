@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -26,7 +27,6 @@ public class With_VerenigingVolgensKbo_Contactgegevens
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
         _verenigingVolgensKbo.Contactgegevens = fixture.Create<ContactgegevensVolgensKbo>();
@@ -41,9 +41,9 @@ public class With_VerenigingVolgensKbo_Contactgegevens
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -58,27 +58,27 @@ public class With_VerenigingVolgensKbo_Contactgegevens
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.Startdatum),
             new ContactgegevenWerdOvergenomenUitKBO(
-                1,
-                ContactgegevenType.Email.Waarde,
-                ContactgegevenTypeVolgensKbo.Email,
+                ContactgegevenId: 1,
+                Contactgegeventype.Email.Waarde,
+                ContactgegeventypeVolgensKbo.Email,
                 _verenigingVolgensKbo.Contactgegevens.Email!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                2,
-                ContactgegevenType.Website.Waarde,
-                ContactgegevenTypeVolgensKbo.Website,
+                ContactgegevenId: 2,
+                Contactgegeventype.Website.Waarde,
+                ContactgegeventypeVolgensKbo.Website,
                 _verenigingVolgensKbo.Contactgegevens.Website!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                3,
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.Telefoon,
+                ContactgegevenId: 3,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.Telefoon,
                 _verenigingVolgensKbo.Contactgegevens.Telefoonnummer!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                4,
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.GSM,
+                ContactgegevenId: 4,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.GSM,
                 _verenigingVolgensKbo.Contactgegevens.GSM!
             )
         );
@@ -100,9 +100,9 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+
         _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
             Email = null,
@@ -121,9 +121,9 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]

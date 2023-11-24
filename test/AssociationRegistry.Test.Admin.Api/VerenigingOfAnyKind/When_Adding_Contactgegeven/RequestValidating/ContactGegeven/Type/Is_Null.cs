@@ -18,12 +18,12 @@ public class Is_Null : ValidatorTest
             {
                 Contactgegeven = new ToeTeVoegenContactgegeven
                     {
-                        Type = null!,
+                        Contactgegeventype = null!,
                     },
             });
 
-        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Type))
-            .WithErrorMessage("'Type' is verplicht.")
+        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
+            .WithErrorMessage("'Contactgegeventype' is verplicht.")
             .Only();
     }
 }
