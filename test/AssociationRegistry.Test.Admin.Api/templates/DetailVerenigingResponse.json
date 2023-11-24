@@ -37,14 +37,14 @@
         "bron": "{{contactgegeven.bron}}"
       },
 {{end}}
-],
-"hoofdactiviteitenVerenigingsloket": [
+    ],
+    "hoofdactiviteitenVerenigingsloket": [
 {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
       {
         "code": "{{hoofdactiviteit.code}}",
-        "naam": "{{hoofdactiviteit.naam}}"
-      },
-{{end}}
+        "naam": "{{hoofdactiviteit.naam
+      }}"
+      },{{end}}
     ],
     "doelgroep": {
       "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},

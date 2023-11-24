@@ -8,8 +8,8 @@ public class Relatie
     /// <summary>
     /// Het type relatie
     /// </summary>
-    [DataMember(Name = "Type")]
-    public string Type { get; set; } = null!;
+    [DataMember(Name = "relatietype")]
+    public string Relatietype { get; set; } = null!;
 
     /// <summary>
     /// de gerelateerde vereniging
