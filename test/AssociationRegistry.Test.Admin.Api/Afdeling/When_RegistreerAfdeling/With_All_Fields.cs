@@ -1,23 +1,24 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 public sealed class When_RegistreerAfdeling_WithAllFields
@@ -29,6 +30,7 @@ public sealed class When_RegistreerAfdeling_WithAllFields
     private When_RegistreerAfdeling_WithAllFields(AdminApiFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
+
         Request = new RegistreerAfdelingRequest
         {
             Naam = autoFixture.Create<string>(),
@@ -45,7 +47,7 @@ public sealed class When_RegistreerAfdeling_WithAllFields
             {
                 new()
                 {
-                    Type = ContactgegevenType.Email,
+                    Type = Contactgegeventype.Email,
                     Waarde = "random@example.org",
                     Beschrijving = "Algemeen",
                     IsPrimair = false,
@@ -56,7 +58,7 @@ public sealed class When_RegistreerAfdeling_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Kantoor",
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "dorpstraat",
                         Huisnummer = "69",
@@ -76,7 +78,7 @@ public sealed class When_RegistreerAfdeling_WithAllFields
                         Broncode = "AR",
                         Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
                     },
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "dorpelstraat",
                         Huisnummer = "169",
@@ -140,18 +142,19 @@ public sealed class When_RegistreerAfdeling_WithAllFields
 
     private string GetJsonBody(RegistreerAfdelingRequest request)
         => GetType()
-            .GetAssociatedResourceJson("files.request.with_all_fields")
-            .Replace("{{vereniging.naam}}", request.Naam)
-            .Replace("{{vereniging.kboNummerMoedervereniging}}", request.KboNummerMoedervereniging)
-            .Replace("{{vereniging.korteNaam}}", request.KorteNaam)
-            .Replace("{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
-            .Replace("{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
-            .Replace("{{vereniging.doelgroep.minimumleeftijd}}", request.Doelgroep!.Minimumleeftijd.ToString())
-            .Replace("{{vereniging.doelgroep.maximumleeftijd}}", request.Doelgroep!.Maximumleeftijd.ToString())
-            .Replace("{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
-            .Replace("{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
-            .Replace("{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
-            .Replace("{{vereniging.hoofdactiviteitenLijst}}", JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsloket));
+          .GetAssociatedResourceJson("files.request.with_all_fields")
+          .Replace(oldValue: "{{vereniging.naam}}", request.Naam)
+          .Replace(oldValue: "{{vereniging.kboNummerMoedervereniging}}", request.KboNummerMoedervereniging)
+          .Replace(oldValue: "{{vereniging.korteNaam}}", request.KorteNaam)
+          .Replace(oldValue: "{{vereniging.korteBeschrijving}}", request.KorteBeschrijving)
+          .Replace(oldValue: "{{vereniging.startdatum}}", request.Startdatum!.Value.ToString(WellknownFormats.DateOnly))
+          .Replace(oldValue: "{{vereniging.doelgroep.minimumleeftijd}}", request.Doelgroep!.Minimumleeftijd.ToString())
+          .Replace(oldValue: "{{vereniging.doelgroep.maximumleeftijd}}", request.Doelgroep!.Maximumleeftijd.ToString())
+          .Replace(oldValue: "{{vereniging.contactgegevens}}", JsonConvert.SerializeObject(request.Contactgegevens))
+          .Replace(oldValue: "{{vereniging.locaties}}", JsonConvert.SerializeObject(request.Locaties))
+          .Replace(oldValue: "{{vereniging.vertegenwoordigers}}", JsonConvert.SerializeObject(request.Vertegenwoordigers))
+          .Replace(oldValue: "{{vereniging.hoofdactiviteitenLijst}}",
+                   JsonConvert.SerializeObject(request.HoofdactiviteitenVerenigingsloket));
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -176,11 +179,11 @@ public class With_All_Fields
     public void Then_it_saves_the_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                    .LightweightSession();
 
         var savedEvent = session.Events
-            .QueryRawEventDataOnly<AfdelingWerdGeregistreerd>()
-            .Single(e => e.Naam == Request.Naam);
+                                .QueryRawEventDataOnly<AfdelingWerdGeregistreerd>()
+                                .Single(e => e.Naam == Request.Naam);
 
         savedEvent.KorteNaam.Should().Be(Request.KorteNaam);
         savedEvent.Moedervereniging.KboNummer.Should().Be(Request.KboNummerMoedervereniging);
@@ -188,25 +191,34 @@ public class With_All_Fields
         savedEvent.Moedervereniging.Naam.Should().NotBeEmpty();
         savedEvent.KorteBeschrijving.Should().Be(Request.KorteBeschrijving);
         savedEvent.Startdatum.Should().Be(Request.Startdatum!.Value);
+
         savedEvent.Doelgroep.Should().BeEquivalentTo(new Registratiedata.Doelgroep(
-            Request.Doelgroep!.Minimumleeftijd!.Value,
-            Request.Doelgroep.Maximumleeftijd!.Value));
+                                                         Request.Doelgroep!.Minimumleeftijd!.Value,
+                                                         Request.Doelgroep.Maximumleeftijd!.Value));
+
         savedEvent.Contactgegevens.Should().HaveCount(expected: 1);
-        savedEvent.Contactgegevens[0].Should().BeEquivalentTo(Request.Contactgegevens[0], options => options.ComparingEnumsByName());
+
+        savedEvent.Contactgegevens[0].Should()
+                  .BeEquivalentTo(Request.Contactgegevens[0], config: options => options.ComparingEnumsByName());
+
         savedEvent.Locaties.Should().HaveCount(expected: 3);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Locaties[1].Should().BeEquivalentTo(Request.Locaties[1]);
         savedEvent.Locaties[2].Should().BeEquivalentTo(Request.Locaties[2]);
         savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
         savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
-        savedEvent.Vertegenwoordigers.Should().BeEquivalentTo(Request.Vertegenwoordigers, options => options.ComparingEnumsByName());
+
+        savedEvent.Vertegenwoordigers.Should()
+                  .BeEquivalentTo(Request.Vertegenwoordigers, config: options => options.ComparingEnumsByName());
+
         savedEvent.Vertegenwoordigers.ForEach(x => x.VertegenwoordigerId.Should().BePositive());
         savedEvent.Vertegenwoordigers.Select(x => x.VertegenwoordigerId).ToList().Should().OnlyHaveUniqueItems();
+
         savedEvent.HoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(
             new[]
             {
-                new Registratiedata.HoofdactiviteitVerenigingsloket("BIAG", "Burgerinitiatief & Actiegroep"),
-                new Registratiedata.HoofdactiviteitVerenigingsloket("BWWC", "Buurtwerking & Wijkcomité"),
+                new Registratiedata.HoofdactiviteitVerenigingsloket(Code: "BIAG", Beschrijving: "Burgerinitiatief & Actiegroep"),
+                new Registratiedata.HoofdactiviteitVerenigingsloket(Code: "BWWC", Beschrijving: "Buurtwerking & Wijkcomité"),
             });
     }
 
@@ -221,8 +233,9 @@ public class With_All_Fields
     public void Then_it_returns_a_location_header()
     {
         Response.Headers.Should().ContainKey(HeaderNames.Location);
+
         Response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

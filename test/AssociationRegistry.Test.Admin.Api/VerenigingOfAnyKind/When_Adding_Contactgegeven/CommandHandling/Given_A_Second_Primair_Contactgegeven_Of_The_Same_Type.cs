@@ -2,13 +2,13 @@
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,15 +35,16 @@ public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             Contactgegeven.Create(
-                ContactgegevenType.Labels.Email,
-                "test2@example.org",
+                Contactgegeventype.Labels.Email,
+                waarde: "test2@example.org",
                 _fixture.Create<string?>(),
-                true));
+                isPrimair: true));
 
-        var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handleCall = async ()
+            => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         await handleCall.Should()
-            .ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>()
-            .WithMessage(new MeerderePrimaireContactgegevensZijnNietToegestaan(ContactgegevenType.Email.ToString()).Message);
+                        .ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>()
+                        .WithMessage(new MeerderePrimaireContactgegevensZijnNietToegestaan(Contactgegeventype.Email.ToString()).Message);
     }
 }

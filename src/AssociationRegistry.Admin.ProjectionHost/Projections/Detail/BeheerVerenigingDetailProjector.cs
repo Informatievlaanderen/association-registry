@@ -154,7 +154,6 @@ public class BeheerVerenigingDetailProjector
             Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
         };
-
     }
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
@@ -163,7 +162,7 @@ public class BeheerVerenigingDetailProjector
                                                 new BeheerVerenigingDetailDocument.Contactgegeven
                                                 {
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Type,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                                                     Bron = contactgegevenWerdToegevoegd.Data.Bron,
@@ -171,7 +170,6 @@ public class BeheerVerenigingDetailProjector
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
     }
 
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -179,7 +177,7 @@ public class BeheerVerenigingDetailProjector
         document.Contactgegevens = document.Contactgegevens
                                            .UpdateSingle(
                                                 identityFunc: c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                                c => c with
+                                                update: c => c with
                                                 {
                                                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
@@ -187,7 +185,6 @@ public class BeheerVerenigingDetailProjector
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
     }
 
     public static void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingDetailDocument document)
@@ -197,7 +194,6 @@ public class BeheerVerenigingDetailProjector
                                                 c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
     }
 
     public static void Apply(
@@ -211,7 +207,6 @@ public class BeheerVerenigingDetailProjector
                     Code = h.Code,
                     Beschrijving = h.Beschrijving,
                 }).ToArray();
-
     }
 
     public static void Apply(
@@ -236,7 +231,6 @@ public class BeheerVerenigingDetailProjector
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
     }
 
     public static void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -245,7 +239,7 @@ public class BeheerVerenigingDetailProjector
                                               .UpdateSingle(
                                                    identityFunc: v
                                                        => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                                                   v => v with
+                                                   update: v => v with
                                                    {
                                                        Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                                                        Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
@@ -257,7 +251,6 @@ public class BeheerVerenigingDetailProjector
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
     }
 
     public static void Apply(
@@ -269,7 +262,6 @@ public class BeheerVerenigingDetailProjector
                                                    c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
     }
 
     public static void Apply(
@@ -277,16 +269,16 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Relaties = document.Relaties.Append(
-                new BeheerVerenigingDetailDocument.Relatie
+            new BeheerVerenigingDetailDocument.Relatie
+            {
+                Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                 {
-                    Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
-                    AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-                    {
-                        KboNummer = string.Empty,
-                        Naam = afdelingWerdGeregistreerd.Data.Naam,
-                        VCode = afdelingWerdGeregistreerd.Data.VCode,
-                    },
-                }).ToArray();
+                    KboNummer = string.Empty,
+                    Naam = afdelingWerdGeregistreerd.Data.Naam,
+                    VCode = afdelingWerdGeregistreerd.Data.VCode,
+                },
+            }).ToArray();
     }
 
     public static void Apply(
@@ -294,7 +286,6 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.IsUitgeschrevenUitPubliekeDatastroom = true;
-
     }
 
     public static void Apply(
@@ -302,7 +293,6 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
-
     }
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingDetailDocument document)
@@ -312,7 +302,6 @@ public class BeheerVerenigingDetailProjector
                                                                                     locatieWerdToegevoegd.Data.Bron))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
     }
 
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -320,7 +309,7 @@ public class BeheerVerenigingDetailProjector
         document.Locaties = document.Locaties
                                     .UpdateSingle(
                                          identityFunc: l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
-                                         l => l with
+                                         update: l => l with
                                          {
                                              IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
                                              Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
@@ -331,7 +320,6 @@ public class BeheerVerenigingDetailProjector
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
     }
 
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingDetailDocument document)
@@ -340,7 +328,6 @@ public class BeheerVerenigingDetailProjector
                                     .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
     }
 
     public static void Apply(
@@ -352,7 +339,6 @@ public class BeheerVerenigingDetailProjector
                                                                                     maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
     }
 
     public static void Apply(
@@ -362,14 +348,13 @@ public class BeheerVerenigingDetailProjector
         document.Locaties = document.Locaties
                                     .UpdateSingle(
                                          identityFunc: l => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
-                                         l => l with
+                                         update: l => l with
                                          {
                                              IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
                                              Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
     }
 
     public static void Apply(
@@ -380,14 +365,13 @@ public class BeheerVerenigingDetailProjector
                                                 new BeheerVerenigingDetailDocument.Contactgegeven
                                                 {
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Type,
                                                     Beschrijving = string.Empty,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                                                     Bron = contactgegevenWerdToegevoegd.Data.Bron,
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
     }
 
     public static void Apply(
@@ -395,8 +379,9 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.UpdateSingle(
-                                                c => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
-                                                contactgegeven => contactgegeven with
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
+                                                update: contactgegeven => contactgegeven with
                                                 {
                                                     IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
                                                     Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,

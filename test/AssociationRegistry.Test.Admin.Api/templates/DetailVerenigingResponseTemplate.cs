@@ -5,17 +5,17 @@ using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formatters;
-using AssociationRegistry.Test.Framework;
-using Vereniging;
 using NodaTime;
 using Scriban;
 using System.Dynamic;
+using Test.Framework;
+using Vereniging;
 using Vereniging.Bronnen;
 
 public class DetailVerenigingResponseTemplate
 {
-    private dynamic _vereniging;
     private object _datumLaatsteAanpassing;
+    private readonly dynamic _vereniging;
 
     public DetailVerenigingResponseTemplate()
     {
@@ -300,17 +300,25 @@ public class DetailVerenigingResponseTemplate
            .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+        {
             WithHoofdactiviteit(h.Code, h.Beschrijving);
+        }
 
         foreach (var c in e.Contactgegevens)
+        {
             WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+        }
 
         foreach (var l in e.Locaties)
+        {
             WithLocatie(l, e.Bron);
+        }
 
         foreach (var v in e.Vertegenwoordigers)
+        {
             WithVertegenwoordiger(v.VertegenwoordigerId, v.Voornaam, v.Achternaam, v.Roepnaam, v.Rol, v.Insz, v.Email, v.Telefoon, v.Mobiel,
                                   v.SocialMedia, v.IsPrimair, e.Bron);
+        }
 
         return this;
     }
@@ -361,13 +369,19 @@ public class DetailVerenigingResponseTemplate
                       .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+        {
             template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+        }
 
         foreach (var c in e.Contactgegevens)
+        {
             template.WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+        }
 
         foreach (var l in e.Locaties)
+        {
             WithLocatie(l, e.Bron);
+        }
 
         return template;
     }
@@ -426,7 +440,7 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate WithContactgegeven(
         int id,
         Bron bron,
-        string type,
+        string contactgegeventype,
         string waarde,
         string beschrijving = "",
         bool isPrimair = false)
@@ -434,7 +448,7 @@ public class DetailVerenigingResponseTemplate
         _vereniging.contactgegevens.Add(new
         {
             id = id,
-            type = type,
+            contactgegeventype = contactgegeventype,
             waarde = waarde,
             beschrijving = beschrijving,
             isprimair = isPrimair,

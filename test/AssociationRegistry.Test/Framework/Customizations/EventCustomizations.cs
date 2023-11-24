@@ -49,7 +49,7 @@ public static class EventCustomizations
 
                                          return new ContactgegevenWerdToegevoegd(
                                              contactgegeven.ContactgegevenId,
-                                             contactgegeven.Type,
+                                             contactgegeven.Contactgegeventype,
                                              contactgegeven.Waarde,
                                              contactgegeven.Beschrijving,
                                              contactgegeven.IsPrimair);
@@ -67,8 +67,9 @@ public static class EventCustomizations
 
                                          return new ContactgegevenWerdOvergenomenUitKBO(
                                              contactgegeven.ContactgegevenId,
-                                             ContactgegevenTypeVolgensKbo.All.First(c => c.ContactgegevenType == contactgegeven.Type),
-                                             contactgegeven.Type,
+                                             ContactgegeventypeVolgensKbo.All.First(
+                                                 c => c.Contactgegeventype == contactgegeven.Contactgegeventype),
+                                             contactgegeven.Contactgegeventype,
                                              contactgegeven.Waarde);
                                      })
                                 .OmitAutoProperties());
@@ -91,10 +92,10 @@ public static class EventCustomizations
             composer => composer.FromFactory(
                                      () =>
                                      {
-                                         var contactgegevenTypevolgensKbo = fixture.Create<ContactgegevenTypeVolgensKbo>();
+                                         var contactgegevenTypevolgensKbo = fixture.Create<ContactgegeventypeVolgensKbo>();
 
                                          return new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                                             contactgegevenTypevolgensKbo.ContactgegevenType.Waarde,
+                                             contactgegevenTypevolgensKbo.Contactgegeventype.Waarde,
                                              contactgegevenTypevolgensKbo.Waarde,
                                              fixture.Create<string>());
                                      })

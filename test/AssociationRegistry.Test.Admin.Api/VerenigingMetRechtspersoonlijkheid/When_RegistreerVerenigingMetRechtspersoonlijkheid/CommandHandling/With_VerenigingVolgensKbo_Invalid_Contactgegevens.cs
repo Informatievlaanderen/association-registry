@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -26,9 +27,9 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+
         _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
             Email = fixture.Create<string>(),
@@ -47,9 +48,9 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -64,23 +65,23 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 _verenigingVolgensKbo.KorteNaam!,
                 _verenigingVolgensKbo.Startdatum),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                ContactgegevenType.Email.Waarde,
-                ContactgegevenTypeVolgensKbo.Email.Waarde,
+                Contactgegeventype.Email.Waarde,
+                ContactgegeventypeVolgensKbo.Email.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Email!
             ),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                ContactgegevenType.Website.Waarde,
-                ContactgegevenTypeVolgensKbo.Website.Waarde,
+                Contactgegeventype.Website.Waarde,
+                ContactgegeventypeVolgensKbo.Website.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Website!
             ),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.Telefoon.Waarde,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.Telefoon.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.Telefoonnummer!
             ),
             new ContactgegevenKonNietOvergenomenWordenUitKBO(
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.GSM.Waarde,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.GSM.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.GSM!
             )
         );

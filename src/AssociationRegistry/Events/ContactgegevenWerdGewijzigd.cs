@@ -13,7 +13,7 @@ public record ContactgegevenWerdGewijzigd(
     public static ContactgegevenWerdGewijzigd With(Contactgegeven contactgegeven)
         => new(
             contactgegeven.ContactgegevenId,
-            contactgegeven.Type,
+            contactgegeven.Contactgegeventype,
             contactgegeven.Waarde,
             contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);

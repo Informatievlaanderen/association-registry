@@ -11,8 +11,8 @@ public class Contactgegeven
     public int ContactgegevenId { get; init; }
 
     /// <summary>Het type contactgegeven</summary>
-    [DataMember(Name = "Type")]
-    public string Type { get; init; } = null!;
+    [DataMember(Name = "Contactgegeventype")]
+    public string Contactgegeventype { get; init; } = null!;
 
     /// <summary>De waarde van het contactgegeven</summary>
     [DataMember(Name = "Waarde")]
@@ -28,8 +28,9 @@ public class Contactgegeven
     [DataMember(Name = "IsPrimair")]
     public bool IsPrimair { get; init; }
 
-    /// <summary> De bron die dit contactgegeven beheert
-    /// <br />
+    /// <summary>
+    ///     De bron die dit contactgegeven beheert
+    ///     <br />
     ///     Mogelijke waarden:<br />
     ///     - Initiator<br />
     ///     - KBO

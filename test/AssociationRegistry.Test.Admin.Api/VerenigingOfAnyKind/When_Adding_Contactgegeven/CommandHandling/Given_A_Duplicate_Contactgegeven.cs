@@ -2,12 +2,12 @@
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,10 +34,12 @@ public class Given_A_Duplicate_Contactgegeven
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
-        var handleCall = async () => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        var handleCall = async ()
+            => await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         await handleCall.Should()
-            .ThrowAsync<ContactgegevenIsDuplicaat>()
-            .WithMessage(new ContactgegevenIsDuplicaat(command.Contactgegeven.Type).Message);
+                        .ThrowAsync<ContactgegevenIsDuplicaat>()
+                        .WithMessage(new ContactgegevenIsDuplicaat(command.Contactgegeven.Contactgegeventype).Message);
     }
 }

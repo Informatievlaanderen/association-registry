@@ -26,12 +26,13 @@ public class Given_ContactgegevenWerdToegevoegd
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
+                Contactgegeventype = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 Bron = Bron.Initiator,
             });
+
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }

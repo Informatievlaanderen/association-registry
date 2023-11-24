@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 using Vereniging;
 
 public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
@@ -17,94 +17,96 @@ public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999023";
+
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            "Party in Brakeldorp",
-            "FBD",
-            "De party van Brakeldorp",
+            Naam: "Party in Brakeldorp",
+            KorteNaam: "FBD",
+            KorteBeschrijving: "De party van Brakeldorp",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             new[]
             {
                 new Registratiedata.Contactgegeven(
                     ContactgegevenId: 1,
-                    ContactgegevenType.Email,
-                    "info@FOud.be",
-                    "Algemeen",
+                    Contactgegeventype.Email,
+                    Waarde: "info@FOud.be",
+                    Beschrijving: "Algemeen",
                     IsPrimair: true),
             },
             new[]
             {
                 new Registratiedata.Locatie(
-                    1,
-                    "Correspondentie",
+                    LocatieId: 1,
+                    Locatietype: "Correspondentie",
                     IsPrimair: true,
                     Naam: "Correspondentie",
-                    Adres: new Registratiedata.Adres(
-                        "Stationsstraat",
-                        "1",
-                        "B",
-                        "1790",
-                        "Affligem",
-                        "België"),
-                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    new Registratiedata.Adres(
+                        Straatnaam: "Stationsstraat",
+                        Huisnummer: "1",
+                        Busnummer: "B",
+                        Postcode: "1790",
+                        Gemeente: "Affligem",
+                        Land: "België"),
+                    new Registratiedata.AdresId(Adresbron.AR.Code, Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
-                    2,
-                    "Activiteiten",
+                    LocatieId: 2,
+                    Locatietype: "Activiteiten",
                     IsPrimair: false,
                     Naam: "Activiteiten",
                     Adres: null,
-                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    new Registratiedata.AdresId(Adresbron.AR.Code, Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
-                    3,
-                    "Activiteiten",
+                    LocatieId: 3,
+                    Locatietype: "Activiteiten",
                     IsPrimair: false,
                     Naam: "Activiteiten",
-                    Adres: new Registratiedata.Adres(
-                        "Dorpstraat",
-                        "1",
-                        "B",
-                        "1790",
-                        "Affligem",
-                        "België"),
+                    new Registratiedata.Adres(
+                        Straatnaam: "Dorpstraat",
+                        Huisnummer: "1",
+                        Busnummer: "B",
+                        Postcode: "1790",
+                        Gemeente: "Affligem",
+                        Land: "België"),
                     AdresId: null),
             },
             new[]
             {
                 new Registratiedata.Vertegenwoordiger(
                     VertegenwoordigerId: 1,
-                    "01234567890",
+                    Insz: "01234567890",
                     IsPrimair: true,
-                    "father",
-                    "Leader",
-                    "Odin",
-                    "Allfather",
-                    "asgard@world.tree",
-                    "",
-                    "",
-                    ""),
+                    Roepnaam: "father",
+                    Rol: "Leader",
+                    Voornaam: "Odin",
+                    Achternaam: "Allfather",
+                    Email: "asgard@world.tree",
+                    Telefoon: "",
+                    Mobiel: "",
+                    SocialMedia: ""),
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
-                new("BLA", "Buitengewoon Leuke Afkortingen"),
+                new(Code: "BLA", Beschrijving: "Buitengewoon Leuke Afkortingen"),
             });
 
         LocatieWerdToegevoegd = new LocatieWerdToegevoegd(
             new Registratiedata.Locatie(
-                4,
+                LocatieId: 4,
                 Locatietype.Activiteiten,
-                false,
-                "Toegevoegd",
+                IsPrimair: false,
+                Naam: "Toegevoegd",
                 new Registratiedata.Adres(
-                    "straatnaam",
-                    "1",
-                    "B",
-                    "0123",
-                    "Zonnedorp",
-                    "Frankrijk"),
+                    Straatnaam: "straatnaam",
+                    Huisnummer: "1",
+                    Busnummer: "B",
+                    Postcode: "0123",
+                    Gemeente: "Zonnedorp",
+                    Land: "Frankrijk"),
                 new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix)
             ));
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

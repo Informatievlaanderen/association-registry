@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
@@ -42,7 +41,7 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId,
-                    Type = contactgegevenWerdOvergenomenUitKbo.Data.Type,
+                    Contactgegeventype = contactgegevenWerdOvergenomenUitKbo.Data.Type,
                     Waarde = contactgegevenWerdOvergenomenUitKbo.Data.Waarde,
                     Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
                     IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,

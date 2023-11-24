@@ -28,8 +28,10 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test@example.org", _fixture.Create<string>(), isPrimair: true),
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Website, waarde: "http://example.org", _fixture.Create<string>(), isPrimair: true),
+                Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
+                Contactgegeven.CreateFromInitiator(Contactgegeventype.Website, waarde: "http://example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
             },
         };
 
@@ -45,7 +47,9 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     public async Task InitializeAsync()
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None);
+
+        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+                                     CancellationToken.None);
     }
 
     public Task DisposeAsync()
@@ -67,14 +71,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 {
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 1,
-                        ContactgegevenType.Email,
+                        Contactgegeventype.Email,
                         _command.Contactgegevens[0].Waarde,
                         _command.Contactgegevens[0].Beschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 2,
-                        ContactgegevenType.Website,
+                        Contactgegeventype.Website,
                         _command.Contactgegevens[1].Waarde,
                         _command.Contactgegevens[1].Beschrijving,
                         _command.Contactgegevens[1].IsPrimair

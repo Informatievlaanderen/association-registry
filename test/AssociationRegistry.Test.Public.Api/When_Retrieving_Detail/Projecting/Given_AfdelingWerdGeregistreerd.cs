@@ -13,6 +13,7 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;
 
 [UnitTest]
 public class Given_AfdelingWerdGeregistreerd
@@ -39,7 +40,7 @@ public class Given_AfdelingWerdGeregistreerd
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
-                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
@@ -50,7 +51,7 @@ public class Given_AfdelingWerdGeregistreerd
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {
                         ContactgegevenId = c.ContactgegevenId,
-                        Type = c.Type.ToString(),
+                        Contactgegeventype = c.Type.ToString(),
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,

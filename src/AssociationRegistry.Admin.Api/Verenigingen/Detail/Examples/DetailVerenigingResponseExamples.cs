@@ -27,7 +27,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
     public IEnumerable<SwaggerExample<DetailVerenigingResponse>> GetExamples()
     {
         yield return SwaggerExample.Create(
-            "Feitelijke vereniging",
+            name: "Feitelijke vereniging",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
@@ -63,7 +63,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            Type = "E-mail",
+                            Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
                             ContactgegevenId = 1,
@@ -127,7 +127,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
         );
 
         yield return SwaggerExample.Create(
-            "Vereniging met rechtspersoonlijkheid",
+            name: "Vereniging met rechtspersoonlijkheid",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
@@ -164,7 +164,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            Type = "E-mail",
+                            Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
                             ContactgegevenId = 1,
@@ -173,7 +173,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                         new Contactgegeven
                         {
-                            Type = ContactgegevenType.SocialMedia,
+                            Contactgegeventype = Contactgegeventype.SocialMedia,
                             Beschrijving = "BlubBlub",
                             Waarde = "blubblub.com/vissen",
                             ContactgegevenId = 2,

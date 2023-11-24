@@ -27,7 +27,7 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
             {
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                 Beschrijving = string.Empty,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
+                Contactgegeventype = contactgegevenWerdToegevoegd.Data.Type,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Bron = Bron.KBO,
             });

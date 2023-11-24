@@ -20,11 +20,12 @@ public class Given_ContactgegevenWerdVerwijderd
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
         doc.Contactgegevens = doc.Contactgegevens.Append(
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
-                Type = fixture.Create<string>(),
+                Contactgegeventype = fixture.Create<string>(),
                 Waarde = fixture.Create<string>(),
                 Beschrijving = fixture.Create<string>(),
                 IsPrimair = true,
@@ -37,12 +38,13 @@ public class Given_ContactgegevenWerdVerwijderd
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
-                Type = contactgegevenWerdVerwijderd.Data.Type,
+                Contactgegeventype = contactgegevenWerdVerwijderd.Data.Type,
                 Waarde = contactgegevenWerdVerwijderd.Data.Waarde,
                 Beschrijving = contactgegevenWerdVerwijderd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdVerwijderd.Data.IsPrimair,
                 Bron = Bron.Initiator,
             });
+
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }

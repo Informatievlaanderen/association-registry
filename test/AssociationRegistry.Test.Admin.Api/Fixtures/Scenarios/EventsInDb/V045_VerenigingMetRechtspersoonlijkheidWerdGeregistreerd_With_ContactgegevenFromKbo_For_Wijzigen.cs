@@ -9,9 +9,9 @@ using Vereniging;
 
 public class V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_ContactgegevenFromKbo_For_Wijzigen : IEventsInDbScenario
 {
-    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKBO;
     public readonly CommandMetadata Metadata;
+    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
     public V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_ContactgegevenFromKbo_For_Wijzigen()
     {
@@ -30,10 +30,10 @@ public class V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Conta
         };
 
         ContactgegevenWerdOvergenomenUitKBO = new ContactgegevenWerdOvergenomenUitKBO(
-            1,
-            ContactgegevenType.Email.Waarde,
-            ContactgegevenType.Email.Waarde,
-            "test@example.org");
+            ContactgegevenId: 1,
+            Contactgegeventype.Email.Waarde,
+            Contactgegeventype.Email.Waarde,
+            Waarde: "test@example.org");
 
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

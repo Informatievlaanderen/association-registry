@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Registree
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AutoFixture;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -56,20 +56,20 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
     {
         vertegenwoordigers.Should().BeEquivalentTo(
             request.Vertegenwoordigers
-                .Select(
-                    v =>
-                        Vertegenwoordiger.Create(
-                            Insz.Create(v.Insz),
-                            v.IsPrimair,
-                            v.Roepnaam,
-                            v.Rol,
-                            Voornaam.Create(v.Voornaam),
-                            Achternaam.Create(v.Achternaam),
-                            Email.Create(v.Email),
-                            TelefoonNummer.Create(v.Telefoon),
-                            TelefoonNummer.Create(v.Mobiel),
-                            SocialMedia.Create(v.SocialMedia)
-                        )));
+                   .Select(
+                        v =>
+                            Vertegenwoordiger.Create(
+                                Insz.Create(v.Insz),
+                                v.IsPrimair,
+                                v.Roepnaam,
+                                v.Rol,
+                                Voornaam.Create(v.Voornaam),
+                                Achternaam.Create(v.Achternaam),
+                                Email.Create(v.Email),
+                                TelefoonNummer.Create(v.Telefoon),
+                                TelefoonNummer.Create(v.Mobiel),
+                                SocialMedia.Create(v.SocialMedia)
+                            )));
     }
 
     private static void AssertLocaties(Locatie[] locaties, RegistreerFeitelijkeVerenigingRequest request)
@@ -99,7 +99,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
     {
         contactgegevens[0].Should().BeEquivalentTo(
             Contactgegeven.CreateFromInitiator(
-                ContactgegevenType.Parse(request.Contactgegevens[0].Type),
+                Contactgegeventype.Parse(request.Contactgegevens[0].Type),
                 request.Contactgegevens[0].Waarde,
                 request.Contactgegevens[0].Beschrijving,
                 request.Contactgegevens[0].IsPrimair));

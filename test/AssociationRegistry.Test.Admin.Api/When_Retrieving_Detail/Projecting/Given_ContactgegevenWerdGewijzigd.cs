@@ -19,12 +19,13 @@ public class Given_ContactgegevenWerdGewijzigd
         var contactgegevenWerdGewijzigd = fixture.Create<TestEvent<ContactgegevenWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
         doc.Contactgegevens = new[]
         {
             new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                Type = contactgegevenWerdGewijzigd.Data.Type,
+                Contactgegeventype = contactgegevenWerdGewijzigd.Data.Type,
                 Waarde = fixture.Create<string>(),
                 Beschrijving = fixture.Create<string>(),
                 IsPrimair = true,
@@ -39,12 +40,13 @@ public class Given_ContactgegevenWerdGewijzigd
                 new BeheerVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                    Type = contactgegevenWerdGewijzigd.Data.Type,
+                    Contactgegeventype = contactgegevenWerdGewijzigd.Data.Type,
                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
                 },
             });
+
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }

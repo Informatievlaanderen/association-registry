@@ -13,6 +13,7 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -21,7 +22,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     public void Then_it_creates_a_new_vereniging()
     {
         var fixture = new Fixture().CustomizePublicApi();
-        var feitelijkeVerenigingWerdGeregistreerd = new TestEvent<FeitelijkeVerenigingWerdGeregistreerd>(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>());
+
+        var feitelijkeVerenigingWerdGeregistreerd =
+            new TestEvent<FeitelijkeVerenigingWerdGeregistreerd>(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>());
 
         var doc = PubliekVerenigingDetailProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
@@ -38,19 +41,20 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
-                Doelgroep = new AssociationRegistry.Public.Schema.Detail.Doelgroep
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
                 },
-                DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+                DatumLaatsteAanpassing =
+                    feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {
                         ContactgegevenId = c.ContactgegevenId,
-                        Type = c.Type.ToString(),
+                        Contactgegeventype = c.Type.ToString(),
                         Waarde = c.Waarde,
                         Beschrijving = c.Beschrijving,
                         IsPrimair = c.IsPrimair,

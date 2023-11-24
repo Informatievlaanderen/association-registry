@@ -30,7 +30,7 @@
 {{for contactgegeven in vereniging.contactgegevens}}
       {
         "contactgegevenId": {{contactgegeven.id}},
-        "type": "{{contactgegeven.type}}",
+        "contactgegeventype": "{{contactgegeven.contactgegeventype}}",
         "waarde": "{{contactgegeven.waarde}}",
         "beschrijving": "{{contactgegeven.beschrijving}}",
         "isPrimair": {{contactgegeven.isprimair}},

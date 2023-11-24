@@ -27,7 +27,10 @@ public class With_All_Fields
         var clock = new ClockStub(_command.Startdatum.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);
+
+        var commandHandler =
+            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService,
+                                                             new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
@@ -51,7 +54,7 @@ public class With_All_Fields
                     (c, i) =>
                         new Registratiedata.Contactgegeven(
                             i + 1,
-                            c.Type,
+                            c.Contactgegeventype,
                             c.Waarde,
                             c.Beschrijving,
                             c.IsPrimair

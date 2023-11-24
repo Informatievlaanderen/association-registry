@@ -10,8 +10,6 @@ using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
 {
-    public long Version { get; set; }
-
     [Identity]
     public string Identity
     {
@@ -37,6 +35,7 @@ public record VerenigingState : IHasVersion
         HoofdactiviteitenVerenigingsloket.Empty;
 
     public bool IsGestopt => Einddatum is not null;
+    public long Version { get; set; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
@@ -55,7 +54,7 @@ public record VerenigingState : IHasVersion
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
-                            ContactgegevenType.Parse(c.Type),
+                            Contactgegeventype.Parse(c.Type),
                             c.Waarde,
                             c.Beschrijving,
                             c.IsPrimair,
@@ -122,7 +121,7 @@ public record VerenigingState : IHasVersion
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
-                            ContactgegevenType.Parse(c.Type),
+                            Contactgegeventype.Parse(c.Type),
                             c.Waarde,
                             c.Beschrijving,
                             c.IsPrimair,
@@ -215,7 +214,7 @@ public record VerenigingState : IHasVersion
                 Contactgegevens.Append(
                     Contactgegeven.Hydrate(
                         @event.ContactgegevenId,
-                        ContactgegevenType.Parse(@event.Type),
+                        Contactgegeventype.Parse(@event.Type),
                         @event.Waarde,
                         @event.Beschrijving,
                         @event.IsPrimair,
@@ -238,7 +237,7 @@ public record VerenigingState : IHasVersion
                    .Append(
                         Contactgegeven.Hydrate(
                             @event.ContactgegevenId,
-                            ContactgegevenType.Parse(@event.Type),
+                            Contactgegeventype.Parse(@event.Type),
                             @event.Waarde,
                             @event.Beschrijving,
                             @event.IsPrimair,
@@ -406,7 +405,7 @@ public record VerenigingState : IHasVersion
                 Contactgegevens.Append(
                     Contactgegeven.Hydrate(
                         @event.ContactgegevenId,
-                        ContactgegevenType.Parse(@event.Type),
+                        Contactgegeventype.Parse(@event.Type),
                         @event.Waarde,
                         string.Empty,
                         isPrimair: false,

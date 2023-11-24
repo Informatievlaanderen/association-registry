@@ -1,15 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using System.Linq;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
-using Contactgegeven = ResponseModels.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = ResponseModels.Locatie;
-using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 
 public class BeheerVerenigingDetailMapper
 {
@@ -70,7 +66,9 @@ public class BeheerVerenigingDetailMapper
             AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
         };
 
-    private static GerelateerdeVereniging Map(BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging gerelateerdeVereniging, string baseUrl)
+    private static GerelateerdeVereniging Map(
+        BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging gerelateerdeVereniging,
+        string baseUrl)
         => new()
         {
             KboNummer = gerelateerdeVereniging.KboNummer,
@@ -99,14 +97,15 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             ContactgegevenId = contactgegeven.ContactgegevenId,
-            Type = contactgegeven.Type,
+            Contactgegeventype = contactgegeven.Contactgegeventype,
             Waarde = contactgegeven.Waarde,
             Beschrijving = contactgegeven.Beschrijving,
             IsPrimair = contactgegeven.IsPrimair,
             Bron = contactgegeven.Bron,
         };
 
-    private static HoofdactiviteitVerenigingsloket Map(BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
+    private static HoofdactiviteitVerenigingsloket Map(
+        BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new()
         {
             Code = hoofdactiviteitVerenigingsloket.Code,

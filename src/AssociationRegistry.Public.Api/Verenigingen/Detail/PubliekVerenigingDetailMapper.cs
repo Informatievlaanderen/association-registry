@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using System.Linq;
 
 public static class PubliekVerenigingDetailMapper
 {
@@ -53,7 +53,7 @@ public static class PubliekVerenigingDetailMapper
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
         => new()
         {
-            Type = info.Type,
+            Type = info.Contactgegeventype,
             Waarde = info.Waarde,
             Beschrijving = info.Beschrijving,
             IsPrimair = info.IsPrimair,

@@ -16,15 +16,20 @@ public class Given_A_Contactgegeven_From_Kbo
     public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var contactgegeven = fixture.Create<Contactgegeven>() with
         {
             ContactgegevenId = 1,
         };
 
         var vereniging = new VerenigingOfAnyKind();
+
         vereniging.Hydrate(new VerenigingState()
-            .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-            .Apply(ContactgegevenWerdOvergenomenUitKBO.With(contactgegeven, ContactgegevenTypeVolgensKbo.All.First(c=>c.ContactgegevenType==contactgegeven.Type))));
+                          .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
+                          .Apply(ContactgegevenWerdOvergenomenUitKBO.With(contactgegeven,
+                                                                          ContactgegeventypeVolgensKbo.All.First(
+                                                                              c => c.Contactgegeventype ==
+                                                                                   contactgegeven.Contactgegeventype))));
 
         var wijzigLocatie = () => vereniging.VerwijderContactgegeven(contactgegeven.ContactgegevenId);
 

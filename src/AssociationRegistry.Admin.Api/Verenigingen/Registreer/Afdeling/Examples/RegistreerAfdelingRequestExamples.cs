@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.Examples;
 
-using System;
-using System.Linq;
 using Common;
-using Vereniging;
 using FeitelijkeVereniging.RequetsModels;
 using Swashbuckle.AspNetCore.Filters;
-using AdresId = Common.AdresId;
+using System;
+using System.Linq;
+using Vereniging;
 using Adres = Common.Adres;
+using AdresId = Common.AdresId;
 
 public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFeitelijkeVerenigingRequest>
 {
@@ -24,7 +24,7 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                 Maximumleeftijd = 150,
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
-                .All().Take(5).Select(h=>h.Code).ToArray(),
+                                               .All().Take(5).Select(h => h.Code).ToArray(),
             Locaties = new[]
             {
                 new ToeTeVoegenLocatie
@@ -54,7 +54,7 @@ public class RegistreerAfdelingRequestExamples : IExamplesProvider<RegistreerFei
                 {
                     Beschrijving = "Algemeen",
                     Waarde = "algemeen@example.com",
-                    Type = ContactgegevenType.Email,
+                    Type = Contactgegeventype.Email,
                     IsPrimair = true,
                 },
             },

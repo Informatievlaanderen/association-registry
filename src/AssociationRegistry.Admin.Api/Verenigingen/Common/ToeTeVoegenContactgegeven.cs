@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using System.Runtime.Serialization;
 using Infrastructure.Swagger;
+using System.Runtime.Serialization;
 using Vereniging;
 
 /// <summary>
-/// Het toe te voegen contactgegeven
+///     Het toe te voegen contactgegeven
 /// </summary>
 [DataContract]
 public class ToeTeVoegenContactgegeven
@@ -23,7 +23,7 @@ public class ToeTeVoegenContactgegeven
     public string Waarde { get; set; } = null!;
 
     /// <summary>
-    /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
+    ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "beschrijving")]
     public string? Beschrijving { get; set; }
@@ -34,7 +34,7 @@ public class ToeTeVoegenContactgegeven
 
     public static Contactgegeven Map(ToeTeVoegenContactgegeven toeTeVoegenContactgegeven)
         => Contactgegeven.CreateFromInitiator(
-            ContactgegevenType.Parse(toeTeVoegenContactgegeven.Type),
+            Contactgegeventype.Parse(toeTeVoegenContactgegeven.Type),
             toeTeVoegenContactgegeven.Waarde,
             toeTeVoegenContactgegeven.Beschrijving,
             toeTeVoegenContactgegeven.IsPrimair);

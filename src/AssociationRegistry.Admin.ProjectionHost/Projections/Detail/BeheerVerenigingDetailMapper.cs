@@ -61,7 +61,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             ContactgegevenId = c.ContactgegevenId,
-            Type = c.Type,
+            Contactgegeventype = c.Type,
             Waarde = c.Waarde,
             Beschrijving = c.Beschrijving,
             IsPrimair = c.IsPrimair,
@@ -85,7 +85,8 @@ public class BeheerVerenigingDetailMapper
             Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket h)
+    public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(
+        Registratiedata.HoofdactiviteitVerenigingsloket h)
         => new()
         {
             Code = h.Code,
@@ -99,7 +100,8 @@ public class BeheerVerenigingDetailMapper
             Beschrijving = verenigingstype.Beschrijving,
         };
 
-    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
+    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(
+        AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
         => new()
         {
             Type = RelatieType.IsAfdelingVan.Beschrijving,

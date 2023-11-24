@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.Examples;
 
 using Common;
-using Vereniging;
 using RequestsModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContactgegevenToeRequest>
 {
@@ -14,7 +14,7 @@ public class VoegContactgegevenToeRequestExamples : IExamplesProvider<VoegContac
             {
                 Beschrijving = "Algemeen",
                 Waarde = "algemeen@example.com",
-                Type = ContactgegevenType.Email,
+                Type = Contactgegeventype.Email,
                 IsPrimair = true,
             },
         };

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.Schema.Detail;
 
-using System;
 using Marten.Schema;
 
 public record Doelgroep
@@ -11,7 +10,6 @@ public record Doelgroep
 
 public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
-    [Identity] public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
@@ -24,10 +22,14 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
+        Array.Empty<HoofdactiviteitVerenigingsloket>();
+
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    [Identity] public string VCode { get; set; } = null!;
 
     public class VerenigingsType
     {
@@ -38,7 +40,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public class Contactgegeven
     {
         public int ContactgegevenId { get; set; }
-        public string Type { get; set; } = null!;
+        public string Contactgegeventype { get; set; } = null!;
         public string Waarde { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
         public bool IsPrimair { get; set; }
