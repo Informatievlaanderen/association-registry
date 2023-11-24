@@ -15,5 +15,5 @@ public class VerenigingsType
     /// De beschrijving van het type vereniging
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; } = null!;
+    public string Naam { get; set; } = null!;
 }

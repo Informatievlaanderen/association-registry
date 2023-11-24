@@ -30,7 +30,7 @@ public static class VerenigingZoekDocumentMapping
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Type)
+                                                   .Name(document => document.Verenigingstype)
                                                    .IncludeInRoot()
                                                    .Properties(VerenigingsTypeMapping.Get))
                          .Nested<Doelgroep>(
@@ -115,7 +115,7 @@ public static class VerenigingZoekDocumentMapping
                       .Name(document => document.Code))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Beschrijving)
+                                          .Name(document => document.Naam)
                                           .WithKeyword());
     }
 

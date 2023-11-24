@@ -34,10 +34,10 @@ public class Given_AfdelingWerdGeregistreerd
             new BeheerVerenigingDetailDocument
             {
                 VCode = afdelingWerdGeregistreerd.Data.VCode,
-                Type = new BeheerVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new BeheerVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Afdeling.Code,
-                    Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+                    Naam = Verenigingstype.Afdeling.Naam,
                 },
                 Naam = afdelingWerdGeregistreerd.Data.Naam,
                 KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,

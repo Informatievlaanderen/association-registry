@@ -29,10 +29,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                Type = new PubliekVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                    Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
+                    Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
                 Roepnaam = string.Empty,

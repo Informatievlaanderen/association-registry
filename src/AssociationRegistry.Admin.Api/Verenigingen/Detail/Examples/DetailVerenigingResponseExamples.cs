@@ -34,9 +34,9 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001001",
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
-                        Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                        Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
@@ -134,9 +134,9 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001002",
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
-                        Beschrijving = Verenigingstype.VZW.Beschrijving,
+                        Naam = Verenigingstype.VZW.Naam,
                         Code = Verenigingstype.VZW.Code,
                     },
                     Naam = "Vissen achter het net",

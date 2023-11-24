@@ -45,7 +45,7 @@ public class SearchVerenigingenResponseMapper
         => new()
         {
             VCode = verenigingZoekDocument.VCode,
-            Type = Map(verenigingZoekDocument.Type),
+            Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
             Naam = verenigingZoekDocument.Naam,
             Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -82,7 +82,7 @@ public class SearchVerenigingenResponseMapper
         => new()
         {
             Code = verenigingDocumentType.Code,
-            Beschrijving = verenigingDocumentType.Beschrijving,
+            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)

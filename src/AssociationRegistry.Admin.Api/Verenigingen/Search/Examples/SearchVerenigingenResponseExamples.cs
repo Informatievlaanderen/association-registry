@@ -49,10 +49,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Gemeente = "Liedekerke",
                         },
                     },
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
-                        Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                        Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                     },
                     Sleutels = Array.Empty<Sleutel>(),
                     Links = new VerenigingLinks
@@ -75,10 +75,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Naam = "Sport",
                         },
                     },
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.VZW.Code,
-                        Beschrijving = Verenigingstype.VZW.Beschrijving,
+                        Naam = Verenigingstype.VZW.Naam,
                     },
                     Doelgroep = new DoelgroepResponse
                     {

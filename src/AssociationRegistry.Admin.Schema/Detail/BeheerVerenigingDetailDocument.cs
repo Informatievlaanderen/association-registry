@@ -13,7 +13,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
     [Identity] public string VCode { get; init; } = null!;
     public string Naam { get; set; } = null!;
-    public VerenigingsType Type { get; init; } = null!;
+    public VerenigingsType Verenigingstype { get; init; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
@@ -36,7 +36,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record VerenigingsType
     {
         public string Code { get; init; } = null!;
-        public string Beschrijving { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public record Contactgegeven : IHasBron
