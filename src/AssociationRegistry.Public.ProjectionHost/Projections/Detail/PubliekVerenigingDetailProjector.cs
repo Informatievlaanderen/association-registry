@@ -76,7 +76,7 @@ public static class PubliekVerenigingDetailProjector
             {
                 new PubliekVerenigingDetailDocument.Relatie
                 {
-                    Type = RelatieType.IsAfdelingVan.Beschrijving,
+                    Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
                     AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                     {
                         KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
@@ -96,7 +96,7 @@ public static class PubliekVerenigingDetailProjector
         moeder.Relaties = moeder.Relaties.Append(
             new PubliekVerenigingDetailDocument.Relatie
             {
-                Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
                 AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                 {
                     KboNummer = string.Empty,

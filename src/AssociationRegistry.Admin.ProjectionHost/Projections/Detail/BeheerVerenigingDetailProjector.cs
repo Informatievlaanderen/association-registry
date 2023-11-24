@@ -42,7 +42,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                         .MapHoofdactiviteitVerenigingsloket)
+                                                                                             .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
@@ -271,7 +271,7 @@ public class BeheerVerenigingDetailProjector
         document.Relaties = document.Relaties.Append(
             new BeheerVerenigingDetailDocument.Relatie
             {
-                Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
                 AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
                 {
                     KboNummer = string.Empty,

@@ -218,7 +218,7 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.relaties.Add(new
         {
-            type = RelatieType.IsAfdelingVan.Beschrijving,
+            relatietype = Relatietype.IsAfdelingVan.Beschrijving,
             anderevereniging = new
             {
                 kbonummer = kboNummer,
@@ -234,7 +234,7 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.relaties.Add(new
         {
-            type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+            relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
             anderevereniging = new
             {
                 kbonummer = string.Empty,
@@ -257,13 +257,19 @@ public class DetailVerenigingResponseTemplate
                       .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+        {
             template.WithHoofdactiviteit(h.Code, h.Naam);
+        }
 
         foreach (var c in e.Contactgegevens)
+        {
             template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
+        }
 
         foreach (var l in e.Locaties)
+        {
             WithLocatie(l);
+        }
 
         return template;
     }
@@ -280,13 +286,19 @@ public class DetailVerenigingResponseTemplate
                       .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
+        {
             template.WithHoofdactiviteit(h.Code, h.Naam);
+        }
 
         foreach (var c in e.Contactgegevens)
+        {
             template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
+        }
 
         foreach (var l in e.Locaties)
+        {
             WithLocatie(l);
+        }
 
         return template;
     }

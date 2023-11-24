@@ -97,7 +97,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 
     public record Relatie
     {
-        public string Type { get; init; } = null!;
+        public string Relatietype { get; init; } = null!;
         public GerelateerdeVereniging AndereVereniging { get; init; } = null!;
 
         public record GerelateerdeVereniging

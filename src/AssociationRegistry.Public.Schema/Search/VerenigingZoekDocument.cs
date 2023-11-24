@@ -53,7 +53,7 @@ public class Doelgroep
 
 public class Relatie
 {
-    public string Type { get; set; } = null!;
+    public string Relatietype { get; set; } = null!;
     public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
 }
 

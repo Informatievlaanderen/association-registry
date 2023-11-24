@@ -38,7 +38,7 @@ public static class PubliekVerenigingDetailMapper
     private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
         => new()
         {
-            Type = r.Type,
+            Relatietype = r.Relatietype,
             AndereVereniging = new Relatie.GerelateerdeVereniging
             {
                 KboNummer = r.AndereVereniging.KboNummer,

@@ -77,7 +77,7 @@ public class PubliekZoekProjectionHandler
                 {
                     new Relatie
                     {
-                        Type = RelatieType.IsAfdelingVan.Beschrijving,
+                        Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
                         AndereVereniging = new GerelateerdeVereniging
                         {
                             KboNummer = message.Data.Moedervereniging.KboNummer,
@@ -92,7 +92,7 @@ public class PubliekZoekProjectionHandler
         if (!string.IsNullOrEmpty(message.Data.Moedervereniging.VCode))
             await _elasticRepository.AppendRelatie(message.Data.Moedervereniging.VCode, new Relatie
             {
-                Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
                 AndereVereniging = new GerelateerdeVereniging
                 {
                     KboNummer = string.Empty,

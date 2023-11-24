@@ -260,7 +260,7 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.relaties.Add(new
         {
-            type = RelatieType.IsAfdelingVan.Beschrijving,
+            relatietype = Relatietype.IsAfdelingVan.Beschrijving,
             anderevereniging = new
             {
                 kbonummer = kboNummer,
@@ -276,7 +276,7 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.relaties.Add(new
         {
-            type = RelatieType.IsAfdelingVan.InverseBeschrijving,
+            relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
             anderevereniging = new
             {
                 kbonummer = string.Empty,
@@ -300,9 +300,7 @@ public class DetailVerenigingResponseTemplate
            .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-        {
-            WithHoofdactiviteit(h.Code, h.Naam);
-        }
+            WithHoofdactiviteit(h.Code, h.Beschrijving);
 
         foreach (var c in e.Contactgegevens)
         {
