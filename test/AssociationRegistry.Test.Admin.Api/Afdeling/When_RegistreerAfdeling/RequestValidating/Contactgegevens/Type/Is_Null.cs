@@ -22,13 +22,13 @@ public class Is_Null : ValidatorTest
                     {
                         new ToeTeVoegenContactgegeven
                         {
-                            Type = null!,
+                            Contactgegeventype = null!,
                         },
                     },
             });
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}")
-            .WithErrorMessage("'Type' is verplicht.")
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerAfdelingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Contactgegeventype)}")
+            .WithErrorMessage("'Contactgegeventype' is verplicht.")
             .Only();
     }
 }

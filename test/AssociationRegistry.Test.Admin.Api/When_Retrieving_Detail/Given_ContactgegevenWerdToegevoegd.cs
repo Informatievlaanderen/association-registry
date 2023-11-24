@@ -49,7 +49,7 @@ public class Given_ContactgegevenWerdToegevoegd
                       .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                       .WithContactgegeven(_scenario.ContactgegevenWerdToegevoegd.ContactgegevenId,
                                           _scenario.ContactgegevenWerdToegevoegd.Bron,
-                                          _scenario.ContactgegevenWerdToegevoegd.Type, _scenario.ContactgegevenWerdToegevoegd.Waarde,
+                                          _scenario.ContactgegevenWerdToegevoegd.Contactgegeventype, _scenario.ContactgegevenWerdToegevoegd.Waarde,
                                           _scenario.ContactgegevenWerdToegevoegd.Beschrijving,
                                           _scenario.ContactgegevenWerdToegevoegd.IsPrimair)
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);

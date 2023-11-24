@@ -3,6 +3,6 @@
 using Framework;
 
 public record ContactgegevenKonNietOvergenomenWordenUitKBO(
-    string Type,
+    string Contactgegeventype,
     string TypeVolgensKbo,
     string Waarde) : IEvent;

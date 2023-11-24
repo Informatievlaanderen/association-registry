@@ -1,22 +1,26 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using System.Collections.ObjectModel;
 using Bronnen;
-using Framework;
 using Exceptions;
+using Framework;
+using System.Collections.ObjectModel;
 
 public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 {
     private const int InitialId = 1;
-    private int NextId { get; }
-
-    public static Contactgegevens Empty
-        => new(Array.Empty<Contactgegeven>(), InitialId);
 
     private Contactgegevens(IEnumerable<Contactgegeven> contactgegevens, int nextId) : base(contactgegevens.ToArray())
     {
         NextId = nextId;
     }
+
+    private int NextId { get; }
+
+    public static Contactgegevens Empty
+        => new(Array.Empty<Contactgegeven>(), InitialId);
+
+    private new Contactgegeven this[int contactgegevenId]
+        => this.Single(x => x.ContactgegevenId == contactgegevenId);
 
     public Contactgegevens Hydrate(IEnumerable<Contactgegeven> contactgegevens)
     {
@@ -73,7 +77,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
 
         var teWijzigenContactgegeven = this[contactgegevenId];
 
-        if (teWijzigenContactgegeven.WouldBeEquivalent(null, beschrijving, isPrimair, out var gewijzigdContactgegeven))
+        if (teWijzigenContactgegeven.WouldBeEquivalent(waarde: null, beschrijving, isPrimair, out var gewijzigdContactgegeven))
             return null;
 
         ThrowIfCannotAppendOrUpdate(gewijzigdContactgegeven);
@@ -100,9 +104,6 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.IsEquivalentTo);
 
-    private new Contactgegeven this[int contactgegevenId]
-        => this.Single(x => x.ContactgegevenId == contactgegevenId);
-
     private bool HasKey(int contactgegevenId)
         => this.Any(contactgegeven => contactgegeven.ContactgegevenId == contactgegevenId);
 
@@ -116,7 +117,7 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         Throw<ContactgegevenIsDuplicaat>.If(
             this.Without(contactgegeven)
                 .ContainsMetZelfdeWaarden(contactgegeven),
-            contactgegeven.Type);
+            contactgegeven.Contactgegeventype);
     }
 
     private void MustNotHavePrimairOfTheSameTypeAs(Contactgegeven updatedContactgegeven)
@@ -124,8 +125,8 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
         Throw<MeerderePrimaireContactgegevensZijnNietToegestaan>.If(
             updatedContactgegeven.IsPrimair &&
             this.Without(updatedContactgegeven)
-                .HasPrimairForType(updatedContactgegeven.Type),
-            updatedContactgegeven.Type);
+                .HasPrimairForType(updatedContactgegeven.Contactgegeventype),
+            updatedContactgegeven.Contactgegeventype);
     }
 }
 
@@ -137,13 +138,14 @@ public static class ContactgegevenEnumerableExtensions
     public static IEnumerable<Contactgegeven> Without(this IEnumerable<Contactgegeven> source, int contactgegevenId)
         => source.Where(c => c.ContactgegevenId != contactgegevenId);
 
-    public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, ContactgegevenType type)
-        => source.Any(contactgegeven => contactgegeven.Type == type && contactgegeven.IsPrimair);
+    public static bool HasPrimairForType(this IEnumerable<Contactgegeven> source, Contactgegeventype type)
+        => source.Any(contactgegeven => contactgegeven.Contactgegeventype == type && contactgegeven.IsPrimair);
 
     public static bool ContainsMetZelfdeWaarden(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegeven)
         => source.Any(contactgegeven.IsEquivalentTo);
 
     public static bool WouldGiveMultiplePrimaryOfType(this IEnumerable<Contactgegeven> source, Contactgegeven contactgegevenToEvaluate)
         => source.Without(contactgegevenToEvaluate)
-                 .Any(contactgegeven => contactgegeven.Type == contactgegevenToEvaluate.Type && contactgegeven.IsPrimair);
+                 .Any(contactgegeven => contactgegeven.Contactgegeventype == contactgegevenToEvaluate.Contactgegeventype &&
+                                        contactgegeven.IsPrimair);
 }

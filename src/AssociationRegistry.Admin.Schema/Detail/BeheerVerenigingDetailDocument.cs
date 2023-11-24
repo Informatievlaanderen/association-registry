@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
-using System;
 using Marten.Schema;
 
 public record Doelgroep
@@ -11,7 +10,6 @@ public record Doelgroep
 
 public record BeheerVerenigingDetailDocument : IVCode, IMetadata
 {
-    [Identity] public string VCode { get; init; } = null!;
     public string Naam { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; init; } = null!;
     public string Roepnaam { get; set; } = null!;
@@ -26,12 +24,16 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public Vertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<Vertegenwoordiger>();
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
+        Array.Empty<HoofdactiviteitVerenigingsloket>();
+
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
-    public Metadata Metadata { get; set; } = null!;
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
+    public Metadata Metadata { get; set; } = null!;
+    [Identity] public string VCode { get; init; } = null!;
 
     public record VerenigingsType
     {
@@ -42,7 +44,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record Contactgegeven : IHasBron
     {
         public int ContactgegevenId { get; init; }
-        public string Type { get; init; } = null!;
+        public string Contactgegeventype { get; init; } = null!;
         public string Waarde { get; init; } = null!;
         public string? Beschrijving { get; init; }
         public bool IsPrimair { get; init; }
@@ -74,10 +76,11 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
         public string Telefoon { get; init; } = null!;
         public string Mobiel { get; init; } = null!;
         public string SocialMedia { get; init; } = null!;
-        public string Bron { get; set; } = null!;
 
         public int Identity
             => VertegenwoordigerId;
+
+        public string Bron { get; set; } = null!;
     }
 
     public record HoofdactiviteitVerenigingsloket

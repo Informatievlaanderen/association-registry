@@ -60,7 +60,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Delete_A
                     _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .ContactgegevenId,
                     _classFixture.Scenario.ContactgegevenWerdToegevoegd
-                        .Type,
+                        .Contactgegeventype,
                     _classFixture.Scenario.ContactgegevenWerdToegevoegd
                         .Waarde,
                     _classFixture.Scenario.ContactgegevenWerdToegevoegd

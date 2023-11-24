@@ -53,7 +53,7 @@ public static class PubliekVerenigingDetailMapper
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
         => new()
         {
-            Type = info.Type,
+            Contactgegeventype = info.Contactgegeventype,
             Waarde = info.Waarde,
             Beschrijving = info.Beschrijving,
             IsPrimair = info.IsPrimair,

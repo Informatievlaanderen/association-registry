@@ -144,7 +144,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdToegevoegd,
             document,
-            $"{contactgegevenWerdToegevoegd.Data.Type} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
+            $"{contactgegevenWerdToegevoegd.Data.Contactgegeventype} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
         );
     }
 
@@ -162,7 +162,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdGewijzigd,
             document,
-            $"{contactgegevenWerdGewijzigd.Data.Type} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
+            $"{contactgegevenWerdGewijzigd.Data.Contactgegeventype} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
         );
     }
 

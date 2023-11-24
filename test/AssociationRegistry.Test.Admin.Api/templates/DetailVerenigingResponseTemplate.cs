@@ -306,7 +306,7 @@ public class DetailVerenigingResponseTemplate
 
         foreach (var c in e.Contactgegevens)
         {
-            WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+            WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
         }
 
         foreach (var l in e.Locaties)
@@ -375,7 +375,7 @@ public class DetailVerenigingResponseTemplate
 
         foreach (var c in e.Contactgegevens)
         {
-            template.WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
+            template.WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
         }
 
         foreach (var l in e.Locaties)
@@ -440,7 +440,7 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate WithContactgegeven(
         int id,
         Bron bron,
-        string type,
+        string contactgegeventype,
         string waarde,
         string beschrijving = "",
         bool isPrimair = false)
@@ -448,7 +448,7 @@ public class DetailVerenigingResponseTemplate
         _vereniging.contactgegevens.Add(new
         {
             id = id,
-            type = type,
+            contactgegeventype = contactgegeventype,
             waarde = waarde,
             beschrijving = beschrijving,
             isprimair = isPrimair,

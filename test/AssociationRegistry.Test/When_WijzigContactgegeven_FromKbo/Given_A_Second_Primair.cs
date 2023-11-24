@@ -27,7 +27,7 @@ public class Given_A_Second_Primair
         vereniging.Hydrate(new VerenigingState()
                           .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
                           .Apply(ContactgegevenWerdToegevoegd.With(
-                                     fixture.CreateContactgegevenVolgensType(contactgegevenWerdOvergenomenUitKbo.Type) with
+                                     fixture.CreateContactgegevenVolgensType(contactgegevenWerdOvergenomenUitKbo.Contactgegeventype) with
                                      {
                                          ContactgegevenId = 1,
                                          IsPrimair = true,

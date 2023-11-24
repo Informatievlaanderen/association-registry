@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven;
 
-using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Vereniging;
 using FluentAssertions;
 using Marten;
+using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,10 +14,6 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
-    public IDocumentStore DocumentStore { get; }
-    public HttpResponseMessage Response { get; private set; } = null!;
-
 
     public Post_A_New_Contactgegeven(EventsInDbScenariosFixture fixture)
     {
@@ -26,17 +22,21 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
         Scenario = fixture.V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields;
         DocumentStore = _fixture.DocumentStore;
 
-        _jsonBody = $@"{{
+        _jsonBody = @"{
             ""contactgegeven"":
-                {{
-                    ""type"":""e-mail"",
+                {
+                    ""contactgegeventype"":""e-mail"",
                     ""waarde"": ""test@example.org"",
                     ""beschrijving"": ""algemeen"",
                     ""isPrimair"": false
-                }},
+                },
             ""initiator"": ""OVO000001""
-        }}";
+        }";
     }
+
+    public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
+    public IDocumentStore DocumentStore { get; }
+    public HttpResponseMessage Response { get; private set; } = null!;
 
     public async Task InitializeAsync()
     {
@@ -63,17 +63,19 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Post_A_New_Contactgege
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var contactgegevenWerdToegevoegd = (await session.Events
-            .FetchStreamAsync(_classFixture.Scenario.VCode)).Single(e => e.Data.GetType() == typeof(ContactgegevenWerdToegevoegd));
+                                                         .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
-            .BeEquivalentTo(
-                new ContactgegevenWerdToegevoegd(
-                    1,
-                    ContactgegevenType.Email,
-                    "test@example.org",
-                    "algemeen",
-                    false));
+                                    .BeEquivalentTo(
+                                         new ContactgegevenWerdToegevoegd(
+                                             ContactgegevenId: 1,
+                                             Contactgegeventype.Email,
+                                             Waarde: "test@example.org",
+                                             Beschrijving: "algemeen",
+                                             IsPrimair: false));
     }
 
     [Fact]

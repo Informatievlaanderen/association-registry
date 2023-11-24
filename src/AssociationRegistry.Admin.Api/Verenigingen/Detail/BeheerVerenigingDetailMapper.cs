@@ -97,7 +97,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             ContactgegevenId = contactgegeven.ContactgegevenId,
-            Type = contactgegeven.Type,
+            Contactgegeventype = contactgegeven.Contactgegeventype,
             Waarde = contactgegeven.Waarde,
             Beschrijving = contactgegeven.Beschrijving,
             IsPrimair = contactgegeven.IsPrimair,

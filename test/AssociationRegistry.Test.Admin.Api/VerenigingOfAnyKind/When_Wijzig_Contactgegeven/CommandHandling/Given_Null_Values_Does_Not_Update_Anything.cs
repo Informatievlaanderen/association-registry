@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.CommandHandling;
 
 using Acties.WijzigContactgegeven;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,7 +36,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                ContacgegevenId: FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
                 Waarde: null,
                 Beschrijving: null,
                 IsPrimair: null));
@@ -71,8 +71,8 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
             new WijzigContactgegevenCommand.CommandContactgegeven(
-                ContacgegevenId: FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
-                Waarde: _fixture.Create<Email>().Waarde,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                _fixture.Create<Email>().Waarde,
                 Beschrijving: null,
                 IsPrimair: true));
 
@@ -80,8 +80,8 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
 
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdGewijzigd(
-                ContactgegevenId: FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
-                ContactgegevenType.Email,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                Contactgegeventype.Email,
                 command.Contactgegeven.Waarde!,
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving, // <== this must stay the same
                 IsPrimair: true)

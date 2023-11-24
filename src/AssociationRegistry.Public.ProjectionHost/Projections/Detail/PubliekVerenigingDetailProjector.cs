@@ -35,7 +35,7 @@ public static class PubliekVerenigingDetailProjector
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = c.ContactgegevenId,
-                    Type = c.Type.ToString(),
+                    Contactgegeventype = c.Contactgegeventype.ToString(),
                     Waarde = c.Waarde,
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
@@ -66,7 +66,7 @@ public static class PubliekVerenigingDetailProjector
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = c.ContactgegevenId,
-                    Type = c.Type.ToString(),
+                    Contactgegeventype = c.Contactgegeventype.ToString(),
                     Waarde = c.Waarde,
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
@@ -194,7 +194,7 @@ public static class PubliekVerenigingDetailProjector
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                                                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
@@ -211,7 +211,7 @@ public static class PubliekVerenigingDetailProjector
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
                                                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdGewijzigd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,
                                                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                                                     IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,
@@ -357,7 +357,7 @@ public static class PubliekVerenigingDetailProjector
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
                                                     ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdOvergenomenUitKBO.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdOvergenomenUitKBO.Data.Contactgegeventype,
                                                     Beschrijving = string.Empty,
                                                     Waarde = contactgegevenWerdOvergenomenUitKBO.Data.Waarde,
                                                 })

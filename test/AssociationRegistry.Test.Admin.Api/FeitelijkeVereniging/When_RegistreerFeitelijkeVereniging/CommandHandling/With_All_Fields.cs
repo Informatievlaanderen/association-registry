@@ -54,7 +54,7 @@ public class With_All_Fields
                     (c, i) =>
                         new Registratiedata.Contactgegeven(
                             i + 1,
-                            c.Type,
+                            c.Contactgegeventype,
                             c.Waarde,
                             c.Beschrijving,
                             c.IsPrimair

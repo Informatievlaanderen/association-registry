@@ -69,14 +69,16 @@ public static class AutoFixtureCustomizations
                                                        .ToArray(),
                 }).OmitAutoProperties());
 
-        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
-            composer => composer.With(
-                propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
-                valueFactory: () => fixture
-                                   .CreateMany<HoofdactiviteitVerenigingsloket>()
-                                   .Distinct()
-                                   .Select(h => h.Code)
-                                   .ToArray()));
+        fixture
+           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.
+                WijzigBasisgegevensRequest>(
+                composer => composer.With(
+                    propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
+                    valueFactory: () => fixture
+                                       .CreateMany<HoofdactiviteitVerenigingsloket>()
+                                       .Distinct()
+                                       .Select(h => h.Code)
+                                       .ToArray()));
     }
 
     private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
@@ -110,7 +112,7 @@ public static class AutoFixtureCustomizations
 
                                                                  return new ToeTeVoegenContactgegeven
                                                                  {
-                                                                     Type = contactgegeven.Type,
+                                                                     Contactgegeventype = contactgegeven.Contactgegeventype,
                                                                      Waarde = contactgegeven.Waarde,
                                                                      Beschrijving = fixture.Create<string>(),
                                                                      IsPrimair = false,

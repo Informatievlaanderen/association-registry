@@ -22,8 +22,13 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
         var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
 
-        var contactgegeven = Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test@example.org", fixture.Create<string>(), isPrimair: true);
-        var contactgegeven2 = Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test2@example.org", fixture.Create<string>(), isPrimair: true);
+        var contactgegeven =
+            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
+                                               isPrimair: true);
+
+        var contactgegeven2 =
+            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test2@example.org", fixture.Create<string>(),
+                                               isPrimair: true);
 
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {

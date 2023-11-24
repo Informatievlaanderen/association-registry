@@ -40,7 +40,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public class Contactgegeven
     {
         public int ContactgegevenId { get; set; }
-        public string Type { get; set; } = null!;
+        public string Contactgegeventype { get; set; } = null!;
         public string Waarde { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
         public bool IsPrimair { get; set; }

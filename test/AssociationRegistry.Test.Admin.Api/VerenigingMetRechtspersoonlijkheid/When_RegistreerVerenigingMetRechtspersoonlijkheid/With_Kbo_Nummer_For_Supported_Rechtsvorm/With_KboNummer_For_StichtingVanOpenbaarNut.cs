@@ -55,20 +55,20 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
         contactgegevensWerdOvergenomenUitKbo.Should().HaveCount(4);
 
         contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(
-            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 1, ContactgegevenType.Email.Waarde,
-                                                    ContactgegevenTypeVolgensKbo.Email, Waarde: "info@opdebosuil.be"));
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 1, Contactgegeventype.Email.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Email, Waarde: "info@opdebosuil.be"));
 
         contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(
-            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 2, ContactgegevenType.Website.Waarde,
-                                                    ContactgegevenTypeVolgensKbo.Website, Waarde: "https://www.opdebosuil.be"));
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 2, Contactgegeventype.Website.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Website, Waarde: "https://www.opdebosuil.be"));
 
         contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(
-            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 3, ContactgegevenType.Telefoon.Waarde,
-                                                    ContactgegevenTypeVolgensKbo.Telefoon, Waarde: "011642985"));
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 3, Contactgegeventype.Telefoon.Waarde,
+                                                    ContactgegeventypeVolgensKbo.Telefoon, Waarde: "011642985"));
 
         contactgegevensWerdOvergenomenUitKbo.Should().ContainEquivalentOf(
-            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 4, ContactgegevenType.Telefoon.Waarde,
-                                                    ContactgegevenTypeVolgensKbo.GSM, Waarde: "0987654321"));
+            new ContactgegevenWerdOvergenomenUitKBO(ContactgegevenId: 4, Contactgegeventype.Telefoon.Waarde,
+                                                    ContactgegeventypeVolgensKbo.GSM, Waarde: "0987654321"));
     }
 
     [Fact]

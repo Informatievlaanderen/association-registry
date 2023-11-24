@@ -41,7 +41,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Contactgegeven
                     {
-                        Type = "E-mail",
+                        Contactgegeventype = "E-mail",
                         Waarde = "info@example.org",
                         Beschrijving = "Info",
                         IsPrimair = false,

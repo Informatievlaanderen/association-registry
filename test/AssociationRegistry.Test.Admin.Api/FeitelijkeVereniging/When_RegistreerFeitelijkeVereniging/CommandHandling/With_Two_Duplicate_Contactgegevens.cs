@@ -22,7 +22,9 @@ public class With_Two_Duplicate_Contactgegevens
         var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
 
-        var contactgegeven = Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test@example.org", fixture.Create<string>(), isPrimair: true);
+        var contactgegeven =
+            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
+                                               isPrimair: true);
 
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {

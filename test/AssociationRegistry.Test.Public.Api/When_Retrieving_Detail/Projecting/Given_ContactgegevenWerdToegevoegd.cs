@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using Events;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
@@ -24,16 +23,17 @@ public class Given_ContactgegevenWerdToegevoegd
         PubliekVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
         doc.Contactgegevens.Should()
-            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdToegevoegd.Data.ContactgegevenId)
-            .Which.Should().BeEquivalentTo(
+           .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdToegevoegd.Data.ContactgegevenId)
+           .Which.Should().BeEquivalentTo(
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                     IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 });
+
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }

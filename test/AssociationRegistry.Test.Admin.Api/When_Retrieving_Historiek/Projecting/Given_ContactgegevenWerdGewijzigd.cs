@@ -25,7 +25,7 @@ public class Given_ContactgegevenWerdGewijzigd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"{contactgegevenWerdGewijzigd.Data.Type} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd.",
+                $"{contactgegevenWerdGewijzigd.Data.Contactgegeventype} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd.",
                 nameof(ContactgegevenWerdGewijzigd),
                 contactgegevenWerdGewijzigd.Data,
                 contactgegevenWerdGewijzigd.Initiator,

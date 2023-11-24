@@ -66,21 +66,21 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                       .WithContactgegeven(
                            _scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId,
                            _scenario.EmailWerdOvergenomenUitKBO.Bron,
-                           _scenario.EmailWerdOvergenomenUitKBO.Type,
+                           _scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype,
                            _scenario.EmailWerdOvergenomenUitKBO.Waarde,
                            _scenario.EmailWerdGewijzigd.Beschrijving,
                            _scenario.EmailWerdGewijzigd.IsPrimair)
                       .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.WebsiteWerdOvergenomenUitKBO.Bron,
-                                          _scenario.WebsiteWerdOvergenomenUitKBO.Type,
+                                          _scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype,
                                           _scenario.WebsiteWerdOvergenomenUitKBO.Waarde)
                       .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.TelefoonWerdOvergenomenUitKBO.Bron,
-                                          _scenario.TelefoonWerdOvergenomenUitKBO.Type,
+                                          _scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype,
                                           _scenario.TelefoonWerdOvergenomenUitKBO.Waarde)
                       .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.GSMWerdOvergenomenUitKBO.Bron,
-                                          _scenario.GSMWerdOvergenomenUitKBO.Type,
+                                          _scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
                                           _scenario.GSMWerdOvergenomenUitKBO.Waarde)
                       .WithVertegenwoordiger(_scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
                                              _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Voornaam,
