@@ -23,9 +23,9 @@ public class Given_Sort_By_MultipleFields
     }
 
     [Theory]
-    [InlineData("type.code", "naam")]
-    [InlineData("type.code", "korteNaam")]
-    [InlineData("type.code", "vCode")]
+    [InlineData("verenigingstype.code", "naam")]
+    [InlineData("verenigingstype.code", "korteNaam")]
+    [InlineData("verenigingstype.code", "vCode")]
     public async Task? Then_it_sorts_ascending_then_descending(string ascendingField, string descendingField)
     {
         var response = await _publicApiClient.Search(q: "*", $"{ascendingField},-{descendingField}");
@@ -51,9 +51,9 @@ public class Given_Sort_By_MultipleFields
     }
 
     [Theory]
-    [InlineData("type.code", "naam")]
-    [InlineData("type.code", "korteNaam")]
-    [InlineData("type.code", "vCode")]
+    [InlineData("verenigingstype.code", "naam")]
+    [InlineData("verenigingstype.code", "korteNaam")]
+    [InlineData("verenigingstype.code", "vCode")]
     public async Task? Then_it_sorts_descending_then_ascending(string descendingField, string ascendingField)
     {
         var response = await _publicApiClient.Search(q: "*", $"-{descendingField},{ascendingField}");

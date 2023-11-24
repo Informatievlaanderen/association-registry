@@ -23,7 +23,7 @@ public class Given_A_Field_With_Inconclusive_Order
     }
 
     [Theory]
-    [InlineData("type.code")]
+    [InlineData("verenigingstype.code")]
     public async Task? Then_it_sorts_by_field_then_by_vCode_descending(string field)
     {
         var response = await _publicApiClient.Search(q: "*", field);

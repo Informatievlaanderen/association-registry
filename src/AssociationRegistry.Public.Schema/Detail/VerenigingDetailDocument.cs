@@ -10,7 +10,8 @@ public record Doelgroep
 
 public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
-    public VerenigingsType Type { get; set; } = null!;
+    [Identity] public string VCode { get; set; } = null!;
+    public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
@@ -29,12 +30,11 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
-    [Identity] public string VCode { get; set; } = null!;
 
     public class VerenigingsType
     {
         public string Code { get; set; } = null!;
-        public string Beschrijving { get; set; } = null!;
+        public string Naam { get; set; } = null!;
     }
 
     public class Contactgegeven

@@ -3,7 +3,7 @@ namespace AssociationRegistry.Public.Schema.Search;
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus
 {
     public string VCode { get; set; } = null!;
-    public VerenigingsType Type { get; set; } = null!;
+    public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
@@ -35,7 +35,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public class VerenigingsType
     {
         public string Code { get; init; } = null!;
-        public string Beschrijving { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public class Sleutel

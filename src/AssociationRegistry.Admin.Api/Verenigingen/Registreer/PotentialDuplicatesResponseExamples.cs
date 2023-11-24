@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using System.Collections.Immutable;
 using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
 using Swashbuckle.AspNetCore.Filters;
+using System.Collections.Immutable;
 using Vereniging;
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
@@ -17,22 +17,23 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
 
     public PotentialDuplicatesResponse GetExamples()
         => new(
-            "AB-CD-12-23-43-98-36-A8",
+            hashedRequest: "AB-CD-12-23-43-98-36-A8",
             new PotentialDuplicatesFound(
                 new[]
                 {
                     new DuplicaatVereniging(
-                        "V0001001",
+                        VCode: "V0001001",
                         new DuplicaatVereniging.VerenigingsType(
-                                Verenigingstype.FeitelijkeVereniging.Code,
-                                Verenigingstype.FeitelijkeVereniging.Beschrijving),
-                        "Naam",
-                        "Korte naam",
+                            Verenigingstype.FeitelijkeVereniging.Code,
+                            Verenigingstype.FeitelijkeVereniging.Naam),
+                        Naam: "Naam",
+                        KorteNaam: "Korte naam",
                         ImmutableArray.Create(
-                            new DuplicaatVereniging.HoofdactiviteitVerenigingsloket("CODE", "Beschrijving")
+                            new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(Code: "CODE", Beschrijving: "Beschrijving")
                         ),
                         ImmutableArray.Create(
-                            new DuplicaatVereniging.Locatie("Locatietype", IsPrimair: true, "Adresvoorstelling", "Naam", "Postcode", "Gemeente")
+                            new DuplicaatVereniging.Locatie(Locatietype: "Locatietype", IsPrimair: true, Adres: "Adresvoorstelling",
+                                                            Naam: "Naam", Postcode: "Postcode", Gemeente: "Gemeente")
                         )),
                 }),
             _appSettings);

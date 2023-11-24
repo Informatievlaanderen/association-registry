@@ -12,8 +12,8 @@ public class Vereniging
     public string VCode { get; init; } = null!;
 
     /// <summary>Type van de vereniging</summary>
-    [DataMember(Name = "Type")]
-    public VerenigingsType Type { get; init; } = null!;
+    [DataMember(Name = "Verenigingstype")]
+    public VerenigingsType Verenigingstype { get; init; } = null!;
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -54,7 +54,8 @@ public class Vereniging
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } =
+        Array.Empty<HoofdactiviteitVerenigingsloket>();
 
     /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]

@@ -19,7 +19,7 @@ public class BeheerVerenigingDetailProjector
         => new()
         {
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -52,7 +52,7 @@ public class BeheerVerenigingDetailProjector
         => new()
         {
             VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
             Naam = afdelingWerdGeregistreerd.Data.Naam,
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -89,10 +89,10 @@ public class BeheerVerenigingDetailProjector
         => new()
         {
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new BeheerVerenigingDetailDocument.VerenigingsType
             {
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
+                Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,

@@ -24,7 +24,7 @@ public class BeheerZoekProjectionHandler
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
-                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -53,7 +53,7 @@ public class BeheerZoekProjectionHandler
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Afdeling.Code,
-                    Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+                    Beschrijving = Verenigingstype.Afdeling.Naam,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -83,7 +83,7 @@ public class BeheerZoekProjectionHandler
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-                    Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Beschrijving,
+                    Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
                 },
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,

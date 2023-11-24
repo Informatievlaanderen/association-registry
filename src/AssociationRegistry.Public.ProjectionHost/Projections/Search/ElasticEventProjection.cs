@@ -21,10 +21,10 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
-                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                    Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -52,10 +52,10 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Afdeling.Code,
-                    Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+                    Naam = Verenigingstype.Afdeling.Naam,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -107,10 +107,10 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
-                    Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Beschrijving,
+                    Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
                 },
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,

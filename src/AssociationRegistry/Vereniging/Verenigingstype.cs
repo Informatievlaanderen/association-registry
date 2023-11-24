@@ -19,14 +19,14 @@ public class Verenigingstype
         Afdeling,
     };
 
-    public Verenigingstype(string code, string beschrijving)
+    public Verenigingstype(string code, string naam)
     {
         Code = code;
-        Beschrijving = beschrijving;
+        Naam = naam;
     }
 
     public string Code { get; }
-    public string Beschrijving { get; }
+    public string Naam { get; }
 
     public static Verenigingstype Parse(string code)
         => All.Single(t => t.Code == code);

@@ -97,7 +97,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             Code = verenigingstype.Code,
-            Beschrijving = verenigingstype.Beschrijving,
+            Naam = verenigingstype.Naam,
         };
 
     public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(

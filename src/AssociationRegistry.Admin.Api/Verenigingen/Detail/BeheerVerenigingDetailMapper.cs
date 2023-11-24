@@ -35,7 +35,7 @@ public class BeheerVerenigingDetailMapper
         return new VerenigingDetail
         {
             VCode = vereniging.VCode,
-            Type = Map(vereniging.Type),
+            Verenigingstype = Map(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -83,7 +83,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             Code = verenigingsType.Code,
-            Beschrijving = verenigingsType.Beschrijving,
+            Naam = verenigingsType.Naam,
         };
 
     private static Sleutel Map(BeheerVerenigingDetailDocument.Sleutel sleutel)

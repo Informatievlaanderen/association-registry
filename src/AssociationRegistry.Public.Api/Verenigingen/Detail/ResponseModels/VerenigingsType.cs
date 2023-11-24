@@ -6,14 +6,14 @@ using System.Runtime.Serialization;
 public class VerenigingsType
 {
     /// <summary>
-    /// Code van het type vereniging
+    ///     Code van het type vereniging
     /// </summary>
     [DataMember(Name = "Code")]
     public string Code { get; set; } = null!;
 
     /// <summary>
-    /// Beschrijving van het type vereniging
+    ///     Beschrijving van het type vereniging
     /// </summary>
-    [DataMember(Name = "Beschrijving")]
-    public string Beschrijving { get; set; } = null!;
+    [DataMember(Name = "Naam")]
+    public string Naam { get; set; } = null!;
 }

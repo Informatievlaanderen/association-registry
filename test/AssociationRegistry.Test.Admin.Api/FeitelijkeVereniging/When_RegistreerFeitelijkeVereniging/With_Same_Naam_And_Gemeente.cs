@@ -95,7 +95,7 @@ public class With_Same_Naam_And_Gemeente
       ""vCode"": ""{FeitelijkeVerenigingWerdGeregistreerd.VCode}"",
       ""type"": {{
         ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
-        ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Beschrijving}"",
+        ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Naam}"",
       }},
       ""naam"": ""{FeitelijkeVerenigingWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{FeitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",
