@@ -105,7 +105,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             document.KorteNaam,
             document.HoofdactiviteitVerenigingsloket
                     .Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(
-                                h, HoofdactiviteitVerenigingsloket.Create(h).Beschrijving)).ToImmutableArray(),
+                                h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray(),
             document.Locaties.Select(ToLocatie).ToImmutableArray());
 
     private static DuplicaatVereniging.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)

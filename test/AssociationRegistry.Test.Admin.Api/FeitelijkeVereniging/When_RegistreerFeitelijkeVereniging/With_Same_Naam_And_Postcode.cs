@@ -100,7 +100,7 @@ public class With_Same_Naam_And_Postcode
           FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
               .Select(hoofdactiviteit => $@"{{
           ""code"": ""{hoofdactiviteit.Code}"",
-          ""beschrijving"": ""{hoofdactiviteit.Beschrijving}""
+          ""beschrijving"": ""{hoofdactiviteit.Naam}""
         }}"))}
       ],
       ""locaties"": [{string.Join(",",

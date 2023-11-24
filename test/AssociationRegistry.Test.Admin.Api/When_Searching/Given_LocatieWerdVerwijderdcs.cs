@@ -15,8 +15,8 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_LocatieWerdVerwijderd
 {
-    private readonly V025_LocatieWerdVerwijderd _scenario;
     private readonly AdminApiClient _adminApiClient;
+    private readonly V025_LocatieWerdVerwijderd _scenario;
 
     public Given_LocatieWerdVerwijderd(EventsInDbScenariosFixture fixture)
     {
@@ -52,7 +52,7 @@ public class Given_LocatieWerdVerwijderd
                                                  l3.IsPrimair)
                                     .WithHoofdactiviteit(
                                          _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket[0].Code,
-                                         _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket[0].Beschrijving);
+                                         _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket[0].Naam);
 
                                    return v;
                                });

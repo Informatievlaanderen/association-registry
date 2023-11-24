@@ -86,7 +86,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                     {
                         Code = arg.Code,
-                        Beschrijving = arg.Beschrijving,
+                        Naam = arg.Naam,
                     }).ToArray(),
                 Sleutels = Array.Empty<PubliekVerenigingDetailDocument.Sleutel>(),
             });

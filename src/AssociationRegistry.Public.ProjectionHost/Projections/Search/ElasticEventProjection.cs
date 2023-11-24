@@ -38,7 +38,7 @@ public class PubliekZoekProjectionHandler
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
@@ -69,7 +69,7 @@ public class PubliekZoekProjectionHandler
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
                 Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
@@ -183,7 +183,7 @@ public class PubliekZoekProjectionHandler
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Beschrijving,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
             });

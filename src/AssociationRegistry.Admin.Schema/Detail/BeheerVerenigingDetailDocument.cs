@@ -83,7 +83,7 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
     public record HoofdactiviteitVerenigingsloket
     {
         public string Code { get; init; } = null!;
-        public string Beschrijving { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public record Sleutel

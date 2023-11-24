@@ -28,8 +28,10 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test@example.org", _fixture.Create<string>(), isPrimair: true),
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Website, waarde: "http://example.org", _fixture.Create<string>(), isPrimair: true),
+                Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, waarde: "test@example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
+                Contactgegeven.CreateFromInitiator(ContactgegevenType.Website, waarde: "http://example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
             },
         };
 
@@ -45,7 +47,9 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     public async Task InitializeAsync()
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None);
+
+        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+                                     CancellationToken.None);
     }
 
     public Task DisposeAsync()
@@ -93,6 +97,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
-                        h.Beschrijving)).ToArray()));
+                        h.Naam)).ToArray()));
     }
 }

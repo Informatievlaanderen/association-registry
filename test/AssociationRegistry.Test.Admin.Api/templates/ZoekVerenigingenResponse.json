@@ -16,7 +16,7 @@
         {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
         {
           "code": "{{hoofdactiviteit.code}}",
-          "beschrijving": "{{hoofdactiviteit.beschrijving}}"
+          "naam": "{{hoofdactiviteit.naam}}"
         },
         {{end}}
       ],

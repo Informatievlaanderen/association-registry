@@ -30,7 +30,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
-                    HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
+                    HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Naam = "Cultuur" } },
                     Status = VerenigingStatus.Actief,
                     Doelgroep = new DoelgroepResponse
                     {
@@ -72,7 +72,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new HoofdactiviteitVerenigingsloket
                         {
                             Code = "SPRT",
-                            Beschrijving = "Sport",
+                            Naam = "Sport",
                         },
                     },
                     Type = new VerenigingsType

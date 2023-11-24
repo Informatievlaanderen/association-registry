@@ -97,7 +97,7 @@ public class With_All_Fields
                         )).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h =>
-                        new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving)
+                        new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam)
                 ).ToArray()));
     }
 }

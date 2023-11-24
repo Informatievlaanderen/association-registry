@@ -148,7 +148,7 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             Code = arg.Code,
-            Beschrijving = arg.Beschrijving,
+            Naam = arg.Naam,
         };
 
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, PubliekVerenigingDetailDocument document)
@@ -262,7 +262,7 @@ public static class PubliekVerenigingDetailProjector
                 h => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
                     Code = h.Code,
-                    Beschrijving = h.Beschrijving,
+                    Naam = h.Naam,
                 }).ToArray();
     }
 

@@ -92,12 +92,12 @@ public class DetailVerenigingResponseTemplate
         return this;
     }
 
-    public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string beschrijving)
+    public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string naam)
     {
         _vereniging.hoofdactiviteiten.Add(new
         {
             code = code,
-            beschrijving = beschrijving,
+            naam = naam,
         });
 
         return this;
@@ -257,7 +257,7 @@ public class DetailVerenigingResponseTemplate
                       .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-            template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+            template.WithHoofdactiviteit(h.Code, h.Naam);
 
         foreach (var c in e.Contactgegevens)
             template.WithContactgegeven(c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);
@@ -280,7 +280,7 @@ public class DetailVerenigingResponseTemplate
                       .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-            template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+            template.WithHoofdactiviteit(h.Code, h.Naam);
 
         foreach (var c in e.Contactgegevens)
             template.WithContactgegeven(c.Type, c.Waarde, c.Beschrijving, c.IsPrimair);

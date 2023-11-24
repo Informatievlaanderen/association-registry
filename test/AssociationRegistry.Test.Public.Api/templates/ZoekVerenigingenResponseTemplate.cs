@@ -216,7 +216,7 @@ public class ZoekVerenigingenResponseTemplate
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-                template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+                template.WithHoofdactiviteit(h.Code, h.Naam);
 
             foreach (var l in e.Locaties)
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
@@ -234,7 +234,7 @@ public class ZoekVerenigingenResponseTemplate
                           .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-                template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+                template.WithHoofdactiviteit(h.Code, h.Naam);
 
             foreach (var l in e.Locaties)
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);

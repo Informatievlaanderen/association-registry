@@ -71,7 +71,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     new HoofdactiviteitVerenigingsloket
                     {
                         Code = "CULT",
-                        Beschrijving = "Cultuur",
+                        Naam = "Cultuur",
                     },
                 },
                 Sleutels = Array.Empty<Sleutel>(),

@@ -58,7 +58,8 @@ public class With_A_PotentialDuplicate_And_Force
             duplicateChecker.Object,
             new ClockStub(_command.Startdatum.Value));
 
-        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
+        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+                                        CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();
     }
@@ -99,7 +100,7 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
-                        h.Beschrijving)).ToArray()
+                        h.Naam)).ToArray()
             ));
     }
 }

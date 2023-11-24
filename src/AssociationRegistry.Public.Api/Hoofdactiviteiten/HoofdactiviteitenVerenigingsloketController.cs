@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Public.Api.Hoofdactiviteiten;
 
-using System.Linq;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Linq;
 using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -33,10 +33,11 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
             }
         );
 
-    private static HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket ToDto(HoofdactiviteitVerenigingsloket arg)
+    private static HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket ToDto(
+        HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,
-            Beschrijving = arg.Beschrijving,
+            Beschrijving = arg.Naam,
         };
 }

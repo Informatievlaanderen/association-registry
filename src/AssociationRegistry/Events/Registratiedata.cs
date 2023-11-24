@@ -9,7 +9,7 @@ public static class Registratiedata
         string Beschrijving,
         bool IsPrimair)
     {
-        public static Contactgegeven With(AssociationRegistry.Vereniging.Contactgegeven contactgegeven)
+        public static Contactgegeven With(Vereniging.Contactgegeven contactgegeven)
             => new(
                 contactgegeven.ContactgegevenId,
                 contactgegeven.Type,
@@ -26,7 +26,7 @@ public static class Registratiedata
         Adres? Adres,
         AdresId? AdresId)
     {
-        public static Locatie With(AssociationRegistry.Vereniging.Locatie locatie)
+        public static Locatie With(Vereniging.Locatie locatie)
             => new(
                 locatie.LocatieId,
                 locatie.Locatietype,
@@ -44,7 +44,7 @@ public static class Registratiedata
         string Gemeente,
         string Land)
     {
-        public static Adres? With(AssociationRegistry.Vereniging.Adres? adres)
+        public static Adres? With(Vereniging.Adres? adres)
         {
             if (adres is null)
                 return null;
@@ -61,7 +61,7 @@ public static class Registratiedata
 
     public record AdresId(string Broncode, string Bronwaarde)
     {
-        public static AdresId? With(AssociationRegistry.Vereniging.AdresId? adresId)
+        public static AdresId? With(Vereniging.AdresId? adresId)
         {
             if (adresId is null)
                 return null;
@@ -74,7 +74,7 @@ public static class Registratiedata
 
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd)
     {
-        public static Doelgroep With(AssociationRegistry.Vereniging.Doelgroep doelgroep)
+        public static Doelgroep With(Vereniging.Doelgroep doelgroep)
             => new(doelgroep.Minimumleeftijd, doelgroep.Maximumleeftijd);
     }
 
@@ -91,7 +91,7 @@ public static class Registratiedata
         string Mobiel,
         string SocialMedia)
     {
-        public static Vertegenwoordiger With(AssociationRegistry.Vereniging.Vertegenwoordiger vertegenwoordiger)
+        public static Vertegenwoordiger With(Vereniging.Vertegenwoordiger vertegenwoordiger)
             => new(
                 vertegenwoordiger.VertegenwoordigerId,
                 vertegenwoordiger.Insz,
@@ -108,9 +108,9 @@ public static class Registratiedata
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,
-        string Beschrijving)
+        string Naam)
     {
-        public static HoofdactiviteitVerenigingsloket With(AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket activiteit)
-            => new(activiteit.Code, activiteit.Beschrijving);
+        public static HoofdactiviteitVerenigingsloket With(Vereniging.HoofdactiviteitVerenigingsloket activiteit)
+            => new(activiteit.Code, activiteit.Naam);
     }
 }

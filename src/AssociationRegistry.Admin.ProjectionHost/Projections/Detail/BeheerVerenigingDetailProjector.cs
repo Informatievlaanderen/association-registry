@@ -209,7 +209,7 @@ public class BeheerVerenigingDetailProjector
                 h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
                     Code = h.Code,
-                    Beschrijving = h.Beschrijving,
+                    Naam = h.Naam,
                 }).ToArray();
 
     }

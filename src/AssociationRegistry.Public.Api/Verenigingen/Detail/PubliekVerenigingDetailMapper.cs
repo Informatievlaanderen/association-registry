@@ -74,7 +74,7 @@ public static class PubliekVerenigingDetailMapper
         };
 
     private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
-        => new() { Code = ha.Code, Beschrijving = ha.Beschrijving };
+        => new() { Code = ha.Code, Naam = ha.Naam };
 
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()

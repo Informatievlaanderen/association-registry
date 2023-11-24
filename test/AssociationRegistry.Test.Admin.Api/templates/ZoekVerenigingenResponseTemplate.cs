@@ -3,10 +3,10 @@ namespace AssociationRegistry.Test.Admin.Api.templates;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formatters;
-using AssociationRegistry.Test.Framework;
 using Scriban;
-using Vereniging;
 using System.Dynamic;
+using Test.Framework;
+using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate
 {
@@ -123,12 +123,12 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate WithHoofdactiviteit(string code, string beschrijving)
+        public VerenigingTemplate WithHoofdactiviteit(string code, string naam)
         {
             _vereniging.hoofdactiviteiten.Add(new
             {
                 code = code,
-                beschrijving = beschrijving,
+                naam = naam,
             });
 
             return this;
@@ -186,10 +186,14 @@ public class ZoekVerenigingenResponseTemplate
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-                template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+            {
+                template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
 
             foreach (var l in e.Locaties)
+            {
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
+            }
 
             return template;
         }
@@ -203,10 +207,14 @@ public class ZoekVerenigingenResponseTemplate
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-                template.WithHoofdactiviteit(h.Code, h.Beschrijving);
+            {
+                template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
 
             foreach (var l in e.Locaties)
+            {
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
+            }
 
             return template;
         }

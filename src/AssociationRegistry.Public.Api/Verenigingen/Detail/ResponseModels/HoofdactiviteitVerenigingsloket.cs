@@ -10,6 +10,6 @@ public class HoofdactiviteitVerenigingsloket
     public string Code { get; init; } = null!;
 
     /// <summary>De beschrijving van de hoofdactivititeit</summary>
-    [DataMember(Name = "Beschrijving")]
-    public string Beschrijving { get; init; }= null!;
+    [DataMember(Name = "Naam")]
+    public string Naam { get; init; }= null!;
 }
