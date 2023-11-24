@@ -29,10 +29,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
-                        Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                        Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                     },
                     HoofdactiviteitenVerenigingsloket = new[]
                         { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
@@ -78,10 +78,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De Bron",
                     Roepnaam = "Bronneke",
                     KorteNaam = string.Empty,
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.VZW.Code,
-                        Beschrijving = Verenigingstype.VZW.Beschrijving,
+                        Naam = Verenigingstype.VZW.Naam,
                     },
                     HoofdactiviteitenVerenigingsloket = new[]
                     {

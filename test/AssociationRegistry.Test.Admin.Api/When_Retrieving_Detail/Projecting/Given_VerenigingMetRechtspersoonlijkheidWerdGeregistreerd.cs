@@ -27,7 +27,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     public void Then_it_creates_a_new_vereniging(string rechtsvorm)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<TestEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>>();
 
         verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data with
         {
@@ -40,10 +42,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             new BeheerVerenigingDetailDocument
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                Type = new BeheerVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new BeheerVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(rechtsvorm).Code,
-                    Beschrijving = Verenigingstype.Parse(rechtsvorm).Beschrijving,
+                    Naam = Verenigingstype.Parse(rechtsvorm).Naam,
                 },
                 Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
                 Roepnaam = string.Empty,
@@ -72,7 +74,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 },
                 Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
                 Bron = Bron.KBO,
-                Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
+                Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence,
+                                        verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
             });
     }
 }

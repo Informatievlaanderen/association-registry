@@ -18,10 +18,10 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Type = new PubliekVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
@@ -49,10 +49,10 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Type = new PubliekVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
                 Code = Verenigingstype.Afdeling.Code,
-                Beschrijving = Verenigingstype.Afdeling.Beschrijving,
+                Naam = Verenigingstype.Afdeling.Naam,
             },
             Naam = afdelingWerdGeregistreerd.Data.Naam,
             KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
@@ -111,10 +111,10 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Type = new PubliekVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
+                Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,

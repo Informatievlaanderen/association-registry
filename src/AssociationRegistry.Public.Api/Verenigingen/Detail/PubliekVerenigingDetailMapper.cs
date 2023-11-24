@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using System.Linq;
 
 public static class PubliekVerenigingDetailMapper
 {
@@ -14,7 +14,7 @@ public static class PubliekVerenigingDetailMapper
             Vereniging = new Vereniging
             {
                 VCode = document.VCode,
-                Type = Map(document.Type),
+                Verenigingstype = Map(document.Verenigingstype),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,
@@ -63,7 +63,7 @@ public static class PubliekVerenigingDetailMapper
         => new()
         {
             Code = verenigingsType.Code,
-            Beschrijving = verenigingsType.Beschrijving,
+            Naam = verenigingsType.Naam,
         };
 
     private static Sleutel Map(PubliekVerenigingDetailDocument.Sleutel s)

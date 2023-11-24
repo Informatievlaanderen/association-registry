@@ -17,6 +17,6 @@ public class VerenigingsType
     /// <summary>
     /// De beschrijving van het type vereniging
     /// </summary>
-    [DataMember(Name = "Beschrijving")]
-    public string Beschrijving { get; set; } = null!;
+    [DataMember(Name = "Naam")]
+    public string Naam { get; set; } = null!;
 }

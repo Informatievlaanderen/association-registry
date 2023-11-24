@@ -4,9 +4,9 @@
     {{ for vereniging in verenigingen }}
     {
       "vCode": "{{vereniging.vcode}}",
-      "type": {
-        "code": "{{vereniging.type.code}}",
-        "beschrijving": "{{vereniging.type.beschrijving}}"
+      "verenigingstype": {
+        "code": "{{vereniging.verenigingstype.code}}",
+        "naam": "{{vereniging.verenigingstype.naam}}"
       },
       "naam": "{{vereniging.naam}}",
       "korteNaam": "{{vereniging.kortenaam}}",

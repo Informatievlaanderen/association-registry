@@ -126,7 +126,7 @@ public class ElasticRepository : IElasticRepository
     {
         var afdeling = _elasticClient.Get<VerenigingZoekDocument>(vCode);
 
-        if (afdeling.Source.Type.Code == Verenigingstype.Afdeling.Code)
+        if (afdeling.Source.Verenigingstype.Code == Verenigingstype.Afdeling.Code)
         {
             var bulkResponse = await _elasticClient.BulkAsync(b => b
                                                                    // Update the Association's name and perform version check

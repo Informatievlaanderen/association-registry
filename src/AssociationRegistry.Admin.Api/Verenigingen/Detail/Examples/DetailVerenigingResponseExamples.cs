@@ -27,16 +27,16 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
     public IEnumerable<SwaggerExample<DetailVerenigingResponse>> GetExamples()
     {
         yield return SwaggerExample.Create(
-            "Feitelijke vereniging",
+            name: "Feitelijke vereniging",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001001",
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
-                        Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                        Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
@@ -127,16 +127,16 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
         );
 
         yield return SwaggerExample.Create(
-            "Vereniging met rechtspersoonlijkheid",
+            name: "Vereniging met rechtspersoonlijkheid",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
                     VCode = "V0001002",
-                    Type = new VerenigingsType
+                    Verenigingstype = new VerenigingsType
                     {
-                        Beschrijving = Verenigingstype.VZW.Beschrijving,
+                        Naam = Verenigingstype.VZW.Naam,
                         Code = Verenigingstype.VZW.Code,
                     },
                     Naam = "Vissen achter het net",

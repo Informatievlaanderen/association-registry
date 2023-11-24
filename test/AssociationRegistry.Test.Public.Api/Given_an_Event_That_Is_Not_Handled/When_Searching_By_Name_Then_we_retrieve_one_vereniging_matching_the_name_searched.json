@@ -3,9 +3,9 @@
   "verenigingen": [
     {
       "vCode": "V0001004",
-      "type": {
+      "verenigingstype": {
         "code": "FV",
-        "beschrijving": "Feitelijke vereniging"
+        "naam": "Feitelijke vereniging"
       },
       "naam": "Oostende voor anker",
       "korteNaam": "OVA",
@@ -17,7 +17,7 @@
       ],
       "doelgroep": {
         "minimumleeftijd": 0,
-        "maximumleeftijd": 150,
+        "maximumleeftijd": 150
       },
       "locaties": [
       ],

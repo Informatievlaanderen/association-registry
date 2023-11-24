@@ -100,7 +100,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         => new(
             document.VCode,
             new DuplicaatVereniging.VerenigingsType(document.VerenigingsTypeCode,
-                                                    Verenigingstype.Parse(document.VerenigingsTypeCode).Beschrijving),
+                                                    Verenigingstype.Parse(document.VerenigingsTypeCode).Naam),
             document.Naam,
             document.KorteNaam,
             document.HoofdactiviteitVerenigingsloket

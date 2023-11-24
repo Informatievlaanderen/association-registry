@@ -23,7 +23,7 @@ public class Given_Sort_By_NestedField
     }
 
     [Theory]
-    [InlineData("type.code")]
+    [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_ascending(string field)
     {
@@ -42,7 +42,7 @@ public class Given_Sort_By_NestedField
     }
 
     [Theory]
-    [InlineData("type.code")]
+    [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_descending(string field)
     {

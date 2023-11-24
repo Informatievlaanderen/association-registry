@@ -22,10 +22,10 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Vereniging = new Vereniging
             {
                 VCode = "V0001001",
-                Type = new VerenigingsType
+                Verenigingstype = new VerenigingsType
                 {
                     Code = "FV",
-                    Beschrijving = "Feitelijke vereniging",
+                    Naam = "Feitelijke vereniging",
                 },
                 Naam = "FWA De vrolijke BA’s",
                 KorteNaam = "DVB",

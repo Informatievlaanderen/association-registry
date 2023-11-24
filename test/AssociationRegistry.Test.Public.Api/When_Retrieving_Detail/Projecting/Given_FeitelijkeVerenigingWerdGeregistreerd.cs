@@ -29,10 +29,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-                Type = new PubliekVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
-                    Beschrijving = Verenigingstype.FeitelijkeVereniging.Beschrijving,
+                    Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
                 Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,

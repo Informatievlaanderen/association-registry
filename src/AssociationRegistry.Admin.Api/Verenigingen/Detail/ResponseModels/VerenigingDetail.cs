@@ -11,8 +11,8 @@ public class VerenigingDetail
     public string VCode { get; init; } = null!;
 
     /// <summary>Het type van deze vereniging</summary>
-    [DataMember(Name = "Type")]
-    public VerenigingsType Type { get; init; } = null!;
+    [DataMember(Name = "Verenigingstype")]
+    public VerenigingsType Verenigingstype { get; init; } = null!;
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]

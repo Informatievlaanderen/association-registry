@@ -89,10 +89,10 @@ public class ZoekVerenigingenResponseTemplate
 
         public VerenigingTemplate WithType(Verenigingstype type)
         {
-            _vereniging.type = new
+            _vereniging.verenigingstype = new
             {
                 code = type.Code,
-                beschrijving = type.Beschrijving,
+                naam = type.Naam,
             };
 
             return this;
