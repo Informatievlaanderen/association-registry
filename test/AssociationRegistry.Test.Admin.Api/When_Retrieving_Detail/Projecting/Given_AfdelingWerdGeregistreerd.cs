@@ -17,6 +17,7 @@ using Xunit;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Schema.Detail.Adres;
 using AdresId = AssociationRegistry.Admin.Schema.Detail.AdresId;
+using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 
 [UnitTest]
 public class Given_AfdelingWerdGeregistreerd
@@ -42,7 +43,7 @@ public class Given_AfdelingWerdGeregistreerd
                 KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
                 Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-                Doelgroep = new AssociationRegistry.Admin.Schema.Detail.Doelgroep
+                Doelgroep = new Doelgroep
                 {
                     Minimumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = afdelingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
@@ -107,7 +108,7 @@ public class Given_AfdelingWerdGeregistreerd
                     h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                     {
                         Code = h.Code,
-                        Beschrijving = h.Beschrijving,
+                        Naam = h.Naam,
                     }).ToArray(),
                 Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
                 Relaties = new[]
@@ -126,6 +127,7 @@ public class Given_AfdelingWerdGeregistreerd
                 Bron = Bron.Initiator,
                 Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
             });
+
         doc.DatumLaatsteAanpassing.Should().Be(afdelingWerdGeregistreerd.Tijdstip.ToBelgianDate());
         doc.Metadata.Should().BeEquivalentTo(new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version));
     }

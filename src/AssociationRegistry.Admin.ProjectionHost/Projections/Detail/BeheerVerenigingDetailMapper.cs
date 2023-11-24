@@ -85,11 +85,12 @@ public class BeheerVerenigingDetailMapper
             Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket h)
+    public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(
+        Registratiedata.HoofdactiviteitVerenigingsloket h)
         => new()
         {
             Code = h.Code,
-            Beschrijving = h.Beschrijving,
+            Naam = h.Naam,
         };
 
     public static BeheerVerenigingDetailDocument.VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
@@ -99,7 +100,8 @@ public class BeheerVerenigingDetailMapper
             Beschrijving = verenigingstype.Beschrijving,
         };
 
-    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
+    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(
+        AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
         => new()
         {
             Type = RelatieType.IsAfdelingVan.Beschrijving,

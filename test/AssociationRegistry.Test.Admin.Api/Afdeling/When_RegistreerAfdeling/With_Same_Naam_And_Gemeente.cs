@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Afdeling.When_RegistreerAfdeling;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
@@ -16,6 +15,7 @@ using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -24,11 +24,10 @@ public sealed class When_RegistreerAfdeling_With_Same_Naam_And_Gemeente
 {
     private static When_RegistreerAfdeling_With_Same_Naam_And_Gemeente? called;
     public readonly BevestigingsTokenHelper BevestigingsTokenHelper;
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly string Naam;
     public readonly RegistreerAfdelingRequest Request;
     public readonly HttpResponseMessage Response;
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
-
 
     private When_RegistreerAfdeling_With_Same_Naam_And_Gemeente(EventsInDbScenariosFixture fixture)
     {
@@ -36,21 +35,27 @@ public sealed class When_RegistreerAfdeling_With_Same_Naam_And_Gemeente
         var locatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
         locatie.Adres!.Gemeente = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
-            .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
-            .Adres!.Gemeente;
+                                         .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
+                                         .Adres!.Gemeente;
+
         Request = new RegistreerAfdelingRequest
         {
-            Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd
+                          .Naam,
             KboNummerMoedervereniging = autoFixture.Create<KboNummer>(),
             Locaties = new[]
             {
                 locatie,
             },
         };
+
         Naam = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.Naam;
         BevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
         RequestAsJson = JsonConvert.SerializeObject(Request);
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck.FeitelijkeVerenigingWerdGeregistreerd;
+
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck
+                                                       .FeitelijkeVerenigingWerdGeregistreerd;
+
         Response = fixture.DefaultClient.RegistreerAfdeling(RequestAsJson).GetAwaiter().GetResult();
     }
 
@@ -100,16 +105,16 @@ public class With_Same_Naam_And_Gemeente
       }},
       ""naam"": ""{FeitelijkeVerenigingWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{FeitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",
-      ""hoofdactiviteitenVerenigingsloket"": [{string.Join(",",
-          FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
-              .Select(hoofdactiviteit => $@"{{
+      ""hoofdactiviteitenVerenigingsloket"": [{string.Join(separator: ",",
+                                                           FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
+                                                              .Select(hoofdactiviteit => $@"{{
           ""code"": ""{hoofdactiviteit.Code}"",
-          ""beschrijving"": ""{hoofdactiviteit.Beschrijving}""
+          ""beschrijving"": ""{hoofdactiviteit.Naam}""
         }}"))}
       ],
-      ""locaties"": [{string.Join(",",
-          FeitelijkeVerenigingWerdGeregistreerd.Locaties
-              .Select(locatie => $@"{{
+      ""locaties"": [{string.Join(separator: ",",
+                                  FeitelijkeVerenigingWerdGeregistreerd.Locaties
+                                                                       .Select(locatie => $@"{{
           ""locatietype"": ""{locatie.Locatietype}"",
           ""isPrimair"": {(locatie.IsPrimair ? "true" : "false")},
           ""adresvoorstelling"": ""{locatie.Adres.ToAdresString()}"",
@@ -154,10 +159,11 @@ public class With_Same_Naam_And_Gemeente
     public async Task Then_it_saves_no_extra_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                    .LightweightSession();
+
         var savedEvents = await session.Events
-            .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
-            .ToListAsync();
+                                       .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
+                                       .ToListAsync();
 
         savedEvents.Should().NotContainEquivalentOf(
             new AfdelingWerdGeregistreerd(
@@ -177,7 +183,7 @@ public class With_Same_Naam_And_Gemeente
                 new[]
                 {
                     new Registratiedata.Locatie(
-                        1,
+                        LocatieId: 1,
                         Request.Locaties.First().Locatietype,
                         Request.Locaties.First().IsPrimair,
                         Request.Locaties.First().Naam ?? string.Empty,
@@ -188,11 +194,11 @@ public class With_Same_Naam_And_Gemeente
                             Request.Locaties.First().Adres!.Postcode,
                             Request.Locaties.First().Adres!.Gemeente,
                             Request.Locaties.First().Adres!.Land),
-                        null),
+                        AdresId: null),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
-            options => options.Excluding(e => e.VCode));
+            config: options => options.Excluding(e => e.VCode));
     }
 }

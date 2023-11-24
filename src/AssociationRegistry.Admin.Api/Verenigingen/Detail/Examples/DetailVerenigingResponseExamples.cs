@@ -27,7 +27,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
     public IEnumerable<SwaggerExample<DetailVerenigingResponse>> GetExamples()
     {
         yield return SwaggerExample.Create(
-            "Feitelijke vereniging",
+            name: "Feitelijke vereniging",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
@@ -56,7 +56,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         new HoofdactiviteitVerenigingsloket
                         {
                             Code = "CULT",
-                            Beschrijving = "Cultuur",
+                            Naam = "Cultuur",
                         },
                     },
                     Contactgegevens = new[]
@@ -127,7 +127,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
         );
 
         yield return SwaggerExample.Create(
-            "Vereniging met rechtspersoonlijkheid",
+            name: "Vereniging met rechtspersoonlijkheid",
             new DetailVerenigingResponse
             {
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
@@ -157,7 +157,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         new HoofdactiviteitVerenigingsloket
                         {
                             Code = "CULT",
-                            Beschrijving = "Cultuur",
+                            Naam = "Cultuur",
                         },
                     },
                     Contactgegevens = new[]
