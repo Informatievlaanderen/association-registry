@@ -300,7 +300,7 @@ public class DetailVerenigingResponseTemplate
            .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-            WithHoofdactiviteit(h.Code, h.Beschrijving);
+            WithHoofdactiviteit(h.Code, h.Naam);
 
         foreach (var c in e.Contactgegevens)
         {
