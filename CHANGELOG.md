@@ -1,3 +1,10 @@
+# [8.25.0](https://github.com/informatievlaanderen/association-registry/compare/v8.24.1...v8.25.0) (2023-11-27)
+
+
+### Features
+
+* OR-1990 rename hoofdactiviteitenVerenigingsloket.Beschrijving to .Naam ([fbf015c](https://github.com/informatievlaanderen/association-registry/commit/fbf015cb855f643782620e12c8fb969f00f29545))
+
 ## [8.24.1](https://github.com/informatievlaanderen/association-registry/compare/v8.24.0...v8.24.1) (2023-11-23)
 
 
