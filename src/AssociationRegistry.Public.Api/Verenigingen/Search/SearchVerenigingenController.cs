@@ -8,6 +8,7 @@ using Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Nest;
 using RequestModels;
 using ResponseModels;
@@ -132,6 +133,7 @@ public class SearchVerenigingenController : ApiController
         string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams,
         [FromServices] IValidator<PaginationQueryParams> validator,
+        [FromServices] ILogger logger,
         CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
@@ -142,18 +144,19 @@ public class SearchVerenigingenController : ApiController
         var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams, _typeMapping);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
-            return MapBadRequest(searchResponse);
+            return MapBadRequest(logger, searchResponse);
 
         var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
     }
 
-    private IActionResult MapBadRequest(
-        ISearchResponse<VerenigingZoekDocument> searchResponse)
+    private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
     {
         var match = Regex.Match(searchResponse.ServerError.Error.RootCause.First().Reason,
                                 pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
+
+        logger.LogError(searchResponse.OriginalException, "Fout bij het aanroepen van ElasticSearch");
 
         if (match.Success)
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
