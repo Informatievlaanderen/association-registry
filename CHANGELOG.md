@@ -1,3 +1,10 @@
+# [8.26.0](https://github.com/informatievlaanderen/association-registry/compare/v8.25.0...v8.26.0) (2023-11-27)
+
+
+### Features
+
+* OR-1991 rename vereniging.type to vereniging.verenigingstype and .beschrijving to .naam ([c6f189b](https://github.com/informatievlaanderen/association-registry/commit/c6f189b1ee326268240a89f5e8db8c29b47e4e58))
+
 # [8.25.0](https://github.com/informatievlaanderen/association-registry/compare/v8.24.1...v8.25.0) (2023-11-27)
 
 
