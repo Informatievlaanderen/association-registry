@@ -36,86 +36,14 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                   .Should(
                                        sh => sh.Bool(sb => sb
                                                         .Must(
-                                                             mu => mu
-                                                                .Match(
-                                                                     m => m
-                                                                         .Field(
-                                                                              f => f
-                                                                                 .Naam)
-                                                                         .Query(
-                                                                              naam)
-                                                                         .Analyzer(
-                                                                              DuplicateDetectionDocumentMapping
-                                                                                 .DuplicateAnalyzer)
-                                                                         .Fuzziness(
-                                                                              Fuzziness
-                                                                                 .Auto)),
-                                                             mu => mu
-                                                                .Nested(
-                                                                     n => n
-                                                                         .Path(
-                                                                              p => p
-                                                                                 .Locaties)
-                                                                         .Query(
-                                                                              nq
-                                                                                  => nq
-                                                                                     .Match(
-                                                                                          m =>
-                                                                                              FuzzyMatchOpNaam(
-                                                                                                  m,
-                                                                                                  path
-                                                                                                  : f
-                                                                                                      => f
-                                                                                                         .Locaties
-                                                                                                         .First()
-                                                                                                         .Gemeente,
-                                                                                                  string
-                                                                                                     .Join(
-                                                                                                          separator
-                                                                                                          : " ",
-                                                                                                          gemeentes))
-                                                                                      )
-                                                                          )
-                                                                 )
+                                                             mu => MatchNaam(mu, naam),
+                                                             mu => MatchGemeente(mu, gemeentes)
                                                          )
                                        ),
                                        sh => sh.Bool(sb => sb
                                                         .Must(
-                                                             mu => mu
-                                                                .Match(
-                                                                     m => m
-                                                                         .Field(
-                                                                              f => f
-                                                                                 .Naam)
-                                                                         .Query(
-                                                                              naam)
-                                                                         .Analyzer(
-                                                                              DuplicateDetectionDocumentMapping
-                                                                                 .DuplicateAnalyzer)
-                                                                         .Fuzziness(
-                                                                              Fuzziness
-                                                                                 .Auto)),
-                                                             mu => mu
-                                                                .Nested(
-                                                                     n => n
-                                                                         .Path(
-                                                                              p => p
-                                                                                 .Locaties)
-                                                                         .Query(
-                                                                              nq
-                                                                                  => nq
-                                                                                     .Terms(
-                                                                                          t => t
-                                                                                             .Field(
-                                                                                                  f => f
-                                                                                                     .Locaties
-                                                                                                     .First()
-                                                                                                     .Postcode)
-                                                                                             .Terms(
-                                                                                                  postcodes)
-                                                                                      )
-                                                                          )
-                                                                 )
+                                                             mu => MatchNaam(mu, naam),
+                                                             mu => MatchPostcode(mu, postcodes)
                                                          )
                                        )
                                    )
@@ -127,37 +55,77 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                              .ToArray();
     }
 
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchPostcode(string[] postcodes)
+    private static QueryContainer MatchNaam(QueryContainerDescriptor<DuplicateDetectionDocument> mu, VerenigingsNaam naam)
     {
-        return postalCodesQuery => postalCodesQuery
-           .Nested(n => n
-                       .Path(p => p.Locaties)
-                       .Query(nq => nq
-                                 .Terms(t => t
-                                            .Field(f => f.Locaties
-                                                         .First()
-                                                         .Postcode)
-                                            .Terms(postcodes)
-                                  )
-                        )
+        return mu
+           .Match(
+                m => m
+                    .Field(
+                         f => f
+                            .Naam)
+                    .Query(
+                         naam)
+                    .Analyzer(
+                         DuplicateDetectionDocumentMapping
+                            .DuplicateAnalyzer)
+                    .Fuzziness(
+                         Fuzziness
+                            .Auto));
+    }
+
+    private static QueryContainer MatchGemeente(QueryContainerDescriptor<DuplicateDetectionDocument> mu, string[] gemeentes)
+    {
+        return mu
+           .Nested(
+                n => n
+                    .Path(
+                         p => p
+                            .Locaties)
+                    .Query(
+                         nq
+                             => nq
+                                .Match(
+                                     m =>
+                                         FuzzyMatchOpNaam(
+                                             m,
+                                             path
+                                             : f
+                                                 => f
+                                                   .Locaties
+                                                   .First()
+                                                   .Gemeente,
+                                             string
+                                                .Join(
+                                                     separator
+                                                     : " ",
+                                                     gemeentes))
+                                 )
+                     )
             );
     }
 
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchGemeente(string[] gemeentes)
+    private static QueryContainer MatchPostcode(QueryContainerDescriptor<DuplicateDetectionDocument> mu, string[] postcodes)
     {
-        return gemeentesQuery => gemeentesQuery
-           .Nested(n => n
-                       .Path(p => p.Locaties)
-                       .Query(nq => nq
-                                 .Match(m =>
-                                            FuzzyMatchOpNaam(m,
-                                                             path: f => f.Locaties
-                                                                         .First()
-                                                                         .Gemeente, string.Join(
-                                                                 separator: " ",
-                                                                 gemeentes))
-                                  )
-                        )
+        return mu
+           .Nested(
+                n => n
+                    .Path(
+                         p => p
+                            .Locaties)
+                    .Query(
+                         nq
+                             => nq
+                                .Terms(
+                                     t => t
+                                         .Field(
+                                              f => f
+                                                  .Locaties
+                                                  .First()
+                                                  .Postcode)
+                                         .Terms(
+                                              postcodes)
+                                 )
+                     )
             );
     }
 
