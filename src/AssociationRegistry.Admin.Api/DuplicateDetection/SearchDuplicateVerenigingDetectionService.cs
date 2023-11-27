@@ -29,26 +29,102 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente).ToArray();
 
-        _client.Indices.Refresh(new RefreshRequest());
+        var searchResponse = await _client.SearchAsync<DuplicateDetectionDocument>(
+            s => s
+               .Query(q => q
+                         .Bool(b => b
+                                  .Should(
+                                       sh => sh.Bool(sb => sb
+                                                        .Must(
+                                                             mu => mu
+                                                                .Match(
+                                                                     m => m
+                                                                         .Field(
+                                                                              f => f
+                                                                                 .Naam)
+                                                                         .Query(
+                                                                              naam)
+                                                                         .Analyzer(
+                                                                              DuplicateDetectionDocumentMapping
+                                                                                 .DuplicateAnalyzer)
+                                                                         .Fuzziness(
+                                                                              Fuzziness
+                                                                                 .Auto)),
+                                                             mu => mu
+                                                                .Nested(
+                                                                     n => n
+                                                                         .Path(
+                                                                              p => p
+                                                                                 .Locaties)
+                                                                         .Query(
+                                                                              nq
+                                                                                  => nq
+                                                                                     .Match(
+                                                                                          m =>
+                                                                                              FuzzyMatchOpNaam(
+                                                                                                  m,
+                                                                                                  path
+                                                                                                  : f
+                                                                                                      => f
+                                                                                                         .Locaties
+                                                                                                         .First()
+                                                                                                         .Gemeente,
+                                                                                                  string
+                                                                                                     .Join(
+                                                                                                          separator
+                                                                                                          : " ",
+                                                                                                          gemeentes))
+                                                                                      )
+                                                                          )
+                                                                 )
+                                                         )
+                                       ),
+                                       sh => sh.Bool(sb => sb
+                                                        .Must(
+                                                             mu => mu
+                                                                .Match(
+                                                                     m => m
+                                                                         .Field(
+                                                                              f => f
+                                                                                 .Naam)
+                                                                         .Query(
+                                                                              naam)
+                                                                         .Analyzer(
+                                                                              DuplicateDetectionDocumentMapping
+                                                                                 .DuplicateAnalyzer)
+                                                                         .Fuzziness(
+                                                                              Fuzziness
+                                                                                 .Auto)),
+                                                             mu => mu
+                                                                .Nested(
+                                                                     n => n
+                                                                         .Path(
+                                                                              p => p
+                                                                                 .Locaties)
+                                                                         .Query(
+                                                                              nq
+                                                                                  => nq
+                                                                                     .Terms(
+                                                                                          t => t
+                                                                                             .Field(
+                                                                                                  f => f
+                                                                                                     .Locaties
+                                                                                                     .First()
+                                                                                                     .Postcode)
+                                                                                             .Terms(
+                                                                                                  postcodes)
+                                                                                      )
+                                                                          )
+                                                                 )
+                                                         )
+                                       )
+                                   )
+                          )
+                )
+        );
 
-        var searchResponse =
-            await _client
-               .SearchAsync<DuplicateDetectionDocument>(
-                    s => s
-                        .Size(50)
-                        .Query(
-                             q => q.Bool(
-                                 b => b.Must(must => must
-                                                .Match(m => FuzzyMatchOpNaam(m, path: f => f.Naam, naam))
-                                        )
-                                       .Filter(f => f.Bool(
-                                                   fb => fb.Should(
-                                                                MatchGemeente(gemeentes),
-                                                                MatchPostcode(postcodes)
-                                                            )
-                                                           .MinimumShouldMatch(1))))));
-
-        return searchResponse.Documents.Select(ToDuplicateVereniging).ToArray();
+        return searchResponse.Documents.Select(ToDuplicateVereniging)
+                             .ToArray();
     }
 
     private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchPostcode(string[] postcodes)
@@ -92,9 +168,10 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         => m
           .Field(path)
           .Query(query)
-          .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
+          .Analyzer(DuplicateDetectionDocumentMapping
+                       .DuplicateAnalyzer)
           .Fuzziness(Fuzziness.Auto) // Assumes this analyzer applies lowercase and asciifolding
-          .MinimumShouldMatch("70%");
+          .MinimumShouldMatch("90%");
 
     private static DuplicaatVereniging ToDuplicateVereniging(DuplicateDetectionDocument document)
         => new(

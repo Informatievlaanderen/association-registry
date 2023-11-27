@@ -13,14 +13,25 @@ public static class ElasticClientExtensions
                 descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
-        => indicesNamespace.Create(
+    {
+        var createIndexResponse = indicesNamespace.Create(
             index,
             selector: c => c
                           .Settings(s => s
                                        .Analysis(a => a
+                                                     .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                          selector: prcf
+                                                                                              => prcf.Pattern("\\.").Replacement(""))
+                                                                          .PatternReplace(name: "underscore_replace",
+                                                                                          selector: prcf
+                                                                                              => prcf.Pattern("_").Replacement(" ")))
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
+
+        if (!createIndexResponse.IsValid)
+            throw createIndexResponse.OriginalException;
+    }
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
@@ -31,7 +42,8 @@ public static class ElasticClientExtensions
         => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
                      selector: ca
                          => ca
-                           .Tokenizer("lowercase")
-                           .Filters("asciifolding", "dutch_stop")
+                           .Tokenizer("standard")
+                           .CharFilters("underscore_replace", "dot_replace")
+                           .Filters("lowercase", "asciifolding", "dutch_stop")
         );
 }
