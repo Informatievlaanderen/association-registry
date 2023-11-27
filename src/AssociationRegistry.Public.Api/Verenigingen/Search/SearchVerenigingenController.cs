@@ -133,7 +133,7 @@ public class SearchVerenigingenController : ApiController
         string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams,
         [FromServices] IValidator<PaginationQueryParams> validator,
-        [FromServices] ILogger logger,
+        [FromServices] ILogger<SearchVerenigingenController> logger,
         CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
