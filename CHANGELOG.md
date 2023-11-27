@@ -1,3 +1,17 @@
+# [8.27.0](https://github.com/informatievlaanderen/association-registry/compare/v8.26.0...v8.27.0) (2023-11-27)
+
+
+### Bug Fixes
+
+* remove empty workflow ([1f9fd40](https://github.com/informatievlaanderen/association-registry/commit/1f9fd40ff30094496cbd14d6b7c726b50743e6fa))
+
+
+### Features
+
+* or-1972 add generic logger ([6714e67](https://github.com/informatievlaanderen/association-registry/commit/6714e6794d635f272c3ccf3e368374343e1db875))
+* or-1972 add logging when 400 from ES ([01f1f54](https://github.com/informatievlaanderen/association-registry/commit/01f1f54272bb505dfb76fd518313ec9b5749d30c))
+* or-1972 replace dots and underscores ([e42c396](https://github.com/informatievlaanderen/association-registry/commit/e42c39635e4a07a1a297f7211d4e9af26e2f45d3))
+
 # [8.26.0](https://github.com/informatievlaanderen/association-registry/compare/v8.25.0...v8.26.0) (2023-11-27)
 
 
