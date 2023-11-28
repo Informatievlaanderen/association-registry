@@ -1,3 +1,11 @@
+# [8.28.0](https://github.com/informatievlaanderen/association-registry/compare/v8.27.0...v8.28.0) (2023-11-28)
+
+
+### Features
+
+* OR-1992 rename contactgegeven.type to contactgegeven.contactgegeventype ([b88da64](https://github.com/informatievlaanderen/association-registry/commit/b88da64b797eaaa5e7758c5d819347c291321631))
+* OR-1993 rename relatie.type to relatie.relatietype ([36535e4](https://github.com/informatievlaanderen/association-registry/commit/36535e404045a715ef233cfb74b9247026cb5f98))
+
 # [8.27.0](https://github.com/informatievlaanderen/association-registry/compare/v8.26.0...v8.27.0) (2023-11-27)
 
 
