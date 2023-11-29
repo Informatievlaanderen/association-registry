@@ -1,3 +1,10 @@
+## [8.28.1](https://github.com/informatievlaanderen/association-registry/compare/v8.28.0...v8.28.1) (2023-11-29)
+
+
+### Bug Fixes
+
+* make testname more unique ([2a07fa0](https://github.com/informatievlaanderen/association-registry/commit/2a07fa008dec94d56c514e8df4bbc0d7625d2114))
+
 # [8.28.0](https://github.com/informatievlaanderen/association-registry/compare/v8.27.0...v8.28.0) (2023-11-28)
 
 
