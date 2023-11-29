@@ -90,9 +90,9 @@ public class With_Same_Naam_And_Postcode
   ""mogelijkeDuplicateVerenigingen"": [
     {{
       ""vCode"": ""{FeitelijkeVerenigingWerdGeregistreerd.VCode}"",
-        ""type"": {{
+        ""verenigingstype"": {{
             ""code"": ""{Verenigingstype.FeitelijkeVereniging.Code}"",
-            ""beschrijving"": ""{Verenigingstype.FeitelijkeVereniging.Naam}"",
+            ""naam"": ""{Verenigingstype.FeitelijkeVereniging.Naam}"",
         }},
       ""naam"": ""{FeitelijkeVerenigingWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{FeitelijkeVerenigingWerdGeregistreerd.KorteNaam}"",
@@ -100,7 +100,7 @@ public class With_Same_Naam_And_Postcode
           FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket
               .Select(hoofdactiviteit => $@"{{
           ""code"": ""{hoofdactiviteit.Code}"",
-          ""beschrijving"": ""{hoofdactiviteit.Naam}""
+          ""naam"": ""{hoofdactiviteit.Naam}""
         }}"))}
       ],
       ""locaties"": [{string.Join(",",

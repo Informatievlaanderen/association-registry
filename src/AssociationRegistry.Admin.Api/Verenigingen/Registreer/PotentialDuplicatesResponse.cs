@@ -31,7 +31,7 @@ public class PotentialDuplicatesResponse
             document.VCode,
             document.Naam,
             document.KorteNaam,
-            new VerenigingsType(document.Type.Code, document.Type.Beschrijving),
+            new VerenigingsType(document.Verenigingstype.Code, document.Verenigingstype.Naam),
             document.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.FromDuplicaatVereniging).ToImmutableArray(),
             document.Locaties.Select(Locatie.FromDuplicaatVereniging).ToImmutableArray(),
             new VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)document.VCode}")));
