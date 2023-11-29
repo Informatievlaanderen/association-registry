@@ -1,3 +1,10 @@
+# [8.29.0](https://github.com/informatievlaanderen/association-registry/compare/v8.28.1...v8.29.0) (2023-11-29)
+
+
+### Features
+
+* or-2003 rename type->verenigingstype beschrijving->naam in duplicatedetectionResponse ([2c42012](https://github.com/informatievlaanderen/association-registry/commit/2c420129210b032f373b03083c22439c03991701))
+
 ## [8.28.1](https://github.com/informatievlaanderen/association-registry/compare/v8.28.0...v8.28.1) (2023-11-29)
 
 
