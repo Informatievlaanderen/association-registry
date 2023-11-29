@@ -15,7 +15,7 @@ public class V013_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_ForDuplica
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999013";
-        Naam = "De absoluute club die cool is";
+        Naam = "Frieda's fritkot heeft ook kroketten";
 
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
