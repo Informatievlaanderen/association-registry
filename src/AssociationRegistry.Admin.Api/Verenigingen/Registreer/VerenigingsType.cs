@@ -8,20 +8,20 @@ public class VerenigingsType
 {
     public VerenigingsType(
         string code,
-        string beschrijving)
+        string naam)
     {
         Code = code;
-        Beschrijving = beschrijving;
+        Naam = naam;
     }
 
     public static VerenigingsType FromDuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
-        => new(duplicaatVereniging.Type.Code, duplicaatVereniging.Type.Beschrijving);
+        => new(duplicaatVereniging.Verenigingstype.Code, duplicaatVereniging.Verenigingstype.Naam);
 
     /// <summary>De code van het type van deze vereniging</summary>
     [DataMember(Name = "Code")]
     public string Code { get; }
 
     /// <summary>De beschrijving van het type van deze vereniging</summary>
-    [DataMember(Name = "Beschrijving")]
-    public string Beschrijving { get; }
+    [DataMember(Name = "Naam")]
+    public string Naam { get; }
 }
