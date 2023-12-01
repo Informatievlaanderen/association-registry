@@ -7,10 +7,12 @@ using Vereniging;
 public class VerenigingsRepository : IVerenigingsRepository
 {
     private readonly IEventStore _eventStore;
+    private readonly EventEncryptor _eventEncryptor;
 
-    public VerenigingsRepository(IEventStore eventStore)
+    public VerenigingsRepository(IEventStore eventStore, EventEncryptor eventEncryptor)
     {
         _eventStore = eventStore;
+        _eventEncryptor = eventEncryptor;
     }
 
     public async Task<StreamActionResult> Save(
@@ -18,7 +20,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         CommandMetadata metadata,
         CancellationToken cancellationToken = default)
     {
-        var events = vereniging.UncommittedEvents.Select(Downcast).ToArray();
+        var events = vereniging.UncommittedEvents.Select(_eventEncryptor.Downcast).ToArray();
 
         if (!events.Any())
             return StreamActionResult.Empty;
@@ -26,19 +28,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
 
-    private IEvent Downcast(IEvent @event)
-        => @event switch
-        {
-            VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd => new VertegenwoordigerWerdToegevoegdEncrypted(
-                vertegenwoordigerWerdToegevoegd.VertegenwoordigerId, vertegenwoordigerWerdToegevoegd.Insz,
-                vertegenwoordigerWerdToegevoegd.IsPrimair, vertegenwoordigerWerdToegevoegd.Roepnaam, vertegenwoordigerWerdToegevoegd.Rol,
-                vertegenwoordigerWerdToegevoegd.Voornaam + "-whoeptidoe",
-                vertegenwoordigerWerdToegevoegd.Achternaam,
-                vertegenwoordigerWerdToegevoegd.Email,
-                vertegenwoordigerWerdToegevoegd.Telefoon, vertegenwoordigerWerdToegevoegd.Mobiel,
-                vertegenwoordigerWerdToegevoegd.SocialMedia),
-            _ => @event,
-        };
+
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()
