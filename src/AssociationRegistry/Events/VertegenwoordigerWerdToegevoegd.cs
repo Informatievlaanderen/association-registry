@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
-using System.Runtime.Serialization;
 using Framework;
+using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.Bronnen;
 
@@ -36,4 +36,22 @@ public record VertegenwoordigerWerdToegevoegd(
             vertegenwoordiger.Mobiel.Waarde,
             vertegenwoordiger.SocialMedia.Waarde
         );
+}
+
+public record VertegenwoordigerWerdToegevoegdEncrypted(
+    int VertegenwoordigerId,
+    string Insz,
+    bool IsPrimair,
+    string Roepnaam,
+    string Rol,
+    string Voornaam,
+    string Achternaam,
+    string Email,
+    string Telefoon,
+    string Mobiel,
+    string SocialMedia) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
 }

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.EventStore;
 
+using Events;
 using Framework;
 using Vereniging;
 
@@ -17,13 +18,26 @@ public class VerenigingsRepository : IVerenigingsRepository
         CommandMetadata metadata,
         CancellationToken cancellationToken = default)
     {
-        var events = vereniging.UncommittedEvents.ToArray();
+        var events = vereniging.UncommittedEvents.Select(Downcast).ToArray();
 
         if (!events.Any())
             return StreamActionResult.Empty;
 
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
+
+    private IEvent Downcast(IEvent @event)
+        => @event switch
+        {
+            VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd => new VertegenwoordigerWerdToegevoegdEncrypted(
+                vertegenwoordigerWerdToegevoegd.VertegenwoordigerId, vertegenwoordigerWerdToegevoegd.Insz,
+                vertegenwoordigerWerdToegevoegd.IsPrimair, vertegenwoordigerWerdToegevoegd.Roepnaam, vertegenwoordigerWerdToegevoegd.Rol,
+                new string(vertegenwoordigerWerdToegevoegd.Voornaam.Reverse().ToArray()), vertegenwoordigerWerdToegevoegd.Achternaam,
+                vertegenwoordigerWerdToegevoegd.Email,
+                vertegenwoordigerWerdToegevoegd.Telefoon, vertegenwoordigerWerdToegevoegd.Mobiel,
+                vertegenwoordigerWerdToegevoegd.SocialMedia),
+            _ => @event,
+        };
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()

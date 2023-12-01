@@ -3,6 +3,7 @@
 using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
+using Events;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
+using System.Linq;
 using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
@@ -41,6 +43,16 @@ public static class MartenExtensions
                 opts.RegisterDocumentType<VerenigingState>();
 
                 opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+
+                opts.Events.Upcast<VertegenwoordigerWerdToegevoegdEncrypted, VertegenwoordigerWerdToegevoegd>(encrypted =>
+                {
+                    return new VertegenwoordigerWerdToegevoegd(
+                        encrypted.VertegenwoordigerId, encrypted.Insz,
+                        encrypted.IsPrimair, encrypted.Roepnaam, encrypted.Rol,
+                        new string(encrypted.Voornaam.Reverse().ToArray()), encrypted.Achternaam, encrypted.Email,
+                        encrypted.Telefoon, encrypted.Mobiel,
+                        encrypted.SocialMedia);
+                });
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
