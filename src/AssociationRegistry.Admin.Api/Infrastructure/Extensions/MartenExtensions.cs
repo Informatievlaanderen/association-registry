@@ -15,7 +15,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
-using System.Linq;
 using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
@@ -49,7 +48,9 @@ public static class MartenExtensions
                     return new VertegenwoordigerWerdToegevoegd(
                         encrypted.VertegenwoordigerId, encrypted.Insz,
                         encrypted.IsPrimair, encrypted.Roepnaam, encrypted.Rol,
-                        new string(encrypted.Voornaam.Reverse().ToArray()), encrypted.Achternaam, encrypted.Email,
+                        encrypted.Voornaam.Replace(oldValue: "-whoeptidoe", newValue: ""),
+                        encrypted.Achternaam,
+                        encrypted.Email,
                         encrypted.Telefoon, encrypted.Mobiel,
                         encrypted.SocialMedia);
                 });

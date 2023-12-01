@@ -32,7 +32,8 @@ public class VerenigingsRepository : IVerenigingsRepository
             VertegenwoordigerWerdToegevoegd vertegenwoordigerWerdToegevoegd => new VertegenwoordigerWerdToegevoegdEncrypted(
                 vertegenwoordigerWerdToegevoegd.VertegenwoordigerId, vertegenwoordigerWerdToegevoegd.Insz,
                 vertegenwoordigerWerdToegevoegd.IsPrimair, vertegenwoordigerWerdToegevoegd.Roepnaam, vertegenwoordigerWerdToegevoegd.Rol,
-                new string(vertegenwoordigerWerdToegevoegd.Voornaam.Reverse().ToArray()), vertegenwoordigerWerdToegevoegd.Achternaam,
+                vertegenwoordigerWerdToegevoegd.Voornaam + "-whoeptidoe",
+                vertegenwoordigerWerdToegevoegd.Achternaam,
                 vertegenwoordigerWerdToegevoegd.Email,
                 vertegenwoordigerWerdToegevoegd.Telefoon, vertegenwoordigerWerdToegevoegd.Mobiel,
                 vertegenwoordigerWerdToegevoegd.SocialMedia),

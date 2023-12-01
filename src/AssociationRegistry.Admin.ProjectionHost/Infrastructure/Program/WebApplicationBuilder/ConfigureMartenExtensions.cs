@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 
 using ConfigurationBindings;
 using Constants;
+using Events;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -17,7 +18,7 @@ using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
 using Wolverine;
-using ConfigurationManager = ConfigurationManager;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
@@ -96,6 +97,18 @@ public static class ConfigureMartenExtensions
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+
+                opts.Events.Upcast<VertegenwoordigerWerdToegevoegdEncrypted, VertegenwoordigerWerdToegevoegd>(encrypted =>
+                {
+                    return new VertegenwoordigerWerdToegevoegd(
+                        encrypted.VertegenwoordigerId, encrypted.Insz,
+                        encrypted.IsPrimair, encrypted.Roepnaam, encrypted.Rol,
+                        encrypted.Voornaam.Replace(oldValue: "-whoeptidoe", newValue: ""),
+                        encrypted.Achternaam,
+                        encrypted.Email,
+                        encrypted.Telefoon, encrypted.Mobiel,
+                        encrypted.SocialMedia);
+                });
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
