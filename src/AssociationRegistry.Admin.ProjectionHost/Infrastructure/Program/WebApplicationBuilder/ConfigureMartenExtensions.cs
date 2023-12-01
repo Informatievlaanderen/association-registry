@@ -19,6 +19,8 @@ using Projections.Search;
 using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Text;
 using Wolverine;
 using ConfigurationManager = ConfigurationManager;
 
@@ -100,7 +102,9 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
-                opts.Events.Upcast(new DecryptionUpcaster(serviceProvider.GetRequiredService<IDocumentStore>(), new EventEncryptor()));
+                opts.Schema.For<EncryptionRecord>().Identity(x => x.EncryptionKey);
+
+                opts.Events.Upcast(new DecryptionUpcaster(serviceProvider.GetRequiredService<IDocumentStore>, new EventEncryptor()));
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
@@ -119,35 +123,57 @@ public static class ConfigureMartenExtensions
     }
 }
 
-public class DecryptionUpcaster : AsyncOnlyEventUpcaster<IEvent<VertegenwoordigerWerdToegevoegdEncrypted>, VertegenwoordigerWerdToegevoegd>
+public class DecryptionUpcaster : AsyncOnlyEventUpcaster<VertegenwoordigerWerdToegevoegdEncrypted, VertegenwoordigerWerdToegevoegd>
 {
-    private readonly IDocumentStore _store;
+    private readonly Func<IDocumentStore> _store;
     private readonly EventEncryptor _encryptor;
 
-    public DecryptionUpcaster(IDocumentStore store, EventEncryptor encryptor)
+    public DecryptionUpcaster(Func<IDocumentStore> store, EventEncryptor encryptor)
     {
         _store = store;
         _encryptor = encryptor;
     }
 
     protected override async Task<VertegenwoordigerWerdToegevoegd> UpcastAsync(
-        IEvent<VertegenwoordigerWerdToegevoegdEncrypted> oldEvent,
+        VertegenwoordigerWerdToegevoegdEncrypted oldEvent,
         CancellationToken ct)
     {
-        await using var session = _store.QuerySession();
+        await using var session = _store().QuerySession();
 
-        var (_, _, encryptionKey) = await session.Query<EncryptionRecord>()
-                                                 .Where(x => x.VCode == oldEvent.StreamKey &&
-                                                             x.VertegenwoordigerId == oldEvent.Data.VertegenwoordigerId)
-                                                 .SingleAsync(token: ct);
+        var x = await session.Query<EncryptionRecord>()
+                             .Where(x => x.VCode == oldEvent.VCode &&
+                                         x.VertegenwoordigerId == oldEvent.VertegenwoordigerId)
+                             .SingleOrDefaultAsync(token: ct);
 
         return new VertegenwoordigerWerdToegevoegd(
-            oldEvent.Data.VertegenwoordigerId, oldEvent.Data.Insz,
-            oldEvent.Data.IsPrimair, oldEvent.Data.Roepnaam, oldEvent.Data.Rol,
-            oldEvent.Data.Voornaam.Replace(encryptionKey, newValue: ""),
-            oldEvent.Data.Achternaam,
-            oldEvent.Data.Email,
-            oldEvent.Data.Telefoon, oldEvent.Data.Mobiel,
-            oldEvent.Data.SocialMedia);
+            oldEvent.VCode,
+            oldEvent.VertegenwoordigerId, oldEvent.Insz,
+            oldEvent.IsPrimair, oldEvent.Roepnaam, oldEvent.Rol,
+            DecryptString(oldEvent.Voornaam, x?.EncryptionKey),
+            DecryptString(oldEvent.Achternaam, x?.EncryptionKey),
+            oldEvent.Email,
+            oldEvent.Telefoon, oldEvent.Mobiel,
+            oldEvent.SocialMedia);
+    }
+
+    public static string DecryptString(string cipherText, string? key)
+    {
+        if (key is null)
+            return "<Anoniem>";
+
+        using (var aesAlg = Aes.Create())
+        {
+            aesAlg.Key = Encoding.UTF8.GetBytes(key);
+            aesAlg.IV = new byte[16]; // Initialization vector (IV) - should be the same as used in encryption
+
+            var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+            using (var msDecrypt = new MemoryStream(Convert.FromBase64String(cipherText)))
+            using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+            using (var srDecrypt = new StreamReader(csDecrypt))
+            {
+                return srDecrypt.ReadToEnd();
+            }
+        }
     }
 }

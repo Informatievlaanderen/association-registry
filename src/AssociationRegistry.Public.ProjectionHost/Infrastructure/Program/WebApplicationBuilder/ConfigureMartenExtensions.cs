@@ -2,6 +2,8 @@ namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebAp
 
 using ConfigurationBindings;
 using Constants;
+using Events;
+using EventStore;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -9,10 +11,13 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Marten.Services.Json.Transformations;
 using Newtonsoft.Json;
 using Projections.Detail;
 using Projections.Search;
 using Schema.Detail;
+using System.Security.Cryptography;
+using System.Text;
 using Wolverine;
 
 public static class ConfigureMartenExtensions
@@ -90,6 +95,11 @@ public static class ConfigureMartenExtensions
 
                 opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
 
+                opts.Schema.For<EncryptionRecord>().Identity(x => x.EncryptionKey);
+
+                opts.Events.Upcast(new DecryptionUpcaster(store: () => serviceProvider.GetRequiredService<IDocumentStore>(),
+                                                          new EventEncryptor()));
+
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
@@ -106,5 +116,60 @@ public static class ConfigureMartenExtensions
         martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
 
         return martenConfigurationExpression;
+    }
+}
+
+public class DecryptionUpcaster : AsyncOnlyEventUpcaster<VertegenwoordigerWerdToegevoegdEncrypted, VertegenwoordigerWerdToegevoegd>
+{
+    private readonly Func<IDocumentStore> _store;
+    private readonly EventEncryptor _encryptor;
+
+    public DecryptionUpcaster(Func<IDocumentStore> store, EventEncryptor encryptor)
+    {
+        _store = store;
+        _encryptor = encryptor;
+    }
+
+    protected override async Task<VertegenwoordigerWerdToegevoegd> UpcastAsync(
+        VertegenwoordigerWerdToegevoegdEncrypted oldEvent,
+        CancellationToken ct)
+    {
+        await using var session = _store().QuerySession();
+
+        var (_, _, encryptionKey) = await session.Query<EncryptionRecord>()
+                                                 .Where(x => x.VCode == oldEvent.VCode &&
+                                                             x.VertegenwoordigerId == oldEvent.VertegenwoordigerId)
+                                                 .SingleOrDefaultAsync(token: ct);
+
+        return new VertegenwoordigerWerdToegevoegd(
+            oldEvent.VCode,
+            oldEvent.VertegenwoordigerId, oldEvent.Insz,
+            oldEvent.IsPrimair, oldEvent.Roepnaam, oldEvent.Rol,
+            DecryptString(oldEvent.Voornaam, encryptionKey),
+            DecryptString(oldEvent.Achternaam, encryptionKey),
+            oldEvent.Email,
+            oldEvent.Telefoon, oldEvent.Mobiel,
+            oldEvent.SocialMedia);
+    }
+
+    public static string DecryptString(string cipherText, string? key)
+    {
+        if (key is null)
+            return "<Anoniem>";
+
+        using (var aesAlg = Aes.Create())
+        {
+            aesAlg.Key = Encoding.UTF8.GetBytes(key);
+            aesAlg.IV = new byte[16]; // Initialization vector (IV) - should be the same as used in encryption
+
+            var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+            using (var msDecrypt = new MemoryStream(Convert.FromBase64String(cipherText)))
+            using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+            using (var srDecrypt = new StreamReader(csDecrypt))
+            {
+                return srDecrypt.ReadToEnd();
+            }
+        }
     }
 }

@@ -71,6 +71,7 @@ public class Given_A_New_Vertegenwoordiger : IClassFixture<Post_A_New_Vertegenwo
 
         contactgegevenWerdToegevoegd.Data.Should()
                                     .BeEquivalentTo(new VertegenwoordigerWerdToegevoegd(
+                                                        _classFixture.Scenario.VCode,
                                                         VertegenwoordigerId: 1,
                                                         toeTeVoegenVertegenwoordiger.Insz,
                                                         toeTeVoegenVertegenwoordiger.IsPrimair,

@@ -203,7 +203,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore, new EventEncryptor());
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy

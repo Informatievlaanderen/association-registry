@@ -95,7 +95,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
 
-    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
 
     private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
@@ -172,12 +173,21 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
+        AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger, VCode));
     }
 
-    public void WijzigVertegenwoordiger(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    public void WijzigVertegenwoordiger(
+        int vertegenwoordigerId,
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair)
     {
-        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        var gewijzigdeVertegenwoordiger =
+            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
@@ -207,7 +217,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging &&
+                                                           obj.Verenigingstype != Verenigingstype.Afdeling);
+
         State = obj;
     }
 }

@@ -19,7 +19,6 @@ using Xunit;
 using Xunit.Sdk;
 using IEvent = AssociationRegistry.Framework.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
-using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
 public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 {
@@ -86,7 +85,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode, new DateTime(year: 2022, month: 1, day: 1).ToUniversalTime().ToInstant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(DocumentStore, new EventEncryptor());
         await eventStore.Save(vCode, metadata, CancellationToken.None, eventToAdd);
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
@@ -135,7 +134,10 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
+            cmd.CommandText +=
+                $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
             cmd.ExecuteNonQuery();
         }
         finally

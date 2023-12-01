@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.CommandHandling;
 
 using Acties.VoegVertegenwoordigerToe;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
@@ -23,6 +23,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
         var fixture = new Fixture().CustomizeAdminApi();
 
         var commandHandler = new VoegVertegenwoordigerToeCommandHandler(verenigingRepositoryMock);
+
         var command = new VoegVertegenwoordigerToeCommand(
             scenario.VCode,
             fixture.Create<Vertegenwoordiger>());
@@ -31,6 +32,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new VertegenwoordigerWerdToegevoegd(
+                scenario.VCode,
                 scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Max(v => v.VertegenwoordigerId) + 1,
                 command.Vertegenwoordiger.Insz,
                 command.Vertegenwoordiger.IsPrimair,

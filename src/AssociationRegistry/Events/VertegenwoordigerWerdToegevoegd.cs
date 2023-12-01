@@ -6,6 +6,7 @@ using Vereniging;
 using Vereniging.Bronnen;
 
 public record VertegenwoordigerWerdToegevoegd(
+    string VCode,
     int VertegenwoordigerId,
     string Insz,
     bool IsPrimair,
@@ -22,8 +23,9 @@ public record VertegenwoordigerWerdToegevoegd(
     public Bron Bron
         => Bron.Initiator;
 
-    public static VertegenwoordigerWerdToegevoegd With(Vertegenwoordiger vertegenwoordiger)
+    public static VertegenwoordigerWerdToegevoegd With(Vertegenwoordiger vertegenwoordiger, string vCode)
         => new(
+            vCode,
             vertegenwoordiger.VertegenwoordigerId,
             vertegenwoordiger.Insz,
             vertegenwoordiger.IsPrimair,
@@ -39,6 +41,7 @@ public record VertegenwoordigerWerdToegevoegd(
 }
 
 public record VertegenwoordigerWerdToegevoegdEncrypted(
+    string VCode,
     int VertegenwoordigerId,
     string Insz,
     bool IsPrimair,

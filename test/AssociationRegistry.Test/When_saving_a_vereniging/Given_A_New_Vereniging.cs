@@ -23,7 +23,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
     {
         _eventStore = new EventStoreMock();
 
-        _repo = new VerenigingsRepository(_eventStore);
+        _repo = new VerenigingsRepository(_eventStore, new EventEncryptor());
 
         _vCode = VCode.Create(1001);
         _naam = VerenigingsNaam.Create("Vereniging 1");
