@@ -4,17 +4,22 @@ using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
 using Events;
+using EventStore;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
 using Marten.Services;
+using Marten.Services.Json.Transformations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
@@ -43,18 +48,7 @@ public static class MartenExtensions
 
                 opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
-                opts.Events.Upcast<VertegenwoordigerWerdToegevoegdEncrypted, VertegenwoordigerWerdToegevoegd>(encrypted =>
-                {
-                    return new VertegenwoordigerWerdToegevoegd(
-                        encrypted.VertegenwoordigerId, encrypted.Insz,
-                        encrypted.IsPrimair, encrypted.Roepnaam, encrypted.Rol,
-                        encrypted.Voornaam.Replace(oldValue: "-whoeptidoe", newValue: ""),
-                        encrypted.Achternaam,
-                        encrypted.Email,
-                        encrypted.Telefoon, encrypted.Mobiel,
-                        encrypted.SocialMedia);
-                });
-
+                opts.Events.Upcast(new DecryptionUpcaster(serviceProvider.GetRequiredService<IDocumentStore>(), new EventEncryptor()));
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
@@ -99,3 +93,37 @@ public static class MartenExtensions
         return jsonNetSerializer;
     }
 }
+
+public class DecryptionUpcaster : AsyncOnlyEventUpcaster<IEvent<VertegenwoordigerWerdToegevoegdEncrypted>, VertegenwoordigerWerdToegevoegd>
+{
+    private readonly IDocumentStore _store;
+    private readonly EventEncryptor _encryptor;
+
+    public DecryptionUpcaster(IDocumentStore store, EventEncryptor encryptor)
+    {
+        _store = store;
+        _encryptor = encryptor;
+    }
+
+    protected override async Task<VertegenwoordigerWerdToegevoegd> UpcastAsync(
+        IEvent<VertegenwoordigerWerdToegevoegdEncrypted> oldEvent,
+        CancellationToken ct)
+    {
+        await using var session = _store.QuerySession();
+
+        var (_, _, encryptionKey) = await session.Query<EncryptionRecord>()
+                                                 .Where(x => x.VCode == oldEvent.StreamKey &&
+                                                             x.VertegenwoordigerId == oldEvent.Data.VertegenwoordigerId)
+                                                 .SingleAsync(token: ct);
+
+        return new VertegenwoordigerWerdToegevoegd(
+            oldEvent.Data.VertegenwoordigerId, oldEvent.Data.Insz,
+            oldEvent.Data.IsPrimair, oldEvent.Data.Roepnaam, oldEvent.Data.Rol,
+            oldEvent.Data.Voornaam.Replace(encryptionKey, newValue: ""),
+            oldEvent.Data.Achternaam,
+            oldEvent.Data.Email,
+            oldEvent.Data.Telefoon, oldEvent.Data.Mobiel,
+            oldEvent.Data.SocialMedia);
+    }
+}
+

@@ -302,6 +302,7 @@ public class Program
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddTransient<IMagdaFacade, MagdaFacade>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
+               .AddSingleton<EventEncryptor>()
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddOpenTelemetry()

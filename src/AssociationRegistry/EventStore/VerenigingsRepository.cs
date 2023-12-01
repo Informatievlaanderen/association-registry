@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.EventStore;
 
-using Events;
 using Framework;
 using Vereniging;
 
@@ -20,15 +19,13 @@ public class VerenigingsRepository : IVerenigingsRepository
         CommandMetadata metadata,
         CancellationToken cancellationToken = default)
     {
-        var events = vereniging.UncommittedEvents.Select(_eventEncryptor.Downcast).ToArray();
+        var events = vereniging.UncommittedEvents.ToArray();
 
         if (!events.Any())
             return StreamActionResult.Empty;
 
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
-
-
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()

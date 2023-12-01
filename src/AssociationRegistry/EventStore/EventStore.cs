@@ -14,15 +14,23 @@ public class EventStore : IEventStore
 {
     public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
+    private readonly EventEncryptor _eventEncryptor;
 
-    public EventStore(IDocumentStore documentStore)
+    public EventStore(IDocumentStore documentStore, EventEncryptor eventEncryptor)
     {
         _documentStore = documentStore;
+        _eventEncryptor = eventEncryptor;
     }
 
-    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken = default, params IEvent[] events)
+    public async Task<StreamActionResult> Save(
+        string aggregateId,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default,
+        params IEvent[] events)
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
+
+        events = events.Select(x => _eventEncryptor.Downcast(x, session, aggregateId)).ToArray();
 
         try
         {
@@ -40,10 +48,14 @@ public class EventStore : IEventStore
         }
     }
 
-    private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
+    private static StreamAction AppendEvents(
+        IDocumentSession session,
+        string aggregateId,
+        IReadOnlyCollection<IEvent> events,
+        long? expectedVersion)
     {
         if (expectedVersion is not null)
-            return session.Events.Append(stream: aggregateId, expectedVersion: expectedVersion.Value + events.Count, events: events);
+            return session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
 
         return session.Events.Append(aggregateId, events);
     }

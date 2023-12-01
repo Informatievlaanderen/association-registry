@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
+using EventStore;
 using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
@@ -68,6 +69,8 @@ public class Program
                .AddDataAnnotationsLocalization();
 
         builder.Services.AddHealthChecks();
+
+        builder.Services.AddSingleton<EventEncryptor>();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
