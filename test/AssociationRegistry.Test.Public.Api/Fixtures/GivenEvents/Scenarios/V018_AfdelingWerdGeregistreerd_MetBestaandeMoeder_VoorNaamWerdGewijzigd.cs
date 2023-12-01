@@ -19,10 +19,10 @@ public class V018_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewij
         var fixture = new Fixture().CustomizePublicApi();
 
         VCodeMoeder = "V9999018";
-        NaamMoeder = "De coolste moeder";
+        NaamMoeder = "De geweldige moederkoek";
 
         VCode = VCode.Create("V9999019");
-        NaamAfdeling = "De coolste afdeling";
+        NaamAfdeling = "Het beste afdelingshoofd";
 
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
@@ -38,7 +38,7 @@ public class V018_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewij
             VCode = VCode,
             Moedervereniging = new AfdelingWerdGeregistreerd.MoederverenigingsData(KboNummerMoeder, VCodeMoeder, NaamMoeder),
             Locaties = Array.Empty<Registratiedata.Locatie>(),
-            Naam = "De minder coole afdeling",
+            Naam = "OMG wat een afdeling",
             KorteNaam = string.Empty,
             Startdatum = null,
             KorteBeschrijving = string.Empty,
