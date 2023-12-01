@@ -1,3 +1,10 @@
+## [8.29.1](https://github.com/informatievlaanderen/association-registry/compare/v8.29.0...v8.29.1) (2023-12-01)
+
+
+### Bug Fixes
+
+* test op nightly ([0e364b0](https://github.com/informatievlaanderen/association-registry/commit/0e364b0f6cee12a1ef48a9ac502fd70f63006df6))
+
 # [8.29.0](https://github.com/informatievlaanderen/association-registry/compare/v8.28.1...v8.29.0) (2023-11-29)
 
 
