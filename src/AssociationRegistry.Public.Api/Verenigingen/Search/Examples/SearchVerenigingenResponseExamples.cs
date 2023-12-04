@@ -35,7 +35,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                     },
                     HoofdactiviteitenVerenigingsloket = new[]
-                        { new HoofdactiviteitVerenigingsloket { Code = "CULT", Beschrijving = "Cultuur" } },
+                        { new HoofdactiviteitVerenigingsloket { Code = "CULT", Naam = "Cultuur" } },
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
@@ -88,7 +88,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         new HoofdactiviteitVerenigingsloket
                         {
                             Code = "SPRT",
-                            Beschrijving = "Sport",
+                            Naam = "Sport",
                         },
                     },
                     Doelgroep = new DoelgroepResponse

@@ -76,7 +76,7 @@ public class SearchVerenigingenResponseMapper
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
     private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
-        => new() { Code = h.Code, Beschrijving = h.Naam };
+        => new() { Code = h.Code, Naam = h.Naam };
 
     private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
         => new()

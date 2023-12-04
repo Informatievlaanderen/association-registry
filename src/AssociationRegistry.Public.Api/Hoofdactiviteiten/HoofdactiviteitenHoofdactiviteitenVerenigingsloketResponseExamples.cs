@@ -13,7 +13,7 @@ public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples 
                     new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket
                     {
                         Code = "BLA",
-                        Beschrijving = "Bijzonder Lange Afkortingen",
+                        Naam = "Bijzonder Lange Afkortingen",
                     },
                 },
         };
