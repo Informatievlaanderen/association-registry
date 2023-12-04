@@ -1,3 +1,10 @@
+# [8.30.0](https://github.com/informatievlaanderen/association-registry/compare/v8.29.1...v8.30.0) (2023-12-04)
+
+
+### Features
+
+* or-1990 rename hoofdactiviteiten.beschrijving to naam in publiek zoeken and hoofdactiviteiten endpoint ([b7162cd](https://github.com/informatievlaanderen/association-registry/commit/b7162cd1736523e549e61fa7a2e8ef6d34a2eef7))
+
 ## [8.29.1](https://github.com/informatievlaanderen/association-registry/compare/v8.29.0...v8.29.1) (2023-12-01)
 
 
