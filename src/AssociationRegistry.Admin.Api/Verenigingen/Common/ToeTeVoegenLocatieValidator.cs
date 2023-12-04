@@ -13,21 +13,21 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
 
         RuleFor(locatie => locatie.Locatietype)
-            .Must(BeAValidLocationTypeValue)
-            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
-            .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
+           .Must(BeAValidLocationTypeValue)
+           .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
+           .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
         RuleFor(locatie => locatie.Adres)
-            .SetValidator(new AdresValidator()!)
-            .When(locatie => locatie.Adres is not null);
+           .SetValidator(new AdresValidator()!)
+           .When(locatie => locatie.Adres is not null);
 
         RuleFor(locatie => locatie.AdresId)
-            .SetValidator(new AdresIdValidator()!)
-            .When(locatie => locatie.AdresId is not null);
+           .SetValidator(new AdresIdValidator()!)
+           .When(locatie => locatie.AdresId is not null);
 
         RuleFor(locatie => locatie)
-            .Must(HaveAdresOrAdresId)
-            .WithMessage("'Locatie' moet of een adres of een adresId bevatten.");
+           .Must(HaveAdresOrAdresId)
+           .WithMessage("'Locatie' moet of een adres of een adresId bevatten.");
     }
 
     private static bool HaveAdresOrAdresId(ToeTeVoegenLocatie loc)
@@ -46,5 +46,9 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
 
     private static object ToAnonymousObject(ToeTeVoegenLocatie l)
-        => new { Locatietype = l.Locatietype, l.Naam, IsPrimair = l.IsPrimair, l.Adres?.Straatnaam, l.Adres?.Huisnummer, l.Adres?.Busnummer, l.Adres?.Postcode, l.Adres?.Gemeente, l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode };
+        => new
+        {
+            l.Locatietype, l.Naam, l.Adres?.Straatnaam, l.Adres?.Huisnummer, l.Adres?.Busnummer, l.Adres?.Postcode, l.Adres?.Gemeente,
+            l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode
+        };
 }
