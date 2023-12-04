@@ -126,6 +126,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum
         V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum = new();
 
+    public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
+        V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer = new();
+
     public readonly V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
         V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
 
@@ -135,8 +138,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection
         V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection = new();
 
-    public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
-        V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer = new();
+    public readonly V057_VerenigingWerdGeregistreerd_With_KboLocatie_For_DuplicateDetection
+        V057VerenigingWerdGeregistreerdWithKboLocatieForDuplicateDetection = new();
 
     protected override async Task Given()
     {
@@ -188,7 +191,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
             V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
             V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
-            V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection
+            V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection,
+            V057VerenigingWerdGeregistreerdWithKboLocatieForDuplicateDetection,
         };
 
         foreach (var scenario in scenarios)
