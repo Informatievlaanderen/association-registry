@@ -25,6 +25,9 @@ public static class DuplicateDetectionDocumentMapping
                               )
                              .Text(propertyDescriptor => propertyDescriptor
                                       .Name(document => document.HoofdactiviteitVerenigingsloket))
+                             .Boolean(
+                                  propertyDescriptor => propertyDescriptor
+                                     .Name(document => document.IsVerwijderd))
                              .Nested<DuplicateDetectionDocument.Locatie>(
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Locaties)

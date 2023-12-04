@@ -84,7 +84,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                          )
                                                                         .MinimumShouldMatch(
                                                                              1) // At least one of the location conditions must match
-                                                              )
+                                                              ),
+                                    descriptor => descriptor.Term(queryDescriptor => queryDescriptor.Field(document => document.IsVerwijderd)
+                                                                     .Value(false))
                                 )
                             )
                         ));
