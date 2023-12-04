@@ -132,6 +132,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
         V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
 
+    public readonly V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection
+        V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection = new();
 
     public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
         V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer = new();
@@ -186,6 +188,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
             V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
             V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
+            V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection
         };
 
         foreach (var scenario in scenarios)
@@ -193,7 +196,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
         }
 
-        foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer.EventsPerVCode)
+        foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer
+                    .EventsPerVCode)
         {
             await AddEvents(vCode, events);
         }

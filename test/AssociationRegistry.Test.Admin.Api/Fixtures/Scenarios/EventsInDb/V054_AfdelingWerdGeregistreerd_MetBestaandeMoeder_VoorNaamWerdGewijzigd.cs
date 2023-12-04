@@ -21,7 +21,7 @@ public class V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewij
         VCodeMoeder = "V9999054";
         NaamMoeder = "De coolste moeder";
 
-        VCode = "V9999050";
+        VCode = "V9999055";
         NaamAfdeling = "De coolste afdeling";
 
         MoederWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
