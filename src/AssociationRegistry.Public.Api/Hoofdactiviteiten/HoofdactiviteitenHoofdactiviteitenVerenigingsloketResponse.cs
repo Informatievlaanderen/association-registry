@@ -17,6 +17,6 @@ public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
         /// <summary>
         /// De volledige beschrijving van de hoofdactiviteit
         /// </summary>
-        public string Beschrijving { get; set; } = null!;
+        public string Naam { get; set; } = null!;
     }
 }

@@ -38,6 +38,6 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
         => new()
         {
             Code = arg.Code,
-            Beschrijving = arg.Naam,
+            Naam = arg.Naam,
         };
 }

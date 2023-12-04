@@ -15,5 +15,5 @@ public class HoofdactiviteitVerenigingsloket
     /// De volledige beschrijving van de hoofdactiviteit
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; } = null!;
+    public string Naam { get; set; } = null!;
 }

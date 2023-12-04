@@ -2,87 +2,87 @@
   "hoofdactiviteitenVerenigingsloket": [
     {
       "code": "BIAG",
-      "beschrijving": "Burgerinitiatief & Actiegroep"
+      "naam": "Burgerinitiatief & Actiegroep"
     },
     {
       "code": "BWWC",
-      "beschrijving": "Buurtwerking & Wijkcomité"
+      "naam": "Buurtwerking & Wijkcomité"
     },
     {
       "code": "DINT",
-      "beschrijving": "Diversiteit & Integratie"
+      "naam": "Diversiteit & Integratie"
     },
     {
       "code": "GEWE",
-      "beschrijving": "Gezondheid & Welzijn"
+      "naam": "Gezondheid & Welzijn"
     },
     {
       "code": "HOSP",
-      "beschrijving": "Hobby & Spel"
+      "naam": "Hobby & Spel"
     },
     {
       "code": "INOS",
-      "beschrijving": "Internationaal & Ontwikkelingssamenwerking"
+      "naam": "Internationaal & Ontwikkelingssamenwerking"
     },
     {
       "code": "JGDW",
-      "beschrijving": "Jeugdwerk"
+      "naam": "Jeugdwerk"
     },
     {
       "code": "KLDU",
-      "beschrijving": "Klimaat & Duurzaamheid"
+      "naam": "Klimaat & Duurzaamheid"
     },
     {
       "code": "KECU",
-      "beschrijving": "Kunsten, Erfgoed & Cultuur"
+      "naam": "Kunsten, Erfgoed & Cultuur"
     },
     {
       "code": "LAVI",
-      "beschrijving": "Landbouw & Visserij"
+      "naam": "Landbouw & Visserij"
     },
     {
       "code": "LEBE",
-      "beschrijving": "Levensbeschouwelijk"
+      "naam": "Levensbeschouwelijk"
     },
     {
       "code": "MADP",
-      "beschrijving": "Maatschappelijke dienstverlening & Politiek"
+      "naam": "Maatschappelijke dienstverlening & Politiek"
     },
     {
       "code": "MEDG",
-      "beschrijving": "Mediawijsheid & Digitale geletterdheid"
+      "naam": "Mediawijsheid & Digitale geletterdheid"
     },
     {
       "code": "MROW",
-      "beschrijving": "Mobiliteit, Ruimtelijke ordening & Wonen"
+      "naam": "Mobiliteit, Ruimtelijke ordening & Wonen"
     },
     {
       "code": "NMDW",
-      "beschrijving": "Natuur, Milieu & Dierenwelzijn"
+      "naam": "Natuur, Milieu & Dierenwelzijn"
     },
     {
       "code": "VORM",
-      "beschrijving": "Onderwijs & Vorming"
+      "naam": "Onderwijs & Vorming"
     },
     {
       "code": "SOVO",
-      "beschrijving": "Sociaal-cultureel volwassenenwerk"
+      "naam": "Sociaal-cultureel volwassenenwerk"
     },
     {
       "code": "SPRT",
-      "beschrijving": "Sport"
+      "naam": "Sport"
     },
     {
       "code": "ONWE",
-      "beschrijving": "Technologie & Wetenschap"
+      "naam": "Technologie & Wetenschap"
     },
     {
       "code": "TOER",
-      "beschrijving": "Toerisme"
+      "naam": "Toerisme"
     },
     {
       "code": "WESE",
-      "beschrijving": "Werk & Sociale economie"
+      "naam": "Werk & Sociale economie"
     }
   ]
 }
