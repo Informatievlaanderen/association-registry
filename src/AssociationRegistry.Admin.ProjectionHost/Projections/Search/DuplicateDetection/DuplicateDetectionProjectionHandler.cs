@@ -101,6 +101,9 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
+        => await _elasticRepository.AppendLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie));
+
     private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()
         {
