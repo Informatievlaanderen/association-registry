@@ -1,3 +1,10 @@
+## [8.31.1](https://github.com/informatievlaanderen/association-registry/compare/v8.31.0...v8.31.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* add logging of magda response when not successful ([aa0273f](https://github.com/informatievlaanderen/association-registry/commit/aa0273f67303dca87ffeb833f6b1c839f29cebe4))
+
 # [8.31.0](https://github.com/informatievlaanderen/association-registry/compare/v8.30.0...v8.31.0) (2023-12-05)
 
 
