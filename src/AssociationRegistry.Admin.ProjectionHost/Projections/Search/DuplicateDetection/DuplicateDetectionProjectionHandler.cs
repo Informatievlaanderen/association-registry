@@ -24,7 +24,7 @@ public class DuplicateDetectionProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-                IsVerwijderd = false,
+                IsGestopt = false,
             }
         );
 
@@ -38,7 +38,7 @@ public class DuplicateDetectionProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-                IsVerwijderd = false,
+                IsGestopt = false,
             }
         );
 
@@ -52,7 +52,7 @@ public class DuplicateDetectionProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
                 HoofdactiviteitVerenigingsloket = Array.Empty<string>(),
-                IsVerwijderd = false,
+                IsGestopt = false,
             }
         );
 
@@ -97,7 +97,7 @@ public class DuplicateDetectionProjectionHandler
             message.VCode,
             new DuplicateDetectionDocument
             {
-                IsVerwijderd = true,
+                IsGestopt = true,
             }
         );
 

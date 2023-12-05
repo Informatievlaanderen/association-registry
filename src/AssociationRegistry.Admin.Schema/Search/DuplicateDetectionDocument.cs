@@ -8,7 +8,7 @@ public record DuplicateDetectionDocument
     public string VerenigingsTypeCode { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public string[] HoofdactiviteitVerenigingsloket { get; set; } = Array.Empty<string>();
-    public bool IsVerwijderd { get; set; }
+    public bool IsGestopt { get; set; }
 
     public record Locatie : ILocatie
     {
