@@ -46,11 +46,16 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         _logger = logger;
     }
 
-    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+        KboNummer kboNummer,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
     {
         try
         {
-            var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer, cancellationToken);
+            var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer,
+                                                  cancellationToken);
+
             var magdaResponse = await _magdaFacade.GeefOnderneming(kboNummer, reference);
 
             if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
@@ -70,7 +75,9 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             if (naamOndernemingType is null)
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-            var maatschappelijkeZetel = magdaOnderneming.Adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel && IsActiveToday(a.DatumBegin, a.DatumEinde));
+            var maatschappelijkeZetel =
+                magdaOnderneming.Adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel &&
+                                                               IsActiveToday(a.DatumBegin, a.DatumEinde));
 
             return VerenigingVolgensKboResult.GeldigeVereniging(
                 new VerenigingVolgensKbo
@@ -198,17 +205,31 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     private static bool IsOnderneming(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.OndernemingOfVestiging.Code.Value == OndernemingOfVestigingCodes.Onderneming;
 
-    private Result<VerenigingVolgensKbo> HandleUitzonderingen(string kboNummer, ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
+    private Result<VerenigingVolgensKbo> HandleUitzonderingen(
+        string kboNummer,
+        ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
     {
+        var uitzonderingen = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen;
+
         _logger.LogInformation(
-            message: "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: '{Diagnose}'",
+            "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: " +
+            "\nFouten:\n'{Uitzonderingen}'" +
+            "\nWaarschuwingen:\n'{Waarschuwingen}'" +
+            "\nInformatie:\n'{Informatie}'",
             kboNummer,
-            magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen.ConcatenateUitzonderingen("\n"));
+            uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.FOUT),
+            uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.WAARSCHUWING),
+            uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE));
 
         return VerenigingVolgensKboResult.GeenGeldigeVereniging;
     }
 
-    private static async Task<MagdaCallReference> CreateReference(IMagdaCallReferenceRepository repository, string initiator, Guid correlationId, string opgevraagdOnderwerp, CancellationToken cancellationToken)
+    private static async Task<MagdaCallReference> CreateReference(
+        IMagdaCallReferenceRepository repository,
+        string initiator,
+        Guid correlationId,
+        string opgevraagdOnderwerp,
+        CancellationToken cancellationToken)
     {
         var magdaCallReference = new MagdaCallReference
         {
