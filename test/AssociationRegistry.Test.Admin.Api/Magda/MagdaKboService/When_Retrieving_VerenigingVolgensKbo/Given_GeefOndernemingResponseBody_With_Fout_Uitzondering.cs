@@ -74,7 +74,7 @@ public class Given_GeefOndernemingResponseBody_With_Fout_Uitzondering
                 It.Is<LogLevel>(l => l == LogLevel.Information),
                 It.IsAny<EventId>(),
                 It.Is<It.IsAnyType>((v, t) => v.ToString() ==
-                                              $"Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {kboNummer}: 'Er is een fout gebeurd\nEr is nog een fout gebeurd'"),
+                                              $"Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {kboNummer}: \nFouten:\n' - Er is een fout gebeurd - \n - Er is nog een fout gebeurd - '\nWaarschuwingen:\n''\nInformatie:\n''"),
                 It.IsAny<Exception>(),
                 It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!),
             Times.Once);
