@@ -1,3 +1,15 @@
+# [8.32.0](https://github.com/informatievlaanderen/association-registry/compare/v8.31.1...v8.32.0) (2023-12-05)
+
+
+### Bug Fixes
+
+* temp change of magda geefonderneming backend values ([73d5cc7](https://github.com/informatievlaanderen/association-registry/commit/73d5cc7d0b09bf8c82d6c951f0ae2fa7c62a7bcc))
+
+
+### Features
+
+* add more logs for magda geefonderneming ([5ef5bbb](https://github.com/informatievlaanderen/association-registry/commit/5ef5bbb7c6ee8a985a0ef1d98588919051288dad))
+
 ## [8.31.1](https://github.com/informatievlaanderen/association-registry/compare/v8.31.0...v8.31.1) (2023-12-05)
 
 
