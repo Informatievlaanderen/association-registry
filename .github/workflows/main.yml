@@ -710,10 +710,10 @@ jobs:
           SEMVER: ${{ needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
 
-  push_images_to_test_ik4:
+  push_images_to_ik4_devops:
     if: needs.release.outputs.version != 'none'
     needs: [ release ]
-    name: Push images to Test (IK4)
+    name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials (Test)
@@ -935,7 +935,7 @@ jobs:
 
   deploy_test_ik4:
     if: needs.release.outputs.version != 'none'
-    needs: [ set-release-version, push_images_to_test_ik4, release ]
+    needs: [ set-release-version, push_images_to_ik4_devops, release ]
     name: Deploy to Test (IK4)
     environment: test_ik4
     runs-on: ubuntu-latest
