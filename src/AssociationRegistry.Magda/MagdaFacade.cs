@@ -101,7 +101,9 @@ public class MagdaFacade : IMagdaFacade
 
         if (!response.IsSuccessStatusCode)
         {
-            _logger.LogWarning("GeefOnderneming response not successful: {@Result}", response);
+            _logger.LogWarning(message: "GeefOnderneming response not successful: \n{@Result}\n{@Content}", response,
+                               await response.Content.ReadAsStringAsync());
+
             return null;
         }
 
