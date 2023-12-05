@@ -1,3 +1,18 @@
+# [8.31.0](https://github.com/informatievlaanderen/association-registry/compare/v8.30.0...v8.31.0) (2023-12-05)
+
+
+### Bug Fixes
+
+* OR-1972 add location from KBO after registration of association ([72f1e68](https://github.com/informatievlaanderen/association-registry/commit/72f1e68028044b60a6dfa8862e7ddaa7ae56f568))
+
+
+### Features
+
+* or-1972 do not return gestopte verenigingen in duplicatedetaction ([40cd6af](https://github.com/informatievlaanderen/association-registry/commit/40cd6afcac903ad76f5295ec6f1c4591237f2469))
+* or-1972 extract duplicate query into methods ([016f042](https://github.com/informatievlaanderen/association-registry/commit/016f0421fdff1329449b6359644db6ebad7463a7))
+* or-1972 ignor IsPrimair when comparing locaties ([b28e033](https://github.com/informatievlaanderen/association-registry/commit/b28e033412c4ba741c550257181995a4529dae48))
+* or-1972 revert to previous query, but improved ([22818b9](https://github.com/informatievlaanderen/association-registry/commit/22818b9ce8fd166d68af5e7bb5aa8b6101a522c9))
+
 # [8.30.0](https://github.com/informatievlaanderen/association-registry/compare/v8.29.1...v8.30.0) (2023-12-04)
 
 
