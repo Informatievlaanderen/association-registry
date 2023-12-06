@@ -15,3 +15,12 @@ public record LocatieWerdToegevoegd(
     public static LocatieWerdToegevoegd With(Locatie locatie)
         => new(Registratiedata.Locatie.With(locatie));
 }
+
+public record LocatieWerdToegevoegdEncrypted(
+    Registratiedata.Locatie Locatie,
+    Guid EncryptionKeyId) : IEvent
+{
+    [IgnoreDataMember]
+    public Bron Bron
+        => Bron.Initiator;
+}

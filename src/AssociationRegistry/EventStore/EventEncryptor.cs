@@ -1,14 +1,16 @@
 ﻿namespace AssociationRegistry.EventStore;
 
 using Events;
+using Formatters;
 using Framework;
 using Marten;
+using Marten.Schema;
 using System.Security.Cryptography;
 using System.Text;
 
 public class EventEncryptor
 {
-    public IEvent Downcast(IEvent @event, IDocumentSession session, string vCode)
+    public async Task<IEvent> Downcast(IEvent @event, IDocumentSession session, string vCode)
     {
         switch (@event)
         {
@@ -29,6 +31,36 @@ public class EventEncryptor
                     vertegenwoordigerWerdToegevoegd.Telefoon,
                     vertegenwoordigerWerdToegevoegd.Mobiel,
                     vertegenwoordigerWerdToegevoegd.SocialMedia);
+
+            case LocatieWerdToegevoegd locatieWerdToegevoegd:
+                var adresString = locatieWerdToegevoegd.Locatie.Adres?.ToAdresString() ?? locatieWerdToegevoegd.Locatie.AdresId.ToString();
+
+                var locatieEncryptionRecord = await session.Query<LocatieEncryptionRecord>()
+                                                           .Where(x => x.Locatie == adresString)
+                                                           .SingleOrDefaultAsync();
+
+                if (locatieEncryptionRecord == null)
+                {
+                    locatieEncryptionRecord = new LocatieEncryptionRecord(Guid.NewGuid(),
+                                                                          Guid.NewGuid().ToString().Replace(oldValue: "-", newValue: ""),
+                                                                          adresString);
+
+                    session.Insert(locatieEncryptionRecord);
+                }
+
+                return new LocatieWerdToegevoegdEncrypted(
+                    locatieWerdToegevoegd.Locatie with
+                    {
+                        Naam = EncryptString(locatieWerdToegevoegd.Locatie.Naam, locatieEncryptionRecord.EncryptionKey),
+                        Adres = locatieWerdToegevoegd.Locatie.Adres is null
+                            ? null
+                            : locatieWerdToegevoegd.Locatie.Adres with
+                            {
+                                Straatnaam = EncryptString(locatieWerdToegevoegd.Locatie.Adres.Straatnaam,
+                                                           locatieEncryptionRecord.EncryptionKey),
+                            },
+                    },
+                    locatieEncryptionRecord.EncryptionKeyId);
 
             default:
                 return @event;
@@ -58,4 +90,5 @@ public class EventEncryptor
     }
 }
 
-public record EncryptionRecord(string VCode, int VertegenwoordigerId, string EncryptionKey);
+public record EncryptionRecord(string VCode, int VertegenwoordigerId, [property: Identity] string EncryptionKey);
+public record LocatieEncryptionRecord([property: Identity] Guid EncryptionKeyId, string EncryptionKey, string Locatie);

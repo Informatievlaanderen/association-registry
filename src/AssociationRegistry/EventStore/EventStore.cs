@@ -30,7 +30,7 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.LightweightSession();
 
-        events = events.Select(x => _eventEncryptor.Downcast(x, session, aggregateId)).ToArray();
+        events = events.Select(x => _eventEncryptor.Downcast(x, session, aggregateId).GetAwaiter().GetResult()).ToArray();
 
         try
         {
