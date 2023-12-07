@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
@@ -12,11 +14,17 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Projections;
 using Projections.Detail;
+using Projections.Historiek;
+using Projections.Search;
+using Projections.Search.Zoeken;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -31,7 +39,8 @@ public class Program
 
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args);
@@ -76,12 +85,46 @@ public class Program
         var app = builder.Build();
 
         app.MapPost(
-            pattern: "/rebuild",
+            pattern: "projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
                 await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
                 logger.LogInformation("Rebuild complete");
+            });
+
+        app.MapPost(
+            pattern: "projections/historiek/rebuild",
+            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            {
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
+                logger.LogInformation("Rebuild complete");
+            });
+
+        app.MapPost(
+            pattern: "projections/search/rebuild",
+            handler: async (
+                IDocumentStore store,
+                IElasticClient elasticClient,
+                ElasticSearchOptionsSection options,
+                ILogger<Program> logger,
+                CancellationToken cancellationToken) =>
+            {
+                await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
+                elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
+                await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: cancellationToken);
+                elasticClient.Indices.CreateVerenigingIndex(options.Indices.DuplicateDetection);
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
+                logger.LogInformation("Rebuild complete");
+            });
+
+        app.MapGet(
+            "projections/status",
+            async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            {
+                return await store.Advanced.AllProjectionProgress(token: cancellationToken);
             });
 
         app.SetUpSwagger();

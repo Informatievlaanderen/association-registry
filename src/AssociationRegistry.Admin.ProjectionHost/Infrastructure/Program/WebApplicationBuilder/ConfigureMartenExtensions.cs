@@ -10,6 +10,7 @@ using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
 using Newtonsoft.Json;
+using Projections;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.Search;
@@ -90,7 +91,7 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    projectionName: "BeheerVerenigingZoekenDocument");
+                    projectionName: ProjectionNames.VerenigingZoeken);
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
