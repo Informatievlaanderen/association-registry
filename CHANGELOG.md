@@ -1,3 +1,10 @@
+## [8.32.1](https://github.com/informatievlaanderen/association-registry/compare/v8.32.0...v8.32.1) (2023-12-07)
+
+
+### Bug Fixes
+
+* OR-2007 prevent 'no set method' exception with xml serialization ([cb62c64](https://github.com/informatievlaanderen/association-registry/commit/cb62c647d9eeed1cd1dd874bf3d5de3122bc158d))
+
 # [8.32.0](https://github.com/informatievlaanderen/association-registry/compare/v8.31.1...v8.32.0) (2023-12-05)
 
 
