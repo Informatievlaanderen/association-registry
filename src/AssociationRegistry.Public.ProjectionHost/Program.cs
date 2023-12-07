@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Public.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
+using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
@@ -12,10 +14,12 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Projections;
 using Projections.Detail;
 using Projections.Search;
 using Serilog;
@@ -79,12 +83,35 @@ public class Program
         var app = builder.Build();
 
         app.MapPost(
-            pattern: "/rebuild",
+            pattern: "projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
                 await projectionDaemon.RebuildProjection<PubliekVerenigingDetailProjection>(cancellationToken);
                 logger.LogInformation("Rebuild complete");
+            });
+
+        app.MapPost(
+            pattern: "projections/search/rebuild",
+            handler: async (
+                IDocumentStore store,
+                IElasticClient elasticClient,
+                ElasticSearchOptionsSection options,
+                ILogger<Program> logger,
+                CancellationToken cancellationToken) =>
+            {
+                await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
+                elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
+                logger.LogInformation("Rebuild complete");
+            });
+
+        app.MapGet(
+            "projections/status",
+            async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            {
+                return await store.Advanced.AllProjectionProgress(token: cancellationToken);
             });
 
         app.SetUpSwagger();

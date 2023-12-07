@@ -10,6 +10,7 @@ public static class ConfigureElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
+        services.AddSingleton(elasticSearchOptions);
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 
         ElasticSearchExtensions.EnsureIndexExists(elasticClient,
