@@ -12,8 +12,9 @@ public static class ConfigureElasticSearchExtensions
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 
-        services.AddSingleton(elasticClient);
         services.AddSingleton(elasticSearchOptions);
+
+        services.AddSingleton(elasticClient);
         services.AddSingleton<IElasticClient>(provider => provider.GetRequiredService<ElasticClient>());
 
         return services;

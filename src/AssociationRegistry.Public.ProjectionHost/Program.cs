@@ -100,9 +100,12 @@ public class Program
                 ILogger<Program> logger,
                 CancellationToken cancellationToken) =>
             {
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
+
                 await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
                 elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
                 await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
                 logger.LogInformation("Rebuild complete");
             });
