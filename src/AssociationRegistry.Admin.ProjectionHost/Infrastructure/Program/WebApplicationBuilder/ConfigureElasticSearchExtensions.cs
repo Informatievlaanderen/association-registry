@@ -10,12 +10,12 @@ public static class ConfigureElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        services.AddSingleton(elasticSearchOptions);
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 
         ElasticSearchExtensions.EnsureIndexExists(elasticClient,
                                                   elasticSearchOptions.Indices!.Verenigingen!,
                                                   elasticSearchOptions.Indices!.DuplicateDetection!);
+        services.AddSingleton(elasticSearchOptions);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
