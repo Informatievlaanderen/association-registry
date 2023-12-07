@@ -35,7 +35,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         if (vereniging.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
 
-        return Result.Success(await RegistreerVereniging(vereniging, message.Metadata, cancellationToken));
+        return await RegistreerVereniging(vereniging, message.Metadata, cancellationToken);
     }
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNummer)
@@ -45,7 +45,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
     }
 
-    private async Task<CommandResult> RegistreerVereniging(VerenigingVolgensKbo verenigingVolgensKbo, CommandMetadata messageMetadata, CancellationToken cancellationToken)
+    private async Task<Result> RegistreerVereniging(VerenigingVolgensKbo verenigingVolgensKbo, CommandMetadata messageMetadata, CancellationToken cancellationToken)
     {
         var vCode = await _vCodeService.GetNext();
 
@@ -53,8 +53,12 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
+        var duplicateResult = await CheckForDuplicate(verenigingVolgensKbo.KboNummer);
+
+        if (duplicateResult.IsFailure()) return duplicateResult;
+
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
 
-        return CommandResult.Create(vCode, result);
+        return Result.Success(CommandResult.Create(vCode, result));
     }
 }
