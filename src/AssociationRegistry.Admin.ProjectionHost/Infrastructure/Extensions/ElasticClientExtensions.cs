@@ -12,6 +12,12 @@ public static class ElasticClientExtensions
             selector: descriptor =>
                 descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
+    public static Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
+        => indicesNamespace.CreateAsync(
+            index,
+            selector: descriptor =>
+                descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
         var createIndexResponse = indicesNamespace.Create(
@@ -32,6 +38,24 @@ public static class ElasticClientExtensions
         if (!createIndexResponse.IsValid)
             throw createIndexResponse.OriginalException;
     }
+
+    public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
+        this IndicesNamespace indicesNamespace,
+        IndexName index)
+        => await indicesNamespace.CreateAsync(
+            index,
+            selector: c => c
+                          .Settings(s => s
+                                       .Analysis(a => a
+                                                     .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                          selector: prcf
+                                                                                              => prcf.Pattern("\\.").Replacement(""))
+                                                                          .PatternReplace(name: "underscore_replace",
+                                                                                          selector: prcf
+                                                                                              => prcf.Pattern("_").Replacement(" ")))
+                                                     .Analyzers(AddDuplicateDetectionAnalyzer)
+                                                     .TokenFilters(AddDutchStopWordsFilter)))
+                          .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
