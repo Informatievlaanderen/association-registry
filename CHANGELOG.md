@@ -1,3 +1,10 @@
+## [8.32.2](https://github.com/informatievlaanderen/association-registry/compare/v8.32.1...v8.32.2) (2023-12-07)
+
+
+### Bug Fixes
+
+* or-2006 add extra duplicate check closer to persisting event ([9d69705](https://github.com/informatievlaanderen/association-registry/commit/9d69705a71716d36ae402c1a39009e1419be2b86))
+
 ## [8.32.1](https://github.com/informatievlaanderen/association-registry/compare/v8.32.0...v8.32.1) (2023-12-07)
 
 
