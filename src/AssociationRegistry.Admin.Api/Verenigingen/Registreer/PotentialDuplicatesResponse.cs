@@ -19,12 +19,12 @@ public class PotentialDuplicatesResponse
     /// <summary>Dit token wordt gebruikt als bevestiging dat de vereniging uniek is en geregistreerd mag worden,
     /// ondanks de voorgestelde duplicaten.</summary>
     [DataMember(Name = "BevestigingsToken")]
-    public string BevestigingsToken { get; }
+    public string BevestigingsToken { get; init; }
 
     /// <summary>Een lijst van verenigingen die mogelijks een duplicaat zijn
     /// van de vereniging uit de registreer aanvraag</summary>
     [DataMember(Name = "MogelijkeDuplicateVerenigingen")]
-    public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; }
+    public DuplicaatVerenigingContract[] MogelijkeDuplicateVerenigingen { get; init; }
 
     private static DuplicaatVerenigingContract FromDuplicaatVereniging(DuplicaatVereniging document, AppSettings appSettings)
         => new(
