@@ -104,7 +104,7 @@ public class Program
                 await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
                 await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
-                elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
+                await elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
 
                 await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
                 logger.LogInformation("Rebuild complete");
