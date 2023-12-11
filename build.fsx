@@ -12,6 +12,10 @@ open Fake.IO.FileSystemOperators
 open Fake.DotNet
 open ``Build-generic``
 
+open System
+open System.IO
+
+
 let product = "Basisregisters Vlaanderen"
 let copyright = "Copyright (c) Vlaamse overheid"
 let company = "Vlaamse overheid"
