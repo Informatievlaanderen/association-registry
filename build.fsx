@@ -31,6 +31,8 @@ let test = testSolution
 let publishSource = publish assemblyVersionNumber
 let pack = pack nugetVersionNumber
 
+let dockerRegistry = Environment.environVarOrDefault "BUILD_DOCKER_REGISTRY_IK4" "dev.local"
+
 let containerize project containerName =
   let result1 =
     [ "build"; "."; "--no-cache"; "--tag"; sprintf "%s/%s:%s" dockerRegistry containerName buildNumber; "--build-arg"; sprintf "build_number=%s" buildNumber]
