@@ -50,7 +50,7 @@ jobs:
       - name: Display disk space
         run: |
           df -h
-    
+
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
 
