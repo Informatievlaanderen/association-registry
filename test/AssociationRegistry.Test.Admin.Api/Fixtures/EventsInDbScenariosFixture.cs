@@ -46,9 +46,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens
         V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
 
-    public readonly V016_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_AlsMoeder_VoorRegistratieAfdeling
-        V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling = new();
-
     public readonly V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateDetection
         V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection = new();
 
@@ -149,7 +146,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
             V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
-            V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling,
             V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection,
             V021FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroom,
             V022FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatie,

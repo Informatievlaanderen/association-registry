@@ -150,8 +150,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
-        Throw<AfdelingKanNietUitgeschrevenWordenUitPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
-
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }
@@ -164,7 +162,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
         State = obj;
     }
 }

@@ -188,38 +188,6 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate IsAfdelingVan(string kboNummer, string vCode, string naam)
-        {
-            _vereniging.relaties.Add(new
-            {
-                relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-                anderevereniging = new
-                {
-                    kbonummer = kboNummer,
-                    vcode = vCode,
-                    naam = naam,
-                },
-            });
-
-            return this;
-        }
-
-        public VerenigingTemplate HeeftAfdeling(string vCode, string naam)
-        {
-            _vereniging.relaties.Add(new
-            {
-                relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                anderevereniging = new
-                {
-                    kbonummer = string.Empty,
-                    vcode = vCode,
-                    naam = naam,
-                },
-            });
-
-            return this;
-        }
-
         public VerenigingTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)

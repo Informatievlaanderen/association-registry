@@ -26,7 +26,6 @@
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\*.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
     <EmbeddedResource Include="templates\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\*.json" />

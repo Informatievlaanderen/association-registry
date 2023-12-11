@@ -50,9 +50,6 @@
   <data name="InvalidDoelgroepRange">
     <value>Minimum leeftijd moet kleiner of gelijk zijn aan maximum leeftijd.</value>
   </data>
-  <data name="AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom">
-    <value>Een afdeling kan niet uit de publieke stroom worden uitgeschreven.</value>
-  </data>
   <data name="GeenGeldigeVerenigingInKbo">
     <value>Er werd voor dit KBO-nummer geen geldige vereniging gevonden.</value>
   </data>

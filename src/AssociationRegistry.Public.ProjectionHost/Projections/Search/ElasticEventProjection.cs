@@ -81,7 +81,13 @@ public class PubliekZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
     {
-        await _elasticRepository.WijzigNaamAfdeling(message.VCode, message.Data.Naam);
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Naam = message.Data.Naam,
+            }
+        );
     }
 
     public async Task Handle(EventEnvelope<RoepnaamWerdGewijzigd> message)

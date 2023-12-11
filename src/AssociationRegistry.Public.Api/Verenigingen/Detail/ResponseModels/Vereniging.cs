@@ -36,7 +36,7 @@ public class Vereniging
     [DataMember(Name = "Startdatum")]
     public DateOnly? Startdatum { get; init; }
 
-    /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
+    /// <summary>De doelgroep waar de activiteiten van deze vereniging zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;
 
