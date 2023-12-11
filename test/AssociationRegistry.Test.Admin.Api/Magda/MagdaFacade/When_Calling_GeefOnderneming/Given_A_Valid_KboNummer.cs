@@ -43,9 +43,9 @@ public class Given_A_Valid_KboNummer
             onderneming?.Namen.MaatschappelijkeNamen.Should().ContainEquivalentOf(
                 new NaamOndernemingType
                 {
-                    Naam = "Kom op tegen Kanker",
+                    Naam = "Vlaamse Liga tegen Kanker",
                     Taalcode = "nl",
-                    DatumBegin = "2015-10-13",
+                    DatumBegin = "1998-01-01",
                     DatumEinde = null,
                 });
 
