@@ -1,3 +1,11 @@
+# [8.33.0](https://github.com/informatievlaanderen/association-registry/compare/v8.32.5...v8.33.0) (2023-12-11)
+
+
+### Features
+
+* add default sorting on VCode for beheer zoeken ([380988a](https://github.com/informatievlaanderen/association-registry/commit/380988a38997b6c6c524014f4c22a2400e6393b2))
+* or-2012 do not load temporary vertegenwoordigers on production ([935b7a7](https://github.com/informatievlaanderen/association-registry/commit/935b7a7e3861477c97f515b7ca309377ed6dd5d3))
+
 ## [8.32.5](https://github.com/informatievlaanderen/association-registry/compare/v8.32.4...v8.32.5) (2023-12-11)
 
 
