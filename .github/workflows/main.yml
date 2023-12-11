@@ -105,7 +105,6 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
-
   set-release-version:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Decide next version
@@ -131,7 +130,7 @@ jobs:
         run: npx semantic-release --dry-run
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_USERNAME: ${{ secrets.VBR_GIT_USER }}
@@ -245,181 +244,6 @@ jobs:
       run-docker-elasticsearch: true
     secrets: inherit
 
-  #
-  #  build-acm-api:
-  #    if: github.repository_owner == 'Informatievlaanderen'
-  #    name: Build ACM Api
-  #    runs-on: ubuntu-latest
-  #    needs: [set-release-version]
-  #
-  #    steps:
-  #      - name: Check version
-  #        shell: bash
-  #        run: echo $SEMVER
-  #        env:
-  #          SEMVER: ${{ needs.set-release-version.outputs.version }}
-  #
-  #      - name: Checkout Code
-  #        uses: actions/checkout@v3
-  #
-  #      - name: Run es container
-  #        shell: bash
-  #        run: |
-  #          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-  #
-  #      - name: Run ACM container
-  #        shell: bash
-  #        run: |
-  #          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-  #
-  #      - name: Run db container
-  #        shell: bash
-  #        run: |
-  #          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-  #
-  #      - name: Cache Paket
-  #        uses: actions/cache@v3
-  #        env:
-  #          cache-name: cache-paket
-  #        with:
-  #          path: packages
-  #          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
-  #          restore-keys: |
-  #            ${{ runner.os }}-build-${{ env.cache-name }}-
-  #
-  #      - name: Parse repository name
-  #        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
-  #        shell: bash
-  #
-  #      - name: Setup .NET Core
-  #        uses: actions/setup-dotnet@v3
-  #        with:
-  #          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
-  #
-  #      - name: .NET version
-  #        shell: bash
-  #        run: dotnet --info
-  #
-  #      - name: Cache SonarCloud packages
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: ~/sonar/cache
-  #          key: ${{ runner.os }}-sonar
-  #          restore-keys: ${{ runner.os }}-sonar
-  #
-  #      - name: Restore dotnet tools
-  #        shell: bash
-  #        run: |
-  #          dotnet tool restore
-  #
-  #      - name: Cache SonarCloud scanner
-  #        id: cache-sonar-scanner
-  #        uses: actions/cache@v3
-  #        with:
-  #          path: ./.sonar/scanner
-  #          key: ${{ runner.os }}-sonar-scanner
-  #          restore-keys: ${{ runner.os }}-sonar-scanner
-  #
-  #      - name: Install SonarCloud scanner
-  #        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-  #        shell: bash
-  #        run: |
-  #          mkdir .sonar
-  #          mkdir .sonar/scanner
-  #          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-  #
-  #      - name: Start sonar scanner
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-  #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #        shell: bash
-  #        run: |
-  #          ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
-  #
-  #      - name: Paket install
-  #        shell: bash
-  #        run: dotnet paket install
-  #
-  #      - name: Paket restore
-  #        shell: bash
-  #        run: dotnet paket restore
-  #
-  #      - name: Dotnet restore tests
-  #        shell: bash
-  #        run: dotnet restore test/AssociationRegistry.Test.Acm.Api --runtime linux-x64
-  #
-  #      - name: Dotnet build tests
-  #        shell: bash
-  #        run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 test/AssociationRegistry.Test.Acm.Api
-  #
-  #      - name: Run all tests
-  #        run: dotnet test test/AssociationRegistry.Test.Acm.Api
-  #
-  #      - name: Dotnet restore
-  #        shell: bash
-  #        run: dotnet restore src/AssociationRegistry.Acm.Api/ --runtime linux-x64
-  #
-  #      - name: Dotnet build
-  #        shell: bash
-  #        run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/AssociationRegistry.Acm.Api/
-  #
-  #      - name: Dotnet publish
-  #        shell: bash
-  #        run: dotnet publish -o dist/AssociationRegistry.Acm.Api/linux --no-build --no-restore --runtime 'linux-x64' --self-contained -f net6.0 src/AssociationRegistry.Acm.Api/
-  #
-  #      - name: Containerize Acm Api
-  #        shell: bash
-  #        run: CI_BUILD_NUMBER=$SEMVER ./build.sh Containerize_AcmApi
-  #        env:
-  #          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-  #          SEMVER: ${{ needs.set-release-version.outputs.version }}
-  #
-  #      - name: Show images
-  #        shell: bash
-  #        run: docker images
-  #
-  #      - name: Save Acm Api Image
-  #        if: needs.set-release-version.outputs.version != 'none'
-  #        shell: bash
-  #        run: docker image save $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER -o ~/ar-acm-api-image.tar
-  #        env:
-  #          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-  #          SEMVER: ${{ needs.set-release-version.outputs.version }}
-  #
-  #      - name: Upload Acm Api artifact
-  #        if: needs.set-release-version.outputs.version != 'none'
-  #        uses: actions/upload-artifact@v3
-  #        with:
-  #          name: acm-api
-  #          path: ~/ar-acm-api-image.tar
-  #
-  #      - name: Analyze with sonar scanner
-  #        env:
-  #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-  #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #        shell: bash
-  #        run: |
-  #          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-  #
-  #      - name: Shows logs ACM container
-  #        if: ${{ failure() }}
-  #        shell: bash
-  #        run: |
-  #          docker logs acm
-  #
-  #      - name: Shows logs elasticsearch container
-  #        if: ${{ failure() }}
-  #        shell: bash
-  #        run: |
-  #          docker logs elasticsearch
-  #
-  #      - name: Shows logs db container
-  #        if: ${{ failure() }}
-  #        shell: bash
-  #        run: |
-  #          docker logs db
-  #
-
   release:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Semantic Release
@@ -499,7 +323,7 @@ jobs:
         run: npx semantic-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_USERNAME: ${{ secrets.VBR_ACTIONS_TOKEN }}
@@ -517,52 +341,6 @@ jobs:
           echo ::set-output name=version::$(cat semver)
           echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
         shell: bash
-
-  #
-  #    - name: Configure AWS credentials (Production)
-  #      if: env.RELEASE_VERSION != 'none'
-  #      uses: aws-actions/configure-aws-credentials@v4
-  #      with:
-  #        aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_PRD }}
-  #        aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY_PRD }}
-  #        aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
-  #
-  #    - name: Login to Amazon ECR (Production)
-  #      if: env.RELEASE_VERSION != 'none'
-  #      uses: aws-actions/amazon-ecr-login@v1
-  #
-  #    - name: Push to Production
-  #      if: env.RELEASE_VERSION != 'none'
-  #      shell: bash
-  #      run: |
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/api:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/api:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/api:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/batch-agentschapzorgengezondheidftpdump:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/batch-agentschapzorgengezondheidftpdump:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/batch-agentschapzorgengezondheidftpdump:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/batch-vlaanderenbe:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/batch-vlaanderenbe:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/batch-vlaanderenbe:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/projections-elasticsearch:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-elasticsearch:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-elasticsearch:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/projections-delegations:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-delegations:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-delegations:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/projections-reporting:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-reporting:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/projections-reporting:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/kbo-mutations:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/kbo-mutations:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/kbo-mutations:$SEMVER
-  #
-  #        docker tag  $BUILD_DOCKER_REGISTRY/organisation-registry/ui:$SEMVER $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/ui:$SEMVER
-  #        docker push $BUILD_DOCKER_REGISTRY_PRD/organisation-registry/ui:$SEMVER
-  #      env:
-  #        BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-  #        BUILD_DOCKER_REGISTRY_PRD: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_PRD }}
-  #        SEMVER: ${{ env.RELEASE_VERSION }}
-  #        WORKSPACE: ${{ github.workspace }}
 
   publish_to_atlassian:
     if: needs.release.outputs.version != 'none'
@@ -626,89 +404,6 @@ jobs:
           JIRA_PREFIX: Association
           JIRA_PROJECT: OR
           JIRA_VERSION: ${{ needs.release.outputs.version }}
-
-  push_images_to_test:
-    if: needs.release.outputs.version != 'none'
-    needs: [ release ]
-    name: Push images to Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials (Test)
-        if: needs.release.outputs.version != 'none'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID_TST }}
-          aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY_TST }}
-          aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
-
-      - name: Login to Amazon ECR (Test)
-        if: needs.release.outputs.version != 'none'
-        uses: aws-actions/amazon-ecr-login@v1.5.3
-
-      - name: Download Acm Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: acm-api
-          path: ~/
-
-      - name: Load Acm Api image
-        shell: bash
-        run: docker image load -i ~/ar-acm-api-image.tar
-
-      - name: Download Public Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: public-api
-          path: ~/
-
-      - name: Load Public Api image
-        shell: bash
-        run: docker image load -i ~/ar-public-api-image.tar
-
-      - name: Download Public Projections artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: public-projections
-          path: ~/
-
-      - name: Load Public Projections image
-        shell: bash
-        run: docker image load -i ~/ar-public-projections-image.tar
-
-      - name: Download Admin Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: admin-api
-          path: ~/
-
-      - name: Load Admin Api image
-        shell: bash
-        run: docker image load -i ~/ar-admin-api-image.tar
-
-      - name: Download Admin Projections artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: admin-projections
-          path: ~/
-
-      - name: Load Admin Projections image
-        shell: bash
-        run: docker image load -i ~/ar-admin-projections-image.tar
-
-      - name: Push docker images to ECR Test
-        if: needs.release.outputs.version != 'none'
-        shell: bash
-        run: |
-          echo $SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          SEMVER: ${{ needs.release.outputs.version }}
-          WORKSPACE: ${{ github.workspace }}
 
   push_images_to_ik4_devops:
     if: needs.release.outputs.version != 'none'
@@ -783,155 +478,15 @@ jobs:
         shell: bash
         run: |
           echo $SEMVER
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-acmapi:$SEMVER
-
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminapi:$SEMVER
-
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-projections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
-
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
-
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-projections:$SEMVER $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
           SEMVER: ${{ needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
-
-  push_images_to_staging:
-    if: needs.release.outputs.version != 'none'
-    needs: [ set-release-version, release ]
-    name: Push images to Staging
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS credentials (Staging)
-        if: needs.release.outputs.version != 'none'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.VBR_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.VBR_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
-
-      - name: Login to Amazon ECR (Staging)
-        if: needs.release.outputs.version != 'none'
-        uses: aws-actions/amazon-ecr-login@v1.5.3
-
-      - name: Download Acm Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: acm-api
-          path: ~/
-
-      - name: Load Acm Api image
-        shell: bash
-        run: docker image load -i ~/ar-acm-api-image.tar
-
-      - name: Download Public Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: public-api
-          path: ~/
-
-      - name: Load Public Api image
-        shell: bash
-        run: docker image load -i ~/ar-public-api-image.tar
-
-      - name: Download Public Projections artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: public-projections
-          path: ~/
-
-      - name: Load Public Projections image
-        shell: bash
-        run: docker image load -i ~/ar-public-projections-image.tar
-
-      - name: Download Admin Api artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: admin-api
-          path: ~/
-
-      - name: Load Admin Api image
-        shell: bash
-        run: docker image load -i ~/ar-admin-api-image.tar
-
-      - name: Download Admin Projections artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: admin-projections
-          path: ~/
-
-      - name: Load Admin Projections image
-        shell: bash
-        run: docker image load -i ~/ar-admin-projections-image.tar
-
-      - name: Push docker images to ECR Staging
-        if: needs.release.outputs.version != 'none'
-        shell: bash
-        run: |
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/acm-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/acm-api:$SEMVER
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-api:$SEMVER
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/public-projections:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/public-projections:$SEMVER
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-api:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-api:$SEMVER
-          docker tag $BUILD_DOCKER_REGISTRY_TST/association-registry/admin-projections:$SEMVER $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY/association-registry/admin-projections:$SEMVER
-        env:
-          BUILD_DOCKER_REGISTRY_TST: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY_TST }}
-          BUILD_DOCKER_REGISTRY: ${{ secrets.VBR_BUILD_DOCKER_REGISTRY }}
-          SEMVER: ${{ needs.release.outputs.version }}
-          WORKSPACE: ${{ github.workspace }}
-
-  deploy_test:
-    if: needs.release.outputs.version != 'none'
-    needs: [ set-release-version, push_images_to_test, release ]
-    name: Deploy to Test
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        services:
-          [
-            'association-registry-acm-api',
-            'association-registry-public-api',
-            'association-registry-public-projections',
-            'association-registry-admin-api',
-            'association-registry-admin-projections',
-          ]
-    steps:
-      - name: debug_output
-        shell: bash
-        run: |
-          echo ${{ needs.release.outputs.version }}
-      - name: CD
-        if: needs.release.outputs.version != 'none'
-        env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
-        with:
-          environment: test
-          version: ${{ needs.release.outputs.version }}
-          status-url: $STATUS_URL
-          deploy-url: $BUILD_URL
-          access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID }}
-          secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY }}
-          region: eu-west-1
-          interval: 2
-      - name: output
-        shell: bash
-        run: |
-          echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
-          echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
-          echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
   deploy_test_ik4:
     if: needs.release.outputs.version != 'none'
