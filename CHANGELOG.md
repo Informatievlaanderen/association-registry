@@ -1,3 +1,13 @@
+## [8.32.4](https://github.com/informatievlaanderen/association-registry/compare/v8.32.3...v8.32.4) (2023-12-11)
+
+
+### Bug Fixes
+
+* OR-2009 cleanup file names and image names ([acc2ccc](https://github.com/informatievlaanderen/association-registry/commit/acc2cccd8776b6e348a3f16bdbb3e5465704fcf8))
+* OR-2009 open System(.io) ([b652327](https://github.com/informatievlaanderen/association-registry/commit/b65232777ab1341a284fa1ab912112fe74b86599))
+* OR-2009 replace magda test data ([4b8b402](https://github.com/informatievlaanderen/association-registry/commit/4b8b40219fc98205bccac661f09a9cc0eca3f0e8))
+* OR-2009 update build.fsx with updated containerize ([72f1377](https://github.com/informatievlaanderen/association-registry/commit/72f13772675cdb1eb352f84e1aa1ab923275d086))
+
 ## [8.32.3](https://github.com/informatievlaanderen/association-registry/compare/v8.32.2...v8.32.3) (2023-12-11)
 
 
