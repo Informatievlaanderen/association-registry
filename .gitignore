@@ -6,6 +6,8 @@ wwwroot/
 # Internal folders created by marten for prebuilding
 src/*/Internal
 
+otel-collector-config.yaml
+
 .vs/
 .vscode/
 .fake/
