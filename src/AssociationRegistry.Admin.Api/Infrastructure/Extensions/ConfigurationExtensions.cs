@@ -3,7 +3,9 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
 using Framework;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Serilog;
 using System;
@@ -85,8 +87,15 @@ public static class ConfigurationExtensions
 
     public static TemporaryMagdaVertegenwoordigersSection GetMagdaTemporaryVertegenwoordigersSection(
         this IConfiguration configuration,
+        IWebHostEnvironment environment,
         string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
     {
+        if (environment.IsProduction())
+        {
+            Log.Logger.Information("Not loading temporary vertegenwoordigers in Production");
+            return new TemporaryMagdaVertegenwoordigersSection();
+        }
+
         var vertegenwoordigersJson = configuration[magdaOptionsSectionName];
         var temporaryVertegenwoordigers = JsonConvert.DeserializeObject<TemporaryMagdaVertegenwoordigersSection>(vertegenwoordigersJson);
 
