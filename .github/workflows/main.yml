@@ -157,7 +157,7 @@ jobs:
     with:
       build-target: Containerize_AcmApi
       image-file: ar-acm-api-image.tar
-      image-name: acm-api
+      image-name: verenigingsregister-acmapi
       test-project: AssociationRegistry.Test.Acm.Api
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -176,7 +176,7 @@ jobs:
     with:
       build-target: Containerize_PublicApi
       image-file: ar-public-api-image.tar
-      image-name: public-api
+      image-name: verenigingsregister-publicapi
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -195,7 +195,7 @@ jobs:
     with:
       build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
-      image-name: public-projections
+      image-name: verenigingsregister-publicprojections
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -214,7 +214,7 @@ jobs:
     with:
       build-target: Containerize_AdminApi
       image-file: ar-admin-api-image.tar
-      image-name: admin-api
+      image-name: verenigingsregister-adminapi
       test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -233,7 +233,7 @@ jobs:
     with:
       build-target: Containerize_AdminProjections
       image-file: ar-admin-projections-image.tar
-      image-name: admin-projections
+      image-name: verenigingsregister-adminprojections
       test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -426,7 +426,7 @@ jobs:
       - name: Download Acm Api artifact
         uses: actions/download-artifact@v3
         with:
-          name: acm-api
+          name: verenigingsregister-acmapi
           path: ~/
 
       - name: Load Acm Api image
@@ -436,7 +436,7 @@ jobs:
       - name: Download Public Api artifact
         uses: actions/download-artifact@v3
         with:
-          name: public-api
+          name: verenigingsregister-publicapi
           path: ~/
 
       - name: Load Public Api image
@@ -446,7 +446,7 @@ jobs:
       - name: Download Public Projections artifact
         uses: actions/download-artifact@v3
         with:
-          name: public-projections
+          name: verenigingsregister-publicprojections
           path: ~/
 
       - name: Load Public Projections image
@@ -456,7 +456,7 @@ jobs:
       - name: Download Admin Api artifact
         uses: actions/download-artifact@v3
         with:
-          name: admin-api
+          name: verenigingsregister-adminapi
           path: ~/
 
       - name: Load Admin Api image
@@ -466,7 +466,7 @@ jobs:
       - name: Download Admin Projections artifact
         uses: actions/download-artifact@v3
         with:
-          name: admin-projections
+          name: verenigingsregister-adminprojections
           path: ~/
 
       - name: Load Admin Projections image
