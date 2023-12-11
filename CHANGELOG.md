@@ -1,3 +1,12 @@
+# [8.34.0](https://github.com/informatievlaanderen/association-registry/compare/v8.33.0...v8.34.0) (2023-12-11)
+
+
+### Features
+
+* or-2008 remove afdeling ([50c0b08](https://github.com/informatievlaanderen/association-registry/commit/50c0b084715f6738650ed8995b356e1aa782446c))
+* or-2008 remove afdeling relatie ([530523e](https://github.com/informatievlaanderen/association-registry/commit/530523e7b8a0bc64c80121bdbdc211c4f6707bcb))
+* remove aws folder ([f1f315d](https://github.com/informatievlaanderen/association-registry/commit/f1f315d89bbebf816276864f36029ea168b34e85))
+
 # [8.33.0](https://github.com/informatievlaanderen/association-registry/compare/v8.32.5...v8.33.0) (2023-12-11)
 
 
