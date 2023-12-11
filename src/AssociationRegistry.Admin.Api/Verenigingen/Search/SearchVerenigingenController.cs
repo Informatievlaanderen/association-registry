@@ -8,7 +8,6 @@ using Examples;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Swagger.Annotations;
-using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
@@ -98,14 +97,15 @@ public class SearchVerenigingenController : ApiController
             s => s
                 .From(paginationQueryParams.Offset)
                 .Size(paginationQueryParams.Limit)
+                .Sort(x => x.Descending(v => v.VCode))
                 .Query(
-                    query => query.Bool(
-                        boolQueryDescriptor => boolQueryDescriptor.Must(
-                            queryContainerDescriptor => queryContainerDescriptor.QueryString(
-                                queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
-                            )
-                        )
-                    )
-                )
+                     query => query.Bool(
+                         boolQueryDescriptor => boolQueryDescriptor.Must(
+                             queryContainerDescriptor => queryContainerDescriptor.QueryString(
+                                 queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
+                             )
+                         )
+                     )
+                 )
         );
 }
