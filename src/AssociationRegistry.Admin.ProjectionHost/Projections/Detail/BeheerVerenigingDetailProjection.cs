@@ -25,15 +25,6 @@ public class BeheerVerenigingDetailProjection : EventProjection
         IDocumentOperations ops)
         => Create(@event, ops, BeheerVerenigingDetailProjector.Create);
 
-    public async Task Project(IEvent<AfdelingWerdGeregistreerd> @event, IDocumentOperations ops)
-    {
-        Create(@event, ops, BeheerVerenigingDetailProjector.Create);
-
-        if (!string.IsNullOrEmpty(@event.Data.Moedervereniging.VCode))
-            await Update(@event.Data.Moedervereniging.VCode, @event, ops,
-                         BeheerVerenigingDetailProjector.Apply);
-    }
-
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var updateDocs = Enumerable.Empty<BeheerVerenigingDetailDocument>().ToList();

@@ -12,7 +12,6 @@ public static class EventCustomizations
     public static void CustomizeEvents(Fixture fixture)
     {
         fixture.CustomizeFeitelijkeVerenigingWerdGeregistreerd();
-        fixture.CustomizeAfdelingWerdGeregistreerd();
         fixture.CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
@@ -141,25 +140,5 @@ public static class EventCustomizations
                 )).OmitAutoProperties());
     }
 
-    private static void CustomizeAfdelingWerdGeregistreerd(this IFixture fixture)
-    {
-        fixture.Customize<AfdelingWerdGeregistreerd>(
-            composer => composer.FromFactory(
-                () => new AfdelingWerdGeregistreerd(
-                    fixture.Create<VCode>().ToString(),
-                    fixture.Create<string>(),
-                    new AfdelingWerdGeregistreerd.MoederverenigingsData(
-                        fixture.Create<KboNummer>(),
-                        fixture.Create<VCode>(),
-                        fixture.Create<VerenigingsNaam>()),
-                    fixture.Create<string>(),
-                    fixture.Create<string>(),
-                    fixture.Create<DateOnly?>(),
-                    fixture.Create<Registratiedata.Doelgroep>(),
-                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
-                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
-                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
-                )).OmitAutoProperties());
-    }
+
 }

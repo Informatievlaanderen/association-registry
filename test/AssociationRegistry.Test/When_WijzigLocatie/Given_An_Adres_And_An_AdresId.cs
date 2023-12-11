@@ -59,15 +59,6 @@ public class Given_An_Adres_And_An_AdresId
                 new object[]
                 {
                     new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { locatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
-                new object[]
-                {
-                    new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
                             Locaties = new[] { locatie },

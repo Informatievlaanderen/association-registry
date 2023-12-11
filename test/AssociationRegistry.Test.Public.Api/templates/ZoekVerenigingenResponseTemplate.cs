@@ -241,28 +241,6 @@ public class ZoekVerenigingenResponseTemplate
             return template;
         }
 
-        public VerenigingTemplate FromEvent(AfdelingWerdGeregistreerd e)
-        {
-            var template = WithVCode(e.VCode)
-                          .WithType(Verenigingstype.Afdeling)
-                          .WithNaam(e.Naam)
-                          .WithKorteNaam(e.KorteNaam)
-                          .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-                          .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
-
-            foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-            {
-                template.WithHoofdactiviteit(h.Code, h.Naam);
-            }
-
-            foreach (var l in e.Locaties)
-            {
-                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
-            }
-
-            return template;
-        }
-
         public VerenigingTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)

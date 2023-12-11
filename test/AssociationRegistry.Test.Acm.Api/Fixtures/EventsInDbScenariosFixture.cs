@@ -15,9 +15,6 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     public readonly AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario AlleBasisGegevensWerdenGewijzigdEventsInDbScenario = new();
     public readonly VertegenwoordigerWerdVerwijderd_EventsInDbScenario VertegenwoordigerWerdVerwijderdEventsInDbScenario = new();
 
-    public readonly AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario AfdelingWerdGeregistreerdWithAllFieldsEventsInDbScenario =
-        new();
-
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_EventsInDbScenario
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEventsInDbScenario = new();
 
@@ -33,7 +30,6 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             AlleBasisGegevensWerdenGewijzigdEventsInDbScenario,
             NaamWerdGewijzigdAndVertegenwoordigerWerdToegevoegdEventsInDbScenario,
             VertegenwoordigerWerdVerwijderdEventsInDbScenario,
-            AfdelingWerdGeregistreerdWithAllFieldsEventsInDbScenario,
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEventsInDbScenario,
             FeitelijkeVerenigingWerdGestoptEventsInDbScenario,
         };

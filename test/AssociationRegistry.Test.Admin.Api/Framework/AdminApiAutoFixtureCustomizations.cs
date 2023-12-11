@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
@@ -25,7 +24,6 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDomain();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
-        fixture.CustomizeRegistreerAfdelingRequest();
         fixture.CustomizeRegistreerVerenigingUitKboRequest();
 
         fixture.CustomizeWijzigBasisgegevensRequest();
@@ -175,28 +173,6 @@ public static class AutoFixtureCustomizations
                 {
                     Minimumleeftijd = fixture.Create<int>() % 50,
                     Maximumleeftijd = 50 + fixture.Create<int>() % 50,
-                }).OmitAutoProperties());
-    }
-
-    private static void CustomizeRegistreerAfdelingRequest(this IFixture fixture)
-    {
-        fixture.Customize<RegistreerAfdelingRequest>(
-            composer => composer.FromFactory<int>(
-                _ => new RegistreerAfdelingRequest
-                {
-                    KboNummerMoedervereniging = fixture.Create<KboNummer>(),
-                    Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
-                    Startdatum = fixture.Create<Datum>(),
-                    Doelgroep = fixture.Create<DoelgroepRequest>(),
-                    Naam = fixture.Create<string>(),
-                    Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
-                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                               .Select(x => x.Code)
-                                                               .Distinct()
-                                                               .ToArray(),
-                    KorteBeschrijving = fixture.Create<string>(),
-                    KorteNaam = fixture.Create<string>(),
                 }).OmitAutoProperties());
     }
 

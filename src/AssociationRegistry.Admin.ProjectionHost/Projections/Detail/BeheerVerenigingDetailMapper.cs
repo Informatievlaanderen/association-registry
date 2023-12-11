@@ -100,19 +100,6 @@ public class BeheerVerenigingDetailMapper
             Naam = verenigingstype.Naam,
         };
 
-    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(
-        AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
-        => new()
-        {
-            Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-            AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-            {
-                KboNummer = moederverenigingsData.KboNummer,
-                VCode = moederverenigingsData.VCode,
-                Naam = moederverenigingsData.Naam,
-            },
-        };
-
     public static BeheerVerenigingDetailDocument.Sleutel MapKboSleutel(string kboNummer)
         => new()
         {

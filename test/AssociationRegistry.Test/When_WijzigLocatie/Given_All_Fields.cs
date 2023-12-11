@@ -59,15 +59,7 @@ public class Given_All_Fields
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { locatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
+
                 new object[]
                 {
                     new VerenigingState().Apply(

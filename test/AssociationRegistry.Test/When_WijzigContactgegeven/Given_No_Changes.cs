@@ -36,15 +36,6 @@ public class Given_No_Changes
                 new object[]
                 {
                     new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Contactgegevens = new[] { contactgegeven },
-                        }),
-                    gewijzigdeLocatie,
-                },
-                new object[]
-                {
-                    new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
                             Contactgegevens = new[] { contactgegeven },

@@ -60,15 +60,6 @@ public class Given_A_Duplicate
                 new object[]
                 {
                     new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = locaties,
-                        }),
-                    gewijzigdeLocatie,
-                },
-                new object[]
-                {
-                    new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
                             Locaties = locaties,
