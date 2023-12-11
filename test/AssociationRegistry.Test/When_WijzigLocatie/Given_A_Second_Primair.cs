@@ -44,15 +44,7 @@ public class Given_A_Second_Primair
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { primaireLocatie, teWijzigenLocatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
+
                 new object[]
                 {
                     new VerenigingState().Apply(

@@ -31,33 +31,6 @@ public class BeheerVerenigingHistoriekProjector
         return beheerVerenigingHistoriekDocument;
     }
 
-    public static BeheerVerenigingHistoriekDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
-    {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
-
-        AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            beheerVerenigingHistoriekDocument,
-            $"Afdeling werd geregistreerd met naam '{afdelingWerdGeregistreerd.Data.Naam}'.");
-
-        return beheerVerenigingHistoriekDocument;
-    }
-
-    public static void Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingHistoriekDocument moeder)
-    {
-        AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            moeder,
-            $"'{afdelingWerdGeregistreerd.Data.Naam}' werd geregistreerd als afdeling.");
-    }
-
     public static BeheerVerenigingHistoriekDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
     {

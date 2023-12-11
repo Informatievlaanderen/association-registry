@@ -48,42 +48,6 @@ public class BeheerVerenigingDetailProjector
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
-    public static BeheerVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
-        => new()
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
-            Naam = afdelingWerdGeregistreerd.Data.Naam,
-            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
-            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
-                                                            c => BeheerVerenigingDetailMapper.MapContactgegeven(
-                                                                c, afdelingWerdGeregistreerd.Data.Bron))
-                                                       .ToArray(),
-            Locaties = afdelingWerdGeregistreerd
-                      .Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, afdelingWerdGeregistreerd.Data.Bron))
-                      .ToArray(),
-            Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                                                               v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(
-                                                                   v, afdelingWerdGeregistreerd.Data.Bron))
-                                                          .ToArray(),
-            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                                                                              BeheerVerenigingDetailMapper
-                                                                                 .MapHoofdactiviteitVerenigingsloket)
-                                                                         .ToArray(),
-            Relaties = new[]
-            {
-                BeheerVerenigingDetailMapper.MapMoederRelatie(afdelingWerdGeregistreerd.Data.Moedervereniging),
-            },
-            Bron = afdelingWerdGeregistreerd.Data.Bron,
-            Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
-        };
-
     public static BeheerVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
@@ -262,23 +226,6 @@ public class BeheerVerenigingDetailProjector
                                                    c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-    }
-
-    public static void Apply(
-        IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd,
-        BeheerVerenigingDetailDocument document)
-    {
-        document.Relaties = document.Relaties.Append(
-            new BeheerVerenigingDetailDocument.Relatie
-            {
-                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-                {
-                    KboNummer = string.Empty,
-                    Naam = afdelingWerdGeregistreerd.Data.Naam,
-                    VCode = afdelingWerdGeregistreerd.Data.VCode,
-                },
-            }).ToArray();
     }
 
     public static void Apply(

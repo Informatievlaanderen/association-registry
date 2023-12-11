@@ -45,36 +45,6 @@ public class BeheerZoekProjectionHandler
             }
         );
 
-    public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new VerenigingZoekDocument
-            {
-                VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
-                {
-                    Code = Verenigingstype.Afdeling.Code,
-                    Beschrijving = Verenigingstype.Afdeling.Naam,
-                },
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Status = VerenigingStatus.Actief,
-                Doelgroep = Map(message.Data.Doelgroep),
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                                                           .Select(
-                                                                hoofdactiviteitVerenigingsloket =>
-                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
-                                                                    {
-                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
-                                                                    })
-                                                           .ToArray(),
-                IsUitgeschrevenUitPubliekeDatastroom = false,
-
-                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
-            }
-        );
-
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument

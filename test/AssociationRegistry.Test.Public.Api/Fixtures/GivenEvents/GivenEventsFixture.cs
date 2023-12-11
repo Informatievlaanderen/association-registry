@@ -10,8 +10,6 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario = new();
     public readonly V005_ContactgegevenWerdToegevoegdScenario V005ContactgegevenWerdToegevoegdScenario = new();
     public readonly V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new();
-    public readonly V007_AfdelingWerdGeregistreerdScenario V007AfdelingWerdGeregistreerdScenario = new();
-    public readonly V009_MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario = new();
     public readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario = new();
     public readonly V011_LocatieWerdToegevoegdScenario V011LocatieWerdToegevoegdScenario = new();
     public readonly V012_LocatieWerdVerwijderdScenario V012LocatieWerdVerwijderdScenario = new();
@@ -20,7 +18,6 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
     public readonly V016_VerenigingWerdGestopt V016VerenigingWerdGestopt = new();
     public readonly V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario = new();
-    public readonly V018_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd V018AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -31,8 +28,6 @@ public class GivenEventsFixture : PublicApiFixture
             V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario,
             V005ContactgegevenWerdToegevoegdScenario,
             V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
-            V007AfdelingWerdGeregistreerdScenario,
-            V009MoederWerdGeregistreerdAndThenAfdelingWerdGeregistreerdScenario,
             V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario,
             V011LocatieWerdToegevoegdScenario,
             V012LocatieWerdVerwijderdScenario,
@@ -41,7 +36,6 @@ public class GivenEventsFixture : PublicApiFixture
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens,
             V016VerenigingWerdGestopt,
             V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario,
-            V018AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
         };
 
 

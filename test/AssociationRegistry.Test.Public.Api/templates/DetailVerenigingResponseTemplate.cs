@@ -274,35 +274,6 @@ public class DetailVerenigingResponseTemplate
         return template;
     }
 
-    public DetailVerenigingResponseTemplate FromEvent(AfdelingWerdGeregistreerd e)
-    {
-        var template = WithVCode(e.VCode)
-                      .WithType(Verenigingstype.Afdeling)
-                      .WithNaam(e.Naam)
-                      .WithKorteNaam(e.KorteNaam)
-                      .WithKorteBeschrijving(e.KorteBeschrijving)
-                      .WithStartdatum(e.Startdatum)
-                      .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-                      .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
-
-        foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-        {
-            template.WithHoofdactiviteit(h.Code, h.Naam);
-        }
-
-        foreach (var c in e.Contactgegevens)
-        {
-            template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
-        }
-
-        foreach (var l in e.Locaties)
-        {
-            WithLocatie(l);
-        }
-
-        return template;
-    }
-
     public DetailVerenigingResponseTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
     {
         var template = WithVCode(e.VCode)

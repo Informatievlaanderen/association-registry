@@ -47,15 +47,6 @@ public class Given_A_Second_CorrespondentieLocatie
                 new object[]
                 {
                     new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
-                new object[]
-                {
-                    new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
                             Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },

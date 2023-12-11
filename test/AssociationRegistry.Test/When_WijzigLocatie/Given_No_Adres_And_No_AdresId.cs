@@ -45,15 +45,7 @@ public class Given_No_Adres_And_No_AdresId
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { locatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
+
                 new object[]
                 {
                     new VerenigingState().Apply(

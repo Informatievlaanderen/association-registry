@@ -30,16 +30,6 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(AfdelingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
-    {
-        var docs = new List<object>();
-
-        docs.Add(VerenigingDocumentProjector.Apply(werdGeregistreerd));
-        docs.AddRange(await VerenigingenPerInszProjector.Apply(werdGeregistreerd, ops));
-
-        ops.StoreObjects(docs);
-    }
-
     public void Project(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
         var docs = new List<object>();
@@ -84,30 +74,6 @@ public class VerenigingenPerInszProjection : EventProjection
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
             FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd,
-            IDocumentOperations ops)
-        {
-            var docs = new List<VerenigingenPerInszDocument>();
-
-            var vereniging = new Vereniging
-            {
-                VCode = werdGeregistreerd.VCode,
-                Naam = werdGeregistreerd.Naam,
-                Status = VerenigingStatus.Actief,
-                KboNummer = string.Empty,
-            };
-
-            foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
-            {
-                var verenigingenPerInszDocument = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.Insz);
-                verenigingenPerInszDocument.Verenigingen.Add(vereniging);
-                docs.Add(verenigingenPerInszDocument);
-            }
-
-            return docs;
-        }
-
-        public static async Task<List<VerenigingenPerInszDocument>> Apply(
-            AfdelingWerdGeregistreerd werdGeregistreerd,
             IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
@@ -220,15 +186,6 @@ public class VerenigingenPerInszProjection : EventProjection
     private static class VerenigingDocumentProjector
     {
         public static VerenigingDocument Apply(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd)
-            => new()
-            {
-                VCode = werdGeregistreerd.VCode,
-                Naam = werdGeregistreerd.Naam,
-                Status = VerenigingStatus.Actief,
-                KboNummer = string.Empty,
-            };
-
-        public static VerenigingDocument Apply(AfdelingWerdGeregistreerd werdGeregistreerd)
             => new()
             {
                 VCode = werdGeregistreerd.VCode,
