@@ -31,7 +31,7 @@ public class With_KboNummer_For_PrivateStichting: With_KboNummer_For_Supported_V
             .Should().ContainSingle(e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer).Subject;
         using (new AssertionScope())
         {
-            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Kom op tegen Kanker");
+            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Vlaamse Liga tegen Kanker");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam.Should().Be("V.L.K.");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(1989, 10, 03));
 
