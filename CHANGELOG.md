@@ -1,3 +1,13 @@
+## [8.32.5](https://github.com/informatievlaanderen/association-registry/compare/v8.32.4...v8.32.5) (2023-12-11)
+
+
+### Bug Fixes
+
+* 0R-2009 use correct secrets for IK4 environment ([f719243](https://github.com/informatievlaanderen/association-registry/commit/f719243e0a0802c992d449f2070794a22106d197))
+* or-2009 remove override of docker registry ([e94c4de](https://github.com/informatievlaanderen/association-registry/commit/e94c4de76e2e0c2f04026d78d91be62f7c2a1899))
+* or-2009 use correct registry ([eb9835b](https://github.com/informatievlaanderen/association-registry/commit/eb9835b0b6052843ce39dc203eecce251de1ddb5))
+* or-2009 use correct registry everywhere ([acf083f](https://github.com/informatievlaanderen/association-registry/commit/acf083fa009c0367afc939fda2c15f8055182835))
+
 ## [8.32.4](https://github.com/informatievlaanderen/association-registry/compare/v8.32.3...v8.32.4) (2023-12-11)
 
 
