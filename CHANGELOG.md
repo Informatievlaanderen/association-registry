@@ -1,3 +1,10 @@
+## [8.32.3](https://github.com/informatievlaanderen/association-registry/compare/v8.32.2...v8.32.3) (2023-12-11)
+
+
+### Bug Fixes
+
+* OR-2009 remove non-IK4 workflows ([069dfa0](https://github.com/informatievlaanderen/association-registry/commit/069dfa0c2d56e643c1d3f973f63f5cb03a2d7d6d))
+
 ## [8.32.2](https://github.com/informatievlaanderen/association-registry/compare/v8.32.1...v8.32.2) (2023-12-07)
 
 
