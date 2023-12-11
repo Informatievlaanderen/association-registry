@@ -9,8 +9,8 @@
 
 namespace AssociationRegistry.Admin.Api {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,15 +22,15 @@ namespace AssociationRegistry.Admin.Api {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ValidationMessages {
-
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal ValidationMessages() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace AssociationRegistry.Admin.Api {
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -58,7 +58,7 @@ namespace AssociationRegistry.Admin.Api {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging werd niet gevonden..
         /// </summary>
@@ -67,7 +67,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status404Detail", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De historiek van de gevraagde vereniging is niet gevonden..
         /// </summary>
@@ -76,7 +76,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status404Historiek", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging werd niet gevonden..
         /// </summary>
@@ -85,16 +85,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status404NotFound", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden..
-        /// </summary>
-        public static string Status409RegistratieAfdeling {
-            get {
-                return ResourceManager.GetString("Status409RegistratieAfdeling", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden..
         /// </summary>
@@ -103,7 +94,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status409RegistratieFeitelijkeVereniging", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
@@ -112,7 +103,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status412Detail", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
@@ -121,7 +112,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status412Historiek", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
@@ -130,133 +121,7 @@ namespace AssociationRegistry.Admin.Api {
                 return ResourceManager.GetString("Status412PreconditionFailed", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412Stop {
-            get {
-                return ResourceManager.GetString("Status412Stop", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VerwijderContactGegeven {
-            get {
-                return ResourceManager.GetString("Status412VerwijderContactGegeven", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VerwijderLocatie {
-            get {
-                return ResourceManager.GetString("Status412VerwijderLocatie", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VerwijderVertegenwoordiger {
-            get {
-                return ResourceManager.GetString("Status412VerwijderVertegenwoordiger", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VoegContactGegevenToe {
-            get {
-                return ResourceManager.GetString("Status412VoegContactGegevenToe", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VoegLocatieToe {
-            get {
-                return ResourceManager.GetString("Status412VoegLocatieToe", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412VoegVertegenwoordigerToe {
-            get {
-                return ResourceManager.GetString("Status412VoegVertegenwoordigerToe", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigContactGegeven {
-            get {
-                return ResourceManager.GetString("Status412WijzigContactGegeven", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigKboBasisgegevens {
-            get {
-                return ResourceManager.GetString("Status412WijzigKboBasisgegevens", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigKboContactgegevens {
-            get {
-                return ResourceManager.GetString("Status412WijzigKboContactgegevens", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigKboMaatschappelijkeZetel {
-            get {
-                return ResourceManager.GetString("Status412WijzigKboMaatschappelijkeZetel", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigLocatie {
-            get {
-                return ResourceManager.GetString("Status412WijzigLocatie", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412WijzigVertegenwoordiger {
-            get {
-                return ResourceManager.GetString("Status412WijzigVertegenwoordiger", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
-        /// </summary>
-        public static string Status412Zoek {
-            get {
-                return ResourceManager.GetString("Status412Zoek", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos; is verplicht..
         /// </summary>

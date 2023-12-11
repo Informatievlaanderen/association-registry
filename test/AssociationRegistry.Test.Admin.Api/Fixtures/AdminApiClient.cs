@@ -36,15 +36,6 @@ public class AdminApiClient : IDisposable
         return httpResponseMessage;
     }
 
-    public async Task<HttpResponseMessage> RegistreerAfdeling(string content, string? bevestigingsToken = null, string? initiator = "OVO000001")
-    {
-        AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
-        WithHeaders(null, initiator);
-        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen/afdelingen", content.AsJsonContent());
-        AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
-        return httpResponseMessage;
-    }
-
     public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
     {
         WithHeaders(null, initiator);
