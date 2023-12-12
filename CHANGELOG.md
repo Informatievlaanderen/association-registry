@@ -1,3 +1,10 @@
+## [8.34.1](https://github.com/informatievlaanderen/association-registry/compare/v8.34.0...v8.34.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* update nightly build in sync with main workflow ([a863115](https://github.com/informatievlaanderen/association-registry/commit/a86311508a0d935e9bf98aa7a32028b3ba3d0928))
+
 # [8.34.0](https://github.com/informatievlaanderen/association-registry/compare/v8.33.0...v8.34.0) (2023-12-11)
 
 
