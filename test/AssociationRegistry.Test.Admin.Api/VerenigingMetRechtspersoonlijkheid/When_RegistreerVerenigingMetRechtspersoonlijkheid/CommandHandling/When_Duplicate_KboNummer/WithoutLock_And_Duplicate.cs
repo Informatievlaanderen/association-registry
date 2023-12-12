@@ -1,38 +1,47 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling.
+    When_Duplicate_KboNummer;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
-using Fakes;
-using Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
 using EventStore;
+using Fakes;
 using FluentAssertions;
+using Framework;
 using Kbo;
 using Moq;
 using ResultNet;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Duplicate_KboNummer : IAsyncLifetime
+public class WithoutLock_And_Duplicate : IAsyncLifetime
 {
     private Result _result = null!;
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
     private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
-    private Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
+    private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
 
-    public With_A_Duplicate_KboNummer()
+    public WithoutLock_And_Duplicate()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
 
-        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(), fixture.Create<CommandMetadata>());
+        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
+                                                                           fixture.Create<CommandMetadata>());
+
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
+
+        var lockStoreMock = new NoLockStoreMock();
+        var repositoryMock = new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam, lockStore: lockStoreMock);
+
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
+            repositoryMock,
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object);
     }
@@ -40,9 +49,8 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _result = await _commandHandler
-            .Handle(_envelope, CancellationToken.None);
+           .Handle(_envelope, CancellationToken.None);
     }
-
 
     [Fact]
     public void Then_The_Result_Is_A_Failure()

@@ -3,6 +3,7 @@
 using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
+using EventStore.Locks;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -37,6 +38,8 @@ public static class MartenExtensions
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+
+                opts.RegisterDocumentType<KboLockDocument>();
 
                 opts.RegisterDocumentType<VerenigingState>();
 

@@ -299,6 +299,7 @@ public class Program
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
                .AddSingleton<IClock, Clock>()
                .AddTransient<IEventStore, EventStore>()
+               .AddTransient<ILockStore, LockStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()

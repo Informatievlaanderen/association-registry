@@ -1,15 +1,19 @@
 ﻿namespace AssociationRegistry.EventStore;
 
 using Framework;
+using Locks;
+using Marten;
 using Vereniging;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
     private readonly IEventStore _eventStore;
+    private readonly ILockStore _lockStore;
 
-    public VerenigingsRepository(IEventStore eventStore)
+    public VerenigingsRepository(IEventStore eventStore, ILockStore lockStore)
     {
         _eventStore = eventStore;
+        _lockStore = lockStore;
     }
 
     public async Task<StreamActionResult> Save(
@@ -48,6 +52,19 @@ public class VerenigingsRepository : IVerenigingsRepository
 
         return new VCodeAndNaam(verenigingState.VCode, verenigingState.Naam);
     }
+
+    public async Task<KboLockDocument?> GetKboNummerLock(KboNummer kboNummer)
+    {
+        await _lockStore.CleanKboNummerLocks();
+
+        return await _lockStore.GetKboNummerLock(kboNummer);
+    }
+
+    public async Task SetKboNummerLock(KboNummer kboNummer)
+        => await _lockStore.SetKboNummerLock(kboNummer);
+
+    public async Task DeleteKboNummerLock(KboNummer kboNummer)
+        => await _lockStore.DeleteKboNummerLock(kboNummer);
 
     public record VCodeAndNaam(VCode? VCode, VerenigingsNaam VerenigingsNaam)
     {

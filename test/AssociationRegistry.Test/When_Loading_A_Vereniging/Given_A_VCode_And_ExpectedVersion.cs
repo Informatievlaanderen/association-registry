@@ -20,20 +20,24 @@ public class Given_A_VCode_And_ExpectedVersion
     {
         var fixture = new Fixture().CustomizeDomain();
         _vCode = fixture.Create<VCode>();
+
         var eventStoreMock = new EventStoreMock(
             fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });
-        _repo = new VerenigingsRepository(eventStoreMock);
+
+        var lockStoreMock = new LockStoreMock();
+        _repo = new VerenigingsRepository(eventStoreMock, lockStoreMock);
     }
 
     [Fact]
     public async Task Then_A_FeitelijkeVereniging_Is_Returned()
     {
         var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, 1);
+
         feteitelijkeVerenging
-            .Should()
-            .NotBeNull()
-            .And
-            .BeOfType<Vereniging>();
+           .Should()
+           .NotBeNull()
+           .And
+           .BeOfType<Vereniging>();
     }
 
     [Fact]

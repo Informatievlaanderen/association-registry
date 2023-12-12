@@ -2,11 +2,14 @@
 
 using AssociationRegistry.Framework;
 using EventStore;
+using EventStore.Locks;
 using FluentAssertions;
+using Test.Framework;
 using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
+    private readonly ILockStore _lockStore;
     private VerenigingState? _verenigingToLoad;
     private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
     public record SaveInvocation(VerenigingsBase Vereniging);
@@ -17,8 +20,12 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null!)
+    public VerenigingRepositoryMock(
+        VerenigingState? verenigingToLoad = null,
+        VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null!,
+        ILockStore? lockStore = null)
     {
+        _lockStore = lockStore ?? new LockStoreMock();
         _verenigingToLoad = verenigingToLoad;
         _moederVCodeAndNaam = moederVCodeAndNaam;
     }
@@ -52,6 +59,15 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
     public Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
         => Task.FromResult(_moederVCodeAndNaam)!;
+
+    public async Task<KboLockDocument?> GetKboNummerLock(KboNummer kboNummer)
+        => await _lockStore.GetKboNummerLock(kboNummer);
+
+    public async Task SetKboNummerLock(KboNummer kboNummer)
+        => await _lockStore.SetKboNummerLock(kboNummer);
+
+    public async Task DeleteKboNummerLock(KboNummer kboNummer)
+        => await _lockStore.DeleteKboNummerLock(kboNummer);
 
     public void ShouldHaveLoaded<TVereniging>(params string[] vCodes) where TVereniging : IHydrate<VerenigingState>, new()
     {

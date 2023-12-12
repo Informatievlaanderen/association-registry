@@ -2,7 +2,7 @@
 
 using Vereniging;
 
-public class VerenigingVolgensKbo
+public record VerenigingVolgensKbo
 {
     public KboNummer KboNummer { get; init; } = null!;
     public Verenigingstype Type { get; set; } = null!;
