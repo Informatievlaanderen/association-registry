@@ -54,19 +54,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         },
                     },
                     Sleutels = Array.Empty<Sleutel>(),
-                    Relaties = new[]
-                    {
-                        new Relatie
-                        {
-                            Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-                            AndereVereniging = new Relatie.GerelateerdeVereniging
-                            {
-                                KboNummer = "0123456789",
-                                VCode = "V0001001",
-                                Naam = "Gerelateerde Vereniging",
-                            },
-                        },
-                    },
+                    Relaties = Array.Empty<Relatie>(),
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0001001"),
@@ -120,19 +108,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Bron = Sleutelbron.Kbo.Waarde,
                         },
                     },
-                    Relaties = new[]
-                    {
-                        new Relatie
-                        {
-                            Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                            AndereVereniging = new Relatie.GerelateerdeVereniging
-                            {
-                                KboNummer = "",
-                                VCode = "V0001002",
-                                Naam = "Gerelateerde Afdeling",
-                            },
-                        },
-                    },
+                    Relaties = Array.Empty<Relatie>(),
+
                 },
             },
             Facets = new Facets

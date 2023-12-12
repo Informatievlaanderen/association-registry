@@ -31,7 +31,7 @@ jobs:
     with:
       build-target: Containerize_AcmApi
       image-file: ar-acm-api-image.tar
-      image-name: acm-api
+      image-name: verenigingsregister-acmapi
       test-project: AssociationRegistry.Test.Acm.Api
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -50,7 +50,7 @@ jobs:
     with:
       build-target: Containerize_PublicApi
       image-file: ar-public-api-image.tar
-      image-name: public-api
+      image-name: verenigingsregister-publicapi
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -69,7 +69,7 @@ jobs:
     with:
       build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
-      image-name: public-projections
+      image-name: verenigingsregister-publicprojections
       test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -88,7 +88,7 @@ jobs:
     with:
       build-target: Containerize_AdminApi
       image-file: ar-admin-api-image.tar
-      image-name: admin-api
+      image-name: verenigingsregister-adminapi
       test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
@@ -107,7 +107,7 @@ jobs:
     with:
       build-target: Containerize_AdminProjections
       image-file: ar-admin-projections-image.tar
-      image-name: admin-projections
+      image-name: verenigingsregister-adminprojections
       test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}

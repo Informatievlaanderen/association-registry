@@ -256,38 +256,6 @@ public class DetailVerenigingResponseTemplate
         return this;
     }
 
-    public DetailVerenigingResponseTemplate IsAfdelingVan(string kboNummer, string vCode, string naam)
-    {
-        _vereniging.relaties.Add(new
-        {
-            relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-            anderevereniging = new
-            {
-                kbonummer = kboNummer,
-                vcode = vCode,
-                naam = naam,
-            },
-        });
-
-        return this;
-    }
-
-    public DetailVerenigingResponseTemplate HeeftAfdeling(string vCode, string naam)
-    {
-        _vereniging.relaties.Add(new
-        {
-            relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-            anderevereniging = new
-            {
-                kbonummer = string.Empty,
-                vcode = vCode,
-                naam = naam,
-            },
-        });
-
-        return this;
-    }
-
     public DetailVerenigingResponseTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
     {
         WithVCode(e.VCode)
@@ -352,36 +320,6 @@ public class DetailVerenigingResponseTemplate
         });
 
         return this;
-    }
-
-    public DetailVerenigingResponseTemplate FromEvent(AfdelingWerdGeregistreerd e)
-    {
-        var template = WithVCode(e.VCode)
-                      .WithType(Verenigingstype.Afdeling)
-                      .WithNaam(e.Naam)
-                      .WithKorteNaam(e.KorteNaam)
-                      .WithKorteBeschrijving(e.KorteBeschrijving)
-                      .WithStartdatum(e.Startdatum)
-                      .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-                      .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam)
-                      .WithBron(e.Bron);
-
-        foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-        {
-            template.WithHoofdactiviteit(h.Code, h.Naam);
-        }
-
-        foreach (var c in e.Contactgegevens)
-        {
-            template.WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
-        }
-
-        foreach (var l in e.Locaties)
-        {
-            WithLocatie(l, e.Bron);
-        }
-
-        return template;
     }
 
     public DetailVerenigingResponseTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)

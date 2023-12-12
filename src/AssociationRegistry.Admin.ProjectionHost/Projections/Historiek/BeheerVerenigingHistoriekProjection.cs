@@ -23,15 +23,6 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         IDocumentOperations ops)
         => Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
-    public async Task Project(IEvent<AfdelingWerdGeregistreerd> @event, IDocumentOperations ops)
-    {
-        Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
-
-        if (!string.IsNullOrEmpty(@event.Data.Moedervereniging.VCode))
-            await Update(@event.Data.Moedervereniging.VCode, @event, ops,
-                         BeheerVerenigingHistoriekProjector.Apply);
-    }
-
     public void Project(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)

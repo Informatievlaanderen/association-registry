@@ -45,67 +45,6 @@ public static class PubliekVerenigingDetailProjector
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
         };
 
-    public static PubliekVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
-        => new()
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
-            {
-                Code = Verenigingstype.Afdeling.Code,
-                Naam = Verenigingstype.Afdeling.Naam,
-            },
-            Naam = afdelingWerdGeregistreerd.Data.Naam,
-            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum,
-            Doelgroep = MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
-            IsUitgeschrevenUitPubliekeDatastroom = false,
-            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = VerenigingStatus.Actief,
-            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
-                c => new PubliekVerenigingDetailDocument.Contactgegeven
-                {
-                    ContactgegevenId = c.ContactgegevenId,
-                    Contactgegeventype = c.Contactgegeventype.ToString(),
-                    Waarde = c.Waarde,
-                    Beschrijving = c.Beschrijving,
-                    IsPrimair = c.IsPrimair,
-                }).ToArray(),
-            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
-            Relaties = new[]
-            {
-                new PubliekVerenigingDetailDocument.Relatie
-                {
-                    Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-                    AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-                    {
-                        KboNummer = afdelingWerdGeregistreerd.Data.Moedervereniging.KboNummer,
-                        VCode = afdelingWerdGeregistreerd.Data.Moedervereniging.VCode,
-                        Naam = afdelingWerdGeregistreerd.Data.Moedervereniging.Naam,
-                    },
-                },
-            },
-            HoofdactiviteitenVerenigingsloket =
-                afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(MapHoofdactiviteit).ToArray(),
-        };
-
-    public static void Apply(
-        IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd,
-        PubliekVerenigingDetailDocument moeder)
-    {
-        moeder.Relaties = moeder.Relaties.Append(
-            new PubliekVerenigingDetailDocument.Relatie
-            {
-                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                AndereVereniging = new PubliekVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-                {
-                    KboNummer = string.Empty,
-                    Naam = afdelingWerdGeregistreerd.Data.Naam,
-                    VCode = afdelingWerdGeregistreerd.Data.VCode,
-                },
-            }).ToArray();
-    }
-
     public static PubliekVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()

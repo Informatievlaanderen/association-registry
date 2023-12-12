@@ -4,6 +4,7 @@ appsettings.*.json
 wwwroot/
 
 # Internal folders created by marten for prebuilding
+otel-collector-config.yaml
 src/*/Internal
 
 otel-collector-config.yaml

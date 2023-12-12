@@ -28,20 +28,6 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
-    public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
-            new DuplicateDetectionDocument
-            {
-                VCode = message.Data.VCode,
-                VerenigingsTypeCode = Verenigingstype.Afdeling.Code,
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
-                IsGestopt = false,
-            }
-        );
-
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new DuplicateDetectionDocument

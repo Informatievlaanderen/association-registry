@@ -188,38 +188,6 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate IsAfdelingVan(string kboNummer, string vCode, string naam)
-        {
-            _vereniging.relaties.Add(new
-            {
-                relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-                anderevereniging = new
-                {
-                    kbonummer = kboNummer,
-                    vcode = vCode,
-                    naam = naam,
-                },
-            });
-
-            return this;
-        }
-
-        public VerenigingTemplate HeeftAfdeling(string vCode, string naam)
-        {
-            _vereniging.relaties.Add(new
-            {
-                relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                anderevereniging = new
-                {
-                    kbonummer = string.Empty,
-                    vcode = vCode,
-                    naam = naam,
-                },
-            });
-
-            return this;
-        }
-
         public VerenigingTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)
@@ -227,28 +195,6 @@ public class ZoekVerenigingenResponseTemplate
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
-
-            foreach (var h in e.HoofdactiviteitenVerenigingsloket)
-            {
-                template.WithHoofdactiviteit(h.Code, h.Naam);
-            }
-
-            foreach (var l in e.Locaties)
-            {
-                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
-            }
-
-            return template;
-        }
-
-        public VerenigingTemplate FromEvent(AfdelingWerdGeregistreerd e)
-        {
-            var template = WithVCode(e.VCode)
-                          .WithType(Verenigingstype.Afdeling)
-                          .WithNaam(e.Naam)
-                          .WithKorteNaam(e.KorteNaam)
-                          .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
-                          .IsAfdelingVan(e.Moedervereniging.KboNummer, e.Moedervereniging.VCode, e.Moedervereniging.Naam);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {

@@ -32,9 +32,6 @@
   <data name="Status412Historiek" xml:space="preserve">
     <value>De historiek van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
-  <data name="Status409RegistratieAfdeling" xml:space="preserve">
-    <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
-  </data>
   <data name="Status409RegistratieFeitelijkeVereniging" xml:space="preserve">
     <value>Er zijn één of meerdere mogelijke duplicaten van deze vereniging gevonden.</value>
   </data>

@@ -223,33 +223,6 @@ public class VertegenwoordigerWerdVerwijderd_EventsInDbScenario : IEventsInDbSce
         => Metadata;
 }
 
-public class AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
-{
-    public readonly AfdelingWerdGeregistreerd AfdelingWerdGeregistreerd;
-    public readonly CommandMetadata Metadata;
-
-    public AfdelingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
-    {
-        var fixture = new Fixture().CustomizeAcmApi();
-        VCode = "V0003006";
-        AfdelingWerdGeregistreerd = fixture.Create<AfdelingWerdGeregistreerd>() with { VCode = VCode };
-        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
-    }
-
-    public string VCode { get; set; }
-    public StreamActionResult Result { get; set; } = null!;
-
-    public string Insz
-        => AfdelingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
-
-    public IEvent[] GetEvents()
-        => new IEvent[]
-            { AfdelingWerdGeregistreerd };
-
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
-}
-
 public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;

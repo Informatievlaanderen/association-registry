@@ -46,62 +46,6 @@ public class PubliekZoekProjectionHandler
             }
         );
 
-    public async Task Handle(EventEnvelope<AfdelingWerdGeregistreerd> message)
-    {
-        await _elasticRepository.IndexAsync(
-            new VerenigingZoekDocument
-            {
-                VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
-                {
-                    Code = Verenigingstype.Afdeling.Code,
-                    Naam = Verenigingstype.Afdeling.Naam,
-                },
-                Naam = message.Data.Naam,
-                KorteNaam = message.Data.KorteNaam,
-                Status = VerenigingStatus.Actief,
-                IsUitgeschrevenUitPubliekeDatastroom = false,
-                Doelgroep = Map(message.Data.Doelgroep),
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
-                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
-                                                           .Select(
-                                                                hoofdactiviteitVerenigingsloket =>
-                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
-                                                                    {
-                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
-                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
-                                                                    })
-                                                           .ToArray(),
-                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
-                Relaties = new[]
-                {
-                    new Relatie
-                    {
-                        Relatietype = Relatietype.IsAfdelingVan.Beschrijving,
-                        AndereVereniging = new GerelateerdeVereniging
-                        {
-                            KboNummer = message.Data.Moedervereniging.KboNummer,
-                            VCode = message.Data.Moedervereniging.VCode,
-                            Naam = message.Data.Moedervereniging.Naam,
-                        },
-                    },
-                },
-            }
-        );
-
-        if (!string.IsNullOrEmpty(message.Data.Moedervereniging.VCode))
-            await _elasticRepository.AppendRelatie(message.Data.Moedervereniging.VCode, new Relatie
-            {
-                Relatietype = Relatietype.IsAfdelingVan.InverseBeschrijving,
-                AndereVereniging = new GerelateerdeVereniging
-                {
-                    KboNummer = string.Empty,
-                    VCode = message.Data.VCode,
-                    Naam = message.Data.Naam,
-                },
-            });
-    }
-
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
@@ -137,7 +81,13 @@ public class PubliekZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
     {
-        await _elasticRepository.WijzigNaamAfdeling(message.VCode, message.Data.Naam);
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Naam = message.Data.Naam,
+            }
+        );
     }
 
     public async Task Handle(EventEnvelope<RoepnaamWerdGewijzigd> message)

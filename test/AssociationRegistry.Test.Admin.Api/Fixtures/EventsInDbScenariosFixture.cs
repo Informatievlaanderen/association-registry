@@ -46,14 +46,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens
         V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens = new();
 
-    public readonly V016_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_AlsMoeder_VoorRegistratieAfdeling
-        V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling = new();
-
-    public readonly V017_AfdelingWerdGeregistreerd_WithMinimalFields_And_Registered_Moeder
-        V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder = new();
-
-    public readonly V019_AfdelingWerdGeregistreerd_WithMinimalFields V019AfdelingWerdGeregistreerdWithMinimalFields = new();
-
     public readonly V020_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateDetection
         V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection = new();
 
@@ -129,12 +121,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer
         V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer = new();
 
-    public readonly V052_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWijzigen
-        V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen = new();
-
-    public readonly V054_AfdelingWerdGeregistreerd_MetBestaandeMoeder_VoorNaamWerdGewijzigd
-        V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd = new();
-
     public readonly V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection
         V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection = new();
 
@@ -160,9 +146,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V013FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForDuplicateCheck,
             V014FeitelijkeVerenigingWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForWijzigBasisgegevens,
-            V016VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAlsMoederVoorRegistratieAfdeling,
-            V017AfdelingWerdGeregistreerdWithMinimalFieldsAndRegisteredMoeder,
-            V019AfdelingWerdGeregistreerdWithMinimalFields,
             V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection,
             V021FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroom,
             V022FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatie,
@@ -189,8 +172,6 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V044VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelVolgensKbo,
             V045VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithContactgegevenFromKboForWijzigen,
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
-            V052AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWijzigen,
-            V054AfdelingWerdGeregistreerdMetBestaandeMoederVoorNaamWerdGewijzigd,
             V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection,
             V057VerenigingWerdGeregistreerdWithKboLocatieForDuplicateDetection,
         };

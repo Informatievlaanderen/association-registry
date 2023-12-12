@@ -1,3 +1,37 @@
+## [8.34.1](https://github.com/informatievlaanderen/association-registry/compare/v8.34.0...v8.34.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* update nightly build in sync with main workflow ([a863115](https://github.com/informatievlaanderen/association-registry/commit/a86311508a0d935e9bf98aa7a32028b3ba3d0928))
+
+# [8.34.0](https://github.com/informatievlaanderen/association-registry/compare/v8.33.0...v8.34.0) (2023-12-11)
+
+
+### Features
+
+* or-2008 remove afdeling ([50c0b08](https://github.com/informatievlaanderen/association-registry/commit/50c0b084715f6738650ed8995b356e1aa782446c))
+* or-2008 remove afdeling relatie ([530523e](https://github.com/informatievlaanderen/association-registry/commit/530523e7b8a0bc64c80121bdbdc211c4f6707bcb))
+* remove aws folder ([f1f315d](https://github.com/informatievlaanderen/association-registry/commit/f1f315d89bbebf816276864f36029ea168b34e85))
+
+# [8.33.0](https://github.com/informatievlaanderen/association-registry/compare/v8.32.5...v8.33.0) (2023-12-11)
+
+
+### Features
+
+* add default sorting on VCode for beheer zoeken ([380988a](https://github.com/informatievlaanderen/association-registry/commit/380988a38997b6c6c524014f4c22a2400e6393b2))
+* or-2012 do not load temporary vertegenwoordigers on production ([935b7a7](https://github.com/informatievlaanderen/association-registry/commit/935b7a7e3861477c97f515b7ca309377ed6dd5d3))
+
+## [8.32.5](https://github.com/informatievlaanderen/association-registry/compare/v8.32.4...v8.32.5) (2023-12-11)
+
+
+### Bug Fixes
+
+* 0R-2009 use correct secrets for IK4 environment ([f719243](https://github.com/informatievlaanderen/association-registry/commit/f719243e0a0802c992d449f2070794a22106d197))
+* or-2009 remove override of docker registry ([e94c4de](https://github.com/informatievlaanderen/association-registry/commit/e94c4de76e2e0c2f04026d78d91be62f7c2a1899))
+* or-2009 use correct registry ([eb9835b](https://github.com/informatievlaanderen/association-registry/commit/eb9835b0b6052843ce39dc203eecce251de1ddb5))
+* or-2009 use correct registry everywhere ([acf083f](https://github.com/informatievlaanderen/association-registry/commit/acf083fa009c0367afc939fda2c15f8055182835))
+
 ## [8.32.4](https://github.com/informatievlaanderen/association-registry/compare/v8.32.3...v8.32.4) (2023-12-11)
 
 

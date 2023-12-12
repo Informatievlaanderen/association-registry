@@ -49,49 +49,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return vereniging;
     }
 
-    public static Vereniging RegistreerAfdeling(
-        VCode vCode,
-        VerenigingsNaam naam,
-        KboNummer kboNummerMoedervereniging,
-        VerenigingsRepository.VCodeAndNaam vCodeAndNaamMoedervereniging,
-        string? korteNaam,
-        string? korteBeschrijving,
-        Datum? startdatum,
-        Doelgroep doelgroep,
-        Contactgegeven[] toeTeVoegenContactgegevens,
-        Locatie[] toeTeVoegenLocaties,
-        Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
-        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
-        IClock clock)
-    {
-        Throw<StartdatumMagNietInToekomstZijn>.If(startdatum?.IsInFutureOf(clock.Today) ?? false);
-
-        var toegevoegdeLocaties = Locaties.Empty.VoegToe(toeTeVoegenLocaties);
-        var toegevoegdeContactgegevens = Contactgegevens.Empty.VoegToe(toeTeVoegenContactgegevens);
-        var toegevoegdeVertegenwoordigers = Vertegenwoordigers.Empty.VoegToe(toeTeVoegenVertegenwoordigers);
-
-        var vereniging = new Vereniging();
-
-        vereniging.AddEvent(
-            new AfdelingWerdGeregistreerd(
-                vCode,
-                naam,
-                new AfdelingWerdGeregistreerd.MoederverenigingsData(
-                    kboNummerMoedervereniging,
-                    vCodeAndNaamMoedervereniging.VCode ?? string.Empty,
-                    vCodeAndNaamMoedervereniging.VerenigingsNaam),
-                korteNaam ?? string.Empty,
-                korteBeschrijving ?? string.Empty,
-                startdatum?.Value,
-                Registratiedata.Doelgroep.With(doelgroep),
-                ToEventContactgegevens(toegevoegdeContactgegevens),
-                ToLocatieLijst(toegevoegdeLocaties),
-                ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers.ToArray()),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
-
-        return vereniging;
-    }
-
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
 
@@ -193,8 +150,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void SchrijfUitUitPubliekeDatastroom()
     {
-        Throw<AfdelingKanNietUitgeschrevenWordenUitPubliekeDatastroom>.If(State.Verenigingstype == Verenigingstype.Afdeling);
-
         if (State.IsUitgeschrevenUitPubliekeDatastroom) return;
         AddEvent(new VerenigingWerdUitgeschrevenUitPubliekeDatastroom());
     }
@@ -207,7 +162,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging && obj.Verenigingstype != Verenigingstype.Afdeling);
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
         State = obj;
     }
 }

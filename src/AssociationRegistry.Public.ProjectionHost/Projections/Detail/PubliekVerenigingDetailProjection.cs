@@ -26,15 +26,6 @@ public class PubliekVerenigingDetailProjection : EventProjection
         IDocumentOperations ops)
         => Create(@event, ops, PubliekVerenigingDetailProjector.Create);
 
-    public async Task Project(IEvent<AfdelingWerdGeregistreerd> @event, IDocumentOperations ops)
-    {
-        Create(@event, ops, PubliekVerenigingDetailProjector.Create);
-
-        if (!string.IsNullOrEmpty(@event.Data.Moedervereniging.VCode))
-            await Update(@event.Data.Moedervereniging.VCode, @event, ops,
-                         PubliekVerenigingDetailProjector.Apply);
-    }
-
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
         var updateDocs = Enumerable.Empty<PubliekVerenigingDetailDocument>().ToList();
