@@ -20,13 +20,19 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken = default, params IEvent[] events)
+    public async Task<StreamActionResult> Save(
+        string aggregateId,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default,
+        params IEvent[] events)
     {
         await using var session = _documentStore.OpenSession();
 
         try
         {
             SetHeaders(metadata, session);
+
+            TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());
 
             var streamAction = AppendEvents(session, aggregateId, events, metadata.ExpectedVersion);
 
@@ -38,6 +44,12 @@ public class EventStore : IEventStore
         {
             throw new UnexpectedAggregateVersionException();
         }
+    }
+
+    private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
+    {
+        if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
+            session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
     }
 
     private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
