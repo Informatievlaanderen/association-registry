@@ -296,6 +296,7 @@ public class Program
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
+               .AddSingleton<Instrumentation>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
-using System.Reflection;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Metrics;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using System.Reflection;
 
 public static class ServiceCollectionExtensions
 {
@@ -21,43 +21,45 @@ public static class ServiceCollectionExtensions
         var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
 
         Action<ResourceBuilder> configureResource = r => r
-            .AddService(
-                serviceName,
-                serviceVersion: assemblyVersion,
-                serviceInstanceId: Environment.MachineName)
-            .AddAttributes(
-                new Dictionary<string, object>
-                {
-                    ["deployment.environment"] =
-                        Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToLowerInvariant()
-                        ?? "unknown",
-                });
+                                                        .AddService(
+                                                             serviceName,
+                                                             serviceVersion: assemblyVersion,
+                                                             serviceInstanceId: Environment.MachineName)
+                                                        .AddAttributes(
+                                                             new Dictionary<string, object>
+                                                             {
+                                                                 ["deployment.environment"] =
+                                                                     Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                                                                               ?.ToLowerInvariant()
+                                                                  ?? "unknown",
+                                                             });
 
         services.AddOpenTelemetryTracing(
             builder =>
                 builder
-                    .AddSource(serviceName)
-                    .ConfigureResource(configureResource).AddHttpClientInstrumentation()
-                    .AddAspNetCoreInstrumentation(
+                   .AddSource(serviceName)
+                   .ConfigureResource(configureResource).AddHttpClientInstrumentation()
+                   .AddAspNetCoreInstrumentation(
                         options =>
                         {
                             options.EnrichWithHttpRequest =
                                 (activity, request) => activity.SetParentId(request.Headers["traceparent"]);
+
                             options.Filter = context => context.Request.Method != HttpMethods.Options;
                         })
-                    .AddNpgsql()
-                    .AddOtlpExporter(
+                   .AddNpgsql()
+                   .AddOtlpExporter(
                         options =>
                         {
                             options.Protocol = OtlpExportProtocol.Grpc;
                             options.Endpoint = new Uri(collectorUrl);
                         })
-                    .AddSource("Wolverine"));
+                   .AddSource("Wolverine"));
 
         services.AddLogging(
             builder =>
                 builder
-                    .AddOpenTelemetry(
+                   .AddOpenTelemetry(
                         options =>
                         {
                             options.ConfigureResource(configureResource);
@@ -77,16 +79,17 @@ public static class ServiceCollectionExtensions
         services.AddOpenTelemetryMetrics(
             options =>
                 options
-                    .ConfigureResource(configureResource)
-                    .AddRuntimeInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddAspNetCoreInstrumentation()
-                    .AddOtlpExporter(
+                   .ConfigureResource(configureResource)
+                   .AddRuntimeInstrumentation()
+                   .AddHttpClientInstrumentation()
+                   .AddAspNetCoreInstrumentation()
+                   .AddOtlpExporter(
                         exporter =>
                         {
                             exporter.Protocol = OtlpExportProtocol.Grpc;
                             exporter.Endpoint = new Uri(collectorUrl);
-                        }));
+                        })
+                   .AddMeter(Instrumentation.MeterName));
 
         return services;
     }
