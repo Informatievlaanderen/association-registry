@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using System.Threading.Tasks;
 using EventStore;
 using Extensions;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 public class UnexpectedAggregateVersionMiddleware
 {

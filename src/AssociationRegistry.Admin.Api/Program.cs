@@ -18,7 +18,6 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using IdentityModel.AspNetCore.OAuth2Introspection;
-using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ExceptionHandlers;
@@ -26,7 +25,6 @@ using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
-using JasperFx.Core;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -294,6 +292,7 @@ public class Program
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
+               .AddSingleton<Instrumentation>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()

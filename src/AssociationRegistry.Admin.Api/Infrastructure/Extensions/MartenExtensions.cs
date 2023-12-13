@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using OpenTelemetry.Extensions;
 using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
@@ -34,6 +35,8 @@ public static class MartenExtensions
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
+
+                opts.Listeners.Add(new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
