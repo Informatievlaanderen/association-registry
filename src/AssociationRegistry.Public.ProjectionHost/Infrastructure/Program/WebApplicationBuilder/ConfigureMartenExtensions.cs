@@ -9,6 +9,7 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -86,6 +87,8 @@ public static class ConfigureMartenExtensions
                     ),
                     ProjectionLifecycle.Async,
                     projectionName: ProjectionNames.VerenigingZoeken);
+
+                opts.Projections.AsyncListeners.Add(new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
