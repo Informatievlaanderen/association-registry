@@ -16,6 +16,7 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
+using Infrastructure.Metrics;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -214,7 +215,8 @@ public class Program
     {
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args)
@@ -249,7 +251,7 @@ public class Program
         builder.Services
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()
                .AddControllers();
 
@@ -303,7 +305,8 @@ public class Program
                         cfg.AddPolicy(
                             StartupConstants.AllowSpecificOrigin,
                             configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
+                                                                       Array.Empty<string>())
                                                           .WithMethods(StartupConstants.HttpMethodsAsString)
                                                           .WithHeaders(StartupConstants.Headers)
                                                           .WithExposedHeaders(StartupConstants.ExposedHeaders)
@@ -337,7 +340,9 @@ public class Program
                     JwtBearerDefaults.AuthenticationScheme,
                     configureOptions: options =>
                     {
-                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>();
+                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                                   .Get<OAuth2IntrospectionOptions>();
+
                         options.ClientId = configOptions.ClientId;
                         options.ClientSecret = configOptions.ClientSecret;
                         options.Authority = configOptions.Authority;

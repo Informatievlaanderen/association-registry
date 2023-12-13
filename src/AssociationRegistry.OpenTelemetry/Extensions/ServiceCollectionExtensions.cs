@@ -13,12 +13,15 @@ using System.Reflection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
+    public static IServiceCollection AddOpenTelemetry(this IServiceCollection services, IInstrumentation? instrumentation = null)
     {
         var executingAssembly = Assembly.GetEntryAssembly()!;
         var serviceName = executingAssembly.GetName().Name!;
         var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
         var collectorUrl = Environment.GetEnvironmentVariable("COLLECTOR_URL") ?? "http://localhost:4317";
+
+        if (instrumentation is not null)
+            services.AddSingleton(instrumentation);
 
         Action<ResourceBuilder> configureResource = r => r
                                                         .AddService(
@@ -78,6 +81,7 @@ public static class ServiceCollectionExtensions
 
         services.AddOpenTelemetryMetrics(
             options =>
+            {
                 options
                    .ConfigureResource(configureResource)
                    .AddRuntimeInstrumentation()
@@ -88,8 +92,11 @@ public static class ServiceCollectionExtensions
                         {
                             exporter.Protocol = OtlpExportProtocol.Grpc;
                             exporter.Endpoint = new Uri(collectorUrl);
-                        })
-                   .AddMeter(Instrumentation.MeterName));
+                        });
+
+                if (instrumentation is not null)
+                    options.AddMeter(instrumentation.MeterName);
+            });
 
         return services;
     }

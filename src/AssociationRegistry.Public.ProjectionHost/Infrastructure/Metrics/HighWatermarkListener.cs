@@ -1,11 +1,9 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Metrics;
 
 using Marten;
+using Marten.Events.Daemon;
 using Marten.Services;
-using OpenTelemetry.Extensions;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Projections.Detail;
 
 public class HighWatermarkListener : IDocumentSessionListener
 {
@@ -38,8 +36,16 @@ public class HighWatermarkListener : IDocumentSessionListener
 
     public async Task AfterCommitAsync(IDocumentSession session, IChangeSet commit, CancellationToken token)
     {
-        var highWatermark = commit.GetEvents().Max(x => x.Sequence);
-        _instrumentation.HighWaterMarkHistogram.Record(highWatermark);
-        _instrumentation.HighWaterMark = highWatermark;
+        var publiekDetailProgress = await session.DocumentStore.Advanced.ProjectionProgressFor(
+            new ShardName(typeof(PubliekVerenigingDetailProjection).Namespace),
+            token: token);
+
+        _instrumentation.PubliekVerenigingDetailHistogram.Record(publiekDetailProgress);
+
+        var publiekZoekenProgress = await session.DocumentStore.Advanced.ProjectionProgressFor(
+            new ShardName("PubliekVerenigingZoekenProjection"),
+            token: token);
+
+        _instrumentation.PubliekVerenigingZoekenHistogram.Record(publiekZoekenProgress);
     }
 }

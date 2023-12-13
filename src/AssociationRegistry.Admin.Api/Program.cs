@@ -23,6 +23,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
 using Kbo;
@@ -44,7 +45,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -292,7 +292,6 @@ public class Program
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
-               .AddSingleton<Instrumentation>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
@@ -305,7 +304,7 @@ public class Program
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
 

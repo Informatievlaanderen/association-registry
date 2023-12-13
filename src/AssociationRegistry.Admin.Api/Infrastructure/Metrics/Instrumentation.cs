@@ -1,5 +1,7 @@
-namespace AssociationRegistry.OpenTelemetry.Extensions;
+namespace AssociationRegistry.Admin.Api.Infrastructure.Metrics;
 
+using OpenTelemetry;
+using System;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 
@@ -8,10 +10,10 @@ using System.Diagnostics.Metrics;
 /// ActivitySource and Instruments. This avoids possible type collisions
 /// with other components in the DI container.
 /// </summary>
-public class Instrumentation : IDisposable
+public class Instrumentation : IInstrumentation, IDisposable
 {
-    internal const string ActivitySourceName = "AssociationRegistry";
-    internal const string MeterName = "AdminApi";
+    public string ActivitySourceName => "AssociationRegistry";
+    public string MeterName => "AdminApi";
     private readonly Meter meter;
 
     public Instrumentation()
@@ -21,19 +23,10 @@ public class Instrumentation : IDisposable
         meter = new Meter(MeterName, version);
 
         HighWaterMarkHistogram = meter.CreateHistogram<long>(name: "ar.highWatermark.h", unit: "events", description: "high watermark");
-
-        HighWaterMarkGauge = meter.CreateObservableGauge(name: "ar.highWatermark.g",
-                                                         observeValue: () => HighWaterMark);
-
-        HighWaterMarkCounter = meter.CreateObservableUpDownCounter(name: "ar.highWatermark.c",
-                                                                   observeValue: () => new Measurement<long>(HighWaterMark));
     }
 
-    public ObservableUpDownCounter<long> HighWaterMarkCounter { get; set; }
-    public ObservableGauge<long> HighWaterMarkGauge { get; set; }
     public ActivitySource ActivitySource { get; }
     public Histogram<long> HighWaterMarkHistogram { get; }
-    public long HighWaterMark { get; set; }
 
     public void Dispose()
     {

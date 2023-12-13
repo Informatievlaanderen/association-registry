@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
@@ -63,7 +64,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new Instrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
