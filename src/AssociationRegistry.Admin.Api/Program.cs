@@ -18,15 +18,14 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using IdentityModel.AspNetCore.OAuth2Introspection;
-using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
+using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
-using JasperFx.Core;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -309,6 +308,9 @@ public class Program
                .AddOpenTelemetry()
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
+
+        builder.Services.AddHttpClient<AdminProjectionHostHttpClient>();
+        builder.Services.AddHttpClient<PublicProjectionHostHttpClient>();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
