@@ -3,21 +3,32 @@
 using Be.Vlaanderen.Basisregisters.Api;
 using HttpClients;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+[ApiVersion("1.0")]
+[AdvertiseApiVersions("1.0")]
+[ApiRoute("projections")]
 public class ProjectionHostController : ApiController
 {
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
     private readonly PublicProjectionHostHttpClient _publicHttpClient;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     public ProjectionHostController(AdminProjectionHostHttpClient adminHttpClient, PublicProjectionHostHttpClient publicHttpClient)
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
+
+        _jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
     }
 
-    [HttpPost("/projections/admin/all/rebuild")]
+    [HttpPost("admin/all/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionAll(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildAllProjections(cancellationToken);
@@ -27,7 +38,7 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/admin/detail/rebuild")]
+    [HttpPost("admin/detail/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionDetail(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildDetailProjection(cancellationToken);
@@ -37,7 +48,7 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/admin/historiek/rebuild")]
+    [HttpPost("admin/historiek/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionHistoriek(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildHistoriekProjection(cancellationToken);
@@ -47,7 +58,7 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/admin/search/rebuild")]
+    [HttpPost("admin/search/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionZoeken(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildZoekenProjection(cancellationToken);
@@ -57,17 +68,19 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/admin/status")]
+    [HttpGet("admin/status")]
     public async Task<IActionResult> GetAdminProjectionStatus(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.GetStatus(cancellationToken);
 
         if (!response.IsSuccessStatusCode) return BadRequest();
 
-        return Ok();
+        var projectionProgress = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
+
+        return new OkObjectResult(projectionProgress);
     }
 
-    [HttpPost("/projections/public/detail/rebuild")]
+    [HttpPost("public/detail/rebuild")]
     public async Task<IActionResult> RebuildPublicProjectionDetail(CancellationToken cancellationToken)
     {
         var response = await _publicHttpClient.RebuildDetailProjection(cancellationToken);
@@ -77,7 +90,7 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/public/search/rebuild")]
+    [HttpPost("public/search/rebuild")]
     public async Task<IActionResult> RebuildPublicProjectionZoeken(CancellationToken cancellationToken)
     {
         var response = await _publicHttpClient.RebuildZoekenProjection(cancellationToken);
@@ -87,13 +100,15 @@ public class ProjectionHostController : ApiController
             : UnprocessableEntity();
     }
 
-    [HttpPost("/projections/public/status")]
+    [HttpGet("public/status")]
     public async Task<IActionResult> GetPublicProjectionStatus(CancellationToken cancellationToken)
     {
         var response = await _publicHttpClient.GetStatus(cancellationToken);
 
         if (!response.IsSuccessStatusCode) return BadRequest();
 
-        return Ok();
+        var projectionProgress = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
+
+        return new OkObjectResult(projectionProgress);
     }
 }

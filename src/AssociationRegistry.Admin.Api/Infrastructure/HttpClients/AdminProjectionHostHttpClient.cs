@@ -27,7 +27,12 @@ public class AdminProjectionHostHttpClient : IDisposable
         => await _httpClient.PostAsync(requestUri: "/projections/search/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> GetStatus(CancellationToken cancellationToken)
-        => await _httpClient.GetAsync(requestUri: "/projections/status", cancellationToken);
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUri: "/projections/status");
+        request.Headers.Add(name: "X-Correlation-Id", Guid.NewGuid().ToString());
+
+        return await _httpClient.SendAsync(request, cancellationToken);
+    }
 
     public void Dispose()
     {

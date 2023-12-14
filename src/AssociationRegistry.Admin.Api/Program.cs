@@ -309,8 +309,13 @@ public class Program
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
 
-        builder.Services.AddHttpClient<AdminProjectionHostHttpClient>();
-        builder.Services.AddHttpClient<PublicProjectionHostHttpClient>();
+        builder.Services
+               .AddHttpClient<AdminProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl));
+
+        builder.Services
+               .AddHttpClient<PublicProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 

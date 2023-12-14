@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
 using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,8 +24,6 @@ using OpenTelemetry.Extensions;
 using Projections;
 using Projections.Detail;
 using Projections.Historiek;
-using Projections.Search;
-using Projections.Search.Zoeken;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -139,10 +136,12 @@ public class Program
             });
 
         app.MapGet(
-            "projections/status",
-            async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            pattern: "projections/status",
+            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
-                return await store.Advanced.AllProjectionProgress(token: cancellationToken);
+                var projectionProgress = await store.Advanced.AllProjectionProgress(token: cancellationToken);
+
+                return projectionProgress;
             });
 
         app.SetUpSwagger();
@@ -175,7 +174,6 @@ public class Program
         {
             await elasticClient.Indices.DeleteAsync(indeces, ct: cancellationToken).ThrowIfInvalidAsync();
         }
-
     }
 
     private static void ConfigureEncoding()
