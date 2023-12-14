@@ -10,24 +10,28 @@ using System.Diagnostics.Metrics;
 /// ActivitySource and Instruments. This avoids possible type collisions
 /// with other components in the DI container.
 /// </summary>
-public class Instrumentation : IInstrumentation, IDisposable
+public class AcmInstrumentation : IInstrumentation, IDisposable
 {
     public string ActivitySourceName => "AssociationRegistry";
     public string MeterName => "AcmProjections";
     private readonly Meter meter;
 
-    public Instrumentation()
+    public AcmInstrumentation()
     {
-        var version = typeof(Instrumentation).Assembly.GetName().Version?.ToString();
+        var version = typeof(AcmInstrumentation).Assembly.GetName().Version?.ToString();
         ActivitySource = new ActivitySource(ActivitySourceName, version);
         meter = new Meter(MeterName, version);
 
-        VerenigingPerInszHistogram =
-            meter.CreateHistogram<long>(name: "ar.p.verenigingPerInsz.h", unit: "events", description: "vereniging per insz projection");
+        _verenigingPerInszGauge =
+            meter.CreateObservableGauge(name: "ar.acm.p.verenigingPerInsz.g", unit: "events",
+                                              description: "vereniging per insz projection",
+                                              observeValue: () => VerenigingPerInszEventValue);
     }
 
     public ActivitySource ActivitySource { get; }
-    public Histogram<long> VerenigingPerInszHistogram { get; }
+    private ObservableGauge<long> _verenigingPerInszGauge;
+
+    public long VerenigingPerInszEventValue = 0;
 
     public void Dispose()
     {

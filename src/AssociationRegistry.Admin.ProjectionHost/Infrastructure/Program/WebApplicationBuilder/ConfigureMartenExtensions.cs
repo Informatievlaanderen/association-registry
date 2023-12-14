@@ -9,6 +9,7 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -80,6 +81,9 @@ public static class ConfigureMartenExtensions
                 opts.Events.MetadataConfig.EnableAll();
 
                 opts.Projections.OnException(_ => true).Stop();
+
+                opts.Projections.AsyncListeners.Add(
+                    new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);

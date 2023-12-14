@@ -20,8 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		definition_of_done.md = definition_of_done.md
 		readme.md = readme.md
 		CONTRIBUTING.md = CONTRIBUTING.md
-		otel-collector-config.yaml = otel-collector-config.yaml
 		regen-marten.sh = regen-marten.sh
+		otel-collector-config.yaml = otel-collector-config.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C812C887-6495-405A-8B99-4F686D243126}"

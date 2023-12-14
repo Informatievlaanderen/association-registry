@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class HighWatermarkListener : IDocumentSessionListener
+public class HighWatermarkListener : DocumentSessionListenerBase
 {
     private readonly Instrumentation _instrumentation;
 
@@ -15,29 +15,14 @@ public class HighWatermarkListener : IDocumentSessionListener
         _instrumentation = instrumentation;
     }
 
-    public void BeforeSaveChanges(IDocumentSession session)
+    public override async Task AfterCommitAsync(IDocumentSession session, IChangeSet commit, CancellationToken token)
     {
-    }
+        var events = commit.GetEvents().ToArray();
 
-    public async Task BeforeSaveChangesAsync(IDocumentSession session, CancellationToken token)
-    {
-    }
-
-    public void AfterCommit(IDocumentSession session, IChangeSet commit)
-    {
-    }
-
-    public void DocumentLoaded(object id, object document)
-    {
-    }
-
-    public void DocumentAddedForStorage(object id, object document)
-    {
-    }
-
-    public async Task AfterCommitAsync(IDocumentSession session, IChangeSet commit, CancellationToken token)
-    {
-        var highWatermark = commit.GetEvents().Max(x => x.Sequence);
-        _instrumentation.HighWaterMarkHistogram.Record(highWatermark);
+        if (events.Any())
+        {
+            var highWatermark = events.Max(x => x.Sequence);
+            _instrumentation.HighWatermarkEventValue = highWatermark;
+        }
     }
 }

@@ -4,6 +4,7 @@ using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
@@ -68,7 +69,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new AdminInstrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)

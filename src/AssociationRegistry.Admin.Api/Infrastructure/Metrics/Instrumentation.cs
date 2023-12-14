@@ -22,11 +22,13 @@ public class Instrumentation : IInstrumentation, IDisposable
         ActivitySource = new ActivitySource(ActivitySourceName, version);
         meter = new Meter(MeterName, version);
 
-        HighWaterMarkHistogram = meter.CreateHistogram<long>(name: "ar.highWatermark.h", unit: "events", description: "high watermark");
+        _highWatermarkGauge = meter.CreateObservableGauge<long>(name: "ar.beheer.p.highWatermark.g", unit: "events",
+                                                               description: "high watermark", observeValue: () => HighWatermarkEventValue);
     }
 
     public ActivitySource ActivitySource { get; }
-    public Histogram<long> HighWaterMarkHistogram { get; }
+    private ObservableGauge<long> _highWatermarkGauge;
+    public long HighWatermarkEventValue = 0;
 
     public void Dispose()
     {
