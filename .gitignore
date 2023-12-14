@@ -7,8 +7,6 @@ wwwroot/
 otel-collector-config.yaml
 src/*/Internal
 
-otel-collector-config.yaml
-
 .vs/
 .vscode/
 .fake/

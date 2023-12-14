@@ -87,7 +87,7 @@ public static class ConfigureMartenExtensions
                     ProjectionLifecycle.Async,
                     projectionName: "PubliekVerenigingZoekenDocument");
 
-                opts.Projections.AsyncListeners.Add(new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
+                opts.Projections.AsyncListeners.Add(new ProjectionStateListener(serviceProvider.GetRequiredService<PubliekInstrumentation>()));
 
                 opts.Serializer(CreateCustomMartenSerializer());
 

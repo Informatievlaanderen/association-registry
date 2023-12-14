@@ -2,12 +2,12 @@ namespace AssociationRegistry.Public.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Infrastructure.Json;
-using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
 using Marten;
+using Metrics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
@@ -64,7 +64,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry(new Instrumentation())
+               .AddOpenTelemetry(new PubliekInstrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)

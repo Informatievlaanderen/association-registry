@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
@@ -31,7 +32,8 @@ public class Program
 
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args);
@@ -60,7 +62,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new AdminInstrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)

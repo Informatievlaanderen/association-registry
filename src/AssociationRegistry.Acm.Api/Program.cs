@@ -251,7 +251,7 @@ public class Program
         builder.Services
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
-               .AddOpenTelemetry(new Instrumentation())
+               .AddOpenTelemetry(new AcmInstrumentation())
                .AddHttpContextAccessor()
                .AddControllers();
 
