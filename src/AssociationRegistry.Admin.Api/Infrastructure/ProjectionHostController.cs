@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("projections")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ProjectionHostController : ApiController
 {
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
