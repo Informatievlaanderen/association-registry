@@ -3,12 +3,33 @@
 public class AppSettings
 {
     private string? _baseUrl;
+    private string? _beheerApiBaseUrl;
+    private string? _beheerProjectionHostBaseUrl;
     private string? _publicApiBaseUrl;
+    private string? _publicProjectionHostBaseUrl;
+
+    public string BeheerApiBaseUrl
+    {
+        get => _beheerApiBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _beheerApiBaseUrl = value;
+    }
+
+    public string BeheerProjectionHostBaseUrl
+    {
+        get => _beheerProjectionHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _beheerProjectionHostBaseUrl = value;
+    }
 
     public string PublicApiBaseUrl
     {
         get => _publicApiBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
         set => _publicApiBaseUrl = value;
+    }
+
+    public string PublicProjectionHostBaseUrl
+    {
+        get => _publicProjectionHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _publicProjectionHostBaseUrl = value;
     }
 
     public string BaseUrl
