@@ -1,3 +1,17 @@
+# [8.35.0](https://github.com/informatievlaanderen/association-registry/compare/v8.34.1...v8.35.0) (2023-12-14)
+
+
+### Bug Fixes
+
+* OR-1349 use asynchronous index creator ([84f7b47](https://github.com/informatievlaanderen/association-registry/commit/84f7b47a8c8d8aba148a526762b7ec781e09cf2a))
+
+
+### Features
+
+* OR-1349 add projections status endpoint and rebuild endpoints which remain undocumented in swagger ([3b9e073](https://github.com/informatievlaanderen/association-registry/commit/3b9e073d639037434e2ee0fdfa5da6f9fd88541b))
+* or-1349 add rebuild en status endpoints for projections ([debae61](https://github.com/informatievlaanderen/association-registry/commit/debae6184163d38ba57e57824bd9d084e651098b))
+* or-1349 stop elastic projection shard before removing indices ([fec4c52](https://github.com/informatievlaanderen/association-registry/commit/fec4c52a0d02a5e366ef4d9bffaad1b70a026a7d))
+
 ## [8.34.1](https://github.com/informatievlaanderen/association-registry/compare/v8.34.0...v8.34.1) (2023-12-12)
 
 
