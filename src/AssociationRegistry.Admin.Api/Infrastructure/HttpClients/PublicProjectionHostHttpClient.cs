@@ -15,13 +15,13 @@ public class PublicProjectionHostHttpClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/detail/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> RebuildZoekenProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/search/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/search/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> GetStatus(CancellationToken cancellationToken)
-        => await _httpClient.GetAsync(requestUri: "/projections/status", cancellationToken);
+        => await _httpClient.GetAsync(requestUri: "/v1/projections/status", cancellationToken);
 
     public void Dispose()
     {

@@ -45,7 +45,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -75,6 +74,7 @@ using Wolverine;
 public class Program
 {
     private const string AdminGlobalPolicyName = "Admin Global";
+    public const string SuperAdminPolicyName = "Super Admin";
 
     public static async Task Main(string[] args)
     {
@@ -133,7 +133,10 @@ public class Program
         app.UseRouting()
            .UseAuthentication()
            .UseAuthorization()
-           .UseEndpoints(routeBuilder => routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName));
+           .UseEndpoints(routeBuilder =>
+            {
+                routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName);
+            });
 
         ConfigureLifetimeHooks(app);
 
@@ -378,11 +381,20 @@ public class Program
                .AddControllersAsServices()
                .AddAuthorization(
                     options =>
+                    {
                         options.AddPolicy(
                             AdminGlobalPolicyName,
                             new AuthorizationPolicyBuilder()
                                .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
-                               .Build()))
+                               .Build());
+
+                        options.AddPolicy(
+                            SuperAdminPolicyName,
+                            new AuthorizationPolicyBuilder()
+                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                               .RequireClaim(Security.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
+                               .Build());
+                    })
                .AddNewtonsoftJson(
                     opt =>
                     {

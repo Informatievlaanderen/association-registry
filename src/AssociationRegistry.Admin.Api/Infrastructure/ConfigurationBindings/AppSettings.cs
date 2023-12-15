@@ -1,18 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 
+using System;
+
 public class AppSettings
 {
     private string? _baseUrl;
-    private string? _beheerApiBaseUrl;
     private string? _beheerProjectionHostBaseUrl;
     private string? _publicApiBaseUrl;
     private string? _publicProjectionHostBaseUrl;
-
-    public string BeheerApiBaseUrl
-    {
-        get => _beheerApiBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
-        set => _beheerApiBaseUrl = value;
-    }
 
     public string BeheerProjectionHostBaseUrl
     {
@@ -38,6 +33,7 @@ public class AppSettings
         set => _baseUrl = value;
     }
 
+    public string[] SuperAdminClientIds { get; set; } = Array.Empty<string>();
     public string Salt { get; set; } = null!;
     public ApiDocsSettings ApiDocs { get; set; } = new();
     public SearchSettings Search { get; set; } = new();

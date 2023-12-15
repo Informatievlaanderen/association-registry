@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Schema.Constants;
 using Schema.VerenigingenPerInsz;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class VerenigingenPerInszProjection : EventProjection
 {
@@ -18,6 +18,8 @@ public class VerenigingenPerInszProjection : EventProjection
         // the newly persisted VerenigingenPerInszDocument from FeitelijkeVerenigingWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd
         Options.BatchSize = 1;
+        Options.DeleteViewTypeOnTeardown<VerenigingenPerInszDocument>();
+        Options.DeleteViewTypeOnTeardown<VerenigingDocument>();
     }
 
     public async Task Project(FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)

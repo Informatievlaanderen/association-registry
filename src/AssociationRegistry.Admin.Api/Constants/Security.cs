@@ -5,6 +5,7 @@ public static class Security
     public static class ClaimTypes
     {
         public const string Scope = "scope";
+        public const string ClientId = "client_id";
     }
 
     public static class Scopes
