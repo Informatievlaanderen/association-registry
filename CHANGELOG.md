@@ -1,3 +1,16 @@
+# [8.36.0](https://github.com/informatievlaanderen/association-registry/compare/v8.35.0...v8.36.0) (2023-12-15)
+
+
+### Bug Fixes
+
+* OR-1349 add mapping to sln ([23846c5](https://github.com/informatievlaanderen/association-registry/commit/23846c55316890b044041c8c00a99d293849a5aa))
+* OR-1349 remove folder from csproj ([5cc06a4](https://github.com/informatievlaanderen/association-registry/commit/5cc06a4a35203e00fe36ae308f41a8ce7c12c34a))
+
+
+### Features
+
+* or-1349 add security; delete views on rebuild ([66ca427](https://github.com/informatievlaanderen/association-registry/commit/66ca427239450888d6894962c5cffb430c0fc516))
+
 # [8.35.0](https://github.com/informatievlaanderen/association-registry/compare/v8.34.1...v8.35.0) (2023-12-14)
 
 
