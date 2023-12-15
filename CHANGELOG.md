@@ -1,3 +1,10 @@
+## [8.36.1](https://github.com/informatievlaanderen/association-registry/compare/v8.36.0...v8.36.1) (2023-12-15)
+
+
+### Bug Fixes
+
+* re-add obsolete afdeling event ([6bb703c](https://github.com/informatievlaanderen/association-registry/commit/6bb703ca4ad53a3bc53afb6dd37ff0061d0d0ed2))
+
 # [8.36.0](https://github.com/informatievlaanderen/association-registry/compare/v8.35.0...v8.36.0) (2023-12-15)
 
 
