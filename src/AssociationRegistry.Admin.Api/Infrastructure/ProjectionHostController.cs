@@ -2,7 +2,9 @@
 
 using Be.Vlaanderen.Basisregisters.Api;
 using HttpClients;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("projections")]
 [ApiExplorerSettings(IgnoreApi = true)]
+[Authorize(Policy = Program.SuperAdminPolicyName)]
 public class ProjectionHostController : ApiController
 {
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
@@ -34,9 +37,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _adminHttpClient.RebuildAllProjections(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("admin/detail/rebuild")]
@@ -44,9 +45,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _adminHttpClient.RebuildDetailProjection(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("admin/historiek/rebuild")]
@@ -54,9 +53,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _adminHttpClient.RebuildHistoriekProjection(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("admin/search/rebuild")]
@@ -64,9 +61,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _adminHttpClient.RebuildZoekenProjection(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpGet("admin/status")]
@@ -74,11 +69,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _adminHttpClient.GetStatus(cancellationToken);
 
-        if (!response.IsSuccessStatusCode) return BadRequest();
-
-        var projectionProgress = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
-
-        return new OkObjectResult(projectionProgress);
+        return await OkObjectOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("public/detail/rebuild")]
@@ -86,9 +77,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _publicHttpClient.RebuildDetailProjection(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpPost("public/search/rebuild")]
@@ -96,9 +85,7 @@ public class ProjectionHostController : ApiController
     {
         var response = await _publicHttpClient.RebuildZoekenProjection(cancellationToken);
 
-        return response.IsSuccessStatusCode
-            ? Ok()
-            : UnprocessableEntity();
+        return await OkOrForwardedResponse(cancellationToken, response);
     }
 
     [HttpGet("public/status")]
@@ -106,10 +93,30 @@ public class ProjectionHostController : ApiController
     {
         var response = await _publicHttpClient.GetStatus(cancellationToken);
 
-        if (!response.IsSuccessStatusCode) return BadRequest();
+        return await OkObjectOrForwardedResponse(cancellationToken, response);
+    }
 
-        var projectionProgress = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
+    private async Task<IActionResult> OkOrForwardedResponse(CancellationToken cancellationToken, HttpResponseMessage response)
+    {
+        if (response.IsSuccessStatusCode) return Ok();
 
-        return new OkObjectResult(projectionProgress);
+        return Problem(
+            title: response.ReasonPhrase,
+            statusCode: (int)response.StatusCode,
+            detail: await response.Content.ReadAsStringAsync(cancellationToken)
+        );
+    }
+
+    private async Task<IActionResult> OkObjectOrForwardedResponse(CancellationToken cancellationToken, HttpResponseMessage response)
+    {
+        if (response.IsSuccessStatusCode)
+            return new OkObjectResult(
+                await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken));
+
+        return Problem(
+            title: response.ReasonPhrase,
+            statusCode: (int)response.StatusCode,
+            detail: await response.Content.ReadAsStringAsync(cancellationToken)
+        );
     }
 }

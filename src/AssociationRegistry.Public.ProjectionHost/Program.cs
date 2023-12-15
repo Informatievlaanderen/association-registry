@@ -83,7 +83,7 @@ public class Program
         var app = builder.Build();
 
         app.MapPost(
-            pattern: "projections/detail/rebuild",
+            pattern: "v1/projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
@@ -92,7 +92,7 @@ public class Program
             });
 
         app.MapPost(
-            pattern: "projections/search/rebuild",
+            pattern: "v1/projections/search/rebuild",
             handler: async (
                 IDocumentStore store,
                 IElasticClient elasticClient,
@@ -111,11 +111,9 @@ public class Program
             });
 
         app.MapGet(
-            "projections/status",
-            async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
-            {
-                return await store.Advanced.AllProjectionProgress(token: cancellationToken);
-            });
+            pattern: "v1/projections/status", handler: (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken)
+                =>
+                store.Advanced.AllProjectionProgress(token: cancellationToken));
 
         app.SetUpSwagger();
         await app.EnsureElasticSearchIsInitialized();

@@ -1,4 +1,6 @@
-﻿namespace AssociationRegistry;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
+
+using System;
 
 public class ProjectionStatus
 {

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
-using System.Threading.Tasks;
 using Events;
 using Marten;
 using Marten.Events;
@@ -16,6 +15,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
+        Options.DeleteViewTypeOnTeardown<BeheerVerenigingHistoriekDocument>();
     }
 
     public void Project(

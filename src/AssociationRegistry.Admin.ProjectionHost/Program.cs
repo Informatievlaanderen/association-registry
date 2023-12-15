@@ -84,7 +84,7 @@ public class Program
         var app = builder.Build();
 
         app.MapPost(
-            pattern: "projections/all/rebuild",
+            pattern: "v1/projections/all/rebuild",
             handler: async (
                 IDocumentStore store,
                 IElasticClient elasticClient,
@@ -93,18 +93,17 @@ public class Program
                 CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
                 await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
                 logger.LogInformation("Rebuild BeheerVerenigingDetailProjection complete");
-
                 await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
                 logger.LogInformation("Rebuild BeheerVerenigingHistoriekProjection complete");
-
                 await RebuildElasticProjections(projectionDaemon, elasticClient, options, cancellationToken);
                 logger.LogInformation("Rebuild ElasticSearch complete");
             });
 
         app.MapPost(
-            pattern: "projections/detail/rebuild",
+            pattern: "v1/projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
@@ -113,7 +112,7 @@ public class Program
             });
 
         app.MapPost(
-            pattern: "projections/historiek/rebuild",
+            pattern: "v1/projections/historiek/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
@@ -122,7 +121,7 @@ public class Program
             });
 
         app.MapPost(
-            pattern: "projections/search/rebuild",
+            pattern: "v1/projections/search/rebuild",
             handler: async (
                 IDocumentStore store,
                 IElasticClient elasticClient,
@@ -136,7 +135,7 @@ public class Program
             });
 
         app.MapGet(
-            pattern: "projections/status",
+            pattern: "v1/projections/status",
             handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
             {
                 var projectionProgress = await store.Advanced.AllProjectionProgress(token: cancellationToken);
@@ -161,7 +160,7 @@ public class Program
     {
         await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
         var oldVerenigingenIndices = await elasticClient.GetIndicesPointingToAliasAsync(options.Indices.Verenigingen);
-        var newIndicesVerenigingen = options.Indices.Verenigingen + "-" + SystemClock.Instance.GetCurrentInstant().ToZuluTime();
+        var newIndicesVerenigingen = options.Indices.Verenigingen + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
         await elasticClient.Indices.CreateVerenigingIndexAsync(newIndicesVerenigingen).ThrowIfInvalidAsync();
 
         await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: cancellationToken).ThrowIfInvalidAsync();

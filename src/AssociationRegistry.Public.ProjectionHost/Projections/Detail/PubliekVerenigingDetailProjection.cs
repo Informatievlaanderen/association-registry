@@ -16,6 +16,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
+        Options.DeleteViewTypeOnTeardown<PubliekVerenigingDetailDocument>();
     }
 
     public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
@@ -52,7 +53,6 @@ public class PubliekVerenigingDetailProjection : EventProjection
             PubliekVerenigingDetailProjector.UpdateMetadata(@event, gerelateerdeVereniging);
             updateDocs.Add(gerelateerdeVereniging);
         }
-
 
         PubliekVerenigingDetailProjector.Apply(@event, vereniging);
         PubliekVerenigingDetailProjector.UpdateMetadata(@event, vereniging);

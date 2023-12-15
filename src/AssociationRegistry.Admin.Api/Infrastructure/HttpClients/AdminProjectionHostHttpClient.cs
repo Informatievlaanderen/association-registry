@@ -15,20 +15,20 @@ public class AdminProjectionHostHttpClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> RebuildAllProjections(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/all/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/all/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/detail/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> RebuildHistoriekProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/historiek/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/historiek/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> RebuildZoekenProjection(CancellationToken cancellationToken)
-        => await _httpClient.PostAsync(requestUri: "/projections/search/rebuild", content: null, cancellationToken);
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/search/rebuild", content: null, cancellationToken);
 
     public async Task<HttpResponseMessage> GetStatus(CancellationToken cancellationToken)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get, requestUri: "/projections/status");
+        var request = new HttpRequestMessage(HttpMethod.Get, requestUri: "/v1/projections/status");
         request.Headers.Add(name: "X-Correlation-Id", Guid.NewGuid().ToString());
 
         return await _httpClient.SendAsync(request, cancellationToken);
