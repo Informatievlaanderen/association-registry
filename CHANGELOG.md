@@ -1,3 +1,12 @@
+# [8.37.0](https://github.com/informatievlaanderen/association-registry/compare/v8.36.1...v8.37.0) (2023-12-18)
+
+
+### Features
+
+* or-1834 wip instrumentation ([2fe7c1a](https://github.com/informatievlaanderen/association-registry/commit/2fe7c1ab4f6d2697d134797be3e6883b413ed95c))
+* or-1834-metrics ([5e997c1](https://github.com/informatievlaanderen/association-registry/commit/5e997c1943f64c558396ddb60afcd904ee2adcb7))
+* replace otel with example and ignore it ([63ea653](https://github.com/informatievlaanderen/association-registry/commit/63ea65371476f0c605fc1b3f2fd3a3e761cf19bc))
+
 ## [8.36.1](https://github.com/informatievlaanderen/association-registry/compare/v8.36.0...v8.36.1) (2023-12-15)
 
 
