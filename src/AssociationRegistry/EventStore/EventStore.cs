@@ -52,10 +52,14 @@ public class EventStore : IEventStore
             session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
     }
 
-    private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
+    private static StreamAction AppendEvents(
+        IDocumentSession session,
+        string aggregateId,
+        IReadOnlyCollection<IEvent> events,
+        long? expectedVersion)
     {
         if (expectedVersion is not null)
-            return session.Events.Append(stream: aggregateId, expectedVersion: expectedVersion.Value + events.Count, events: events);
+            return session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
 
         return session.Events.Append(aggregateId, events);
     }
@@ -64,6 +68,7 @@ public class EventStore : IEventStore
     {
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        session.CorrelationId = metadata.CorrelationId.ToString();
     }
 
     private static bool IsEventFromDigitaalVlaanderen(Type eventType)
