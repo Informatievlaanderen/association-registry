@@ -26,7 +26,7 @@ public class EventStore : IEventStore
         CancellationToken cancellationToken = default,
         params IEvent[] events)
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         try
         {
@@ -77,7 +77,7 @@ public class EventStore : IEventStore
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         return await session.Events.AggregateStreamAsync<T>(id) ??
                throw new AggregateNotFoundException(id, typeof(T));
@@ -85,7 +85,7 @@ public class EventStore : IEventStore
 
     public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)
