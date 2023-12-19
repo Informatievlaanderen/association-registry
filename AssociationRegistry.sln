@@ -113,6 +113,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefOndernemingResponses", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Hosts", "src\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj", "{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".aws", ".aws", "{903553F6-3DDD-42F9-8B15-8BDEE66A685F}"
+	ProjectSection(SolutionItems) = preProject
+		.aws\Dockerfile = .aws\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{91AC2AEF-D450-4257-B81A-2D6A6CB2D848}"
+	ProjectSection(SolutionItems) = preProject
+		.aws\scripts\ecs-desired-count.sh = .aws\scripts\ecs-desired-count.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,5 +221,7 @@ Global
 		{85139412-485D-4B23-8423-A0C2021B60DE} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{9C2CDA4C-FFF3-4AA1-B31A-8804D98F0469} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427} = {20B970CD-1737-4427-A924-D299A42346FE}
+		{903553F6-3DDD-42F9-8B15-8BDEE66A685F} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
+		{91AC2AEF-D450-4257-B81A-2D6A6CB2D848} = {903553F6-3DDD-42F9-8B15-8BDEE66A685F}
 	EndGlobalSection
 EndGlobal
