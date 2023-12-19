@@ -8,30 +8,31 @@ using Vereniging;
 public class V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario : IScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001017",
-        "0987654321",
-        "VZW",
-        "Feesten Affligem",
+        VCode: "V0001017",
+        KboNummer: "0987654317",
+        Rechtsvorm: "VZW",
+        Naam: "Feesten Affligem",
         string.Empty,
-        null);
+        Startdatum: null);
 
     public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo = new(
         Locatie: new Registratiedata.Locatie(
-            1,
+            LocatieId: 1,
             Locatietype.MaatschappelijkeZetelVolgensKbo,
-            false,
+            IsPrimair: false,
             string.Empty,
             new Registratiedata.Adres(
-                "Stationsstraat",
-                "1",
-                "B",
-                "1790",
-                "Affligem",
-                "België"),
-            null
+                Straatnaam: "Stationsstraat",
+                Huisnummer: "1",
+                Busnummer: "B",
+                Postcode: "1790",
+                Gemeente: "Affligem",
+                Land: "België"),
+            AdresId: null
         ));
 
-    public readonly MaatschappelijkeZetelVolgensKBOWerdGewijzigd MaatschappelijkeZetelVolgensKBOWerdGewijzigd = new(1, "Station", true);
+    public readonly MaatschappelijkeZetelVolgensKBOWerdGewijzigd MaatschappelijkeZetelVolgensKBOWerdGewijzigd =
+        new(LocatieId: 1, Naam: "Station", IsPrimair: true);
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -47,6 +48,7 @@ public class V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijzi
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
                Guid.NewGuid());
 }

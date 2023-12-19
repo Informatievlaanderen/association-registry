@@ -59,13 +59,13 @@
                 <Namen
                   xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
                   <MaatschappelijkeNamen>
-                    <MaatschappelijkeNaam DatumBegin="1998-01-01">
-                      <Naam>Vlaamse Liga tegen Kanker</Naam>
+                    <MaatschappelijkeNaam DatumBegin="2015-10-13">
+                      <Naam>Kom op tegen Kanker</Naam>
                       <Taalcode>nl</Taalcode>
                     </MaatschappelijkeNaam>
                   </MaatschappelijkeNamen>
                   <AfgekorteNamen>
-                    <AfgekorteNaam DatumBegin="1998-01-01">
+                    <AfgekorteNaam DatumBegin="2015-10-13">
                       <Naam>V.L.K.</Naam>
                       <Taalcode>nl</Taalcode>
                     </AfgekorteNaam>
