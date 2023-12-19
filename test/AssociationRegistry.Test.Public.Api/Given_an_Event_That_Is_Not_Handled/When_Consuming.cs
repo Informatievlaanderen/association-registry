@@ -44,18 +44,20 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     public async Task Then_No_exceptions_Are_Thrown()
     {
         var consumer = new MartenEventsConsumer(_projectionHost.Services.GetRequiredService<IMessageBus>());
+
         var consumeForElastic = () =>
         {
-            using var documentSession = _documentStore
-                .OpenSession();
+            using var documentSession = _documentStore.LightweightSession();
+
             return consumer.ConsumeAsync(
                 new[]
                 {
                     documentSession
-                        .Events
-                        .Append(Given_An_Unhandled_Event_Fixture.VCode, new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent()),
+                       .Events
+                       .Append(Given_An_Unhandled_Event_Fixture.VCode, new Given_An_Unhandled_Event_Fixture.AnUnhandledEvent()),
                 });
         };
+
         await consumeForElastic.Should().NotThrowAsync();
     }
 }
