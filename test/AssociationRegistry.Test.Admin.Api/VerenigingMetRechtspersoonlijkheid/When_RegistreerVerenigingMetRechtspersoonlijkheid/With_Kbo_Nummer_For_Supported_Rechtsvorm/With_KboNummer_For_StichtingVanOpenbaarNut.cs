@@ -41,7 +41,7 @@ public class With_KboNummer_For_StichtingVanOpenbaarNut : With_KboNummer_For_Sup
 
         using (new AssertionScope())
         {
-            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Vlaamse Liga tegen Kanker");
+            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam.Should().Be("Kom op tegen Kanker");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam.Should().Be("V.L.K.");
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Should().Be(new DateOnly(year: 1989, month: 10, day: 03));
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm.Should().Be(Verenigingstype.StichtingVanOpenbaarNut.Code);
