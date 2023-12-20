@@ -25,7 +25,7 @@ public class V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Conta
             VCode = VCode,
             Naam = Naam,
             KorteNaam = "RDZ",
-            KboNummer = "7981199887",
+            KboNummer = "7981199845",
             Rechtsvorm = Verenigingstype.VZW.Code,
         };
 

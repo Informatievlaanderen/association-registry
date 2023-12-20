@@ -1,3 +1,20 @@
+# [8.39.0](https://github.com/informatievlaanderen/association-registry/compare/v8.38.0...v8.39.0) (2023-12-20)
+
+
+### Features
+
+* or-2013 add correlationId to session ([6f388fe](https://github.com/informatievlaanderen/association-registry/commit/6f388fea0dafa21aa905278fea1483e76dd298a7))
+* or-2013 add initiator to otel tracing ([1e30b81](https://github.com/informatievlaanderen/association-registry/commit/1e30b81033cd90feaf7765ce83e51cb9fe0084b8))
+* or-2013 use lightweight session io obsolete method ([29ee136](https://github.com/informatievlaanderen/association-registry/commit/29ee136e752f14d296cfd1331c1e56a386293b46))
+
+# [8.38.0](https://github.com/informatievlaanderen/association-registry/compare/v8.37.0...v8.38.0) (2023-12-20)
+
+
+### Features
+
+* or-2006 make kbo numbers unique in tests; fix vlk; ([cb8f541](https://github.com/informatievlaanderen/association-registry/commit/cb8f541872f476839af644dd9cdb21521405c910))
+* or-2006 simple solution for or-2006 ([4f49efe](https://github.com/informatievlaanderen/association-registry/commit/4f49efe6909e922e979f8f4d18c973d7a8429da4))
+
 # [8.37.0](https://github.com/informatievlaanderen/association-registry/compare/v8.36.1...v8.37.0) (2023-12-18)
 
 

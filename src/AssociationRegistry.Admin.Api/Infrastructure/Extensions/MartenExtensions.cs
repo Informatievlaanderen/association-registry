@@ -48,9 +48,6 @@ public static class MartenExtensions
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-
-                    // serviceProvider.GetRequiredService<IDatabaseInitializer>()
-                    //                .InitializeDatabase(opts);
                 }
                 else
                 {

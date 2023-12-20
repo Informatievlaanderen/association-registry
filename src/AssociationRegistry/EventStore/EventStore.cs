@@ -20,13 +20,19 @@ public class EventStore : IEventStore
         _documentStore = documentStore;
     }
 
-    public async Task<StreamActionResult> Save(string aggregateId, CommandMetadata metadata, CancellationToken cancellationToken = default, params IEvent[] events)
+    public async Task<StreamActionResult> Save(
+        string aggregateId,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default,
+        params IEvent[] events)
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         try
         {
             SetHeaders(metadata, session);
+
+            TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());
 
             var streamAction = AppendEvents(session, aggregateId, events, metadata.ExpectedVersion);
 
@@ -40,10 +46,20 @@ public class EventStore : IEventStore
         }
     }
 
-    private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)
+    private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
+    {
+        if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
+            session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
+    }
+
+    private static StreamAction AppendEvents(
+        IDocumentSession session,
+        string aggregateId,
+        IReadOnlyCollection<IEvent> events,
+        long? expectedVersion)
     {
         if (expectedVersion is not null)
-            return session.Events.Append(stream: aggregateId, expectedVersion: expectedVersion.Value + events.Count, events: events);
+            return session.Events.Append(aggregateId, expectedVersion.Value + events.Count, events);
 
         return session.Events.Append(aggregateId, events);
     }
@@ -52,6 +68,7 @@ public class EventStore : IEventStore
     {
         session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        session.CorrelationId = metadata.CorrelationId.ToString();
     }
 
     private static bool IsEventFromDigitaalVlaanderen(Type eventType)
@@ -65,7 +82,7 @@ public class EventStore : IEventStore
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         return await session.Events.AggregateStreamAsync<T>(id) ??
                throw new AggregateNotFoundException(id, typeof(T));
@@ -73,7 +90,7 @@ public class EventStore : IEventStore
 
     public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         var id = (await session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
                                .Where(geregistreerd => geregistreerd.KboNummer == kboNummer)

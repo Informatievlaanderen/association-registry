@@ -29,7 +29,7 @@ public class V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inva
             VCode = VCode,
             Naam = Naam,
             KorteNaam = "RDZ",
-            KboNummer = "7981199887",
+            KboNummer = "7981199830",
         };
 
         MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo = new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(

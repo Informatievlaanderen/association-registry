@@ -13,6 +13,8 @@ using System.Reflection;
 
 public static class ServiceCollectionExtensions
 {
+    private const string VrInitiatorHeaderName = "VR-Initiator";
+
     public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
     {
         var (serviceName, collectorUrl, configureResource) = GetResources();
@@ -34,7 +36,7 @@ public static class ServiceCollectionExtensions
 
         return services.AddTracking(configureResource, collectorUrl, serviceName)
                        .AddLogging(configureResource, collectorUrl)
-                       .AddMetrics(configureResource, collectorUrl, builder =>
+                       .AddMetrics(configureResource, collectorUrl, extraConfig: builder =>
                         {
                             foreach (var instrumentation in instrumentations)
                             {
@@ -108,6 +110,7 @@ public static class ServiceCollectionExtensions
     {
         return services.AddOpenTelemetryTracing(
             builder =>
+            {
                 builder
                    .AddSource(serviceName)
                    .ConfigureResource(configureResource).AddHttpClientInstrumentation()
@@ -115,7 +118,11 @@ public static class ServiceCollectionExtensions
                         options =>
                         {
                             options.EnrichWithHttpRequest =
-                                (activity, request) => activity.SetParentId(request.Headers["traceparent"]);
+                                (activity, request) =>
+                                {
+                                    activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
+                                    activity.SetParentId(request.Headers["traceparent"]);
+                                };
 
                             options.Filter = context => context.Request.Method != HttpMethods.Options;
                         })
@@ -126,7 +133,8 @@ public static class ServiceCollectionExtensions
                             options.Protocol = OtlpExportProtocol.Grpc;
                             options.Endpoint = new Uri(collectorUrl);
                         })
-                   .AddSource("Wolverine"));
+                   .AddSource("Wolverine");
+            });
     }
 
     private static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()
