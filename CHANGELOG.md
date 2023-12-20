@@ -1,3 +1,10 @@
+# [8.40.0](https://github.com/informatievlaanderen/association-registry/compare/v8.39.0...v8.40.0) (2023-12-20)
+
+
+### Features
+
+* or-2013 add initiator to otel tracing via middleware ([95a1dc1](https://github.com/informatievlaanderen/association-registry/commit/95a1dc12c6e93d250883c8000a8edb6a1a729164))
+
 # [8.39.0](https://github.com/informatievlaanderen/association-registry/compare/v8.38.0...v8.39.0) (2023-12-20)
 
 
