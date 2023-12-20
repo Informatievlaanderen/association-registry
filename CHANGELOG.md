@@ -1,3 +1,11 @@
+# [8.38.0](https://github.com/informatievlaanderen/association-registry/compare/v8.37.0...v8.38.0) (2023-12-20)
+
+
+### Features
+
+* or-2006 make kbo numbers unique in tests; fix vlk; ([cb8f541](https://github.com/informatievlaanderen/association-registry/commit/cb8f541872f476839af644dd9cdb21521405c910))
+* or-2006 simple solution for or-2006 ([4f49efe](https://github.com/informatievlaanderen/association-registry/commit/4f49efe6909e922e979f8f4d18c973d7a8429da4))
+
 # [8.37.0](https://github.com/informatievlaanderen/association-registry/compare/v8.36.1...v8.37.0) (2023-12-18)
 
 
