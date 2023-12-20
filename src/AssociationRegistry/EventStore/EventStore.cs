@@ -40,6 +40,7 @@ public class EventStore : IEventStore
 
             return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
         }
+
         catch (EventStreamUnexpectedMaxEventIdException)
         {
             throw new UnexpectedAggregateVersionException();
@@ -49,7 +50,20 @@ public class EventStore : IEventStore
     private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
-            session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
+        {
+            try
+            {
+                session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
+            }
+            catch (ExistingStreamIdCollisionException existingStreamIdCollisionException)
+            {
+                var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = (VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)session.Events.FetchStream(evnt.KboNummer).First();
+
+                return verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
+            }
+        }
+
+        return null;
     }
 
     private static StreamAction AppendEvents(IDocumentSession session, string aggregateId, IReadOnlyCollection<IEvent> events, long? expectedVersion)

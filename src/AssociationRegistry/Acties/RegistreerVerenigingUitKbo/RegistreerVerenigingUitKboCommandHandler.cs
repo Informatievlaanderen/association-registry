@@ -3,6 +3,7 @@
 using DuplicateVerenigingDetection;
 using Framework;
 using Kbo;
+using Marten.Exceptions;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -58,6 +59,9 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (duplicateResult.IsFailure()) return duplicateResult;
 
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
+
+        if(result.HasException && result.Exception is ExistingStreamIdCollisionException)
+            return DuplicateKboFound.WithVcode(v!)
 
         return Result.Success(CommandResult.Create(vCode, result));
     }
