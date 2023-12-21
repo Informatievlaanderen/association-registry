@@ -1,11 +1,11 @@
 FROM public.ecr.aws/aws-cli/aws-cli:2.15.2
 
-RUN yum install -y bash
+LABEL maintainer="Digitaal Vlaanderen <digitaal.vlaanderen@vlaanderen.be>"
+LABEL registry="association-registry"
 
+COPY .aws/ /app
 WORKDIR /app
 
-COPY scripts/ecs-desired-count.sh .
+RUN yum install -y bash
 
-RUN chmod +x ./ecs-desired-count.sh
-
-ENTRYPOINT ["./ecs-desired-count.sh"]
+ENTRYPOINT ["./init.sh"]
