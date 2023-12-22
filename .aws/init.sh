@@ -57,6 +57,7 @@ for serviceArn in $SERVICES; do
     echo "Downscaled desired count for service $serviceArn"
 done
 
+# Clear DynamoDB Locks
 DYNAMODB_TABLES=`aws dynamodb list-tables --query TableNames[]`
 echo "Found DynamoDB tables: $DYNAMODB_TABLES"
 DYNAMODB_TABLES=`aws dynamodb list-tables --query TableNames[] --output text`
@@ -70,6 +71,33 @@ for tableName in $DYNAMODB_TABLES; do
         fi
     fi
 done
+
+# Clear Elasticsearch Indices
+# Elasticsearch endpoint
+ES_ENDPOINT="${ES_HOST}"
+
+# Authentication credentials from environment variables
+ES_USERNAME="${ES_USERNAME}"
+ES_PASSWORD="${ES_PASSWORD}"
+
+# Base64 encode the credentials
+AUTH=$(echo -n "$ES_USERNAME:$ES_PASSWORD" | base64)
+
+# Query Elasticsearch for indices starting with 'verenigingsregister-'
+INDICES=$(curl -s -X GET "$ES_ENDPOINT/_cat/indices/verenigingsregister-*?h=index" -H "Authorization: Basic $AUTH")
+
+echo "Found ElasticSearch indices: $INDICES"
+
+# Loop through the indices and delete them
+for index in $INDICES; do
+    echo "Deleting index: $index"
+    RESPONSE=$(curl -s -X DELETE "$ES_ENDPOINT/$index" -H "Authorization: Basic $AUTH")
+    echo "Response: $RESPONSE"
+done
+
+echo "Deletion process completed."
+
+# Reset database
 
 # Restore original desired counts
 for service in $SERVICES; do

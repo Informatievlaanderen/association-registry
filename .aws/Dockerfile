@@ -6,6 +6,6 @@ LABEL registry="association-registry"
 COPY .aws/ /app
 WORKDIR /app
 
-RUN yum install -y bash
+RUN yum install -y bash curl
 
 ENTRYPOINT ["./init.sh"]
