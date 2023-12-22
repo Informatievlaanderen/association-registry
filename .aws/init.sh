@@ -30,6 +30,27 @@ wait_for_desired_count() {
 #     exit 1
 # fi
 
+cleanup() {
+    # Restore original desired counts
+    for service in $SERVICES; do
+        original_count=${original_counts["$service"]}
+        update_service_count "$CLUSTER_ARN" "$service" $original_count
+        echo "Restored desired count for service $serviceArn: $original_count"
+    done
+
+    for service in $SERVICES; do
+        original_count=${original_counts["$service"]}
+        wait_for_desired_count "$CLUSTER_ARN" "$service" $original_count
+        echo "Desired count restored for service $serviceArn: $original_count"
+    done
+
+    echo ""
+    echo "Done."
+}
+
+# Set trap to call cleanup function on exit
+trap cleanup EXIT
+
 # Disable CLI paging for this script
 export AWS_PAGER=""
 
@@ -99,16 +120,3 @@ echo "Deletion process completed."
 
 # Reset database
 
-# Restore original desired counts
-for service in $SERVICES; do
-    original_count=${original_counts["$service"]}
-    update_service_count "$CLUSTER_ARN" "$service" $original_count
-    echo "Restored desired count for service $serviceArn: $original_count"
-done
-
-for service in $SERVICES; do
-    update_service_count "$CLUSTER_ARN" "$service" 1
-done
-
-echo ""
-echo "Done."
