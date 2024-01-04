@@ -118,9 +118,6 @@ wait_for_desired_count() {
 
 # echo "Deletion process completed."
 
-POSTGRES_USERNAME="root"
-POSTGRES_PASSWORD="root"
-
 # Reset database
-psql -U $POSTGRES_USERNAME -d postgres -f db-recreate.sql -W $POSTGRES_PASSWORD
-psql -U $POSTGRES_USERNAME -d verenigingsregister -f db-privilege-grants.sql -W $POSTGRES_PASSWORD
+PGPASSFILE=/root/.pgpass psql -h $PG_HOST -d $PG_DB -U $PG_USERNAME -f 1.db-recreate.sql
+PGPASSFILE=/root/.pgpass psql -h $PG_HOST -d $PG_DB -U $PG_USERNAME -f 2.db-privilege-grants.sql
