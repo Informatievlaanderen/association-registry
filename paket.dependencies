@@ -54,6 +54,7 @@ nuget Be.Vlaanderen.Basisregisters.DataDog.Tracing.Sql 5.0.0
 nuget Be.Vlaanderen.Basisregisters.DataDog.Tracing.SqlStreamStore 5.0.0
 
 nuget Destructurama.JsonNet 2.0.0
+nuget HtmlSanitizer
 
 // FIX SWASHBUCKLE ASSEMBLY VERSION MISMATCH
 nuget Swashbuckle.AspNetCore.SwaggerGen 6.3.0
@@ -133,3 +134,5 @@ group Testing
   nuget Microsoft.Extensions.Configuration.Json 6.0.0
 
   nuget Microsoft.Extensions.DependencyInjection 6.0.0
+  nuget System.Collections.Immutable ~> 7.0
+

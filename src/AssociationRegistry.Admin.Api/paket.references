@@ -4,17 +4,13 @@ Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
 
-IdentityModel.AspNetCore.OAuth2Introspection
-Microsoft.AspNetCore.Authentication.JwtBearer
-
 AspNetCore.HealthChecks.SqlServer
-
-SourceLink.Embed.AllSourceFiles
-SourceLink.Copy.PdbFiles
-
-NEST
-
-
+HtmlSanitizer
+IdentityModel.AspNetCore.OAuth2Introspection
 Marten
 Marten.CommandLine
+Microsoft.AspNetCore.Authentication.JwtBearer
+NEST
+SourceLink.Embed.AllSourceFiles
+SourceLink.Copy.PdbFiles
 WolverineFx
