@@ -20,10 +20,12 @@ public class RegistreerFeitelijkeVerenigingRequest
 
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember]
+    [NoHtml]
     public string? KorteNaam { get; set; }
 
     /// <summary>Korte beschrijving van de vereniging</summary>
     [DataMember]
+    [NoHtml]
     public string? KorteBeschrijving { get; set; }
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
@@ -56,6 +58,7 @@ public class RegistreerFeitelijkeVerenigingRequest
 
     /// <summary>De codes van de hoofdactivititeiten volgens het verenigingsloket</summary>
     [DataMember]
+    [NoHtml]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
     public RegistreerFeitelijkeVerenigingCommand ToCommand()
