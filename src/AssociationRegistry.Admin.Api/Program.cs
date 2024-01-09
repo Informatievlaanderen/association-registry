@@ -263,7 +263,6 @@ public class Program
     private static void ConfigureMiddleware(IApplicationBuilder app)
     {
         app
-           .UseMiddleware<NoHtmlMiddleware>()
            .UseMiddleware<EnableRequestRewindMiddleware>()
            .UseMiddleware<CorrelationIdMiddleware>()
            .UseMiddleware<AddCorrelationIdToLogContextMiddleware>()

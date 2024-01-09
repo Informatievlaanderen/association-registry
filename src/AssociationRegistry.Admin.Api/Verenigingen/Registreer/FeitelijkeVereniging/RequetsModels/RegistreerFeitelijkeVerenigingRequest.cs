@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereni
 
 using Acties.RegistreerFeitelijkeVereniging;
 using Common;
+using Infrastructure.HtmlValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ public class RegistreerFeitelijkeVerenigingRequest
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]
+    [NoHtml]
     public string Naam { get; set; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>

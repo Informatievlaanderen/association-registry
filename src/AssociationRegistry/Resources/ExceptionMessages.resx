@@ -196,4 +196,7 @@
   <data name="UnexpectedAggregateVersion" xml:space="preserve">
     <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
+  <data name="UnsupportedContent">
+    <value>Deze waarde bevat niet toegestane tekens.</value>
+  </data>
 </root>
