@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using Infrastructure.HtmlValidation;
 using Infrastructure.Swagger;
 using System.Runtime.Serialization;
 using Vereniging;
@@ -16,16 +17,19 @@ public class ToeTeVoegenContactgegeven
     [SwaggerParameterExample("Telefoon")]
     [SwaggerParameterExample("Website")]
     [DataMember(Name = "contactgegeventype")]
+    [NoHtml]
     public string Contactgegeventype { get; set; } = null!;
 
     /// <summary>De waarde van het contactgegeven</summary>
     [DataMember(Name = "waarde")]
+    [NoHtml]
     public string Waarde { get; set; } = null!;
 
     /// <summary>
     ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "beschrijving")]
+    [NoHtml]
     public string? Beschrijving { get; set; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
