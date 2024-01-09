@@ -7,6 +7,16 @@ services:
     ports:
       - "5051:80"
 
+  seq:
+    image: datalust/seq
+    restart: always
+    ports:
+      - "9580:80"
+    environment:
+      ACCEPT_EULA: Y
+    volumes:
+      - seq-data:/data
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
     ports:
@@ -56,3 +66,4 @@ services:
 volumes:
   pg-data:
   es-data:
+  seq-data:
