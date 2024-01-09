@@ -83,20 +83,28 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ => new RegistreerFeitelijkeVerenigingRequest
+                _ =>
                 {
-                    Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
-                    Startdatum = fixture.Create<Datum>(),
-                    Naam = fixture.Create<string>(),
-                    Doelgroep = fixture.Create<DoelgroepRequest>(),
-                    Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
-                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                               .Select(x => x.Code)
-                                                               .Distinct()
-                                                               .ToArray(),
-                    KorteBeschrijving = fixture.Create<string>(),
-                    KorteNaam = fixture.Create<string>(),
+                    var datum = fixture.Create<Datum>();
+                    var startDatum = new DateOnly(new Random().Next(1970, DateTime.Now.Year), datum.Value.Month, datum.Value.Day);
+                    var request = new RegistreerFeitelijkeVerenigingRequest();
+
+                    request.Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray();
+                    request.Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray();
+                    request.Startdatum = startDatum;
+                    request.Naam = fixture.Create<string>();
+                    request.Doelgroep = fixture.Create<DoelgroepRequest>();
+                    request.Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray();
+
+                    request.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                                       .Select(x => x.Code)
+                                                                       .Distinct()
+                                                                       .ToArray();
+
+                    request.KorteBeschrijving = fixture.Create<string>();
+                    request.KorteNaam = fixture.Create<string>();
+
+                    return request;
                 }).OmitAutoProperties());
     }
 

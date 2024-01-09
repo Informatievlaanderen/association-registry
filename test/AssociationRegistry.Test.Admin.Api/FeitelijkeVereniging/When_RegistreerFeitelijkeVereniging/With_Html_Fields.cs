@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
+using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
 using Framework;
@@ -24,12 +26,19 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
         yield return new object[] { request1 };
 
         var request2 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request2.HoofdactiviteitenVerenigingsloket = new[] { "<script>alert(\"HELP!\")</script>" };
+        request2.HoofdactiviteitenVerenigingsloket = new[] { "<script>alert('HELP!')</script>" };
 
         yield return new object[] { request2 };
 
         var request3 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request3.KorteNaam = "<a href=\"http://www/example.org\">Click here</a>";
+        request3.KorteNaam = "<a href='http://www/example.org'>Click here</a>";
+
+        var request4 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+        var contactgegeven = autoFixture.Create<ToeTeVoegenContactgegeven>();
+        contactgegeven.Beschrijving = "<pre></pre>";
+        request4.Contactgegevens = request4.Contactgegevens.Append(contactgegeven).ToArray();
+
+        yield return new object[] { request4 };
 
         yield return new object[] { request3 };
     }
@@ -56,6 +65,8 @@ public class With_Html_Fields
     {
         var response = await _fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(request));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var body = JsonConvert.DeserializeObject<ValidationProblemDetails>(await response.Content.ReadAsStringAsync());
+        body.ValidationErrors.Should().ContainKey(ExceptionMessages.UnsupportedContent); // TODO: OF EEN ANDER VELD
     }
 
     private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)
