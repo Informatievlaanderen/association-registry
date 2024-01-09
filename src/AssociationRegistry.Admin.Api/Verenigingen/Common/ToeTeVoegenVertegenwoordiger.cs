@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using Infrastructure.HtmlValidation;
 using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.TelefoonNummers;
@@ -12,22 +13,27 @@ public class ToeTeVoegenVertegenwoordiger
     /// Dit is de unieke identificatie van een vertegenwoordiger, dit kan een rijksregisternummer of bisnummer zijn
     /// </summary>
     [DataMember]
+    [NoHtml]
     public string Insz { get; set; } = null!;
 
     /// <summary>De voornaam van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string Voornaam { get; set; } = null!;
 
     /// <summary>De achternaam van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string Achternaam { get; set; } = null!;
 
     /// <summary>Dit is de rol van de vertegenwoordiger binnen de vereniging</summary>
     [DataMember]
+    [NoHtml]
     public string? Rol { get; set; }
 
     /// <summary>Dit is de roepnaam van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string? Roepnaam { get; set; }
 
     /// <summary>
@@ -38,18 +44,22 @@ public class ToeTeVoegenVertegenwoordiger
 
     /// <summary>Het e-mailadres van de vertegenwoordiger</summary>
     [DataMember(Name = "E-mail")]
+    [NoHtml]
     public string? Email { get; set; }
 
     /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string? Telefoon { get; set; }
 
     /// <summary>Het mobiel nummer van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string? Mobiel { get; set; }
 
     /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
     [DataMember]
+    [NoHtml]
     public string? SocialMedia { get; set; }
 
     public static Vertegenwoordiger Map(ToeTeVoegenVertegenwoordiger vert)

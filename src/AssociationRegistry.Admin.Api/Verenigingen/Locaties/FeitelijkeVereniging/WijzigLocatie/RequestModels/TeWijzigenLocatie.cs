@@ -3,6 +3,7 @@
 using System.Runtime.Serialization;
 using Acties.WijzigLocatie;
 using Common;
+using Infrastructure.HtmlValidation;
 
 /// <summary>Een locatie van een vereniging</summary>
 [DataContract]
@@ -16,6 +17,7 @@ public class TeWijzigenLocatie
     ///     - Correspondentie - Slechts één maal mogelijk<br />
     /// </summary>
     [DataMember]
+    [NoHtml]
     public string? Locatietype { get; set; } = null!;
 
     /// <summary>Duidt aan dat dit de primaire locatie is</summary>
@@ -24,6 +26,7 @@ public class TeWijzigenLocatie
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
+    [NoHtml]
     public string? Naam { get; set; }
 
     /// <summary>De unieke identificator van het adres in een andere bron</summary>

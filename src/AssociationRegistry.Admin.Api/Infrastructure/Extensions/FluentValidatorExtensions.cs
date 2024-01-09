@@ -11,7 +11,10 @@ using System.Text.RegularExpressions;
 
 public static class FluentValidatorExtensions
 {
-    public static async Task NullValidateAndThrowAsync<T>(this IValidator<T> validator, [NotNull] T? instance, CancellationToken cancellationToken = default)
+    public static async Task NullValidateAndThrowAsync<T>(
+        this IValidator<T> validator,
+        [NotNull] T? instance,
+        CancellationToken cancellationToken = default)
     {
         if (instance is null) throw new CouldNotParseRequestException();
 
@@ -19,6 +22,7 @@ public static class FluentValidatorExtensions
         await validator.ValidateAndThrowAsync(instance, cancellationToken);
     }
 }
+
 public class NoHtmlValidator<T> : AbstractValidator<T>
 {
     public NoHtmlValidator()
@@ -28,20 +32,30 @@ public class NoHtmlValidator<T> : AbstractValidator<T>
 
         foreach (var property in propertiesWithNoHtml)
         {
-            RuleFor(model => GetPropertyValue(model, property.Name))
-               .Must(BeNoHtml)
-               .WithMessage(ExceptionMessages.UnsupportedContent)
-               .When(model => property.GetValue(model) != null);
+            if (property.PropertyType == typeof(string))
+            {
+                RuleFor(model => GetPropertyValue(model, property.Name) as string)
+                   .Must(BeNoHtml!)
+                   .WithMessage(ExceptionMessages.UnsupportedContent)
+                   .When(model => GetPropertyValue(model, property.Name) != null);
+            }
+            else if (property.PropertyType == typeof(string[]))
+            {
+                RuleForEach(model => GetPropertyValue(model, property.Name) as string[])
+                   .Must(BeNoHtml!)
+                   .WithMessage(ExceptionMessages.UnsupportedContent)
+                   .When(model => GetPropertyValue(model, property.Name) != null);
+            }
         }
     }
 
-    private static string GetPropertyValue(T model, string propertyName)
+    private static object? GetPropertyValue(T model, string propertyName)
     {
         var property = typeof(T).GetProperty(propertyName);
-        return property?.GetValue(model) as string;
+
+        return property?.GetValue(model);
     }
 
     private static bool BeNoHtml(string propertyValue)
-        => Regex.IsMatch(propertyValue, "<.*?>");
+        => !Regex.IsMatch(propertyValue, "<.*?>");
 }
-
