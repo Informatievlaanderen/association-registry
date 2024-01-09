@@ -27,6 +27,8 @@ public class NoHtmlValidator<T> : AbstractValidator<T>
 {
     public NoHtmlValidator()
     {
+        // TODO: nested
+        // TODO: es kijken naar 'I <3 <Programming>' als waarde?
         var propertiesWithNoHtml = typeof(T).GetProperties()
                                             .Where(p => p.GetCustomAttributes(typeof(NoHtmlAttribute), false).Any());
 
@@ -43,6 +45,7 @@ public class NoHtmlValidator<T> : AbstractValidator<T>
             {
                 RuleForEach(model => GetPropertyValue(model, property.Name) as string[])
                    .Must(BeNoHtml!)
+                   .WithName(property.Name)
                    .WithMessage(ExceptionMessages.UnsupportedContent)
                    .When(model => GetPropertyValue(model, property.Name) != null);
             }
