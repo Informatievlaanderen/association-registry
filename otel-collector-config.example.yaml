@@ -6,6 +6,9 @@ receivers:
 exporters:
   logging:
 
+  otlphttp:
+    endpoint: http://seq/ingest/otlp
+
 processors:
   batch:
 
@@ -22,4 +25,4 @@ service:
     logs:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ logging ]
+      exporters: [ logging, otlphttp ]
