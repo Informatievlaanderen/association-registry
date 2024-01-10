@@ -21,7 +21,25 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         var request1 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request1.Naam = $"<h1>{autoFixture.Create<string>()}</h1>";
+
+        // request1.Naam = $"<h1>{autoFixture.Create<string>()}</h1>";
+        request1.Contactgegevens = new ToeTeVoegenContactgegeven[]
+        {
+            new()
+            {
+                Beschrijving = $"<h2>{autoFixture.Create<string>()}</h2>",
+                Contactgegeventype = "Mumbo Jumbo",
+                Waarde = "<span>Test</span>",
+                IsPrimair = false,
+            },
+            new()
+            {
+                Beschrijving = $"<h2>{autoFixture.Create<string>()}</h2>",
+                Contactgegeventype = $"<h3>{autoFixture.Create<string>()}</h3>",
+                Waarde = "Test",
+                IsPrimair = false,
+            },
+        };
 
         yield return new object[] { request1 };
 

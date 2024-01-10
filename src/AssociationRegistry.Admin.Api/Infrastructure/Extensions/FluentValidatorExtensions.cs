@@ -1,13 +1,16 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using ExceptionHandlers;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentValidation;
 using HtmlValidation;
-using System.Linq;
+using JasperFx.Core.Reflection;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 public static class FluentValidatorExtensions
 {
@@ -18,38 +21,70 @@ public static class FluentValidatorExtensions
     {
         if (instance is null) throw new CouldNotParseRequestException();
 
-        await new NoHtmlValidator<T>().ValidateAndThrowAsync(instance, cancellationToken: cancellationToken);
+        await new NoHtmlValidator<T>().ValidateAndThrowAsync(instance, cancellationToken);
         await validator.ValidateAndThrowAsync(instance, cancellationToken);
     }
 }
 
 public class NoHtmlValidator<T> : AbstractValidator<T>
 {
+    private const string TO_BE_STRIPPED_PREFIX = "to-be-stripped-request-prefix";
+
     public NoHtmlValidator()
     {
         // TODO: nested
         // TODO: es kijken naar 'I <3 <Programming>' als waarde?
-        var propertiesWithNoHtml = typeof(T).GetProperties()
-                                            .Where(p => p.GetCustomAttributes(typeof(NoHtmlAttribute), false).Any());
+        RecursivelyApplyRule(typeof(T), TO_BE_STRIPPED_PREFIX);
+    }
 
-        foreach (var property in propertiesWithNoHtml)
+    private void RecursivelyApplyRule(Type type, string propertyName)
+    {
+        var props = type.GetProperties();
+
+        foreach (var prop in props)
         {
-            if (property.PropertyType == typeof(string))
+            var currentPropertyName = $"{propertyName}.{prop.Name}";
+
+            if (prop.HasAttribute<NoHtmlAttribute>())
             {
-                RuleFor(model => GetPropertyValue(model, property.Name) as string)
-                   .Must(BeNoHtml!)
-                   .WithMessage(ExceptionMessages.UnsupportedContent)
-                   .When(model => GetPropertyValue(model, property.Name) != null);
+                ApplyRuleFor(prop, currentPropertyName);
             }
-            else if (property.PropertyType == typeof(string[]))
+            else if (prop.PropertyType.IsArray)
             {
-                RuleForEach(model => GetPropertyValue(model, property.Name) as string[])
-                   .Must(BeNoHtml!)
-                   .WithName(property.Name)
-                   .WithMessage(ExceptionMessages.UnsupportedContent)
-                   .When(model => GetPropertyValue(model, property.Name) != null);
+                if (prop.PropertyType.IsClass)
+                    RecursivelyApplyRule(prop.PropertyType, currentPropertyName);
+                else
+                    ApplyRuleForEach(prop, currentPropertyName);
+            }
+            else if (prop.PropertyType.IsClass)
+            {
+                RecursivelyApplyRule(prop.PropertyType, currentPropertyName);
             }
         }
+    }
+
+    private void ApplyRuleFor(PropertyInfo prop, string propertyName)
+    {
+        if (prop.PropertyType == typeof(string))
+            RuleFor(model => GetPropertyValue(model, prop.Name) as string)
+               .Cascade(CascadeMode.Continue)
+               .Must(BeNoHtml!)
+               .WithName(propertyName.Replace($"{TO_BE_STRIPPED_PREFIX}.", newValue: ""))
+               .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+               .WithMessage(ExceptionMessages.UnsupportedContent)
+               .When(model => GetPropertyValue(model, prop.Name) != null);
+    }
+
+    private void ApplyRuleForEach(PropertyInfo prop, string propertyName)
+    {
+        if (prop.PropertyType == typeof(string[]))
+            RuleForEach(model => Convert.ChangeType(GetPropertyValue(model, prop.Name), prop.PropertyType) as string[])
+               .Cascade(CascadeMode.Continue)
+               .Must(BeNoHtml!)
+               .WithName(propertyName.Replace($"{TO_BE_STRIPPED_PREFIX}.", newValue: ""))
+               .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+               .WithMessage(ExceptionMessages.UnsupportedContent)
+               .When(model => GetPropertyValue(model, prop.Name) != null);
     }
 
     private static object? GetPropertyValue(T model, string propertyName)
@@ -60,5 +95,5 @@ public class NoHtmlValidator<T> : AbstractValidator<T>
     }
 
     private static bool BeNoHtml(string propertyValue)
-        => !Regex.IsMatch(propertyValue, "<.*?>");
+        => !Regex.IsMatch(propertyValue, pattern: "<.*?>");
 }
