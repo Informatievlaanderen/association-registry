@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using Infrastructure.HtmlValidation;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
@@ -27,15 +26,15 @@ public class DuplicaatVerenigingContract
     }
 
     /// <summary>De unieke identificatie code van deze vereniging</summary>
-    [DataMember(Name = "VCode")] [NoHtml]
+    [DataMember(Name = "VCode")]
     public string VCode { get; init; }
 
     /// <summary>Naam van de vereniging</summary>
-    [DataMember(Name = "Naam")] [NoHtml]
+    [DataMember(Name = "Naam")]
     public string Naam { get; init; }
 
     /// <summary>Korte naam van de vereniging</summary>
-    [DataMember(Name = "KorteNaam")] [NoHtml]
+    [DataMember(Name = "KorteNaam")]
     public string KorteNaam { get; init; }
 
     /// <summary>Type van de vereniging</summary>

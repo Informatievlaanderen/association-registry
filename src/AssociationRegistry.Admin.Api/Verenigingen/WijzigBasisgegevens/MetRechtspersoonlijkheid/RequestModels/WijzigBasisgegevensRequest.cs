@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 
+using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using Common;
 using System.Linq;
 using System.Runtime.Serialization;
-using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
-using Common;
-using Infrastructure.HtmlValidation;
 using Vereniging;
 
 [DataContract]
@@ -12,7 +11,6 @@ public class WijzigBasisgegevensRequest
 {
     /// <summary>Nieuwe korte beschrijving van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? KorteBeschrijving { get; set; }
 
     /// <summary>
@@ -25,14 +23,12 @@ public class WijzigBasisgegevensRequest
     /// De codes van de nieuwe hoofdactiviteiten volgens het verenigingsloket
     /// </summary>
     [DataMember]
-    [NoHtml]
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
     /// <summary>
     /// De nieuwe roepnaam van de vereniging
     /// </summary>
     [DataMember]
-    [NoHtml]
     public string? Roepnaam { get; set; }
 
     public WijzigBasisgegevensCommand ToCommand(string vCode)

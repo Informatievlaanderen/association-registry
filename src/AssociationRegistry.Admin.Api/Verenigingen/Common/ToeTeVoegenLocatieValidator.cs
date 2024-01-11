@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using FluentValidation;
+using Infrastructure.Extensions;
+using Infrastructure.Validation;
 using System;
 using System.Linq;
-using Infrastructure.Validation;
-using FluentValidation;
 using Vereniging;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
@@ -11,6 +12,9 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
     public ToeTeVoegenLocatieValidator()
     {
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
+
+        RuleFor(locatie => locatie.Naam).MustNotContainHtml();
+        RuleFor(locatie => locatie.Locatietype).MustNotContainHtml();
 
         RuleFor(locatie => locatie.Locatietype)
            .Must(BeAValidLocationTypeValue)
@@ -49,6 +53,6 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         => new
         {
             l.Locatietype, l.Naam, l.Adres?.Straatnaam, l.Adres?.Huisnummer, l.Adres?.Busnummer, l.Adres?.Postcode, l.Adres?.Gemeente,
-            l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode
+            l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode,
         };
 }

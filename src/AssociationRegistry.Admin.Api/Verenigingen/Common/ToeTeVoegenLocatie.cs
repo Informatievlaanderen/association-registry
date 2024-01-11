@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using Infrastructure.HtmlValidation;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -16,7 +15,6 @@ public class ToeTeVoegenLocatie
     ///     - Correspondentie - Slechts één maal mogelijk<br />
     /// </summary>
     [DataMember]
-    [NoHtml]
     public string Locatietype { get; set; } = null!;
 
     /// <summary>Duidt aan dat dit de primaire locatie is</summary>
@@ -25,7 +23,6 @@ public class ToeTeVoegenLocatie
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
-    [NoHtml]
     public string? Naam { get; set; }
 
     /// <summary>De unieke identificator van het adres in een andere bron</summary>

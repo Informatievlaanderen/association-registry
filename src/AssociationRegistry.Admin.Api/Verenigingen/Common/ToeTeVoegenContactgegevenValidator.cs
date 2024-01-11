@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using FluentValidation;
+using Infrastructure.Extensions;
 using Infrastructure.Validation;
 using Vereniging;
 
@@ -10,6 +11,10 @@ public class ToeTeVoegenContactgegevenValidator : AbstractValidator<ToeTeVoegenC
     {
         this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Waarde);
         this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Contactgegeventype);
+
+        RuleFor(contactgegeven => contactgegeven.Beschrijving).MustNotContainHtml();
+        RuleFor(contactgegeven => contactgegeven.Contactgegeventype).MustNotContainHtml();
+        RuleFor(contactgegeven => contactgegeven.Waarde).MustNotContainHtml();
 
         RuleFor(contactgegeven => contactgegeven.Contactgegeventype)
            .Must(Contactgegeventype.CanParse)

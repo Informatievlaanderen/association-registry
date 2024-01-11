@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using DuplicateVerenigingDetection;
-using Infrastructure.HtmlValidation;
 using System.Runtime.Serialization;
 
 /// <summary>Een activiteit van een vereniging</summary>
@@ -25,6 +24,5 @@ public class Activiteit
 
     /// <summary>De categorie van deze activiteit</summary>
     [DataMember(Name = "Categorie")]
-    [NoHtml]
     public string Categorie { get; init; }
 }

@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.Feiteli
 
 using Acties.WijzigBasisgegevens;
 using Common;
-using Infrastructure.HtmlValidation;
 using Primitives;
 using System;
 using System.Linq;
@@ -14,17 +13,14 @@ public class WijzigBasisgegevensRequest
 {
     /// <summary>Nieuwe naam van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? Naam { get; set; }
 
     /// <summary>Nieuwe korte naam van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? KorteNaam { get; set; }
 
     /// <summary>Nieuwe korte beschrijving van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? KorteBeschrijving { get; set; }
 
     /// <summary>Nieuwe startdatum van de vereniging. Deze datum mag niet later zijn dan vandaag</summary>
@@ -41,7 +37,6 @@ public class WijzigBasisgegevensRequest
     /// De codes van de nieuwe hoofdactiviteiten volgens het verenigingsloket
     /// </summary>
     [DataMember]
-    [NoHtml]
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
     /// <summary>

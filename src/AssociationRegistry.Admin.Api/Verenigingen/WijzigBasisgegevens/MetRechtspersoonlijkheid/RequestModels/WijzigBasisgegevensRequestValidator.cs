@@ -1,10 +1,10 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
+namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 
-using System.Linq;
 using Common;
 using FluentValidation;
-using RequestModels;
+using Infrastructure.Extensions;
+using System.Linq;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -15,9 +15,9 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .OverridePropertyName("request")
            .WithMessage("Een request mag niet leeg zijn.");
 
-        RuleFor(request => request.Naam)
-           .Must(naam => naam?.Trim() is null or not "")
-           .WithMessage("'Naam' mag niet leeg zijn.");
+        RuleFor(request => request.Roepnaam).MustNotContainHtml();
+        RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
+        RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
            .Must(NotHaveDuplicates!)
@@ -33,11 +33,8 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
         => values.Length == values.DistinctBy(v => v.ToLower()).Count();
 
     private static bool HaveAtLeastOneValue(WijzigBasisgegevensRequest request)
-        => request.Naam is not null ||
-           request.KorteNaam is not null ||
-           request.KorteBeschrijving is not null ||
-           request.IsUitgeschrevenUitPubliekeDatastroom is not null ||
-           request.Startdatum is { IsNull: false } ||
-           request.Doelgroep is not null ||
-           request.HoofdactiviteitenVerenigingsloket is not null;
+        => request.KorteBeschrijving is not null ||
+           request.HoofdactiviteitenVerenigingsloket is not null ||
+           request.Roepnaam is not null ||
+           request.Doelgroep is not null;
 }

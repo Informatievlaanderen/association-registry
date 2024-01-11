@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using DuplicateVerenigingDetection;
 using Infrastructure.ConfigurationBindings;
-using Infrastructure.HtmlValidation;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
@@ -20,7 +19,6 @@ public class PotentialDuplicatesResponse
     /// <summary>Dit token wordt gebruikt als bevestiging dat de vereniging uniek is en geregistreerd mag worden,
     /// ondanks de voorgestelde duplicaten.</summary>
     [DataMember(Name = "BevestigingsToken")]
-    [NoHtml]
     public string BevestigingsToken { get; init; }
 
     /// <summary>Een lijst van verenigingen die mogelijks een duplicaat zijn
