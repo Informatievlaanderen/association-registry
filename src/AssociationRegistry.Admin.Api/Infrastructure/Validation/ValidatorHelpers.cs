@@ -4,6 +4,8 @@ using System;
 using System.Linq.Expressions;
 using FluentValidation;
 using FluentValidation.Internal;
+using Microsoft.AspNetCore.Http;
+using System.Text.RegularExpressions;
 
 public static class ValidatorHelpers
 {
@@ -35,4 +37,13 @@ public static class ValidatorHelpers
             .WithMessage($"'{expression.GetMember().Name}' moet 10 cijfers bevatten.")
             .When(request => !string.IsNullOrEmpty(expression.Compile().Invoke(request)));
     }
+
+    public static IRuleBuilder<T, string?> MustNotContainHtml<T>(this IRuleBuilder<T, string?> ruleBuilder)
+        => ruleBuilder
+          .Must(NotContainHtml)
+          .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+          .WithMessage(ExceptionMessages.UnsupportedContent);
+
+    private static bool NotContainHtml(string? propertyValue)
+        => propertyValue is null || !Regex.IsMatch(propertyValue, pattern: "<.*?>");
 }

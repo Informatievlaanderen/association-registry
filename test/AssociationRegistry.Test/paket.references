@@ -6,7 +6,6 @@ Be.Vlaanderen.Basisregisters.EventHandling.Autofac
 AutoFixture
 FluentAssertions
 FluentAssertions.Json
-HtmlSanitizer
 Marten
 Moq
 Microsoft.AspNetCore.Mvc.Testing

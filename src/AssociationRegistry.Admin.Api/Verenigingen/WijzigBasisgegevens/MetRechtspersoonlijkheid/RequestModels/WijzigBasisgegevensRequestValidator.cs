@@ -4,6 +4,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using Common;
 using FluentValidation;
 using Infrastructure.Extensions;
+using Infrastructure.Validation;
 using System.Linq;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
