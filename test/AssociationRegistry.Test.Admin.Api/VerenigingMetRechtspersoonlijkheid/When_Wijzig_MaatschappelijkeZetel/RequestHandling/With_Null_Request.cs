@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 using Fakes;
 using Framework;
 using Xunit;
@@ -17,7 +17,9 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new WijzigMaatschappelijkeZetelController(messageBusMock, new WijzigMaatschappelijkeZetelRequestValidator(),new AppSettings());
+
+        _controller = new WijzigMaatschappelijkeZetelController(messageBusMock, new WijzigMaatschappelijkeZetelRequestValidator(),
+                                                                new AppSettings());
     }
 
     [Fact]
@@ -25,10 +27,10 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(
-                "V0001001",
-                1,
-                null,
+                vCode: "V0001001",
+                locatieId: 1,
+                request: null,
                 new CommandMetadataProviderStub { Initiator = "OVO000001" },
-                "M/\"1\""));
+                ifMatch: "M/\"1\""));
     }
 }

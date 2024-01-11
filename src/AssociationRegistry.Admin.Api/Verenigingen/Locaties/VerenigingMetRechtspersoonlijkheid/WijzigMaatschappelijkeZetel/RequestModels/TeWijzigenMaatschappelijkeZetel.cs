@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 
 using Acties.WijzigMaatschappelijkeZetel;
-using Infrastructure.HtmlValidation;
 using System.Runtime.Serialization;
 
 [DataContract]
@@ -13,7 +12,6 @@ public class TeWijzigenMaatschappelijkeZetel
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
-    [NoHtml]
     public string? Naam { get; set; }
 
     public static WijzigMaatschappelijkeZetelCommand.Locatie Map(TeWijzigenMaatschappelijkeZetel locatie, int locatieId)

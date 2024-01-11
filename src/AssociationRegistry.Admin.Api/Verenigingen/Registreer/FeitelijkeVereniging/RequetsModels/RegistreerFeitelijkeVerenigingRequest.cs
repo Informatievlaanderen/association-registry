@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereni
 
 using Acties.RegistreerFeitelijkeVereniging;
 using Common;
-using Infrastructure.HtmlValidation;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,17 +14,14 @@ public class RegistreerFeitelijkeVerenigingRequest
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]
-    [NoHtml]
     public string Naam { get; set; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? KorteNaam { get; set; }
 
     /// <summary>Korte beschrijving van de vereniging</summary>
     [DataMember]
-    [NoHtml]
     public string? KorteBeschrijving { get; set; }
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
@@ -58,7 +54,6 @@ public class RegistreerFeitelijkeVerenigingRequest
 
     /// <summary>De codes van de hoofdactivititeiten volgens het verenigingsloket</summary>
     [DataMember]
-    [NoHtml]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
     public RegistreerFeitelijkeVerenigingCommand ToCommand()

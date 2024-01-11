@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestValidating;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
-using Framework;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,6 +13,6 @@ public class With_A_Locatie : ValidatorTest
     public void Uses_TeWijzigenMaatschappelijkeZetelValidator()
     {
         var validator = new WijzigMaatschappelijkeZetelRequestValidator();
-        validator.ShouldHaveChildValidator(request => request.Locatie, typeof(TeWijzigenMaatschappelijkeZetelValidator));
+        validator.ShouldHaveChildValidator(expression: request => request.Locatie, typeof(TeWijzigenMaatschappelijkeZetelValidator));
     }
 }

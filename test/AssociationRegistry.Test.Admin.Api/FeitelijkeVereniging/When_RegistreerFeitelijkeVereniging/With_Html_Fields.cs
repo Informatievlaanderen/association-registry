@@ -21,25 +21,7 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         var request1 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-
-        // request1.Naam = $"<h1>{autoFixture.Create<string>()}</h1>";
-        request1.Contactgegevens = new ToeTeVoegenContactgegeven[]
-        {
-            new()
-            {
-                Beschrijving = $"<h2>{autoFixture.Create<string>()}</h2>",
-                Contactgegeventype = "Mumbo Jumbo",
-                Waarde = "<span>Test</span>",
-                IsPrimair = false,
-            },
-            new()
-            {
-                Beschrijving = $"<h2>{autoFixture.Create<string>()}</h2>",
-                Contactgegeventype = $"<h3>{autoFixture.Create<string>()}</h3>",
-                Waarde = "Test",
-                IsPrimair = false,
-            },
-        };
+        request1.Naam = $"<h1>{autoFixture.Create<string>()}</h1>";
 
         yield return new object[] { request1 };
 
@@ -51,14 +33,18 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
         var request3 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
         request3.KorteNaam = "<a href='http://www/example.org'>Click here</a>";
 
+        yield return new object[] { request3 };
+
         var request4 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
         var contactgegeven = autoFixture.Create<ToeTeVoegenContactgegeven>();
+
         contactgegeven.Beschrijving = "<pre></pre>";
+        contactgegeven.Beschrijving = $"<h2>{autoFixture.Create<string>()}</h2>";
+        contactgegeven.Waarde = "<span>Test</span>";
+
         request4.Contactgegevens = request4.Contactgegevens.Append(contactgegeven).ToArray();
 
         yield return new object[] { request4 };
-
-        yield return new object[] { request3 };
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -83,8 +69,11 @@ public class With_Html_Fields
     {
         var response = await _fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(request));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
         var body = JsonConvert.DeserializeObject<ValidationProblemDetails>(await response.Content.ReadAsStringAsync());
-        body.ValidationErrors.Should().ContainKey(ExceptionMessages.UnsupportedContent); // TODO: OF EEN ANDER VELD
+
+        body.HttpStatus.Should().Be(400);
+        body.Detail.Should().ContainAny("Validatie mislukt!");
     }
 
     private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)

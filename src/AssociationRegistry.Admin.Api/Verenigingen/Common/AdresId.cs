@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using Infrastructure.HtmlValidation;
 using System.Runtime.Serialization;
 
 /// <summary>De unieke identificator van het adres in een andere bron</summary>
@@ -9,11 +8,9 @@ public class AdresId
 {
     /// <summary>De code van de bron van het adres</summary>
     [DataMember]
-    [NoHtml]
     public string Broncode { get; set; } = null!;
 
     /// <summary>De unieke identificator volgens de bron</summary>
     [DataMember]
-    [NoHtml]
     public string Bronwaarde { get; set; } = null!;
 }

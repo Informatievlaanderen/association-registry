@@ -1,12 +1,11 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
 using Common;
 using FluentValidation;
 using Framework;
-using Ganss.XSS;
+using Infrastructure.Extensions;
 using Infrastructure.Validation;
-using RequetsModels;
 using System;
 using System.Linq;
 using Vereniging.Exceptions;
@@ -20,9 +19,10 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
         _clock = clock;
         this.RequireNotNullOrEmpty(request => request.Naam);
 
-        RuleFor(request => request.Naam)
-           .Must(NotHaveHtmlMarkup)
-           .WithMessage("Er mogen geen HTML of JavaScript tags in de request opgenomen worden.");
+        RuleFor(request => request.Naam).MustNotContainHtml();
+        RuleFor(request => request.KorteNaam).MustNotContainHtml();
+        RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
+        RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
         RuleFor(request => request.Locaties)
            .Must(ToeTeVoegenLocatieValidator.NotHaveDuplicates)
@@ -57,14 +57,6 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
 
         RuleForEach(request => request.Vertegenwoordigers)
            .SetValidator(new ToeTeVoegenVertegenwoordigerValidator());
-    }
-
-    private bool NotHaveHtmlMarkup(string htmlCandidate)
-    {
-        var sanitizer = new HtmlSanitizer();
-        var output = sanitizer.Sanitize(htmlCandidate);
-
-        return htmlCandidate == output;
     }
 
     private bool BeTodayOrBefore(DateOnly? date)
