@@ -1,3 +1,23 @@
+# [8.41.0](https://github.com/informatievlaanderen/association-registry/compare/v8.40.0...v8.41.0) (2024-01-11)
+
+
+### Bug Fixes
+
+* or-2035 add more fields to check for html ([692f1f1](https://github.com/informatievlaanderen/association-registry/commit/692f1f1c622d7622b396f1af5608285417c6b541))
+* or-2035 fix registreer request, check extra field in validationproblemdetails ([099da7c](https://github.com/informatievlaanderen/association-registry/commit/099da7c4b3a87932adba99ada71202f85c950149))
+* OR-2035 recursively apply validation rules for requests and invalidate html fields ([cd8c545](https://github.com/informatievlaanderen/association-registry/commit/cd8c5450fd1f681cc85a23e57143fef6f4da7ac6))
+* remove middleware and generic rulebuilder with rulefor and ruleforeach in respective validators ([d25ef42](https://github.com/informatievlaanderen/association-registry/commit/d25ef42e06f811149c84a5b159dab275235de127))
+
+
+### Features
+
+* OR-2035 add more tests for string and string[] ([b2274ba](https://github.com/informatievlaanderen/association-registry/commit/b2274bab885c74e8f2a393fa38b22d5892ee4d0b))
+* or-2035 remove HtmlSanitizer ([709f6e8](https://github.com/informatievlaanderen/association-registry/commit/709f6e870ef5a90f6c6de8b5d6f814504739b667))
+* or-2035 wip: add property name to prevent exception ([c77601a](https://github.com/informatievlaanderen/association-registry/commit/c77601ac20dc865093e4091bcebe872ae069f06f))
+* or-2035 wip: add seq ([ac4024c](https://github.com/informatievlaanderen/association-registry/commit/ac4024cf412be8f690e58e8df499b23e3fceb2aa))
+* or-2035 wip: block html ([c21a120](https://github.com/informatievlaanderen/association-registry/commit/c21a1204f374554cad0234e24ef40414b2f7024d))
+* or-2035 wip: block html through attributes ([c21ad1a](https://github.com/informatievlaanderen/association-registry/commit/c21ad1a0863465f91f878de6ea6b7ff688aaf9da))
+
 # [8.40.0](https://github.com/informatievlaanderen/association-registry/compare/v8.39.0...v8.40.0) (2023-12-20)
 
 
