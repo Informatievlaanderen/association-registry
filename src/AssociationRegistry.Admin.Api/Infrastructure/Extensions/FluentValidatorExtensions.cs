@@ -19,12 +19,5 @@ public static class FluentValidatorExtensions
         await validator.ValidateAndThrowAsync(instance, cancellationToken);
     }
 
-    public static IRuleBuilder<T, string?> MustNotContainHtml<T>(this IRuleBuilder<T, string?> ruleBuilder)
-        => ruleBuilder
-          .Must(NotContainHtml)
-          .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
-          .WithMessage(ExceptionMessages.UnsupportedContent);
 
-    private static bool NotContainHtml(string? propertyValue)
-        => propertyValue is null ? true : !Regex.IsMatch(propertyValue, pattern: "<.*?>");
 }

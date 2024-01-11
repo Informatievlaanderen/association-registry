@@ -2,6 +2,7 @@
 
 using FluentValidation;
 using Infrastructure.Extensions;
+using Infrastructure.Validation;
 
 public class TeWijzigenVertegenwoordigerValidator : AbstractValidator<TeWijzigenVertegenwoordiger>
 {

@@ -5,7 +5,6 @@ Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
 
 AspNetCore.HealthChecks.SqlServer
-HtmlSanitizer
 IdentityModel.AspNetCore.OAuth2Introspection
 Marten
 Marten.CommandLine
