@@ -4,12 +4,12 @@ using Acties.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
 using AutoFixture;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -26,9 +26,10 @@ public class With_Valid_ETag : IAsyncLifetime
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _messageBusMock = new Mock<IMessageBus>();
+
         _messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegLocatieToeCommand>>(), default, null))
-            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
+           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegLocatieToeCommand>>(), default, null))
+           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
 
         _controller = new VoegLocatieToeController(_messageBusMock.Object, new VoegLocatieToeValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
@@ -47,7 +48,7 @@ public class With_Valid_ETag : IAsyncLifetime
     public void Then_it_invokes_with_a_correct_version_number()
     {
         _messageBusMock.Verify(
-            messageBus =>
+            expression: messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
                     It.Is<CommandEnvelope<VoegLocatieToeCommand>>(
                         env =>

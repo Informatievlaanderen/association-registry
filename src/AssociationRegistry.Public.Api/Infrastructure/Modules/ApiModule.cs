@@ -21,10 +21,10 @@ public class ApiModule : Module
         // .RegisterModule(new LegacyModule(_configuration, _services, _loggerFactory));
 
         builder
-            .RegisterType<ProblemDetailsHelper>()
-            .AsSelf();
+           .RegisterType<ProblemDetailsHelper>()
+           .AsSelf();
 
         builder
-            .Populate(_services);
+           .Populate(_services);
     }
 }

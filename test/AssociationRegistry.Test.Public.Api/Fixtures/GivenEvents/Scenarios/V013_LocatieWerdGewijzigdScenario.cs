@@ -11,27 +11,30 @@ public class V013_LocatieWerdGewijzigdScenario : IScenario
         Locatie: new Registratiedata.Locatie(
             LocatieId: 1,
             Locatietype.Activiteiten,
-            false,
-            "Naam locatie",
-            null,
+            IsPrimair: false,
+            Naam: "Naam locatie",
+            Adres: null,
             new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix)));
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
-        "V0001013",
-        "Feesten Hulste",
+        VCode: "V0001013",
+        Naam: "Feesten Hulste",
         string.Empty,
         string.Empty,
         Startdatum: null,
         Registratiedata.Doelgroep.With(Doelgroep.Null),
-        false,
+        IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
-        new [] { new Registratiedata.Locatie(
-            LocatieId: 1,
-            Locatietype.Activiteiten,
-            false,
-            "Foute naam",
-            null,
-            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix)) },
+        new[]
+        {
+            new Registratiedata.Locatie(
+                LocatieId: 1,
+                Locatietype.Activiteiten,
+                IsPrimair: false,
+                Naam: "Foute naam",
+                Adres: null,
+                new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix)),
+        },
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
@@ -48,5 +51,7 @@ public class V013_LocatieWerdGewijzigdScenario : IScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

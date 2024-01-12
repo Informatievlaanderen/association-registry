@@ -16,6 +16,7 @@ public class Given_From_MaatschappelijkeZetelId
     public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var locatie = fixture.Create<Locatie>() with
         {
             LocatieId = 1,
@@ -27,10 +28,10 @@ public class Given_From_MaatschappelijkeZetelId
         vereniging.Hydrate(new VerenigingState().Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo.With(locatie)));
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
-            1,
+            locatieId: 1,
             fixture.Create<string>(),
             Locatietype.Activiteiten,
-            true,
+            isPrimair: true,
             fixture.Create<AdresId>(),
             fixture.Create<Adres>());
 
@@ -45,6 +46,7 @@ public class Given_To_MaatschappelijkeZetelId
     public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var locatie = fixture.Create<Locatie>() with
         {
             LocatieId = 1,
@@ -54,7 +56,7 @@ public class Given_To_MaatschappelijkeZetelId
         vereniging.Hydrate(new VerenigingState().Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo.With(locatie)));
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
-            1,
+            locatieId: 1,
             fixture.Create<string>(),
             Locatietype.MaatschappelijkeZetelVolgensKbo,
             fixture.Create<bool>(),

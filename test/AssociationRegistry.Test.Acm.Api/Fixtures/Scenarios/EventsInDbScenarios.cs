@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
-using Events;
-using EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Events;
+using EventStore;
 using Framework;
 
 public interface IEventsInDbScenario
@@ -246,8 +246,10 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd,
-                VerenigingWerdGestopt};
+        {
+            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingWerdGestopt,
+        };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
@@ -276,8 +278,10 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd,
-                VerenigingWerdVerwijderd};
+        {
+            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingWerdVerwijderd,
+        };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

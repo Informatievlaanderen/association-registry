@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using System.Reflection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using System.Reflection;
 
 [ApiVersionNeutral]
 [Route("")]

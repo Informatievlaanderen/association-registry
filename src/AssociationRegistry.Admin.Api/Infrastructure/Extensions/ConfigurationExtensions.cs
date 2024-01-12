@@ -93,13 +93,14 @@ public static class ConfigurationExtensions
         if (environment.IsProduction())
         {
             Log.Logger.Information("Not loading temporary vertegenwoordigers in Production");
+
             return new TemporaryMagdaVertegenwoordigersSection();
         }
 
         var vertegenwoordigersJson = configuration[magdaOptionsSectionName];
         var temporaryVertegenwoordigers = JsonConvert.DeserializeObject<TemporaryMagdaVertegenwoordigersSection>(vertegenwoordigersJson);
 
-        Log.Logger.Information("Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
+        Log.Logger.Information(messageTemplate: "Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
 
         return temporaryVertegenwoordigers;
     }

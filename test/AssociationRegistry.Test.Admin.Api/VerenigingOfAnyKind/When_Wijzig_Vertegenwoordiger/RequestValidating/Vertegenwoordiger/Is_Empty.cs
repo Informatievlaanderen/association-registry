@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -12,13 +12,15 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__vertegenwoordiger_is_verplicht()
     {
         var validator = new WijzigVertegenwoordigerValidator();
+
         var request = new WijzigVertegenwoordigerRequest
         {
             Vertegenwoordiger = new TeWijzigenVertegenwoordiger(),
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Vertegenwoordiger)
-            .WithErrorMessage("'Vertegenwoordiger' moet ingevuld zijn.");
+              .WithErrorMessage("'Vertegenwoordiger' moet ingevuld zijn.");
     }
 }

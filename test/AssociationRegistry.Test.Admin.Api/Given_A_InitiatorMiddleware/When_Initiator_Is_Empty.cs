@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_InitiatorMiddleware;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

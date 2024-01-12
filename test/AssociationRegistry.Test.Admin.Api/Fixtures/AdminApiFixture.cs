@@ -271,8 +271,10 @@ public class Clients : IDisposable
 
     public HttpClient GetAuthenticatedHttpClient()
         => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+
     private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
+        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
+           .GetResult();
 
     public AdminApiClient Authenticated
         => new(GetAuthenticatedHttpClient());

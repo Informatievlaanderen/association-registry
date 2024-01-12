@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Metrics;
 
 using Marten;
+using Marten.Events;
 using Marten.Events.Daemon;
 using Marten.Internal.Operations;
 using Marten.Services;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Projections;
 using System;
@@ -27,7 +27,7 @@ public class ProjectionStateListener : DocumentSessionListenerBase
     public override Task AfterCommitAsync(IDocumentSession session, IChangeSet commit, CancellationToken token)
     {
         if (commit is not IUnitOfWork uow) return Task.CompletedTask;
-        var operations = uow.OperationsFor<Marten.Events.IEvent>();
+        var operations = uow.OperationsFor<IEvent>();
 
         foreach (var operation in operations)
         {
@@ -37,7 +37,7 @@ public class ProjectionStateListener : DocumentSessionListenerBase
 
             if (range.ShardName.ProjectionName ==
                 typeof(VerenigingenPerInszProjection).FullName)
-                _acmInstrumentation.VerenigingPerInszEventValue =range.SequenceCeiling;
+                _acmInstrumentation.VerenigingPerInszEventValue = range.SequenceCeiling;
         }
 
         return Task.CompletedTask;
@@ -47,9 +47,10 @@ public class ProjectionStateListener : DocumentSessionListenerBase
     {
         return opperation.GetType().Name switch
         {
-            "InsertProjectionProgress" => opperation.GetType().GetField("_progress", BindingFlags.NonPublic|BindingFlags.Instance).GetValue(opperation) as EventRange,
+            "InsertProjectionProgress" => opperation.GetType().GetField(name: "_progress", BindingFlags.NonPublic | BindingFlags.Instance)
+                                                    .GetValue(opperation) as EventRange,
             "UpdateProjectionProgress" => opperation.GetType().GetProperty("Range").GetValue(opperation) as EventRange,
-            _ => null
+            _ => null,
         };
     }
 }

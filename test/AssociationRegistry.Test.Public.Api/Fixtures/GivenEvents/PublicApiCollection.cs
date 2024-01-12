@@ -5,5 +5,4 @@ using Xunit;
 [CollectionDefinition(nameof(PublicApiCollection))]
 public class PublicApiCollection : ICollectionFixture<GivenEventsFixture>
 {
-
 }

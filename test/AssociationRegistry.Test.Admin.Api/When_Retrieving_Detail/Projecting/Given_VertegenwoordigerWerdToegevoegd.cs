@@ -39,6 +39,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
                 Bron = Bron.Initiator,
             });
+
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
     }
 }

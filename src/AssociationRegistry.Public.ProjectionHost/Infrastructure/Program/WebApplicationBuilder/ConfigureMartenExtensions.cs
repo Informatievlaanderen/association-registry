@@ -88,9 +88,10 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    projectionName: ProjectionNames.VerenigingZoeken);
+                    ProjectionNames.VerenigingZoeken);
 
-                opts.Projections.AsyncListeners.Add(new ProjectionStateListener(serviceProvider.GetRequiredService<PubliekInstrumentation>()));
+                opts.Projections.AsyncListeners.Add(
+                    new ProjectionStateListener(serviceProvider.GetRequiredService<PubliekInstrumentation>()));
 
                 opts.Serializer(CreateCustomMartenSerializer());
 

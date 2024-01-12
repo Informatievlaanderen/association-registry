@@ -5,14 +5,13 @@ using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ConfigurationBindi
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Vereniging;
+using Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using System.Reflection;
+using Vereniging;
 using Xunit;
-using ElasticSearchExtensions = AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions;
 
 public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 {
@@ -73,7 +72,6 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
         duplicates.Should().HaveCount(1);
         duplicates.Single().Naam.Should().Be("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling");
     }
-
 
     private static Locatie[] Met1MatchendeGemeente()
     {

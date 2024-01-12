@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,6 +26,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithMinimalFields
         {
             Naam = new Fixture().Create<string>(),
         };
+
         Response ??= fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
     }
 
@@ -34,8 +35,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithMinimalFields
 
     private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)
         => GetType()
-            .GetAssociatedResourceJson("files.request.with_minimal_fields")
-            .Replace("{{vereniging.naam}}", request.Naam);
+          .GetAssociatedResourceJson("files.request.with_minimal_fields")
+          .Replace(oldValue: "{{vereniging.naam}}", request.Naam);
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -60,11 +61,11 @@ public class With_Minimal_Fields
     public void Then_it_saves_the_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                    .LightweightSession();
 
         session.Events.QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
-            .Where(e => e.Naam == Request.Naam)
-            .Should().HaveCount(expected: 1);
+               .Where(e => e.Naam == Request.Naam)
+               .Should().HaveCount(expected: 1);
     }
 
     [Fact]
@@ -77,8 +78,9 @@ public class With_Minimal_Fields
     public void Then_it_returns_a_location_header()
     {
         Response.Headers.Should().ContainKey(HeaderNames.Location);
+
         Response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

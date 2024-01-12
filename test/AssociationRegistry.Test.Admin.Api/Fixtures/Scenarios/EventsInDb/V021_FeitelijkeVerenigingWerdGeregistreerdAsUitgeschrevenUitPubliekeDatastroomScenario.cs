@@ -10,25 +10,25 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliek
 {
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
     public string VCode { get; set; }
-    public StreamActionResult Result { get; set; }= null!;
+    public StreamActionResult Result { get; set; } = null!;
 
     public V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliekeDatastroomScenario()
     {
         VCode = "V9999021";
+
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            "verenigingZonderNaam",
+            Naam: "verenigingZonderNaam",
             string.Empty,
             string.Empty,
             Startdatum: null,
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            true,
+            IsUitgeschrevenUitPubliekeDatastroom: true,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
     }
-
 
     public IEvent[] GetEvents()
         => new IEvent[]
@@ -37,5 +37,5 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliek
         };
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 }

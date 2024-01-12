@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging.Exceptions;
 
-using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
 
 public class MeerderePrimaireVertegenwoordigers : DomainException
 {

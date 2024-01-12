@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.CommandHandling;
 
 using Acties.WijzigContactgegevenFromKbo;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -48,7 +48,7 @@ public class Given_A_Contactgegeven
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenUitKBOWerdGewijzigd(_command.Contactgegeven.ContacgegevenId, _command.Contactgegeven.Beschrijving!,
-                                                      _command.Contactgegeven.IsPrimair!.Value)
+                                                  _command.Contactgegeven.IsPrimair!.Value)
         );
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 
-using System.Runtime.Serialization;
 using Constants;
+using System.Runtime.Serialization;
 
 [DataContract]
 public class PaginationQueryParams

@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using System.Globalization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 public static class ConfigureRequestLocalizationExtensions
 {
@@ -23,6 +21,7 @@ public static class ConfigureRequestLocalizationExtensions
                 opts.FallBackToParentCultures = true;
                 opts.FallBackToParentUICultures = true;
             });
+
         return source;
     }
 }

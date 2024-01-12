@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 
+using Acties.RegistreerVerenigingUitKbo;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using Acties.RegistreerVerenigingUitKbo;
 
 [DataContract]
 public class RegistreerVerenigingUitKboRequest

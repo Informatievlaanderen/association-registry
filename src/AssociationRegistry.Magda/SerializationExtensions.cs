@@ -9,8 +9,8 @@ public static class SerializationExtensions
         var serializer = new XmlSerializer(@object!.GetType());
 
         var ns = new XmlSerializerNamespaces();
-        ns.Add("s", "http://schemas.xmlsoap.org/soap/envelope/");
-        ns.Add("geefondernemingvkbo", "http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be");
+        ns.Add(prefix: "s", ns: "http://schemas.xmlsoap.org/soap/envelope/");
+        ns.Add(prefix: "geefondernemingvkbo", ns: "http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaanderen.be");
 
         using var textWriter = new Utf8StringWriter();
         serializer.Serialize(textWriter, @object, ns);
@@ -23,8 +23,8 @@ public static class SerializationExtensions
         var serializer = new XmlSerializer(@object!.GetType());
 
         var ns = new XmlSerializerNamespaces();
-        ns.Add("s", "http://schemas.xmlsoap.org/soap/envelope/");
-        ns.Add("geefonderneming", "http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be");
+        ns.Add(prefix: "s", ns: "http://schemas.xmlsoap.org/soap/envelope/");
+        ns.Add(prefix: "geefonderneming", ns: "http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be");
 
         using var textWriter = new Utf8StringWriter();
         serializer.Serialize(textWriter, @object, ns);

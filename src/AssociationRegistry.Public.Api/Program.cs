@@ -208,7 +208,8 @@ public class Program
     {
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args)
@@ -302,7 +303,8 @@ public class Program
                         cfg.AddPolicy(
                             StartupConstants.AllowSpecificOrigin,
                             configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
+                                                                       Array.Empty<string>())
                                                           .WithMethods(StartupConstants.HttpMethodsAsString)
                                                           .WithHeaders(StartupConstants.Headers)
                                                           .WithExposedHeaders(StartupConstants.ExposedHeaders)

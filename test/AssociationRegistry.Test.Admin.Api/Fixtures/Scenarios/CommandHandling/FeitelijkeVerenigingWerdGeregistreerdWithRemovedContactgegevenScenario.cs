@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Framework;
 using Vereniging;
-using AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario : CommandhandlerScenarioBase
 {
@@ -13,11 +13,12 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
     public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
-    public override VCode VCode =>VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0009002");
 
     public FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario()
     {
-        Contactgegevens = new[] { new Fixture().CustomizeAdminApi().Create<Registratiedata.Contactgegeven>() with { ContactgegevenId = 1 } };
+        Contactgegevens = new[]
+            { new Fixture().CustomizeAdminApi().Create<Registratiedata.Contactgegeven>() with { ContactgegevenId = 1 } };
     }
 
     public Registratiedata.Contactgegeven[] Contactgegevens { get; }
@@ -33,12 +34,16 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
             KorteBeschrijving,
             Startdatum,
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Contactgegevens,
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
-        ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId, Contactgegevens[0].Contactgegeventype, Contactgegevens[0].Waarde, Contactgegevens[0].Beschrijving, Contactgegevens[0].IsPrimair);
+
+        ContactgegevenWerdVerwijderd = new ContactgegevenWerdVerwijderd(Contactgegevens[0].ContactgegevenId,
+                                                                        Contactgegevens[0].Contactgegeventype, Contactgegevens[0].Waarde,
+                                                                        Contactgegevens[0].Beschrijving, Contactgegevens[0].IsPrimair);
+
         return new IEvent[]
         {
             WerdGeregistreerd,

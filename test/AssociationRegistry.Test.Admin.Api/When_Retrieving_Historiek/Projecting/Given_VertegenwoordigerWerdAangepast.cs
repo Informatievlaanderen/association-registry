@@ -23,7 +23,6 @@ public class Given_VertegenwoordigerWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Vertegenwoordiger '{vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam}' werd gewijzigd.",

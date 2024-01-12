@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using System.Text.RegularExpressions;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
+using System.Text.RegularExpressions;
 using templates;
 using Xunit;
 using Xunit.Categories;

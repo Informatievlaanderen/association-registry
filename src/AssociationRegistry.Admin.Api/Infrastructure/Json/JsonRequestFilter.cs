@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
-using System.IO;
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using JasperFx.Core;
@@ -9,10 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Threading.Tasks;
 
 public class JsonRequestFilter : IAsyncActionFilter
 {
-    private static readonly JsonLoadSettings JsonLoadSettings = new() { DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error };
+    private static readonly JsonLoadSettings JsonLoadSettings = new()
+        { DuplicatePropertyNameHandling = DuplicatePropertyNameHandling.Error };
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {

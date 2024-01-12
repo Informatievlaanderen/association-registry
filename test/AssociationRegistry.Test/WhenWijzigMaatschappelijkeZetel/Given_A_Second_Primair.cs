@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.WhenWijzigMaatschappelijkeZetel;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,8 +21,8 @@ public class Given_A_Second_Primair
 
         var wijzigLocatie = () => vereniging.WijzigMaatschappelijkeZetel(
             maatschappelijkeZetelId,
-            null,
-            true);
+            naam: null,
+            isPrimair: true);
 
         wijzigLocatie.Should().Throw<MeerderePrimaireLocatiesZijnNietToegestaan>();
     }

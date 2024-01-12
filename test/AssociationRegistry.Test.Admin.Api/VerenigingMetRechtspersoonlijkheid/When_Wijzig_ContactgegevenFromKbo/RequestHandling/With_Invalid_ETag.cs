@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -21,10 +21,10 @@ public class With_Invalid_ETag
     public With_Invalid_ETag()
     {
         Mock<IMessageBus> messageBusMock = new();
-        _controller = new WijzigContactgegevenController(messageBusMock.Object, new WijzigContactgegevenValidator(),new AppSettings())
+
+        _controller = new WijzigContactgegevenController(messageBusMock.Object, new WijzigContactgegevenValidator(), new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]
@@ -33,14 +33,16 @@ public class With_Invalid_ETag
         var method = async () =>
         {
             await _controller.Patch(
-                "V0001001",
-                1,
+                vCode: "V0001001",
+                contactgegevenId: 1,
                 new WijzigContactgegevenRequest
-                { Contactgegeven = new TeWijzigenContactgegeven()
+                {
+                    Contactgegeven = new TeWijzigenContactgegeven
                     {
                         Beschrijving = "Beschrijving",
-                    } },
-                new CommandMetadataProviderStub { Initiator= "OVO000001" },
+                    },
+                },
+                new CommandMetadataProviderStub { Initiator = "OVO000001" },
                 eTagValue);
         };
 

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging.Websites.Exceptions;
 
-using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class WebsiteMoetStartenMetHttps : DomainException

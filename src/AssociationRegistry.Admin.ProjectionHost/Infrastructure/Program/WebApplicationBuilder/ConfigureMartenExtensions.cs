@@ -20,7 +20,7 @@ using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
 using Wolverine;
-using ConfigurationManager = ConfigurationManager;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
@@ -98,7 +98,7 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    projectionName: ProjectionNames.VerenigingZoeken);
+                    ProjectionNames.VerenigingZoeken);
 
                 opts.Serializer(CreateCustomMartenSerializer());
 

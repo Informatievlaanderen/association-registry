@@ -9,6 +9,6 @@ public class StopVerenigingRequestExamples : IExamplesProvider<StopVerenigingReq
     public StopVerenigingRequest GetExamples()
         => new()
         {
-            Einddatum = new DateOnly(2023, 09, 05),
+            Einddatum = new DateOnly(year: 2023, month: 09, day: 05),
         };
 }

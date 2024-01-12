@@ -3,12 +3,12 @@ namespace AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using FluentValidation;
 using Infrastructure.ConfigurationBindings;
 
-public class PaginationQueryParamsValidator: AbstractValidator<PaginationQueryParams>
+public class PaginationQueryParamsValidator : AbstractValidator<PaginationQueryParams>
 {
     public PaginationQueryParamsValidator(AppSettings appSettings)
     {
         RuleFor(x => x)
-            .Must(x => x.Limit + x.Offset <= appSettings.Search.MaxNumberOfSearchResults)
-            .WithMessage($"'Limit' en 'Offset' mogen samen niet groter dan {appSettings.Search.MaxNumberOfSearchResults} zijn.");
+           .Must(x => x.Limit + x.Offset <= appSettings.Search.MaxNumberOfSearchResults)
+           .WithMessage($"'Limit' en 'Offset' mogen samen niet groter dan {appSettings.Search.MaxNumberOfSearchResults} zijn.");
     }
 }

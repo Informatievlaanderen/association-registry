@@ -3,6 +3,7 @@
 public class AppSettings
 {
     private string? _baseUrl;
+
     public string BaseUrl
     {
         get => _baseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
@@ -14,7 +15,6 @@ public class AppSettings
     public class ApiDocsSettings
     {
         public string Title { get; set; } = null!;
-        
         public ContactSettings Contact { get; set; } = null!;
 
         public class ContactSettings

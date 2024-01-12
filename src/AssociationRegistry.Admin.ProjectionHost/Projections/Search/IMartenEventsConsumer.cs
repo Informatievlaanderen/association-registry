@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Marten.Events;
 
 public interface IMartenEventsConsumer

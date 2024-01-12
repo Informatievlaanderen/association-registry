@@ -4,8 +4,8 @@ using AssociationRegistry.Public.Api.Constants;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
 using templates;
 using Xunit;
 using Xunit.Categories;
@@ -16,7 +16,7 @@ using Xunit.Categories;
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
 {
     private readonly PublicApiClient _publicApiClient;
-    private V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario _scenario;
+    private readonly V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario _scenario;
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields(GivenEventsFixture fixture)
     {

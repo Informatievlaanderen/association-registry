@@ -25,7 +25,10 @@ public class Given_A_Second_Primair_Contactgegeven
                                    Contactgegevens = new[] { primairContactgegeven },
                                }));
 
-        var contactgegeven = fixture.Create<Contactgegeven>() with { IsPrimair = true, Contactgegeventype = primairContactgegeven.Contactgegeventype };
+        var contactgegeven = fixture.Create<Contactgegeven>() with
+        {
+            IsPrimair = true, Contactgegeventype = primairContactgegeven.Contactgegeventype,
+        };
 
         Assert.Throws<MeerderePrimaireContactgegevensZijnNietToegestaan>(() => vereniging.VoegContactgegevenToe(contactgegeven));
     }

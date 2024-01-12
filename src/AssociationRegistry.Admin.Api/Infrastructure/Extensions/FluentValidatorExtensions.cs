@@ -2,9 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using ExceptionHandlers;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +16,4 @@ public static class FluentValidatorExtensions
         if (instance is null) throw new CouldNotParseRequestException();
         await validator.ValidateAndThrowAsync(instance, cancellationToken);
     }
-
-
 }

@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.WhenWijzigMaatschappelijkeZetel;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,7 +13,11 @@ public class Given_No_Changes
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public void Then_It_Emits_LocatieWerdGewijzigdEvent(VerenigingState givenState, int maatschappelijkeZetelId, string nieuweNaam, bool nieuwIsPrimair)
+    public void Then_It_Emits_LocatieWerdGewijzigdEvent(
+        VerenigingState givenState,
+        int maatschappelijkeZetelId,
+        string nieuweNaam,
+        bool nieuwIsPrimair)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
         vereniging.Hydrate(givenState);

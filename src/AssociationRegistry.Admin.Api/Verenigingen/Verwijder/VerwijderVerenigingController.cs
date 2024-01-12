@@ -1,17 +1,17 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
 
 using Acties.VerwijderVereniging;
+using Be.Vlaanderen.Basisregisters.Api;
+using FluentValidation;
+using Framework;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
-using Framework;
-using Vereniging;
-using Be.Vlaanderen.Basisregisters.Api;
-using FluentValidation;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Vereniging;
 using Verwijderen.RequestModels;
 using Wolverine;
 

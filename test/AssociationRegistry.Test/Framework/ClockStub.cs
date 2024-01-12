@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Framework;
 
-using global::AssociationRegistry.Framework;
+using AssociationRegistry.Framework;
 
 public class ClockStub : IClock
 {

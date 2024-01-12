@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.CommonValidators.DoelgroepRequestValidator.Maximumleeftijd;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,13 +16,15 @@ public class Is_Outside_Of_Range : ValidatorTest
     public void Has_validation_errors(int maximumleeftijd)
     {
         var validator = new DoelgroepRequestValidator();
+
         var request = new DoelgroepRequest
         {
             Maximumleeftijd = maximumleeftijd,
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(r => r.Maximumleeftijd)
-            .WithErrorMessage("De 'maximumleeftijd' moet binnen 0 en 150 vallen.");
+              .WithErrorMessage("De 'maximumleeftijd' moet binnen 0 en 150 vallen.");
     }
 }

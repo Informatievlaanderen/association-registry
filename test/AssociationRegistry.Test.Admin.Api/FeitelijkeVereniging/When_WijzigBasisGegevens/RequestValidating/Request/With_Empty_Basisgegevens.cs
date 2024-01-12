@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.Request;
 
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -13,9 +12,9 @@ public class With_Empty_Basisgegevens
     public void Then_it_should_have_errors()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
-        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null, KorteNaam = null});
+        var result = validator.TestValidate(new WijzigBasisgegevensRequest { Naam = null, KorteNaam = null });
 
         result.ShouldHaveValidationErrorFor("request")
-            .WithErrorMessage("Een request mag niet leeg zijn.");
+              .WithErrorMessage("Een request mag niet leeg zijn.");
     }
 }

@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
-using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -22,10 +22,10 @@ public class With_Invalid_ETag
     {
         _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
+
         _controller = new VerwijderLocatieController(messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]
@@ -36,7 +36,7 @@ public class With_Invalid_ETag
             await _controller.Delete(
                 _fixture.Create<string>(),
                 _fixture.Create<int>(),
-                 new CommandMetadataProviderStub { Initiator= "OVO000001" },
+                new CommandMetadataProviderStub { Initiator = "OVO000001" },
                 eTagValue);
         };
 

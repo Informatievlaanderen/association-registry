@@ -23,7 +23,6 @@ public class Given_ContactgegevenWerdVerwijderd
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"{contactgegevenWerdVerwijderd.Data.Type} '{contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd.",

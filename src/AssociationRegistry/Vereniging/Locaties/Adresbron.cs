@@ -5,8 +5,7 @@ using Framework;
 
 public class Adresbron
 {
-    public static readonly Adresbron AR = new("AR", "Adressenregister");
-
+    public static readonly Adresbron AR = new(code: "AR", beschrijving: "Adressenregister");
     public static readonly Adresbron[] All = { AR };
 
     public Adresbron(string code, string beschrijving)
@@ -21,6 +20,7 @@ public class Adresbron
     public static Adresbron Parse(string broncode)
     {
         Throw<BroncodeIsOngeldig>.If(!CanParse(broncode));
+
         return All.Single(t => t.Code == broncode);
     }
 

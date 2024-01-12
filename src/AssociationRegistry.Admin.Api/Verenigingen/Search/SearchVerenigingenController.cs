@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
-using System.Threading;
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
@@ -15,6 +13,8 @@ using RequestModels;
 using ResponseModels;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
@@ -104,7 +104,7 @@ public class SearchVerenigingenController : ApiController
                              queryContainerDescriptor => queryContainerDescriptor.QueryString(
                                  queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
                              ),
-                             descriptor => descriptor.Term(document => document.IsVerwijderd, false)
+                             descriptor => descriptor.Term(field: document => document.IsVerwijderd, value: false)
                          )
                      )
                  )

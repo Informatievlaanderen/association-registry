@@ -20,7 +20,7 @@ public class ContextenController : ApiController
     {
         try
         {
-            var context = JsonLdContexts.GetContext("publiek", name);
+            var context = JsonLdContexts.GetContext(folder: "publiek", name);
 
             return Content(
                 context,
@@ -42,7 +42,7 @@ public class ContextenController : ApiController
     {
         try
         {
-            var context = JsonLdContexts.GetContext("beheer", name);
+            var context = JsonLdContexts.GetContext(folder: "beheer", name);
 
             return Content(
                 context,

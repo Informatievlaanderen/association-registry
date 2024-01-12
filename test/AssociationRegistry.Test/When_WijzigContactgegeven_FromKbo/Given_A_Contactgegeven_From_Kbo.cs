@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.When_WijzigContactgegeven_FromKbo;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,7 +33,7 @@ public class Given_A_Contactgegeven_From_Kbo
         vereniging.UncommittedEvents.Should().BeEquivalentTo(new[]
         {
             new ContactgegevenUitKBOWerdGewijzigd(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, beschrijving,
-                                                      isPrimair),
+                                                  isPrimair),
         });
     }
 }

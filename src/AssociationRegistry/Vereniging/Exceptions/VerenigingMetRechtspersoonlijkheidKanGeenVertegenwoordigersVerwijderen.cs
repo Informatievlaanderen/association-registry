@@ -6,11 +6,13 @@ using System.Runtime.Serialization;
 [Serializable]
 public class VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen : DomainException
 {
-    public VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen() : base(ExceptionMessages.VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers)
+    public VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen() : base(
+        ExceptionMessages.VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers)
     {
     }
 
-    protected VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersVerwijderen(SerializationInfo info, StreamingContext context) :
+        base(info, context)
     {
     }
 }

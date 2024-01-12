@@ -24,7 +24,6 @@ public class Given_StartdatumWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Startdatum werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'.",
@@ -43,6 +42,7 @@ public class Given_StartdatumWerdGewijzigd_With_Null
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
+
         startdatumWerdGewijzigd.Data = fixture.Create<StartdatumWerdGewijzigd>() with
         {
             Startdatum = null,
@@ -52,10 +52,9 @@ public class Given_StartdatumWerdGewijzigd_With_Null
 
         BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "Startdatum werd verwijderd.",
+                Beschrijving: "Startdatum werd verwijderd.",
                 nameof(StartdatumWerdGewijzigd),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,

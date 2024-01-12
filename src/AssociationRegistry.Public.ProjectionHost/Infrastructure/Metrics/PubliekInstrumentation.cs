@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Metrics;
 
-using AssociationRegistry.OpenTelemetry;
-using System;
+using OpenTelemetry;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 
@@ -23,12 +22,12 @@ public class PubliekInstrumentation : IInstrumentation, IDisposable
         meter = new Meter(MeterName, version);
 
         _verenigingZoeken = meter.CreateObservableGauge(name: "ar.publiek.p.zoeken.g", unit: "events",
-                                                              description: "Beheer zoeken projection",
-                                                              observeValue: () => VerenigingZoekenEventValue);
+                                                        description: "Beheer zoeken projection",
+                                                        observeValue: () => VerenigingZoekenEventValue);
 
         _verenigingDetail = meter.CreateObservableGauge(name: "ar.publiek.p.detail.g", unit: "events",
-                                                              description: "Beheer detail projection",
-                                                              observeValue: () => VerenigingDetailEventValue);
+                                                        description: "Beheer detail projection",
+                                                        observeValue: () => VerenigingDetailEventValue);
     }
 
     private ObservableGauge<long> _verenigingDetail;

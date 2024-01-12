@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVeren
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Events;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,7 +57,8 @@ public class With_ActieveVereniging : IClassFixture<With_ActieveVereniging_Setup
                                            .FetchStream(_vCode)
                                            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdGestopt));
 
-        (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!.Einddatum.Should().Be(DateOnly.ParseExact("2020-12-31", WellknownFormats.DateOnly));
+        (verenigingWerdGestopt.Data as VerenigingWerdGestopt)!.Einddatum.Should()
+                                                              .Be(DateOnly.ParseExact(s: "2020-12-31", WellknownFormats.DateOnly));
     }
 
     [Fact]

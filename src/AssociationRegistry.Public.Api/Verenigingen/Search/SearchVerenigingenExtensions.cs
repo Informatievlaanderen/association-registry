@@ -37,7 +37,7 @@ public static class SearchVerenigingenExtensions
     }
 
     private static bool IsKeyword(ITypeMapping mapping, string field)
-        => InspectPropertyType(mapping.Properties, field.Split('.'), 0) == "keyword";
+        => InspectPropertyType(mapping.Properties, field.Split('.'), currentIndex: 0) == "keyword";
 
     private static string InspectPropertyType(IProperties properties, string[] pathSegments, int currentIndex)
     {
@@ -46,15 +46,12 @@ public static class SearchVerenigingenExtensions
             var currentProperty = properties[pathSegments[currentIndex]];
 
             if (currentIndex == pathSegments.Length - 1)
-            {
                 // We've reached the desired property
                 return currentProperty.Type;
-            }
-            else if (currentProperty is ObjectProperty objectProperty)
-            {
+
+            if (currentProperty is ObjectProperty objectProperty)
                 // We need to delve deeper into the object properties
                 return InspectPropertyType(objectProperty.Properties, pathSegments, currentIndex + 1);
-            }
         }
 
         // The desired property or path wasn't found

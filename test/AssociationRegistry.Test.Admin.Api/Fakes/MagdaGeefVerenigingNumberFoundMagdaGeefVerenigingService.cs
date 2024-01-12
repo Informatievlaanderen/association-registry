@@ -14,6 +14,9 @@ public class MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService : IMagdaGe
         _verenigingVolgensKbo = verenigingVolgensKbo;
     }
 
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+        KboNummer kboNummer,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
         => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
 }

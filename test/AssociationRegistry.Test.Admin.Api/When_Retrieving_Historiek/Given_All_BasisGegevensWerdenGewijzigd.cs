@@ -1,17 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using EventStore;
 using AssociationRegistry.Framework;
+using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +22,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly V004_AlleBasisGegevensWerdenGewijzigd _scenario;
-
     private HttpResponseMessage _response = null!;
 
     private string VCode
@@ -48,24 +47,24 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
     [Fact]
     public async Task Then_we_get_a_successful_response_if_sequence_is_equal_or_greater_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_successful_response_if_no_sequence_provided()
         => (await _adminApiClient.GetHistoriek(VCode))
-            .Should().BeSuccessful();
+          .Should().BeSuccessful();
 
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_if_sequence_is_less_than_expected_sequence()
         => (await _adminApiClient.GetHistoriek(VCode, Result.Sequence + 1000))
-            .StatusCode
-            .Should().Be(HttpStatusCode.PreconditionFailed);
+          .StatusCode
+          .Should().Be(HttpStatusCode.PreconditionFailed);
 
     [Fact]
     public async Task Then_we_get_all_beschrijvingsen()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{

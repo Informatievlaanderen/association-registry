@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Framework;
 using Exceptions;
+using Framework;
 
 public record VerenigingsNaam : IEquatable<string>
 {
@@ -15,6 +15,7 @@ public record VerenigingsNaam : IEquatable<string>
     public static VerenigingsNaam Create(string naam)
     {
         Throw<VerenigingsnaamIsLeeg>.IfNullOrWhiteSpace(naam);
+
         return new VerenigingsNaam(naam);
     }
 

@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 
-using AssociationRegistry.Acties.VoegLocatieToe;
+using Acties.VoegLocatieToe;
 using Common;
 using Vereniging;
-using AdresId = Vereniging.AdresId;
 using Adres = Vereniging.Adres;
+using AdresId = Vereniging.AdresId;
 
 public class VoegLocatieToeRequest
 {

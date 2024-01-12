@@ -2,12 +2,12 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Ve
 
 using Acties.VoegVertegenwoordigerToe;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -39,7 +39,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
         var handleCall = async () => await _commandHandler.Handle(commandEnvelope);
 
         await handleCall.Should()
-            .ThrowAsync<InszMoetUniekZijn>()
-            .WithMessage(new InszMoetUniekZijn().Message);
+                        .ThrowAsync<InszMoetUniekZijn>()
+                        .WithMessage(new InszMoetUniekZijn().Message);
     }
 }

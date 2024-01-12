@@ -7,6 +7,7 @@ public static class IEnumerableExtensions
         var array = collection as T[] ?? collection.ToArray();
         var objectToUpdate = array.Single(identityFunc);
         var updatedObject = update(objectToUpdate);
+
         return array
               .Where(t1 => !identityFunc(t1))
               .Append(updatedObject);
@@ -17,6 +18,7 @@ public static class IEnumerableExtensions
         var array = collection as T[] ?? collection.ToArray();
         var objectToUpdate = array.Single(identityFunc);
         var updatedObject = update(objectToUpdate);
+
         return array
               .Where(t1 => !identityFunc(t1))
               .Append(updatedObject);

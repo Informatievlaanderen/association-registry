@@ -69,7 +69,7 @@ public record VertegenwoordigerData
 
     public static VertegenwoordigerData Create(VertegenwoordigerWerdOvergenomenUitKBO vertegenwoordiger)
         => new(vertegenwoordiger.VertegenwoordigerId,
-               false,
+               IsPrimair: false,
                string.Empty,
                string.Empty,
                vertegenwoordiger.Voornaam,

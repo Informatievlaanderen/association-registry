@@ -25,6 +25,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
         BeheerVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
 
         doc.Locaties.Should().HaveCount(4);
+
         doc.Locaties.Should().ContainEquivalentOf(
             new BeheerVerenigingDetailDocument.Locatie
             {
@@ -53,6 +54,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     },
                 Bron = Bron.KBO,
             });
+
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
     }
 }

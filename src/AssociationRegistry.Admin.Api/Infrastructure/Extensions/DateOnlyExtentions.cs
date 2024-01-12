@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using System;
 using NodaTime;
+using System;
 
 public static class StringExtensions
 {

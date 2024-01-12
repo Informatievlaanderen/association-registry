@@ -1,35 +1,44 @@
 namespace AssociationRegistry.Public.Api.Infrastructure;
 
-using System;
 using ConfigurationBindings;
 using Framework;
+using System;
 
 public static class ConfigHelpers
 {
     public static void ThrowIfInvalidElasticOptions(ElasticSearchOptionsSection elasticSearchOptions)
     {
         const string sectionName = nameof(ElasticSearchOptionsSection);
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen,
+                               $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
     }
 
     public static void ThrowIfInvalidPostgreSqlOptions(PostgreSqlOptionsSection postgreSqlOptions)
     {
         const string sectionName = nameof(PostgreSqlOptionsSection);
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
     public static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)

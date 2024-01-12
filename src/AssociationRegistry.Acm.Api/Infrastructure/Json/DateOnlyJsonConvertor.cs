@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 
+using Newtonsoft.Json;
 using System;
 using System.Globalization;
-using Newtonsoft.Json;
 
 public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
 {
@@ -18,6 +18,11 @@ public class DateOnlyJsonConvertor : JsonConverter<DateOnly>
         writer.WriteValue(value.ToString(_format, CultureInfo.InvariantCulture));
     }
 
-    public override DateOnly ReadJson(JsonReader reader, Type objectType, DateOnly existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override DateOnly ReadJson(
+        JsonReader reader,
+        Type objectType,
+        DateOnly existingValue,
+        bool hasExistingValue,
+        JsonSerializer serializer)
         => DateOnlyHelpers.TryParse((string)reader.Value!, _format);
 }

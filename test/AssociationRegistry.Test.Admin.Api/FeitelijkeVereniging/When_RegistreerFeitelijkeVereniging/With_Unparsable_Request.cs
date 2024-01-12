@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using System.Net;
-using Fixtures;
-using Framework;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using Fixtures;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -43,7 +43,7 @@ public class With_Unparsable_Request
 
     private string GetJsonResponseBody()
         => GetType()
-            .GetAssociatedResourceJson("files.response.unparsable");
+           .GetAssociatedResourceJson("files.response.unparsable");
 
     [Fact]
     public void Then_it_returns_a_badrequest_response()
@@ -61,8 +61,8 @@ public class With_Unparsable_Request
 
         responseContentObject.Should().BeEquivalentTo(
             expectedResponseContentObject,
-            options => options
-                .Excluding(info => info!.ProblemInstanceUri)
-                .Excluding(info => info!.ProblemTypeUri));
+            config: options => options
+                              .Excluding(info => info!.ProblemInstanceUri)
+                              .Excluding(info => info!.ProblemTypeUri));
     }
 }

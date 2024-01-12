@@ -2,10 +2,10 @@
 
 using Fixtures;
 using Fixtures.GivenEvents;
-using Framework;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Formatters;
+using Framework;
 using templates;
 using Xunit;
 using Xunit.Categories;

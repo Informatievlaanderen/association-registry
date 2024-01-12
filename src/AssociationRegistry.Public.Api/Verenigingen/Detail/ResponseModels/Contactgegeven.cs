@@ -11,13 +11,13 @@ public class Contactgegeven
 
     /// <summary>De waarde van het contactgegeven</summary>
     [DataMember(Name = "waarde")]
-    public string Waarde { get; init; }= null!;
+    public string Waarde { get; init; } = null!;
 
     /// <summary>
     /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "beschrijving")]
-    public string Beschrijving { get; init; }= null!;
+    public string Beschrijving { get; init; } = null!;
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
     [DataMember(Name = "isPrimair")]

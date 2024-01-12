@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
-using Elasticsearch.Net;
 using Nest;
 using Schema.Search;
-using Vereniging;
 
 public class ElasticRepository : IElasticRepository
 {

@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -21,10 +21,10 @@ public class With_Invalid_ETag
     public With_Invalid_ETag()
     {
         Mock<IMessageBus> messageBusMock = new();
+
         _controller = new StopVerenigingController(messageBusMock.Object, new AppSettings(), new StopVerenigingRequestValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]
@@ -34,8 +34,8 @@ public class With_Invalid_ETag
         {
             await _controller.Post(
                 new StopVerenigingRequest(),
-                "V0001001",
-                new CommandMetadataProviderStub { Initiator = "OVO0001001"},
+                vCode: "V0001001",
+                new CommandMetadataProviderStub { Initiator = "OVO0001001" },
                 eTagValue);
         };
 

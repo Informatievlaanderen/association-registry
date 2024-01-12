@@ -24,7 +24,9 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         _clock = clock;
     }
 
-    public async Task<Result> Handle(CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message, CancellationToken cancellationToken = default)
+    public async Task<Result> Handle(
+        CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message,
+        CancellationToken cancellationToken = default)
     {
         var command = message.Command;
 

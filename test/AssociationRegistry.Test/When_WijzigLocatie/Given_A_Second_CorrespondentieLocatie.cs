@@ -21,11 +21,11 @@ public class Given_A_Second_CorrespondentieLocatie
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
             gewijzigdeLocatie.LocatieId,
-            null,
+            naam: null,
             gewijzigdeLocatie.Locatietype,
-            null,
-            null,
-            null);
+            isPrimair: null,
+            adresId: null,
+            adres: null);
 
         wijzigLocatie.Should().Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>();
     }
@@ -37,6 +37,7 @@ public class Given_A_Second_CorrespondentieLocatie
             var fixture = new Fixture().CustomizeDomain();
             var correspondentieLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
+
             var gewijzigdeLocatie = teWijzigenLocatie with
             {
                 Locatietype = Locatietype.Correspondentie,

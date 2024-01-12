@@ -27,7 +27,7 @@ public class Given_VerenigingWerdVerwijderd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "Deze vereniging werd verwijderd.",
+                Beschrijving: "Deze vereniging werd verwijderd.",
                 nameof(VerenigingWerdVerwijderd),
                 verenigingWerdVerwijderd.Data,
                 verenigingWerdVerwijderd.Initiator,

@@ -21,26 +21,29 @@ public class Given_A_VCode
     {
         var fixture = new Fixture().CustomizeDomain();
         _vCode = fixture.Create<VCode>();
+
         var eventStoreMock = new EventStoreMock(
-            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with {VCode = _vCode});
+            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });
+
         _repo = new VerenigingsRepository(eventStoreMock);
     }
 
     [Fact]
     public async Task Then_A_FeitelijkeVereniging_Is_Returned()
     {
-        var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, null);
+        var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, expectedVersion: null);
+
         feteitelijkeVerenging
-            .Should()
-            .NotBeNull()
-            .And
-            .BeOfType<Vereniging>();
+           .Should()
+           .NotBeNull()
+           .And
+           .BeOfType<Vereniging>();
     }
 
     [Fact]
     public async Task Then_It_Throws_A_UnsupportedOperationException()
     {
-        var loadMethod = ()=> _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, null);
+        var loadMethod = () => _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, expectedVersion: null);
         await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
     }
 }

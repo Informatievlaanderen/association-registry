@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using System.Net;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using templates;
 using Xunit;
 using Xunit.Categories;

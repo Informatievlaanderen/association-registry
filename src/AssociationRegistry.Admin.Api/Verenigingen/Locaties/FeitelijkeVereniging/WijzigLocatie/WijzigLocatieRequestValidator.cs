@@ -11,13 +11,12 @@ public class WijzigLocatieRequestValidator : AbstractValidator<WijzigLocatieRequ
     public WijzigLocatieRequestValidator()
     {
         RuleFor(request => request.Locatie)
-            .NotNull()
-            .WithMessage("'Locatie' is verplicht.");
+           .NotNull()
+           .WithMessage("'Locatie' is verplicht.");
 
         RuleFor(request => request.Locatie)
-            .SetValidator(new TeWijzigenLocatieValidator());
+           .SetValidator(new TeWijzigenLocatieValidator());
     }
-
 }
 
 public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
@@ -25,21 +24,19 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
     public TeWijzigenLocatieValidator()
     {
         RuleFor(request => request)
-            .Must(HaveAtLeastOneValue)
-            .WithMessage("'Locatie' moet ingevuld zijn.");
+           .Must(HaveAtLeastOneValue)
+           .WithMessage("'Locatie' moet ingevuld zijn.");
 
         RuleFor(locatie => locatie.Locatietype)
-            .Must(BeAValidLocationTypeValue!)
-            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
-            .When(locatie => locatie.Locatietype is not null);
+           .Must(BeAValidLocationTypeValue!)
+           .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
+           .When(locatie => locatie.Locatietype is not null);
 
         RuleFor(request => request.Adres)
-            .SetValidator(new AdresValidator()!);
+           .SetValidator(new AdresValidator()!);
 
         RuleFor(request => request.AdresId)
-            .SetValidator(new AdresIdValidator()!);
-
-
+           .SetValidator(new AdresIdValidator()!);
     }
 
     private bool HaveAtLeastOneValue(TeWijzigenLocatie locatie)
@@ -52,4 +49,3 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
     private static bool BeAValidLocationTypeValue(string locatieType)
         => Locatietype.CanParse(locatieType);
 }
-

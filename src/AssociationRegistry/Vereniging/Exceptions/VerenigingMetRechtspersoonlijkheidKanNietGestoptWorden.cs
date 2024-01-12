@@ -6,7 +6,8 @@ using System.Runtime.Serialization;
 [Serializable]
 public class VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden : DomainException
 {
-    public VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden() : base(ExceptionMessages.VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden)
+    public VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden() : base(
+        ExceptionMessages.VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden)
     {
     }
 

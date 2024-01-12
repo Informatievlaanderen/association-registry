@@ -2,10 +2,10 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.Api;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

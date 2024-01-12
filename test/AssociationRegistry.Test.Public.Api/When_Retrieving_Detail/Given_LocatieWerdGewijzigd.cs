@@ -17,7 +17,7 @@ using Xunit.Categories;
 public class Given_LocatieWerdGewijzigd
 {
     private readonly PublicApiClient _publicApiClient;
-    private V013_LocatieWerdGewijzigdScenario _scenario;
+    private readonly V013_LocatieWerdGewijzigdScenario _scenario;
 
     public Given_LocatieWerdGewijzigd(GivenEventsFixture fixture)
     {

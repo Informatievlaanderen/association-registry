@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 
-using System.Linq;
 using FluentValidation;
 using RequestModels;
+using System.Linq;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegenwoordigerRequest>
@@ -10,18 +10,19 @@ public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegen
     public WijzigVertegenwoordigerValidator()
     {
         RuleFor(request => request.Vertegenwoordiger).NotNull()
-            .WithMessage("'Vertegenwoordiger' is verplicht.");
+                                                     .WithMessage("'Vertegenwoordiger' is verplicht.");
+
         When(
-            request => request.Vertegenwoordiger is not null,
-            () => RuleFor(request => request.Vertegenwoordiger)
-                .Must(HaveAtLeastOneValue)
-                .WithMessage("'Vertegenwoordiger' moet ingevuld zijn.")
+            predicate: request => request.Vertegenwoordiger is not null,
+            action: () => RuleFor(request => request.Vertegenwoordiger)
+                         .Must(HaveAtLeastOneValue)
+                         .WithMessage("'Vertegenwoordiger' moet ingevuld zijn.")
         );
     }
 
     private bool HaveAtLeastOneValue(TeWijzigenVertegenwoordiger vertegenwoordiger)
         => vertegenwoordiger
-            .GetType()
-            .GetProperties()
-            .Any(property => property.GetValue(vertegenwoordiger) is not null);
+          .GetType()
+          .GetProperties()
+          .Any(property => property.GetValue(vertegenwoordiger) is not null);
 }

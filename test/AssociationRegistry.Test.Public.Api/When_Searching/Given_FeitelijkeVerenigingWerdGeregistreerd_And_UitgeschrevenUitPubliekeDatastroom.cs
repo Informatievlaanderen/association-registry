@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
 using templates;
 using Xunit;
 using Xunit.Categories;
@@ -35,5 +35,4 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPub
 
         content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
     }
-
 }

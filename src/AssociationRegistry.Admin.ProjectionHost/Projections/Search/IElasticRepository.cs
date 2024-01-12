@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using System.Threading.Tasks;
 using Schema.Search;
 
 public interface IElasticRepository

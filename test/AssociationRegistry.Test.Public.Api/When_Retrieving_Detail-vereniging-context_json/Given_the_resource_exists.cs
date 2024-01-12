@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail_vereniging_
 
 using AssociationRegistry.Public.Api.Contexten;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,6 +34,6 @@ public class Given_The_Resource_Exists : IClassFixture<StaticPublicApiFixture>
         var response = await _httpClient.GetAsync($"/v1/contexten/publiek/{contextName}");
         var json = await response.Content.ReadAsStringAsync();
 
-        json.Should().BeEquivalentJson(JsonLdContexts.GetContext("publiek", contextName));
+        json.Should().BeEquivalentJson(JsonLdContexts.GetContext(folder: "publiek", contextName));
     }
 }

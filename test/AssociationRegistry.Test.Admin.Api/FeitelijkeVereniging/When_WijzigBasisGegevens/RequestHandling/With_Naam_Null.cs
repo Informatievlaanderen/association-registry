@@ -13,7 +13,7 @@ using Xunit.Categories;
 public class With_Naam_Null
 {
     private readonly WijzigBasisgegevensController _controller;
-    private readonly WijzigBasisgegevensRequest _requestWithNaamNull = new() { Naam = null};
+    private readonly WijzigBasisgegevensRequest _requestWithNaamNull = new() { Naam = null };
     private const string VCode = "V0009001";
 
     public With_Naam_Null()
@@ -30,7 +30,7 @@ public class With_Naam_Null
                 new WijzigBasisgegevensRequestValidator(),
                 _requestWithNaamNull,
                 VCode,
-                new CommandMetadataProviderStub { Initiator = "OVO0001001"},
-                "M/\"1\""));
+                new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+                ifMatch: "M/\"1\""));
     }
 }

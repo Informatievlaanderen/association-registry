@@ -9,6 +9,7 @@ public class MagdaHttpClientHandler : HttpClientHandler
     {
         ClientCertificateOptions = ClientCertificateOption.Manual;
         SslProtocols = SslProtocols.Tls12;
+
         if (magdaClientCertificate is not null)
             ClientCertificates.Add(magdaClientCertificate);
     }

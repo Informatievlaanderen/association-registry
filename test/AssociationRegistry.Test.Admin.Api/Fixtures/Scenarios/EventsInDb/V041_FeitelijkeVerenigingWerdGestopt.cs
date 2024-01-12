@@ -20,20 +20,20 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            "De dulste van Hulste",
-            "",
-            "",
-            null,
-            new Registratiedata.Doelgroep(0, 150),
-            false,
+            Naam: "De dulste van Hulste",
+            KorteNaam: "",
+            KorteBeschrijving: "",
+            Startdatum: null,
+            new Registratiedata.Doelgroep(Minimumleeftijd: 0, Maximumleeftijd: 150),
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
         );
 
-        VerenigingWerdGestopt = new VerenigingWerdGestopt(new DateOnly(2023, 09, 06));
-        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(1990,01,01));
+        VerenigingWerdGestopt = new VerenigingWerdGestopt(new DateOnly(year: 2023, month: 09, day: 06));
+        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(year: 1990, month: 01, day: 01));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -43,7 +43,7 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd, VerenigingWerdGestopt ,EinddatumWerdGewijzigd};
+            { FeitelijkeVerenigingWerdGeregistreerd, VerenigingWerdGestopt, EinddatumWerdGewijzigd };
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

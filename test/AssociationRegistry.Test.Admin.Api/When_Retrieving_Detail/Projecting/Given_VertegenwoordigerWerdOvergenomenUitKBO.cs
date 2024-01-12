@@ -39,6 +39,7 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
                 SocialMedia = "",
                 Bron = Bron.KBO,
             });
+
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
     }
 }

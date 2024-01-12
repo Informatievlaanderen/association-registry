@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_A_Vereniging.RequestValidating;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Stop;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen;
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 

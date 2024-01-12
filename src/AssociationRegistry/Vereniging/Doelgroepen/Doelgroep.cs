@@ -8,13 +8,11 @@ public record Doelgroep
     public static readonly Doelgroep Null = Create(StandaardMinimumleeftijd, StandaardMaximumleeftijd);
     public const int StandaardMinimumleeftijd = 0;
     public const int StandaardMaximumleeftijd = 150;
-
     public int Minimumleeftijd { get; init; }
     public int Maximumleeftijd { get; init; }
 
     private Doelgroep()
     {
-
     }
 
     public static Doelgroep Create(int? minimumleeftijd, int? maximumleeftijd)
@@ -55,7 +53,6 @@ public record Doelgroep
 
     private static bool IsAboveStandaard(int leeftijd)
         => leeftijd > StandaardMaximumleeftijd;
-
 
     private static bool IsBelowStandaard(int leeftijd)
         => leeftijd < StandaardMinimumleeftijd;

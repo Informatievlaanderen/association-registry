@@ -1,8 +1,5 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Marten;
@@ -12,6 +9,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Schema.VerenigingenPerInsz;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]

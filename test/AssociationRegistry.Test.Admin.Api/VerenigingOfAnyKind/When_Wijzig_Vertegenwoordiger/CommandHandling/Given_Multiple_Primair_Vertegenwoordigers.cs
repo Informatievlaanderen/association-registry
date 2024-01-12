@@ -2,12 +2,12 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,15 +35,17 @@ public class Given_Multiple_Primair_Vertegenwoordigers
             _scenario.VCode,
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
                 _scenario.VertegenwoordigerWerdToegevoegd2.VertegenwoordigerId,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
+                Rol: null,
+                Roepnaam: null,
+                Email: null,
+                Telefoon: null,
+                Mobiel: null,
+                SocialMedia: null,
                 IsPrimair: true)); // <== changed value
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        var handle = ()
+            => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+
         await handle.Should().ThrowAsync<MeerderePrimaireVertegenwoordigers>();
     }
 }

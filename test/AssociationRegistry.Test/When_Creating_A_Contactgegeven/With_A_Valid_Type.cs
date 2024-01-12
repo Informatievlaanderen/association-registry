@@ -21,7 +21,7 @@ public class With_A_Valid_Type
     public void Then_it_Returns_A_Contactgegeven(string type, string waarde, Type expectedType)
     {
         var fixture = new Fixture();
-        var contactgegeven = Contactgegeven.Create(type, waarde, fixture.Create<string>(), false);
+        var contactgegeven = Contactgegeven.Create(type, waarde, fixture.Create<string>(), isPrimair: false);
 
         contactgegeven.Should().BeOfType(expectedType);
     }

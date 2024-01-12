@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Locatie;
 
-using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,7 +15,6 @@ public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkhe
     public V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
-
 
     public Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
@@ -27,7 +26,8 @@ public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkhe
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.LocatieWerdToegevoegd.Locatie.LocatieId, @"{""initiator"":""OVO000001""}");
+        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
+                                                               jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
     public Task DisposeAsync()
@@ -37,7 +37,8 @@ public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkhe
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
+    Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
     private readonly Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
 
@@ -50,14 +51,16 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Delete_A
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var locatieWerdVerwijderd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
+                                                  .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
 
         var locatie = _classFixture.Scenario.LocatieWerdToegevoegd.Locatie;
+
         locatieWerdVerwijderd.Data.Should()
-            .BeEquivalentTo(
-                new LocatieWerdVerwijderd(locatie));
+                             .BeEquivalentTo(
+                                  new LocatieWerdVerwijderd(locatie));
     }
 
     [Fact]

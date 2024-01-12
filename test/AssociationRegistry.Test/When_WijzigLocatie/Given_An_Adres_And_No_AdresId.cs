@@ -20,7 +20,9 @@ public class Given_An_Adres_And_No_AdresId
         vereniging.Hydrate(givenState);
 
         var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
-        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, null, adres);
+
+        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype,
+                                 gewijzigdeLocatie.IsPrimair, adresId: null, adres);
 
         vereniging.UncommittedEvents.ToArray().ShouldCompare(
             new IEvent[]
@@ -38,6 +40,7 @@ public class Given_An_Adres_And_No_AdresId
             out var postcode,
             out var gemeente,
             out var land);
+
         return Adres.Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
     }
 
@@ -47,6 +50,7 @@ public class Given_An_Adres_And_No_AdresId
         {
             var fixture = new Fixture().CustomizeDomain();
             var locatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Activiteiten };
+
             var gewijzigdeLocatie = locatie with
             {
                 Naam = "nieuwe naam",

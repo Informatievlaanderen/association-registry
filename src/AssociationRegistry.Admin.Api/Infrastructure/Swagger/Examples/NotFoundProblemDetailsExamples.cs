@@ -13,6 +13,7 @@ public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
     {
         _helper = helper;
     }
+
     public ProblemDetails GetExamples()
         => new()
         {

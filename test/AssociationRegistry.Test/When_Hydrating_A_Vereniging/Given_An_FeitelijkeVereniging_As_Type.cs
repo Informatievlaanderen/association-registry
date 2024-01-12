@@ -35,6 +35,5 @@ public class Given_An_FeitelijkeVereniging_As_Type
             new VerenigingMetRechtspersoonlijkheid().Hydrate(_verenigingState);
 
         hydrate.Should().Throw<ActieIsNietToegestaanVoorVerenigingstype>();
-
     }
 }

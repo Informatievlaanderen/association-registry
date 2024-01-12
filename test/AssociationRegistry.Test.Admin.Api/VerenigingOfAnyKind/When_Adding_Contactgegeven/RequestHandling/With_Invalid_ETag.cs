@@ -3,9 +3,9 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,10 +23,10 @@ public class With_Invalid_ETag
     {
         _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
+
         _controller = new VoegContactgegevenToeController(messageBusMock.Object, new VoegContactgegevenToeValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]

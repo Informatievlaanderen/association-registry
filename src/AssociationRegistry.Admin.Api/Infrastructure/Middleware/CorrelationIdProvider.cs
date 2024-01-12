@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-class CorrelationIdProvider : ICorrelationIdProvider
+internal class CorrelationIdProvider : ICorrelationIdProvider
 {
     public string CorrelationId { get; set; }
 }

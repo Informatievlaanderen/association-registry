@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_WijzigDoelgroep.MetRechtspersoonlijkheid;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

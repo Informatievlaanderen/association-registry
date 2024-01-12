@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Magda.Models.GeefOndernemingVKBO;
 
-using System.Xml.Serialization;
-using AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO;
 using Configuration;
+using Onderneming.GeefOndernemingVKBO;
+using System.Xml.Serialization;
 
 [Serializable]
 public class GeefOndernemingVKBOBody

@@ -21,7 +21,6 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
-
     private readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data _scenario;
 
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data(EventsInDbScenariosFixture fixture)
@@ -55,7 +54,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
     public async Task Then_we_get_registratie_gebeurtenis_for_moeder()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{

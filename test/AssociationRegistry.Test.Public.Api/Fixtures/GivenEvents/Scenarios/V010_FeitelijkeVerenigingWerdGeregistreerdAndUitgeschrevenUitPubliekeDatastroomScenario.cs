@@ -10,19 +10,18 @@ public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
     public VCode VCode
         => VCode.Create("V0001010");
 
-
     public IEvent[] GetEvents()
     {
         return new IEvent[]
         {
             new FeitelijkeVerenigingWerdGeregistreerd(
                 VCode,
-                "verenigingZonderNaam",
+                Naam: "verenigingZonderNaam",
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
                 Registratiedata.Doelgroep.With(Doelgroep.Null),
-                false,
+                IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
@@ -32,5 +31,5 @@ public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 }

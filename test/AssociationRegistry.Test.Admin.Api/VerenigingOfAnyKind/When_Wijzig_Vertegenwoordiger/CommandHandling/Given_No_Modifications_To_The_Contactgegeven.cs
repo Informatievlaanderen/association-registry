@@ -2,15 +2,15 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -47,7 +47,8 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
                 SocialMedia.Create(_scenario.VertegenwoordigerWerdToegevoegd.SocialMedia),
                 _scenario.VertegenwoordigerWerdToegevoegd.IsPrimair));
 
-        _commandResult = await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
+        _commandResult =
+            await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
     }
 
     [Fact]

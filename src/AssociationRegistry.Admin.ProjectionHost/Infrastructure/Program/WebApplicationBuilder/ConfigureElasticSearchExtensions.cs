@@ -15,6 +15,7 @@ public static class ConfigureElasticSearchExtensions
         ElasticSearchExtensions.EnsureIndexExists(elasticClient,
                                                   elasticSearchOptions.Indices!.Verenigingen!,
                                                   elasticSearchOptions.Indices!.DuplicateDetection!);
+
         services.AddSingleton(elasticSearchOptions);
 
         services.AddSingleton(_ => elasticClient);

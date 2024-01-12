@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_CorelationIdMiddleware;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
+using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
-using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [UnitTest]
 [Category("Middleware")]

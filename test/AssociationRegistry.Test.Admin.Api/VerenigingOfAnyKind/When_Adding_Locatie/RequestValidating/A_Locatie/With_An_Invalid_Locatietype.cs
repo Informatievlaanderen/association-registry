@@ -3,10 +3,10 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,6 +22,7 @@ public class With_An_Invalid_Locatietype : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Locatietype)}")
-            .WithErrorMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})");
+              .WithErrorMessage(
+                   $"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})");
     }
 }

@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Given_A_InitiatorMiddleware;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -10,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,22 +22,22 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
-                webBuilder =>
-                {
-                    webBuilder.UseTestServer()
-                        .ConfigureServices(
-                            services =>
-                            {
-                                services.AddScoped<InitiatorProvider>();
-                                services.AddSingleton(new ProblemDetailsHelper(null));
-                            })
-                        .Configure(
-                            app =>
-                            {
-                                app.UseMiddleware<InitiatorHeaderMiddleware>();
-                            });
-                })
-            .StartAsync();
+                                            webBuilder =>
+                                            {
+                                                webBuilder.UseTestServer()
+                                                          .ConfigureServices(
+                                                               services =>
+                                                               {
+                                                                   services.AddScoped<InitiatorProvider>();
+                                                                   services.AddSingleton(new ProblemDetailsHelper(null));
+                                                               })
+                                                          .Configure(
+                                                               app =>
+                                                               {
+                                                                   app.UseMiddleware<InitiatorHeaderMiddleware>();
+                                                               });
+                                            })
+                                       .StartAsync();
     }
 
     [Theory]
@@ -51,7 +51,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
         var httpMethod = new HttpMethod(methodAsString);
 
         var testClient = _host.GetTestClient();
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, requestUri: "/v1/"));
 
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
@@ -66,10 +66,10 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     public async Task Methods_With_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
     {
         var testClient = _host.GetTestClient();
-        testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, "Koen");
+        testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, value: "Koen");
 
         var httpMethod = new HttpMethod(methodAsString);
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, requestUri: "/v1/"));
 
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
@@ -82,7 +82,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
         var testClient = _host.GetTestClient();
 
         var httpMethod = new HttpMethod(methodAsString);
-        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, "/v1/"));
+        var response = await testClient.SendAsync(new HttpRequestMessage(httpMethod, requestUri: "/v1/"));
 
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
@@ -90,6 +90,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     public Task DisposeAsync()
     {
         _host.Dispose();
+
         return Task.CompletedTask;
     }
 }

@@ -15,12 +15,14 @@ public class V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinima
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999031";
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             KorteNaam = string.Empty,
             Startdatum = null,
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

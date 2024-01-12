@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Events;
 using Fixtures;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,8 +22,10 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithDuplic
     {
         UitKboRequest = new RegistreerVerenigingUitKboRequest
         {
-            KboNummer = fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
+            KboNummer = fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection
+                               .VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
         };
+
         Response ??= fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(UitKboRequest)).GetAwaiter().GetResult();
     }
 
@@ -32,8 +34,8 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithDuplic
 
     private string GetJsonBody(RegistreerVerenigingUitKboRequest uitKboRequest)
         => GetType()
-            .GetAssociatedResourceJson("files.request.with_kboNummer")
-            .Replace("{{kboNummer}}", uitKboRequest.KboNummer);
+          .GetAssociatedResourceJson("files.request.with_kboNummer")
+          .Replace(oldValue: "{{kboNummer}}", uitKboRequest.KboNummer);
 }
 
 [Collection(nameof(AdminApiCollection))]
@@ -58,13 +60,13 @@ public class With_Duplicate_KboNummer
     public void Then_it_saves_no_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                    .LightweightSession();
 
         //only the original event with kbonummer
 
         session.Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-            .Where(e => e.KboNummer == Request.KboNummer)
-            .Should().HaveCount(expected: 1);
+               .Where(e => e.KboNummer == Request.KboNummer)
+               .Should().HaveCount(expected: 1);
     }
 
     [Fact]
@@ -77,8 +79,9 @@ public class With_Duplicate_KboNummer
     public void Then_it_returns_a_location_header()
     {
         Response.Headers.Should().ContainKey(HeaderNames.Location);
+
         Response.Headers.Location!.OriginalString.Should()
-            .StartWith(
-                $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/{_fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection.VCode}");
+                .StartWith(
+                     $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/{_fixture.V020VerenigingMetRechtspersoonlijkheidWerdGeregistreerdForDuplicateDetection.VCode}");
     }
 }

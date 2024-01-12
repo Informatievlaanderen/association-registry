@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_CorelationIdMiddleware;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using Fixtures;
 using FluentAssertions;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

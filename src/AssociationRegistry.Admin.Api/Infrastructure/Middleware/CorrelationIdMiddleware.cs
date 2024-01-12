@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using System;
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using System;
+using System.Threading.Tasks;
 
 public class CorrelationIdMiddleware
 {
@@ -25,12 +25,15 @@ public class CorrelationIdMiddleware
             if (correlationId is null)
             {
                 await context.Response.WriteProblemDetailsAsync(helper, $"{WellknownHeaderNames.CorrelationId} is verplicht.");
+
                 return;
             }
 
             if (!Guid.TryParse(correlationId.Value.ToString(), out _))
             {
-                await context.Response.WriteProblemDetailsAsync(helper, $"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn.");
+                await context.Response.WriteProblemDetailsAsync(
+                    helper, $"{WellknownHeaderNames.CorrelationId} moet een geldige GUID zijn.");
+
                 return;
             }
 
@@ -44,9 +47,7 @@ public class CorrelationIdMiddleware
     private static StringValues? GetCorrelationId(HttpContext context)
     {
         if (context.Request.Headers.TryGetValue(WellknownHeaderNames.CorrelationId, out var correlationId))
-        {
             return correlationId;
-        }
 
         return null;
     }
@@ -58,6 +59,7 @@ public class CorrelationIdMiddleware
             {
                 context.Response.Headers.Remove(WellknownHeaderNames.CorrelationId);
                 context.Response.Headers.Add(WellknownHeaderNames.CorrelationId, new[] { correlationId.ToString() });
+
                 return Task.CompletedTask;
             });
     }

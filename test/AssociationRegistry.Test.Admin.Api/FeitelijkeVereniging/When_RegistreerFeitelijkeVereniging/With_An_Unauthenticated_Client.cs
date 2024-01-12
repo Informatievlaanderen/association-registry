@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

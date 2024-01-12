@@ -1,8 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using System.Net;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Net;
 
 public static class ConfigureKestrel
 {
@@ -10,7 +9,7 @@ public static class ConfigureKestrel
     {
         source.Listen(
             new IPEndPoint(ipAddress, port),
-            listenOptions =>
+            configure: listenOptions =>
             {
                 listenOptions.UseConnectionLogging();
 

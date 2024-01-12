@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Storing_An_Event;
 
-using EventStore;
 using AssociationRegistry.Framework;
+using EventStore;
 using Fixtures;
 using FluentAssertions;
 using Marten;
@@ -9,6 +9,7 @@ using NodaTime;
 using NodaTime.Text;
 using Xunit;
 using Xunit.Categories;
+using IEvent = Marten.Events.IEvent;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
@@ -37,7 +38,7 @@ public class Given_An_Event
         await eventStore.Save(
             streamId,
             new CommandMetadata(
-                "SomeInitiator",
+                Initiator: "SomeInitiator",
                 tijdstip,
                 Guid.NewGuid()),
             CancellationToken.None,
@@ -55,7 +56,7 @@ public class Given_An_Event
         single.GetHeaderString(MetadataHeaderNames.Tijdstip).Should().Be(tijdstipString);
     }
 
-    private static async Task<IReadOnlyList<Marten.Events.IEvent>> GetEventsFromDb(string streamId, IDocumentStore documentStore)
+    private static async Task<IReadOnlyList<IEvent>> GetEventsFromDb(string streamId, IDocumentStore documentStore)
     {
         await using var session = documentStore.LightweightSession();
 
@@ -63,5 +64,5 @@ public class Given_An_Event
     }
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
-    private record SomeEvent(string Name) : IEvent;
+    private record SomeEvent(string Name) : AssociationRegistry.Framework.IEvent;
 }

@@ -12,6 +12,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
     {
         _appSettings = appSettings;
     }
+
     public HistoriekResponse GetExamples()
         => new()
         {

@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
-using Events;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
@@ -23,6 +23,6 @@ public class Given_HoofdactiviteitenVerenigingsregisterWerdenGewijzigd
         PubliekVerenigingDetailProjector.Apply(hoofactiviteitenVerenigingloketWerdenGewijzigd, doc);
 
         doc.HoofdactiviteitenVerenigingsloket.Should()
-            .BeEquivalentTo(hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);
+           .BeEquivalentTo(hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket);
     }
 }

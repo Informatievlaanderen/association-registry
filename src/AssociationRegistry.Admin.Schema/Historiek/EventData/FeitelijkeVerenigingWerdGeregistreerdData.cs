@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Schema.Historiek.EventData;
 
-using System;
 using Events;
 
 public record FeitelijkeVerenigingWerdGeregistreerdData(

@@ -53,7 +53,8 @@ public class With_A_PotentialDuplicate
             duplicateChecker.Object,
             new ClockStub(command.Startdatum.Value));
 
-        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata),
+                                        CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();
     }

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Given_A_CorelationIdMiddleware;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,7 +19,6 @@ public class When_CorrelationId_Is_Invalid
     public When_CorrelationId_Is_Invalid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-
     }
 
     [Fact]

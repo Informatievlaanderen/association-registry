@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_All_BasisGegevensWerdenGewijzigd;
 
-using System.Net;
 using Fixtures;
 using Fixtures.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
+using System.Net;
 using templates;
 using Xunit;
 using Xunit.Abstractions;

@@ -85,7 +85,11 @@ public class SearchVerenigingenResponseMapper
         };
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
+    public static string AddHoofdactiviteitToQuery(
+        AppSettings appSettings,
+        string hoofdactiviteitenVerenigingsloketCode,
+        string originalQuery,
+        string[] hoofdactiviteiten)
         => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)

@@ -72,12 +72,14 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Wij
         var events = session.Events
                             .FetchStream(_vCode);
 
-        var maatschappelijkeZetelVolgensKboWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));
+        var maatschappelijkeZetelVolgensKboWerdGewijzigd =
+            events.Single(e => e.Data.GetType() == typeof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd));
 
         maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Should()
-                             .BeEquivalentTo(
-                                  new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(_locatieId, _request.Locatie.Naam!,
-                                                                                   _request.Locatie.IsPrimair!.Value));
+                                                    .BeEquivalentTo(
+                                                         new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(
+                                                             _locatieId, _request.Locatie.Naam!,
+                                                             _request.Locatie.IsPrimair!.Value));
     }
 
     [Fact]

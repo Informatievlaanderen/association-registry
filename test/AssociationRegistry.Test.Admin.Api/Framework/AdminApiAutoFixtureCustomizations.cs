@@ -86,7 +86,7 @@ public static class AutoFixtureCustomizations
                 _ =>
                 {
                     var datum = fixture.Create<Datum>();
-                    var startDatum = new DateOnly(new Random().Next(1970, DateTime.Now.Year), datum.Value.Month, datum.Value.Day);
+                    var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year), datum.Value.Month, datum.Value.Day);
                     var request = new RegistreerFeitelijkeVerenigingRequest();
 
                     request.Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray();

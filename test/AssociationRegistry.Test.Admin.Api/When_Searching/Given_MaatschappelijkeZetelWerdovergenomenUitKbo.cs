@@ -37,14 +37,14 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                           .FromQuery(_scenario.VCode)
                           .WithVereniging(
                                v => v
-                                  .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
                                    .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Postcode,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Gemeente,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.IsPrimair
-                                        )
+                                    )
                            );
 
         content.Should().BeEquivalentJson(goldenMaster);

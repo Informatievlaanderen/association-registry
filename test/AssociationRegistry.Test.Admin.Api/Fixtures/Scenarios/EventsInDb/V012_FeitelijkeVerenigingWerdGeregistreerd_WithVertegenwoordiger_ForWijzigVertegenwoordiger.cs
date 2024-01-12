@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 
 public class V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_ForWijzigVertegenwoordiger : IEventsInDbScenario
 {
@@ -15,6 +15,7 @@ public class V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_Fo
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999012";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -25,6 +26,7 @@ public class V012_FeitelijkeVerenigingWerdGeregistreerd_WithVertegenwoordiger_Fo
                 }
             ).ToArray(),
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

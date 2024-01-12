@@ -24,6 +24,7 @@ public class WijzigContactgegevenCommandHandler
         vereniging.WijzigContactgegeven(contacgegevenId, waarde, beschrijving, isPrimair);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

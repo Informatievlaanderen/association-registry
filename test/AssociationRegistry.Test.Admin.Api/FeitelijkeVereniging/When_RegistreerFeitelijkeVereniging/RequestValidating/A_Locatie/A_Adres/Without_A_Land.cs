@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_Adres;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using FluentValidation.TestHelper;
 using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
@@ -17,6 +17,7 @@ public class Without_A_Land : ValidatorTest
     public void Has_validation_error__land_is_verplicht()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
@@ -24,7 +25,7 @@ public class Without_A_Land : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "Dezestraat",
                         Huisnummer = "23",
@@ -34,9 +35,11 @@ public class Without_A_Land : ValidatorTest
                 },
             },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
-            .WithErrorMessage("'Land' is verplicht.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Land)}")
+              .WithErrorMessage("'Land' is verplicht.");
     }
 }

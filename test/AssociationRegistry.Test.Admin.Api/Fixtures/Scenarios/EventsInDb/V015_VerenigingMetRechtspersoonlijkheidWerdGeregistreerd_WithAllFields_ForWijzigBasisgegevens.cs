@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 
 public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForWijzigBasisgegevens : IEventsInDbScenario
 {
@@ -15,13 +15,15 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithAllFie
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999015";
-        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
+
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
             VCode,
-            "0000000000",
-            "VZW",
-            "VZW 0000000000",
+            KboNummer: "0000000000",
+            Rechtsvorm: "VZW",
+            Naam: "VZW 0000000000",
             string.Empty,
-            null);
+            Startdatum: null);
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
-using Be.Vlaanderen.Basisregisters.Api.ETag;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
 using Examples;
@@ -16,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Historiek;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -78,8 +77,8 @@ public class VerenigingenHistoriekController : ApiController
             throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
-            .WithVCode(vCode)
-            .SingleOrDefaultAsync();
+                                                    .WithVCode(vCode)
+                                                    .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)
             return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper);

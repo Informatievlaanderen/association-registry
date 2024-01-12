@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.WhenWijzigMaatschappelijkeZetel;
 
-using Events;
 using AssociationRegistry.Framework;
-using Framework.Customizations;
-using Vereniging;
 using AutoFixture;
+using Events;
+using Framework.Customizations;
 using KellermanSoftware.CompareNetObjects;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

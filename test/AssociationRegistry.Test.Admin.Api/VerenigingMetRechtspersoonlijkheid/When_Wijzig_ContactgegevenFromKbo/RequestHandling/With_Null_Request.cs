@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
@@ -17,7 +16,7 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBusMock = new MessageBusMock();
-        _controller = new WijzigContactgegevenController(messageBusMock, new WijzigContactgegevenValidator(),new AppSettings());
+        _controller = new WijzigContactgegevenController(messageBusMock, new WijzigContactgegevenValidator(), new AppSettings());
     }
 
     [Fact]
@@ -25,10 +24,10 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(
-                "V0001001",
-                1,
-                null,
+                vCode: "V0001001",
+                contactgegevenId: 1,
+                request: null,
                 new CommandMetadataProviderStub { Initiator = "OVO000001" },
-                "M/\"1\""));
+                ifMatch: "M/\"1\""));
     }
 }

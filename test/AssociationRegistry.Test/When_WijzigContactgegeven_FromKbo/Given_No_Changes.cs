@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.When_WijzigContactgegeven_FromKbo;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

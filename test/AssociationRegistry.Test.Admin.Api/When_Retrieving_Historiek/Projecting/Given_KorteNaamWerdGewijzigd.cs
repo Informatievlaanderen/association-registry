@@ -23,7 +23,6 @@ public class Given_KorteNaamWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Korte naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}'.",

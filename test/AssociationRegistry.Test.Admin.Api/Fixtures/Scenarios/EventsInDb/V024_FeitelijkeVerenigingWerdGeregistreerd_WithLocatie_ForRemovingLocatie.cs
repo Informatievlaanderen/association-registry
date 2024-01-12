@@ -16,6 +16,7 @@ public class V024_FeitelijkeVerenigingWerdGeregistreerd_WithLocatie_ForRemovingL
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999024";
         Naam = "De coolste club";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -23,11 +24,12 @@ public class V024_FeitelijkeVerenigingWerdGeregistreerd_WithLocatie_ForRemovingL
             Locaties = fixture.CreateMany<Registratiedata.Locatie>().Select(
                 (locatie, w) => locatie with
                 {
-                    LocatieId = w+1,
+                    LocatieId = w + 1,
                     IsPrimair = w == 0,
                 }
             ).ToArray(),
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

@@ -173,7 +173,7 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdUitgeschrevenUitPubliekeDatastroom,
             verenigingWerdUitgeschrevenUitPubliekeDatastroom.Data,
             document,
-            "Vereniging werd uitgeschreven uit de publieke datastroom."
+            beschrijving: "Vereniging werd uitgeschreven uit de publieke datastroom."
         );
     }
 
@@ -185,7 +185,7 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdIngeschrevenInPubliekeDatastroom,
             verenigingWerdIngeschrevenInPubliekeDatastroom.Data,
             document,
-            "Vereniging werd ingeschreven in de publieke datastroom."
+            beschrijving: "Vereniging werd ingeschreven in de publieke datastroom."
         );
     }
 
@@ -386,7 +386,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             verenigingWerdVerwijderd,
             document,
-            "Deze vereniging werd verwijderd."
+            beschrijving: "Deze vereniging werd verwijderd."
         );
     }
 

@@ -4,7 +4,6 @@ public class Bron
 {
     public static readonly Bron Initiator = new("Initiator");
     public static readonly Bron KBO = new("KBO");
-
     public string Waarde { get; }
 
     private Bron(string waarde)

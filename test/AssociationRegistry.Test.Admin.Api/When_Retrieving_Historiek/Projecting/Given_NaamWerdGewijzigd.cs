@@ -24,7 +24,6 @@ public class Given_NaamWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.Naam}'.",
@@ -48,7 +47,6 @@ public class Given_VerenigingWerdGestopt
 
         BeheerVerenigingHistoriekProjector.Apply(verenigingWerdGestopt, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"De vereniging werd gestopt met einddatum '{verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
@@ -58,7 +56,6 @@ public class Given_VerenigingWerdGestopt
                 verenigingWerdGestopt.Tijdstip.ToZuluTime()));
     }
 }
-
 
 [UnitTest]
 public class Given_EinddatumWerdGewijzigd
@@ -72,7 +69,6 @@ public class Given_EinddatumWerdGewijzigd
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
         BeheerVerenigingHistoriekProjector.Apply(verenigingWerdGestopt, doc);
-
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(

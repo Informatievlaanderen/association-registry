@@ -2,11 +2,11 @@
 
 public class Verenigingstype
 {
-    public static readonly Verenigingstype FeitelijkeVereniging = new("FV", "Feitelijke vereniging");
-    public static readonly Verenigingstype VZW = new("VZW", "Vereniging zonder winstoogmerk");
-    public static readonly Verenigingstype IVZW = new("IVZW", "Internationale vereniging zonder winstoogmerk");
-    public static readonly Verenigingstype PrivateStichting = new("PS", "Private stichting");
-    public static readonly Verenigingstype StichtingVanOpenbaarNut = new("SVON", "Stichting van openbaar nut");
+    public static readonly Verenigingstype FeitelijkeVereniging = new(code: "FV", naam: "Feitelijke vereniging");
+    public static readonly Verenigingstype VZW = new(code: "VZW", naam: "Vereniging zonder winstoogmerk");
+    public static readonly Verenigingstype IVZW = new(code: "IVZW", naam: "Internationale vereniging zonder winstoogmerk");
+    public static readonly Verenigingstype PrivateStichting = new(code: "PS", naam: "Private stichting");
+    public static readonly Verenigingstype StichtingVanOpenbaarNut = new(code: "SVON", naam: "Stichting van openbaar nut");
 
     public static readonly Verenigingstype[] All =
     {

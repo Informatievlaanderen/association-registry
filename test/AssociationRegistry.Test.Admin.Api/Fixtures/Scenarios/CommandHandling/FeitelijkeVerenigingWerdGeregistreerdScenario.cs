@@ -1,15 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Framework;
 using Vereniging;
-using AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
@@ -28,7 +27,6 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScena
 public class VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
     public VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario()

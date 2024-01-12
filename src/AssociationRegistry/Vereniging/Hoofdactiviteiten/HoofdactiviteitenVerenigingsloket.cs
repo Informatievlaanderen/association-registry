@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using System.Collections.ObjectModel;
-using Framework;
 using Exceptions;
+using Framework;
+using System.Collections.ObjectModel;
 
 public class HoofdactiviteitenVerenigingsloket : ReadOnlyCollection<HoofdactiviteitVerenigingsloket>
 {
@@ -31,7 +31,9 @@ public class HoofdactiviteitenVerenigingsloket : ReadOnlyCollection<Hoofdactivit
     public static implicit operator HoofdactiviteitVerenigingsloket[](HoofdactiviteitenVerenigingsloket hoofdactiviteitenVerenigingsloket)
         => hoofdactiviteitenVerenigingsloket.ToArray();
 
-    public static bool Equals(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket1, HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket2)
+    public static bool Equals(
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket1,
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket2)
         => hoofdactiviteitenVerenigingsloket1.Length == hoofdactiviteitenVerenigingsloket2.Length &&
            hoofdactiviteitenVerenigingsloket1.All(hoofdactiviteitenVerenigingsloket2.Contains);
 }

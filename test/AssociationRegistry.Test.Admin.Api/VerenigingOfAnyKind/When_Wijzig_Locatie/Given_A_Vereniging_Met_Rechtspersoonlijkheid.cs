@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
-using System.Net;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
+using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,7 +21,6 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-
     public Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
@@ -31,6 +30,7 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
         DocumentStore = _fixture.DocumentStore;
 
         var locatie = Scenario.LocatieWerdToegevoegd.Locatie;
+
         TeWijzigenLocatie = locatie with
         {
             Locatietype = Locatietype.Correspondentie,
@@ -39,6 +39,7 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
             Adres = autofixture.Create<Registratiedata.Adres>(),
             AdresId = autofixture.Create<Registratiedata.AdresId>(),
         };
+
         _jsonBody = $@"{{
             ""locatie"": {{
                 ""locatietype"": ""{TeWijzigenLocatie.Locatietype}"",
@@ -85,12 +86,13 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var locatieWerdGewijzigd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
+                                                 .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
 
         locatieWerdGewijzigd.Data.Should()
-            .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));
+                            .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));
     }
 
     [Fact]

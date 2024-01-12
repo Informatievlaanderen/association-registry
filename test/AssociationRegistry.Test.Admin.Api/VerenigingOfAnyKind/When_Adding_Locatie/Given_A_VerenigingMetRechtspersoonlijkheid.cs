@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
-using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,7 +16,6 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_Setup : IAsyncLifetime
     public V031_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinimalFields_ForAddingLocatie Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
-
 
     public Given_A_VerenigingMetRechtspersoonlijkheid_Setup(EventsInDbScenariosFixture fixture)
     {
@@ -71,26 +70,28 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Given_A_
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var contactgegevenWerdToegevoegd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
+                                                         .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(LocatieWerdToegevoegd));
 
         contactgegevenWerdToegevoegd.Data.Should()
-            .BeEquivalentTo(
-                new LocatieWerdToegevoegd(
-                    new Registratiedata.Locatie(
-                        1,
-                        "Correspondentie",
-                        true,
-                        "nieuwe locatie",
-                        new Registratiedata.Adres(
-                            "Stationsstraat",
-                            "1",
-                            "B",
-                            "1790",
-                            "Affligem",
-                            "België"),
-                        new Registratiedata.AdresId("AR", "https://data.vlaanderen.be/id/adres/0"))));
+                                    .BeEquivalentTo(
+                                         new LocatieWerdToegevoegd(
+                                             new Registratiedata.Locatie(
+                                                 LocatieId: 1,
+                                                 Locatietype: "Correspondentie",
+                                                 IsPrimair: true,
+                                                 Naam: "nieuwe locatie",
+                                                 new Registratiedata.Adres(
+                                                     Straatnaam: "Stationsstraat",
+                                                     Huisnummer: "1",
+                                                     Busnummer: "B",
+                                                     Postcode: "1790",
+                                                     Gemeente: "Affligem",
+                                                     Land: "België"),
+                                                 new Registratiedata.AdresId(Broncode: "AR",
+                                                                             Bronwaarde: "https://data.vlaanderen.be/id/adres/0"))));
     }
 
     [Fact]

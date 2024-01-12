@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_VerwijderLocatie;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,6 +16,7 @@ public class Given_The_MaatschappelijkeZetelId
     public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var locatie = fixture.Create<Locatie>() with
         {
             LocatieId = 1,

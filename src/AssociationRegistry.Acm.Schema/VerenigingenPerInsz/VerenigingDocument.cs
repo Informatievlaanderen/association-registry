@@ -3,7 +3,7 @@ namespace AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using Marten.Metadata;
 using Marten.Schema;
 
-public class VerenigingDocument: ISoftDeleted
+public class VerenigingDocument : ISoftDeleted
 {
     [Identity]
     public string VCode { get; set; } = null!;
