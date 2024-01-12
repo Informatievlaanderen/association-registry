@@ -28,7 +28,7 @@ public class Remove_A_Removed_Vereniging : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, "Omdat");
+        Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
     public Task DisposeAsync()
@@ -71,6 +71,6 @@ public class Given_A_Removed_Vereniging : IClassFixture<Remove_A_Removed_Verenig
         var responseBody = await _classFixture.Response.Content.ReadAsStringAsync();
         var problemDetails = JsonConvert.DeserializeObject<JObject>(responseBody);
 
-        problemDetails["detail"].Value<string>().Should().Be(ExceptionMessages.VerenigingKanNietVerwijderdWorden);
+        problemDetails["detail"].Value<string>().Should().Be(ExceptionMessages.VerenigingWerdVerwijderd);
     }
 }
