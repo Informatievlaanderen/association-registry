@@ -15,12 +15,7 @@ public class BeheerVerenigingHistoriekProjector
     public static BeheerVerenigingHistoriekDocument Create(
         IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var beheerVerenigingHistoriekDocument = CreateNewDocument(feitelijkeVerenigingWerdGeregistreerd.Data.VCode);
 
         AddHistoriekEntry(
             feitelijkeVerenigingWerdGeregistreerd,
@@ -34,12 +29,7 @@ public class BeheerVerenigingHistoriekProjector
     public static BeheerVerenigingHistoriekDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var beheerVerenigingHistoriekDocument = CreateNewDocument(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode);
 
         AddHistoriekEntry(
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
@@ -388,4 +378,23 @@ public class BeheerVerenigingHistoriekProjector
     {
         document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
+
+    public static void Apply(IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>();
+
+        AddHistoriekEntry(
+            verenigingWerdVerwijderd,
+            document,
+            "Deze vereniging werd verwijderd."
+        );
+    }
+
+    private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
+        => new()
+        {
+            VCode = vCode,
+            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
+            Metadata = new Metadata(Sequence: 0, Version: 0),
+        };
 }

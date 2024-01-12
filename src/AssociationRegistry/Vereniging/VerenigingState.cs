@@ -35,6 +35,7 @@ public record VerenigingState : IHasVersion
         HoofdactiviteitenVerenigingsloket.Empty;
 
     public bool IsGestopt => Einddatum is not null;
+    public bool IsVerwijderd { get; set; }
     public long Version { get; set; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
@@ -128,6 +129,9 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(VerenigingWerdGestopt @event)
         => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
+
+    public VerenigingState Apply(VerenigingWerdVerwijderd @event)
+        => this with { IsVerwijderd = true };
 
     public VerenigingState Apply(EinddatumWerdGewijzigd @event)
         => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };

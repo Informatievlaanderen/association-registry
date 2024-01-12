@@ -103,7 +103,8 @@ public class SearchVerenigingenController : ApiController
                          boolQueryDescriptor => boolQueryDescriptor.Must(
                              queryContainerDescriptor => queryContainerDescriptor.QueryString(
                                  queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
-                             )
+                             ),
+                             descriptor => descriptor.Term(document => document.IsVerwijderd, false)
                          )
                      )
                  )

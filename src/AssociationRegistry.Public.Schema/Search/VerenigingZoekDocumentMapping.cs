@@ -28,6 +28,9 @@ public static class VerenigingZoekDocumentMapping
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
+                         .Boolean(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.IsVerwijderd))
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Verenigingstype)

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 using Framework.Helpers;
 using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
 
 public class AdminApiClient : IDisposable
 {
@@ -174,6 +175,7 @@ public class AdminApiClient : IDisposable
         {
             Method = HttpMethod.Delete,
             RequestUri = new Uri($"/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}", UriKind.Relative),
+            Content = jsonBody.AsJsonContent(),
         };
 
         return await HttpClient.SendAsync(request);
@@ -278,6 +280,25 @@ public class AdminApiClient : IDisposable
 
     public async Task<HttpResponseMessage> RebuildPubliekZoekenProjection(CancellationToken cancellationToken)
         => await HttpClient.PostAsync(requestUri: "/v1/projections/public/search/rebuild", content: null, cancellationToken);
+
+    public async Task<HttpResponseMessage> DeleteVereniging(
+        string vCode,
+        string reason,
+        long? version = null,
+        string initiator = "V0001001")
+    {
+        WithHeaders(version, initiator);
+
+        var request = new HttpRequestMessage
+        {
+            Method = HttpMethod.Delete,
+            RequestUri = new Uri($"/v1/verenigingen/{vCode}", UriKind.Relative),
+            Content = JsonConvert.SerializeObject(new { Reden = reason }).AsJsonContent(),
+        };
+
+        return await HttpClient.SendAsync(request);
+    }
+
 
     public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
         => await HttpClient.GetAsync($"/v1/contexten/beheer/{contextName}");

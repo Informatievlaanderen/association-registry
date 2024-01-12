@@ -28,6 +28,9 @@ public static class DuplicateDetectionDocumentMapping
                              .Boolean(
                                   propertyDescriptor => propertyDescriptor
                                      .Name(document => document.IsGestopt))
+                             .Boolean(
+                                  propertyDescriptor => propertyDescriptor
+                                     .Name(document => document.IsVerwijderd))
                              .Nested<DuplicateDetectionDocument.Locatie>(
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Locaties)

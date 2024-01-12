@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
+using Marten.Metadata;
 using Marten.Schema;
 
 public record Doelgroep
@@ -8,7 +9,7 @@ public record Doelgroep
     public int Maximumleeftijd { get; init; }
 }
 
-public record BeheerVerenigingDetailDocument : IVCode, IMetadata
+public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
 {
     public string Naam { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; init; } = null!;
@@ -107,6 +108,9 @@ public record BeheerVerenigingDetailDocument : IVCode, IMetadata
             public string Naam { get; init; } = null!;
         }
     }
+
+    public bool Deleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
 }
 
 public class AdresId

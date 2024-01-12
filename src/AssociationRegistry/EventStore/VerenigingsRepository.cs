@@ -2,6 +2,7 @@
 
 using Framework;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
@@ -29,6 +30,7 @@ public class VerenigingsRepository : IVerenigingsRepository
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
+        ThrowIfVerwijderd(verenigingState);
 
         var vereniging = new TVereniging();
         vereniging.Hydrate(verenigingState);
@@ -55,5 +57,11 @@ public class VerenigingsRepository : IVerenigingsRepository
             => new(
                 VCode: null,
                 VerenigingsNaam.Create($"Moeder {kboNummer}"));
+    }
+
+    private void ThrowIfVerwijderd(VerenigingState verenigingState)
+    {
+        if (verenigingState.IsVerwijderd)
+            throw new VerenigingWerdVerwijderd(verenigingState.VCode);
     }
 }

@@ -127,6 +127,18 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V057_VerenigingWerdGeregistreerd_With_KboLocatie_For_DuplicateDetection
         V057VerenigingWerdGeregistreerdWithKboLocatieForDuplicateDetection = new();
 
+    public readonly V058_FeitelijkeVerenigingWerdGeregistreerd_ForRemoval
+        V058FeitelijkeVerenigingWerdGeregistreerdForRemoval = new();
+
+    public readonly V059_FeitelijkeVerenigingWerdGeregistreerd_AndRemoved
+        V059FeitelijkeVerenigingWerdGeregistreerdAndRemoved = new();
+
+    public readonly V060_VerenigingWerdGeregistreerd_And_Verwijderd_For_DuplicateDetection
+        V060VerenigingWerdGeregistreerdAndVerwijderdForDuplicateDetection = new();
+
+    public readonly V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates
+        V061VerenigingWerdGeregistreerdAndVerwijderdAndFollowedByUpdates = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -174,6 +186,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum,
             V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection,
             V057VerenigingWerdGeregistreerdWithKboLocatieForDuplicateDetection,
+            V058FeitelijkeVerenigingWerdGeregistreerdForRemoval,
+            V059FeitelijkeVerenigingWerdGeregistreerdAndRemoved,
+            V060VerenigingWerdGeregistreerdAndVerwijderdForDuplicateDetection,
+            V061VerenigingWerdGeregistreerdAndVerwijderdAndFollowedByUpdates,
         };
 
         foreach (var scenario in scenarios)

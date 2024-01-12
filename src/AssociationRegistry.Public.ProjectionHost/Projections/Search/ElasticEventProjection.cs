@@ -223,4 +223,10 @@ public class PubliekZoekProjectionHandler
         await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument
                                                  { Status = VerenigingStatus.Gestopt });
     }
+
+    public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
+    {
+        await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument
+                                                 { IsVerwijderd = true });
+    }
 }

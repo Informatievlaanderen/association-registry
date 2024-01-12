@@ -8,7 +8,6 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
@@ -22,13 +21,13 @@ public class Given_A_Verwijderde_Vereniging
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly Fixture _fixture;
-    private readonly V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection _scenario;
+    private readonly V060_VerenigingWerdGeregistreerd_And_Verwijderd_For_DuplicateDetection _scenario;
 
     public Given_A_Verwijderde_Vereniging(EventsInDbScenariosFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _adminApiClient = fixture.AdminApiClient;
-        _scenario = fixture.V056VerenigingWerdGeregistreerdAndGestoptForDuplicateDetection;
+        _scenario = fixture.V060VerenigingWerdGeregistreerdAndVerwijderdForDuplicateDetection;
     }
 
     [Fact]
@@ -42,7 +41,6 @@ public class Given_A_Verwijderde_Vereniging
 
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
     }
 
     private RegistreerFeitelijkeVerenigingRequest CreateRegistreerFeitelijkeVerenigingRequest(string naam, string gemeente, string postcode)

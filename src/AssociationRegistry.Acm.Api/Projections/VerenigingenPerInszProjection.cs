@@ -72,6 +72,16 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(verenigingWerdVerwijderd, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingWerdVerwijderd, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
@@ -183,6 +193,26 @@ public class VerenigingenPerInszProjection : EventProjection
 
             return docs;
         }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdVerwijderd.StreamKey!);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
+                                                                                      .Where(v => v.VCode !=
+                                                                                           verenigingWerdVerwijderd.StreamKey)
+                                                                                      .ToList();
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
     }
 
     private static class VerenigingDocumentProjector
@@ -219,6 +249,15 @@ public class VerenigingenPerInszProjection : EventProjection
             verenigingDocument.Status = VerenigingStatus.Gestopt;
 
             return verenigingDocument;
+        }
+
+        public static async Task<VerenigingDocument> Apply(
+            IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd,
+            IDocumentOperations ops)
+        {
+            ops.Delete<VerenigingDocument>(verenigingWerdVerwijderd.StreamKey!);
+
+            return await ops.GetVerenigingDocument(verenigingWerdVerwijderd.StreamKey!);
         }
     }
 }

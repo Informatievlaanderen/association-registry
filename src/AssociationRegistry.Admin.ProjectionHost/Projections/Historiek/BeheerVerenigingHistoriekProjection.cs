@@ -122,6 +122,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<EinddatumWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
         IDocumentOperations ops)
@@ -138,6 +141,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         IDocumentOperations ops,
         Action<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
         => await Update(@event.StreamKey!, @event, ops, action);
+
 
     private static async Task Update<T>(
         string vCode,

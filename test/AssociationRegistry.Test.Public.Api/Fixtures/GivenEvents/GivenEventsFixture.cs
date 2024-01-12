@@ -5,19 +5,39 @@ using Scenarios;
 public class GivenEventsFixture : PublicApiFixture
 {
     public readonly V001_FeitelijkeVerenigingWerdGeregistreerdScenario V001FeitelijkeVerenigingWerdGeregistreerdScenario = new();
-    public readonly V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
+
+    public readonly V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
+        V002FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario = new();
+
     public readonly V003_BasisgegevensWerdenGewijzigdScenario V003BasisgegevensWerdenGewijzigdScenario = new();
-    public readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario = new();
+
+    public readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
+        V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario = new();
+
     public readonly V005_ContactgegevenWerdToegevoegdScenario V005ContactgegevenWerdToegevoegdScenario = new();
-    public readonly V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new();
-    public readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario = new();
+
+    public readonly V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario
+        V006VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario = new();
+
+    public readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario
+        V010FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario = new();
+
     public readonly V011_LocatieWerdToegevoegdScenario V011LocatieWerdToegevoegdScenario = new();
     public readonly V012_LocatieWerdVerwijderdScenario V012LocatieWerdVerwijderdScenario = new();
     public readonly V013_LocatieWerdGewijzigdScenario V013LocatieWerdGewijzigdScenario = new();
-    public readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario = new();
-    public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
+
+    public readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario
+        V014VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllDataScenario = new();
+
+    public readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens
+        V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens = new();
+
     public readonly V016_VerenigingWerdGestopt V016VerenigingWerdGestopt = new();
-    public readonly V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario = new();
+
+    public readonly V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario
+        V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario = new();
+
+    public readonly V018_FeitelijkeVerenigingWerdVerwijderdScenario V018_FeitelijkeVerenigingWerdVerwijderdScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -36,8 +56,8 @@ public class GivenEventsFixture : PublicApiFixture
             V015VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens,
             V016VerenigingWerdGestopt,
             V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario,
+            V018_FeitelijkeVerenigingWerdVerwijderdScenario,
         };
-
 
     public override async Task InitializeAsync()
     {
