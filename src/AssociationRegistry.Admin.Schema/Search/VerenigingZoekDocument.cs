@@ -13,6 +13,7 @@ public class VerenigingZoekDocument
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public bool IsVerwijderd { get; set; }
 
     public class Locatie : ILocatie
     {

@@ -44,6 +44,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public AdminApiClient AdminApiClient
         => new(Clients.GetAuthenticatedHttpClient());
 
+    public AdminApiClient SuperAdminApiClient
+        => Clients.SuperAdmin;
+
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
 

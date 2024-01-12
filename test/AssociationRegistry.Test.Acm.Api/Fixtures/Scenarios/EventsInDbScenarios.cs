@@ -252,3 +252,33 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
+
+public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingWerdVerwijderd VerenigingWerdVerwijderd;
+    public readonly CommandMetadata Metadata;
+
+    public FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAcmApi();
+        VCode = "V0003009";
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingWerdVerwijderd = fixture.Create<VerenigingWerdVerwijderd>();
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public string Insz
+        => FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+            { FeitelijkeVerenigingWerdGeregistreerd,
+                VerenigingWerdVerwijderd};
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}

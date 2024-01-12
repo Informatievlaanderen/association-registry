@@ -4,6 +4,7 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Marten.Schema;
 using Schema.Detail;
 
 public class BeheerVerenigingDetailProjection : EventProjection
@@ -132,6 +133,14 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<ContactgegevenUitKBOWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
+        => await SoftDelete(@event.StreamKey, ops);
+
+    private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
+    {
+        ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
+    }
 
     private static async Task Update<T>(
         IEvent<T> @event,

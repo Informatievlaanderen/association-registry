@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus
+public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
 {
     public string VCode { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
@@ -14,6 +14,8 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public Relatie[] Relaties { get; set; } = null!;
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Status { get; set; } = null!;
+    public bool IsVerwijderd { get; set; }
+
 
     public class Locatie
     {

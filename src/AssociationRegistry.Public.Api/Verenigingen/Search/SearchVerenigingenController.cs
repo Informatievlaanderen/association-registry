@@ -186,7 +186,9 @@ public class SearchVerenigingenController : ApiController
                                                                           $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
                                                                   BeActief
                                                              )
-                                                            .MustNot(BeUitgeschrevenUitPubliekeDatastroom)
+                                                            .MustNot(
+                                                                 BeUitgeschrevenUitPubliekeDatastroom,
+                                                                 BeRemoved)
                                  )
                        )
                       .Aggregations(
@@ -221,20 +223,26 @@ public class SearchVerenigingenController : ApiController
         AggregationContainerDescriptor<T> aggregationContainerDescriptor,
         string query,
         Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus
+        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
     {
         return aggregationContainerDescriptor.Filter(
             WellknownFacets.FilterAggregateName,
-            selector: aggregationDescriptor => aggregationDescriptor.Filter(
-                                                                         containerDescriptor => containerDescriptor.Bool(
-                                                                             queryDescriptor => queryDescriptor.Must(
-                                                                                 m =>
-                                                                                     MatchQueryString(m, query),
-                                                                                 BeActief
-                                                                             ).MustNot(BeUitgeschrevenUitPubliekeDatastroom)
-                                                                         )
-                                                                     )
-                                                                    .Aggregations(aggregations)
+            selector: aggregationDescriptor =>
+                aggregationDescriptor
+                   .Filter(containerDescriptor =>
+                               containerDescriptor
+                                  .Bool(queryDescriptor =>
+                                            queryDescriptor
+                                               .Must(m =>
+                                                         MatchQueryString(m, query),
+                                                     BeActief
+                                                )
+                                               .MustNot(
+                                                    BeUitgeschrevenUitPubliekeDatastroom,
+                                                    BeRemoved)
+                                   )
+                    )
+                   .Aggregations(aggregations)
         );
     }
 
@@ -282,12 +290,18 @@ public class SearchVerenigingenController : ApiController
     private static QueryContainer BeUitgeschrevenUitPubliekeDatastroom<T>(QueryContainerDescriptor<T> q)
         where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
     {
-        return q.Terms(t => t.Field(arg => arg.IsUitgeschrevenUitPubliekeDatastroom).Terms(true));
+        return q.Term(arg => arg.IsUitgeschrevenUitPubliekeDatastroom, true);
     }
 
     private static QueryContainer BeActief<T>(QueryContainerDescriptor<T> q)
         where T : class, IHasStatus
     {
-        return q.Terms(t => t.Field(arg => arg.Status).Terms(VerenigingStatus.Actief));
+        return q.Term(arg => arg.Status, VerenigingStatus.Actief);
+    }
+
+    private static QueryContainer BeRemoved<T>(QueryContainerDescriptor<T> q)
+        where T : class, IDeletable
+    {
+        return q.Term(arg => arg.IsVerwijderd, true);
     }
 }
