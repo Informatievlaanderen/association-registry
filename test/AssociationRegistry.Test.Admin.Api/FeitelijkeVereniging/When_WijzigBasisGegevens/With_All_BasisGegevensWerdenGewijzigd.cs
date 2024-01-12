@@ -1,22 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Events;
 using AssociationRegistry.Framework;
-using Primitives;
+using AutoFixture;
+using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using Primitives;
+using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -136,7 +137,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _response.Headers.Should().ContainKey(HeaderNames.Location);
 
         _response.Headers.Location!.OriginalString.Should()
                  .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");

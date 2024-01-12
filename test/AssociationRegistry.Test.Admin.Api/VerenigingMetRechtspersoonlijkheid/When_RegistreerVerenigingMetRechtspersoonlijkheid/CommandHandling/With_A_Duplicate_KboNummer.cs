@@ -1,13 +1,14 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
-using Fakes;
-using Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
 using EventStore;
+using Fakes;
 using FluentAssertions;
+using Framework;
 using Kbo;
 using Moq;
 using ResultNet;
@@ -21,7 +22,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
     private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
-    private Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
+    private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
 
     public With_A_Duplicate_KboNummer()
     {
@@ -29,8 +30,11 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
 
         _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
 
-        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(), fixture.Create<CommandMetadata>());
+        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
+                                                                           fixture.Create<CommandMetadata>());
+
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
+
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
             new InMemorySequentialVCodeService(),
@@ -40,9 +44,8 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _result = await _commandHandler
-            .Handle(_envelope, CancellationToken.None);
+           .Handle(_envelope, CancellationToken.None);
     }
-
 
     [Fact]
     public void Then_The_Result_Is_A_Failure()

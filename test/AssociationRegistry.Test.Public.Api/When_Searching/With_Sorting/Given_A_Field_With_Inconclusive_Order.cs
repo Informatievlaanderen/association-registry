@@ -33,7 +33,7 @@ public class Given_A_Field_With_Inconclusive_Order
 
         var groups = jToken.SelectTokens("$.verenigingen[*]")
                            .Select(x => (x.SelectToken($".{field}").Value<string>(),
-                                         x.SelectToken($".vCode").Value<string>()))
+                                         x.SelectToken(".vCode").Value<string>()))
                            .GroupBy(keySelector: x => x.Item1, elementSelector: x => x.Item2)
                            .ToDictionary(keySelector: x => x.Key, elementSelector: x => x.ToList());
 

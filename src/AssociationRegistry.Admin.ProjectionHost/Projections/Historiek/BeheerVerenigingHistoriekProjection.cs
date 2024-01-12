@@ -142,7 +142,6 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         Action<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
         => await Update(@event.StreamKey!, @event, ops, action);
 
-
     private static async Task Update<T>(
         string vCode,
         IEvent<T> @event,

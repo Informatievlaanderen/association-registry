@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using FluentValidation.TestHelper;
 using Test.Framework;
@@ -15,6 +14,7 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
     public void Has_validation_error__niet_meer_dan_1_corresporentie_locatie()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
@@ -29,9 +29,10 @@ public class With_Multiple_Corresporentie_Locaties : ValidatorTest
                 },
             },
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}")
-            .WithErrorMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
+              .WithErrorMessage("Er mag maximum één correspondentie locatie opgegeven worden.");
     }
 }

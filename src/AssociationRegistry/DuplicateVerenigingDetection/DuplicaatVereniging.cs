@@ -19,9 +19,6 @@ public record DuplicaatVereniging(
         string Gemeente);
 
     public record VerenigingsType(string Code, string Naam);
-
-
     public record Activiteit(int Id, string Categorie);
-
     public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
 }

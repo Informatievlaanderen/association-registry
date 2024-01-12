@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Test.Framework;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Formatters;
 using templates;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

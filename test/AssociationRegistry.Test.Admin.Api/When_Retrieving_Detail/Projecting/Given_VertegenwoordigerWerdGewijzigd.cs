@@ -19,10 +19,11 @@ public class Given_VertegenwoordigerWerdGewijzigd
 
         var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>();
 
-        var vertegenwoordigerWerdGewijzigd = new TestEvent<VertegenwoordigerWerdGewijzigd>(fixture.Create<VertegenwoordigerWerdGewijzigd>() with
-        {
-            VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
-        });
+        var vertegenwoordigerWerdGewijzigd = new TestEvent<VertegenwoordigerWerdGewijzigd>(
+            fixture.Create<VertegenwoordigerWerdGewijzigd>() with
+            {
+                VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+            });
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 

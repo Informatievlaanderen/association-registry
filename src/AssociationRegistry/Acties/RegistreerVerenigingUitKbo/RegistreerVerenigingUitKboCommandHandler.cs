@@ -23,7 +23,9 @@ public class RegistreerVerenigingUitKboCommandHandler
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
     }
 
-    public async Task<Result> Handle(CommandEnvelope<RegistreerVerenigingUitKboCommand> message, CancellationToken cancellationToken = default)
+    public async Task<Result> Handle(
+        CommandEnvelope<RegistreerVerenigingUitKboCommand> message,
+        CancellationToken cancellationToken = default)
     {
         var command = message.Command;
 
@@ -45,7 +47,10 @@ public class RegistreerVerenigingUitKboCommandHandler
         return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
     }
 
-    private async Task<Result> RegistreerVereniging(VerenigingVolgensKbo verenigingVolgensKbo, CommandMetadata messageMetadata, CancellationToken cancellationToken)
+    private async Task<Result> RegistreerVereniging(
+        VerenigingVolgensKbo verenigingVolgensKbo,
+        CommandMetadata messageMetadata,
+        CancellationToken cancellationToken)
     {
         var vCode = await _vCodeService.GetNext();
 

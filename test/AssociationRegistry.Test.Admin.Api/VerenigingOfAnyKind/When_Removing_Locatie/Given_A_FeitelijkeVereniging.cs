@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Locatie;
 
-using System.Net;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,7 +15,6 @@ public class Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging : IAsyncLif
     public V024_FeitelijkeVerenigingWerdGeregistreerd_WithLocatie_ForRemovingLocatie Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
-
 
     public Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging(EventsInDbScenariosFixture fixture)
     {
@@ -27,7 +26,9 @@ public class Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging : IAsyncLif
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId, @"{""initiator"":""OVO000001""}");
+        Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode,
+                                                               Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId,
+                                                               jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
     public Task DisposeAsync()
@@ -50,13 +51,16 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Delete_An_Existing_Loc
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var locatieWerdVerwijderd = (await session.Events
-            .FetchStreamAsync(_classFixture.Scenario.VCode)).Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
+                                                  .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(LocatieWerdVerwijderd));
 
         var locatie = _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0];
+
         locatieWerdVerwijderd.Data.Should()
-            .BeEquivalentTo(
-                new LocatieWerdVerwijderd(locatie));
+                             .BeEquivalentTo(
+                                  new LocatieWerdVerwijderd(locatie));
     }
 
     [Fact]

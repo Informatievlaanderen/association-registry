@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -16,6 +16,6 @@ public class Is_Empty : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Contactgegeven)
-            .WithErrorMessage("'Contactgegeven' is verplicht.");
+              .WithErrorMessage("'Contactgegeven' is verplicht.");
     }
 }

@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Vereniging.Exceptions;
 
-using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class ContactgegevenIsNietGekend : DomainException
 {
-    public ContactgegevenIsNietGekend(string contactgegevenId) : base($"Het opgegeven contactgegevenId '{contactgegevenId}' werd niet teruggevonden.")
+    public ContactgegevenIsNietGekend(string contactgegevenId) : base(
+        $"Het opgegeven contactgegevenId '{contactgegevenId}' werd niet teruggevonden.")
     {
     }
 

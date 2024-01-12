@@ -1,12 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdVerwijderd;
 
-using AssociationRegistry.Acm.Schema.Constants;
-using AssociationRegistry.Test.Acm.Api.Fixtures;
-using AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
-using AssociationRegistry.Test.Acm.Api.templates;
-using AssociationRegistry.Test.Framework;
+using Fixtures;
+using Fixtures.Scenarios;
 using FluentAssertions;
 using System.Net;
+using templates;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 

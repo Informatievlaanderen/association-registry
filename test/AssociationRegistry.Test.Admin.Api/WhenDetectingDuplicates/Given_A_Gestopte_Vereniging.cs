@@ -8,7 +8,6 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
@@ -42,7 +41,6 @@ public class Given_A_Gestopte_Vereniging
 
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-
     }
 
     private RegistreerFeitelijkeVerenigingRequest CreateRegistreerFeitelijkeVerenigingRequest(string naam, string gemeente, string postcode)

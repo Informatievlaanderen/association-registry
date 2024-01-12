@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
-using System.Runtime.Serialization;
 using Framework;
+using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
 public record FeitelijkeVerenigingWerdGeregistreerd(

@@ -24,6 +24,7 @@ public class WijzigLocatieCommandHandler
         vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

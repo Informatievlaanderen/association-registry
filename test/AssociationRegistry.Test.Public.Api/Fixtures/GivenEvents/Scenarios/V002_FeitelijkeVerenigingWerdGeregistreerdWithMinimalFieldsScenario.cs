@@ -1,20 +1,20 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
-using Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Events;
 using NodaTime;
+using Vereniging;
 
 public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
-        "V0001002",
-        "Feesten Hulste",
+        VCode: "V0001002",
+        Naam: "Feesten Hulste",
         string.Empty,
         string.Empty,
         Startdatum: null,
         Registratiedata.Doelgroep.With(Doelgroep.Null),
-        false,
+        IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         Array.Empty<Registratiedata.Locatie>(),
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
@@ -25,8 +25,6 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
 
     public IEvent[] GetEvents()
     {
-
-
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
@@ -34,5 +32,5 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 }

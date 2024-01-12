@@ -15,7 +15,7 @@ public class DoelgroepRequest
     /// De minimum leeftijd voor de doelgroep
     /// </summary>
     [DataMember]
-    [Range(Doelgroep.StandaardMinimumleeftijd,Doelgroep.StandaardMaximumleeftijd)]
+    [Range(Doelgroep.StandaardMinimumleeftijd, Doelgroep.StandaardMaximumleeftijd)]
     [DefaultValue(Doelgroep.StandaardMinimumleeftijd)]
     public int? Minimumleeftijd { get; set; }
 
@@ -23,13 +23,13 @@ public class DoelgroepRequest
     /// De maximum leeftijd voor de doelgroep
     /// </summary>
     [DataMember]
-    [Range(Doelgroep.StandaardMinimumleeftijd,Doelgroep.StandaardMaximumleeftijd)]
+    [Range(Doelgroep.StandaardMinimumleeftijd, Doelgroep.StandaardMaximumleeftijd)]
     [DefaultValue(Doelgroep.StandaardMaximumleeftijd)]
     public int? Maximumleeftijd { get; set; }
 
     public static Doelgroep Map(DoelgroepRequest? request)
     {
-        if(request is null)
+        if (request is null)
             return Doelgroep.Null;
 
         return Doelgroep.Create(request.Minimumleeftijd, request.Maximumleeftijd);

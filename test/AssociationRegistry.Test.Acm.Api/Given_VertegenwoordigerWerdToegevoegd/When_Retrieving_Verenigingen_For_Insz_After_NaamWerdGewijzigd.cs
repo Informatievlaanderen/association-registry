@@ -33,11 +33,11 @@ public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
         var content = await _response.Content.ReadAsStringAsync();
 
         var expected = new VerenigingenPerInszResponseTemplate()
-                            .WithInsz(_scenario.Insz)
-                            .WithVereniging(
-                                 _scenario.VCode,
-                                 _scenario.NaamWerdGewijzigd.Naam
-                             );
+                      .WithInsz(_scenario.Insz)
+                      .WithVereniging(
+                           _scenario.VCode,
+                           _scenario.NaamWerdGewijzigd.Naam
+                       );
 
         content.Should().BeEquivalentJson(expected);
     }

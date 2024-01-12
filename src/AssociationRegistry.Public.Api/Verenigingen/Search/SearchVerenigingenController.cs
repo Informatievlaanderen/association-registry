@@ -156,7 +156,7 @@ public class SearchVerenigingenController : ApiController
         var match = Regex.Match(searchResponse.ServerError.Error.RootCause.First().Reason,
                                 pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
 
-        logger.LogError(searchResponse.OriginalException, "Fout bij het aanroepen van ElasticSearch");
+        logger.LogError(searchResponse.OriginalException, message: "Fout bij het aanroepen van ElasticSearch");
 
         if (match.Success)
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
@@ -290,18 +290,18 @@ public class SearchVerenigingenController : ApiController
     private static QueryContainer BeUitgeschrevenUitPubliekeDatastroom<T>(QueryContainerDescriptor<T> q)
         where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
     {
-        return q.Term(arg => arg.IsUitgeschrevenUitPubliekeDatastroom, true);
+        return q.Term(field: arg => arg.IsUitgeschrevenUitPubliekeDatastroom, value: true);
     }
 
     private static QueryContainer BeActief<T>(QueryContainerDescriptor<T> q)
         where T : class, IHasStatus
     {
-        return q.Term(arg => arg.Status, VerenigingStatus.Actief);
+        return q.Term(field: arg => arg.Status, VerenigingStatus.Actief);
     }
 
     private static QueryContainer BeRemoved<T>(QueryContainerDescriptor<T> q)
         where T : class, IDeletable
     {
-        return q.Term(arg => arg.IsVerwijderd, true);
+        return q.Term(field: arg => arg.IsVerwijderd, value: true);
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 
 public class V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce : IEventsInDbScenario
 {
@@ -16,6 +16,7 @@ public class V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce : IEve
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999009";
         Naam = "Vereniging 009";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -32,6 +33,7 @@ public class V009_FeitelijkeVerenigingWerdGeregistreerd_ForDuplicateForce : IEve
                     IsPrimair = i == 0,
                 }).ToArray(),
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

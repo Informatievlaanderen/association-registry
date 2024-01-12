@@ -1,9 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;

@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
@@ -31,6 +30,7 @@ public class Given_LocatieWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(locatieWerdGewijzigd, doc);
 
         doc.Locaties.Should().HaveCount(4);
+
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
@@ -58,6 +58,7 @@ public class Given_LocatieWerdGewijzigd
                         Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
@@ -26,10 +25,10 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(
-                "V001001",
-                1,
+                vCode: "V001001",
+                vertegenwoordigerId: 1,
                 null!,
-                new CommandMetadataProviderStub { Initiator= "OVO0001000" },
-                "M/\"1\""));
+                new CommandMetadataProviderStub { Initiator = "OVO0001000" },
+                ifMatch: "M/\"1\""));
     }
 }

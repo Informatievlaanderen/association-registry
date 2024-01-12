@@ -2,7 +2,8 @@
 
 using Swashbuckle.AspNetCore.Filters;
 
-public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples : IExamplesProvider<HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse>
+public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples : IExamplesProvider<
+    HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse>
 {
     public HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse GetExamples()
         => new()

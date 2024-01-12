@@ -16,6 +16,7 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
         var fixture = new Fixture().CustomizeDomain();
         var vertegenwoordiger1 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
         var vertegenwoordiger2 = fixture.Create<Vertegenwoordiger>() with { IsPrimair = false };
+
         var listOfVertegenwoordigers = new[]
         {
             vertegenwoordiger1,
@@ -25,8 +26,9 @@ public class Given_A_List_Of_Vertegenwoordigers_Without_PrimaryContactperson
         var vertegenwoordigersLijst = Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers);
 
         vertegenwoordigersLijst.Should().HaveCount(expected: 2);
+
         vertegenwoordigersLijst.Should().BeEquivalentTo(
             listOfVertegenwoordigers,
-            options => options.Excluding(x => x.VertegenwoordigerId));
+            config: options => options.Excluding(x => x.VertegenwoordigerId));
     }
 }

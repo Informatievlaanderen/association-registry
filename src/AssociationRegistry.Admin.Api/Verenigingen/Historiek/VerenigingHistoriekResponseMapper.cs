@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Historiek;
+using System.Linq;
 
 public class VerenigingHistoriekResponseMapper
 {
@@ -13,14 +13,15 @@ public class VerenigingHistoriekResponseMapper
     {
         _appSettings = appSettings;
     }
+
     public HistoriekResponse Map(string vCode, BeheerVerenigingHistoriekDocument historiek)
         => new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/historiek-vereniging-context.json",
             VCode = vCode,
             Gebeurtenissen = historiek.Gebeurtenissen
-                .Select(Map)
-                .ToArray(),
+                                      .Select(Map)
+                                      .ToArray(),
         };
 
     private static HistoriekGebeurtenisResponse Map(BeheerVerenigingHistoriekGebeurtenis gebeurtenis)

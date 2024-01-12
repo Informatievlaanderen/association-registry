@@ -2,10 +2,10 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,13 +34,13 @@ public class Given_Null_Values_Does_Not_Update_Anything
             _scenario.VCode,
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
                 _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null));
+                Rol: null,
+                Roepnaam: null,
+                Email: null,
+                Telefoon: null,
+                Mobiel: null,
+                SocialMedia: null,
+                IsPrimair: null));
 
         await _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, _fixture.Create<CommandMetadata>()));
 

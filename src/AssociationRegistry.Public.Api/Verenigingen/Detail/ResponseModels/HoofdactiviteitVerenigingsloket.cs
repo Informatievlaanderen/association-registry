@@ -11,5 +11,5 @@ public class HoofdactiviteitVerenigingsloket
 
     /// <summary>De beschrijving van de hoofdactivititeit</summary>
     [DataMember(Name = "Naam")]
-    public string Naam { get; init; }= null!;
+    public string Naam { get; init; } = null!;
 }

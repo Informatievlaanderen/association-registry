@@ -10,7 +10,8 @@ public class Given_A_Tijdstip
     [Fact]
     public void Then_it_formats_to_zulu_time()
     {
-        var instant = Instant.FromDateTimeOffset(new DateTimeOffset(2020, 9, 9, 12, 30, 0, 0, TimeSpan.FromHours(2)));
+        var instant = Instant.FromDateTimeOffset(new DateTimeOffset(year: 2020, month: 9, day: 9, hour: 12, minute: 30, second: 0,
+                                                                    millisecond: 0, TimeSpan.FromHours(2)));
 
         instant.ToZuluTime().Should().Be("2020-09-09T10:30:00Z");
     }

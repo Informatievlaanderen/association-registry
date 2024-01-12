@@ -24,7 +24,6 @@ public class Given_VertegenwoordigerWerdVerwijderd
 
         BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Vertegenwoordiger '{vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam}' werd verwijderd.",

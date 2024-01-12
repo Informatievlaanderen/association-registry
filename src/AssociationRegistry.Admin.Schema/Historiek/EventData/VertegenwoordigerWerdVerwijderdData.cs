@@ -13,4 +13,4 @@ public record VertegenwoordigerWerdVerwijderdData
             e.VertegenwoordigerId,
             e.Voornaam,
             e.Achternaam);
-};
+}

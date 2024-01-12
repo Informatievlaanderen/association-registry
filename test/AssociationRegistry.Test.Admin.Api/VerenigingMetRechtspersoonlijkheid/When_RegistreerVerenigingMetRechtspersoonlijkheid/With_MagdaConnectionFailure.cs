@@ -1,21 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
+using System.Net;
 using With_Kbo_Nummer_For_Unsupported_Organisaties;
 using Xunit;
 
 public class ConnectionFailureSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
-    public ConnectionFailureSetup(EventsInDbScenariosFixture fixture) : base(fixture, "0898251969")
+    public ConnectionFailureSetup(EventsInDbScenariosFixture fixture) : base(fixture, kboNummer: "0898251969")
     {
     }
 }
 
 public class With_MagdaConnectionFailure : With_KboNummer_For_Unsupported_Organisatie, IClassFixture<ConnectionFailureSetup>
 {
-    public With_MagdaConnectionFailure(EventsInDbScenariosFixture fixture, ConnectionFailureSetup registreerSetup) : base(fixture, registreerSetup)
+    public With_MagdaConnectionFailure(EventsInDbScenariosFixture fixture, ConnectionFailureSetup registreerSetup) : base(
+        fixture, registreerSetup)
     {
     }
 

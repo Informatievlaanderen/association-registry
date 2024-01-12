@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using System;
 using Framework;
 using NodaTime;
+using System;
 
-class CommandMetadataProvider : ICommandMetadataProvider
+internal class CommandMetadataProvider : ICommandMetadataProvider
 {
     private readonly ICorrelationIdProvider _correlationIdProvider;
     private readonly InitiatorProvider _initiatorProvider;

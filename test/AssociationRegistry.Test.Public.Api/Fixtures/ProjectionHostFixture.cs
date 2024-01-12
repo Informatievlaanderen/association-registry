@@ -17,7 +17,6 @@ using Npgsql;
 using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
-using IEvent = AssociationRegistry.Framework.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
@@ -135,7 +134,10 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
+            cmd.CommandText +=
+                $"CREATE DATABASE {configuration["PostgreSQLOptions:database"]} WITH OWNER = {configuration["PostgreSQLOptions:username"]};";
+
             cmd.ExecuteNonQuery();
         }
         finally

@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_An_Insz;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.
+    With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,6 +18,7 @@ public class Is_Valid
     public void Has_no_validation_errors(string insz)
     {
         var validator = new VoegVertegenwoordigerToeValidator();
+
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
@@ -25,8 +27,10 @@ public class Is_Valid
                     Insz = insz,
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}");
+        result.ShouldNotHaveValidationErrorFor(
+            $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}");
     }
 }

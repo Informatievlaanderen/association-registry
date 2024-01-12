@@ -2,8 +2,7 @@ namespace AssociationRegistry.Vereniging;
 
 public class Sleutelbron
 {
-    public static readonly Sleutelbron Kbo = new("KBO", "Kruispuntbank van de Ondernemingen");
-
+    public static readonly Sleutelbron Kbo = new(waarde: "KBO", betekenis: "Kruispuntbank van de Ondernemingen");
     public static readonly Sleutelbron[] All = { Kbo };
 
     public Sleutelbron(string waarde, string betekenis)

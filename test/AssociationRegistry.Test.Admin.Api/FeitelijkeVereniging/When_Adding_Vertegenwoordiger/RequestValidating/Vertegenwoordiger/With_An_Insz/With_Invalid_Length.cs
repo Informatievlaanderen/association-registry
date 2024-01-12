@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_An_Insz;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.
+    With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
@@ -16,6 +17,7 @@ public class With_Invalid_Length
     public void Has_validation_error__insz_moet_11_cijfers_bevatten(string insz)
     {
         var validator = new VoegVertegenwoordigerToeValidator();
+
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
@@ -24,9 +26,11 @@ public class With_Invalid_Length
                     Insz = insz,
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-            .WithErrorMessage("Insz moet 11 cijfers bevatten");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
+              .WithErrorMessage("Insz moet 11 cijfers bevatten");
     }
 }

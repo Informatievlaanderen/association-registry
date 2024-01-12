@@ -31,12 +31,14 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     {
         var response = await _adminApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
                           .WithVereniging(
                                v => v
-                                   .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                  .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
                            );
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

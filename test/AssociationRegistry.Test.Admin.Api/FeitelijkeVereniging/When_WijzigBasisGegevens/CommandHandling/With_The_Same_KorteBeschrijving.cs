@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
 using Acties.WijzigBasisgegevens;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -23,7 +23,10 @@ public class With_The_Same_KorteBeschrijving
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, KorteBeschrijving: _scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving);
+
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
+                                                     KorteBeschrijving: _scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving);
+
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

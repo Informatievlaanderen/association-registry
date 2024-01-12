@@ -9,5 +9,5 @@ public record Link(
 )
 {
     public static Link VerenigingDetail(string verenigingId)
-        => new($"/v1/verenigingen/static/{verenigingId}", "GET", "Detail");
+        => new($"/v1/verenigingen/static/{verenigingId}", Type: "GET", Rel: "Detail");
 }

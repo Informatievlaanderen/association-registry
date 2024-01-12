@@ -25,8 +25,8 @@ public class Given_A_Contactgegeven_From_Initiator
                           .Apply(contactgegevenWerdToegevoegd)
         );
 
-        var wijzig = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdToegevoegd.ContactgegevenId, fixture.Create<string>(),
-                                        fixture.Create<bool>());
+        var wijzig = () => vereniging.WijzigContactgegeven(contactgegevenWerdToegevoegd.ContactgegevenId, fixture.Create<string>(),
+                                                           fixture.Create<bool>());
 
         wijzig.Should().Throw<ActieIsNietToegestaanVoorContactgegevenBron>();
     }

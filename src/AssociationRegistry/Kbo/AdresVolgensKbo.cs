@@ -9,7 +9,7 @@ public class AdresVolgensKbo
     public string? Gemeente { get; set; }
     public string? Land { get; set; }
 
-    public  bool IsEmpty()
+    public bool IsEmpty()
         =>
             Straatnaam is null &&
             Huisnummer is null &&

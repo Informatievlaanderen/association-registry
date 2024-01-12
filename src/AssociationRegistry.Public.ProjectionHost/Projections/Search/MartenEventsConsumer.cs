@@ -45,7 +45,9 @@ public class EventEnvelope<T> : IEventEnvelope
         => Event.Headers;
 
     public EventEnvelope(IEvent @event)
-    => Event = @event;
+    {
+        Event = @event;
+    }
 
     private IEvent Event { get; }
 }

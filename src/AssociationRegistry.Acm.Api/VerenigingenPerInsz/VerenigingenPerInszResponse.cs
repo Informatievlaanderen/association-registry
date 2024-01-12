@@ -42,6 +42,5 @@ public class VerenigingenPerInszResponse
         /// </summary>
         [DataMember]
         public string? KboNummer { get; init; }
-
     }
 }

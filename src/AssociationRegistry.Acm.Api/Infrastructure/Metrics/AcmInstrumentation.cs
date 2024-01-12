@@ -24,13 +24,12 @@ public class AcmInstrumentation : IInstrumentation, IDisposable
 
         _verenigingPerInszGauge =
             meter.CreateObservableGauge(name: "ar.acm.p.verenigingPerInsz.g", unit: "events",
-                                              description: "vereniging per insz projection",
-                                              observeValue: () => VerenigingPerInszEventValue);
+                                        description: "vereniging per insz projection",
+                                        observeValue: () => VerenigingPerInszEventValue);
     }
 
     public ActivitySource ActivitySource { get; }
     private ObservableGauge<long> _verenigingPerInszGauge;
-
     public long VerenigingPerInszEventValue = 0;
 
     public void Dispose()

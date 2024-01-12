@@ -15,12 +15,12 @@ public abstract class RegistreerVereniginMetRechtspersoonlijkheidSetup
         {
             KboNummer = kboNummer,
         };
-        Response ??= fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(UitKboRequest)).GetAwaiter().GetResult();
 
+        Response ??= fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(UitKboRequest)).GetAwaiter().GetResult();
     }
 
     private string GetJsonBody(RegistreerVerenigingUitKboRequest uitKboRequest)
         => GetType()
-            .GetAssociatedResourceJson("files.request.with_kboNummer")
-            .Replace("{{kboNummer}}", uitKboRequest.KboNummer);
+          .GetAssociatedResourceJson("files.request.with_kboNummer")
+          .Replace(oldValue: "{{kboNummer}}", uitKboRequest.KboNummer);
 }

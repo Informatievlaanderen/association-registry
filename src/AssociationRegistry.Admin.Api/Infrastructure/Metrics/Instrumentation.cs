@@ -22,8 +22,8 @@ public class Instrumentation : IInstrumentation, IDisposable
         ActivitySource = new ActivitySource(ActivitySourceName, version);
         meter = new Meter(MeterName, version);
 
-        _highWatermarkGauge = meter.CreateObservableGauge<long>(name: "ar.beheer.p.highWatermark.g", unit: "events",
-                                                               description: "high watermark", observeValue: () => HighWatermarkEventValue);
+        _highWatermarkGauge = meter.CreateObservableGauge(name: "ar.beheer.p.highWatermark.g", unit: "events",
+                                                          description: "high watermark", observeValue: () => HighWatermarkEventValue);
     }
 
     public ActivitySource ActivitySource { get; }

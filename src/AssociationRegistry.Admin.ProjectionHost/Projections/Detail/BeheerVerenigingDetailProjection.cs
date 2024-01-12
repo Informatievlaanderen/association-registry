@@ -4,7 +4,6 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
-using Marten.Schema;
 using Schema.Detail;
 
 public class BeheerVerenigingDetailProjection : EventProjection
@@ -138,9 +137,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         => await SoftDelete(@event.StreamKey, ops);
 
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
-    {
-        ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
-    }
+        => ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
 
     private static async Task Update<T>(
         IEvent<T> @event,

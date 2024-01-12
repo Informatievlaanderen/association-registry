@@ -3,9 +3,9 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using Framework;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -23,6 +23,7 @@ public class With_Invalid_ETag
     {
         _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
+
         _controller = new VoegLocatieToeController(messageBusMock.Object, new VoegLocatieToeValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
@@ -36,7 +37,7 @@ public class With_Invalid_ETag
             await _controller.Post(
                 _fixture.Create<string>(),
                 _fixture.Create<VoegLocatieToeRequest>(),
-                new CommandMetadataProviderStub { Initiator= "OVO0001000" },
+                new CommandMetadataProviderStub { Initiator = "OVO0001000" },
                 eTagValue);
         };
 

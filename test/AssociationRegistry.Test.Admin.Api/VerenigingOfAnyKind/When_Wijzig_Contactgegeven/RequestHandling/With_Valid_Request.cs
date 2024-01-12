@@ -5,17 +5,17 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -25,7 +25,7 @@ public class With_Valid_Request
 {
     private readonly WijzigContactgegevenController _controller;
     private readonly Fixture _fixture;
-    private CommandResult _commandResult;
+    private readonly CommandResult _commandResult;
 
     public With_Valid_Request()
     {
@@ -33,9 +33,11 @@ public class With_Valid_Request
 
         var messageBusMock = new Mock<IMessageBus>();
         _commandResult = new Fixture().CustomizeAdminApi().Create<CommandResult>();
+
         messageBusMock
-            .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenCommand>>(), default, null))
-            .ReturnsAsync(_commandResult);
+           .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenCommand>>(), default, null))
+           .ReturnsAsync(_commandResult);
+
         _controller = new WijzigContactgegevenController(messageBusMock.Object, new WijzigContactgegevenValidator())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
@@ -82,7 +84,8 @@ public class With_Valid_Request
 
         using (new AssertionScope())
         {
-            _controller.Response.GetTypedHeaders().ETag.Should().BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), true));
+            _controller.Response.GetTypedHeaders().ETag.Should()
+                       .BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), isWeak: true));
         }
     }
 }

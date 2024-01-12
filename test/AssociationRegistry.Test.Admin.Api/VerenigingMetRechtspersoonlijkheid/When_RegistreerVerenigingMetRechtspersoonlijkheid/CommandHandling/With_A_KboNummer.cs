@@ -1,11 +1,12 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
-using AutoFixture;
 using Kbo;
 using Vereniging;
 using Xunit;
@@ -29,6 +30,7 @@ public class With_A_KboNummer
         _command = fixture.Create<RegistreerVerenigingUitKboCommand>();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         _verenigingVolgensKbo = new VerenigingVolgensKbo
         {
             KboNummer = _command.KboNummer,
@@ -37,6 +39,7 @@ public class With_A_KboNummer
             KorteNaam = fixture.Create<string>(),
             Startdatum = fixture.Create<DateOnly>(),
         };
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
@@ -45,9 +48,9 @@ public class With_A_KboNummer
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]

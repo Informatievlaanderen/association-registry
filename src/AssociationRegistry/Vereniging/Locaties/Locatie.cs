@@ -45,7 +45,7 @@ public record Locatie
 
     public virtual bool Equals(Locatie? other)
     {
-        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(objA: null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
         if (Naam != other.Naam)

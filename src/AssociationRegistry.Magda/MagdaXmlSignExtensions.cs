@@ -1,30 +1,30 @@
 namespace AssociationRegistry.Magda;
 
+using Models;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
-using Models;
 
 public static class MagdaXmlSignExtensions
 {
     public static string SignEnvelope<T>(this Envelope<T> unsignedEnvelope, X509Certificate2? clientCertificate)
     {
         var unsignedXmlEnvelope = unsignedEnvelope
-            .SerializeObject()
-            .Replace("<s:Body>", @"<s:Body Id=""Body"">");
+                                 .SerializeObject()
+                                 .Replace(oldValue: "<s:Body>", newValue: @"<s:Body Id=""Body"">");
 
         if (clientCertificate is null)
             return GetXmlFromEnvelope(unsignedXmlEnvelope);
 
-
         var xmlBody = new XmlDocument();
         xmlBody.LoadXml(unsignedXmlEnvelope);
+
         var signature = SignXml(
             xmlBody,
             clientCertificate);
 
         var signedXmlEnvelope = unsignedXmlEnvelope
-            .Replace("<s:Header />", $"<s:Header>{signature}</s:Header>");
+           .Replace(oldValue: "<s:Header />", $"<s:Header>{signature}</s:Header>");
 
         return GetXmlFromEnvelope(signedXmlEnvelope);
     }
@@ -33,6 +33,7 @@ public static class MagdaXmlSignExtensions
     {
         var signedXmlEnvelopeDocument = new XmlDocument();
         signedXmlEnvelopeDocument.LoadXml(signedXmlEnvelope);
+
         return signedXmlEnvelopeDocument.OuterXml;
     }
 

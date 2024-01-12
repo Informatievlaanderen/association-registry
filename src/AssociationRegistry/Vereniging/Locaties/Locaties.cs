@@ -94,7 +94,8 @@ public class Locaties : ReadOnlyCollection<Locatie>
         MustContain(locatieId);
         var teVerwijderenLocatie = this[locatieId];
 
-        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype ==
+                                                               Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         return teVerwijderenLocatie;
     }

@@ -13,10 +13,11 @@ public class Given_A_List_Of_Hoofdactiviteiten
     public void Then_It_Returns_A_Filled_HoofdactiviteitenLijst()
     {
         var fixture = new Fixture();
+
         var hoofdactiviteiten = HoofdactiviteitVerenigingsloket.All()
-            .OrderBy(_ => fixture.Create<int>())
-            .Take(2)
-            .ToArray();
+                                                               .OrderBy(_ => fixture.Create<int>())
+                                                               .Take(2)
+                                                               .ToArray();
 
         var hoofdactiviteitenLijst = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteiten);
 

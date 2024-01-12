@@ -97,14 +97,14 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Gemeente = "Gent",
                         },
                     },
-                    Sleutels = new []
+                    Sleutels = new[]
+                    {
+                        new Sleutel
                         {
-                            new Sleutel
-                            {
-                                Waarde = "0123456789",
-                                Bron = Sleutelbron.Kbo.Waarde,
-                            },
+                            Waarde = "0123456789",
+                            Bron = Sleutelbron.Kbo.Waarde,
                         },
+                    },
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"),

@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using EventStore;
 using AssociationRegistry.Framework;
+using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
@@ -55,7 +55,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
     public async Task Then_we_get_registratie_gebeurtenissen()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{

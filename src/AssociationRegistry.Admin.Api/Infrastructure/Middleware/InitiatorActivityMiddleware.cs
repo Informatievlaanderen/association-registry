@@ -18,11 +18,11 @@ public class InitiatorActivityMiddleware
         if (context.Request.Headers.TryGetValue(WellknownHeaderNames.Initiator, out var headerValue))
         {
             var currentActivity = Activity.Current;
+
             if (currentActivity != null)
-            {
-                currentActivity.SetTag("vr.initiator", headerValue.ToString());
-            }
+                currentActivity.SetTag(key: "vr.initiator", headerValue.ToString());
         }
+
         await _next(context);
     }
 }

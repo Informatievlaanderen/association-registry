@@ -11,7 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
+    public static IServiceCollection AddMarten(
+        this IServiceCollection services,
+        PostgreSqlOptionsSection postgreSqlOptions,
+        IConfiguration configuration)
     {
         services.AddMarten(
             _ =>
@@ -40,16 +43,17 @@ public static class MartenExtensions
            $"password={postgreSqlOptions.Password};" +
            $"username={postgreSqlOptions.Username}";
 
-
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
         var jsonNetSerializer = new JsonNetSerializer();
+
         jsonNetSerializer.Customize(
             s =>
             {
                 s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
             });
+
         return jsonNetSerializer;
     }
 }

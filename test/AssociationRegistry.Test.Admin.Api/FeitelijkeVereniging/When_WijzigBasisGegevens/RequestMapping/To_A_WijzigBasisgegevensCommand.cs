@@ -41,7 +41,11 @@ public class To_A_WijzigBasisgegevensCommand
         startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
 
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
-        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        hoofdactiviteitenVerenigingsloket.Should()
+                                         .BeEquivalentTo(
+                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 
@@ -74,7 +78,11 @@ public class To_A_WijzigBasisgegevensCommand
         startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
 
         doelgroep.Should().BeNull();
-        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        hoofdactiviteitenVerenigingsloket.Should()
+                                         .BeEquivalentTo(
+                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 }

@@ -6,11 +6,13 @@ using System.Runtime.Serialization;
 [Serializable]
 public class VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen : DomainException
 {
-    public VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen() : base(ExceptionMessages.VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers)
+    public VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen() : base(
+        ExceptionMessages.VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers)
     {
     }
 
-    protected VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen(SerializationInfo info, StreamingContext context) :
+        base(info, context)
     {
     }
 }

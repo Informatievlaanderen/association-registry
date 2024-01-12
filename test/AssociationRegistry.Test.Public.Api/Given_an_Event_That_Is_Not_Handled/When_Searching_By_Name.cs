@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Public.Api.Given_an_Event_That_Is_Not_Handled;
 
-using System.Text.RegularExpressions;
 using Fixtures;
-using Framework;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using Framework;
+using System.Text.RegularExpressions;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -27,22 +27,25 @@ public class When_Searching_By_Name
         _publicApiClient = fixture.PublicApiClient;
         var scenario = fixture.V004UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario;
         _vCode = scenario.VCode;
+
         _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
             $"{nameof(When_Searching_By_Name)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
-
     [Fact]
     public async Task Then_we_get_a_successful_response()
-        => (await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)).Should().BeSuccessful();
+        => (await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)).Should()
+           .BeSuccessful();
 
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
         var response = await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
+           .Replace(oldValue: "{{originalQuery}}", V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -62,7 +65,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "*stende*");
+           .Replace(oldValue: "{{originalQuery}}", newValue: "*stende*");
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -73,7 +77,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", "oostende");
+           .Replace(oldValue: "{{originalQuery}}", newValue: "oostende");
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
@@ -84,7 +89,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _vCode);
+           .Replace(oldValue: "{{originalQuery}}", _vCode);
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using FluentValidation;
-using Infrastructure.Extensions;
 using Infrastructure.Validation;
 using System;
 using System.Linq;

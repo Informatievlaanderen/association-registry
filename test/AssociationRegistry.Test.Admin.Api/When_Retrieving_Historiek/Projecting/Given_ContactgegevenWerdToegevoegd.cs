@@ -23,7 +23,6 @@ public class Given_ContactgegevenWerdToegevoegd
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"{contactgegevenWerdToegevoegd.Data.Contactgegeventype} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd.",

@@ -1,9 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.RequestValidating.A_KboNumber;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    RequestValidating.A_KboNumber;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,6 +18,6 @@ public class Is_Null : ValidatorTest
         var result = validator.TestValidate(new RegistreerVerenigingUitKboRequest());
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.KboNummer)
-            .WithErrorMessage("'KboNummer' is verplicht.");
+              .WithErrorMessage("'KboNummer' is verplicht.");
     }
 }

@@ -5,16 +5,18 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class Is_Null: ValidatorTest
+public class Is_Null : ValidatorTest
 {
     [Fact]
     public void Has_validation_errors()
     {
         var validator = new DoelgroepRequestValidator();
+
         var request = new DoelgroepRequest
         {
             Minimumleeftijd = null,
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(r => r.Minimumleeftijd);

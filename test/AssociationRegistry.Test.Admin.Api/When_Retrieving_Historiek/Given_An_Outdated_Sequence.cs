@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.Api;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using EventStore;
 using Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +28,9 @@ public class Given_An_Outdated_Sequence
     [Fact]
     public async Task Then_we_get_a_precondition_failed_response_for_historiek()
     {
-        var response = await _adminApiClient.GetHistoriek(_fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode, long.MaxValue);
+        var response =
+            await _adminApiClient.GetHistoriek(_fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode, long.MaxValue);
+
         var content = await response.Content.ReadAsStringAsync();
 
         var expected = new ProblemDetailsResponseTemplate()
@@ -45,8 +46,8 @@ public class Given_An_Outdated_Sequence
 
         contentObject.Should().BeEquivalentTo(
             expectedObject,
-            options => options
-                      .Excluding(info => info!.ProblemInstanceUri)
-                      .Excluding(info => info!.ProblemTypeUri));
+            config: options => options
+                              .Excluding(info => info!.ProblemInstanceUri)
+                              .Excluding(info => info!.ProblemTypeUri));
     }
 }

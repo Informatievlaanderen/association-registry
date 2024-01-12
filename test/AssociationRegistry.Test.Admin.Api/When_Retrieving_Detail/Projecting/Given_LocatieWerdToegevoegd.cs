@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using Events;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
@@ -25,6 +25,7 @@ public class Given_LocatieWerdToegevoegd
         BeheerVerenigingDetailProjector.Apply(locatieWerdToegevoegd, doc);
 
         doc.Locaties.Should().HaveCount(4);
+
         doc.Locaties.Should().ContainEquivalentOf(
             new BeheerVerenigingDetailDocument.Locatie
             {
@@ -53,6 +54,7 @@ public class Given_LocatieWerdToegevoegd
                     },
                 Bron = Bron.Initiator,
             });
+
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
     }
 }

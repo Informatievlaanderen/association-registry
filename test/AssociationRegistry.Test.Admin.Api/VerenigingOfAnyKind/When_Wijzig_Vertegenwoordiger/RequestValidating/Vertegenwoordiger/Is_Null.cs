@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Null : ValidatorTest
@@ -12,13 +12,15 @@ public class Is_Null : ValidatorTest
     public void Has_validation_error__vertegenwoordiger_is_verplicht()
     {
         var validator = new WijzigVertegenwoordigerValidator();
+
         var request = new WijzigVertegenwoordigerRequest
         {
             Vertegenwoordiger = null!,
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.Vertegenwoordiger)
-            .WithErrorMessage("'Vertegenwoordiger' is verplicht.");
+              .WithErrorMessage("'Vertegenwoordiger' is verplicht.");
     }
 }

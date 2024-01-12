@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Wijzig_Vertegenwoordiger.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +22,6 @@ public class To_WijzigVertegenwoordigerCommand
         var vCode = fixture.Create<VCode>();
         var vertegenwoordigerId = fixture.Create<int>();
         var command = request.ToCommand(vCode, vertegenwoordigerId);
-
 
         command.VCode.Should().Be(vCode);
         command.Vertegenwoordiger.VertegenwoordigerId.Should().Be(vertegenwoordigerId);

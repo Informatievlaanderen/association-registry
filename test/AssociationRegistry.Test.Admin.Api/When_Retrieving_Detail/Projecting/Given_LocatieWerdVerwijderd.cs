@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using Events;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;

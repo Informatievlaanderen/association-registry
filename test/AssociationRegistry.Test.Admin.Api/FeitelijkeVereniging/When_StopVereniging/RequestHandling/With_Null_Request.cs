@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
@@ -25,9 +24,9 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Post(
-                null,
-                "V0001001",
-                new CommandMetadataProviderStub { Initiator = "OVO0001001"},
-                "M/\"1\""));
+                request: null,
+                vCode: "V0001001",
+                new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+                ifMatch: "M/\"1\""));
     }
 }

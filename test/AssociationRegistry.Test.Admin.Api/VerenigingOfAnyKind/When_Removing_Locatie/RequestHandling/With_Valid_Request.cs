@@ -2,17 +2,17 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -31,9 +31,11 @@ public class With_Valid_Request
 
         var messageBusMock = new Mock<IMessageBus>();
         _commandResult = new Fixture().CustomizeAdminApi().Create<CommandResult>();
+
         messageBusMock
-            .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
-            .ReturnsAsync(_commandResult);
+           .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
+           .ReturnsAsync(_commandResult);
+
         _controller = new VerwijderLocatieController(messageBusMock.Object)
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
@@ -77,7 +79,8 @@ public class With_Valid_Request
 
         using (new AssertionScope())
         {
-            _controller.Response.GetTypedHeaders().ETag.Should().BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), true));
+            _controller.Response.GetTypedHeaders().ETag.Should()
+                       .BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), isWeak: true));
         }
     }
 }

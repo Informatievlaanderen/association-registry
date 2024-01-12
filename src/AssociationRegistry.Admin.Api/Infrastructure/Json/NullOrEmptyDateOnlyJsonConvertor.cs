@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
-using System;
 using Constants;
 using Newtonsoft.Json;
 using Primitives;
+using System;
 
 public class NullOrEmptyDateOnlyJsonConvertor : JsonConverter<NullOrEmpty<DateOnly>>
 {

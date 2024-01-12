@@ -2,9 +2,9 @@ namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
+using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using EventStore;
 using FluentAssertions;
 using Framework;
 using System.Net;
@@ -52,7 +52,7 @@ public class Given_VerenigingWerdVerwijderd
     public async Task Then_we_get_registratie_gebeurtenissen()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
                 {{

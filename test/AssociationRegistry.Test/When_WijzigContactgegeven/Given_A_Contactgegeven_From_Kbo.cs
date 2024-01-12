@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.When_WijzigContactgegeven;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
@@ -19,14 +19,16 @@ public class Given_A_Contactgegeven_From_Kbo
 
         var vereniging = new VerenigingOfAnyKind();
         var contactgegevenWerdOvergenomenUitKbo = fixture.Create<ContactgegevenWerdOvergenomenUitKBO>();
+
         vereniging.Hydrate(new VerenigingState()
-            .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-            .Apply(contactgegevenWerdOvergenomenUitKbo)
+                          .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
+                          .Apply(contactgegevenWerdOvergenomenUitKbo)
         );
 
-        var wijzigContactgegeven = ()=>vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<bool>());
+        var wijzigContactgegeven = () => vereniging.WijzigContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId,
+                                                                         fixture.Create<string>(), fixture.Create<string>(),
+                                                                         fixture.Create<bool>());
 
         wijzigContactgegeven.Should().Throw<ContactgegevenUitKboKanNietGewijzigdWorden>();
-
     }
 }

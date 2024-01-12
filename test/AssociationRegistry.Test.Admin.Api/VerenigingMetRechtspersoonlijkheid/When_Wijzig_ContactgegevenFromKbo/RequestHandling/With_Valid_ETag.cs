@@ -5,12 +5,12 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
 using AutoFixture;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -37,11 +37,11 @@ public class With_Valid_ETag : IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _controller.Patch(
-            "V0001001",
-            1,
+            vCode: "V0001001",
+            contactgegevenId: 1,
             new WijzigContactgegevenRequest
             {
-                Contactgegeven = new TeWijzigenContactgegeven()
+                Contactgegeven = new TeWijzigenContactgegeven
                 {
                     Beschrijving = "Beschrijving",
                 },
@@ -54,7 +54,7 @@ public class With_Valid_ETag : IAsyncLifetime
     public void Then_it_invokes_with_a_correct_version_number()
     {
         _messageBusMock.Verify(
-            messageBus =>
+            expression: messageBus =>
                 messageBus.InvokeAsync<CommandResult>(
                     It.Is<CommandEnvelope<WijzigContactgegevenFromKboCommand>>(
                         env =>

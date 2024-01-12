@@ -139,6 +139,4 @@ public static class EventCustomizations
                     fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
     }
-
-
 }

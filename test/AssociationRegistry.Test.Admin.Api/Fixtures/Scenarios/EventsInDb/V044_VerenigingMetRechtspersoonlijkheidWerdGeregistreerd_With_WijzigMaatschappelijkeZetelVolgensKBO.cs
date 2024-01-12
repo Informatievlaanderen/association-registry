@@ -31,16 +31,17 @@ public class V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijzi
         };
 
         MaatschappelijkeZetelWerdOvergenomenUitKbo = new MaatschappelijkeZetelWerdOvergenomenUitKbo(
-            Locatie: new Registratiedata.Locatie(LocatieId: 1, Locatietype: Locatietype.MaatschappelijkeZetelVolgensKbo, Naam: string.Empty,
+            Locatie: new Registratiedata.Locatie(LocatieId: 1, Locatietype.MaatschappelijkeZetelVolgensKbo, Naam: string.Empty,
                                                  IsPrimair: false, Adres: new Registratiedata.Adres(
-                                                     "Stationsstraat",
-                                                     "1",
-                                                     "B",
-                                                     "1790",
-                                                     "Affligem",
-                                                     "België"), AdresId: null));
+                                                     Straatnaam: "Stationsstraat",
+                                                     Huisnummer: "1",
+                                                     Busnummer: "B",
+                                                     Postcode: "1790",
+                                                     Gemeente: "Affligem",
+                                                     Land: "België"), AdresId: null));
 
-        MaatschappelijkeZetelVolgensKBOWerdGewijzigd = new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(1, "Station", true);
+        MaatschappelijkeZetelVolgensKBOWerdGewijzigd =
+            new MaatschappelijkeZetelVolgensKBOWerdGewijzigd(LocatieId: 1, Naam: "Station", IsPrimair: true);
 
         KboNummer = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer;
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Framework;
 
-using System.Text.Json;
 using NodaTime;
 using NodaTime.Text;
+using System.Text.Json;
 
 public static class IEventExtensions
 {
     public static string GetHeaderString(this Marten.Events.IEvent source, string propertyName)
         => GetHeaderJsonElement(source, propertyName)
-            .GetString()!;
+           .GetString()!;
 
     public static Instant GetHeaderInstant(this Marten.Events.IEvent source, string propertyName)
         => InstantPattern.General.Parse(source.GetHeaderString(propertyName)).GetValueOrThrow();

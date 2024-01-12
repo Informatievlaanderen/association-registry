@@ -1,20 +1,22 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Unsupported_Organisaties;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    With_Kbo_Nummer_For_Unsupported_Organisaties;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
+using System.Net;
 using Xunit;
 
 public class RegistreerOnbekendKboNummerSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
-    public RegistreerOnbekendKboNummerSetup(EventsInDbScenariosFixture fixture) : base(fixture, "0000000196")
+    public RegistreerOnbekendKboNummerSetup(EventsInDbScenariosFixture fixture) : base(fixture, kboNummer: "0000000196")
     {
     }
 }
 
 public class With_KboNummer_For_Vestiging : With_KboNummer_For_Unsupported_Organisatie, IClassFixture<RegistreerVestigingSetup>
 {
-    public With_KboNummer_For_Vestiging(EventsInDbScenariosFixture fixture, RegistreerVestigingSetup registreerSetup) : base(fixture, registreerSetup)
+    public With_KboNummer_For_Vestiging(EventsInDbScenariosFixture fixture, RegistreerVestigingSetup registreerSetup) : base(
+        fixture, registreerSetup)
     {
     }
 

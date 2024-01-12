@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AutoFixture;
 using Events;
 using Fixtures;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -41,10 +41,11 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
     public async Task Then_it_saves_an_extra_event()
     {
         await using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                          .LightweightSession();
+
         var savedEvents = await session.Events
-            .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
-            .ToListAsync();
+                                       .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
+                                       .ToListAsync();
 
         savedEvents.Should().ContainEquivalentOf(
             new FeitelijkeVerenigingWerdGeregistreerd(
@@ -59,16 +60,16 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 new[]
                 {
                     new Registratiedata.Locatie(
-                        1,
+                        LocatieId: 1,
                         _setup.RequestLocatie.Locatietype,
                         _setup.RequestLocatie.IsPrimair,
                         _setup.RequestLocatie.Naam ?? string.Empty,
                         new Registratiedata.Adres(_setup.RequestLocatie.Adres!.Straatnaam,
-                            _setup.RequestLocatie.Adres.Huisnummer,
-                            _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
-                            _setup.RequestLocatie.Adres.Postcode,
-                            _setup.RequestLocatie.Adres.Gemeente,
-                            _setup.RequestLocatie.Adres.Land),
+                                                  _setup.RequestLocatie.Adres.Huisnummer,
+                                                  _setup.RequestLocatie.Adres.Busnummer ?? string.Empty,
+                                                  _setup.RequestLocatie.Adres.Postcode,
+                                                  _setup.RequestLocatie.Adres.Gemeente,
+                                                  _setup.RequestLocatie.Adres.Land),
                         new Registratiedata.AdresId(
                             _setup.RequestLocatie.AdresId!.Broncode,
                             _setup.RequestLocatie.AdresId.Bronwaarde)),
@@ -76,7 +77,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
-            options => options.Excluding(e => e.VCode));
+            config: options => options.Excluding(e => e.VCode));
     }
 
     public sealed class Setup
@@ -90,8 +91,9 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
             RequestLocatie = autoFixture.Create<ToeTeVoegenLocatie>();
 
             RequestLocatie.Adres!.Gemeente = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce
-                .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
-                .Adres!.Gemeente;
+                                                    .FeitelijkeVerenigingWerdGeregistreerd.Locaties.First()
+                                                    .Adres!.Gemeente;
+
             Request = new RegistreerFeitelijkeVerenigingRequest
             {
                 Naam = fixture.V009FeitelijkeVerenigingWerdGeregistreerdForDuplicateForce.FeitelijkeVerenigingWerdGeregistreerd.Naam,
@@ -100,10 +102,13 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                     RequestLocatie,
                 },
             };
+
             var bevestigingsTokenHelper = new BevestigingsTokenHelper(fixture.ServiceProvider.GetRequiredService<AppSettings>());
 
             var requestAsJson = JsonConvert.SerializeObject(Request);
-            Response = fixture.DefaultClient.RegistreerFeitelijkeVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request)).GetAwaiter().GetResult();
+
+            Response = fixture.DefaultClient.RegistreerFeitelijkeVereniging(requestAsJson, bevestigingsTokenHelper.Calculate(Request))
+                              .GetAwaiter().GetResult();
         }
 
         public ToeTeVoegenLocatie RequestLocatie { get; }

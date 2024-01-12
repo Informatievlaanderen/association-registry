@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using System.Net;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using System.Net;
 using templates;
 using Xunit;
 using Xunit.Categories;
@@ -15,7 +15,7 @@ using Xunit.Categories;
 public class Given_ContactgegevenWerdToegevoegd
 {
     private readonly AdminApiClient _adminApiClient;
-    private V006_ContactgegevenWerdToegevoegd _scenario;
+    private readonly V006_ContactgegevenWerdToegevoegd _scenario;
 
     public Given_ContactgegevenWerdToegevoegd(EventsInDbScenariosFixture fixture)
     {
@@ -49,7 +49,8 @@ public class Given_ContactgegevenWerdToegevoegd
                       .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                       .WithContactgegeven(_scenario.ContactgegevenWerdToegevoegd.ContactgegevenId,
                                           _scenario.ContactgegevenWerdToegevoegd.Bron,
-                                          _scenario.ContactgegevenWerdToegevoegd.Contactgegeventype, _scenario.ContactgegevenWerdToegevoegd.Waarde,
+                                          _scenario.ContactgegevenWerdToegevoegd.Contactgegeventype,
+                                          _scenario.ContactgegevenWerdToegevoegd.Waarde,
                                           _scenario.ContactgegevenWerdToegevoegd.Beschrijving,
                                           _scenario.ContactgegevenWerdToegevoegd.IsPrimair)
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);

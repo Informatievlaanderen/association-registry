@@ -11,24 +11,24 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         Locatie: teVerwijderenLocatie);
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
-        "V0001012",
-        "Feesten Hulste",
+        VCode: "V0001012",
+        Naam: "Feesten Hulste",
         string.Empty,
         string.Empty,
         Startdatum: null,
         Registratiedata.Doelgroep.With(Doelgroep.Null),
-        false,
+        IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         new[] { teVerwijderenLocatie },
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
-    private static Registratiedata.Locatie teVerwijderenLocatie = new(
+    private static readonly Registratiedata.Locatie teVerwijderenLocatie = new(
         LocatieId: 1,
         Locatietype.Activiteiten,
-        false,
-        "Naam locatie",
-        null,
+        IsPrimair: false,
+        Naam: "Naam locatie",
+        Adres: null,
         new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix));
 
     public VCode VCode
@@ -44,5 +44,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

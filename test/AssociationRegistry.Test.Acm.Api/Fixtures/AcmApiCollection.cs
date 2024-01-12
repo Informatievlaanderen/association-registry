@@ -5,5 +5,4 @@ using Xunit;
 [CollectionDefinition(nameof(AcmApiCollection))]
 public class AcmApiCollection : ICollectionFixture<EventsInDbScenariosFixture>
 {
-
 }

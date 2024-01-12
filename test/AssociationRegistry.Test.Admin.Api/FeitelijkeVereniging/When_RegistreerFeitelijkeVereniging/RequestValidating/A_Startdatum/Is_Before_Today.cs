@@ -1,9 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Startdatum;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
@@ -17,9 +16,9 @@ public class Is_Before_Today : ValidatorTest
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MinValue));
 
-        var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest()
+        var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest
         {
-            Startdatum = new DateOnly(2023, 11, 21),
+            Startdatum = new DateOnly(year: 2023, month: 11, day: 21),
         });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Startdatum)

@@ -1,22 +1,22 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
-using System.Threading.Tasks;
 using Acties.WijzigLocatie;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Infrastructure.Middleware;
-using Framework;
-using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
+using Framework;
+using Infrastructure;
+using Infrastructure.Extensions;
+using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -28,7 +28,6 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class WijzigLocatieController : ApiController
 {
     private readonly IMessageBus _messageBus;
-
     private readonly IValidator<WijzigLocatieRequest> _validator;
 
     public WijzigLocatieController(IMessageBus messageBus, IValidator<WijzigLocatieRequest> validator)
@@ -58,8 +57,10 @@ public class WijzigLocatieController : ApiController
     [HttpPatch("{vCode}/locaties/{locatieId}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
+                           description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
+                           description: "De versie van de geregistreerde vereniging.")]
     [SwaggerRequestExample(typeof(WijzigLocatieRequest), typeof(WijzigLocatieRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]

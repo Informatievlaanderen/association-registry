@@ -23,6 +23,7 @@ public class TestEventSpecimenBuilder : ISpecimenBuilder
             return new NoSpecimen();
 
         var typeArguments = t.GetGenericArguments();
+
         if (typeArguments.Length != 1)
             return new NoSpecimen();
 
@@ -33,6 +34,7 @@ public class TestEventSpecimenBuilder : ISpecimenBuilder
         var instance = (IEvent)Activator.CreateInstance(t, @event, context.Create<string>(), context.Create<Instant>())!;
         instance.Version = context.Create<long>();
         instance.Sequence = context.Create<long>();
+
         return instance;
     }
 }

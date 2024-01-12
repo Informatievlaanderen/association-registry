@@ -22,7 +22,10 @@ public class With_A_Einddatum
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _command = new StopVerenigingCommand(_scenario.VCode, Datum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.AddDays(1)));
+
+        _command = new StopVerenigingCommand(_scenario.VCode,
+                                             Datum.Hydrate(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum!.Value.AddDays(1)));
+
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new StopVerenigingCommandHandler(_verenigingRepositoryMock,

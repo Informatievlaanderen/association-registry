@@ -62,9 +62,11 @@ public class GivenEventsFixture : PublicApiFixture
     public override async Task InitializeAsync()
     {
         foreach (var scenario in Scenarios)
+        {
             await AddEvents(
                 scenario.VCode,
                 scenario.GetEvents(),
                 scenario.GetCommandMetadata());
+        }
     }
 }

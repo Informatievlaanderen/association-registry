@@ -5,14 +5,15 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using EventStore;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
+using EventStore;
 using FluentAssertions;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -40,9 +41,9 @@ public class Without_Changes : IAsyncLifetime
         _result = await _controller.Post(
             new StopVerenigingRequest
                 { Einddatum = new DateOnly() },
-            "V0001001",
+            vCode: "V0001001",
             new CommandMetadataProviderStub { Initiator = "OVO0001001" },
-            "W/\"1\"");
+            ifMatch: "W/\"1\"");
     }
 
     [Fact]
@@ -60,7 +61,7 @@ public class Without_Changes : IAsyncLifetime
     [Fact]
     public void Then_it_returns_no_location_header()
     {
-        _controller.Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
     public Task DisposeAsync()

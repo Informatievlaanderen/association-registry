@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 
+using Acties.WijzigVertegenwoordiger;
 using System.Runtime.Serialization;
-using AssociationRegistry.Acties.WijzigVertegenwoordiger;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -16,17 +16,15 @@ public class WijzigVertegenwoordigerRequest
 
     public WijzigVertegenwoordigerCommand ToCommand(string vCode, int vertegenwoordigerId)
         => new(
-            VCode: VCode.Create(vCode),
+            VCode.Create(vCode),
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-                VertegenwoordigerId: vertegenwoordigerId,
-                Rol: Vertegenwoordiger.Rol,
-                Roepnaam: Vertegenwoordiger.Roepnaam,
-                Email: Vertegenwoordiger.Email is null ? null : Email.Create(Vertegenwoordiger.Email),
-                Telefoon: Vertegenwoordiger.Telefoon is null ? null : TelefoonNummer.Create(Vertegenwoordiger.Telefoon),
-                Mobiel: Vertegenwoordiger.Mobiel is null ? null : TelefoonNummer.Create(Vertegenwoordiger.Mobiel),
-                SocialMedia: Vertegenwoordiger.SocialMedia is null ? null : SocialMedia.Create(Vertegenwoordiger.SocialMedia),
-                IsPrimair: Vertegenwoordiger.IsPrimair
+                vertegenwoordigerId,
+                Vertegenwoordiger.Rol,
+                Vertegenwoordiger.Roepnaam,
+                Vertegenwoordiger.Email is null ? null : Email.Create(Vertegenwoordiger.Email),
+                Vertegenwoordiger.Telefoon is null ? null : TelefoonNummer.Create(Vertegenwoordiger.Telefoon),
+                Vertegenwoordiger.Mobiel is null ? null : TelefoonNummer.Create(Vertegenwoordiger.Mobiel),
+                Vertegenwoordiger.SocialMedia is null ? null : SocialMedia.Create(Vertegenwoordiger.SocialMedia),
+                Vertegenwoordiger.IsPrimair
             ));
-
-
 }

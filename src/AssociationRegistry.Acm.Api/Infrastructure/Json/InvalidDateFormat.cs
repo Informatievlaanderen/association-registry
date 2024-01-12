@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using System;
 using System.Runtime.Serialization;
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 
 [Serializable]
 public class InvalidDateFormat : DomainException

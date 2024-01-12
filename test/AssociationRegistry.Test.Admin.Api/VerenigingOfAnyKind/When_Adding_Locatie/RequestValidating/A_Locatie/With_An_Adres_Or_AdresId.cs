@@ -3,9 +3,9 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -62,6 +62,6 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}")
-            .WithErrorMessage("'Locatie' moet of een adres of een adresId bevatten.");
+              .WithErrorMessage("'Locatie' moet of een adres of een adresId bevatten.");
     }
 }

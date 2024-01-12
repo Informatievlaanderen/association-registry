@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_A_Vereniging;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using Events;
+using Fixtures;
+using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using System.Net;
@@ -26,7 +26,7 @@ public class Remove_An_Existing_Vereniging : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, "Omdat");
+        Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
     public Task DisposeAsync()

@@ -205,7 +205,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
                                                                                       .Where(v => v.VCode !=
-                                                                                           verenigingWerdVerwijderd.StreamKey)
+                                                                                               verenigingWerdVerwijderd.StreamKey)
                                                                                       .ToList();
 
                 docs.Add(verenigingenPerInszDocument);

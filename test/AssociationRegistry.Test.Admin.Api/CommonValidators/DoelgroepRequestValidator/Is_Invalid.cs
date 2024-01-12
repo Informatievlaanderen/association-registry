@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.CommonValidators.DoelgroepRequestValidator;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -13,14 +13,16 @@ public class Is_Invalid : ValidatorTest
     public void Has_validation_errors()
     {
         var validator = new DoelgroepRequestValidator();
+
         var request = new DoelgroepRequest
         {
             Minimumleeftijd = 100,
             Maximumleeftijd = 50,
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(r => r)
-            .WithErrorMessage("Bij 'doelgroep' moet de 'minimumleeftijd' kleiner of gelijk aan 'maximumleeftijd' zijn.");
+              .WithErrorMessage("Bij 'doelgroep' moet de 'minimumleeftijd' kleiner of gelijk aan 'maximumleeftijd' zijn.");
     }
 }

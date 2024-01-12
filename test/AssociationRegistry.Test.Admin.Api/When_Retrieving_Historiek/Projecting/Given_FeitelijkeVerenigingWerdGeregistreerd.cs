@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AutoFixture;

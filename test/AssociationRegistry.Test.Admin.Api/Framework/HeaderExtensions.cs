@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using System.Net.Http.Headers;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
+using System.Net.Http.Headers;
 
 public static class HeaderExtensions
 {
@@ -13,7 +13,7 @@ public static class HeaderExtensions
         etagValues.Should().HaveCount(1);
         var etag = etagValues[0];
         etag.Should().StartWith("W/\"").And.EndWith("\"");
-        var etagValue = etag.Replace("W/\"", string.Empty).Replace("\"", string.Empty);
+        var etagValue = etag.Replace(oldValue: "W/\"", string.Empty).Replace(oldValue: "\"", string.Empty);
         var tryParse = long.TryParse(etagValue, out var etagNumber);
         tryParse.Should().BeTrue();
         etagNumber.Should().BePositive();

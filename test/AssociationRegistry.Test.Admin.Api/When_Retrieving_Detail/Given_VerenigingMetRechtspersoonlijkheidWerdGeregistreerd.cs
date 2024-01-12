@@ -87,7 +87,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                              _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Achternaam,
                                              string.Empty,
                                              string.Empty, _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Insz, string.Empty,
-                                             string.Empty, string.Empty, string.Empty, false, Bron.KBO);
+                                             string.Empty, string.Empty, string.Empty, isPrimair: false, Bron.KBO);
 
         content.Should().BeEquivalentJson(expected);
     }

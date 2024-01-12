@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
+using AssociationRegistry.Admin.Api.Infrastructure;
 using Framework.Helpers;
-using global::AssociationRegistry.Admin.Api.Infrastructure;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -13,7 +13,7 @@ public class AdminApiClient : IDisposable
     {
         HttpClient = httpClient;
         HttpClient.DefaultRequestHeaders.Add(WellknownHeaderNames.CorrelationId, Guid.NewGuid().ToString());
-        HttpClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, "OVO000001");
+        HttpClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, value: "OVO000001");
     }
 
     public async Task<HttpResponseMessage> GetRoot()
@@ -34,8 +34,11 @@ public class AdminApiClient : IDisposable
         string? initiator = "OVO000001")
     {
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
-        WithHeaders(null, initiator);
-        var httpResponseMessage = await HttpClient.PostAsync("/v1/verenigingen/feitelijkeverenigingen", content.AsJsonContent());
+        WithHeaders(version: null, initiator);
+
+        var httpResponseMessage =
+            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/feitelijkeverenigingen", content.AsJsonContent());
+
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
 
         return httpResponseMessage;
@@ -43,8 +46,8 @@ public class AdminApiClient : IDisposable
 
     public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
     {
-        WithHeaders(null, initiator);
-        var httpResponseMessage = await HttpClient.PostAsync($"/v1/verenigingen/kbo", content.AsJsonContent());
+        WithHeaders(version: null, initiator);
+        var httpResponseMessage = await HttpClient.PostAsync(requestUri: "/v1/verenigingen/kbo", content.AsJsonContent());
 
         return httpResponseMessage;
     }
@@ -237,7 +240,7 @@ public class AdminApiClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> GetDocsJson()
-        => await HttpClient.GetAsync($"/docs/v1/docs.json?culture=en-GB");
+        => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
 
     private static string? GetIfMatchHeaderValue(long? version)
         => version is not null ? $"W/\"{version}\"" : null;
@@ -261,7 +264,7 @@ public class AdminApiClient : IDisposable
     }
 
     public async Task<HttpResponseMessage> GetHoofdactiviteiten()
-        => await HttpClient.GetAsync($"/v1/hoofdactiviteitenVerenigingsloket");
+        => await HttpClient.GetAsync("/v1/hoofdactiviteitenVerenigingsloket");
 
     public async Task<HttpResponseMessage> RebuildAllAdminProjections(CancellationToken cancellationToken)
         => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/all/rebuild", content: null, cancellationToken);
@@ -298,7 +301,6 @@ public class AdminApiClient : IDisposable
 
         return await HttpClient.SendAsync(request);
     }
-
 
     public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
         => await HttpClient.GetAsync($"/v1/contexten/beheer/{contextName}");

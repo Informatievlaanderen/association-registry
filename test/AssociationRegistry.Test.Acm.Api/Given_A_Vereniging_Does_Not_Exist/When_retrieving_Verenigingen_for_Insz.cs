@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_A_Vereniging_Does_Not_Exist;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Framework;
+using System.Net;
 using templates;
 using Xunit;
 using Xunit.Categories;

@@ -15,12 +15,14 @@ public class Given_No_Adres_And_No_AdresId
     public void Then_It_Throws_An_MissingAdresException()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var ctor = () => Locatie.Create(
             fixture.Create<string>(),
             fixture.Create<bool>(),
             fixture.Create<Locatietype>(),
             adresId: null,
             adres: null);
+
         ctor.Should().Throw<AdresOfAdresIdMoetAanwezigZijn>();
     }
 }

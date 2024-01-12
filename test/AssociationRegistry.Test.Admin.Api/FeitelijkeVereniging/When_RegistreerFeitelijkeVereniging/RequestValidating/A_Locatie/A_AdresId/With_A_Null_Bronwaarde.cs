@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_AdresId;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using FluentValidation.TestHelper;
@@ -24,7 +23,7 @@ public class With_A_Null_Bronwaarde : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(
-                $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Bronwaarde)}")
-            .WithErrorMessage("'Bronwaarde' is verplicht.");
+                   $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.AdresId)}.{nameof(ToeTeVoegenLocatie.AdresId.Bronwaarde)}")
+              .WithErrorMessage("'Bronwaarde' is verplicht.");
     }
 }

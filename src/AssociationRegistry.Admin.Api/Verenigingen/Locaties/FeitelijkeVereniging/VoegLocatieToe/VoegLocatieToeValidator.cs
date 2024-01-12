@@ -10,6 +10,6 @@ public class VoegLocatieToeValidator : AbstractValidator<VoegLocatieToeRequest>
     public VoegLocatieToeValidator()
     {
         RuleFor(request => request.Locatie)
-            .SetValidator(new ToeTeVoegenLocatieValidator());
+           .SetValidator(new ToeTeVoegenLocatieValidator());
     }
 }

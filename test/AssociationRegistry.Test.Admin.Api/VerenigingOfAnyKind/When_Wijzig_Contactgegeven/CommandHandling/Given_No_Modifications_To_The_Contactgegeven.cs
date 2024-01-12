@@ -2,17 +2,17 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
+public class Given_No_Modifications_To_The_Contactgegeven : IAsyncLifetime
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
     private readonly Fixture _fixture;
@@ -40,7 +40,8 @@ public class Given_No_Modifications_To_The_Contactgegeven: IAsyncLifetime
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.Beschrijving,
                 FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.IsPrimair));
 
-        _commandResult = await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        _commandResult =
+            await _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
     }
 
     [Fact]

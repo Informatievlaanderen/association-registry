@@ -15,6 +15,7 @@ public class V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAdd
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999022";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -26,6 +27,7 @@ public class V022_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAdd
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

@@ -15,6 +15,7 @@ public record Voornaam
     {
         Throw<VoornaamBevatNummers>.If(waarde.Any(char.IsDigit));
         Throw<VoornaamZonderLetters>.IfNot(waarde.Any(char.IsLetter));
+
         return new Voornaam { Waarde = waarde };
     }
 

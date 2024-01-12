@@ -21,5 +21,6 @@ public record AfdelingWerdGeregistreerd(
     [IgnoreDataMember]
     public Bron Bron
         => Bron.Initiator;
+
     public record MoederverenigingsData(string KboNummer, string VCode, string Naam);
 }

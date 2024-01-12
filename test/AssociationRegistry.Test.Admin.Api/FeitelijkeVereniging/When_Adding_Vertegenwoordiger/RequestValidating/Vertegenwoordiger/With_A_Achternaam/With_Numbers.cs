@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_A_Achternaam;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.
+    With_A_Achternaam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
@@ -16,6 +17,7 @@ public class With_Numbers
     public void Has_validation_error__Achternaam_mag_enkel_letters_en_spaties_bevatten(string voornaam)
     {
         var validator = new VoegVertegenwoordigerToeValidator();
+
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
@@ -24,9 +26,11 @@ public class With_Numbers
                     Achternaam = voornaam,
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
-            .WithErrorMessage("'Achternaam' mag geen cijfers bevatten.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Achternaam)}")
+              .WithErrorMessage("'Achternaam' mag geen cijfers bevatten.");
     }
 }

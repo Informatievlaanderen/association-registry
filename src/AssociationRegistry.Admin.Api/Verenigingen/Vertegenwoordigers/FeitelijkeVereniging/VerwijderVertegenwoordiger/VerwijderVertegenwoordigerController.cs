@@ -1,19 +1,19 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
 
-using System.Threading.Tasks;
-using AssociationRegistry.Acties.VerwijderVertegenwoordiger;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Framework;
-using Vereniging;
+using Acties.VerwijderVertegenwoordiger;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Framework;
+using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -50,8 +50,10 @@ public class VerwijderVertegenwoordigerController : ApiController
     [HttpDelete("{vCode}/vertegenwoordigers/{vertegenwoordigerId:int}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
+                           description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
+                           description: "De versie van de geregistreerde vereniging.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
@@ -66,12 +68,16 @@ public class VerwijderVertegenwoordigerController : ApiController
         [IfMatchHeader] string? ifMatch = null)
     {
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<VerwijderVertegenwoordigerCommand>(new VerwijderVertegenwoordigerCommand(VCode.Create(vCode), vertegenwoordigerId), metaData);
+
+        var envelope =
+            new CommandEnvelope<VerwijderVertegenwoordigerCommand>(
+                new VerwijderVertegenwoordigerCommand(VCode.Create(vCode), vertegenwoordigerId), metaData);
 
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
+
         return Accepted();
     }
 }

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

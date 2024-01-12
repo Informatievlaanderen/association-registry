@@ -23,7 +23,6 @@ public class Given_RoepnaamWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(roepnaamWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Roepnaam werd gewijzigd naar '{roepnaamWerdGewijzigd.Data.Roepnaam}'.",

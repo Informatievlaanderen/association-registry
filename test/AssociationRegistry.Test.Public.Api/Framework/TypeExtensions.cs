@@ -11,7 +11,7 @@ public static class TypeExtensions
     /// </summary>
     /// <returns>the contents of the embedded json that matches the calculated filename</returns>
     public static string GetAssociatedResourceJson(this Type type, string resourceName)
-        => type.GetResourceString(resourceName, "json");
+        => type.GetResourceString(resourceName, extension: "json");
 
     private static string GetResourceString(this Type type, string methodName, string extension)
         => type.Assembly.GetResourceString($"{type.Namespace!}.{methodName}.{extension}");

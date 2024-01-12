@@ -31,6 +31,8 @@ public class Throw<TException> where TException : Exception
 
     private static void ThrowException(string? message)
     {
-        throw (string.IsNullOrWhiteSpace(message) ? Activator.CreateInstance<TException>() : Activator.CreateInstance(typeof(TException), message) as TException)!;
+        throw (string.IsNullOrWhiteSpace(message)
+            ? Activator.CreateInstance<TException>()
+            : Activator.CreateInstance(typeof(TException), message) as TException)!;
     }
 }

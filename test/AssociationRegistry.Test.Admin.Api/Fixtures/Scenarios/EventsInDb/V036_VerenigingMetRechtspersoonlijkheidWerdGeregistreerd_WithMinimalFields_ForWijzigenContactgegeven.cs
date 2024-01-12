@@ -16,16 +16,19 @@ public class V036_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMinima
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999036";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             KorteNaam = string.Empty,
             Startdatum = null,
         };
+
         ContactgegevenWerdToegevoegd = fixture.Create<ContactgegevenWerdToegevoegd>() with
         {
             ContactgegevenId = 1,
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

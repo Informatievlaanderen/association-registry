@@ -79,7 +79,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_Con
         roepnaamWerdGewijzigd.Data.Should()
                              .BeEquivalentTo(
                                   new ContactgegevenUitKBOWerdGewijzigd(_contactgegevenId, _request.Contactgegeven.Beschrijving!,
-                                                                            _request.Contactgegeven.IsPrimair!.Value));
+                                                                        _request.Contactgegeven.IsPrimair!.Value));
     }
 
     [Fact]

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.ProjectieBeheer;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.HttpClients;
 using Be.Vlaanderen.Basisregisters.Api;
+using Infrastructure;
+using Infrastructure.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;

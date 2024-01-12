@@ -2,9 +2,9 @@
 
 using Fixtures;
 using Fixtures.GivenEvents;
-using Framework;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using Framework;
 using templates;
 using Vereniging;
 using Xunit;

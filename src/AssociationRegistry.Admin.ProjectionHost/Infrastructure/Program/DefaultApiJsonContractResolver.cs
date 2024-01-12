@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program;
 
-using System.Reflection;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Reflection;
+using System.Runtime.Serialization;
 
-class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
+internal class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
 {
     private static readonly NamingStrategy DefaultNamingStrategy =
         new CamelCaseNamingStrategy
@@ -16,7 +16,9 @@ class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
         };
 
     private DefaultApiJsonContractResolver(NamingStrategy namingStrategy)
-        => NamingStrategy = namingStrategy;
+    {
+        NamingStrategy = namingStrategy;
+    }
 
     public static DefaultApiJsonContractResolver UsingDefaultNamingStrategy()
         => new(DefaultNamingStrategy);
@@ -24,12 +26,14 @@ class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
     protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
     {
         var property = base.CreateProperty(member, memberSerialization);
+
         return ApplyDataMemberParameters(member, property);
     }
 
     private static JsonProperty ApplyDataMemberParameters(MemberInfo member, JsonProperty property)
     {
         var dataMemberAttribute = member.GetCustomAttributes<DataMemberAttribute>().SingleOrDefault();
+
         if (dataMemberAttribute == null)
             return property;
 
@@ -37,11 +41,9 @@ class DefaultApiJsonContractResolver : CamelCasePropertyNamesContractResolver
             property.Order = dataMemberAttribute.Order;
 
         if (!property.DefaultValueHandling.HasValue)
-        {
             property.DefaultValueHandling = dataMemberAttribute.EmitDefaultValue
                 ? DefaultValueHandling.Include
                 : DefaultValueHandling.Ignore;
-        }
 
         return property;
     }

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 
-using Infrastructure.Validation;
 using FluentValidation;
+using Infrastructure.Validation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -10,17 +10,18 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
     public WijzigContactgegevenValidator()
     {
         RuleFor(request => request.Contactgegeven).NotNull()
-            .WithMessage("'Contactgegeven' is verplicht.");
+                                                  .WithMessage("'Contactgegeven' is verplicht.");
 
         When(
-            request => request.Contactgegeven is not null,
-            () => RuleFor(request => request.Contactgegeven)
-                .Must(HaveAtLeastOneValue)
-                .WithMessage("'Contactgegeven' moet ingevuld zijn.")
+            predicate: request => request.Contactgegeven is not null,
+            action: () => RuleFor(request => request.Contactgegeven)
+                         .Must(HaveAtLeastOneValue)
+                         .WithMessage("'Contactgegeven' moet ingevuld zijn.")
         );
+
         When(
-            request => request.Contactgegeven is not null,
-            () => this.RequireNotEmpty(request => request.Contactgegeven.Waarde)
+            predicate: request => request.Contactgegeven is not null,
+            action: () => this.RequireNotEmpty(request => request.Contactgegeven.Waarde)
         );
     }
 

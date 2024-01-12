@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Swagger;
 
-using System.Collections.Generic;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 
 public class AppendInitiatorToHeaders : IOperationFilter
 {

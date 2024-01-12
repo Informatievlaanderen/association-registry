@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,12 +22,16 @@ public class To_A_WijzigBasisgegevensCommand
         var actualVCode = fixture.Create<VCode>();
         var actual = request.ToCommand(actualVCode);
 
-        actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving,out var doelgroep, out var hoofdactiviteitenVerenigingsloket);
+        actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving, out var doelgroep,
+                           out var hoofdactiviteitenVerenigingsloket);
 
         vCode.Should().Be(actualVCode);
         roepnaam.Should().Be(request.Roepnaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
-        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        hoofdactiviteitenVerenigingsloket.Should()
+                                         .BeEquivalentTo(
+                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
     }
 }

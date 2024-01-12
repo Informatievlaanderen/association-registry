@@ -45,7 +45,9 @@ public class WijzigBasisgegevensCommandHandler
         }
     }
 
-    private static void WijzigHoofdactiviteitenVerenigingsloket(Vereniging vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
+    private static void WijzigHoofdactiviteitenVerenigingsloket(
+        Vereniging vereniging,
+        HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
     {
         if (hoofdactiviteitenVerenigingsloket is null)
             return;

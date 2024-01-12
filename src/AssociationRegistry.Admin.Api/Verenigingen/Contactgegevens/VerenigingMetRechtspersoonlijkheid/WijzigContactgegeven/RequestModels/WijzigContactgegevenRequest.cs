@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 
 using Acties.WijzigContactgegevenFromKbo;
-using Vereniging;
 using System.Runtime.Serialization;
+using Vereniging;
 
 [DataContract]
 public class WijzigContactgegevenRequest

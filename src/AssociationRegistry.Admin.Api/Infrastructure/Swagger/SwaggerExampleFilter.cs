@@ -1,11 +1,12 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Swagger;
 
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property, AllowMultiple = true)]
 public class SwaggerParameterExampleAttribute : SwaggerParameterExampleBaseAttribute
@@ -49,14 +50,12 @@ public class ExampleSchemaFilter : ISchemaFilter
             var list = new List<string>();
 
             list.AddRange(attribs.OfType<SwaggerParameterExampleAttribute>().Select(x => x.Value));
-            prop.Value.Example = new Microsoft.OpenApi.Any.OpenApiString(list.First());
+            prop.Value.Example = new OpenApiString(list.First());
 
             if (list.Count > 1)
-            {
                 prop.Value.Description += $"\r\n\r\n" +
                                           $"Mogelijke waarden:\r\n" +
-                                          $"- {string.Join("\r\n- ", list)}";
-            }
+                                          $"- {string.Join(separator: "\r\n- ", list)}";
         }
     }
 }

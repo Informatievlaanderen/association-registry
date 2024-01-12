@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -26,7 +27,6 @@ public class With_An_VerenigingVolgensKbo_Adres
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
         _verenigingVolgensKbo.Adres = fixture.Create<AdresVolgensKbo>();
@@ -41,9 +41,9 @@ public class With_An_VerenigingVolgensKbo_Adres
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -59,9 +59,9 @@ public class With_An_VerenigingVolgensKbo_Adres
                 _verenigingVolgensKbo.Startdatum),
             new MaatschappelijkeZetelWerdOvergenomenUitKbo(
                 new Registratiedata.Locatie(
-                    1,
+                    LocatieId: 1,
                     Locatietype.MaatschappelijkeZetelVolgensKbo,
-                    false,
+                    IsPrimair: false,
                     string.Empty,
                     new Registratiedata.Adres(
                         _verenigingVolgensKbo.Adres.Straatnaam!,
@@ -71,7 +71,7 @@ public class With_An_VerenigingVolgensKbo_Adres
                         _verenigingVolgensKbo.Adres.Gemeente!,
                         _verenigingVolgensKbo.Adres.Land!
                     ),
-                    null)
+                    AdresId: null)
             )
         );
     }

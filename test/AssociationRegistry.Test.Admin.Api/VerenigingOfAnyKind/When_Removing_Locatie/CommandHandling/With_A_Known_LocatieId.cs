@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
 using Acties.VerwijderLocatie;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,7 +29,7 @@ public class With_A_Known_LocatieId
         var commandHandler = new VerwijderLocatieCommandHandler(_verenigingRepositoryMock);
 
         commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata))
-            .GetAwaiter().GetResult();
+                      .GetAwaiter().GetResult();
     }
 
     [Fact]

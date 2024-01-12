@@ -8,6 +8,7 @@ public static class DateOnlyHelper
     {
         if (string.IsNullOrWhiteSpace(datumString))
             return null;
+
         return DateOnly.TryParseExact(datumString, format, out var date)
             ? date
             : null;

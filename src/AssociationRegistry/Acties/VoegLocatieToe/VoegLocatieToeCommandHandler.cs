@@ -14,11 +14,13 @@ public class VoegLocatieToeCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging =
+            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
         vereniging.VoegLocatieToe(envelope.Command.Locatie);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

@@ -55,7 +55,7 @@ public class Given_VerenigingWerdGestopt
     public async Task Then_we_get_registratie_gebeurtenissen()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{

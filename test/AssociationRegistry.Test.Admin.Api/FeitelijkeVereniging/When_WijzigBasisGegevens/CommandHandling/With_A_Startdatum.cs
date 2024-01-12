@@ -27,7 +27,10 @@ public class With_A_Startdatum
 
         var fixture = new Fixture().CustomizeAdminApi();
         _nieuweStartdatum = new DateOnly(year: 2023, month: 3, day: 6).AddDays(-1);
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Startdatum: NullOrEmpty<Datum>.Create(Datum.Create(_nieuweStartdatum)));
+
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
+                                                     Startdatum: NullOrEmpty<Datum>.Create(Datum.Create(_nieuweStartdatum)));
+
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

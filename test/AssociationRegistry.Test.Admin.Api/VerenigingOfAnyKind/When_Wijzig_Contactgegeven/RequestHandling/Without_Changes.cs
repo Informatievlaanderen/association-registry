@@ -4,15 +4,16 @@ using Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
-using EventStore;
 using AssociationRegistry.Framework;
-using Framework;
-using Vereniging;
+using EventStore;
 using FluentAssertions;
 using FluentValidation;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -26,9 +27,10 @@ public class Without_Changes : IAsyncLifetime
     public Without_Changes()
     {
         var messageBusMock = new Mock<IMessageBus>();
+
         messageBusMock
-            .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenCommand>>(), default, null))
-            .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
+           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<WijzigContactgegevenCommand>>(), default, null))
+           .ReturnsAsync(CommandResult.Create(VCode.Create("V0001001"), StreamActionResult.Empty));
 
         _controller = new WijzigContactgegevenController(messageBusMock.Object, new InlineValidator<WijzigContactgegevenRequest>())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
@@ -37,11 +39,11 @@ public class Without_Changes : IAsyncLifetime
     public async Task InitializeAsync()
     {
         _result = await _controller.Patch(
-            "V0001001",
-            1,
+            vCode: "V0001001",
+            contactgegevenId: 1,
             new WijzigContactgegevenRequest { Contactgegeven = new TeWijzigenContactgegeven() },
             new CommandMetadataProviderStub(),
-            "W/\"1\"");
+            ifMatch: "W/\"1\"");
     }
 
     [Fact]
@@ -59,7 +61,7 @@ public class Without_Changes : IAsyncLifetime
     [Fact]
     public void Then_it_returns_no_location_header()
     {
-        _controller.Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
     public Task DisposeAsync()

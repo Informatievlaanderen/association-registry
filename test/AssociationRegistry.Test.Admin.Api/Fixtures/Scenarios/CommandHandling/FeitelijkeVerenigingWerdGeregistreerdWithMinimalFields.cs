@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
+using Events;
 using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : CommandhandlerScenarioBase
@@ -11,7 +11,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : Commandhan
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
     public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
-    public override VCode VCode =>VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0009002");
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; private set; } = null!;
 
     public override IEnumerable<IEvent> Events()
@@ -23,11 +23,12 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : Commandhan
             KorteBeschrijving,
             Startdatum,
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
+
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,

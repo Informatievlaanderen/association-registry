@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure;
 
-using System.Reflection;
 using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
+using System.Reflection;
 
 [ApiVersionNeutral]
 [Route("")]

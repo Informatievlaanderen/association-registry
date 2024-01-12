@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Naam;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using FluentValidation.TestHelper;
 using Test.Framework;
@@ -18,6 +17,6 @@ public class Is_Null : ValidatorTest
         var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest());
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Naam)
-            .WithErrorMessage("'Naam' is verplicht.");
+              .WithErrorMessage("'Naam' is verplicht.");
     }
 }

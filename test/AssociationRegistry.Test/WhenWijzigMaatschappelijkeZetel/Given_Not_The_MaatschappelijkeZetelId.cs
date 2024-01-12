@@ -31,7 +31,7 @@ public class Given_Not_The_MaatschappelijkeZetelId
                           .Apply(LocatieWerdToegevoegd.With(locatie)));
 
         var wijzigLocatie = () => vereniging.WijzigMaatschappelijkeZetel(
-            1,
+            locatieId: 1,
             fixture.Create<string>(),
             fixture.Create<bool>());
 

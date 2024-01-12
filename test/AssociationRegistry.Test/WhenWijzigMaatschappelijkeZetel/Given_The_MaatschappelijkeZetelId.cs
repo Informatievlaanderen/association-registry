@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.WhenWijzigMaatschappelijkeZetel;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,7 +26,7 @@ public class Given_To_MaatschappelijkeZetelId
         vereniging.Hydrate(new VerenigingState().Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo.With(locatie)));
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
-            1,
+            locatieId: 1,
             fixture.Create<string>(),
             Locatietype.MaatschappelijkeZetelVolgensKbo,
             fixture.Create<bool>(),

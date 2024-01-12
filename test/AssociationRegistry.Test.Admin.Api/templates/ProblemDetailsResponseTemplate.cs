@@ -8,7 +8,7 @@ using Test.Framework;
 
 public class ProblemDetailsResponseTemplate
 {
-    private dynamic _problemDetails;
+    private readonly dynamic _problemDetails;
 
     public ProblemDetailsResponseTemplate()
     {
@@ -23,31 +23,34 @@ public class ProblemDetailsResponseTemplate
     public ProblemDetailsResponseTemplate WithType(string type)
     {
         _problemDetails.type = type;
+
         return this;
     }
 
     public ProblemDetailsResponseTemplate WithTitle(string title)
     {
         _problemDetails.title = title;
+
         return this;
     }
 
     public ProblemDetailsResponseTemplate WithDetail(string detail)
     {
         _problemDetails.detail = detail;
+
         return this;
     }
 
     public ProblemDetailsResponseTemplate WithStatus(int status)
     {
         _problemDetails.status = status;
+
         return this;
     }
 
     public ProblemDetailsResponseTemplate FromException(UnexpectedAggregateVersionException ex)
-        => this
-          .WithStatus(StatusCodes.Status412PreconditionFailed)
-          .WithDetail(ex.Message);
+        => WithStatus(StatusCodes.Status412PreconditionFailed)
+           .WithDetail(ex.Message);
 
     public static implicit operator string(ProblemDetailsResponseTemplate source)
         => source.Build();
@@ -63,7 +66,7 @@ public class ProblemDetailsResponseTemplate
             type = _problemDetails.type,
             title = _problemDetails.title,
             detail = _problemDetails.detail,
-            status = _problemDetails.status
+            status = _problemDetails.status,
         });
     }
 }

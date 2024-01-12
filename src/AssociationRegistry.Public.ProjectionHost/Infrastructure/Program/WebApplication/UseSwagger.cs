@@ -8,6 +8,7 @@ public static class UseSwaggerExtensions
     {
         source.UseSwagger();
         source.UseSwaggerUI();
+
         source.UseReDoc(
             options =>
             {

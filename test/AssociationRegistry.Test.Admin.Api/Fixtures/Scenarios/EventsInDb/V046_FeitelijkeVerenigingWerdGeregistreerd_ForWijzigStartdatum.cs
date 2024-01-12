@@ -16,6 +16,7 @@ public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IE
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999046";
         Naam = "De leuke club";
+
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
@@ -32,6 +33,7 @@ public class V046_FeitelijkeVerenigingWerdGeregistreerd_ForWijzigStartdatum : IE
                     IsPrimair = i == 0,
                 }).ToArray(),
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

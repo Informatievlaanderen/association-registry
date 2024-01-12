@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_An_Insz;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.
+    With_An_Insz;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
@@ -14,6 +15,7 @@ public class Is_Null
     public void Has_validation_error__Insz_mag_niet_leeg_zijn()
     {
         var validator = new VoegVertegenwoordigerToeValidator();
+
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger = new ToeTeVoegenVertegenwoordiger
@@ -21,9 +23,11 @@ public class Is_Null
                 Insz = null!,
             },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
-            .WithErrorMessage("'Insz' is verplicht.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Insz)}")
+              .WithErrorMessage("'Insz' is verplicht.");
     }
 }

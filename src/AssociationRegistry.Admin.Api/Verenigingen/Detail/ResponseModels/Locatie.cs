@@ -33,7 +33,7 @@ public class Locatie
 
     /// <summary>De adrescomponenten van de locatie</summary>
     [DataMember(Name = "Adres")]
-    public Adres? Adres { get; init; } = null!;
+    public Adres? Adres { get; init; }
 
     /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
     [DataMember(Name = "Adresvoorstelling")]
@@ -52,6 +52,5 @@ public class Locatie
     ///     - KBO
     ///</summary>
     [DataMember(Name = "Bron")]
-
     public string Bron { get; set; } = null!;
 }

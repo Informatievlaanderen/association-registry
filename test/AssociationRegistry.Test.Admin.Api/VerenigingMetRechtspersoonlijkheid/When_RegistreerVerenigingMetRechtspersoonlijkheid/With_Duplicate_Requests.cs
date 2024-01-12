@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using AutoFixture;
-using Events;
 using Fixtures;
 using FluentAssertions;
 using Framework;
@@ -34,8 +33,8 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Dupli
             var request = new RegistreerVerenigingUitKboRequest { KboNummer = kboNummer };
 
             Responses.Add(new Tuple<Task<HttpResponseMessage>, Task<HttpResponseMessage>>(
-                             fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(request)),
-                             fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(request))));
+                              fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(request)),
+                              fixture.DefaultClient.RegistreerKboVereniging(GetJsonBody(request))));
         }
     }
 
@@ -62,7 +61,6 @@ public class With_Duplicate_Requests
 
     private RegistreerVerenigingUitKboRequest Request
         => When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Duplicate_Requests.Called(_fixture).UitKboRequest;
-
 
     [Fact]
     public async Task Then_it_returns_an_ok_response_with_correct_headers()

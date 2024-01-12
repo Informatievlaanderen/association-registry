@@ -2,11 +2,11 @@ namespace AssociationRegistry.Vereniging;
 
 using Emails;
 using Events;
-using EventStore;
 using Exceptions;
 using Framework;
 using SocialMedias;
 using TelefoonNummers;
+using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
@@ -113,7 +113,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void Verwijder(string reden)
     {
         Throw<VerenigingKanNietVerwijderdWorden>.If(State.IsVerwijderd);
-        AddEvent(Events.VerenigingWerdVerwijderd.With(reden));
+        AddEvent(VerenigingWerdVerwijderd.With(reden));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)

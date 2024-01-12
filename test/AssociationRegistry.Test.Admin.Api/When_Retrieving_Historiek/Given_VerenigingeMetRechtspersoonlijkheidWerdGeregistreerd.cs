@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
-using System.Text.RegularExpressions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AssociationRegistry.Framework;
@@ -10,6 +8,8 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text.RegularExpressions;
 using Xunit;
 using Xunit.Categories;
 
@@ -55,7 +55,7 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
     public async Task Then_we_get_registratie_gebeurtenis_for_moeder()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{

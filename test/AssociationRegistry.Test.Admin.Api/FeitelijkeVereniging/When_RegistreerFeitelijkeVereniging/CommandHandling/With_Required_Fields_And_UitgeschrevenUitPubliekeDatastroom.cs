@@ -40,7 +40,10 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService, new NoDuplicateVerenigingDetectionService(), clock);
+
+        var commandHandler =
+            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService,
+                                                             new NoDuplicateVerenigingDetectionService(), clock);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)

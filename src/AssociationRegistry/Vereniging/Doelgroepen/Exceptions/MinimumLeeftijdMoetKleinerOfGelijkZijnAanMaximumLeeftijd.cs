@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging.Exceptions;
 
-using System.Runtime.Serialization;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using System.Runtime.Serialization;
 
 [Serializable]
 public class MinimumLeeftijdMoetKleinerOfGelijkZijnAanMaximumLeeftijd : DomainException
@@ -10,7 +10,8 @@ public class MinimumLeeftijdMoetKleinerOfGelijkZijnAanMaximumLeeftijd : DomainEx
     {
     }
 
-    protected MinimumLeeftijdMoetKleinerOfGelijkZijnAanMaximumLeeftijd(SerializationInfo info, StreamingContext context) : base(info, context)
+    protected MinimumLeeftijdMoetKleinerOfGelijkZijnAanMaximumLeeftijd(SerializationInfo info, StreamingContext context) :
+        base(info, context)
     {
     }
 }

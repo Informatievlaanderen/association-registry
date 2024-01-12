@@ -1,8 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.Examples;
 
-using Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
+using Adres = Common.Adres;
+using AdresId = Common.AdresId;
 
 public class WijzigLocatieRequestExamples : IExamplesProvider<WijzigLocatieRequest>
 {
@@ -13,12 +15,12 @@ public class WijzigLocatieRequestExamples : IExamplesProvider<WijzigLocatieReque
             {
                 Naam = "Naam locatie",
                 IsPrimair = true,
-                AdresId = new Common.AdresId
+                AdresId = new AdresId
                 {
                     Broncode = "AR",
                     Bronwaarde = "https://data.vlaanderen.be/id/adres/0",
                 },
-                Adres = new Common.Adres
+                Adres = new Adres
                 {
                     Busnummer = "12",
                     Gemeente = "Gemeente",

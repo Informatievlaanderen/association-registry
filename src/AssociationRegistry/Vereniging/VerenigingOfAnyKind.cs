@@ -15,7 +15,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
 
-    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
 
     private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
@@ -54,9 +55,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
     }
 
-    public void WijzigVertegenwoordiger(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    public void WijzigVertegenwoordiger(
+        int vertegenwoordigerId,
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair)
     {
-        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        var gewijzigdeVertegenwoordiger =
+            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
@@ -81,7 +91,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(locatietype is not null &&
+                                                        locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 

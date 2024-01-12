@@ -109,7 +109,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
-
                 },
             },
             Facets = new Facets

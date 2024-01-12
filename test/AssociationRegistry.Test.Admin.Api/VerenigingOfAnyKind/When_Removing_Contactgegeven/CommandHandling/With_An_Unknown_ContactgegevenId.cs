@@ -2,12 +2,12 @@
 
 using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

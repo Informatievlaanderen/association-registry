@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -25,9 +26,9 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+
         _verenigingVolgensKbo.Adres = new AdresVolgensKbo
         {
             Straatnaam = fixture.Create<string>(),
@@ -48,9 +49,9 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
             ));
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]

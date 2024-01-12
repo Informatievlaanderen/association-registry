@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Contactgegeven;
 
-using System.Net;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using AssociationRegistry.Test.Framework.Customizations;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
+using System.Net;
+using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,7 +21,6 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-
     public Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid(EventsInDbScenariosFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
@@ -32,6 +31,7 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
         DocumentStore = _fixture.DocumentStore;
 
         WaardeVolgensType = autoFixture.CreateContactgegevenVolgensType(Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype).Waarde;
+
         _jsonBody = $@"{{
             ""contactgegeven"":
                 {{
@@ -45,7 +45,8 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
 
     public async Task InitializeAsync()
     {
-        Response = await _fixture.AdminApiClient.PatchContactgegevens(Scenario.VCode, Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _jsonBody);
+        Response = await _fixture.AdminApiClient.PatchContactgegevens(Scenario.VCode,
+                                                                      Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _jsonBody);
     }
 
     public Task DisposeAsync()
@@ -55,7 +56,8 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid>
+public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
+    Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
     private readonly Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
 
@@ -68,12 +70,16 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var contactgegevenWerdAangepast = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdGewijzigd));
+                                                        .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(ContactgegevenWerdGewijzigd));
 
         contactgegevenWerdAangepast.Data.Should()
-            .BeEquivalentTo(new ContactgegevenWerdGewijzigd(_classFixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _classFixture.Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype, _classFixture.WaardeVolgensType, "algemeen", false));
+                                   .BeEquivalentTo(new ContactgegevenWerdGewijzigd(
+                                                       _classFixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId,
+                                                       _classFixture.Scenario.ContactgegevenWerdToegevoegd.Contactgegeventype,
+                                                       _classFixture.WaardeVolgensType, Beschrijving: "algemeen", IsPrimair: false));
     }
 
     [Fact]

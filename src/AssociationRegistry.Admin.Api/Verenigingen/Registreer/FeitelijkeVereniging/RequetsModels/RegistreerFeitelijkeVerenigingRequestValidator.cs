@@ -4,7 +4,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereni
 using Common;
 using FluentValidation;
 using Framework;
-using Infrastructure.Extensions;
 using Infrastructure.Validation;
 using System;
 using System.Linq;

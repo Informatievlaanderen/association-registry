@@ -10,7 +10,9 @@ public class WijzigBasisgegevensCommandHandler
         IVerenigingsRepository repository,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await repository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging =
+            await repository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(message.Command.VCode),
+                                                                      message.Metadata.ExpectedVersion);
 
         HandleRoepnaam(vereniging, message.Command.Roepnaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
@@ -30,7 +32,9 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigRoepnaam(roepnaam);
     }
 
-    private static void HandleHoofdactiviteitenVerenigingsloket(VerenigingMetRechtspersoonlijkheid vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
+    private static void HandleHoofdactiviteitenVerenigingsloket(
+        VerenigingMetRechtspersoonlijkheid vereniging,
+        HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
     {
         if (hoofdactiviteitenVerenigingsloket is null)
             return;

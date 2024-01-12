@@ -2,15 +2,15 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Emails;
 using Vereniging.Exceptions;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,14 +37,15 @@ public class With_An_Unknown_VertegenwoordigerId
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,
             new WijzigVertegenwoordigerCommand.CommandVertegenwoordiger(
-            _fixture.Create<int>(),
-            _fixture.Create<string?>(),
-            _fixture.Create<string?>(),
-            _fixture.Create<Email>(),
-            _fixture.Create<TelefoonNummer>(),
-            _fixture.Create<TelefoonNummer>(),
-            _fixture.Create<SocialMedia>(),
-            IsPrimair: false));
+                _fixture.Create<int>(),
+                _fixture.Create<string?>(),
+                _fixture.Create<string?>(),
+                _fixture.Create<Email>(),
+                _fixture.Create<TelefoonNummer>(),
+                _fixture.Create<TelefoonNummer>(),
+                _fixture.Create<SocialMedia>(),
+                IsPrimair: false));
+
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigVertegenwoordigerCommand>(command, commandMetadata));

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Vereniging;
 
-using Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Exceptions;
+using Framework;
 
 public class VCode : ValueObject<VCode>
 {
@@ -29,8 +29,10 @@ public class VCode : ValueObject<VCode>
     public static VCode Create(int vCode)
     {
         Throw<VCodeValtBuitenToegelatenWaardes>.If(VCodeLessThanStartingVCode(vCode));
+
         return new VCode(vCode);
     }
+
     internal static VCode Hydrate(string vCode)
         => new(int.Parse(vCode[1..]));
 

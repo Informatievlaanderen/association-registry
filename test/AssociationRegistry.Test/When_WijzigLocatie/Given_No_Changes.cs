@@ -21,7 +21,8 @@ public class Given_No_Changes
         var adresId = AdresId.Hydrate(Adresbron.Parse(duplicateLocatie.AdresId!.Broncode), duplicateLocatie.AdresId.Bronwaarde);
         var adres = HydrateAdres(duplicateLocatie.Adres!);
 
-        vereniging.WijzigLocatie(duplicateLocatie.LocatieId, duplicateLocatie.Naam, duplicateLocatie.Locatietype, duplicateLocatie.IsPrimair, adresId, adres);
+        vereniging.WijzigLocatie(duplicateLocatie.LocatieId, duplicateLocatie.Naam, duplicateLocatie.Locatietype,
+                                 duplicateLocatie.IsPrimair, adresId, adres);
 
         vereniging.UncommittedEvents.Should().BeEmpty();
     }
@@ -35,6 +36,7 @@ public class Given_No_Changes
             out var postcode,
             out var gemeente,
             out var land);
+
         return Adres.Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
     }
 

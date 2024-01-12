@@ -3,11 +3,12 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using FluentValidation.TestHelper;
 using Framework;
 using Vereniging;
-using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [UnitTest]
 public class Without_A_Straatnaam : ValidatorTest
@@ -16,13 +17,14 @@ public class Without_A_Straatnaam : ValidatorTest
     public void Has_validation_error__straatnaam_is_verplicht()
     {
         var validator = new VoegLocatieToeValidator();
+
         var request = new VoegLocatieToeRequest
         {
             Locatie =
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Huisnummer = "23",
                         Gemeente = "Zonnedorp",
@@ -31,9 +33,11 @@ public class Without_A_Straatnaam : ValidatorTest
                     },
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
-            .WithErrorMessage("'Straatnaam' is verplicht.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
+              .WithErrorMessage("'Straatnaam' is verplicht.");
     }
 }

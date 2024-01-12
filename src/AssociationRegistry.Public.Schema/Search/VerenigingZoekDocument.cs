@@ -16,7 +16,6 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public string Status { get; set; } = null!;
     public bool IsVerwijderd { get; set; }
 
-
     public class Locatie
     {
         public string Locatietype { get; init; } = null!;

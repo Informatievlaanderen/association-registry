@@ -34,7 +34,7 @@ public class Given_A_Vereniging_Has_Been_Removed
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
-                          .FromQuery(query);
+           .FromQuery(query);
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

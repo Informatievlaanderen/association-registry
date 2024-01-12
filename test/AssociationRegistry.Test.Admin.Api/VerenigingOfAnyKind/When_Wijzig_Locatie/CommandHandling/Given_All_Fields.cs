@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using Acties.WijzigLocatie;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,7 +18,7 @@ public class Given_All_Fields
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private WijzigLocatieCommand.Locatie _locatie;
+    private readonly WijzigLocatieCommand.Locatie _locatie;
 
     public Given_All_Fields()
     {
@@ -28,6 +28,7 @@ public class Given_All_Fields
         _fixture = new Fixture().CustomizeAdminApi();
 
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock);
+
         _locatie = new WijzigLocatieCommand.Locatie(
             _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
             Locatietype.Correspondentie,
@@ -35,7 +36,6 @@ public class Given_All_Fields
             _fixture.Create<string>(),
             _fixture.Create<Adres>(),
             _fixture.Create<AdresId>());
-
     }
 
     [Fact]

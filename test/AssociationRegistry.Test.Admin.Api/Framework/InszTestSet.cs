@@ -7,7 +7,7 @@ public static class InszTestSet
     public const string Insz2 = "03209820396";
     public const string Insz2_WithCharacters = "03.20.98-203.96";
 
-    public static string[] All = new[]
+    public static string[] All =
     {
         Insz1,
         Insz2,

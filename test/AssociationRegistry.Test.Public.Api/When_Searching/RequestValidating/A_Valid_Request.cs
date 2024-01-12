@@ -17,7 +17,7 @@ public class A_Valid_Request : ValidatorTest
     [InlineData(250, 250)]
     public void Has_no_validation_errors(int limit, int offset)
     {
-        var appSettings = new AppSettings{ Search = new AppSettings.SearchSettings{MaxNumberOfSearchResults = 1000}};
+        var appSettings = new AppSettings { Search = new AppSettings.SearchSettings { MaxNumberOfSearchResults = 1000 } };
 
         var validator = new PaginationQueryParamsValidator(appSettings);
         var result = validator.TestValidate(new PaginationQueryParams { Limit = limit, Offset = offset });

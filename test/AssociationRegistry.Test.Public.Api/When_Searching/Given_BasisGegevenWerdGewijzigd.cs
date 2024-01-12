@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
 using templates;
 using Xunit;
 using Xunit.Categories;
@@ -16,7 +16,7 @@ public class Given_BasisGegevenWerdGewijzigd
 {
     private readonly PublicApiClient _publicApiClient;
     private readonly V003_BasisgegevensWerdenGewijzigdScenario _scenario;
-    private string _query = "Oarelbeke Weireldstad";
+    private readonly string _query = "Oarelbeke Weireldstad";
 
     public Given_BasisGegevenWerdGewijzigd(GivenEventsFixture fixture)
     {

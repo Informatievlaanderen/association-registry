@@ -1,19 +1,19 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 
-using System.Threading.Tasks;
 using Acties.VerwijderLocatie;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Framework;
-using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Framework;
+using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -53,8 +53,10 @@ public class VerwijderLocatieController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
+                           description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
+                           description: "De versie van de geregistreerde vereniging.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
@@ -73,6 +75,7 @@ public class VerwijderLocatieController : ApiController
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
+
         return Accepted();
     }
 }

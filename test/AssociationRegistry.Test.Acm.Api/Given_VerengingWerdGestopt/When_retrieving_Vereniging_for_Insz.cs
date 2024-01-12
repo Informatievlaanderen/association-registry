@@ -39,7 +39,7 @@ public class When_retrieving_Vereniging_for_Insz
                .WithVereniging(
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
-                    status: VerenigingStatus.Gestopt
+                    VerenigingStatus.Gestopt
                 );
 
         content.Should().BeEquivalentJson(expected);

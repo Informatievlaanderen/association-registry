@@ -25,7 +25,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "Maatschappelijke zetel volgens KBO werd gewijzigd.",
+                Beschrijving: "Maatschappelijke zetel volgens KBO werd gewijzigd.",
                 nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd),
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Initiator,
