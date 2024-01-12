@@ -1,3 +1,15 @@
+# [8.42.0](https://github.com/informatievlaanderen/association-registry/compare/v8.41.0...v8.42.0) (2024-01-12)
+
+
+### Bug Fixes
+
+* OR-1217 update expected exception message ([b5e2797](https://github.com/informatievlaanderen/association-registry/commit/b5e2797eabbd8ad0ff38286aaefc33ff7a0e11e9))
+
+
+### Features
+
+* OR-1217 allow vereniging to be removed and block further updates ([ba71ce6](https://github.com/informatievlaanderen/association-registry/commit/ba71ce60076d334264e0e5a14555a9116f11bac3))
+
 # [8.41.0](https://github.com/informatievlaanderen/association-registry/compare/v8.40.0...v8.41.0) (2024-01-11)
 
 
