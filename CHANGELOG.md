@@ -1,3 +1,10 @@
+## [8.42.1](https://github.com/informatievlaanderen/association-registry/compare/v8.42.0...v8.42.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* use hotcold and retry mechanism ([0d6e522](https://github.com/informatievlaanderen/association-registry/commit/0d6e522f2702659be8abaf14f45ce0219eeb2a65))
+
 # [8.42.0](https://github.com/informatievlaanderen/association-registry/compare/v8.41.0...v8.42.0) (2024-01-12)
 
 
