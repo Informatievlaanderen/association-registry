@@ -33,6 +33,8 @@ public static class MartenExtensions
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.AddPostgresProjections(serviceProvider);
 
+                                          opts.Projections.DaemonLockId = 2;
+
                                           opts.RegisterDocumentType<VerenigingenPerInszDocument>();
                                           opts.RegisterDocumentType<VerenigingDocument>();
 
@@ -52,7 +54,7 @@ public static class MartenExtensions
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return services;
     }

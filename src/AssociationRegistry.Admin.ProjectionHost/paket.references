@@ -32,7 +32,7 @@ System.Configuration.ConfigurationManager
 Destructurama.JsonNet
 
 FluentValidation
-
+Polly
 
 
 Marten

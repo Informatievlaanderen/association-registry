@@ -29,7 +29,7 @@ public static class ConfigureMartenExtensions
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return source;
     }
@@ -73,9 +73,11 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
+                opts.Projections.DaemonLockId = 3;
+
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.OnException(_ => true).Stop();
+                opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
 
                 opts.Projections.Add<PubliekVerenigingDetailProjection>(ProjectionLifecycle.Async);
 
