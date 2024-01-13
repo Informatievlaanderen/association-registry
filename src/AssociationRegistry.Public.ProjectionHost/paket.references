@@ -30,7 +30,7 @@ Serilog.Sinks.File
 Destructurama.JsonNet
 
 FluentValidation
-
+Polly
 
 
 Marten

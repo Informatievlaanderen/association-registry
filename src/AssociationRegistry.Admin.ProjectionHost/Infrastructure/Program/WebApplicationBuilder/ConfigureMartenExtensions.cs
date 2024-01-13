@@ -15,6 +15,7 @@ using Projections;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.Search;
+using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
@@ -33,7 +34,7 @@ public static class ConfigureMartenExtensions
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return source;
     }
@@ -80,7 +81,9 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.OnException(_ => true).Stop();
+                opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
+
+                opts.Projections.DaemonLockId = 1;
 
                 opts.Projections.AsyncListeners.Add(
                     new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
