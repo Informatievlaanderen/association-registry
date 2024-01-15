@@ -9,11 +9,13 @@ using Infrastructure.Extensions;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Marten;
+using Marten.Linq.SoftDeletes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using System.Linq;
 using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -67,11 +69,15 @@ public class DetailVerenigingenController : ApiController
             throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Detail);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
+                                           .Where(x => x.MaybeDeleted())
                                            .WithVCode(vCode)
                                            .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
             return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper, ValidationMessages.Status404Detail);
+
+        if (maybeVereniging.Deleted)
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper, ValidationMessages.Status404Deleted);
 
         Response.AddETagHeader(vereniging.Metadata.Version);
 
