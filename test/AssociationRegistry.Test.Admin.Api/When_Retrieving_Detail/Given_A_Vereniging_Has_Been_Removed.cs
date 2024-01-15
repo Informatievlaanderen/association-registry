@@ -37,6 +37,6 @@ public class Given_A_Vereniging_Has_Been_Removed
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
 
         problemDetails.Detail.Should().NotBeEmpty();
-        problemDetails.Detail.Should().Be(ValidationMessages.Status404Detail);
+        problemDetails.Detail.Should().Be(ValidationMessages.Status404Deleted);
     }
 }

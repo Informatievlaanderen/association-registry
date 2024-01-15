@@ -23,6 +23,9 @@
   <data name="Status404Detail" xml:space="preserve">
     <value>De gevraagde vereniging werd niet gevonden.</value>
   </data>
+  <data name="Status404Deleted" xml:space="preserve">
+    <value>Deze vereniging werd verwijderd.</value>
+  </data>
   <data name="Status412Detail" xml:space="preserve">
     <value>Het detail van de gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>
