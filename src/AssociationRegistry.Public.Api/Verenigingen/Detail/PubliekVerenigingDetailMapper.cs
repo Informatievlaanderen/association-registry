@@ -74,6 +74,9 @@ public static class PubliekVerenigingDetailMapper
     private static Sleutel Map(PubliekVerenigingDetailDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
+
             Bron = s.Bron,
             Waarde = s.Waarde,
         };

@@ -12,7 +12,8 @@ public class JsonLdType
         new(Constants.GuidNamespace.Contactgegeven, type: "schema:ContactPoint", prefix: "cont");
 
     public static readonly JsonLdType Locatie = new(Constants.GuidNamespace.Locatie, type: "org:Site", prefix: "loc");
-    public static readonly JsonLdType Adres = new(Constants.GuidNamespace.Locatie, type: "locn:Address", prefix: "adressen");
+    public static readonly JsonLdType Adres = new(Constants.GuidNamespace.Adres, type: "locn:Address", prefix: "adressen");
+    public static readonly JsonLdType Sleutel = new(Constants.GuidNamespace.Sleutel, type: "adms:Identifier", prefix: "identificatoren");
     public Guid GuidNamespace { get; }
     public string Type { get; }
     public string Prefix { get; }

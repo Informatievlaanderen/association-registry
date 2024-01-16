@@ -70,6 +70,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class Sleutel
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
     }

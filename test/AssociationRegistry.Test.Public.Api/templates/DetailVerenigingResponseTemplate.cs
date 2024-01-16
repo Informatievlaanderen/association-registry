@@ -109,10 +109,13 @@ public class DetailVerenigingResponseTemplate
         return this;
     }
 
-    public DetailVerenigingResponseTemplate WithKboNummer(string kboNummer)
+    public DetailVerenigingResponseTemplate WithKboNummer(string vCode, string kboNummer)
     {
         _vereniging.sleutels.Add(new
         {
+            jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+            jsonldtype = JsonLdType.Sleutel.Type,
+
             bron = Sleutelbron.Kbo.Waarde,
             waarde = kboNummer,
         });
@@ -278,7 +281,7 @@ public class DetailVerenigingResponseTemplate
                       .WithRoepnaam(string.Empty)
                       .WithKorteNaam(e.KorteNaam)
                       .WithStartdatum(e.Startdatum)
-                      .WithKboNummer(e.KboNummer);
+                      .WithKboNummer(e.VCode, e.KboNummer);
 
         return template;
     }

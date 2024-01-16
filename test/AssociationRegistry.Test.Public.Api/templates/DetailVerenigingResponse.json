@@ -86,6 +86,8 @@
     "sleutels": [
 {{for sleutel in vereniging.sleutels}}
       {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
         "waarde": "{{sleutel.waarde}}"
       },

@@ -60,6 +60,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 {
                     new()
                     {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                            JsonLdType.Sleutel.Type),
                         Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },
