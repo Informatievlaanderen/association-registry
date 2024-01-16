@@ -20,14 +20,20 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         var fixture = new Fixture().CustomizePublicApi();
         var maatschappelijkeZetelVolgensKboWerdGewijzigd = fixture.Create<TestEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd>>();
 
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+        doc.VCode = fixture.Create<VCode>();
+
         var locatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>() with
         {
             LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
+            JsonLdMetadata =
+            new JsonLdMetadata(
+                JsonLdType.Locatie.CreateWithIdValues(doc.VCode,
+                                                      maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
+                JsonLdType.Locatie.Type),
         };
-
-        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
-        doc.VCode = fixture.Create<VCode>();
         doc.Locaties = doc.Locaties.Append(locatie).ToArray();
+
 
         PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
 
