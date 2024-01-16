@@ -89,7 +89,7 @@
         "@id": "{{sleutel.jsonldid}}",
         "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}"
+        "waarde": "{{sleutel.waarde}}",
         "gestructureerdeIdentificator": {
           "@id": "{{sleutel.identificator.jsonldid}}",
           "@type": "{{sleutel.identificator.jsonldtype}}",
