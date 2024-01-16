@@ -91,9 +91,19 @@ public static class PubliekVerenigingDetailProjector
                 new()
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                        JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                                                              Sleutelbron.Kbo.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.Kbo.Waarde,
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                                Sleutelbron.Kbo.Waarde),
+                            JsonLdType.GestructureerdeSleutel.Type),
+                        Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                    },
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                 },
             },

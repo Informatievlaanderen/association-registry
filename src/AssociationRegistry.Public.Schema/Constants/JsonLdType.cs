@@ -14,6 +14,10 @@ public class JsonLdType
     public static readonly JsonLdType Locatie = new(Constants.GuidNamespace.Locatie, type: "org:Site", prefix: "loc");
     public static readonly JsonLdType Adres = new(Constants.GuidNamespace.Adres, type: "locn:Address", prefix: "adressen");
     public static readonly JsonLdType Sleutel = new(Constants.GuidNamespace.Sleutel, type: "adms:Identifier", prefix: "identificatoren");
+
+    public static readonly JsonLdType GestructureerdeSleutel = new(Constants.GuidNamespace.GestructureerdeIdentificator,
+                                                                   type: "generiek:GestructureerdeIdentificator", prefix: "ges");
+
     public Guid GuidNamespace { get; }
     public string Type { get; }
     public string Prefix { get; }

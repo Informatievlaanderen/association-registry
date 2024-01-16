@@ -77,6 +77,13 @@ public static class PubliekVerenigingDetailMapper
             id = s.JsonLdMetadata.Id,
             type = s.JsonLdMetadata.Type,
 
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
+
             Bron = s.Bron,
             Waarde = s.Waarde,
         };

@@ -116,6 +116,13 @@ public class DetailVerenigingResponseTemplate
             jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
             jsonldtype = JsonLdType.Sleutel.Type,
 
+            identificator = new
+            {
+                jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                nummer = kboNummer,
+            },
+
             bron = Sleutelbron.Kbo.Waarde,
             waarde = kboNummer,
         });
