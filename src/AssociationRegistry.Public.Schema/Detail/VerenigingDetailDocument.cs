@@ -61,6 +61,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class HoofdactiviteitVerenigingsloket
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Code { get; set; } = null!;
         public string Naam { get; set; } = null!;
     }

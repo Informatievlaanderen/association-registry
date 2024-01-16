@@ -93,6 +93,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                     {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Hoofdactiviteit.CreateWithIdValue(arg.Code),
+                            JsonLdType.Hoofdactiviteit.Type),
                         Code = arg.Code,
                         Naam = arg.Naam,
                     }).ToArray(),

@@ -24,7 +24,6 @@ public class DetailVerenigingResponseTemplate
         _vereniging.hoofdactiviteiten = new List<object>();
         _vereniging.relaties = new List<object>();
         _vereniging.sleutels = new List<object>();
-        _vereniging.jsonLdType = JsonLdType.Vereniging.Type;
 
         WithStatus(VerenigingStatus.Actief);
         WithKorteNaam(string.Empty);
@@ -37,6 +36,8 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.vcode = vCode;
         _vereniging.jsonLdId = JsonLdType.Vereniging.CreateWithIdValue(vCode);
+        _vereniging.jsonLdType = JsonLdType.Vereniging.Type;
+
 
         return this;
     }
@@ -98,6 +99,8 @@ public class DetailVerenigingResponseTemplate
     {
         _vereniging.hoofdactiviteiten.Add(new
         {
+            jsonLdId = JsonLdType.Hoofdactiviteit.CreateWithIdValue(code),
+            jsonLdType = JsonLdType.Hoofdactiviteit.Type,
             code = code,
             naam = naam,
         });

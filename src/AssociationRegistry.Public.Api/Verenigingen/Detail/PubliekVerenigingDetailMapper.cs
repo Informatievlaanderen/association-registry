@@ -2,6 +2,7 @@
 
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
+using Schema.Constants;
 using Schema.Detail;
 using System.Linq;
 
@@ -77,7 +78,13 @@ public static class PubliekVerenigingDetailMapper
         };
 
     private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
-        => new() { Code = ha.Code, Naam = ha.Naam };
+        => new()
+        {
+            id = ha.JsonLdMetadata.Id,
+            type = ha.JsonLdMetadata.Type,
+            Code = ha.Code,
+            Naam = ha.Naam,
+        };
 
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()

@@ -34,6 +34,8 @@
     "hoofdactiviteitenVerenigingsloket": [
 {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
       {
+        "@id": "{{hoofdactiviteit.jsonLdId}}",
+        "@type": "{{hoofdactiviteit.jsonLdType}}",
         "code": "{{hoofdactiviteit.code}}",
         "naam": "{{hoofdactiviteit.naam}}"
       },

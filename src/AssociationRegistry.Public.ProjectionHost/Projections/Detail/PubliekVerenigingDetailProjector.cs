@@ -93,6 +93,9 @@ public static class PubliekVerenigingDetailProjector
         Registratiedata.HoofdactiviteitVerenigingsloket arg)
         => new()
         {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Hoofdactiviteit.CreateWithIdValue(arg.Code),
+                JsonLdType.Hoofdactiviteit.Type),
             Code = arg.Code,
             Naam = arg.Naam,
         };
@@ -207,6 +210,9 @@ public static class PubliekVerenigingDetailProjector
            .Select(
                 h => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Hoofdactiviteit.CreateWithIdValue(h.Code),
+                        JsonLdType.Hoofdactiviteit.Type),
                     Code = h.Code,
                     Naam = h.Naam,
                 }).ToArray();

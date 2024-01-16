@@ -73,6 +73,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new HoofdactiviteitVerenigingsloket
                     {
+                        id = JsonLdType.Hoofdactiviteit.CreateWithIdValue("CULT"),
+                        type = JsonLdType.Hoofdactiviteit.Type,
+
                         Code = "CULT",
                         Naam = "Cultuur",
                     },
