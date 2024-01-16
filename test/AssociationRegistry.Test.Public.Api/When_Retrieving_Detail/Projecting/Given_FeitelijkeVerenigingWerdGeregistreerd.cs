@@ -85,6 +85,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             ? null
                             : new PubliekVerenigingDetailDocument.Adres
                             {
+                                JsonLdMetadata =
+                                    new JsonLdMetadata(
+                                        JsonLdType.Adres.CreateWithIdValues(doc.VCode, loc.LocatieId.ToString()),
+                                        JsonLdType.Adres.Type),
+
                                 Straatnaam = loc.Adres.Straatnaam,
                                 Huisnummer = loc.Adres.Huisnummer,
                                 Busnummer = loc.Adres.Busnummer,

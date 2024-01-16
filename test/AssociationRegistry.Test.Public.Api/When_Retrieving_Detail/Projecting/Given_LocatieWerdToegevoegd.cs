@@ -41,6 +41,10 @@ public class Given_LocatieWerdToegevoegd
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
                     {
+                        JsonLdMetadata =
+                            new JsonLdMetadata(
+                                JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                                JsonLdType.Adres.Type),
                         Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
                         Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,

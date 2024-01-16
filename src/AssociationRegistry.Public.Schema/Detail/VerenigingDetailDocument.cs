@@ -51,7 +51,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public record Locatie
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
@@ -95,6 +95,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class Adres
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Straatnaam { get; init; } = null!;
         public string Huisnummer { get; init; } = null!;
         public string? Busnummer { get; init; }

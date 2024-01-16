@@ -259,16 +259,19 @@ public static class PubliekVerenigingDetailProjector
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
-            Adres = Map(loc.Adres),
+            Adres = Map(vCode, loc.LocatieId, loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),
         };
 
-    private static PubliekVerenigingDetailDocument.Adres? Map(Registratiedata.Adres? adres)
+    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
         => adres is null
             ? null
             : new PubliekVerenigingDetailDocument.Adres
             {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
+                    JsonLdType.Adres.Type),
                 Straatnaam = adres.Straatnaam,
                 Huisnummer = adres.Huisnummer,
                 Busnummer = adres.Busnummer,

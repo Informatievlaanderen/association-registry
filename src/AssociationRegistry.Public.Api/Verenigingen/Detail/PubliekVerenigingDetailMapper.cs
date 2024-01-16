@@ -113,6 +113,8 @@ public static class PubliekVerenigingDetailMapper
         => adres is not null
             ? new Adres
             {
+                id = adres.JsonLdMetadata.Id,
+                type = adres.JsonLdMetadata.Type,
                 Straatnaam = adres.Straatnaam,
                 Huisnummer = adres.Huisnummer,
                 Busnummer = adres.Busnummer,

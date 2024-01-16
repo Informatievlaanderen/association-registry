@@ -59,6 +59,8 @@
         "adres":
 {{if locatie.adres}}
         {
+          "@id": "{{locatie.adres.jsonldid}}",
+          "@type": "{{locatie.adres.jsonldtype}}",
           "straatnaam": "{{locatie.adres.straatnaam}}",
           "huisnummer": "{{locatie.adres.huisnummer}}",
           "busnummer": "{{locatie.adres.busnummer}}",

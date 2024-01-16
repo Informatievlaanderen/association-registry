@@ -154,6 +154,8 @@ public class DetailVerenigingResponseTemplate
             adresvoorstelling = adresVoorstelling,
             adres = new
             {
+                jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId),
+                jsonldtype = JsonLdType.Adres.Type,
                 straatnaam = straatnaam,
                 huisnummer = huisnummer,
                 busnummer = busnummer,
@@ -219,6 +221,8 @@ public class DetailVerenigingResponseTemplate
             adresvoorstelling = adresVoorstelling,
             adres = new
             {
+                jsonldid = JsonLdType.Adres.CreateWithIdValues(vCode, locatieId),
+                jsonldtype = JsonLdType.Adres.Type,
                 straatnaam = straatnaam,
                 huisnummer = huisnummer,
                 busnummer = busnummer,

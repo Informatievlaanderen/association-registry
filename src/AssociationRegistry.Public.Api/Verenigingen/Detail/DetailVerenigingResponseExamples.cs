@@ -65,6 +65,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         Naam = "de kerk",
                         Adres = new Adres
                         {
+                            id = JsonLdType.Adres.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Adres.Type,
                             Straatnaam = "kerkstraat",
                             Huisnummer = "5",
                             Busnummer = null,

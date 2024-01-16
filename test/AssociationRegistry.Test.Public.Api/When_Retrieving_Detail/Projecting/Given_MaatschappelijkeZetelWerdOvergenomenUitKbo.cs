@@ -42,6 +42,10 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
                     {
+                        JsonLdMetadata =
+                            new JsonLdMetadata(
+                                JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                                JsonLdType.Adres.Type),
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Huisnummer,
                         Busnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Busnummer,
