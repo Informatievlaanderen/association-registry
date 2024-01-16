@@ -13,7 +13,9 @@ public static class PubliekVerenigingDetailMapper
             Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
-                @id = document.VCode,
+                id = document.JsonLdMetadata.Id,
+                type = document.JsonLdMetadata.Type,
+
                 VCode = document.VCode,
                 Verenigingstype = Map(document.Verenigingstype),
                 Naam = document.Naam,

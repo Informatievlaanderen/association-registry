@@ -8,10 +8,10 @@ using System.Runtime.Serialization;
 public class Vereniging
 {
     [DataMember(Name = "@id")]
-    public string @id { get; init; }
+    public string id { get; init; }
 
     [DataMember(Name = "@type")]
-    public string @type => "fei:FeitelijkeVereniging";
+    public string type { get; init; }
 
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "VCode")]
