@@ -21,7 +21,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
-                id = JsonLdType.Vereniging.CreateWithIdValue("V0001001"),
+                id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
                 type = JsonLdType.Vereniging.Type,
 
                 VCode = "V0001001",
@@ -44,6 +44,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Contactgegeven
                     {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001","1"),
+                        type = JsonLdType.Contactgegeven.Type,
                         Contactgegeventype = "E-mail",
                         Waarde = "info@example.org",
                         Beschrijving = "Info",
@@ -73,7 +75,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new HoofdactiviteitVerenigingsloket
                     {
-                        id = JsonLdType.Hoofdactiviteit.CreateWithIdValue("CULT"),
+                        id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
                         type = JsonLdType.Hoofdactiviteit.Type,
 
                         Code = "CULT",

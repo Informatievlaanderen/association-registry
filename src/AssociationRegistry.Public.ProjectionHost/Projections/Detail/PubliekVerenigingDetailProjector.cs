@@ -18,7 +18,7 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Vereniging.CreateWithIdValue(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
+                JsonLdType.Vereniging.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
                 JsonLdType.Vereniging.Type),
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
@@ -37,6 +37,10 @@ public static class PubliekVerenigingDetailProjector
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                                                     c.ContactgegevenId.ToString()),
+                        JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = c.ContactgegevenId,
                     Contactgegeventype = c.Contactgegeventype.ToString(),
                     Waarde = c.Waarde,
@@ -53,7 +57,7 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Vereniging.CreateWithIdValue(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                JsonLdType.Vereniging.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
                 JsonLdType.Vereniging.Type),
 
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
@@ -94,7 +98,7 @@ public static class PubliekVerenigingDetailProjector
         => new()
         {
             JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Hoofdactiviteit.CreateWithIdValue(arg.Code),
+                JsonLdType.Hoofdactiviteit.CreateWithIdValues(arg.Code),
                 JsonLdType.Hoofdactiviteit.Type),
             Code = arg.Code,
             Naam = arg.Naam,
@@ -142,6 +146,11 @@ public static class PubliekVerenigingDetailProjector
                                            .Append(
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Contactgegeven.CreateWithIdValues(
+                                                            contactgegevenWerdToegevoegd.StreamKey!,
+                                                            contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                                                        JsonLdType.Contactgegeven.Type),
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                                                     Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
@@ -159,6 +168,11 @@ public static class PubliekVerenigingDetailProjector
                                            .Append(
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Contactgegeven.CreateWithIdValues(
+                                                            contactgegevenWerdGewijzigd.StreamKey!,
+                                                            contactgegevenWerdGewijzigd.Data.ContactgegevenId.ToString()),
+                                                        JsonLdType.Contactgegeven.Type),
                                                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                                                     Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,
                                                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
@@ -211,7 +225,7 @@ public static class PubliekVerenigingDetailProjector
                 h => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Hoofdactiviteit.CreateWithIdValue(h.Code),
+                        JsonLdType.Hoofdactiviteit.CreateWithIdValues(h.Code),
                         JsonLdType.Hoofdactiviteit.Type),
                     Code = h.Code,
                     Naam = h.Naam,
@@ -308,6 +322,11 @@ public static class PubliekVerenigingDetailProjector
                                            .Append(
                                                 new PubliekVerenigingDetailDocument.Contactgegeven
                                                 {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Contactgegeven.CreateWithIdValues(
+                                                            contactgegevenWerdOvergenomenUitKBO.StreamKey!,
+                                                            contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId.ToString()),
+                                                        JsonLdType.Contactgegeven.Type),
                                                     ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
                                                     Contactgegeventype = contactgegevenWerdOvergenomenUitKBO.Data.Contactgegeventype,
                                                     Beschrijving = string.Empty,

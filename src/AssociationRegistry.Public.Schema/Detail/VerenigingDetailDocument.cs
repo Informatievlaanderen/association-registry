@@ -41,6 +41,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class Contactgegeven
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
         public int ContactgegevenId { get; set; }
         public string Contactgegeventype { get; set; } = null!;
         public string Waarde { get; set; } = null!;

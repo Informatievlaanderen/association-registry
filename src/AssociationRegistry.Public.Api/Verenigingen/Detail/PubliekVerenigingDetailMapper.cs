@@ -2,7 +2,6 @@
 
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
-using Schema.Constants;
 using Schema.Detail;
 using System.Linq;
 
@@ -57,6 +56,8 @@ public static class PubliekVerenigingDetailMapper
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
         => new()
         {
+            id = info.JsonLdMetadata.Id,
+            type = info.JsonLdMetadata.Type,
             Contactgegeventype = info.Contactgegeventype,
             Waarde = info.Waarde,
             Beschrijving = info.Beschrijving,

@@ -2,8 +2,7 @@
 
 public class GuidNamespace
 {
-    private const string _vereniging = "1039DC21-78ED-40E4-AF88-22306F4C8FEB";
-    public static Guid Vereniging => Guid.Parse(_vereniging);
-    private const string _hoofdactiviteit = "D45897A0-8BA1-49B8-A2F3-31AEB0DEF89C";
-    public static Guid Hoofdactiviteit => Guid.Parse(_hoofdactiviteit);
+    public static Guid Vereniging => Guid.Parse("1039DC21-78ED-40E4-AF88-22306F4C8FEB");
+    public static Guid Hoofdactiviteit => Guid.Parse("D45897A0-8BA1-49B8-A2F3-31AEB0DEF89C");
+    public static Guid Contactgegeven => Guid.Parse("C12F33CB-4F5D-4160-A7B8-3AA600BCAB87");
 }

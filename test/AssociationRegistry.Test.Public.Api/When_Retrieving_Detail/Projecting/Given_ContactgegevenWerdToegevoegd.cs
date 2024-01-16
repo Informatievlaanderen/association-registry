@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -27,6 +28,10 @@ public class Given_ContactgegevenWerdToegevoegd
            .Which.Should().BeEquivalentTo(
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdToegevoegd.StreamKey!,
+                                                                     contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                        JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                     Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,

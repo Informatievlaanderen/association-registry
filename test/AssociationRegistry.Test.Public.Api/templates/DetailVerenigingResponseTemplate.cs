@@ -35,9 +35,8 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate WithVCode(string vCode)
     {
         _vereniging.vcode = vCode;
-        _vereniging.jsonLdId = JsonLdType.Vereniging.CreateWithIdValue(vCode);
-        _vereniging.jsonLdType = JsonLdType.Vereniging.Type;
-
+        _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
+        _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
 
         return this;
     }
@@ -97,13 +96,15 @@ public class DetailVerenigingResponseTemplate
 
     public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string naam)
     {
-        _vereniging.hoofdactiviteiten.Add(new
+        var foo = new
         {
-            jsonLdId = JsonLdType.Hoofdactiviteit.CreateWithIdValue(code),
-            jsonLdType = JsonLdType.Hoofdactiviteit.Type,
+            jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
+            jsonldtype = JsonLdType.Hoofdactiviteit.Type,
             code = code,
             naam = naam,
-        });
+        };
+
+        _vereniging.hoofdactiviteiten.Add(foo);
 
         return this;
     }
@@ -236,7 +237,7 @@ public class DetailVerenigingResponseTemplate
 
         foreach (var c in e.Contactgegevens)
         {
-            template.WithContactgegeven(c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
+            template.WithContactgegeven(e.VCode, c.ContactgegevenId.ToString(), c.Contactgegeventype, c.Waarde, c.Beschrijving, c.IsPrimair);
         }
 
         foreach (var l in e.Locaties)
@@ -297,10 +298,18 @@ public class DetailVerenigingResponseTemplate
                            l.AdresId.Bronwaarde, l.IsPrimair);
     }
 
-    public DetailVerenigingResponseTemplate WithContactgegeven(string type, string waarde, string beschrijving = "", bool isPrimair = false)
+    public DetailVerenigingResponseTemplate WithContactgegeven(
+        string vCode,
+        string contactgegevenId,
+        string type,
+        string waarde,
+        string beschrijving = "",
+        bool isPrimair = false)
     {
         _vereniging.contactgegevens.Add(new
         {
+            jsonldid = JsonLdType.Contactgegeven.CreateWithIdValues(vCode, contactgegevenId),
+            jsonldtype = JsonLdType.Contactgegeven.Type,
             contactgegeventype = type,
             waarde = waarde,
             beschrijving = beschrijving,

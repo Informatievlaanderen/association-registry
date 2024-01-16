@@ -26,6 +26,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
 
         var feitelijkeVerenigingWerdGeregistreerd =
             new TestEvent<FeitelijkeVerenigingWerdGeregistreerd>(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>());
+        feitelijkeVerenigingWerdGeregistreerd.StreamKey = feitelijkeVerenigingWerdGeregistreerd.Data.VCode;
 
         var doc = PubliekVerenigingDetailProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
@@ -33,7 +34,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 JsonLdMetadata =
-                    new JsonLdMetadata(JsonLdType.Vereniging.CreateWithIdValue(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
+                    new JsonLdMetadata(JsonLdType.Vereniging.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
                                        JsonLdType.Vereniging.Type),
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                 Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
@@ -57,6 +58,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode, c.ContactgegevenId.ToString()),
+                            JsonLdType.Contactgegeven.Type),
                         ContactgegevenId = c.ContactgegevenId,
                         Contactgegeventype = c.Contactgegeventype.ToString(),
                         Waarde = c.Waarde,
@@ -94,7 +98,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
                     {
                         JsonLdMetadata = new JsonLdMetadata(
-                            JsonLdType.Hoofdactiviteit.CreateWithIdValue(arg.Code),
+                            JsonLdType.Hoofdactiviteit.CreateWithIdValues(arg.Code),
                             JsonLdType.Hoofdactiviteit.Type),
                         Code = arg.Code,
                         Naam = arg.Naam,

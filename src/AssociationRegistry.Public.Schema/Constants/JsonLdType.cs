@@ -7,6 +7,7 @@ public class JsonLdType
 {
     public static readonly JsonLdType Vereniging = new(Constants.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
     public static readonly JsonLdType Hoofdactiviteit = new(Constants.GuidNamespace.Hoofdactiviteit, type: "skos:Concept");
+    public static readonly JsonLdType Contactgegeven = new(Constants.GuidNamespace.Contactgegeven, type: "schema:ContactPoint", "cont");
     public Guid GuidNamespace { get; }
     public string Type { get; }
     public string Prefix { get; }
@@ -18,11 +19,14 @@ public class JsonLdType
         Prefix = prefix;
     }
 
-    public string CreateWithIdValue(string value)
+    public string CreateWithIdValues(params string[] values)
     {
         var sb = new StringBuilder();
-        if (!string.IsNullOrEmpty(Prefix)) sb.Append($"{Prefix}:");
-        sb.Append(Deterministic.Create(GuidNamespace, value));
+
+        if (!string.IsNullOrEmpty(Prefix))
+            sb.Append($"{Prefix}:");
+
+        sb.Append(Deterministic.Create(GuidNamespace, string.Join('-', values)));
 
         return sb.ToString();
     }
