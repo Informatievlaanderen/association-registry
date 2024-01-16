@@ -104,4 +104,18 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public DateTimeOffset? DeletedAt { get; set; }
 }
 
-public record JsonLdMetadata(string Id, string Type);
+public class JsonLdMetadata
+{
+    public JsonLdMetadata()
+    {
+    }
+
+    public JsonLdMetadata(string id, string type)
+    {
+        Id = id;
+        Type = type;
+    }
+
+    public string Id { get; set; }
+    public string Type { get; set; }
+}

@@ -24,6 +24,7 @@ public class DetailVerenigingResponseTemplate
         _vereniging.hoofdactiviteiten = new List<object>();
         _vereniging.relaties = new List<object>();
         _vereniging.sleutels = new List<object>();
+        _vereniging.jsonLdType = JsonLdType.Vereniging.Type;
 
         WithStatus(VerenigingStatus.Actief);
         WithKorteNaam(string.Empty);

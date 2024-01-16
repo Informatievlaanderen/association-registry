@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Schema.Constants;
 
 using Be.Vlaanderen.Basisregisters.Generators.Guid;
+using System.Text;
 
 public class JsonLdType
 {
@@ -16,5 +17,12 @@ public class JsonLdType
         Prefix = prefix;
     }
 
-    public string CreateWithIdValue(string value) => string.Join(separator: ':', Prefix, Deterministic.Create(GuidNamespace, value));
+    public string CreateWithIdValue(string value)
+    {
+        var sb = new StringBuilder();
+        if (!string.IsNullOrEmpty(Prefix)) sb.Append($"{Prefix}:");
+        sb.Append(Deterministic.Create(GuidNamespace, value));
+
+        return sb.ToString();
+    }
 }
