@@ -35,6 +35,7 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate WithVCode(string vCode)
     {
         _vereniging.vcode = vCode;
+        _vereniging.jsonLdId = JsonLdType.Vereniging.CreateWithIdValue(vCode);
 
         return this;
     }
