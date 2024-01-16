@@ -26,6 +26,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
 
         var feitelijkeVerenigingWerdGeregistreerd =
             new TestEvent<FeitelijkeVerenigingWerdGeregistreerd>(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>());
+
         feitelijkeVerenigingWerdGeregistreerd.StreamKey = feitelijkeVerenigingWerdGeregistreerd.Data.VCode;
 
         var doc = PubliekVerenigingDetailProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
@@ -59,7 +60,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     c => new PubliekVerenigingDetailDocument.Contactgegeven
                     {
                         JsonLdMetadata = new JsonLdMetadata(
-                            JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode, c.ContactgegevenId.ToString()),
+                            JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                                                         c.ContactgegevenId.ToString()),
                             JsonLdType.Contactgegeven.Type),
                         ContactgegevenId = c.ContactgegevenId,
                         Contactgegeventype = c.Contactgegeventype.ToString(),
@@ -70,6 +72,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
                     loc => new PubliekVerenigingDetailDocument.Locatie
                     {
+                        JsonLdMetadata =
+                            new JsonLdMetadata(
+                                JsonLdType.Locatie.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                                                      loc.LocatieId.ToString()),
+                                JsonLdType.Locatie.Type),
                         LocatieId = loc.LocatieId,
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,

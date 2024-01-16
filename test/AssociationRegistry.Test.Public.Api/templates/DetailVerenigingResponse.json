@@ -50,6 +50,8 @@
     "locaties": [
 {{for locatie in vereniging.locaties}}
       {
+        "@id": "{{locatie.jsonldid}}",
+        "@type": "{{locatie.jsonldtype}}",
         "locatietype": "{{locatie.type}}",
         "isPrimair": {{locatie.isprimair}},
         "adresvoorstelling": "{{locatie.adresvoorstelling}}",

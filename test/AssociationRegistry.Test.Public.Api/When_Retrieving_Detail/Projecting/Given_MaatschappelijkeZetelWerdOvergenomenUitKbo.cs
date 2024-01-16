@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -25,9 +25,15 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
         PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
 
         doc.Locaties.Should().HaveCount(4);
+
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
+                JsonLdMetadata =
+                    new JsonLdMetadata(
+                        JsonLdType.Locatie.CreateWithIdValues(
+                            doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                        JsonLdType.Locatie.Type),
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
@@ -52,6 +58,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                         Bronwaarde = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde,
                     },
             });
+
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
     }
 }

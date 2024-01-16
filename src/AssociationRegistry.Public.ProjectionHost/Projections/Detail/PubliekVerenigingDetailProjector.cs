@@ -47,7 +47,10 @@ public static class PubliekVerenigingDetailProjector
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(MapLocatie).ToArray(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties
+                                                            .Select(
+                                                                 loc => MapLocatie(feitelijkeVerenigingWerdGeregistreerd.Data.VCode, loc))
+                                                            .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
         };
@@ -194,7 +197,7 @@ public static class PubliekVerenigingDetailProjector
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .Append(MapLocatie(locatieWerdToegevoegd.Data.Locatie))
+                                    .Append(MapLocatie(document.VCode, locatieWerdToegevoegd.Data.Locatie))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
@@ -203,7 +206,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
                                     .Where(l => l.LocatieId != locatieWerdGewijzigd.Data.Locatie.LocatieId)
-                                    .Append(MapLocatie(locatieWerdGewijzigd.Data.Locatie))
+                                    .Append(MapLocatie(document.VCode, locatieWerdGewijzigd.Data.Locatie))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
@@ -246,9 +249,12 @@ public static class PubliekVerenigingDetailProjector
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
+    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Locatie.CreateWithIdValues(vCode, loc.LocatieId.ToString()),
+                JsonLdType.Locatie.Type),
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
@@ -292,7 +298,7 @@ public static class PubliekVerenigingDetailProjector
         PubliekVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .Append(MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
+                                    .Append(MapLocatie(document.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }

@@ -52,15 +52,18 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                               _scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId.ToString(),
                                               _scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
                                               _scenario.GSMWerdOvergenomenUitKBO.Waarde)
-                          .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land
+                          .WithLocatie(
+                               _scenario.VCode,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId.ToString(),
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land
                            )
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 

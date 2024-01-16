@@ -51,6 +51,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public record Locatie
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
         public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }

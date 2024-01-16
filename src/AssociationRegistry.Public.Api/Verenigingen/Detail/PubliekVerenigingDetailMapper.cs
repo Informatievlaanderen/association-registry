@@ -90,6 +90,8 @@ public static class PubliekVerenigingDetailMapper
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()
         {
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
             Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
