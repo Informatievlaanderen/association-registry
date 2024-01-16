@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Admin.Schema.Constants;
 using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using Vereniging;
 using AutoFixture;
@@ -13,6 +13,7 @@ using Framework;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = Vereniging.Doelgroep;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -29,6 +30,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Vereniging.CreateWithIdValue(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                    JsonLdType.Vereniging.Type),
                 Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
@@ -45,7 +49,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     Maximumleeftijd = Doelgroep.StandaardMaximumleeftijd,
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-                DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+                DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                   .ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),

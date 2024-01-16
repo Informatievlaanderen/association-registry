@@ -5,7 +5,7 @@ using System.Text;
 
 public class JsonLdType
 {
-    public static readonly JsonLdType Vereniging = new(Constants.GuidNamespace.Vereniging, type: "fei:FeitelijkeVereniging");
+    public static readonly JsonLdType Vereniging = new(Constants.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
     public Guid GuidNamespace { get; }
     public string Type { get; }
     public string Prefix { get; }

@@ -52,6 +52,10 @@ public static class PubliekVerenigingDetailProjector
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Vereniging.CreateWithIdValue(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                JsonLdType.Vereniging.Type),
+
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
