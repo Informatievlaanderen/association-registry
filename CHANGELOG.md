@@ -1,3 +1,12 @@
+## [8.42.2](https://github.com/informatievlaanderen/association-registry/compare/v8.42.1...v8.42.2) (2024-01-16)
+
+
+### Bug Fixes
+
+* or-1217 change validation message for association deleted ([35f6b56](https://github.com/informatievlaanderen/association-registry/commit/35f6b56be20d03bd6f5a75ef8431d676198e05ba))
+* reverted build.fsx file ([438fce5](https://github.com/informatievlaanderen/association-registry/commit/438fce5bb0ed999203ae92e8d9722ba672bc603c))
+* solution wide reformat and cleanup ([e029db8](https://github.com/informatievlaanderen/association-registry/commit/e029db850ee8b391854e6a9f8f570bd31d6fbfe8))
+
 ## [8.42.1](https://github.com/informatievlaanderen/association-registry/compare/v8.42.0...v8.42.1) (2024-01-13)
 
 
