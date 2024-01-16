@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Schema.Detail;
 
-using Marten.Metadata;using Marten.Schema;
+using Marten.Metadata;
+using Marten.Schema;
 
 public record Doelgroep
 {
@@ -8,7 +9,7 @@ public record Doelgroep
     public int Maximumleeftijd { get; set; }
 }
 
-public class PubliekVerenigingDetailDocument : IVCode,ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
+public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;

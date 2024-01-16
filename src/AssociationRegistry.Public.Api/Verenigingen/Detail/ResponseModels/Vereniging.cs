@@ -7,6 +7,12 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Vereniging
 {
+    [DataMember(Name = "@id")]
+    public string @id { get; init; }
+
+    [DataMember(Name = "@type")]
+    public string @type => "fei:FeitelijkeVereniging";
+
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;

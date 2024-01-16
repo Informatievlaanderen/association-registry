@@ -4,6 +4,7 @@ NEST
 Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 Be.Vlaanderen.Basisregisters.Converters.TrimString
 Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
+Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 
 Microsoft.AspNetCore.Mvc.Versioning
 Microsoft.AspNetCore.Mvc.NewtonsoftJson

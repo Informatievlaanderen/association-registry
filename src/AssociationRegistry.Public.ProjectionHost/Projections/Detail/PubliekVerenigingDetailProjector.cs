@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
+using Be.Vlaanderen.Basisregisters.Generators.Guid;
 using Events;
 using Formatters;
 using Framework;
@@ -17,6 +18,7 @@ public static class PubliekVerenigingDetailProjector
         IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
+            @id = Deterministic.Create(GuidNamespace.Vereniging, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
