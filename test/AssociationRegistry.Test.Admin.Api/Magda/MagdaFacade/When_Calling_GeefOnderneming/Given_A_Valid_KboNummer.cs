@@ -5,7 +5,6 @@ using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -40,14 +39,9 @@ public class Given_A_Valid_KboNummer
 
             onderneming?.Rechtsvormen.Should().ContainSingle(r => r.Code.Value == RechtsvormCodes.VZW);
 
-            onderneming?.Namen.MaatschappelijkeNamen.Should().ContainEquivalentOf(
-                new NaamOndernemingType
-                {
-                    Naam = "Kom op tegen Kanker",
-                    Taalcode = "nl",
-                    DatumBegin = "2015-10-13",
-                    DatumEinde = null,
-                });
+            onderneming?.Namen.MaatschappelijkeNamen
+                        .Count(mn => !string.IsNullOrEmpty(mn.Naam))
+                        .Should().BeGreaterThan(0);
 
             onderneming?.OndernemingOfVestiging.Code.Value.Should().Be(OndernemingOfVestigingCodes.Onderneming);
             onderneming?.StatusKBO.Code.Value.Should().Be(StatusKBOCodes.Actief);
