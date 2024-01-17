@@ -3,8 +3,20 @@
 using System.Runtime.Serialization;
 
 [DataContract]
-public class Sleutel
+public class Sleutel : IJsonLd
 {
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
+    /// <summary>De gestructureerde identificator</summary>
+    [DataMember(Name = "GestructureerdeIdentificator")]
+    public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
+
     /// <summary>
     /// De bron van de sleutel
     /// </summary>
@@ -16,4 +28,22 @@ public class Sleutel
     /// </summary>
     [DataMember(Name = "Waarde")]
     public string Waarde { get; set; } = null!;
+}
+
+[DataContract]
+public class GestructureerdeIdentificator : IJsonLd
+{
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
+    /// <summary>
+    /// De externe identificator van de vereniging in de bron
+    /// </summary>
+    [DataMember(Name = "Nummer")]
+    public string Nummer { get; set; } = null!;
 }
