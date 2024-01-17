@@ -1,3 +1,11 @@
+## [8.42.3](https://github.com/informatievlaanderen/association-registry/compare/v8.42.2...v8.42.3) (2024-01-17)
+
+
+### Bug Fixes
+
+* or-2058 fix isVerwijder condition in beheer zoeken query ([9bed3e3](https://github.com/informatievlaanderen/association-registry/commit/9bed3e37a3d7ac4b9586914df4aa785b8c9d304c))
+* OR-2058 update Magda test ([e1a0dc1](https://github.com/informatievlaanderen/association-registry/commit/e1a0dc1cca7157d808805272c8729270c578b655))
+
 ## [8.42.2](https://github.com/informatievlaanderen/association-registry/compare/v8.42.1...v8.42.2) (2024-01-16)
 
 
