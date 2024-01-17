@@ -35,24 +35,35 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                          .WithContactgegeven(_scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype,
+                          .WithContactgegeven(_scenario.VCode,
+                                              _scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId.ToString(),
+                                              _scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype,
                                               _scenario.EmailWerdOvergenomenUitKBO.Waarde,
                                               _scenario.EmailWerdGewijzigd.Beschrijving, _scenario.EmailWerdGewijzigd.IsPrimair)
-                          .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype,
+                          .WithContactgegeven(_scenario.VCode,
+                                              _scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId.ToString(),
+                                              _scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype,
                                               _scenario.WebsiteWerdOvergenomenUitKBO.Waarde)
-                          .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype,
+                          .WithContactgegeven(_scenario.VCode,
+                                              _scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId.ToString(),
+                                              _scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype,
                                               _scenario.TelefoonWerdOvergenomenUitKBO.Waarde)
-                          .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
+                          .WithContactgegeven(_scenario.VCode,
+                                              _scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId.ToString(),
+                                              _scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
                                               _scenario.GSMWerdOvergenomenUitKBO.Waarde)
-                          .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
-                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land
+                          .WithLocatie(
+                               _scenario.VCode,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId.ToString(),
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
+                               _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land
                            )
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 

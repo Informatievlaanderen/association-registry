@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -40,6 +42,9 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
            .Which.Should().BeEquivalentTo(
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdOvergenomenUitKbo.StreamKey!, contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId.ToString()),
+                        JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId,
                     Contactgegeventype = contactgegevenWerdOvergenomenUitKbo.Data.Contactgegeventype,
                     Waarde = contactgegevenWerdOvergenomenUitKbo.Data.Waarde,

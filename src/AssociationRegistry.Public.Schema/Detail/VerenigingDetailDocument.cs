@@ -11,6 +11,8 @@ public record Doelgroep
 
 public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
+    public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
+
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
@@ -40,6 +42,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class Contactgegeven
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
         public int ContactgegevenId { get; set; }
         public string Contactgegeventype { get; set; } = null!;
         public string Waarde { get; set; } = null!;
@@ -49,6 +52,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public record Locatie
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
@@ -60,14 +64,23 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class HoofdactiviteitVerenigingsloket
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Code { get; set; } = null!;
         public string Naam { get; set; } = null!;
     }
 
     public class Sleutel
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
+        public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
+    }
+
+    public class GestructureerdeIdentificator
+    {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
+        public string Nummer { get; set; } = null!;
     }
 
     public class Relatie
@@ -91,6 +104,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public class Adres
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Straatnaam { get; init; } = null!;
         public string Huisnummer { get; init; } = null!;
         public string? Busnummer { get; init; }
@@ -101,4 +115,20 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
+}
+
+public class JsonLdMetadata
+{
+    public JsonLdMetadata()
+    {
+    }
+
+    public JsonLdMetadata(string id, string type)
+    {
+        Id = id;
+        Type = type;
+    }
+
+    public string Id { get; set; }
+    public string Type { get; set; }
 }
