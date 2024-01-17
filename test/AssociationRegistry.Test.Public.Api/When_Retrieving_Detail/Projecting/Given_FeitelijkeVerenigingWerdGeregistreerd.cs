@@ -10,6 +10,7 @@ using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

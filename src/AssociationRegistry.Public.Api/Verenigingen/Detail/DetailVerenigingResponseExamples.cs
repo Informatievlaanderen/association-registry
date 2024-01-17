@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
 using Infrastructure.ConfigurationBindings;
+using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;

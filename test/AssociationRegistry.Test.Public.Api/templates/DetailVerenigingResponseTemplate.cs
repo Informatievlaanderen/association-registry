@@ -5,6 +5,7 @@ using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Schema.Constants;
 using Events;
 using Formatters;
+using JsonLdContext;
 using NodaTime;
 using Scriban;
 using System.Dynamic;

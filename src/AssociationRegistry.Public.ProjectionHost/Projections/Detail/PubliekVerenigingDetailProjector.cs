@@ -4,6 +4,7 @@ using Events;
 using Formatters;
 using Framework;
 using Infrastructure.Extensions;
+using JsonLdContext;
 using Marten.Events;
 using Schema.Constants;
 using Schema.Detail;

@@ -7,6 +7,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 

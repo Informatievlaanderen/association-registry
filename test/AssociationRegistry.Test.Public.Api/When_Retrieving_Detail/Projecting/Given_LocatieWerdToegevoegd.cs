@@ -8,6 +8,7 @@ using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 

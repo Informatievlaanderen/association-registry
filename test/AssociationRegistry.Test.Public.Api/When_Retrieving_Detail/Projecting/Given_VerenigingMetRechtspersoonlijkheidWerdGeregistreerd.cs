@@ -10,6 +10,7 @@ using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = Vereniging.Doelgroep;
