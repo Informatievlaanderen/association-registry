@@ -13,6 +13,7 @@ using RequestModels;
 using ResponseModels;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -98,15 +99,29 @@ public class SearchVerenigingenController : ApiController
                 .From(paginationQueryParams.Offset)
                 .Size(paginationQueryParams.Limit)
                 .Sort(x => x.Descending(v => v.VCode))
-                .Query(
-                     query => query.Bool(
-                         boolQueryDescriptor => boolQueryDescriptor.Must(
-                             queryContainerDescriptor => queryContainerDescriptor.QueryString(
-                                 queryStringQueryDescriptor => queryStringQueryDescriptor.Query(q)
-                             ),
-                             descriptor => descriptor.Term(field: document => document.IsVerwijderd, value: false)
-                         )
-                     )
+                .Query(query => query
+                          .Bool(boolQueryDescriptor =>
+                                    boolQueryDescriptor.Must(MatchWithQuery(q))
+                                                       .MustNot(BeVerwijderd)
+                           )
                  )
         );
+
+    private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> MatchWithQuery(string q)
+    {
+        return queryContainerDescriptor =>
+            queryContainerDescriptor.QueryString(
+                queryStringQueryDescriptor
+                    => queryStringQueryDescriptor.Query(q)
+            );
+    }
+
+    private static QueryContainer BeVerwijderd(QueryContainerDescriptor<VerenigingZoekDocument> shouldDescriptor)
+    {
+        return shouldDescriptor
+           .Term(termDescriptor
+                     => termDescriptor
+                       .Field(document => document.IsVerwijderd)
+                       .Value(true));
+    }
 }
