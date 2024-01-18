@@ -7,10 +7,12 @@ using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
@@ -33,8 +35,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
+                JsonLdMetadata = new JsonLdMetadata()
+                {
+                    Id = JsonLdType.Vereniging.CreateWithIdValues(doc.VCode),
+                    Type = JsonLdType.Vereniging.Type,
+                },
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-                Verenigingstype = new BeheerVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Naam = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -51,8 +58,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
-                    c => new BeheerVerenigingDetailDocument.Contactgegeven
+                    c => new AssociationRegistry.Admin.Schema.Detail.Contactgegeven
                     {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, c.ContactgegevenId.ToString()),
+                            Type = JsonLdType.Contactgegeven.Type,
+                        },
                         ContactgegevenId = c.ContactgegevenId,
                         Contactgegeventype = c.Contactgegeventype.ToString(),
                         Waarde = c.Waarde,
@@ -61,8 +73,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
-                    loc => new BeheerVerenigingDetailDocument.Locatie
+                    loc => new AssociationRegistry.Admin.Schema.Detail.Locatie
                     {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode, loc.LocatieId.ToString()),
+                            Type = JsonLdType.Locatie.Type,
+                        },
                         LocatieId = loc.LocatieId,
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
@@ -71,6 +88,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             ? null
                             : new Adres
                             {
+                                JsonLdMetadata = new JsonLdMetadata()
+                                {
+                                    Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, loc.LocatieId.ToString()),
+                                    Type = JsonLdType.Adres.Type,
+                                },
                                 Straatnaam = loc.Adres.Straatnaam,
                                 Huisnummer = loc.Adres.Huisnummer,
                                 Busnummer = loc.Adres.Busnummer,
@@ -89,9 +111,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                    v => new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                    v => new AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger
                     {
-                        VertegenwoordigerId = v.VertegenwoordigerId,
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(doc.VCode, v.VertegenwoordigerId.ToString()),
+                            Type = JsonLdType.Vertegenwoordiger.Type,
+                        },VertegenwoordigerId = v.VertegenwoordigerId,
                         Insz = v.Insz,
                         IsPrimair = v.IsPrimair,
                         Roepnaam = v.Roepnaam,
@@ -105,13 +131,18 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+                    h => new AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket
                     {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(doc.VCode, h.Code),
+                            Type = JsonLdType.Hoofdactiviteit.Type,
+                        },
                         Code = h.Code,
                         Naam = h.Naam,
                     }).ToArray(),
-                Sleutels = Array.Empty<BeheerVerenigingDetailDocument.Sleutel>(),
-                Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
+                Sleutels = Array.Empty<Sleutel>(),
+                Relaties = Array.Empty<Relatie>(),
                 Bron = Bron.Initiator,
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
             });

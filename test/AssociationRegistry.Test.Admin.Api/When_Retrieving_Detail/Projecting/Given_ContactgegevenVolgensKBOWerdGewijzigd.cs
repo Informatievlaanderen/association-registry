@@ -1,11 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -33,9 +36,14 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigd, doc);
 
-        doc.Contactgegevens.Should().Contain(
-            new BeheerVerenigingDetailDocument.Contactgegeven
+        doc.Contactgegevens.Should().ContainEquivalentOf(
+            new Contactgegeven
             {
+                JsonLdMetadata = new JsonLdMetadata()
+                {
+                    Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                    Type = JsonLdType.Contactgegeven.Type,
+                },
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
                 Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdGewijzigd.Data.IsPrimair,

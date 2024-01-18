@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -23,9 +25,16 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
 
-        doc.Vertegenwoordigers.Should().Contain(
-            new BeheerVerenigingDetailDocument.Vertegenwoordiger
+        var vertegenwoordiger =doc.Vertegenwoordigers.Should().ContainSingle(v=>v.VertegenwoordigerId == vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId)
+                                  .Subject;
+        vertegenwoordiger.Should().BeEquivalentTo(
+            new Vertegenwoordiger
             {
+                JsonLdMetadata = new JsonLdMetadata()
+                {
+                    Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(doc.VCode, vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                    Type = JsonLdType.Vertegenwoordiger.Type,
+                },
                 VertegenwoordigerId = vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
                 Insz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz,
                 Achternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam,
@@ -37,6 +46,20 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
                 Telefoon = "",
                 Mobiel = "",
                 SocialMedia = "",
+                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                {
+                    JsonLdMetadata = new JsonLdMetadata()
+                    {
+                        Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
+                            doc.VCode, vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                        Type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                    },
+                    IsPrimair = false,
+                    Email = "",
+                    Telefoon = "",
+                    Mobiel = "",
+                    SocialMedia = "",
+                },
                 Bron = Bron.KBO,
             });
 
