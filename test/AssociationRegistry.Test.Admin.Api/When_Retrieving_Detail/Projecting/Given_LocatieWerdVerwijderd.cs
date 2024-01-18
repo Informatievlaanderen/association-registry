@@ -18,7 +18,7 @@ public class Given_LocatieWerdVerwijderd
         var fixture = new Fixture().CustomizeAdminApi();
         var locatieWerdVerwijderd = new TestEvent<LocatieWerdVerwijderd>(fixture.Create<LocatieWerdVerwijderd>());
 
-        var teVerwidjerenLocatie = fixture.Create<BeheerVerenigingDetailDocument.Locatie>();
+        var teVerwidjerenLocatie = fixture.Create<Locatie>();
         teVerwidjerenLocatie.LocatieId = locatieWerdVerwijderd.Data.Locatie.LocatieId;
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

@@ -6,6 +6,13 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Contactgegeven
 {
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
     /// <summary>De unieke identificatie code van dit contactgegeven binnen de vereniging</summary>
     [DataMember(Name = "ContactgegevenId")]
     public int ContactgegevenId { get; init; }
