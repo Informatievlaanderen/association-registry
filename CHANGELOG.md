@@ -1,3 +1,10 @@
+## [8.42.4](https://github.com/informatievlaanderen/association-registry/compare/v8.42.3...v8.42.4) (2024-01-18)
+
+
+### Bug Fixes
+
+* OR-2058 reverse condition on duplicate detection for IsDeleted ([5e09a71](https://github.com/informatievlaanderen/association-registry/commit/5e09a714531dc13f1d5fceea0130ad5d5b0d9604))
+
 ## [8.42.3](https://github.com/informatievlaanderen/association-registry/compare/v8.42.2...v8.42.3) (2024-01-17)
 
 
