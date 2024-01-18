@@ -43,6 +43,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Postcode,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres?.Gemeente,
+                                                _scenario.VCode,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.IsPrimair
                                     )
                            );
