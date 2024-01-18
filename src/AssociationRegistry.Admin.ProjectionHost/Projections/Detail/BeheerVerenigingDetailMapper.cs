@@ -131,7 +131,7 @@ public class BeheerVerenigingDetailMapper
             GestructureerdeIdentificator = new GestructureerdeIdentificator()
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.Kbo.Waarde), Nummer = kboNummer,
-            }
+            },
         };
 
     public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)

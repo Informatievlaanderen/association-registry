@@ -102,7 +102,7 @@ public class BeheerVerenigingDetailMapper
                 id = sleutel.GestructureerdeIdentificator.JsonLdMetadata.Id,
                 type = sleutel.GestructureerdeIdentificator.JsonLdMetadata.Type,
                 Nummer = sleutel.GestructureerdeIdentificator.Nummer,
-            }
+            },
         };
 
     private static ResponseModels.Contactgegeven Map(Schema.Detail.Contactgegeven contactgegeven)

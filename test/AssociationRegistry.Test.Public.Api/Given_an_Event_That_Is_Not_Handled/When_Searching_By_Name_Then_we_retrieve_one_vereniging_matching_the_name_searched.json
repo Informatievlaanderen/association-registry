@@ -2,6 +2,8 @@
   "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
   "verenigingen": [
     {
+      "@id": "2b13feac-cc71-50f6-af69-76ef8c1b5fd2",
+      "@type": "fei:FeitelijkeVerenigingen",
       "vCode": "V0001004",
       "verenigingstype": {
         "code": "FV",
@@ -11,6 +13,8 @@
       "korteNaam": "OVA",
       "hoofdactiviteitenVerenigingsloket": [
         {
+          "@id": "2686b267-9b94-54f6-8ed7-367495d669e6",
+          "@type": "skos:Concept",
           "code": "BLA",
           "naam": "Buitengewoon Leuke Afkortingen"
         }

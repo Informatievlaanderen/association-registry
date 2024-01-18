@@ -223,7 +223,7 @@ public class BeheerVerenigingDetailProjector
                                                            Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                                                            Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                                                            SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                                                       }
+                                                       },
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
@@ -251,7 +251,7 @@ public class BeheerVerenigingDetailProjector
                                                            Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
                                                            Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                                                            SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
-                                                       }
+                                                       },
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
@@ -426,7 +426,7 @@ public class BeheerVerenigingDetailProjector
                                                            Telefoon = string.Empty,
                                                            Mobiel = string.Empty,
                                                            SocialMedia = string.Empty,
-                                                       }
+                                                       },
 
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
