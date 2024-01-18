@@ -36,9 +36,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                             q => q.Bool(
                                 b => b.Must(
                                            MatchOpNaam(naam),
-                                           IsNietGestopt,
-                                           IsNietVerwijderd
+                                           IsNietGestopt
                                        )
+                                      .MustNot(BeVerwijderd)
                                       .Filter(MatchOpPostcodeOfGemeente(gemeentes, postcodes)
                                        )
                             )
@@ -71,10 +71,13 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                  .Value(false));
     }
 
-    private static QueryContainer IsNietVerwijderd(QueryContainerDescriptor<DuplicateDetectionDocument> descriptor)
+    private static QueryContainer BeVerwijderd(QueryContainerDescriptor<DuplicateDetectionDocument> shouldDescriptor)
     {
-        return descriptor.Term(queryDescriptor => queryDescriptor.Field(document => document.IsVerwijderd)
-                                                                 .Value(false));
+        return shouldDescriptor
+           .Term(termDescriptor
+                     => termDescriptor
+                       .Field(document => document.IsVerwijderd)
+                       .Value(true));
     }
 
     private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpPostcode(string[] postcodes)
