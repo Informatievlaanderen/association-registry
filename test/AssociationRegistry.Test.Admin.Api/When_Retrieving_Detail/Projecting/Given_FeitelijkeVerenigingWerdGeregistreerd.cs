@@ -117,7 +117,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         {
                             Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(doc.VCode, v.VertegenwoordigerId.ToString()),
                             Type = JsonLdType.Vertegenwoordiger.Type,
-                        },VertegenwoordigerId = v.VertegenwoordigerId,
+                        },
+                        VertegenwoordigerId = v.VertegenwoordigerId,
                         Insz = v.Insz,
                         IsPrimair = v.IsPrimair,
                         Roepnaam = v.Roepnaam,
@@ -129,6 +130,20 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Mobiel = v.Mobiel,
                         SocialMedia = v.SocialMedia,
                         Bron = Bron.Initiator,
+                        VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                        {
+                            JsonLdMetadata = new JsonLdMetadata()
+                            {
+                                Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
+                                    doc.VCode, v.VertegenwoordigerId.ToString()),
+                                Type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                            },
+                            IsPrimair = v.IsPrimair,
+                            Email = v.Email,
+                            Telefoon = v.Telefoon,
+                            Mobiel = v.Mobiel,
+                            SocialMedia = v.SocialMedia,
+                        }
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     h => new AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket

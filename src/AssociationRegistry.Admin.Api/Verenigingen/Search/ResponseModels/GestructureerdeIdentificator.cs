@@ -3,7 +3,7 @@
 using System.Runtime.Serialization;
 
 [DataContract]
-public class HoofdactiviteitVerenigingsloket
+public class GestructureerdeIdentificator
 {
     /// <summary>De json-ld id</summary>
     [DataMember(Name = "@id")]
@@ -11,17 +11,11 @@ public class HoofdactiviteitVerenigingsloket
 
     /// <summary>Het json-ld type</summary>
     [DataMember(Name = "@type")]
-    public string type { get; set; }
+    public string type { get; init; }
 
     /// <summary>
-    /// De verkorte code van de hoofdactiviteit
+    /// De externe identificator van de vereniging in de bron
     /// </summary>
-    [DataMember]
-    public string Code { get; set; } = null!;
-
-    /// <summary>
-    /// De volledige beschrijving van de hoofdactiviteit
-    /// </summary>
-    [DataMember]
-    public string Naam { get; set; } = null!;
+    [DataMember(Name = "Nummer")]
+    public string Nummer { get; set; } = null!;
 }

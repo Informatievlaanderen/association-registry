@@ -2,6 +2,8 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Events;
 using Formatters;
+using JsonLdContext;
+using Schema;
 using Schema.Constants;
 using Schema.Search;
 using Vereniging;
@@ -20,6 +22,7 @@ public class BeheerZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vereniging, message.Data.VCode),
                 VCode = message.Data.VCode,
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
@@ -29,7 +32,7 @@ public class BeheerZoekProjectionHandler
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Status = VerenigingStatus.Actief,
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
                 Doelgroep = Map(message.Data.Doelgroep),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
@@ -37,6 +40,10 @@ public class BeheerZoekProjectionHandler
                                                                 hoofdactiviteitVerenigingsloket =>
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Hoofdactiviteit,
+                                                                                hoofdactiviteitVerenigingsloket.Code),
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
@@ -49,6 +56,11 @@ public class BeheerZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
+                JsonLdMetadata = new JsonLdMetadata()
+                {
+                    Id = JsonLdType.Vereniging.CreateWithIdValues(message.Data.VCode),
+                    Type = JsonLdType.Vereniging.Type,
+                },
                 VCode = message.Data.VCode,
                 Type = new VerenigingZoekDocument.VerenigingsType
                 {
@@ -70,8 +82,14 @@ public class BeheerZoekProjectionHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.Kbo.Waarde),
                         Bron = Sleutelbron.Kbo,
                         Waarde = message.Data.KboNummer,
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator()
+                        {
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.Kbo.Waarde),
+                            Nummer = message.Data.KboNummer,
+                        },
                     },
                 },
             }
@@ -128,6 +146,10 @@ public class BeheerZoekProjectionHandler
                                                                 hoofdactiviteitVerenigingsloket =>
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Hoofdactiviteit,
+                                                                                hoofdactiviteitVerenigingsloket.Code),
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
@@ -159,14 +181,14 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
@@ -176,9 +198,11 @@ public class BeheerZoekProjectionHandler
             message.Data.Locatie.LocatieId);
     }
 
-    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
+    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
+
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
@@ -199,7 +223,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.AppendLocatie<VerenigingZoekDocument>(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message)
@@ -208,6 +232,7 @@ public class BeheerZoekProjectionHandler
             message.VCode,
             new VerenigingZoekDocument.Locatie
             {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, message.VCode, message.Data.LocatieId.ToString()),
                 LocatieId = message.Data.LocatieId,
                 Naam = message.Data.Naam,
                 IsPrimair = message.Data.IsPrimair,
@@ -233,4 +258,11 @@ public class BeheerZoekProjectionHandler
                 IsVerwijderd = true,
             });
     }
+
+    private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
+        => new()
+        {
+            Id = jsonLdType.CreateWithIdValues(values),
+            Type = jsonLdType.Type,
+        };
 }

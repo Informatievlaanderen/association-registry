@@ -34,6 +34,8 @@ public class SearchVerenigingenResponseMapper
     private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
         => new()
         {
+            id = verenigingZoekDocument.JsonLdMetadata.Id,
+            type = verenigingZoekDocument.JsonLdMetadata.Type,
             VCode = verenigingZoekDocument.VCode,
             Verenigingstype = Map(verenigingZoekDocument.Type),
             Naam = verenigingZoekDocument.Naam,
@@ -64,7 +66,13 @@ public class SearchVerenigingenResponseMapper
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
     private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
-        => new() { Code = h.Code, Naam = h.Naam };
+        => new()
+        {
+            id = h.JsonLdMetadata.Id,
+            type = h.JsonLdMetadata.Type,
+            Code = h.Code,
+            Naam = h.Naam,
+        };
 
     private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
         => new()
@@ -100,6 +108,8 @@ public class SearchVerenigingenResponseMapper
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()
         {
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
             Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
@@ -111,7 +121,15 @@ public class SearchVerenigingenResponseMapper
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
             Bron = s.Bron,
             Waarde = s.Waarde,
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
         };
 }
