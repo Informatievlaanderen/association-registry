@@ -1,3 +1,13 @@
+# [8.43.0](https://github.com/informatievlaanderen/association-registry/compare/v8.42.4...v8.43.0) (2024-01-19)
+
+
+### Features
+
+* or-1282 add jsonld for beheer detail ([a817f75](https://github.com/informatievlaanderen/association-registry/commit/a817f75df0a5765ec3b1e8f05c9ab71b7d5ec680))
+* or-1282 add jsonLd for publiek zoeken ([9a6b342](https://github.com/informatievlaanderen/association-registry/commit/9a6b342f422a0738c8ed411a120c989c6d17e297))
+* or-1282 jsonld for beheer zoeken ([cc3488d](https://github.com/informatievlaanderen/association-registry/commit/cc3488d2dd944fdb74da8e1ca020107b7d01e19c))
+* or-1282 jsonLd for publiek detail ([d35f398](https://github.com/informatievlaanderen/association-registry/commit/d35f3985e040482d78025cb85d57174357a0fcfe))
+
 ## [8.42.4](https://github.com/informatievlaanderen/association-registry/compare/v8.42.3...v8.42.4) (2024-01-18)
 
 
