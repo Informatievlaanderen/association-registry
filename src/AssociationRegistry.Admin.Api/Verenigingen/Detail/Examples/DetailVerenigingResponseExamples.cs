@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
 using Infrastructure.ConfigurationBindings;
-using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
@@ -34,8 +33,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
-                    type = JsonLdType.Vereniging.Type,
                     VCode = "V0001001",
                     Verenigingstype = new VerenigingsType
                     {
@@ -58,8 +55,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new HoofdactiviteitVerenigingsloket
                         {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
                             Code = "CULT",
                             Naam = "Cultuur",
                         },
@@ -68,8 +63,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Contactgegeven.Type,
                             Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
@@ -82,8 +75,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
@@ -91,8 +82,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Naam = "Administratief centrum",
                             Adres = new Adres
                             {
-                                id = JsonLdType.Adres.CreateWithIdValues("V0001001", "1"),
-                                type = JsonLdType.Adres.Type,
                                 Straatnaam = "Kerkstraat",
                                 Huisnummer = "5",
                                 Busnummer = "b",
@@ -112,8 +101,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Vertegenwoordiger
                         {
-                            id = JsonLdType.Vertegenwoordiger.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Vertegenwoordiger.Type,
                             VertegenwoordigerId = 1,
                             Insz = "1234567890",
                             Voornaam = "Jane",
@@ -125,16 +112,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Mobiel = "0000112233",
                             Telefoon = "0001112233",
                             SocialMedia = "http://example.org",
-                            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
-                            {
-                                id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues("V0001001", "1"),
-                                type = JsonLdType.VertegenwoordigerContactgegeven.Type,
-                                Email = "jhon@example.org",
-                                Mobiel = "0000112233",
-                                Telefoon = "0001112233",
-                                SocialMedia = "http://example.org",
-                                IsPrimair = false,
-                            },
                             Bron = Bron.Initiator.Waarde,
                         },
                     },
@@ -156,8 +133,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001002"),
-                    type = JsonLdType.Vereniging.Type,
                     VCode = "V0001002",
                     Verenigingstype = new VerenigingsType
                     {
@@ -181,8 +156,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new HoofdactiviteitVerenigingsloket
                         {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
                             Code = "CULT",
                             Naam = "Cultuur",
                         },
@@ -191,8 +164,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Contactgegeven
                         {
-                            id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Contactgegeven.Type,
                             Contactgegeventype = "E-mail",
                             Beschrijving = "Info",
                             Waarde = "info@example.org",
@@ -202,8 +173,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                         new Contactgegeven
                         {
-                            id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001", "2"),
-                            type = JsonLdType.Contactgegeven.Type,
                             Contactgegeventype = Contactgegeventype.SocialMedia,
                             Beschrijving = "BlubBlub",
                             Waarde = "blubblub.com/vissen",
@@ -216,8 +185,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
                             Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
                             IsPrimair = true,
@@ -225,8 +192,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Naam = "",
                             Adres = new Adres
                             {
-                                id = JsonLdType.Adres.CreateWithIdValues("V0001001", "1"),
-                                type = JsonLdType.Adres.Type,
                                 Straatnaam = "Zeebank",
                                 Huisnummer = "10",
                                 Busnummer = "",
@@ -238,8 +203,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "2"),
-                            type = JsonLdType.Locatie.Type,
                             LocatieId = 2,
                             Locatietype = Locatietype.Activiteiten.Waarde,
                             IsPrimair = false,
@@ -247,8 +210,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Naam = "Vis plaats",
                             Adres = new Adres
                             {
-                                id = JsonLdType.Adres.CreateWithIdValues("V0001001", "2"),
-                                type = JsonLdType.Adres.Type,
                                 Straatnaam = "De pier",
                                 Huisnummer = "1",
                                 Busnummer = "",
@@ -269,16 +230,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Sleutel
                         {
-                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.Kbo.Waarde),
-                            type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.Kbo.Waarde,
-                            GestructureerdeIdentificator = new GestructureerdeIdentificator()
-                            {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.Kbo.Waarde),
-                                type = JsonLdType.GestructureerdeSleutel.Type,
-                                Nummer = "0123456789",
-                            },
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),

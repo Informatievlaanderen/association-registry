@@ -3,8 +3,6 @@
   "verenigingen": [
     {{ for vereniging in verenigingen }}
     {
-      "@id": "{{vereniging.jsonldid}}",
-      "@type": "{{vereniging.jsonldtype}}",
       "vCode": "{{vereniging.vcode}}",
       "verenigingstype": {
         "code": "{{vereniging.verenigingstype.code}}",
@@ -17,8 +15,6 @@
       "hoofdactiviteitenVerenigingsloket": [
         {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
         {
-          "@id": "{{hoofdactiviteit.jsonldid}}",
-          "@type": "{{hoofdactiviteit.jsonldtype}}",
           "code": "{{hoofdactiviteit.code}}",
           "naam": "{{hoofdactiviteit.naam}}"
         },
@@ -31,8 +27,6 @@
       "locaties": [
       {{for locatie in vereniging.locaties}}
         {
-          "@id": "{{locatie.jsonldid}}",
-          "@type": "{{locatie.jsonldtype}}",
           "locatietype": "{{locatie.type}}",
           "isPrimair": {{locatie.isprimair}},
           "adresvoorstelling": "{{locatie.adresvoorstelling}}",
@@ -45,15 +39,8 @@
       "sleutels": [
       {{for sleutel in vereniging.sleutels}}
       {
-        "@id": "{{sleutel.jsonldid}}",
-        "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}",
-        "gestructureerdeIdentificator": {
-          "@id": "{{sleutel.identificator.jsonldid}}",
-          "@type": "{{sleutel.identificator.jsonldtype}}",
-          "nummer": "{{sleutel.identificator.nummer}}"
-        }
+        "waarde": "{{sleutel.waarde}}"
       },
       {{end}}
     ],

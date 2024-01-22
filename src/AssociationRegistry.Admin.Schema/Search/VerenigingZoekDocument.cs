@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Schema.Search;
 
 public class VerenigingZoekDocument
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; }
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;
@@ -18,7 +17,6 @@ public class VerenigingZoekDocument
 
     public class Locatie : ILocatie
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
         public int LocatieId { get; init; }
         public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
@@ -30,7 +28,6 @@ public class VerenigingZoekDocument
 
     public class HoofdactiviteitVerenigingsloket
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Code { get; init; } = null!;
         public string Naam { get; init; } = null!;
     }
@@ -43,16 +40,8 @@ public class VerenigingZoekDocument
 
     public class Sleutel
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
-        public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
-    }
-
-    public class GestructureerdeIdentificator
-    {
-        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
-        public string Nummer { get; set; } = null!;
     }
 }
 
