@@ -1,16 +1,13 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
-using Infrastructure.ConfigurationBindings;
-using Infrastructure.Extensions;
+using Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
-using Marten;
-using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
@@ -19,12 +16,8 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NodaTime;
 using Oakton;
 using OpenTelemetry.Extensions;
-using Projections;
-using Projections.Detail;
-using Projections.Historiek;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -84,65 +77,7 @@ public class Program
 
         var app = builder.Build();
 
-        app.MapPost(
-            pattern: "v1/projections/all/rebuild",
-            handler: async (
-                IDocumentStore store,
-                IElasticClient elasticClient,
-                ElasticSearchOptionsSection options,
-                ILogger<Program> logger,
-                CancellationToken cancellationToken) =>
-            {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
-
-                await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
-                logger.LogInformation("Rebuild BeheerVerenigingDetailProjection complete");
-                await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
-                logger.LogInformation("Rebuild BeheerVerenigingHistoriekProjection complete");
-                await RebuildElasticProjections(projectionDaemon, elasticClient, options, cancellationToken);
-                logger.LogInformation("Rebuild ElasticSearch complete");
-            });
-
-        app.MapPost(
-            pattern: "v1/projections/detail/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
-            {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
-                logger.LogInformation("Rebuild complete");
-            });
-
-        app.MapPost(
-            pattern: "v1/projections/historiek/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
-            {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
-                logger.LogInformation("Rebuild complete");
-            });
-
-        app.MapPost(
-            pattern: "v1/projections/search/rebuild",
-            handler: async (
-                IDocumentStore store,
-                IElasticClient elasticClient,
-                ElasticSearchOptionsSection options,
-                ILogger<Program> logger,
-                CancellationToken cancellationToken) =>
-            {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                await RebuildElasticProjections(projectionDaemon, elasticClient, options, cancellationToken);
-                logger.LogInformation("Rebuild complete");
-            });
-
-        app.MapGet(
-            pattern: "v1/projections/status",
-            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
-            {
-                var projectionProgress = await store.Advanced.AllProjectionProgress(token: cancellationToken);
-
-                return projectionProgress;
-            });
+        app.AddProjectionEndpoints();
 
         app.SetUpSwagger();
         ConfigureHealtChecks(app);
@@ -151,29 +86,6 @@ public class Program
             runFunc: async () => await app.RunOaktonCommands(args),
             DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
             app.Services.GetRequiredService<ILogger<Program>>());
-    }
-
-    private static async Task RebuildElasticProjections(
-        IProjectionDaemon projectionDaemon,
-        IElasticClient elasticClient,
-        ElasticSearchOptionsSection options,
-        CancellationToken cancellationToken)
-    {
-        await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
-        var oldVerenigingenIndices = await elasticClient.GetIndicesPointingToAliasAsync(options.Indices.Verenigingen);
-        var newIndicesVerenigingen = options.Indices.Verenigingen + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
-        await elasticClient.Indices.CreateVerenigingIndexAsync(newIndicesVerenigingen).ThrowIfInvalidAsync();
-
-        await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: cancellationToken).ThrowIfInvalidAsync();
-        await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection).ThrowIfInvalidAsync();
-        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
-
-        await elasticClient.Indices.PutAliasAsync(newIndicesVerenigingen, options.Indices.Verenigingen, ct: cancellationToken);
-
-        foreach (var indeces in oldVerenigingenIndices)
-        {
-            await elasticClient.Indices.DeleteAsync(indeces, ct: cancellationToken).ThrowIfInvalidAsync();
-        }
     }
 
     private static void ConfigureEncoding()
