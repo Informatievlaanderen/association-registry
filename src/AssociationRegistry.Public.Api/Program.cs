@@ -100,7 +100,6 @@ public class Program
            .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
-        //await app.ConfigureElasticSearch();
 
         await app.RunAsync();
     }

@@ -35,17 +35,6 @@ public static class ElasticSearchExtensions
         return services;
     }
 
-    public static async Task ConfigureElasticSearch(this WebApplication source)
-    {
-        var elasticSearchOptionsSection = source.Configuration.GetElasticSearchOptionsSection();
-        var elasticClient = source.Services.GetRequiredService<ElasticClient>();
-
-        await WaitFor.ElasticSearchToBecomeAvailable(elasticClient, source.Services.GetRequiredService<ILogger<Program>>(),
-                                                     CancellationToken.None);
-
-        await elasticClient.EnsureIndexExists(elasticSearchOptionsSection);
-    }
-
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
