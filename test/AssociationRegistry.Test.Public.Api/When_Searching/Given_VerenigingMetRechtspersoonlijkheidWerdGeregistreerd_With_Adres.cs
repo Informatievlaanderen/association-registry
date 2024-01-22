@@ -44,9 +44,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adre
                                                 string.Empty,
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
                                                 _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
-                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
-                                                _scenario.VCode,
-                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId)
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente
+                                    )
                            );
 
         content.Should().BeEquivalentJson(goldenMaster);

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search.Examples;
 
 using Infrastructure.ConfigurationBindings;
-using JsonLdContext;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
 using System;
@@ -27,8 +26,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             {
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
-                    type = JsonLdType.Vereniging.Type, VCode = "V0001001",
+                    VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     Verenigingstype = new VerenigingsType
@@ -37,14 +35,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                     },
                     HoofdactiviteitenVerenigingsloket = new[]
-                    {
-                        new HoofdactiviteitVerenigingsloket
-                        {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
-                            Code = "CULT", Naam = "Cultuur"
-                        }
-                    },
+                        { new HoofdactiviteitVerenigingsloket { Code = "CULT", Naam = "Cultuur" } },
                     Doelgroep = new DoelgroepResponse
                     {
                         Minimumleeftijd = 0,
@@ -54,8 +45,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Locatie.Type,
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
                             Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
@@ -73,8 +62,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 },
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0036651"),
-                    type = JsonLdType.Vereniging.Type,
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
                     Roepnaam = "Bronneke",
@@ -88,8 +75,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new HoofdactiviteitVerenigingsloket
                         {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("SPRT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
                             Code = "SPRT",
                             Naam = "Sport",
                         },
@@ -103,8 +88,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0036651", "1"),
-                            type = JsonLdType.Locatie.Type,
                             Locatietype = "Activiteiten",
                             IsPrimair = false,
                             Adresvoorstelling = "dorpstraat 91, 9000 Gent, Belgie",
@@ -121,16 +104,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Sleutel
                         {
-                            id = JsonLdType.Sleutel.CreateWithIdValues("V0036651", Sleutelbron.Kbo.Waarde),
-                            type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.Kbo.Waarde,
-                            GestructureerdeIdentificator = new GestructureerdeIdentificator()
-                            {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0036651", Sleutelbron.Kbo.Waarde),
-                                type = JsonLdType.GestructureerdeSleutel.Type,
-                                Nummer = "0123456789",
-                            }
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),

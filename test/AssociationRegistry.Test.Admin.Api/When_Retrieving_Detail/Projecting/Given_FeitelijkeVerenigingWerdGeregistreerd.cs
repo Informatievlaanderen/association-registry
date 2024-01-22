@@ -143,7 +143,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             Telefoon = v.Telefoon,
                             Mobiel = v.Mobiel,
                             SocialMedia = v.SocialMedia,
-                        },
+                        }
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     h => new AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket

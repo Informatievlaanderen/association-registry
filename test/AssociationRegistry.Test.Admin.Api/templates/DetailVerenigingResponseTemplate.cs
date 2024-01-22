@@ -146,7 +146,7 @@ public class DetailVerenigingResponseTemplate
                 jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
                 jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
                 nummer = kboNummer,
-            },
+            }
         });
 
         return this;

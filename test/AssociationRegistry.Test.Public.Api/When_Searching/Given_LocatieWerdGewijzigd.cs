@@ -47,8 +47,6 @@ public class Given_LocatieWerdGewijzigd
                                                 _scenario.LocatieWerdGewijzigd.Locatie.Adres?.ToAdresString(),
                                                 _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Postcode,
                                                 _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Gemeente,
-                                                _scenario.VCode,
-                                                _scenario.LocatieWerdGewijzigd.Locatie.LocatieId,
                                                 _scenario.LocatieWerdGewijzigd.Locatie.IsPrimair)
                            );
 

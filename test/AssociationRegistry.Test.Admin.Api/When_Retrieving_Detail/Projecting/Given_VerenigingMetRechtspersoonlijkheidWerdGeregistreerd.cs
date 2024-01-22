@@ -89,7 +89,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                 Type = JsonLdType.GestructureerdeSleutel.Type,
                             },
                             Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
-                        },
+                        }
                     },
                 },
                 Relaties = Array.Empty<Relatie>(),
