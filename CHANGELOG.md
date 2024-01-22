@@ -1,3 +1,13 @@
+## [8.43.1](https://github.com/informatievlaanderen/association-registry/compare/v8.43.0...v8.43.1) (2024-01-22)
+
+
+### Reverts
+
+* Revert "feat: or-1282 jsonLd for publiek detail" ([abda924](https://github.com/informatievlaanderen/association-registry/commit/abda924324bb5ea732a6050192e3a4450cffa440))
+* Revert "feat: or-1282 add jsonld for beheer detail" ([3124000](https://github.com/informatievlaanderen/association-registry/commit/3124000be56cf7ea7653b858376a486ec00c98b6))
+* Revert "feat: or-1282 jsonld for beheer zoeken" ([a397de4](https://github.com/informatievlaanderen/association-registry/commit/a397de4c697705cc7de08e48571864035fcf8c96))
+* Revert "feat: or-1282 add jsonLd for publiek zoeken" ([eb8ebc4](https://github.com/informatievlaanderen/association-registry/commit/eb8ebc4337dd4265528ba8bebe37c2aa64f12bba))
+
 # [8.43.0](https://github.com/informatievlaanderen/association-registry/compare/v8.42.4...v8.43.0) (2024-01-19)
 
 
