@@ -28,6 +28,7 @@ public class PubliekZoekProjectionHandler
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
+                KorteBeschrijving = message.Data.KorteBeschrijving,
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Doelgroep = Map(message.Data.Doelgroep),
@@ -59,6 +60,7 @@ public class PubliekZoekProjectionHandler
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
+                KorteBeschrijving = string.Empty,
                 Status = VerenigingStatus.Actief,
                 Doelgroep = new Doelgroep
                 {
@@ -105,6 +107,15 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<KorteBeschrijvingWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.Data.VCode,
+            new VerenigingZoekDocument
+            {
+                KorteBeschrijving = message.Data.KorteBeschrijving,
             }
         );
 

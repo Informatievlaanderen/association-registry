@@ -132,6 +132,13 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate WithKorteBeschrijving(string korteBeschrijving)
+        {
+            _vereniging.kortebeschrijving = korteBeschrijving;
+
+            return this;
+        }
+
         public VerenigingTemplate WithHoofdactiviteit(string code, string beschrijving)
         {
             _vereniging.hoofdactiviteiten.Add(new
@@ -194,6 +201,7 @@ public class ZoekVerenigingenResponseTemplate
                           .WithType(Verenigingstype.FeitelijkeVereniging)
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
+                          .WithKorteBeschrijving(e.KorteBeschrijving)
                           .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
@@ -216,6 +224,7 @@ public class ZoekVerenigingenResponseTemplate
                           .WithNaam(e.Naam)
                           .WithRoepnaam(string.Empty)
                           .WithKorteNaam(e.KorteNaam)
+                          .WithKorteBeschrijving(string.Empty)
                           .WithKboNummer(e.KboNummer);
 
             return template;

@@ -24,6 +24,10 @@ public static class VerenigingZoekDocumentMapping
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
                                                    .WithKeyword(PubliekZoekenAnalyzer))
+                         .Text(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.KorteBeschrijving)
+                                                   .WithKeyword(PubliekZoekenAnalyzer))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))
