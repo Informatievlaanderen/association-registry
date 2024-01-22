@@ -1,3 +1,10 @@
+# [8.44.0](https://github.com/informatievlaanderen/association-registry/compare/v8.43.1...v8.44.0) (2024-01-22)
+
+
+### Features
+
+* or-1349 make rebuilds work in background ([b4b1a18](https://github.com/informatievlaanderen/association-registry/commit/b4b1a18643a9543b49257c20da442513c54fcf7f))
+
 ## [8.43.1](https://github.com/informatievlaanderen/association-registry/compare/v8.43.0...v8.43.1) (2024-01-22)
 
 
