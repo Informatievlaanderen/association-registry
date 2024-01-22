@@ -10,6 +10,7 @@
       },
       "naam": "{{vereniging.naam}}",
       "korteNaam": "{{vereniging.kortenaam}}",
+      "korteBeschrijving": "{{vereniging.kortebeschrijving}}",
       {{if vereniging.roepnaam}}"roepnaam":"{{vereniging.roepnaam}}",{{end}}
       "hoofdactiviteitenVerenigingsloket": [
         {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
