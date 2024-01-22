@@ -1,14 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
-using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -30,11 +28,6 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
-                JsonLdMetadata =
-                    new JsonLdMetadata(
-                        JsonLdType.Locatie.CreateWithIdValues(
-                            doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
-                        JsonLdType.Locatie.Type),
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
@@ -43,10 +36,6 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
                     {
-                        JsonLdMetadata =
-                            new JsonLdMetadata(
-                                JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
-                                JsonLdType.Adres.Type),
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Huisnummer,
                         Busnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Busnummer,

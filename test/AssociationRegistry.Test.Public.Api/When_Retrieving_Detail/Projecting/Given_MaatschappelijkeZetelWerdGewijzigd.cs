@@ -1,14 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
-using JsonLdContext;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,20 +18,13 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         var fixture = new Fixture().CustomizePublicApi();
         var maatschappelijkeZetelVolgensKboWerdGewijzigd = fixture.Create<TestEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd>>();
 
-        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
-        doc.VCode = fixture.Create<VCode>();
-
         var locatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>() with
         {
             LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
-            JsonLdMetadata =
-            new JsonLdMetadata(
-                JsonLdType.Locatie.CreateWithIdValues(doc.VCode,
-                                                      maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
-                JsonLdType.Locatie.Type),
         };
-        doc.Locaties = doc.Locaties.Append(locatie).ToArray();
 
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+        doc.Locaties = doc.Locaties.Append(locatie).ToArray();
 
         PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
 
@@ -43,11 +33,6 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
-                JsonLdMetadata =
-                    new JsonLdMetadata(
-                        JsonLdType.Locatie.CreateWithIdValues(doc.VCode,
-                                                              maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
-                        JsonLdType.Locatie.Type),
                 LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
                 IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
                 Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,

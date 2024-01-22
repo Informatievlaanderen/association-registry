@@ -2,17 +2,8 @@
 
 using System.Runtime.Serialization;
 
-[DataContract]
-public class Adres: IJsonLd
+public class Adres
 {
-    /// <summary>De json-ld id</summary>
-    [DataMember(Name = "@id")]
-    public string id { get; init; }
-
-    /// <summary>Het json-ld type</summary>
-    [DataMember(Name = "@type")]
-    public string type { get; init; }
-
     /// <summary>De straat van de locatie</summary>
     [DataMember(Name = "Straatnaam")]
     public string Straatnaam { get; init; } = null!;

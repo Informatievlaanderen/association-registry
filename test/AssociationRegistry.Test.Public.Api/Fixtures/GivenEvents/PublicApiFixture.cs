@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
 using EventStore;
 using Framework.Helpers;
 using Marten;
@@ -26,7 +25,7 @@ using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 public class PublicApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = $"publicapifixture";
+    private readonly string _identifier = "publicapifixture";
     private readonly WebApplicationFactory<PublicApiProgram> _publicApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
@@ -145,7 +144,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName).GetAwaiter().GetResult();
+        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
     }

@@ -51,8 +51,6 @@ public class Given_LocatieWerdGewijzigd
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         goldenMaster.WithLocatie(
-            _scenario.VCode,
-            _scenario.LocatieWerdGewijzigd.Locatie.LocatieId.ToString(),
             _scenario.LocatieWerdGewijzigd.Locatie.Locatietype,
             _scenario.LocatieWerdGewijzigd.Locatie.Naam,
             _scenario.LocatieWerdGewijzigd.Locatie.AdresId.Broncode,
