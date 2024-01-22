@@ -63,7 +63,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                                    _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
                                    _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land,
                                    _scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd.IsPrimair,
-                                   Bron.KBO, _scenario.VCode);
+                                   Bron.KBO);
 
         content.Should().BeEquivalentJson(expected);
     }

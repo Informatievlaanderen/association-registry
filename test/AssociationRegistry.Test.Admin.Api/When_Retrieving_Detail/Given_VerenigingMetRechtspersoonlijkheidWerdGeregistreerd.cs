@@ -62,32 +62,32 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                    _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
                                    _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land,
                                    _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.IsPrimair,
-                                   Bron.KBO, _scenario.VCode)
+                                   Bron.KBO)
                       .WithContactgegeven(
                            _scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId,
                            _scenario.EmailWerdOvergenomenUitKBO.Bron,
                            _scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype,
-                           _scenario.EmailWerdOvergenomenUitKBO.Waarde, _scenario.VCode,
+                           _scenario.EmailWerdOvergenomenUitKBO.Waarde,
                            _scenario.EmailWerdGewijzigd.Beschrijving,
                            _scenario.EmailWerdGewijzigd.IsPrimair)
                       .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.WebsiteWerdOvergenomenUitKBO.Bron,
                                           _scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype,
-                                          _scenario.WebsiteWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                                          _scenario.WebsiteWerdOvergenomenUitKBO.Waarde)
                       .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.TelefoonWerdOvergenomenUitKBO.Bron,
                                           _scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype,
-                                          _scenario.TelefoonWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                                          _scenario.TelefoonWerdOvergenomenUitKBO.Waarde)
                       .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId,
                                           _scenario.GSMWerdOvergenomenUitKBO.Bron,
                                           _scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
-                                          _scenario.GSMWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                                          _scenario.GSMWerdOvergenomenUitKBO.Waarde)
                       .WithVertegenwoordiger(_scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
                                              _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Voornaam,
                                              _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Achternaam,
                                              string.Empty,
                                              string.Empty, _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Insz, string.Empty,
-                                             string.Empty, string.Empty, string.Empty, isPrimair: false, bron: Bron.KBO, vCode: _scenario.VCode);
+                                             string.Empty, string.Empty, string.Empty, isPrimair: false, Bron.KBO);
 
         content.Should().BeEquivalentJson(expected);
     }

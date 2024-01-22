@@ -1,14 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
-using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -28,17 +26,9 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 
         doc.Locaties.Should().HaveCount(4);
 
-        var locatie = doc.Locaties.Should().ContainSingle(locatie => locatie.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId)
-                         .Subject;
-
-        locatie.Should().BeEquivalentTo(
-            new Locatie
+        doc.Locaties.Should().ContainEquivalentOf(
+            new BeheerVerenigingDetailDocument.Locatie
             {
-                JsonLdMetadata = new JsonLdMetadata()
-                {
-                    Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
-                    Type = JsonLdType.Locatie.Type,
-                },
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
@@ -47,11 +37,6 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     ? null
                     : new Adres
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
-                        {
-                            Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
-                            Type = JsonLdType.Adres.Type,
-                        },
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Huisnummer,
                         Busnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Busnummer,

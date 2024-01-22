@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
-using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -25,17 +23,9 @@ public class Given_VertegenwoordigerWerdToegevoegd
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdToegevoegd, doc);
 
-        var vertegenwoordiger =doc.Vertegenwoordigers.Should().ContainSingle(v=>v.VertegenwoordigerId == vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId)
-           .Subject;
-        vertegenwoordiger.Should().BeEquivalentTo(
-            new Vertegenwoordiger
+        doc.Vertegenwoordigers.Should().Contain(
+            new BeheerVerenigingDetailDocument.Vertegenwoordiger
             {
-                JsonLdMetadata = new JsonLdMetadata()
-                {
-                    Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
-                        doc.VCode, vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),
-                    Type = JsonLdType.Vertegenwoordiger.Type,
-                },
                 VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
                 Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                 Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
@@ -47,20 +37,6 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
-                {
-                    JsonLdMetadata = new JsonLdMetadata()
-                    {
-                        Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
-                            doc.VCode, vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),
-                        Type = JsonLdType.VertegenwoordigerContactgegeven.Type,
-                    },
-                    IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
-                    Email = vertegenwoordigerWerdToegevoegd.Data.Email,
-                    Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
-                    Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
-                    SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                },
                 Bron = Bron.Initiator,
             });
 

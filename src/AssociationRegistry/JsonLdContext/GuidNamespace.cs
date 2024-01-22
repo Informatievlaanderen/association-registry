@@ -2,8 +2,6 @@
 
 public static class GuidNamespace
 {
-    public static Guid VertegenwoordigerContactgegevens => Guid.Parse("3C938AF9-42CA-4515-A176-6775F3A99930");
-    public static Guid Vertegenwoordiger => Guid.Parse("82506385-E622-48CA-8D86-1F4A296975CE");
     public static Guid Vereniging => Guid.Parse("1039DC21-78ED-40E4-AF88-22306F4C8FEB");
     public static Guid Hoofdactiviteit => Guid.Parse("D45897A0-8BA1-49B8-A2F3-31AEB0DEF89C");
     public static Guid Contactgegeven => Guid.Parse("C12F33CB-4F5D-4160-A7B8-3AA600BCAB87");

@@ -22,7 +22,7 @@ public class Given_ContactgegevenWerdVerwijderd
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
         doc.Contactgegevens = doc.Contactgegevens.Append(
-            new Contactgegeven
+            new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
                 Contactgegeventype = fixture.Create<string>(),
@@ -35,7 +35,7 @@ public class Given_ContactgegevenWerdVerwijderd
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdVerwijderd, doc);
 
         doc.Contactgegevens.Should().NotContain(
-            new Contactgegeven
+            new BeheerVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
                 Contactgegeventype = contactgegevenWerdVerwijderd.Data.Type,
