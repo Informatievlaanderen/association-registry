@@ -43,8 +43,6 @@ public class Given_LocatieWerdToegevoegd
                                                 _scenario.LocatieWerdToegevoegd.Locatie.Adres.ToAdresString(),
                                                 _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Postcode,
                                                 _scenario.LocatieWerdToegevoegd.Locatie.Adres?.Gemeente,
-                                                _scenario.VCode,
-                                                _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
                                                 _scenario.LocatieWerdToegevoegd.Locatie.IsPrimair
                                     )
                            );

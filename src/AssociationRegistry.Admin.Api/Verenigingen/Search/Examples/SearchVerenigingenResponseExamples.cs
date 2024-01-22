@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
 using Infrastructure.ConfigurationBindings;
-using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
@@ -28,21 +27,10 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             {
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
-                    type = JsonLdType.Vereniging.Type,
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
-                    HoofdactiviteitenVerenigingsloket = new[]
-                    {
-                        new HoofdactiviteitVerenigingsloket
-                        {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
-                            Code = "CULT",
-                            Naam = "Cultuur",
-                        },
-                    },
+                    HoofdactiviteitenVerenigingsloket = new[] { new HoofdactiviteitVerenigingsloket { Code = "CULT", Naam = "Cultuur" } },
                     Status = VerenigingStatus.Actief,
                     Doelgroep = new DoelgroepResponse
                     {
@@ -53,8 +41,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Locatie.Type,
                             Locatietype = "Correspondentie",
                             IsPrimair = true,
                             Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
@@ -76,8 +62,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 },
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V00036651"),
-                    type = JsonLdType.Vereniging.Type,
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
                     KorteNaam = string.Empty,
@@ -87,8 +71,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new HoofdactiviteitVerenigingsloket
                         {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("SPRT"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
                             Code = "SPRT",
                             Naam = "Sport",
                         },
@@ -107,8 +89,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Locatie
                         {
-                            id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
-                            type = JsonLdType.Locatie.Type,
                             Locatietype = "Activiteiten",
                             IsPrimair = false,
                             Adresvoorstelling = "dorpstraat 91, 9000 Gent, Belgie",
@@ -121,16 +101,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Sleutel
                         {
-                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001002", Sleutelbron.Kbo.Waarde),
-                            type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.Kbo.Waarde,
-                            GestructureerdeIdentificator = new GestructureerdeIdentificator()
-                            {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001002", Sleutelbron.Kbo.Waarde),
-                                type = JsonLdType.GestructureerdeSleutel.Type,
-                                Nummer = "0123456789",
-                            },
                         },
                     },
                     Links = new VerenigingLinks

@@ -28,11 +28,6 @@ public static class VerenigingZoekDocumentMapping
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsVerwijderd))
-                         .Nested<JsonLdMetadata>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.JsonLdMetadata)
-                                                   .IncludeInRoot()
-                                                   .Properties(JsonLdMetadataMapping.Get))
                          .Nested<Doelgroep>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Doelgroep)
@@ -64,11 +59,6 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    descriptor => descriptor
                       .Name(document => document.LocatieId))
@@ -96,11 +86,6 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
             => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Code)
@@ -123,18 +108,6 @@ public static class VerenigingZoekDocumentMapping
                       .Name(document => document.Beschrijving));
     }
 
-    private static class JsonLdMetadataMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<JsonLdMetadata> map)
-            => map
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Id))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Type));
-    }
-
     private static class DoelgroepMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<Doelgroep> map)
@@ -153,37 +126,12 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Sleutel> map)
             => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Bron)
                                           .Fields(x => x.Keyword(y => y.Name("keyword"))))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Waarde))
-              .Nested<VerenigingZoekDocument.GestructureerdeIdentificator>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(GestructureerdeIdentificatorMapping.Get));
-    }
-
-    private static class GestructureerdeIdentificatorMapping
-    {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.GestructureerdeIdentificator> map)
-            => map
-              .Nested<JsonLdMetadata>(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.JsonLdMetadata)
-                                        .IncludeInRoot()
-                                        .Properties(JsonLdMetadataMapping.Get))
-              .Text(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Nummer)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))));
+                      .Name(document => document.Waarde));
     }
 }
