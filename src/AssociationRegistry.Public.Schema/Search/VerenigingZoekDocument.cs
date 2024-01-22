@@ -1,10 +1,7 @@
 namespace AssociationRegistry.Public.Schema.Search;
 
-using Detail;
-
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; }
     public string VCode { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
@@ -21,7 +18,6 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public class Locatie
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
         public string Adresvoorstelling { get; init; } = null!;
@@ -33,7 +29,6 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public class HoofdactiviteitVerenigingsloket
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Code { get; init; } = null!;
         public string Naam { get; init; } = null!;
     }
@@ -46,16 +41,8 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public class Sleutel
     {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
-        public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
-    }
-
-    public class GestructureerdeIdentificator
-    {
-        public JsonLdMetadata JsonLdMetadata { get; set; }
-        public string Nummer { get; set; } = null!;
     }
 }
 
