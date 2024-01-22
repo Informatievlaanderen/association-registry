@@ -14,16 +14,4 @@ public static class ElasticClientExtensions
             selector: descriptor =>
                 descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
-    public static async Task EnsureIndexExists(this IElasticClient elasticClient, ElasticSearchOptionsSection options)
-    {
-        var verenigingenIndexName = options.Indices!.Verenigingen;
-
-        if (!(await elasticClient.Indices.ExistsAsync(verenigingenIndexName)).Exists)
-        {
-            var response = await elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
-
-            if (!response.IsValid)
-                throw response.OriginalException;
-        }
-    }
 }
