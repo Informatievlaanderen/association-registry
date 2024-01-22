@@ -61,7 +61,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                .GetAwaiter().GetResult();
 
         DropDatabase();
-
         EnsureDbExists(GetConfiguration());
 
         OaktonEnvironment.AutoStartHost = true;

@@ -38,6 +38,8 @@ public class GivenEventsFixture : PublicApiFixture
         V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario = new();
 
     public readonly V018_FeitelijkeVerenigingWerdVerwijderdScenario V018_FeitelijkeVerenigingWerdVerwijderdScenario = new();
+    public readonly V019_Vereniging19ForSearchScenario V019Vereniging19ForSearchScenario = new();
+    public readonly V020_Vereniging20ForSearchScenario V020Vereniging20ForSearchScenario = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -57,6 +59,8 @@ public class GivenEventsFixture : PublicApiFixture
             V016VerenigingWerdGestopt,
             V017VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigMaatschappelijkeZetelScenario,
             V018_FeitelijkeVerenigingWerdVerwijderdScenario,
+            V019Vereniging19ForSearchScenario,
+            V020Vereniging20ForSearchScenario,
         };
 
     public override async Task InitializeAsync()
