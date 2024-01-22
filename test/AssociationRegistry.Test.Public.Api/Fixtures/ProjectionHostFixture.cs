@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.Api.Infrastructure.Extensions;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
 using Marten;
@@ -117,7 +118,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         if ((await client.Indices.ExistsAsync(verenigingenIndexName)).Exists)
             await client.Indices.DeleteAsync(verenigingenIndexName);
 
-        var verenigingIndex = await client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        var verenigingIndex = await client.Indices.CreateVerenigingIndexAsync(verenigingenIndexName);
 
         if (!verenigingIndex.IsValid)
             throw verenigingIndex.OriginalException;
