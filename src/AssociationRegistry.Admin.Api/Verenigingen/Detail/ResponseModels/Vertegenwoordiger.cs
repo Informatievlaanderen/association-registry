@@ -6,14 +6,6 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Vertegenwoordiger
 {
-    /// <summary>De json-ld id</summary>
-    [DataMember(Name = "@id")]
-    public string id { get; init; }
-
-    /// <summary>Het json-ld type</summary>
-    [DataMember(Name = "@type")]
-    public string type { get; init; }
-
     /// <summary>
     ///     De unieke identificatie code van deze vertegenwoordiger binnen de vereniging
     /// </summary>
@@ -63,10 +55,6 @@ public class Vertegenwoordiger
     /// <summary>Het socialmedia account van de vertegenwoordiger</summary>
     [DataMember(Name = "SocialMedia")]
     public string SocialMedia { get; init; } = null!;
-
-    /// <summary>de contactgegevens van de vertegenwoordiger</summary>
-    [DataMember(Name = "VertegenwoordigerContactgegevens")]
-    public VertegenwoordigerContactgegevens VertegenwoordigerContactgegevens { get; init; }
 
     /// <summary> De bron die deze vertegenwoordiger beheert.
     /// <br />
