@@ -1,3 +1,10 @@
+# [8.46.0](https://github.com/informatievlaanderen/association-registry/compare/v8.45.0...v8.46.0) (2024-01-23)
+
+
+### Features
+
+* or-2061 add korte beschrijving als veld in publiek zoeken ([#606](https://github.com/informatievlaanderen/association-registry/issues/606)) ([f519a43](https://github.com/informatievlaanderen/association-registry/commit/f519a43e0532ee54e70909f77b46d02f3a4c382b))
+
 # [8.45.0](https://github.com/informatievlaanderen/association-registry/compare/v8.44.0...v8.45.0) (2024-01-23)
 
 
