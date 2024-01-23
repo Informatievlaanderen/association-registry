@@ -4,6 +4,8 @@ using Nest;
 
 public static class VerenigingZoekDocumentMapping
 {
+    public const string PubliekZoekenAnalyzer = "publiek_zoeken_analyzer";
+
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
@@ -13,19 +15,19 @@ public static class VerenigingZoekDocumentMapping
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(PubliekZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(PubliekZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(PubliekZoekenAnalyzer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteBeschrijving)
-                                                   .WithKeyword())
+                                                   .WithKeyword(PubliekZoekenAnalyzer))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))
@@ -78,11 +80,11 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Naam)
-                                        .WithKeyword())
+                                        .WithKeyword(PubliekZoekenAnalyzer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Adresvoorstelling)
-                                        .WithKeyword())
+                                        .WithKeyword(PubliekZoekenAnalyzer))
               .Boolean(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.IsPrimair)
@@ -97,7 +99,7 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Gemeente)
-                                        .WithKeyword());
+                                        .WithKeyword(PubliekZoekenAnalyzer));
     }
 
     private static class HoofdactiviteitMapping
@@ -152,7 +154,7 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Waarde)
-                                          .WithKeyword());
+                                          .WithKeyword(PubliekZoekenAnalyzer));
     }
 
     private static class RelatieMapping

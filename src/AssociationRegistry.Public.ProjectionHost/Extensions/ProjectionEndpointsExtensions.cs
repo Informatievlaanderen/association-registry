@@ -39,7 +39,7 @@ public static class ProjectionEndpointsExtensions
                     await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
-                    await elasticClient.Indices.CreateVerenigingIndex(options.Indices.Verenigingen);
+                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
                     await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
                 });

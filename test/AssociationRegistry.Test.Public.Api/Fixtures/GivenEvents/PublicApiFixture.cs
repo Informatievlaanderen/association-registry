@@ -144,7 +144,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions.ElasticClientExtensions.CreateVerenigingIndex(client.Indices, verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
     }

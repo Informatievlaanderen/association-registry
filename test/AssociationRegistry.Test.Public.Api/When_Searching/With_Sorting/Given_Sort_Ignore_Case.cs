@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
+﻿namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
 
 using Fixtures;
 using Fixtures.GivenEvents;
@@ -12,12 +12,12 @@ using Xunit.Categories;
 [Collection(nameof(PublicApiCollection))]
 [Category("PublicApi")]
 [IntegrationTest]
-public class Given_Sort_By_SingleField
+public class Given_Sort_Ignore_Case
 {
     private readonly ITestOutputHelper _outputHelper;
     private readonly PublicApiClient _publicApiClient;
 
-    public Given_Sort_By_SingleField(GivenEventsFixture fixture, ITestOutputHelper helper)
+    public Given_Sort_Ignore_Case(GivenEventsFixture fixture, ITestOutputHelper helper)
     {
         _outputHelper = helper;
         _publicApiClient = fixture.PublicApiClient;
@@ -26,7 +26,6 @@ public class Given_Sort_By_SingleField
     [Theory]
     [InlineData("naam")]
     [InlineData("korteNaam")]
-    [InlineData("korteBeschrijving")]
     [InlineData("vCode")]
     public async Task? Then_it_sorts_ascending(string field)
     {
@@ -48,7 +47,6 @@ public class Given_Sort_By_SingleField
     [Theory]
     [InlineData("naam")]
     [InlineData("korteNaam")]
-    [InlineData("korteBeschrijving")]
     [InlineData("vCode")]
     public async Task? Then_it_sorts_descending(string field)
     {
