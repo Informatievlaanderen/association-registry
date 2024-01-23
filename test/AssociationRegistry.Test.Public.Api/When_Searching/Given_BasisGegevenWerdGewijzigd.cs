@@ -42,6 +42,7 @@ public class Given_BasisGegevenWerdGewijzigd
                         .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                         .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
                         .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
+                        .WithKorteBeschrijving(_scenario.KorteBeschrijvingWerdGewijzigd.KorteBeschrijving)
                         .WithDoelgroep(_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
                                        _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
                 );

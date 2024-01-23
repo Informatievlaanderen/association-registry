@@ -29,6 +29,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
+                    KorteBeschrijving = "Een vrolijke groep van BA'ers die graag BA dingen doen.",
                     Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
@@ -66,6 +67,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Naam = "FWA De Bron",
                     Roepnaam = "Bronneke",
                     KorteNaam = string.Empty,
+                    KorteBeschrijving = string.Empty,
                     Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.VZW.Code,

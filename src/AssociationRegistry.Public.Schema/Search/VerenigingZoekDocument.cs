@@ -7,6 +7,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
+    public string KorteBeschrijving { get; set; } = null!;
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;

@@ -26,6 +26,7 @@ public class Given_Sort_By_SingleField
     [Theory]
     [InlineData("naam")]
     [InlineData("korteNaam")]
+    [InlineData("korteBeschrijving")]
     [InlineData("vCode")]
     public async Task? Then_it_sorts_ascending(string field)
     {
@@ -47,6 +48,7 @@ public class Given_Sort_By_SingleField
     [Theory]
     [InlineData("naam")]
     [InlineData("korteNaam")]
+    [InlineData("korteBeschrijving")]
     [InlineData("vCode")]
     public async Task? Then_it_sorts_descending(string field)
     {
