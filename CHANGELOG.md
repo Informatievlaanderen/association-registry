@@ -1,3 +1,12 @@
+# [8.45.0](https://github.com/informatievlaanderen/association-registry/compare/v8.44.0...v8.45.0) (2024-01-23)
+
+
+### Features
+
+* or-1976 cleanup code ([303ecde](https://github.com/informatievlaanderen/association-registry/commit/303ecdeeda4721626c8c8fc7ab41076ac10a8781))
+* or-1976 fix failing test ([7778a7f](https://github.com/informatievlaanderen/association-registry/commit/7778a7f2fd53275f7cce8e90cb98debeb10cc0db))
+* or-1976 voeg normalizer toe aan Ãpubliek zoeken ([0281360](https://github.com/informatievlaanderen/association-registry/commit/02813608686324c8c17127ec4f92128dcbb62239))
+
 # [8.44.0](https://github.com/informatievlaanderen/association-registry/compare/v8.43.1...v8.44.0) (2024-01-22)
 
 
