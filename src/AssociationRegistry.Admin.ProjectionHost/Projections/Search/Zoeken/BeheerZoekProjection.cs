@@ -24,7 +24,7 @@ public class BeheerZoekProjectionHandler
             {
                 JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Beschrijving = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -72,7 +72,7 @@ public class BeheerZoekProjectionHandler
             {
                 JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = message.Data.VCode,
-                Type = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Beschrijving = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,

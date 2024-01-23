@@ -17,11 +17,23 @@ public static class ElasticSearchExtensions
         var elasticClient = (IServiceProvider serviceProvider)
             => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
 
+        services.AddMappingsForVerenigingZoek(elasticSearchOptions.Indices!.Verenigingen!);
+
         services.AddSingleton(sp => elasticClient(sp));
         services.AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());
 
         return services;
     }
+
+    private static IServiceCollection AddMappingsForVerenigingZoek(this IServiceCollection services, string indexName)
+        => services.AddSingleton(
+            serviceProvider => serviceProvider
+                              .GetMappingFor<VerenigingZoekDocument>()
+                              .Indices[indexName]
+                              .Mappings);
+
+    private static GetMappingResponse GetMappingFor<T>(this IServiceProvider serviceProvider) where T : class
+        => serviceProvider.GetRequiredService<ElasticClient>().Indices.GetMapping<T>();
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {

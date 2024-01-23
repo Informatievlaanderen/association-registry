@@ -22,6 +22,9 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> Search(string q)
         => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}");
 
+    public async Task<HttpResponseMessage> Search(string q, string sort)
+        => await HttpClient.GetAsync($"/v1/verenigingen/zoeken?q={q}&sort={sort}");
+
     public async Task<HttpResponseMessage> GetDetail(string vCode, long? expectedSequence = null)
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}", expectedSequence);
 
