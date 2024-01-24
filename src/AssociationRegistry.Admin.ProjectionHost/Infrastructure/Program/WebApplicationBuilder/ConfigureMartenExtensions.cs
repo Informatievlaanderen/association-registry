@@ -15,6 +15,7 @@ using Projections;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.Search;
+using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
@@ -94,7 +95,11 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IMessageBus>()
+                            serviceProvider.GetRequiredService<IMessageBus>(),
+                            new DuplicateDetectionProjectionHandler(
+                                serviceProvider.GetRequiredService<IElasticRepository>()),
+                            new BeheerZoekProjectionHandler(
+                                serviceProvider.GetRequiredService<IElasticRepository>())
                         )
                     ),
                     ProjectionLifecycle.Async,
