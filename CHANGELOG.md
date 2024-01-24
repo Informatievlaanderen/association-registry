@@ -1,3 +1,10 @@
+## [8.50.1](https://github.com/informatievlaanderen/association-registry/compare/v8.50.0...v8.50.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 wait, stop, start for rebuilding ([09cfe08](https://github.com/informatievlaanderen/association-registry/commit/09cfe083290eb86b25978bd563db7316e8b8a0b7))
+
 # [8.50.0](https://github.com/informatievlaanderen/association-registry/compare/v8.49.0...v8.50.0) (2024-01-24)
 
 
