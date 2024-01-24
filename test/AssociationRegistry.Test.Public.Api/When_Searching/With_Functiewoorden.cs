@@ -16,7 +16,7 @@ public class With_Functiewoorden
 {
     private readonly PublicApiClient _publicApiClient;
     private readonly V019_Vereniging19ForSearchScenario _scenario;
-    private readonly string _query = "de het Auto";
+    private readonly string _query = "de het verzamelen";
 
     public With_Functiewoorden(GivenEventsFixture fixture)
     {
