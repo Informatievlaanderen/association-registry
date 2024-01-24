@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 public static class ProjectionEndpointsExtensions
 {
+    //TODO toevoegen aan program.cs om endpoints te activeren
     public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
         var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
