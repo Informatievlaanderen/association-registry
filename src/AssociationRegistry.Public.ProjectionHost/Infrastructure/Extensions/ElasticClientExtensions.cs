@@ -20,7 +20,9 @@ public static class ElasticClientExtensions
                                                                    .PatternReplace(name: "underscore_replace",
                                                                                    selector: prcf
                                                                                        => prcf.Pattern("_").Replacement(" ")))
+                                              .TokenFilters(AddDutchStopWordsFilter)
                                               .Normalizers(AddVerenigingZoekNormalizer)
+                                              .Analyzers(AddVerenigingZoekAnalyzer)
                                  ))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
@@ -44,7 +46,9 @@ public static class ElasticClientExtensions
                                                                    .PatternReplace(name: "underscore_replace",
                                                                                    selector: prcf
                                                                                        => prcf.Pattern("_").Replacement(" ")))
+                                              .TokenFilters(AddDutchStopWordsFilter)
                                               .Normalizers(AddVerenigingZoekNormalizer)
+                                              .Analyzers(AddVerenigingZoekAnalyzer)
                                  ))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
@@ -54,11 +58,25 @@ public static class ElasticClientExtensions
         return createIndexResponse;
     }
 
+    private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
+        => tf.Stop(name: "dutch_stop", selector: st => st
+                      .StopWords("_dutch_") // Or provide your custom list
+        );
+
     private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
-        => ad.Custom(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer,
+        => ad.Custom(VerenigingZoekDocumentMapping.PubliekZoekenNormalizer,
                      selector: ca
                          => ca
                            .CharFilters("underscore_replace", "dot_replace")
                            .Filters("lowercase", "asciifolding")
+        );
+
+    private static AnalyzersDescriptor AddVerenigingZoekAnalyzer(AnalyzersDescriptor ad)
+        => ad.Custom(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer,
+                     selector: ca
+                         => ca
+                           .Tokenizer("standard")
+                           .CharFilters("underscore_replace", "dot_replace")
+                           .Filters("lowercase", "asciifolding", "dutch_stop")
         );
 }
