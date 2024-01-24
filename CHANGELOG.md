@@ -1,3 +1,18 @@
+# [8.48.0](https://github.com/informatievlaanderen/association-registry/compare/v8.47.0...v8.48.0) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 typo ([bbae5e5](https://github.com/informatievlaanderen/association-registry/commit/bbae5e537a30285e62a8d7d5e8c5f93a827e3230))
+
+
+### Features
+
+* or-1349 add acm rebuild endpoint ([5f44a5b](https://github.com/informatievlaanderen/association-registry/commit/5f44a5b46215a329ae378e72f207bab63c7c1dde))
+* or-1349 add comment in ProjectionEndpointExtensions.cs ([c3c6d51](https://github.com/informatievlaanderen/association-registry/commit/c3c6d51306a1aee653d6dff33bb9835597fc5da6))
+* or-1349 add configurable timeout to rebuilds ([bf66083](https://github.com/informatievlaanderen/association-registry/commit/bf660839251514f1b62e9608c9a2043e64d97c7b))
+* or-1349 disable rebuild endpoints for ACM ([886e79e](https://github.com/informatievlaanderen/association-registry/commit/886e79e1ac30d6378b7a62df25f59924fb725b81))
+
 # [8.47.0](https://github.com/informatievlaanderen/association-registry/compare/v8.46.0...v8.47.0) (2024-01-24)
 
 
