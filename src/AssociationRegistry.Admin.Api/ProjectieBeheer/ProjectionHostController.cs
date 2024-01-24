@@ -73,6 +73,14 @@ public class ProjectionHostController : ApiController
         return await OkObjectOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("public/all/rebuild")]
+    public async Task<IActionResult> RebuildPublicAllProjections(CancellationToken cancellationToken)
+    {
+        var response = await _publicHttpClient.RebuildAllProjections(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpPost("public/detail/rebuild")]
     public async Task<IActionResult> RebuildPublicProjectionDetail(CancellationToken cancellationToken)
     {
