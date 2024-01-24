@@ -14,6 +14,8 @@ public class PublicProjectionHostHttpClient : IDisposable
         _httpClient = httpClient;
     }
 
+    public async Task<HttpResponseMessage> RebuildAllProjections(CancellationToken cancellationToken)
+        => await _httpClient.PostAsync(requestUri: "/v1/projections/all/rebuild", content: null, cancellationToken);
     public async Task<HttpResponseMessage> RebuildDetailProjection(CancellationToken cancellationToken)
         => await _httpClient.PostAsync(requestUri: "/v1/projections/detail/rebuild", content: null, cancellationToken);
 
@@ -27,4 +29,6 @@ public class PublicProjectionHostHttpClient : IDisposable
     {
         _httpClient.Dispose();
     }
+
+
 }
