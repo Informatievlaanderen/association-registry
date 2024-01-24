@@ -86,8 +86,10 @@ public class Program
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
-        app.AddProjectionEndpoints(
-            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+        //TODO uncomment als we weten wat te doen met rechten
+
+        // app.AddProjectionEndpoints(
+        //     app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 
         app
            .ConfigureDevelopmentEnvironment()
