@@ -86,6 +86,9 @@ public class Program
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
+        app.AddProjectionEndpoints(
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+
         app
            .ConfigureDevelopmentEnvironment()
            .UseCors(StartupConstants.AllowSpecificOrigin);
