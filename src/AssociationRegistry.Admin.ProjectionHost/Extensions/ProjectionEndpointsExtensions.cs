@@ -134,5 +134,7 @@ public static class ProjectionEndpointsExtensions
         {
             await elasticClient.Indices.DeleteAsync(indeces, ct: CancellationToken.None).ThrowIfInvalidAsync();
         }
+
+        await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
     }
 }
