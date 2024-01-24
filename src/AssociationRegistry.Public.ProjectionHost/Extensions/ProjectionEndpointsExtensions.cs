@@ -9,16 +9,18 @@ using Projections.Detail;
 
 public static class ProjectionEndpointsExtensions
 {
-    public static void AddProjectionEndpoints(this WebApplication app)
+    public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
+        var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
+
         app.MapPost(
             pattern: "v1/projections/detail/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<PubliekVerenigingDetailProjection>(cancellationToken);
+                    await projectionDaemon.RebuildProjection<PubliekVerenigingDetailProjection>(shardTimeout,CancellationToken.None);
                 });
 
                 return Results.Accepted();
@@ -30,18 +32,17 @@ public static class ProjectionEndpointsExtensions
                 IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
-                ILogger<Program> logger,
-                CancellationToken cancellationToken) =>
+                ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
                     await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
-                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: cancellationToken);
+                    await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
-                    await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
+                    await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken,shardTimeout, CancellationToken.None);
                 });
 
                 return Results.Accepted();
