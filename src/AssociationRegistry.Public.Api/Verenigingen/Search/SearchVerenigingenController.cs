@@ -252,6 +252,7 @@ public class SearchVerenigingenController : ApiController
         return m.QueryString(
             qs =>
                 qs.Query(query)
+                  .Analyzer(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer)
         );
     }
 

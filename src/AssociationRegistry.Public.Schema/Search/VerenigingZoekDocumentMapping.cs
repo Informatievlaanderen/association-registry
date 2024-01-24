@@ -4,30 +4,33 @@ using Nest;
 
 public static class VerenigingZoekDocumentMapping
 {
+    public const string PubliekZoekenNormalizer = "publiek_zoeken_normalizer";
     public const string PubliekZoekenAnalyzer = "publiek_zoeken_analyzer";
+
 
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.VCode))
+                                 .Name(document => document.VCode)
+                                                   .Normalizer(PubliekZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .WithKeyword(PubliekZoekenAnalyzer))
+                                                   .WithKeyword(PubliekZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
-                                                   .WithKeyword(PubliekZoekenAnalyzer))
+                                                   .WithKeyword(PubliekZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .WithKeyword(PubliekZoekenAnalyzer))
+                                                   .WithKeyword(PubliekZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteBeschrijving)
-                                                   .WithKeyword(PubliekZoekenAnalyzer))
+                                                   .WithKeyword(PubliekZoekenNormalizer))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))
@@ -80,11 +83,11 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Naam)
-                                        .WithKeyword(PubliekZoekenAnalyzer))
+                                        .WithKeyword(PubliekZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Adresvoorstelling)
-                                        .WithKeyword(PubliekZoekenAnalyzer))
+                                        .WithKeyword(PubliekZoekenNormalizer))
               .Boolean(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.IsPrimair)
@@ -99,7 +102,7 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Gemeente)
-                                        .WithKeyword(PubliekZoekenAnalyzer));
+                                        .WithKeyword(PubliekZoekenNormalizer));
     }
 
     private static class HoofdactiviteitMapping
@@ -154,7 +157,7 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Waarde)
-                                          .WithKeyword(PubliekZoekenAnalyzer));
+                                          .WithKeyword(PubliekZoekenNormalizer));
     }
 
     private static class RelatieMapping
