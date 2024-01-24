@@ -37,6 +37,11 @@ public static class ProjectionEndpointsExtensions
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
                     await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
+
+                    await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
+
                     await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
@@ -73,6 +78,11 @@ public static class ProjectionEndpointsExtensions
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
                     await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
+
+                    await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
+
                     await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
@@ -88,6 +98,11 @@ public static class ProjectionEndpointsExtensions
     {
         await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
         await projectionDaemon.RebuildProjection<TProjection>(shardTimeout, CancellationToken.None);
+
+        await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+
+        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
+
         await projectionDaemon.StartShard($"{typeof(TProjection).FullName}:All",
                                           CancellationToken.None);
     }

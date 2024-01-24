@@ -9,6 +9,7 @@ using NodaTime;
 using Projections;
 using Projections.Detail;
 using Projections.Historiek;
+using System.Diagnostics;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -24,20 +25,25 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
                     await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailProjection>(shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
                     await projectionDaemon.StopRebuildStart<BeheerVerenigingHistoriekProjection>(shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
                     await RebuildElasticProjections(projectionDaemon, elasticClient, options, shardTimeout);
                 });
 
@@ -46,7 +52,7 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/detail/rebuild",
-            handler: (IDocumentStore store, ILogger<Program> logger) =>
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
@@ -59,7 +65,7 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/historiek/rebuild",
-            handler: (IDocumentStore store, ILogger<Program> logger) =>
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
@@ -72,7 +78,7 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/search/rebuild",
-            handler: (
+            handler: async (
                 IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
@@ -97,6 +103,10 @@ public static class ProjectionEndpointsExtensions
     {
         await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
         await projectionDaemon.RebuildProjection<TProjection>(shardTimeout, CancellationToken.None);
+
+        await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+
+        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
 
         await projectionDaemon.StartShard($"{typeof(TProjection).FullName}:All",
                                           CancellationToken.None);
@@ -143,6 +153,10 @@ public static class ProjectionEndpointsExtensions
         {
             await elasticClient.Indices.DeleteAsync(indeces, ct: CancellationToken.None).ThrowIfInvalidAsync();
         }
+
+        await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+
+        await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
         await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
     }
