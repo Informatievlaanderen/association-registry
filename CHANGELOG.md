@@ -1,3 +1,10 @@
+# [8.50.0](https://github.com/informatievlaanderen/association-registry/compare/v8.49.0...v8.50.0) (2024-01-24)
+
+
+### Features
+
+* or-1349 add stop-start shards ([5d183fd](https://github.com/informatievlaanderen/association-registry/commit/5d183fdf36e669fb0609fe14f7b4b0bfadc42273))
+
 # [8.49.0](https://github.com/informatievlaanderen/association-registry/compare/v8.48.0...v8.49.0) (2024-01-24)
 
 
