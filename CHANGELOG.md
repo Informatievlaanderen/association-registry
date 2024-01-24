@@ -1,3 +1,11 @@
+# [8.47.0](https://github.com/informatievlaanderen/association-registry/compare/v8.46.0...v8.47.0) (2024-01-24)
+
+
+### Features
+
+* or-1976 remove dots and accents for publiek zoek ([fd8af2e](https://github.com/informatievlaanderen/association-registry/commit/fd8af2edfd88d2d9015b90e752d566b6fde3163a))
+* or-1976 remove stopwords from query ([7d820a2](https://github.com/informatievlaanderen/association-registry/commit/7d820a2ae0477a1f61b7a500abe54985203ad099))
+
 # [8.46.0](https://github.com/informatievlaanderen/association-registry/compare/v8.45.0...v8.46.0) (2024-01-23)
 
 
