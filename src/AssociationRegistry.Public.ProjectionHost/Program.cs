@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Extensions;
+using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
@@ -78,7 +79,7 @@ public class Program
 
         var app = builder.Build();
 
-        app.AddProjectionEndpoints();
+        app.AddProjectionEndpoints(app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 
         app.SetUpSwagger();
         await app.EnsureElasticSearchIsInitialized();

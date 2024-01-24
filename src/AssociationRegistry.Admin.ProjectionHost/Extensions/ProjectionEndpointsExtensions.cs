@@ -12,32 +12,33 @@ using Projections.Historiek;
 
 public static class ProjectionEndpointsExtensions
 {
-    public static void AddProjectionEndpoints(this WebApplication app)
+    public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
+        var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
+
         app.MapPost(
             pattern: "v1/projections/all/rebuild",
             handler: async (
                 IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
-                ILogger<Program> logger,
-                CancellationToken cancellationToken) =>
+                ILogger<Program> logger) =>
             {
                 var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
+                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(shardTimeout,CancellationToken.None);
                 });
 
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
+                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(shardTimeout,CancellationToken.None);
                 });
 
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
-                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, cancellationToken);
+                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -45,12 +46,12 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/detail/rebuild",
-            handler: (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            handler: (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
+                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(shardTimeout,CancellationToken.None);
                 });
 
                 return Results.Accepted();
@@ -58,12 +59,12 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/historiek/rebuild",
-            handler: (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
+            handler: (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(cancellationToken);
+                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(shardTimeout,CancellationToken.None);
                 });
 
                 return Results.Accepted();
@@ -75,13 +76,12 @@ public static class ProjectionEndpointsExtensions
                 IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
-                ILogger<Program> logger,
-                CancellationToken cancellationToken) =>
+                ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, cancellationToken);
+                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -117,22 +117,22 @@ public static class ProjectionEndpointsExtensions
         IProjectionDaemon projectionDaemon,
         IElasticClient elasticClient,
         ElasticSearchOptionsSection options,
-        CancellationToken cancellationToken)
+        TimeSpan shardTimeout)
     {
         await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
         var oldVerenigingenIndices = await elasticClient.GetIndicesPointingToAliasAsync(options.Indices.Verenigingen);
         var newIndicesVerenigingen = options.Indices.Verenigingen + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
         await elasticClient.Indices.CreateVerenigingIndexAsync(newIndicesVerenigingen).ThrowIfInvalidAsync();
 
-        await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: cancellationToken).ThrowIfInvalidAsync();
+        await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None).ThrowIfInvalidAsync();
         await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection).ThrowIfInvalidAsync();
-        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, cancellationToken);
+        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken,shardTimeout, CancellationToken.None);
 
-        await elasticClient.Indices.PutAliasAsync(newIndicesVerenigingen, options.Indices.Verenigingen, ct: cancellationToken);
+        await elasticClient.Indices.PutAliasAsync(newIndicesVerenigingen, options.Indices.Verenigingen, ct: CancellationToken.None);
 
         foreach (var indeces in oldVerenigingenIndices)
         {
-            await elasticClient.Indices.DeleteAsync(indeces, ct: cancellationToken).ThrowIfInvalidAsync();
+            await elasticClient.Indices.DeleteAsync(indeces, ct: CancellationToken.None).ThrowIfInvalidAsync();
         }
     }
 }
