@@ -28,12 +28,12 @@ public static class ProjectionEndpointsExtensions
 
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(shardTimeout,CancellationToken.None);
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailProjection>(shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(shardTimeout,CancellationToken.None);
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingHistoriekProjection>(shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
@@ -51,7 +51,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(shardTimeout,CancellationToken.None);
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailProjection>(shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -64,7 +64,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Historiek", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<BeheerVerenigingHistoriekProjection>(shardTimeout,CancellationToken.None);
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingHistoriekProjection>(shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -91,6 +91,15 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/status",
             handler: async (IDocumentStore store, ILogger<Program> _, CancellationToken cancellationToken) =>
                 await store.Advanced.AllProjectionProgress(token: cancellationToken));
+    }
+
+    private static async Task StopRebuildStart<TProjection>(this IProjectionDaemon projectionDaemon, TimeSpan shardTimeout)
+    {
+        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
+        await projectionDaemon.RebuildProjection<TProjection>(shardTimeout, CancellationToken.None);
+
+        await projectionDaemon.StartShard($"{typeof(TProjection).FullName}:All",
+                                          CancellationToken.None);
     }
 
     private static void StartRebuild(ILogger logger, string projectionName, Func<Task> rebuildFunc)
@@ -126,7 +135,7 @@ public static class ProjectionEndpointsExtensions
 
         await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None).ThrowIfInvalidAsync();
         await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection).ThrowIfInvalidAsync();
-        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken,shardTimeout, CancellationToken.None);
+        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
 
         await elasticClient.Indices.PutAliasAsync(newIndicesVerenigingen, options.Indices.Verenigingen, ct: CancellationToken.None);
 
