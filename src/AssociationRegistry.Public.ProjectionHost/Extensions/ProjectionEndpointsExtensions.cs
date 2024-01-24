@@ -43,6 +43,7 @@ public static class ProjectionEndpointsExtensions
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
                     await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken,shardTimeout, CancellationToken.None);
+                    await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
                 return Results.Accepted();
