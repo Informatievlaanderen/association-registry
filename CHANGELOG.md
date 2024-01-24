@@ -1,3 +1,11 @@
+## [8.50.2](https://github.com/informatievlaanderen/association-registry/compare/v8.50.1...v8.50.2) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 archive afdelingen ([7c1bbb7](https://github.com/informatievlaanderen/association-registry/commit/7c1bbb7bf3213d1784b49ed756a1e136630279cb))
+* or-1349 don't use bus ([cb3b758](https://github.com/informatievlaanderen/association-registry/commit/cb3b7584beb7730af8076072f67a33bcf2e7ff09))
+
 ## [8.50.1](https://github.com/informatievlaanderen/association-registry/compare/v8.50.0...v8.50.1) (2024-01-24)
 
 
