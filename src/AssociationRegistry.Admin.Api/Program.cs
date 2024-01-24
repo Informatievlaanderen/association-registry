@@ -14,6 +14,7 @@ using Constants;
 using Destructurama;
 using DuplicateDetection;
 using DuplicateVerenigingDetection;
+using Events;
 using EventStore;
 using FluentValidation;
 using Framework;
@@ -30,6 +31,9 @@ using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
+using Marten;
+using Marten.Events;
+using Marten.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +75,8 @@ using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Wolverine;
+using IEvent = Framework.IEvent;
+using IEventStore = EventStore.IEventStore;
 
 public class Program
 {
@@ -140,6 +146,22 @@ public class Program
             });
 
         ConfigureLifetimeHooks(app);
+
+        using var session = app.Services.GetRequiredService<IDocumentSession>();
+
+        var queryAllRawEvents = session
+                               .Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
+
+        queryAllRawEvents
+           .Select(x => x.VCode)
+           .ToList()
+           .ForEach(key =>
+            {
+                app.Services.GetRequiredService<ILogger<Program>>().LogInformation("Archiving {Stream}", key);
+                session.Events.ArchiveStream(key);
+            });
+
+        session.SaveChanges();
 
         await app.RunOaktonCommands(args);
     }
@@ -546,18 +568,6 @@ public class Program
         builder.Logging
                 //.AddSerilog(logger)
                .AddOpenTelemetry();
-    }
-
-    private static void RunWithLock<T>(IWebHostBuilder webHostBuilder) where T : class
-    {
-        var webHost = webHostBuilder.Build();
-        var services = webHost.Services;
-        var logger = services.GetRequiredService<ILogger<T>>();
-
-        DistributedLock<T>.Run(
-            runFunc: () => webHost.Run(),
-            DistributedLockOptions.Defaults,
-            logger);
     }
 
     private static void ConfigereKestrel(WebApplicationBuilder builder)
