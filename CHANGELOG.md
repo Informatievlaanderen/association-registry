@@ -1,3 +1,11 @@
+# [8.49.0](https://github.com/informatievlaanderen/association-registry/compare/v8.48.0...v8.49.0) (2024-01-24)
+
+
+### Features
+
+* or-1349 add rebuild all publiek projections ([39c9eb2](https://github.com/informatievlaanderen/association-registry/commit/39c9eb232274cd621773105a48b18e35024e5568))
+* or-1349 restart elastic deamon after rebuild ([9029fbe](https://github.com/informatievlaanderen/association-registry/commit/9029fbedd46b0be26428f1ce2bf4e2a83ac9dd11))
+
 # [8.48.0](https://github.com/informatievlaanderen/association-registry/compare/v8.47.0...v8.48.0) (2024-01-24)
 
 
