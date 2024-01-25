@@ -20,7 +20,6 @@ using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
-using Wolverine;
 using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
@@ -94,16 +93,23 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IMessageBus>(),
-                            new DuplicateDetectionProjectionHandler(
-                                serviceProvider.GetRequiredService<IElasticRepository>()),
+                        new BeheerZoekenEventsConsumer(
                             new BeheerZoekProjectionHandler(
                                 serviceProvider.GetRequiredService<IElasticRepository>())
                         )
                     ),
                     ProjectionLifecycle.Async,
                     ProjectionNames.VerenigingZoeken);
+
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new DuplicateDetectionEventsConsumer(
+                            new DuplicateDetectionProjectionHandler(
+                                serviceProvider.GetRequiredService<IElasticRepository>())
+                        )
+                    ),
+                    ProjectionLifecycle.Async,
+                    ProjectionNames.DuplicateDetection);
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
