@@ -34,9 +34,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdGestopt):
                 case nameof(VerenigingWerdVerwijderd):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
-
                     break;
-
             }
         }
     }
