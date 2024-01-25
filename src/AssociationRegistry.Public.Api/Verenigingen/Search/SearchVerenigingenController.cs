@@ -262,7 +262,9 @@ public class SearchVerenigingenController : ApiController
         return aggregationContainerDescriptor.Terms(
             WellknownFacets.HoofdactiviteitenCountAggregateName,
             selector: valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(h => h.Code))
+                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
+                                                                   h => h.Code).Suffix("keyword")
+                                                         )
                                                         .Size(size: 20)
         );
     }

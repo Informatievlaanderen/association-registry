@@ -7,13 +7,12 @@ public static class VerenigingZoekDocumentMapping
     public const string PubliekZoekenNormalizer = "publiek_zoeken_normalizer";
     public const string PubliekZoekenAnalyzer = "publiek_zoeken_analyzer";
 
-
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.VCode)
+                                                   .Name(document => document.VCode)
                                                    .Normalizer(PubliekZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
@@ -104,7 +103,7 @@ public static class VerenigingZoekDocumentMapping
                                         .WithKeyword(PubliekZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Postcode)
+                                        .Name(document => document.Postcode)
                                         .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
@@ -117,10 +116,11 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
             => map
-              .Keyword(
+              .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Code)
-                                          .WithKeyword(PubliekZoekenNormalizer))
+                                          .Name(document => document.Code)
+                                          .WithKeyword()
+                                          .Analyzer(PubliekZoekenAnalyzer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Naam)
@@ -134,7 +134,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Code)
+                                          .Name(document => document.Code)
                                           .Normalizer(PubliekZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
@@ -165,7 +165,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Bron)
+                                          .Name(document => document.Bron)
                                           .Normalizer(PubliekZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
