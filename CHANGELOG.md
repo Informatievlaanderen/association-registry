@@ -1,3 +1,10 @@
+# [8.51.0](https://github.com/informatievlaanderen/association-registry/compare/v8.50.2...v8.51.0) (2024-01-25)
+
+
+### Features
+
+* or-1976 normalize facets ([f966ce8](https://github.com/informatievlaanderen/association-registry/commit/f966ce8be9d1a85d468f466bddc29049a8341df6))
+
 ## [8.50.2](https://github.com/informatievlaanderen/association-registry/compare/v8.50.1...v8.50.2) (2024-01-24)
 
 
