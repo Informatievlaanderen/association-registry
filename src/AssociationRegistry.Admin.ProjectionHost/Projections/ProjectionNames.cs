@@ -3,4 +3,5 @@
 public class ProjectionNames
 {
     public const string VerenigingZoeken = "BeheerVerenigingZoekenDocument";
+    public const string DuplicateDetection = "DuplicateDetection";
 }
