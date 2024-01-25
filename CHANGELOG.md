@@ -1,3 +1,10 @@
+# [8.52.0](https://github.com/informatievlaanderen/association-registry/compare/v8.51.0...v8.52.0) (2024-01-25)
+
+
+### Features
+
+* or-1349 split duplicate detection ([#616](https://github.com/informatievlaanderen/association-registry/issues/616)) ([8595bb8](https://github.com/informatievlaanderen/association-registry/commit/8595bb8a07ecdfa6773b8642c5e41a6e3d0d8377))
+
 # [8.51.0](https://github.com/informatievlaanderen/association-registry/compare/v8.50.2...v8.51.0) (2024-01-25)
 
 
