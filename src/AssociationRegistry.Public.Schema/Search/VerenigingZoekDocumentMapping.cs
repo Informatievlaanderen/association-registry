@@ -119,7 +119,8 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Code))
+                      .Name(document => document.Code)
+                                          .WithKeyword(PubliekZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Naam)

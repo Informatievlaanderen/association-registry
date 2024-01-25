@@ -60,7 +60,7 @@ public class V019_Vereniging19ForSearchScenario : IScenario
         },
         new Registratiedata.HoofdactiviteitVerenigingsloket[]
         {
-            new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
+            new(Code: "HAHA", Naam: "Hilarische Afkortingen Hebben Afgedaan"),
         });
 
     public VCode VCode
