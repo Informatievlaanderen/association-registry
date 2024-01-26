@@ -278,6 +278,9 @@ public class AdminApiClient : IDisposable
     public async Task<HttpResponseMessage> RebuildAdminZoekenProjection(CancellationToken cancellationToken)
         => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/search/rebuild", content: null, cancellationToken);
 
+    public async Task<HttpResponseMessage> RebuildAdminDuplicateDetectionProjection(CancellationToken cancellationToken)
+        => await HttpClient.PostAsync(requestUri: "/v1/projections/admin/duplicatedetection/rebuild", content: null, cancellationToken);
+
     public async Task<HttpResponseMessage> RebuildPubliekDetailProjection(CancellationToken cancellationToken)
         => await HttpClient.PostAsync(requestUri: "/v1/projections/public/detail/rebuild", content: null, cancellationToken);
 
