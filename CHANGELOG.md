@@ -1,3 +1,10 @@
+# [8.53.0](https://github.com/informatievlaanderen/association-registry/compare/v8.52.0...v8.53.0) (2024-01-26)
+
+
+### Features
+
+* or-2073 rework facets to work with mapping ([302ab98](https://github.com/informatievlaanderen/association-registry/commit/302ab98dbe54c998ccb4bd853b9a69d38bfa6649))
+
 # [8.52.0](https://github.com/informatievlaanderen/association-registry/compare/v8.51.0...v8.52.0) (2024-01-25)
 
 
