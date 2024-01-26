@@ -9,7 +9,6 @@ using NodaTime;
 using Projections;
 using Projections.Detail;
 using Projections.Historiek;
-using System.Diagnostics;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -25,7 +24,6 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
@@ -44,7 +42,21 @@ public static class ProjectionEndpointsExtensions
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, shardTimeout);
+                    await RebuildElasticProjections(projectionDaemon, elasticClient, options.Indices.Verenigingen,
+                                                    ProjectionNames.VerenigingZoeken,
+                                                    createIndexCallbackAsync: async newIndex
+                                                        => await elasticClient.Indices.CreateVerenigingIndexAsync(newIndex), shardTimeout);
+                });
+
+                StartRebuild(logger, projectionName: "DuplicateDetection", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
+                    await RebuildElasticProjections(projectionDaemon, elasticClient, options.Indices.DuplicateDetection,
+                                                    ProjectionNames.DuplicateDetection,
+                                                    createIndexCallbackAsync: async newIndex
+                                                        => await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(newIndex),
+                                                    shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -87,7 +99,39 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await RebuildElasticProjections(projectionDaemon, elasticClient, options, shardTimeout);
+
+                    await RebuildElasticProjections(
+                        projectionDaemon,
+                        elasticClient,
+                        options.Indices.Verenigingen,
+                        ProjectionNames.VerenigingZoeken,
+                        createIndexCallbackAsync: async newIndex => await elasticClient.Indices.CreateVerenigingIndexAsync(newIndex),
+                        shardTimeout);
+                });
+
+                return Results.Accepted();
+            });
+
+        app.MapPost(
+            pattern: "v1/projections/duplicatedetection/rebuild",
+            handler: async (
+                IDocumentStore store,
+                IElasticClient elasticClient,
+                ElasticSearchOptionsSection options,
+                ILogger<Program> logger) =>
+            {
+                StartRebuild(logger, projectionName: "DuplicateDetection", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
+                    await RebuildElasticProjections(
+                        projectionDaemon,
+                        elasticClient,
+                        options.Indices.DuplicateDetection,
+                        ProjectionNames.DuplicateDetection,
+                        createIndexCallbackAsync: async newIndex
+                            => await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(newIndex),
+                        shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -135,29 +179,27 @@ public static class ProjectionEndpointsExtensions
     private static async Task RebuildElasticProjections(
         IProjectionDaemon projectionDaemon,
         IElasticClient elasticClient,
-        ElasticSearchOptionsSection options,
+        string indexName,
+        string projectionName,
+        Func<IndexName, Task> createIndexCallbackAsync,
         TimeSpan shardTimeout)
     {
-        await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
-        var oldVerenigingenIndices = await elasticClient.GetIndicesPointingToAliasAsync(options.Indices.Verenigingen);
-        var newIndicesVerenigingen = options.Indices.Verenigingen + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
-        await elasticClient.Indices.CreateVerenigingIndexAsync(newIndicesVerenigingen).ThrowIfInvalidAsync();
+        await projectionDaemon.StopShard($"{projectionName}:All");
 
-        await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None).ThrowIfInvalidAsync();
-        await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection).ThrowIfInvalidAsync();
-        await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
+        var oldIndices = await elasticClient.GetIndicesPointingToAliasAsync(indexName);
+        var newIndices = indexName + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
+        await createIndexCallbackAsync(newIndices);
+        await projectionDaemon.RebuildProjection(projectionName, shardTimeout, CancellationToken.None);
+        await elasticClient.Indices.PutAliasAsync(newIndices, indexName, ct: CancellationToken.None);
 
-        await elasticClient.Indices.PutAliasAsync(newIndicesVerenigingen, options.Indices.Verenigingen, ct: CancellationToken.None);
-
-        foreach (var indeces in oldVerenigingenIndices)
+        foreach (var index in oldIndices)
         {
-            await elasticClient.Indices.DeleteAsync(indeces, ct: CancellationToken.None).ThrowIfInvalidAsync();
+            await elasticClient.Indices.DeleteAsync(index, ct: CancellationToken.None).ThrowIfInvalidAsync();
         }
 
         await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
 
-        await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
-
-        await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
+        await projectionDaemon.StopShard($"{projectionName}:All");
+        await projectionDaemon.StartShard($"{projectionName}:All", CancellationToken.None);
     }
 }
