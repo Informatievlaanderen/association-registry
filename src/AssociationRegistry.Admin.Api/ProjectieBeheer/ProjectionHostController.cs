@@ -65,6 +65,14 @@ public class ProjectionHostController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("admin/duplicatedetection/rebuild")]
+    public async Task<IActionResult> RebuildAdminDuplicateDetectionProjectionZoeken(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildDuplicateDetectionProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpGet("admin/status")]
     public async Task<IActionResult> GetAdminProjectionStatus(CancellationToken cancellationToken)
     {
