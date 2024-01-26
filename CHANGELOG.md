@@ -1,3 +1,11 @@
+## [8.53.1](https://github.com/informatievlaanderen/association-registry/compare/v8.53.0...v8.53.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* add forward endpoint for duplicate detection ([7f32452](https://github.com/informatievlaanderen/association-registry/commit/7f32452f9a86e119145debea71077658538ad549))
+* or-1349 add duplicate detection rebuild capability ([e807b58](https://github.com/informatievlaanderen/association-registry/commit/e807b5820284aff3758733728c9a1a2448cfa4b0))
+
 # [8.53.0](https://github.com/informatievlaanderen/association-registry/compare/v8.52.0...v8.53.0) (2024-01-26)
 
 
