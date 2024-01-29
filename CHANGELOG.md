@@ -1,3 +1,10 @@
+## [8.53.3](https://github.com/informatievlaanderen/association-registry/compare/v8.53.2...v8.53.3) (2024-01-29)
+
+
+### Bug Fixes
+
+* add custom headers to activity for logging ([3a22c63](https://github.com/informatievlaanderen/association-registry/commit/3a22c63e1cc35dd7b1a486776bd37df872cae6c3))
+
 ## [8.53.2](https://github.com/informatievlaanderen/association-registry/compare/v8.53.1...v8.53.2) (2024-01-29)
 
 
