@@ -14,6 +14,8 @@ using System.Reflection;
 public static class ServiceCollectionExtensions
 {
     private const string VrInitiatorHeaderName = "VR-Initiator";
+    private const string XCorrelationIdHeaderName = "X-Correlation-Id";
+    private const string BevestigingsTokenHeaderName = "VR-BevestigingsToken";
 
     public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
     {
@@ -121,6 +123,8 @@ public static class ServiceCollectionExtensions
                                 (activity, request) =>
                                 {
                                     activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
+                                    activity.SetCustomProperty(XCorrelationIdHeaderName, request.Headers[XCorrelationIdHeaderName]);
+                                    activity.SetCustomProperty(BevestigingsTokenHeaderName, request.Headers[BevestigingsTokenHeaderName]);
                                     activity.SetParentId(request.Headers["traceparent"]);
                                 };
 
