@@ -1,3 +1,10 @@
+## [8.53.2](https://github.com/informatievlaanderen/association-registry/compare/v8.53.1...v8.53.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* add custom header names ([3483dea](https://github.com/informatievlaanderen/association-registry/commit/3483dea123afdb4b70655cea6e0154a6f238ac82))
+
 ## [8.53.1](https://github.com/informatievlaanderen/association-registry/compare/v8.53.0...v8.53.1) (2024-01-26)
 
 
