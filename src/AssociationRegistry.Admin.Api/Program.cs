@@ -300,7 +300,7 @@ public class Program
                 })
            .UseMiddleware<UnexpectedAggregateVersionMiddleware>()
            .UseMiddleware<InitiatorHeaderMiddleware>()
-           .UseMiddleware<InitiatorActivityMiddleware>()
+           .UseMiddleware<CustomHeadersActivityMiddleware>()
            .UseResponseCompression();
     }
 
