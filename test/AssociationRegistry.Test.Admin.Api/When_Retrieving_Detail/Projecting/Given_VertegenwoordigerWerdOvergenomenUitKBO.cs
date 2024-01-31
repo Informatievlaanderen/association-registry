@@ -30,7 +30,7 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
         vertegenwoordiger.Should().BeEquivalentTo(
             new Vertegenwoordiger
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(doc.VCode, vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
                     Type = JsonLdType.Vertegenwoordiger.Type,
@@ -46,9 +46,9 @@ public class Given_VertegenwoordigerWerdOvergenomenUitKBO
                 Telefoon = "",
                 Mobiel = "",
                 SocialMedia = "",
-                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                 {
-                    JsonLdMetadata = new JsonLdMetadata()
+                    JsonLdMetadata = new JsonLdMetadata
                     {
                         Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
                             doc.VCode, vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),

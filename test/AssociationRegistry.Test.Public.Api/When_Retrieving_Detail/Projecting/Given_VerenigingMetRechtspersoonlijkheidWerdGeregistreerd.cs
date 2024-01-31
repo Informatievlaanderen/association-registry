@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using JsonLdContext;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;
@@ -66,7 +66,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
                             JsonLdType.Sleutel.Type),
-                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator()
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata(
                                 JsonLdType.GestructureerdeSleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),

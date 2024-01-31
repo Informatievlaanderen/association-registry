@@ -11,8 +11,12 @@ using Schema;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
+using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
 using IEvent = Marten.Events.IEvent;
+using Locatie = Schema.Detail.Locatie;
+using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -85,10 +89,10 @@ public class BeheerVerenigingDetailProjector
                                                                                         .ToBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = Array.Empty<Schema.Detail.Contactgegeven>(),
-            Locaties = Array.Empty<Schema.Detail.Locatie>(),
-            Vertegenwoordigers = Array.Empty<Schema.Detail.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<Schema.Detail.HoofdactiviteitVerenigingsloket>(),
+            Contactgegevens = Array.Empty<Contactgegeven>(),
+            Locaties = Array.Empty<Locatie>(),
+            Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
             Sleutels = new[]
             {
                 BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
@@ -136,7 +140,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.Append(
-                                                new Schema.Detail.Contactgegeven
+                                                new Contactgegeven
                                                 {
                                                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                         JsonLdType.Contactgegeven, document.VCode,
@@ -182,7 +186,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
            .Select(
-                h => new Schema.Detail.HoofdactiviteitVerenigingsloket
+                h => new HoofdactiviteitVerenigingsloket
                 {
                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, document.VCode, h.Code),
                     Code = h.Code,
@@ -195,7 +199,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
-                                                   new Schema.Detail.Vertegenwoordiger
+                                                   new Vertegenwoordiger
                                                    {
                                                        JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                            JsonLdType.Vertegenwoordiger, document.VCode,
@@ -213,7 +217,7 @@ public class BeheerVerenigingDetailProjector
                                                        SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
                                                        Bron = vertegenwoordigerWerdToegevoegd.Data.Bron,
 
-                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                                                        {
                                                            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                                JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
@@ -351,7 +355,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.Append(
-                                                new Schema.Detail.Contactgegeven
+                                                new Contactgegeven
                                                 {
                                                     JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                         JsonLdType.Contactgegeven, document.VCode,
@@ -398,7 +402,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
-                                                   new Schema.Detail.Vertegenwoordiger
+                                                   new Vertegenwoordiger
                                                    {
                                                        JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                            JsonLdType.Vertegenwoordiger, document.VCode,
@@ -416,7 +420,7 @@ public class BeheerVerenigingDetailProjector
                                                        Mobiel = string.Empty,
                                                        SocialMedia = string.Empty,
                                                        Bron = vertegenwoordigerWerdOvergenomenUitKbo.Data.Bron,
-                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                                                        {
                                                            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
                                                                JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
@@ -427,7 +431,6 @@ public class BeheerVerenigingDetailProjector
                                                            Mobiel = string.Empty,
                                                            SocialMedia = string.Empty,
                                                        },
-
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();

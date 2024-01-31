@@ -12,7 +12,6 @@ using Doelgroep = Schema.Search.Doelgroep;
 public class BeheerZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
-
     public BeheerZoekProjectionHandler(IElasticRepository elasticRepository)
     {
         _elasticRepository = elasticRepository;
@@ -56,7 +55,7 @@ public class BeheerZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Vereniging.CreateWithIdValues(message.Data.VCode),
                     Type = JsonLdType.Vereniging.Type,
@@ -85,7 +84,7 @@ public class BeheerZoekProjectionHandler
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.Kbo.Waarde),
                         Bron = Sleutelbron.Kbo,
                         Waarde = message.Data.KboNummer,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator()
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.Kbo.Waarde),
                             Nummer = message.Data.KboNummer,

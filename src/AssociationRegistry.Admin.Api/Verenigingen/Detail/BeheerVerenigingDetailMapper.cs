@@ -6,7 +6,14 @@ using Schema.Detail;
 using System.Linq;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
+using Contactgegeven = ResponseModels.Contactgegeven;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = ResponseModels.Locatie;
+using Relatie = ResponseModels.Relatie;
+using Sleutel = ResponseModels.Sleutel;
+using VerenigingsType = ResponseModels.VerenigingsType;
+using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
 
 public class BeheerVerenigingDetailMapper
@@ -63,7 +70,7 @@ public class BeheerVerenigingDetailMapper
         };
     }
 
-    private static ResponseModels.Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)
+    private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)
         => new()
         {
             Relatietype = relatie.Relatietype,
@@ -83,21 +90,21 @@ public class BeheerVerenigingDetailMapper
                 : string.Empty,
         };
 
-    private static ResponseModels.VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType)
+    private static VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType)
         => new()
         {
             Code = verenigingsType.Code,
             Naam = verenigingsType.Naam,
         };
 
-    private static ResponseModels.Sleutel Map(Schema.Detail.Sleutel sleutel)
+    private static Sleutel Map(Schema.Detail.Sleutel sleutel)
         => new()
         {
             id = sleutel.JsonLdMetadata.Id,
             type = sleutel.JsonLdMetadata.Type,
             Bron = sleutel.Bron,
             Waarde = sleutel.Waarde,
-            GestructureerdeIdentificator = new GestructureerdeIdentificator()
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
                 id = sleutel.GestructureerdeIdentificator.JsonLdMetadata.Id,
                 type = sleutel.GestructureerdeIdentificator.JsonLdMetadata.Type,
@@ -105,7 +112,7 @@ public class BeheerVerenigingDetailMapper
             },
         };
 
-    private static ResponseModels.Contactgegeven Map(Schema.Detail.Contactgegeven contactgegeven)
+    private static Contactgegeven Map(Schema.Detail.Contactgegeven contactgegeven)
         => new()
         {
             id = contactgegeven.JsonLdMetadata.Id,
@@ -118,7 +125,7 @@ public class BeheerVerenigingDetailMapper
             Bron = contactgegeven.Bron,
         };
 
-    private static ResponseModels.HoofdactiviteitVerenigingsloket Map(
+    private static HoofdactiviteitVerenigingsloket Map(
         Schema.Detail.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new()
         {
@@ -128,7 +135,7 @@ public class BeheerVerenigingDetailMapper
             Naam = hoofdactiviteitVerenigingsloket.Naam,
         };
 
-    private static ResponseModels.Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
+    private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
         => new()
         {
             id = ver.JsonLdMetadata.Id,
@@ -160,7 +167,7 @@ public class BeheerVerenigingDetailMapper
             SocialMedia = vc.SocialMedia,
         };
 
-    private static ResponseModels.Locatie Map(Schema.Detail.Locatie loc)
+    private static Locatie Map(Schema.Detail.Locatie loc)
         => new()
         {
             id = loc.JsonLdMetadata.Id,

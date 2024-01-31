@@ -33,7 +33,7 @@ public class Given_LocatieWerdToegevoegd
 
         locatie.Should().BeEquivalentTo(new Locatie
         {
-            JsonLdMetadata = new JsonLdMetadata()
+            JsonLdMetadata = new JsonLdMetadata
             {
                 Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode,  locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
                 Type = JsonLdType.Locatie.Type,
@@ -46,7 +46,7 @@ public class Given_LocatieWerdToegevoegd
                 ? null
                 : new Adres
                 {
-                    JsonLdMetadata = new JsonLdMetadata()
+                    JsonLdMetadata = new JsonLdMetadata
                     {
                         Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
                         Type = JsonLdType.Adres.Type,

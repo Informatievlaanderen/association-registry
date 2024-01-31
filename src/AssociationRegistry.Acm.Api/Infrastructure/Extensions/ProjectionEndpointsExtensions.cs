@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using Api;
 using Configuration;
 using Marten;
 using Microsoft.AspNetCore.Builder;

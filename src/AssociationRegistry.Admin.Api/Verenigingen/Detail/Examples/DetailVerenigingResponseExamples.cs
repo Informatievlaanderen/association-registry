@@ -125,7 +125,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Mobiel = "0000112233",
                             Telefoon = "0001112233",
                             SocialMedia = "http://example.org",
-                            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                             {
                                 id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues("V0001001", "1"),
                                 type = JsonLdType.VertegenwoordigerContactgegeven.Type,
@@ -273,7 +273,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.Kbo.Waarde,
-                            GestructureerdeIdentificator = new GestructureerdeIdentificator()
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
                                 id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.Kbo.Waarde),
                                 type = JsonLdType.GestructureerdeSleutel.Type,

@@ -29,7 +29,7 @@ public class BeheerVerenigingDetailMapper
     //         AdresId = MapAdresId(loc.AdresId),
     //     };
 
-    public static Schema.Detail.Locatie MapLocatie(Registratiedata.Locatie loc, string bron, string vCode)
+    public static Locatie MapLocatie(Registratiedata.Locatie loc, string bron, string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, loc.LocatieId.ToString()),
@@ -93,7 +93,7 @@ public class BeheerVerenigingDetailMapper
             Telefoon = v.Telefoon,
             Mobiel = v.Mobiel,
             SocialMedia = v.SocialMedia,
-            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.VertegenwoordigerContactgegeven, vCode, v.VertegenwoordigerId.ToString()),
                 Email = v.Email,
@@ -115,7 +115,7 @@ public class BeheerVerenigingDetailMapper
             Naam = h.Naam,
         };
 
-    public static Schema.Detail.VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
+    public static VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
         => new()
         {
             Code = verenigingstype.Code,
@@ -128,7 +128,7 @@ public class BeheerVerenigingDetailMapper
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.Kbo.Waarde),
             Bron = Sleutelbron.Kbo.Waarde,
             Waarde = kboNummer,
-            GestructureerdeIdentificator = new GestructureerdeIdentificator()
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.Kbo.Waarde), Nummer = kboNummer,
             },

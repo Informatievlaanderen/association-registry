@@ -170,7 +170,7 @@ public class SearchVerenigingenResponseMapper
             Bron = s.Bron,
             Waarde = s.Waarde,
             GestructureerdeIdentificator =
-                new GestructureerdeIdentificator()
+                new GestructureerdeIdentificator
                 {
                     id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
                     type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,

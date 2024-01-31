@@ -84,7 +84,7 @@ public class PubliekZoekProjectionHandler
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.Kbo),
                         Bron = Sleutelbron.Kbo,
                         Waarde = message.Data.KboNummer,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator()
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.Data.VCode, Sleutelbron.Kbo),
                             Nummer = message.Data.KboNummer,

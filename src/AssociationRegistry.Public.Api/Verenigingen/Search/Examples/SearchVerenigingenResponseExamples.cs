@@ -127,7 +127,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.Kbo.Waarde,
-                            GestructureerdeIdentificator = new GestructureerdeIdentificator()
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
                                 id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0036651", Sleutelbron.Kbo.Waarde),
                                 type = JsonLdType.GestructureerdeSleutel.Type,

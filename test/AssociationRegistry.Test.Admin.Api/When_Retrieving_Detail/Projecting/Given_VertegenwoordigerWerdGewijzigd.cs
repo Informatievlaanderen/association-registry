@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
-using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -53,7 +51,7 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
-                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                 {
                     JsonLdMetadata = vert.VertegenwoordigerContactgegevens.JsonLdMetadata,
                     IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,

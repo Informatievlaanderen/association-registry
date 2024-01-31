@@ -27,7 +27,7 @@ public class Given_ContactgegevenWerdToegevoegd
         doc.Contactgegevens.Should().ContainEquivalentOf(
             new Contactgegeven
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
                     Type = JsonLdType.Contactgegeven.Type,

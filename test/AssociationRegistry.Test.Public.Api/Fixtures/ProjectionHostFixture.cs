@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Public.Api.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
@@ -19,7 +18,6 @@ using System.Reflection;
 using Xunit;
 using Xunit.Sdk;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
-using PublicApiProgram = AssociationRegistry.Public.Api.Program;
 
 public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 {

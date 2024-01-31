@@ -4,7 +4,6 @@ using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
-using Be.Vlaanderen.Basisregisters.Utilities;
 using Events;
 using FluentAssertions;
 using Framework;
@@ -39,7 +38,7 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
         doc.Contactgegevens.Should().ContainEquivalentOf(
             new Contactgegeven
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
                     Type = JsonLdType.Contactgegeven.Type,

@@ -30,7 +30,7 @@ public class Given_VertegenwoordigerWerdToegevoegd
         vertegenwoordiger.Should().BeEquivalentTo(
             new Vertegenwoordiger
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
                         doc.VCode, vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),
@@ -47,9 +47,9 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
-                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                 {
-                    JsonLdMetadata = new JsonLdMetadata()
+                    JsonLdMetadata = new JsonLdMetadata
                     {
                         Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
                             doc.VCode, vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),

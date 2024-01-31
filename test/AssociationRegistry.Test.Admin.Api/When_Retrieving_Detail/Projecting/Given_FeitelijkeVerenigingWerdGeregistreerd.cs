@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
-using Be.Vlaanderen.Basisregisters.Utilities;
 using Events;
 using FluentAssertions;
 using Formatters;
@@ -19,7 +18,11 @@ using Xunit;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Schema.Detail.Adres;
 using AdresId = AssociationRegistry.Admin.Schema.Detail.AdresId;
+using Contactgegeven = AssociationRegistry.Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
+using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -35,7 +38,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Vereniging.CreateWithIdValues(doc.VCode),
                     Type = JsonLdType.Vereniging.Type,
@@ -58,9 +61,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
-                    c => new AssociationRegistry.Admin.Schema.Detail.Contactgegeven
+                    c => new Contactgegeven
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, c.ContactgegevenId.ToString()),
                             Type = JsonLdType.Contactgegeven.Type,
@@ -73,9 +76,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
-                    loc => new AssociationRegistry.Admin.Schema.Detail.Locatie
+                    loc => new Locatie
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode, loc.LocatieId.ToString()),
                             Type = JsonLdType.Locatie.Type,
@@ -88,7 +91,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             ? null
                             : new Adres
                             {
-                                JsonLdMetadata = new JsonLdMetadata()
+                                JsonLdMetadata = new JsonLdMetadata
                                 {
                                     Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, loc.LocatieId.ToString()),
                                     Type = JsonLdType.Adres.Type,
@@ -111,9 +114,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                    v => new AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger
+                    v => new Vertegenwoordiger
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(doc.VCode, v.VertegenwoordigerId.ToString()),
                             Type = JsonLdType.Vertegenwoordiger.Type,
@@ -130,9 +133,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Mobiel = v.Mobiel,
                         SocialMedia = v.SocialMedia,
                         Bron = Bron.Initiator,
-                        VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens()
+                        VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
                         {
-                            JsonLdMetadata = new JsonLdMetadata()
+                            JsonLdMetadata = new JsonLdMetadata
                             {
                                 Id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
                                     doc.VCode, v.VertegenwoordigerId.ToString()),
@@ -146,9 +149,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         },
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                    h => new AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket
+                    h => new HoofdactiviteitVerenigingsloket
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(doc.VCode, h.Code),
                             Type = JsonLdType.Hoofdactiviteit.Type,

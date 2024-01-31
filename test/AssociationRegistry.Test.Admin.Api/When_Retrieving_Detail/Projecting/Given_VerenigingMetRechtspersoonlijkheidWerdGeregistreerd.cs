@@ -15,7 +15,11 @@ using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
+using Contactgegeven = AssociationRegistry.Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
+using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -42,7 +46,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Vereniging.CreateWithIdValues(doc.VCode),
                     Type = JsonLdType.Vereniging.Type,
@@ -66,24 +70,24 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
-                Contactgegevens = Array.Empty<AssociationRegistry.Admin.Schema.Detail.Contactgegeven>(),
-                Locaties = Array.Empty<AssociationRegistry.Admin.Schema.Detail.Locatie>(),
-                Vertegenwoordigers = Array.Empty<AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger>(),
-                HoofdactiviteitenVerenigingsloket = Array.Empty<AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket>(),
+                Contactgegevens = Array.Empty<Contactgegeven>(),
+                Locaties = Array.Empty<Locatie>(),
+                Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
                 Sleutels = new Sleutel[]
                 {
                     new()
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.Sleutel.CreateWithIdValues(doc.VCode, Sleutelbron.Kbo.Waarde),
                             Type = JsonLdType.Sleutel.Type,
                         },
                         Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
-                        GestructureerdeIdentificator = new GestructureerdeIdentificator()
+                        GestructureerdeIdentificator = new GestructureerdeIdentificator
                         {
-                            JsonLdMetadata = new JsonLdMetadata()
+                            JsonLdMetadata = new JsonLdMetadata
                             {
                                 Id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(doc.VCode, Sleutelbron.Kbo.Waarde),
                                 Type = JsonLdType.GestructureerdeSleutel.Type,

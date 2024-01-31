@@ -27,7 +27,7 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
         doc.Contactgegevens.Should().ContainEquivalentOf(
             new Contactgegeven
             {
-                JsonLdMetadata = new JsonLdMetadata()
+                JsonLdMetadata = new JsonLdMetadata
                 {
                     Id = JsonLdType.Contactgegeven.CreateWithIdValues(
                         doc.VCode, contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
