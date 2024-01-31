@@ -22,7 +22,7 @@ public class Given_ContactgegevenWerdGewijzigd
 
         doc.Contactgegevens = new[]
         {
-            new BeheerVerenigingDetailDocument.Contactgegeven
+            new Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                 Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,
@@ -37,7 +37,7 @@ public class Given_ContactgegevenWerdGewijzigd
         doc.Contactgegevens.Should().BeEquivalentTo(
             new[]
             {
-                new BeheerVerenigingDetailDocument.Contactgegeven
+                new Contactgegeven
                 {
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                     Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,

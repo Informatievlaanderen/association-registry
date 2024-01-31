@@ -7,6 +7,8 @@ public class JsonLdType
 {
     public static readonly JsonLdType Vereniging = new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
     public static readonly JsonLdType Hoofdactiviteit = new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept");
+    public static readonly JsonLdType Vertegenwoordiger = new(JsonLdContext.GuidNamespace.Vertegenwoordiger, type: "person:Person", prefix:"person");
+    public static readonly JsonLdType VertegenwoordigerContactgegeven = new(JsonLdContext.GuidNamespace.VertegenwoordigerContactgegevens, type: "schema:ContactPoint", prefix: "cont");
 
     public static readonly JsonLdType Contactgegeven =
         new(JsonLdContext.GuidNamespace.Contactgegeven, type: "schema:ContactPoint", prefix: "cont");

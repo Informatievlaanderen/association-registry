@@ -18,7 +18,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
         var fixture = new Fixture().CustomizeAdminApi();
         var vertegenwoordigerWerdVerwijderd = fixture.Create<TestEvent<VertegenwoordigerWerdVerwijderd>>();
 
-        var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>() with
+        var vertegenwoordiger = fixture.Create<Vertegenwoordiger>() with
         {
             VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
         };
@@ -32,7 +32,7 @@ public class Given_VertegenwoordigerWerdVerwijderd
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
         doc.Vertegenwoordigers.Should().NotContain(
-            new BeheerVerenigingDetailDocument.Vertegenwoordiger
+            new Vertegenwoordiger
             {
                 VertegenwoordigerId = vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId,
             });
