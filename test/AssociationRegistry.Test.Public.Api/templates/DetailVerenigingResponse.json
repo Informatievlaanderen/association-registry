@@ -1,6 +1,8 @@
 {
   "@context": "https://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json",
   "vereniging": {
+    "@id": "{{vereniging.jsonldid}}",
+    "@type": "{{vereniging.jsonldtype}}",
     "vCode": "{{vereniging.vcode}}",
     "verenigingstype": {
       "code": "{{vereniging.verenigingstype.code}}",
@@ -22,6 +24,8 @@
     "contactgegevens": [
 {{for contactgegeven in vereniging.contactgegevens}}
       {
+        "@id": "{{contactgegeven.jsonldid}}",
+        "@type": "{{contactgegeven.jsonldtype}}",
         "contactgegeventype": "{{contactgegeven.contactgegeventype}}",
         "waarde": "{{contactgegeven.waarde}}",
         "beschrijving": "{{contactgegeven.beschrijving}}",
@@ -32,6 +36,8 @@
     "hoofdactiviteitenVerenigingsloket": [
 {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
       {
+        "@id": "{{hoofdactiviteit.jsonldid}}",
+        "@type": "{{hoofdactiviteit.jsonldtype}}",
         "code": "{{hoofdactiviteit.code}}",
         "naam": "{{hoofdactiviteit.naam}}"
       },
@@ -44,6 +50,8 @@
     "locaties": [
 {{for locatie in vereniging.locaties}}
       {
+        "@id": "{{locatie.jsonldid}}",
+        "@type": "{{locatie.jsonldtype}}",
         "locatietype": "{{locatie.type}}",
         "isPrimair": {{locatie.isprimair}},
         "adresvoorstelling": "{{locatie.adresvoorstelling}}",
@@ -51,6 +59,8 @@
         "adres":
 {{if locatie.adres}}
         {
+          "@id": "{{locatie.adres.jsonldid}}",
+          "@type": "{{locatie.adres.jsonldtype}}",
           "straatnaam": "{{locatie.adres.straatnaam}}",
           "huisnummer": "{{locatie.adres.huisnummer}}",
           "busnummer": "{{locatie.adres.busnummer}}",
@@ -76,8 +86,15 @@
     "sleutels": [
 {{for sleutel in vereniging.sleutels}}
       {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}"
+        "waarde": "{{sleutel.waarde}}",
+        "gestructureerdeIdentificator": {
+          "@id": "{{sleutel.identificator.jsonldid}}",
+          "@type": "{{sleutel.identificator.jsonldtype}}",
+          "nummer": "{{sleutel.identificator.nummer}}"
+        }
       },
 {{end}}
     ],

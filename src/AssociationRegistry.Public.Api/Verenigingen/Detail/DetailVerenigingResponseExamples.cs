@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
 using Infrastructure.ConfigurationBindings;
+using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
@@ -21,6 +22,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
+                id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
+                type = JsonLdType.Vereniging.Type,
+
                 VCode = "V0001001",
                 Verenigingstype = new VerenigingsType
                 {
@@ -41,6 +45,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Contactgegeven
                     {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001","1"),
+                        type = JsonLdType.Contactgegeven.Type,
                         Contactgegeventype = "E-mail",
                         Waarde = "info@example.org",
                         Beschrijving = "Info",
@@ -51,12 +57,17 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Locatie
                     {
+                        id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
+                        type = JsonLdType.Locatie.Type,
+
                         Locatietype = "Correspondentie",
                         IsPrimair = true,
                         Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = "de kerk",
                         Adres = new Adres
                         {
+                            id = JsonLdType.Adres.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Adres.Type,
                             Straatnaam = "kerkstraat",
                             Huisnummer = "5",
                             Busnummer = null,
@@ -70,6 +81,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new HoofdactiviteitVerenigingsloket
                     {
+                        id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
+                        type = JsonLdType.Hoofdactiviteit.Type,
+
                         Code = "CULT",
                         Naam = "Cultuur",
                     },
