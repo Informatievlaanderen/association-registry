@@ -2,7 +2,9 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formatters;
+using JsonLdContext;
 using Schema.Constants;
+using Schema.Detail;
 using Schema.Search;
 using Vereniging;
 using Doelgroep = Schema.Search.Doelgroep;
@@ -20,6 +22,7 @@ public class PubliekZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vereniging, message.Data.VCode),
                 VCode = message.Data.VCode,
                 Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
@@ -32,12 +35,16 @@ public class PubliekZoekProjectionHandler
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Doelgroep = Map(message.Data.Doelgroep),
-                Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
                                                                 hoofdactiviteitVerenigingsloket =>
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Hoofdactiviteit,
+                                                                                hoofdactiviteitVerenigingsloket.Code),
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
@@ -51,6 +58,7 @@ public class PubliekZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vereniging, message.Data.VCode),
                 VCode = message.Data.VCode,
                 Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
@@ -73,8 +81,14 @@ public class PubliekZoekProjectionHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.Kbo),
                         Bron = Sleutelbron.Kbo,
                         Waarde = message.Data.KboNummer,
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator()
+                        {
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.Data.VCode, Sleutelbron.Kbo),
+                            Nummer = message.Data.KboNummer,
+                        },
                     },
                 },
                 Relaties = Array.Empty<Relatie>(),
@@ -143,6 +157,11 @@ public class PubliekZoekProjectionHandler
                                                                 hoofdactiviteitVerenigingsloket =>
                                                                     new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
                                                                     {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Hoofdactiviteit,
+                                                                                hoofdactiviteitVerenigingsloket.Code),
+
                                                                         Code = hoofdactiviteitVerenigingsloket.Code,
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
@@ -174,14 +193,14 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository.AppendLocatie(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
         await _elasticRepository.UpdateLocatie(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
@@ -191,9 +210,11 @@ public class PubliekZoekProjectionHandler
             message.Data.Locatie.LocatieId);
     }
 
-    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie)
+    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
+
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
@@ -214,7 +235,7 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository.AppendLocatie(
             message.VCode,
-            Map(message.Data.Locatie));
+            Map(message.Data.Locatie, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> message)
@@ -240,4 +261,11 @@ public class PubliekZoekProjectionHandler
         await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument
                                                  { IsVerwijderd = true });
     }
+
+    private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
+        => new()
+        {
+            Id = jsonLdType.CreateWithIdValues(values),
+            Type = jsonLdType.Type,
+        };
 }

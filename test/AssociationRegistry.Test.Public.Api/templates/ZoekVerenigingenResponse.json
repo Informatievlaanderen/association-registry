@@ -1,8 +1,10 @@
 {
   "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
   "verenigingen": [
-    {{ for vereniging in verenigingen }}
+    {{for vereniging in verenigingen}}
     {
+      "@id": "{{vereniging.jsonldid}}",
+      "@type": "{{vereniging.jsonldtype}}",
       "vCode": "{{vereniging.vcode}}",
       "verenigingstype": {
         "code": "{{vereniging.verenigingstype.code}}",
@@ -11,40 +13,53 @@
       "naam": "{{vereniging.naam}}",
       "korteNaam": "{{vereniging.kortenaam}}",
       "korteBeschrijving": "{{vereniging.kortebeschrijving}}",
-      {{if vereniging.roepnaam}}"roepnaam":"{{vereniging.roepnaam}}",{{end}}
-      "hoofdactiviteitenVerenigingsloket": [
-        {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+      {{if vereniging.roepnaam}}
+      "roepnaam":"{{vereniging.roepnaam}}",
+      {{end}}
+      "hoofdactiviteitenVerenigingsloket":[
+      {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
         {
+          "@id": "{{hoofdactiviteit.jsonldid}}",
+          "@type": "{{hoofdactiviteit.jsonldtype}}",
           "code": "{{hoofdactiviteit.code}}",
           "naam": "{{hoofdactiviteit.beschrijving}}"
         },
-        {{end}}
+      {{end}}
       ],
-      "doelgroep": {
+      "doelgroep":{
         "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
-        "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+        "maximumleeftijd":{{vereniging.doelgroep.maximumleeftijd}}
       },
-      "locaties": [
+      "locaties":[
       {{for locatie in vereniging.locaties}}
         {
+          "@id": "{{locatie.jsonldid}}",
+          "@type": "{{locatie.jsonldtype}}",
           "locatietype": "{{locatie.type}}",
           "isPrimair": {{locatie.isprimair}},
-          "adresvoorstelling": "{{locatie.adresvoorstelling}}",
-          "naam": "{{locatie.naam}}",
-          "postcode": "{{locatie.postcode}}",
-          "gemeente": "{{locatie.gemeente}}",
+          "adresvoorstelling":"{{locatie.adresvoorstelling}}",
+          "naam":"{{locatie.naam}}",
+          "postcode":"{{locatie.postcode}}",
+          "gemeente":"{{locatie.gemeente}}",
         },
       {{end}}
       ],
-      "sleutels": [
-      {{for sleutel in vereniging.sleutels}}
-      {
-        "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}"
-      },
-      {{end}}
-    ],
-      "relaties": [
+      "sleutels":[
+        {{for sleutel in vereniging.sleutels}}
+        {
+          "@id": "{{sleutel.jsonldid}}",
+          "@type": "{{sleutel.jsonldtype}}",
+          "bron": "{{sleutel.bron}}",
+          "waarde": "{{sleutel.waarde}}",
+          "gestructureerdeIdentificator": {
+            "@id": "{{sleutel.identificator.jsonldid}}",
+            "@type": "{{sleutel.identificator.jsonldtype}}",
+            "nummer": "{{sleutel.identificator.nummer}}"
+          }
+        }
+        {{end}}
+      ],
+      "relaties":[
       {{for relatie in vereniging.relaties}}
         {
           "relatietype": "{{relatie.relatietype}}",
@@ -52,12 +67,16 @@
             "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
             "vCode": "{{relatie.anderevereniging.vcode}}",
             "naam": "{{relatie.anderevereniging.naam}}",
-            "detail": {{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}"https://127.0.0.1:11003/v1/verenigingen/{{relatie.anderevereniging.vcode}}"{{else}}""{{end}},
-          }
-        },
+            "detail": {{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}
+              "https://127.0.0.1:11003/v1/verenigingen/{{relatie.anderevereniging.vcode}}"
+            {{else}}
+              ""
+            {{end}},
+        }
+      },
       {{end}}
       ],
-      "links": {
+      "links":{
         "detail": "https://127.0.0.1:11003/v1/verenigingen/{{vereniging.vcode}}"
       }
     },
@@ -68,8 +87,8 @@
       {{for facet in facets}}
       {
         "code": "{{facet.code}}",
-        "aantal":{{facet.count}},
-        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.hoofdactiviteitenVerenigingsloket={{facet.code}}",
+        "aantal": {{facet.count}},
+        "query":"https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.hoofdactiviteitenVerenigingsloket={{facet.code}}",
       },
       {{end}}
     ]

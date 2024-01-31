@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.templates;
 
 using Events;
 using Formatters;
+using JsonLdContext;
 using Scriban;
 using System.Dynamic;
 using Test.Framework;
@@ -96,7 +97,8 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate WithVCode(string vCode)
         {
             _vereniging.vcode = vCode;
-
+            _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
+            _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
             return this;
         }
 
@@ -143,6 +145,8 @@ public class ZoekVerenigingenResponseTemplate
         {
             _vereniging.hoofdactiviteiten.Add(new
             {
+                jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
+                jsonldtype = JsonLdType.Hoofdactiviteit.Type,
                 code = code,
                 beschrijving = beschrijving,
             });
@@ -152,10 +156,20 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate WithKboNummer(string kboNummer)
+        public VerenigingTemplate WithKboNummer(string kboNummer, string vCode)
         {
             _vereniging.sleutels.Add(new
             {
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                jsonldtype = JsonLdType.Sleutel.Type,
+
+                identificator = new
+                {
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                    jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                    nummer = kboNummer,
+                },
+
                 bron = Sleutelbron.Kbo.Waarde,
                 waarde = kboNummer,
             });
@@ -180,10 +194,14 @@ public class ZoekVerenigingenResponseTemplate
             string? adresVoorstelling,
             string? postcode,
             string? gemeente,
+            string vCode,
+            int locatieId,
             bool isPrimair = false)
         {
             _vereniging.locaties.Add(new
             {
+                jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
+                jsonldtype = JsonLdType.Locatie.Type,
                 type = type,
                 naam = naam,
                 adresvoorstelling = adresVoorstelling ?? string.Empty,
@@ -211,7 +229,7 @@ public class ZoekVerenigingenResponseTemplate
 
             foreach (var l in e.Locaties)
             {
-                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, l.IsPrimair);
+                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, e.VCode, l.LocatieId, l.IsPrimair);
             }
 
             return template;
@@ -225,7 +243,7 @@ public class ZoekVerenigingenResponseTemplate
                           .WithRoepnaam(string.Empty)
                           .WithKorteNaam(e.KorteNaam)
                           .WithKorteBeschrijving(string.Empty)
-                          .WithKboNummer(e.KboNummer);
+                          .WithKboNummer(e.KboNummer, e.VCode);
 
             return template;
         }
