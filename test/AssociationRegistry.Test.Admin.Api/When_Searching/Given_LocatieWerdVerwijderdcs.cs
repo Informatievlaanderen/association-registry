@@ -47,8 +47,12 @@ public class Given_LocatieWerdVerwijderd
                                     .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
                                     .WithKorteNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteNaam)
                                     .WithLocatie(l2.Locatietype, l2.Naam, l2.Adres.ToAdresString(), l2.Adres?.Postcode, l2.Adres?.Gemeente,
+                                                 _scenario.VCode,
+                                                 l2.LocatieId,
                                                  l2.IsPrimair)
                                     .WithLocatie(l3.Locatietype, l3.Naam, l3.Adres.ToAdresString(), l3.Adres?.Postcode, l3.Adres?.Gemeente,
+                                                 _scenario.VCode,
+                                                 l3.LocatieId,
                                                  l3.IsPrimair)
                                     .WithHoofdactiviteit(
                                          _scenario.FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket[0].Code,
