@@ -85,7 +85,12 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
-                            Locatietype = "Correspondentie",
+                            Locatietype = new LocatieType()
+                            {
+                                id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
+                                type = JsonLdType.LocatieType.Type,
+                                Naam = Locatietype.Correspondentie.Waarde,
+                            },
                             IsPrimair = true,
                             Adresvoorstelling = "Kerkstraat 5, 1770 Liedekerke, Belgie",
                             Naam = "Administratief centrum",
@@ -219,7 +224,12 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
-                            Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                            Locatietype = new LocatieType()
+                            {
+                                id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde),
+                                type = JsonLdType.LocatieType.Type,
+                                Naam = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                            },
                             IsPrimair = true,
                             Adresvoorstelling = "Zeebank 10, 8400 Oostende, Belgie",
                             Naam = "",
@@ -241,7 +251,12 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "2"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 2,
-                            Locatietype = Locatietype.Activiteiten.Waarde,
+                            Locatietype = new LocatieType()
+                            {
+                                id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Activiteiten.Waarde),
+                                type = JsonLdType.LocatieType.Type,
+                                Naam = Locatietype.Activiteiten.Waarde,
+                            },
                             IsPrimair = false,
                             Adresvoorstelling = "De pier 1, 8430 Westende",
                             Naam = "Vis plaats",

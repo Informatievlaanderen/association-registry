@@ -290,7 +290,8 @@ public class BeheerVerenigingDetailProjector
     {
         document.Locaties = document.Locaties
                                     .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie,
-                                                                                    locatieWerdToegevoegd.Data.Bron, document.VCode))
+                                                                                    locatieWerdToegevoegd.Data.Bron,
+                                                                                    document.VCode))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
@@ -303,12 +304,13 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
-                                             Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
+                                             Locatietype = BeheerVerenigingDetailMapper.MapLocatieType(l.Locatietype.Naam),
                                              Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  locatieWerdGewijzigd.Data.Locatie.Adres, document.VCode, l.LocatieId),
                                              Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
-                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(
+                                                 locatieWerdGewijzigd.Data.Locatie.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();

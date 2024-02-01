@@ -4,7 +4,7 @@ public record Locatie : IHasBron
 {
     public JsonLdMetadata JsonLdMetadata { get; set; }
     public int LocatieId { get; set; }
-    public string Locatietype { get; set; } = null!;
+    public LocatieType Locatietype { get; set; } = null!;
     public bool IsPrimair { get; set; }
     public string Adresvoorstelling { get; init; } = null!;
     public Adres? Adres { get; set; }

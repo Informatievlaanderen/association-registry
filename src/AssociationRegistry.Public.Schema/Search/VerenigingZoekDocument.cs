@@ -23,13 +23,19 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public class Locatie
     {
         public JsonLdMetadata JsonLdMetadata { get; set; }
-        public string Locatietype { get; init; } = null!;
+        public LocatieType Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
         public string Adresvoorstelling { get; init; } = null!;
         public bool IsPrimair { get; init; }
         public string Postcode { get; init; } = null!;
         public string Gemeente { get; init; } = null!;
         public int LocatieId { get; set; }
+
+        public class LocatieType
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
+            public string Naam { get; set; }
+        }
     }
 
     public class HoofdactiviteitVerenigingsloket

@@ -6,6 +6,12 @@ using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using Vereniging;
+using Adres = ResponseModels.Adres;
+using Contactgegeven = ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = ResponseModels.Locatie;
+using Vereniging = ResponseModels.Vereniging;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenigingDetailResponse>
 {
@@ -60,7 +66,12 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                         type = JsonLdType.Locatie.Type,
 
-                        Locatietype = "Correspondentie",
+                        Locatietype = new LocatieType()
+                        {
+                            id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
+                            type = JsonLdType.LocatieType.Type,
+                            Naam = Locatietype.Correspondentie.Waarde,
+                        },
                         IsPrimair = true,
                         Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = "de kerk",

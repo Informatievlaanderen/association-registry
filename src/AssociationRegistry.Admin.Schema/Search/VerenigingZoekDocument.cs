@@ -20,12 +20,18 @@ public class VerenigingZoekDocument
     {
         public JsonLdMetadata JsonLdMetadata { get; set; }
         public int LocatieId { get; init; }
-        public string Locatietype { get; init; } = null!;
+        public LocatieType Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
         public string Adresvoorstelling { get; init; } = null!;
         public bool IsPrimair { get; init; }
         public string Postcode { get; init; } = null!;
         public string Gemeente { get; init; } = null!;
+        public class LocatieType
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
+            public string Naam { get; set; }
+
+        }
     }
 
     public class HoofdactiviteitVerenigingsloket

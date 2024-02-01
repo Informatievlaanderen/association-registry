@@ -102,7 +102,13 @@ public static class PubliekVerenigingDetailMapper
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
-            Locatietype = loc.Locatietype,
+            Locatietype =
+                new LocatieType
+                {
+                    id = loc.Locatietype.JsonLdMetadata.Id,
+                    type = loc.Locatietype.JsonLdMetadata.Type,
+                    Naam = loc.Locatietype.Naam,
+                },
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,

@@ -97,29 +97,44 @@ public static class VerenigingZoekDocumentMapping
                        propertyDescriptor => propertyDescriptor
                                             .Name(document => document.Naam)
                                             .WithKeyword(PubliekZoekenNormalizer)
-                                        .Analyzer(PubliekZoekenAnalyzer))
+                                            .Analyzer(PubliekZoekenAnalyzer))
                   .Text(
                        propertyDescriptor => propertyDescriptor
                                             .Name(document => document.Adresvoorstelling)
                                             .WithKeyword(PubliekZoekenNormalizer)
-                                        .Analyzer(PubliekZoekenAnalyzer))
+                                            .Analyzer(PubliekZoekenAnalyzer))
                   .Boolean(
                        propertyDescriptor => propertyDescriptor
                                             .Name(document => document.IsPrimair)
                                             .WithKeyword())
                   .Text(
                        propertyDescriptor => propertyDescriptor
-                                            .Name(document => document.Locatietype)
-                                            .WithKeyword(PubliekZoekenNormalizer))
-                  .Text(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.Postcode)
-                                        .WithKeyword())
+                                            .Name(document => document.Postcode)
+                                            .WithKeyword())
                   .Text(
                        propertyDescriptor => propertyDescriptor
                                             .Name(document => document.Gemeente)
                                             .WithKeyword(PubliekZoekenNormalizer)
-                                        .Analyzer(PubliekZoekenAnalyzer));
+                                            .Analyzer(PubliekZoekenAnalyzer))
+                  .Nested<VerenigingZoekDocument.Locatie.LocatieType>(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.Locatietype)
+                                            .IncludeInRoot()
+                                            .Properties(LocationTypeMapping.Get));
+    }
+
+    private static class LocationTypeMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie.LocatieType> map)
+            => map.Nested<JsonLdMetadata>(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.JsonLdMetadata)
+                                            .IncludeInRoot()
+                                            .Properties(JsonLdMetadataMapping.Get))
+                  .Text(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.Naam)
+                                            .WithKeyword());
     }
 
     private static class HoofdactiviteitMapping

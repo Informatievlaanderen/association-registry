@@ -83,13 +83,27 @@ public static class VerenigingZoekDocumentMapping
                       .Name(document => document.IsPrimair))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Locatietype))
-              .Text(
-                   propertyDescriptor => propertyDescriptor
                       .Name(document => document.Postcode))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Gemeente));
+                      .Name(document => document.Gemeente)).Nested<VerenigingZoekDocument.Locatie.LocatieType>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.Locatietype)
+                                        .IncludeInRoot()
+                                        .Properties(LocationTypeMapping.Get));
+    }
+
+    private static class LocationTypeMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie.LocatieType> map)
+            => map.Nested<JsonLdMetadata>(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.JsonLdMetadata)
+                                            .IncludeInRoot()
+                                            .Properties(JsonLdMetadataMapping.Get))
+                  .Text(
+                       propertyDescriptor => propertyDescriptor
+                          .Name(document => document.Naam));
     }
 
     private static class HoofdactiviteitMapping

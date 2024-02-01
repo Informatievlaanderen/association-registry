@@ -202,7 +202,12 @@ public class ZoekVerenigingenResponseTemplate
             {
                 jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
                 jsonldtype = JsonLdType.Locatie.Type,
-                type = type,
+                type = new
+                {
+                    jsonldid = JsonLdType.LocatieType.CreateWithIdValues(type),
+                    jsonldtype = JsonLdType.LocatieType.Type,
+                    naam = type,
+                },
                 naam = naam,
                 adresvoorstelling = adresVoorstelling ?? string.Empty,
                 postcode = postcode ?? string.Empty,

@@ -36,11 +36,18 @@ public class BeheerVerenigingDetailMapper
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
-            Locatietype = loc.Locatietype,
+            Locatietype = MapLocatieType(loc.Locatietype),
             Adres = MapAdres(loc.Adres, vCode, loc.LocatieId),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = MapAdresId(loc.AdresId),
             Bron = bron,
+        };
+
+    public static LocatieType MapLocatieType(string locatietype)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.LocatieType, locatietype),
+            Naam = locatietype,
         };
 
     public static Adres? MapAdres(Registratiedata.Adres? adres, string vCode, int locId)

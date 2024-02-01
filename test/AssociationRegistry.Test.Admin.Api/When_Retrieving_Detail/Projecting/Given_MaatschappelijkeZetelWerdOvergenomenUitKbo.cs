@@ -42,7 +42,15 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
-                Locatietype = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
+                Locatietype = new LocatieType()
+                {
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.LocatieType.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype),
+                        Type = JsonLdType.LocatieType.Type,
+                    },
+                    Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
+                },
                 Adres = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres is null
                     ? null
                     : new Adres

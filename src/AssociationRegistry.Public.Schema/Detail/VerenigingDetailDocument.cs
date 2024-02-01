@@ -54,12 +54,18 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     {
         public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public int LocatieId { get; set; }
-        public string Locatietype { get; set; } = null!;
+        public LocatieType Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
         public string Adresvoorstelling { get; set; } = null!;
         public Adres? Adres { get; set; }
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
+        public class LocatieType
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
+            public string Naam { get; set; }
+
+        }
     }
 
     public class HoofdactiviteitVerenigingsloket

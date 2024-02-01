@@ -12,6 +12,7 @@ using Doelgroep = Schema.Search.Doelgroep;
 public class BeheerZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
+
     public BeheerZoekProjectionHandler(IElasticRepository elasticRepository)
     {
         _elasticRepository = elasticRepository;
@@ -203,7 +204,11 @@ public class BeheerZoekProjectionHandler
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
 
             LocatieId = locatie.LocatieId,
-            Locatietype = locatie.Locatietype,
+            Locatietype = new VerenigingZoekDocument.Locatie.LocatieType()
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.LocatieType, locatie.Locatietype),
+                Naam = locatie.Locatietype,
+            },
             Naam = locatie.Naam,
             Adresvoorstelling = locatie.Adres.ToAdresString(),
             IsPrimair = locatie.IsPrimair,
