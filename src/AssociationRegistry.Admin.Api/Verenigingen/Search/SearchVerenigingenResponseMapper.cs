@@ -58,6 +58,8 @@ public class SearchVerenigingenResponseMapper
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()
         {
+            id = doelgroep.JsonLdMetadata.Id,
+            type = doelgroep.JsonLdMetadata.Type,
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };

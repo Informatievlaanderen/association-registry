@@ -33,7 +33,7 @@ public class BeheerZoekProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Status = VerenigingStatus.Actief,
                 Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
-                Doelgroep = Map(message.Data.Doelgroep),
+                Doelgroep = Map(message.Data.Doelgroep, message.VCode),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
@@ -74,6 +74,7 @@ public class BeheerZoekProjectionHandler
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 Doelgroep = new Doelgroep
                 {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
@@ -129,6 +130,7 @@ public class BeheerZoekProjectionHandler
             {
                 Doelgroep = new Doelgroep
                 {
+                    JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
                     Minimumleeftijd = message.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = message.Data.Doelgroep.Maximumleeftijd,
                 },
@@ -216,9 +218,10 @@ public class BeheerZoekProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
-    private static Doelgroep Map(Registratiedata.Doelgroep doelgroep)
+    private static Doelgroep Map(Registratiedata.Doelgroep doelgroep, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, vCode),
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };

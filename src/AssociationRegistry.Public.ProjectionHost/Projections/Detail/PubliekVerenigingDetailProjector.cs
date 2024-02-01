@@ -32,7 +32,8 @@ public static class PubliekVerenigingDetailProjector
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
-            Doelgroep = MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
+            Doelgroep =
+                MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = VerenigingStatus.Actief,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
@@ -77,6 +78,9 @@ public static class PubliekVerenigingDetailProjector
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
             Doelgroep = new Doelgroep
             {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Doelgroep.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                    JsonLdType.Doelgroep.Type),
                 Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
@@ -152,6 +156,9 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Doelgroep = new Doelgroep
         {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Doelgroep.CreateWithIdValues(doelgroepWerdGewijzigd.StreamKey!),
+                JsonLdType.Doelgroep.Type),
             Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
         };
@@ -309,9 +316,12 @@ public static class PubliekVerenigingDetailProjector
                 Broncode = locAdresId.Broncode,
             };
 
-    private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)
+    private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
         => new()
         {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Doelgroep.CreateWithIdValues(vCode),
+                JsonLdType.Doelgroep.Type),
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };

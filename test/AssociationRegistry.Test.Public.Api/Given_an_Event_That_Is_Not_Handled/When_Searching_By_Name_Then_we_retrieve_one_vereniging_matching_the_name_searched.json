@@ -21,6 +21,8 @@
         }
       ],
       "doelgroep": {
+        "@id": "doel:bcb9a78b-7615-59a9-98e8-16d80cfe9023",
+        "@type": "verenigingen_ext:Doelgroep",
         "minimumleeftijd": 0,
         "maximumleeftijd": 150
       },

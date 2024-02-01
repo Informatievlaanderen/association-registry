@@ -153,6 +153,11 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<Doelgroep> map)
             => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
               .Number(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Minimumleeftijd)

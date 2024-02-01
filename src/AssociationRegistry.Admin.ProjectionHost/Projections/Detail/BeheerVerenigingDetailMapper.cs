@@ -141,9 +141,10 @@ public class BeheerVerenigingDetailMapper
             },
         };
 
-    public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)
+    public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, vCode),
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };

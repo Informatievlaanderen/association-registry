@@ -48,6 +48,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
                 Doelgroep = new Doelgroep
                 {
+                    JsonLdMetadata =
+                        new JsonLdMetadata(JsonLdType.Doelgroep.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                                           JsonLdType.Doelgroep.Type),
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },

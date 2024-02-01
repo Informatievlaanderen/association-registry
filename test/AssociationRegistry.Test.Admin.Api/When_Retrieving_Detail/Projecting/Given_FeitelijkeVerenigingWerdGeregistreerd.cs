@@ -55,6 +55,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
                 Doelgroep = new Doelgroep
                 {
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.Doelgroep.CreateWithIdValues(doc.VCode),
+                        Type = JsonLdType.Doelgroep.Type,
+                    },
                     Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
                 },

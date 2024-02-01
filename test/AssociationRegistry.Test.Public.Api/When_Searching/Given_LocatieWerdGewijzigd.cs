@@ -42,6 +42,7 @@ public class Given_LocatieWerdGewijzigd
                                    .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                                    .WithType(Verenigingstype.FeitelijkeVereniging)
                                    .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                                   .WithDoelgroep(_scenario.VCode)
                                    .WithLocatie(_scenario.LocatieWerdGewijzigd.Locatie.Locatietype,
                                                 _scenario.LocatieWerdGewijzigd.Locatie.Naam,
                                                 _scenario.LocatieWerdGewijzigd.Locatie.Adres?.ToAdresString(),

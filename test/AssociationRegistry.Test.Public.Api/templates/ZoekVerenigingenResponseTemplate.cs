@@ -91,7 +91,6 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging.sleutels = new List<object>();
 
             WithKorteNaam(string.Empty);
-            WithDoelgroep();
         }
 
         public VerenigingTemplate WithVCode(string vCode)
@@ -99,6 +98,7 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging.vcode = vCode;
             _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
             _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
+
             return this;
         }
 
@@ -177,10 +177,12 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate WithDoelgroep(int minimumleeftijd = 0, int maximumleeftijd = 150)
+        public VerenigingTemplate WithDoelgroep(string vcode, int minimumleeftijd = 0, int maximumleeftijd = 150)
         {
             _vereniging.doelgroep = new
             {
+                jsonldid = JsonLdType.Doelgroep.CreateWithIdValues(vcode),
+                jsonldtype = JsonLdType.Doelgroep.Type,
                 minimumleeftijd = minimumleeftijd,
                 maximumleeftijd = maximumleeftijd,
             };
@@ -225,7 +227,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
                           .WithKorteBeschrijving(e.KorteBeschrijving)
-                          .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
+                          .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd,
+                                         maximumleeftijd: e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
@@ -234,7 +237,8 @@ public class ZoekVerenigingenResponseTemplate
 
             foreach (var l in e.Locaties)
             {
-                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, e.VCode, l.LocatieId, l.IsPrimair);
+                template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, e.VCode,
+                                     l.LocatieId, l.IsPrimair);
             }
 
             return template;
@@ -248,7 +252,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithRoepnaam(string.Empty)
                           .WithKorteNaam(e.KorteNaam)
                           .WithKorteBeschrijving(string.Empty)
-                          .WithKboNummer(e.KboNummer, e.VCode);
+                          .WithKboNummer(e.KboNummer, e.VCode)
+                          .WithDoelgroep(e.VCode);
 
             return template;
         }

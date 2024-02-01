@@ -31,7 +31,8 @@ public class BeheerVerenigingDetailProjector
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
+                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
@@ -52,10 +53,10 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(h => BeheerVerenigingDetailMapper
-                                                                                             .MapHoofdactiviteitVerenigingsloket(
-                                                                                                  h,
-                                                                                                  feitelijkeVerenigingWerdGeregistreerd.Data
-                                                                                                     .VCode))
+                                                                                         .MapHoofdactiviteitVerenigingsloket(
+                                                                                              h,
+                                                                                              feitelijkeVerenigingWerdGeregistreerd.Data
+                                                                                                 .VCode))
                                                                                      .ToArray(),
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
@@ -81,6 +82,9 @@ public class BeheerVerenigingDetailProjector
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = new Doelgroep
             {
+                JsonLdMetadata =
+                    BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Doelgroep,
+                                                                      verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
                 Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
@@ -132,6 +136,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.Doelgroep = new Doelgroep
         {
+            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Doelgroep, doelgroepWerdGewijzigd.StreamKey!),
             Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
         };

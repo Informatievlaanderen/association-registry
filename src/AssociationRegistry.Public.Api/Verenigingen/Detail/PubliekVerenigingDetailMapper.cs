@@ -25,6 +25,8 @@ public static class PubliekVerenigingDetailMapper
                 Startdatum = document.Startdatum,
                 Doelgroep = new DoelgroepResponse
                 {
+                    id = document.Doelgroep.JsonLdMetadata.Id,
+                    type = document.Doelgroep.JsonLdMetadata.Type,
                     Minimumleeftijd = document.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = document.Doelgroep.Maximumleeftijd,
                 },

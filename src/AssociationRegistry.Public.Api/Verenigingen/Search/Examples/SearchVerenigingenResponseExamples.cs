@@ -48,6 +48,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     },
                     Doelgroep = new DoelgroepResponse
                     {
+                        id = JsonLdType.Doelgroep.CreateWithIdValues("V0001001"),
+                        type = JsonLdType.Doelgroep.Type,
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
@@ -103,7 +105,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     },
                     Doelgroep = new DoelgroepResponse
                     {
-                        Minimumleeftijd = 0,
+                        id = JsonLdType.Doelgroep.CreateWithIdValues("V0036651"),
+                        type = JsonLdType.Doelgroep.Type,Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
                     Locaties = new[]

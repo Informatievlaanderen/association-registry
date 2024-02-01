@@ -75,7 +75,6 @@ public class ZoekVerenigingenResponseTemplate
 
             WithStatus(VerenigingStatus.Actief);
             WithKorteNaam(string.Empty);
-            WithDoelgroep();
         }
 
         public VerenigingTemplate WithVCode(string vCode)
@@ -158,10 +157,12 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
-        public VerenigingTemplate WithDoelgroep(int minimumleeftijd = 0, int maximumleeftijd = 150)
+        public VerenigingTemplate WithDoelgroep(string vCode, int minimumleeftijd = 0, int maximumleeftijd = 150)
         {
             _vereniging.doelgroep = new
             {
+                jsonldid = JsonLdType.Doelgroep.CreateWithIdValues(vCode),
+                jsonldtype = JsonLdType.Doelgroep.Type,
                 minimumleeftijd = minimumleeftijd,
                 maximumleeftijd = maximumleeftijd,
             };
@@ -205,7 +206,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithType(Verenigingstype.FeitelijkeVereniging)
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
-                          .WithDoelgroep(e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
+                          .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd,
+                                         maximumleeftijd: e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
@@ -228,7 +230,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithNaam(e.Naam)
                           .WithRoepnaam(string.Empty)
                           .WithKorteNaam(e.KorteNaam)
-                          .WithKboNummer(e.KboNummer, e.VCode);
+                          .WithKboNummer(e.KboNummer, e.VCode)
+                          .WithDoelgroep(e.VCode);
 
             return template;
         }

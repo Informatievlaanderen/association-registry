@@ -5,6 +5,7 @@ using Marten.Schema;
 
 public record Doelgroep
 {
+    public JsonLdMetadata JsonLdMetadata { get; set; }
     public int Minimumleeftijd { get; set; }
     public int Maximumleeftijd { get; set; }
 }

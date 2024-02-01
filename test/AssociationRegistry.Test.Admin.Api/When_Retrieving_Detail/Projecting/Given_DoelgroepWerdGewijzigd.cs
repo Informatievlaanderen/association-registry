@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,6 +17,7 @@ public class Given_DoelgroepWerdGewijzigd
     public void Then_it_modifies_the_doelgroep()
     {
         var fixture = new Fixture().CustomizeAdminApi();
+
         var doelgroepWerdGewijzigd = fixture.Create<TestEvent<DoelgroepWerdGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();

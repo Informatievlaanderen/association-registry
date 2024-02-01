@@ -56,6 +56,8 @@ public class BeheerVerenigingDetailMapper
             Einddatum = vereniging.Einddatum,
             Doelgroep = new DoelgroepResponse
             {
+                id = vereniging.Doelgroep.JsonLdMetadata.Id,
+                type = vereniging.Doelgroep.JsonLdMetadata.Type,
                 Minimumleeftijd = vereniging.Doelgroep.Minimumleeftijd,
                 Maximumleeftijd = vereniging.Doelgroep.Maximumleeftijd,
             },

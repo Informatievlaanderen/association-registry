@@ -48,6 +48,7 @@ public class Given_LocatieWerdGewijzigd
                           .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                           .WithType(Verenigingstype.FeitelijkeVereniging)
                           .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                          .WithDoelgroep(_scenario.VCode)
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         goldenMaster.WithLocatie(

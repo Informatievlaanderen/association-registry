@@ -27,6 +27,8 @@
       {{end}}
       ],
       "doelgroep":{
+        "@id": "{{vereniging.doelgroep.jsonldid}}",
+        "@type": "{{vereniging.doelgroep.jsonldtype}}",
         "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
         "maximumleeftijd":{{vereniging.doelgroep.maximumleeftijd}}
       },

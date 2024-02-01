@@ -64,6 +64,7 @@ public class VerenigingZoekDocument
 
 public class Doelgroep
 {
+    public JsonLdMetadata JsonLdMetadata { get; set; }
     public int Minimumleeftijd { get; set; }
     public int Maximumleeftijd { get; set; }
 }

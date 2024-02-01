@@ -39,8 +39,8 @@ public class Given_BasisGegevenWerdGewijzigd
                                    .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                                    .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
                                    .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
-                                   .WithDoelgroep(_scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
-                                                  _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
+                                   .WithDoelgroep(_scenario.VCode, minimumleeftijd: _scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
+                                                  maximumleeftijd: _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
                            );
 
         content.Should().BeEquivalentJson(goldenMaster);

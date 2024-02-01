@@ -49,6 +49,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     Einddatum = "2021-12-12",
                     Doelgroep = new DoelgroepResponse
                     {
+                        id = JsonLdType.Doelgroep.CreateWithIdValues("V0001001"),
+                        type = JsonLdType.Doelgroep.Type,
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
