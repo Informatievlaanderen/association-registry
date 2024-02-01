@@ -125,6 +125,16 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                                 Broncode = loc.AdresId?.Broncode,
                                 Bronwaarde = loc.AdresId?.Bronwaarde,
                             },
+                        VerwijstNaar = loc.AdresId is null
+                            ? null
+                            : new AdresVerwijzing()
+                            {
+                                JsonLdMetadata = new JsonLdMetadata
+                                {
+                                    Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(loc.AdresId?.Bronwaarde.Split('/').Last()),
+                                    Type = JsonLdType.AdresVerwijzing.Type,
+                                },
+                            },
                         Bron = Bron.Initiator,
                     }).ToArray(),
                 Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers.Select(

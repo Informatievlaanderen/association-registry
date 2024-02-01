@@ -114,6 +114,16 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                                 Broncode = loc.AdresId?.Broncode,
                                 Bronwaarde = loc.AdresId?.Bronwaarde,
                             },
+                        VerwijstNaar = loc.AdresId is null
+                            ? null
+                            : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                            {
+                                JsonLdMetadata = new JsonLdMetadata()
+                                {
+                                    Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(loc.AdresId.Bronwaarde.Split('/').Last()),
+                                    Type = JsonLdType.AdresVerwijzing.Type,
+                                },
+                            },
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
                     arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket

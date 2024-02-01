@@ -82,6 +82,16 @@ public class Given_LocatieWerdGewijzigd
                     Broncode = locatieWerdGewijzigd.Data.Locatie.AdresId?.Broncode,
                     Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                 },
+            VerwijstNaar = locatieWerdGewijzigd.Data.Locatie.AdresId is null
+                ? null
+                : new AdresVerwijzing()
+                {
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde.Split('/').Last()),
+                        Type = JsonLdType.AdresVerwijzing.Type,
+                    },
+                },
             Bron = locatieWerdToegevoegd.Data.Bron,
         });
 

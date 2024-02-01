@@ -104,7 +104,7 @@ public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
                     Postcode: "0123",
                     Gemeente: "Zonnedorp",
                     Land: "Frankrijk"),
-                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix)
+                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix+"1")
             ));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

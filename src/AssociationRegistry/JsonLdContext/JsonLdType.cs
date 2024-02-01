@@ -24,6 +24,9 @@ public class JsonLdType
     public static readonly JsonLdType LocatieType = new(JsonLdContext.GuidNamespace.LocatieType, type: "skos:Concept", prefix: "con");
     public static readonly JsonLdType Adres = new(JsonLdContext.GuidNamespace.Adres, type: "locn:Address", prefix: "adressen");
 
+    public static readonly JsonLdType AdresVerwijzing =
+        new JsonLdAdressenRegister(JsonLdContext.GuidNamespace.AdresVerwijzing, type: "geregistreerdAdres", prefix: "adressenregister");
+
     public static readonly JsonLdType Sleutel = new(JsonLdContext.GuidNamespace.Sleutel, type: "adms:Identifier",
                                                     prefix: "identificatoren");
 
@@ -51,5 +54,24 @@ public class JsonLdType
         sb.Append(Deterministic.Create(GuidNamespace, string.Join(separator: '-', values)));
 
         return sb.ToString();
+    }
+
+    private class JsonLdAdressenRegister : JsonLdType
+    {
+        public JsonLdAdressenRegister(Guid guidNamespace, string type, string prefix = "") : base(guidNamespace, type, prefix)
+        {
+        }
+
+        public new string CreateWithIdValues(params string[] values)
+        {
+            var sb = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(Prefix))
+                sb.Append($"{Prefix}:");
+
+            sb.Append(string.Join(separator: '-', values));
+
+            return sb.ToString();
+        }
     }
 }

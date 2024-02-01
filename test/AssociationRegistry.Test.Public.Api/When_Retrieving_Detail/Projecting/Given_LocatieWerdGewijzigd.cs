@@ -74,6 +74,16 @@ public class Given_LocatieWerdGewijzigd
                         Broncode = locatieWerdGewijzigd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                     },
+                VerwijstNaar = locatieWerdGewijzigd.Data.Locatie.AdresId is null
+                    ? null
+                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(locatieWerdGewijzigd.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
+                            Type = JsonLdType.AdresVerwijzing.Type,
+                        },
+                    },
             });
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);

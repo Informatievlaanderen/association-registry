@@ -45,4 +45,10 @@ public class Locatie : IJsonLd
     /// </summary>
     [DataMember(Name = "AdresId")]
     public AdresId? AdresId { get; set; }
+
+    /// <summary>
+    ///     De verwijzing naar een adres in het adresregister
+    /// </summary>
+    [DataMember(Name = "VerwijstNaar")]
+    public AdresVerwijzing? VerwijstNaar { get; set; }
 }

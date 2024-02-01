@@ -116,7 +116,19 @@ public static class PubliekVerenigingDetailMapper
             Naam = loc.Naam,
             Adres = Map(loc.Adres),
             AdresId = Map(loc.AdresId),
+            VerwijstNaar = Map(loc.VerwijstNaar),
         };
+
+    private static AdresVerwijzing? Map(PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? verwijzing)
+    {
+        if (verwijzing is null) return null;
+
+        return new AdresVerwijzing
+        {
+            id = verwijzing.JsonLdMetadata.Id,
+            type = verwijzing.JsonLdMetadata.Type,
+        };
+    }
 
     private static AdresId? Map(PubliekVerenigingDetailDocument.AdresId? adresId)
         => adresId is not null

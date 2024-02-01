@@ -69,6 +69,16 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                         Broncode = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde,
                     },
+                VerwijstNaar = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId is null
+                    ? null
+                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
+                            Type = JsonLdType.AdresVerwijzing.Type,
+                        },
+                    },
             });
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);

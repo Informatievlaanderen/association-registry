@@ -77,6 +77,15 @@
 {{else}}
         null,
 {{end}}
+      "verwijstNaar":
+{{if locatie.adresid}}
+      {
+        "@id": "{{locatie.verwijstnaar.jsonldid}}",
+        "@type": "{{locatie.verwijstnaar.jsonldtype}}"
+      },
+{{else}}
+      null,
+{{end}}
       "adresId":
 {{if locatie.adresid}}
         {

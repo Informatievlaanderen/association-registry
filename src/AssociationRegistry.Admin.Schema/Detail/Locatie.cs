@@ -10,5 +10,6 @@ public record Locatie : IHasBron
     public Adres? Adres { get; set; }
     public string? Naam { get; set; }
     public AdresId? AdresId { get; set; }
+    public AdresVerwijzing? VerwijstNaar { get; set; }
     public string Bron { get; set; } = null!;
 }

@@ -54,6 +54,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
                 Adres = locatie.Adres,
                 Adresvoorstelling = locatie.Adresvoorstelling,
                 AdresId = locatie.AdresId,
+                VerwijstNaar = locatie.VerwijstNaar,
             });
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);

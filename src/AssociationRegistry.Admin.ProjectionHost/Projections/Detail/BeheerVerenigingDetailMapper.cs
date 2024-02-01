@@ -36,12 +36,24 @@ public class BeheerVerenigingDetailMapper
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
+            VerwijstNaar = MapAdresVerwijzing(loc.AdresId),
             Locatietype = MapLocatieType(loc.Locatietype),
             Adres = MapAdres(loc.Adres, vCode, loc.LocatieId),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = MapAdresId(loc.AdresId),
             Bron = bron,
         };
+
+    public static AdresVerwijzing? MapAdresVerwijzing(Registratiedata.AdresId? adresId)
+    {
+        if (adresId is null)
+            return null;
+
+        return new AdresVerwijzing
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.AdresVerwijzing, adresId.Bronwaarde.Split('/').Last()),
+        };
+    }
 
     public static LocatieType MapLocatieType(string locatietype)
         => new()

@@ -316,6 +316,7 @@ public class BeheerVerenigingDetailProjector
                                              Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                             VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(locatieWerdGewijzigd.Data.Locatie.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();

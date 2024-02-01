@@ -237,6 +237,11 @@ public class DetailVerenigingResponseTemplate
                 broncode = broncode,
                 bronwaarde = bronwaarde,
             },
+            verwijstnaar = new
+            {
+                jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
+                jsonldtype = JsonLdType.AdresVerwijzing.Type,
+            },
             isprimair = isPrimair,
             bron = bron.Waarde,
         });
@@ -288,6 +293,11 @@ public class DetailVerenigingResponseTemplate
             {
                 broncode = broncode,
                 bronwaarde = bronwaarde,
+            },
+            verwijstnaar = new
+            {
+                jsonldid = JsonLdType.AdresVerwijzing.CreateWithIdValues(bronwaarde.Split('/').Last()),
+                jsonldtype = JsonLdType.AdresVerwijzing.Type,
             },
             isprimair = isPrimair,
             bron = bron.Waarde,

@@ -8,6 +8,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using Vereniging;
 using Adres = ResponseModels.Adres;
+using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
@@ -53,7 +54,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Contactgegeven
                     {
-                        id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001","1"),
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001", "1"),
                         type = JsonLdType.Contactgegeven.Type,
                         Contactgegeventype = "E-mail",
                         Waarde = "info@example.org",
@@ -88,6 +89,16 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                             Gemeente = "Liedekerke",
                             Land = "Belgie",
                         },
+                        AdresId = new AdresId()
+                        {
+                            Broncode = Adresbron.AR.Code,
+                            Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
+                        },
+                        VerwijstNaar = new AdresVerwijzing()
+                        {
+                            id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
+                            type = JsonLdType.AdresVerwijzing.Type,
+                        }
                     },
                 },
                 HoofdactiviteitenVerenigingsloket = new[]

@@ -6,6 +6,7 @@ using Schema.Detail;
 using System.Linq;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
+using AdresVerwijzing = ResponseModels.AdresVerwijzing;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
@@ -176,6 +177,7 @@ public class BeheerVerenigingDetailMapper
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
             LocatieId = loc.LocatieId,
+            VerwijstNaar = Map(loc.VerwijstNaar),
             Locatietype = new LocatieType()
             {
                 id = loc.Locatietype.JsonLdMetadata.Id,
@@ -189,6 +191,17 @@ public class BeheerVerenigingDetailMapper
             AdresId = Map(loc.AdresId),
             Bron = loc.Bron,
         };
+
+    private static AdresVerwijzing? Map(Schema.Detail.AdresVerwijzing? verwijstNaar)
+    {
+        if (verwijstNaar is null) return null;
+
+        return new AdresVerwijzing
+        {
+            id = verwijstNaar.JsonLdMetadata.Id,
+            type = verwijstNaar.JsonLdMetadata.Type,
+        };
+    }
 
     private static AdresId? Map(Schema.Detail.AdresId? adresId)
         => adresId is not null

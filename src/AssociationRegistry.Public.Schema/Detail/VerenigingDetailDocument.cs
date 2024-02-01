@@ -61,11 +61,16 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
         public Adres? Adres { get; set; }
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
+        public AdresVerwijzing? VerwijstNaar { get; set; }
         public class LocatieType
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
             public string Naam { get; set; }
 
+        }
+        public class AdresVerwijzing
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
         }
     }
 

@@ -289,7 +289,20 @@ public static class PubliekVerenigingDetailProjector
             Adres = Map(vCode, loc.LocatieId, loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),
+            VerwijstNaar = MapVerwijstNaar(loc.AdresId),
         };
+
+    private static PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? MapVerwijstNaar(Registratiedata.AdresId? adresid)
+    {
+        if (adresid is null) return null;
+
+        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.AdresVerwijzing.CreateWithIdValues(adresid.Bronwaarde.Split('/').Last()),
+                JsonLdType.AdresVerwijzing.Type),
+        };
+    }
 
     private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
         => adres is null
