@@ -1,3 +1,10 @@
+## [8.55.2](https://github.com/informatievlaanderen/association-registry/compare/v8.55.1...v8.55.2) (2024-02-05)
+
+
+### Bug Fixes
+
+* update github actions token ([#625](https://github.com/informatievlaanderen/association-registry/issues/625)) ([2fbd051](https://github.com/informatievlaanderen/association-registry/commit/2fbd051b165732b1fe80d5af6a0838d258837256))
+
 ## [8.55.1](https://github.com/informatievlaanderen/association-registry/compare/v8.55.0...v8.55.1) (2024-02-05)
 
 
