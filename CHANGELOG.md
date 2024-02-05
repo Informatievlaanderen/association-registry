@@ -1,3 +1,10 @@
+## [8.54.1](https://github.com/informatievlaanderen/association-registry/compare/v8.54.0...v8.54.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* or-1282 retry semantic release ([#620](https://github.com/informatievlaanderen/association-registry/issues/620)) ([393c158](https://github.com/informatievlaanderen/association-registry/commit/393c158f0aa82e85ec55f2dde0692130f05b61cd))
+
 # [8.54.0](https://github.com/informatievlaanderen/association-registry/compare/v8.53.3...v8.54.0) (2024-02-05)
 
 
