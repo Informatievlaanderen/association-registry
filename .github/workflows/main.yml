@@ -129,7 +129,7 @@ jobs:
         shell: bash
         run: npx semantic-release --dry-run
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.VBR_WEBCOMP_NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
@@ -322,7 +322,7 @@ jobs:
         shell: bash
         run: npx semantic-release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.VBR_WEBCOMP_NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
@@ -514,7 +514,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@1.0.10
         with:
           environment: test
           version: ${{ needs.release.outputs.version }}
