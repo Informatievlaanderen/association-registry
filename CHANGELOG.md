@@ -1,3 +1,10 @@
+# [8.54.0](https://github.com/informatievlaanderen/association-registry/compare/v8.53.3...v8.54.0) (2024-02-05)
+
+
+### Features
+
+* OR-1282 implementation for JSON-LD ([#619](https://github.com/informatievlaanderen/association-registry/issues/619)) ([b701d70](https://github.com/informatievlaanderen/association-registry/commit/b701d70330adb38fbdf664b3da2b18d2b71cc072))
+
 ## [8.53.3](https://github.com/informatievlaanderen/association-registry/compare/v8.53.2...v8.53.3) (2024-01-29)
 
 
