@@ -1,3 +1,10 @@
+## [8.55.3](https://github.com/informatievlaanderen/association-registry/compare/v8.55.2...v8.55.3) (2024-02-05)
+
+
+### Bug Fixes
+
+* use fixed version for polling action inside github actions ([578dfd7](https://github.com/informatievlaanderen/association-registry/commit/578dfd7e34148afe905231c11ebb09d5a5991811))
+
 ## [8.55.2](https://github.com/informatievlaanderen/association-registry/compare/v8.55.1...v8.55.2) (2024-02-05)
 
 
