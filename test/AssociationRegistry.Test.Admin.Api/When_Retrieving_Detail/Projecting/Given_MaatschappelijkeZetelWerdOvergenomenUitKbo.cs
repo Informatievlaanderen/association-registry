@@ -1,12 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -26,17 +28,38 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 
         doc.Locaties.Should().HaveCount(4);
 
-        doc.Locaties.Should().ContainEquivalentOf(
-            new BeheerVerenigingDetailDocument.Locatie
+        var locatie = doc.Locaties.Should().ContainSingle(locatie => locatie.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId)
+                         .Subject;
+
+        locatie.Should().BeEquivalentTo(
+            new Locatie
             {
+                JsonLdMetadata = new JsonLdMetadata
+                {
+                    Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                    Type = JsonLdType.Locatie.Type,
+                },
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
-                Locatietype = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
+                Locatietype = new LocatieType()
+                {
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.LocatieType.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype),
+                        Type = JsonLdType.LocatieType.Type,
+                    },
+                    Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
+                },
                 Adres = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres is null
                     ? null
                     : new Adres
                     {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                            Type = JsonLdType.Adres.Type,
+                        },
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Huisnummer,
                         Busnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Busnummer,
@@ -51,6 +74,16 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     {
                         Broncode = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde,
+                    },
+                VerwijstNaar = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId is null
+                    ? null
+                    : new AdresVerwijzing()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde.Split('/').Last()),
+                            Type = JsonLdType.AdresVerwijzing.Type,
+                        },
                     },
                 Bron = Bron.KBO,
             });

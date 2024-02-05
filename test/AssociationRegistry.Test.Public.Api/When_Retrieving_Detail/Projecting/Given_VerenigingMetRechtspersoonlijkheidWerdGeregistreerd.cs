@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Admin.Schema.Constants;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
@@ -9,10 +8,12 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -32,6 +33,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Vereniging.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                    JsonLdType.Vereniging.Type),
                 Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
@@ -44,6 +48,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum,
                 Doelgroep = new Doelgroep
                 {
+                    JsonLdMetadata =
+                        new JsonLdMetadata(JsonLdType.Doelgroep.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                                           JsonLdType.Doelgroep.Type),
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
@@ -59,6 +66,16 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 {
                     new()
                     {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                            JsonLdType.Sleutel.Type),
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = new JsonLdMetadata(
+                                JsonLdType.GestructureerdeSleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                                JsonLdType.GestructureerdeSleutel.Type),
+                            Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                        },
                         Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },

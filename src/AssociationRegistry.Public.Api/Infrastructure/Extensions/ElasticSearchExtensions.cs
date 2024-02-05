@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
 using ConfigurationBindings;
-using Hosts;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
@@ -10,8 +8,6 @@ using Schema;
 using Schema.Search;
 using System;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 public static class ElasticSearchExtensions
 {

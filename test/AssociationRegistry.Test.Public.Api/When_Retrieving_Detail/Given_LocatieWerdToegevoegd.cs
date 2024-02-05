@@ -47,6 +47,8 @@ public class Given_LocatieWerdToegevoegd
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                           .WithLocatie(
+                               _scenario.VCode,
+                               _scenario.LocatieWerdToegevoegd.Locatie.LocatieId.ToString(),
                                _scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
                                _scenario.LocatieWerdToegevoegd.Locatie.Naam,
                                _scenario.LocatieWerdToegevoegd.Locatie.AdresId.Broncode,

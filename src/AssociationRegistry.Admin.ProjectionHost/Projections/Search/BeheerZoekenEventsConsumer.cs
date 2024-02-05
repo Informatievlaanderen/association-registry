@@ -1,12 +1,8 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using DuplicateDetection;
 using Events;
 using Marten.Events;
-using Wolverine;
-using Wolverine.Runtime.Routing;
 using Zoeken;
-using IEvent = Framework.IEvent;
 
 public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 {

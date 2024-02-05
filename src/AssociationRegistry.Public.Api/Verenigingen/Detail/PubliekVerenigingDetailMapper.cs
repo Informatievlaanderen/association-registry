@@ -13,6 +13,9 @@ public static class PubliekVerenigingDetailMapper
             Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
+                id = document.JsonLdMetadata.Id,
+                type = document.JsonLdMetadata.Type,
+
                 VCode = document.VCode,
                 Verenigingstype = Map(document.Verenigingstype),
                 Naam = document.Naam,
@@ -22,6 +25,8 @@ public static class PubliekVerenigingDetailMapper
                 Startdatum = document.Startdatum,
                 Doelgroep = new DoelgroepResponse
                 {
+                    id = document.Doelgroep.JsonLdMetadata.Id,
+                    type = document.Doelgroep.JsonLdMetadata.Type,
                     Minimumleeftijd = document.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = document.Doelgroep.Maximumleeftijd,
                 },
@@ -53,6 +58,8 @@ public static class PubliekVerenigingDetailMapper
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
         => new()
         {
+            id = info.JsonLdMetadata.Id,
+            type = info.JsonLdMetadata.Type,
             Contactgegeventype = info.Contactgegeventype,
             Waarde = info.Waarde,
             Beschrijving = info.Beschrijving,
@@ -69,23 +76,59 @@ public static class PubliekVerenigingDetailMapper
     private static Sleutel Map(PubliekVerenigingDetailDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
+
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
+
             Bron = s.Bron,
             Waarde = s.Waarde,
         };
 
     private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
-        => new() { Code = ha.Code, Naam = ha.Naam };
+        => new()
+        {
+            id = ha.JsonLdMetadata.Id,
+            type = ha.JsonLdMetadata.Type,
+            Code = ha.Code,
+            Naam = ha.Naam,
+        };
 
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()
         {
-            Locatietype = loc.Locatietype,
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
+            Locatietype =
+                new LocatieType
+                {
+                    id = loc.Locatietype.JsonLdMetadata.Id,
+                    type = loc.Locatietype.JsonLdMetadata.Type,
+                    Naam = loc.Locatietype.Naam,
+                },
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
             Adres = Map(loc.Adres),
             AdresId = Map(loc.AdresId),
+            VerwijstNaar = Map(loc.VerwijstNaar),
         };
+
+    private static AdresVerwijzing? Map(PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? verwijzing)
+    {
+        if (verwijzing is null) return null;
+
+        return new AdresVerwijzing
+        {
+            id = verwijzing.JsonLdMetadata.Id,
+            type = verwijzing.JsonLdMetadata.Type,
+        };
+    }
 
     private static AdresId? Map(PubliekVerenigingDetailDocument.AdresId? adresId)
         => adresId is not null
@@ -100,6 +143,8 @@ public static class PubliekVerenigingDetailMapper
         => adres is not null
             ? new Adres
             {
+                id = adres.JsonLdMetadata.Id,
+                type = adres.JsonLdMetadata.Type,
                 Straatnaam = adres.Straatnaam,
                 Huisnummer = adres.Huisnummer,
                 Busnummer = adres.Busnummer,

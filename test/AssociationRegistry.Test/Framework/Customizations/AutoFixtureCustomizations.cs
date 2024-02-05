@@ -207,7 +207,7 @@ public static class AutoFixtureCustomizations
                                                                  Contactgegeventype.Labels.SocialMedia => fixture.Create<SocialMedia>(),
                                                                  Contactgegeventype.Labels.Telefoon => fixture.Create<TelefoonNummer>(),
                                                                  _ => throw new ArgumentOutOfRangeException(
-                                                                     $"I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
+                                                                     "I'm sorry Dave, I don't know how to create a Contactgegeven of this type."),
                                                              })
                                                         .OmitAutoProperties());
     }

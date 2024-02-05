@@ -1,10 +1,18 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
 using Infrastructure.ConfigurationBindings;
+using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using Vereniging;
+using Adres = ResponseModels.Adres;
+using AdresId = ResponseModels.AdresId;
+using Contactgegeven = ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = ResponseModels.Locatie;
+using Vereniging = ResponseModels.Vereniging;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenigingDetailResponse>
 {
@@ -21,6 +29,9 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
+                id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
+                type = JsonLdType.Vereniging.Type,
+
                 VCode = "V0001001",
                 Verenigingstype = new VerenigingsType
                 {
@@ -33,6 +44,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 Startdatum = new DateOnly(year: 2020, month: 05, day: 15),
                 Doelgroep = new DoelgroepResponse
                 {
+                    id = JsonLdType.Doelgroep.CreateWithIdValues("V0001001"),
+                    type = JsonLdType.Doelgroep.Type,
                     Minimumleeftijd = 0,
                     Maximumleeftijd = 150,
                 },
@@ -41,6 +54,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Contactgegeven
                     {
+                        id = JsonLdType.Contactgegeven.CreateWithIdValues("V0001001", "1"),
+                        type = JsonLdType.Contactgegeven.Type,
                         Contactgegeventype = "E-mail",
                         Waarde = "info@example.org",
                         Beschrijving = "Info",
@@ -51,12 +66,22 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 {
                     new Locatie
                     {
-                        Locatietype = "Correspondentie",
+                        id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
+                        type = JsonLdType.Locatie.Type,
+
+                        Locatietype = new LocatieType()
+                        {
+                            id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
+                            type = JsonLdType.LocatieType.Type,
+                            Naam = Locatietype.Correspondentie.Waarde,
+                        },
                         IsPrimair = true,
                         Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = "de kerk",
                         Adres = new Adres
                         {
+                            id = JsonLdType.Adres.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Adres.Type,
                             Straatnaam = "kerkstraat",
                             Huisnummer = "5",
                             Busnummer = null,
@@ -64,12 +89,25 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                             Gemeente = "Liedekerke",
                             Land = "Belgie",
                         },
+                        AdresId = new AdresId()
+                        {
+                            Broncode = Adresbron.AR.Code,
+                            Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
+                        },
+                        VerwijstNaar = new AdresVerwijzing()
+                        {
+                            id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
+                            type = JsonLdType.AdresVerwijzing.Type,
+                        }
                     },
                 },
                 HoofdactiviteitenVerenigingsloket = new[]
                 {
                     new HoofdactiviteitVerenigingsloket
                     {
+                        id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
+                        type = JsonLdType.Hoofdactiviteit.Type,
+
                         Code = "CULT",
                         Naam = "Cultuur",
                     },

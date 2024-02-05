@@ -41,6 +41,7 @@ public class Given_LocatieWerdVerwijderd
                                    .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                                    .WithType(Verenigingstype.FeitelijkeVereniging)
                                    .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                                   .WithDoelgroep(_scenario.VCode)
                            );
 
         content.Should().BeEquivalentJson(goldenMaster);

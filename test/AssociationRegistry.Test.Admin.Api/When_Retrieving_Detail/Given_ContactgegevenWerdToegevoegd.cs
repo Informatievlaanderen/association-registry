@@ -50,7 +50,7 @@ public class Given_ContactgegevenWerdToegevoegd
                       .WithContactgegeven(_scenario.ContactgegevenWerdToegevoegd.ContactgegevenId,
                                           _scenario.ContactgegevenWerdToegevoegd.Bron,
                                           _scenario.ContactgegevenWerdToegevoegd.Contactgegeventype,
-                                          _scenario.ContactgegevenWerdToegevoegd.Waarde,
+                                          _scenario.ContactgegevenWerdToegevoegd.Waarde, _scenario.VCode,
                                           _scenario.ContactgegevenWerdToegevoegd.Beschrijving,
                                           _scenario.ContactgegevenWerdToegevoegd.IsPrimair)
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);

@@ -3,8 +3,16 @@
 using System.Runtime.Serialization;
 
 [DataContract]
-public class Locatie
+public class Locatie : IJsonLd
 {
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
     /// <summary>
     ///     Het soort locatie dat beschreven wordt<br />
     ///     <br />
@@ -14,7 +22,7 @@ public class Locatie
     ///     - Maatschappelijke zetel volgens KBO - Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]
-    public string Locatietype { get; init; } = null!;
+    public LocatieType Locatietype { get; init; } = null!;
 
     /// <summary>Duidt aan dat dit de primaire locatie is</summary>
     [DataMember(Name = "IsPrimair")]
@@ -37,4 +45,10 @@ public class Locatie
     /// </summary>
     [DataMember(Name = "AdresId")]
     public AdresId? AdresId { get; set; }
+
+    /// <summary>
+    ///     De verwijzing naar een adres in het adresregister
+    /// </summary>
+    [DataMember(Name = "VerwijstNaar")]
+    public AdresVerwijzing? VerwijstNaar { get; set; }
 }

@@ -20,7 +20,7 @@ using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
 using System.Configuration;
-using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
+using ConfigurationManager = ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {

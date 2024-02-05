@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Public.Api.Infrastructure.Extensions;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;
 using Framework.Helpers;
 using Marten;
@@ -144,7 +144,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions.ElasticClientExtensions.CreateVerenigingIndex(client.Indices, verenigingenIndexName);
+        ElasticClientExtensions.CreateVerenigingIndex(
+            client.Indices, verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
     }

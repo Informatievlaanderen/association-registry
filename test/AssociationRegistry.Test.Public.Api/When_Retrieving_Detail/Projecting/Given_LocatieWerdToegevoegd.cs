@@ -7,6 +7,7 @@ using Events;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -28,14 +29,30 @@ public class Given_LocatieWerdToegevoegd
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
+                JsonLdMetadata =
+                    new JsonLdMetadata(
+                        JsonLdType.Locatie.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                        JsonLdType.Locatie.Type),
                 LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
                 IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
                 Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
-                Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
+                Locatietype =
+                    new PubliekVerenigingDetailDocument.Locatie.LocatieType
+                    {
+                        JsonLdMetadata =
+                            new JsonLdMetadata(
+                                JsonLdType.LocatieType.CreateWithIdValues(locatieWerdToegevoegd.Data.Locatie.Locatietype),
+                                JsonLdType.LocatieType.Type),
+                        Naam = locatieWerdToegevoegd.Data.Locatie.Locatietype,
+                    },
                 Adres = locatieWerdToegevoegd.Data.Locatie.Adres is null
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
                     {
+                        JsonLdMetadata =
+                            new JsonLdMetadata(
+                                JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                                JsonLdType.Adres.Type),
                         Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
                         Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
@@ -50,6 +67,16 @@ public class Given_LocatieWerdToegevoegd
                     {
                         Broncode = locatieWerdToegevoegd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
+                    },
+                VerwijstNaar = locatieWerdToegevoegd.Data.Locatie.AdresId is null
+                    ? null
+                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata()
+                        {
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(locatieWerdToegevoegd.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
+                            Type = JsonLdType.AdresVerwijzing.Type,
+                        },
                     },
             });
 

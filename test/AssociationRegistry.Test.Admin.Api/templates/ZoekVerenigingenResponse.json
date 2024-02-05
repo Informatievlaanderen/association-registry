@@ -3,6 +3,8 @@
   "verenigingen": [
     {{ for vereniging in verenigingen }}
     {
+      "@id": "{{vereniging.jsonldid}}",
+      "@type": "{{vereniging.jsonldtype}}",
       "vCode": "{{vereniging.vcode}}",
       "verenigingstype": {
         "code": "{{vereniging.verenigingstype.code}}",
@@ -15,19 +17,28 @@
       "hoofdactiviteitenVerenigingsloket": [
         {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
         {
+          "@id": "{{hoofdactiviteit.jsonldid}}",
+          "@type": "{{hoofdactiviteit.jsonldtype}}",
           "code": "{{hoofdactiviteit.code}}",
           "naam": "{{hoofdactiviteit.naam}}"
         },
         {{end}}
       ],
       "doelgroep": {
-        "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+        "@id": "{{vereniging.doelgroep.jsonldid}}",
+        "@type": "{{vereniging.doelgroep.jsonldtype}}","minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
         "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
       },
       "locaties": [
       {{for locatie in vereniging.locaties}}
         {
-          "locatietype": "{{locatie.type}}",
+          "@id": "{{locatie.jsonldid}}",
+          "@type": "{{locatie.jsonldtype}}",
+          "locatietype":  {
+            "@id": "{{locatie.type.jsonldid}}",
+            "@type": "{{locatie.type.jsonldtype}}",
+            "naam": "{{locatie.type.naam}}"
+          },
           "isPrimair": {{locatie.isprimair}},
           "adresvoorstelling": "{{locatie.adresvoorstelling}}",
           "naam": "{{locatie.naam}}",
@@ -39,8 +50,15 @@
       "sleutels": [
       {{for sleutel in vereniging.sleutels}}
       {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}"
+        "waarde": "{{sleutel.waarde}}",
+        "gestructureerdeIdentificator": {
+          "@id": "{{sleutel.identificator.jsonldid}}",
+          "@type": "{{sleutel.identificator.jsonldtype}}",
+          "nummer": "{{sleutel.identificator.nummer}}"
+        }
       },
       {{end}}
     ],

@@ -1,6 +1,8 @@
 {
   "@context": "http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json",
   "vereniging": {
+    "@id": "{{vereniging.jsonldid}}",
+    "@type": "{{vereniging.jsonldtype}}",
     "vCode": "{{vereniging.vcode}}",
     "verenigingstype": {
       "code": "{{vereniging.verenigingstype.code}}",
@@ -29,6 +31,8 @@
     "contactgegevens": [
 {{for contactgegeven in vereniging.contactgegevens}}
       {
+        "@id": "{{contactgegeven.jsonldid}}",
+        "@type": "{{contactgegeven.jsonldtype}}",
         "contactgegevenId": {{contactgegeven.id}},
         "contactgegeventype": "{{contactgegeven.contactgegeventype}}",
         "waarde": "{{contactgegeven.waarde}}",
@@ -41,20 +45,30 @@
     "hoofdactiviteitenVerenigingsloket": [
 {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
       {
+        "@id": "{{hoofdactiviteit.jsonldid}}",
+        "@type": "{{hoofdactiviteit.jsonldtype}}",
         "code": "{{hoofdactiviteit.code}}",
         "naam": "{{hoofdactiviteit.naam
       }}"
       },{{end}}
     ],
     "doelgroep": {
+      "@id": "{{vereniging.doelgroep.jsonldid}}",
+      "@type": "{{vereniging.doelgroep.jsonldtype}}",
       "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
       "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
     },
     "locaties": [
 {{for locatie in vereniging.locaties}}
       {
+        "@id": "{{locatie.jsonldid}}",
+        "@type": "{{locatie.jsonldtype}}",
         "locatieId":{{locatie.id}},
-        "locatietype": "{{locatie.type}}",
+        "locatietype":  {
+          "@id": "{{locatie.type.jsonldid}}",
+          "@type": "{{locatie.type.jsonldtype}}",
+          "naam": "{{locatie.type.naam}}"
+        },
         "isPrimair": {{locatie.isprimair}},
         "adresvoorstelling": "{{locatie.adresvoorstelling}}",
         "naam": "{{locatie.naam}}",
@@ -62,6 +76,8 @@
         "adres":
 {{if locatie.adres}}
         {
+          "@id": "{{locatie.adres.jsonldid}}",
+          "@type": "{{locatie.adres.jsonldtype}}",
           "straatnaam": "{{locatie.adres.straatnaam}}",
           "huisnummer": "{{locatie.adres.huisnummer}}",
           "busnummer": "{{locatie.adres.busnummer}}",
@@ -71,6 +87,15 @@
         },
 {{else}}
         null,
+{{end}}
+      "verwijstNaar":
+{{if locatie.adresid}}
+        {
+          "@id": "{{locatie.verwijstnaar.jsonldid}}",
+          "@type": "{{locatie.verwijstnaar.jsonldtype}}"
+        },
+{{else}}
+      null,
 {{end}}
       "adresId":
 {{if locatie.adresid}}
@@ -87,6 +112,8 @@
     "vertegenwoordigers": [
 {{for vertegenwoordiger in vereniging.vertegenwoordigers}}
       {
+        "@id": "{{vertegenwoordiger.jsonldid}}",
+        "@type": "{{vertegenwoordiger.jsonldtype}}",
         "vertegenwoordigerId": {{vertegenwoordiger.id}},
         "insz":"{{vertegenwoordiger.insz}}",
         "voornaam": "{{vertegenwoordiger.voornaam}}",
@@ -98,6 +125,15 @@
         "telefoon":"{{vertegenwoordiger.telefoon}}",
         "mobiel":"{{vertegenwoordiger.mobiel}}",
         "socialMedia":"{{vertegenwoordiger.socialmedia}}",
+        "vertegenwoordigerContactgegevens":{
+          "@id": "{{vertegenwoordiger.vertegenwoordigercontactgegevens.jsonldid}}",
+          "@type": "{{vertegenwoordiger.vertegenwoordigercontactgegevens.jsonldtype}}",
+          "isPrimair": {{vertegenwoordiger.vertegenwoordigercontactgegevens.isprimair}},
+          "e-mail":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.email}}",
+          "telefoon":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.telefoon}}",
+          "mobiel":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.mobiel}}",
+          "socialMedia":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.socialmedia}}"
+        },
         "bron": "{{vertegenwoordiger.bron}}"
       },
 {{end}}
@@ -105,8 +141,15 @@
     "sleutels": [
 {{for sleutel in vereniging.sleutels}}
       {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
-        "waarde": "{{sleutel.waarde}}"
+        "waarde": "{{sleutel.waarde}}",
+        "gestructureerdeIdentificator": {
+          "@id": "{{sleutel.identificator.jsonldid}}",
+          "@type": "{{sleutel.identificator.jsonldtype}}",
+          "nummer": "{{sleutel.identificator.nummer}}"
+        }
       },
 {{end}}
     ],

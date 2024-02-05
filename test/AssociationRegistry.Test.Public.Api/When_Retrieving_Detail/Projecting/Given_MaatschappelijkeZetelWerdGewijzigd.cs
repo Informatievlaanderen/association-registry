@@ -6,6 +6,8 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,13 +20,20 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         var fixture = new Fixture().CustomizePublicApi();
         var maatschappelijkeZetelVolgensKboWerdGewijzigd = fixture.Create<TestEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd>>();
 
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+        doc.VCode = fixture.Create<VCode>();
+
         var locatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>() with
         {
             LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
+            JsonLdMetadata =
+            new JsonLdMetadata(
+                JsonLdType.Locatie.CreateWithIdValues(doc.VCode,
+                                                      maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
+                JsonLdType.Locatie.Type),
         };
-
-        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
         doc.Locaties = doc.Locaties.Append(locatie).ToArray();
+
 
         PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
 
@@ -33,6 +42,11 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         doc.Locaties.Should().ContainEquivalentOf(
             new PubliekVerenigingDetailDocument.Locatie
             {
+                JsonLdMetadata =
+                    new JsonLdMetadata(
+                        JsonLdType.Locatie.CreateWithIdValues(doc.VCode,
+                                                              maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
+                        JsonLdType.Locatie.Type),
                 LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
                 IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
                 Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
@@ -40,6 +54,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
                 Adres = locatie.Adres,
                 Adresvoorstelling = locatie.Adresvoorstelling,
                 AdresId = locatie.AdresId,
+                VerwijstNaar = locatie.VerwijstNaar,
             });
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);

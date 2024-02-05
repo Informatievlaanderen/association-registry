@@ -10,11 +10,16 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
+using Contactgegeven = AssociationRegistry.Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
+using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
@@ -41,8 +46,13 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
+                JsonLdMetadata = new JsonLdMetadata
+                {
+                    Id = JsonLdType.Vereniging.CreateWithIdValues(doc.VCode),
+                    Type = JsonLdType.Vereniging.Type,
+                },
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                Verenigingstype = new BeheerVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new VerenigingsType
                 {
                     Code = Verenigingstype.Parse(rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(rechtsvorm).Naam,
@@ -54,25 +64,43 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
                 Doelgroep = new Doelgroep
                 {
-                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                    JsonLdMetadata = new JsonLdMetadata
+                    {
+                        Id = JsonLdType.Doelgroep.CreateWithIdValues(doc.VCode),
+                        Type = JsonLdType.Doelgroep.Type,
+                    },Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate(),
                 Status = VerenigingStatus.Actief,
-                Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
-                Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
-                Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
-                HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-                Sleutels = new BeheerVerenigingDetailDocument.Sleutel[]
+                Contactgegevens = Array.Empty<Contactgegeven>(),
+                Locaties = Array.Empty<Locatie>(),
+                Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
+                Sleutels = new Sleutel[]
                 {
                     new()
                     {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.Sleutel.CreateWithIdValues(doc.VCode, Sleutelbron.Kbo.Waarde),
+                            Type = JsonLdType.Sleutel.Type,
+                        },
                         Bron = Sleutelbron.Kbo.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                        GestructureerdeIdentificator = new GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = new JsonLdMetadata
+                            {
+                                Id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(doc.VCode, Sleutelbron.Kbo.Waarde),
+                                Type = JsonLdType.GestructureerdeSleutel.Type,
+                            },
+                            Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                        },
                     },
                 },
-                Relaties = Array.Empty<BeheerVerenigingDetailDocument.Relatie>(),
+                Relaties = Array.Empty<Relatie>(),
                 Bron = Bron.KBO,
                 Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence,
                                         verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),

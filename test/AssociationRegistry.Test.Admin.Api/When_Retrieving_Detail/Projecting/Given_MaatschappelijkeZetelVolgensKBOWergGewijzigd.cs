@@ -1,11 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,7 +20,7 @@ public class Given_MaatschappelijkeZetelVolgensKBOWergGewijzigd
         var fixture = new Fixture().CustomizeAdminApi();
         var maatschappelijkeZetelVolgensKboWerdGewijzigd = fixture.Create<TestEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd>>();
 
-        var locatie = fixture.Create<BeheerVerenigingDetailDocument.Locatie>() with
+        var locatie = fixture.Create<Locatie>() with
         {
             LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
         };
@@ -30,9 +32,12 @@ public class Given_MaatschappelijkeZetelVolgensKBOWergGewijzigd
 
         doc.Locaties.Should().HaveCount(4);
 
-        doc.Locaties.Should().ContainEquivalentOf(
-            new BeheerVerenigingDetailDocument.Locatie
+        var loc = doc.Locaties.Should().ContainSingle(l => l.LocatieId == locatie.LocatieId).Subject;
+
+        loc.Should().BeEquivalentTo(
+            new Locatie
             {
+                JsonLdMetadata = locatie.JsonLdMetadata,
                 LocatieId = locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
                 Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
@@ -40,8 +45,10 @@ public class Given_MaatschappelijkeZetelVolgensKBOWergGewijzigd
                 Adres = locatie.Adres,
                 Adresvoorstelling = locatie.Adresvoorstelling,
                 AdresId = locatie.AdresId,
+                VerwijstNaar = locatie.VerwijstNaar,
                 Bron = locatie.Bron,
-            });
+            }
+        );
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
     }

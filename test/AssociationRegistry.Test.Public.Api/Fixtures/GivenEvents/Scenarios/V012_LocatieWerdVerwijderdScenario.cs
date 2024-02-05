@@ -29,7 +29,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         IsPrimair: false,
         Naam: "Naam locatie",
         Adres: null,
-        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix));
+        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1"));
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);

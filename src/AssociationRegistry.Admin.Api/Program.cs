@@ -7,7 +7,6 @@ using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
-using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
@@ -32,8 +31,6 @@ using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
-using Marten.Events;
-using Marten.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -75,7 +72,6 @@ using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Wolverine;
-using IEvent = Framework.IEvent;
 using IEventStore = EventStore.IEventStore;
 
 public class Program

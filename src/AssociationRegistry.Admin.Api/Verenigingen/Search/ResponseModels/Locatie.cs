@@ -5,6 +5,14 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Locatie
 {
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; set; }
+
     /// <summary>
     ///     Het soort locatie dat beschreven wordt<br />
     ///     <br />
@@ -14,7 +22,7 @@ public class Locatie
     ///     - Maatschappelijke zetel volgens KBO - Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]
-    public string Locatietype { get; init; } = null!;
+    public LocatieType Locatietype { get; init; } = null!;
 
     /// <summary>
     /// Is dit de primaire locatie van deze vereniging

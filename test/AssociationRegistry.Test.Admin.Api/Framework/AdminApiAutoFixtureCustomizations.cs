@@ -68,8 +68,7 @@ public static class AutoFixtureCustomizations
                 }).OmitAutoProperties());
 
         fixture
-           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.
-                WijzigBasisgegevensRequest>(
+           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
                 composer => composer.With(
                     propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
                     valueFactory: () => fixture
