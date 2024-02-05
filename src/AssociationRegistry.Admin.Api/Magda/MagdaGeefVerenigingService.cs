@@ -62,11 +62,10 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
-
             if (magdaOnderneming is null ||
                 !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
                 !IsOnderneming(magdaOnderneming) ||
-                !IsActief(magdaOnderneming) ||
+                !IsActiefOfInOprichting(magdaOnderneming) ||
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
@@ -97,6 +96,9 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             throw new MagdaException(message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
         }
     }
+
+    private static bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
+        => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
     private VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
         => _temporaryMagdaVertegenwoordigersSection.TemporaryVertegenwoordigers
@@ -201,6 +203,9 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
     private static bool IsActief(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.Actief;
+
+    private static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
+        => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.InOprichting;
 
     private static bool IsOnderneming(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.OndernemingOfVestiging.Code.Value == OndernemingOfVestigingCodes.Onderneming;

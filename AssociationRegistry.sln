@@ -108,6 +108,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefOndernemingResponses", 
 		wiremock\__files\GeefOndernemingResponses\2289324120.vestiging.xml = wiremock\__files\GeefOndernemingResponses\2289324120.vestiging.xml
 		wiremock\__files\GeefOndernemingResponses\0407622110.xml = wiremock\__files\GeefOndernemingResponses\0407622110.xml
 		wiremock\__files\GeefOndernemingResponses\0408498573.xml = wiremock\__files\GeefOndernemingResponses\0408498573.xml
+		wiremock\__files\GeefOndernemingResponses\0407622011.xml = wiremock\__files\GeefOndernemingResponses\0407622011.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Hosts", "src\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj", "{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}"
