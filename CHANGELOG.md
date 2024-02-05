@@ -1,3 +1,10 @@
+# [8.56.0](https://github.com/informatievlaanderen/association-registry/compare/v8.55.3...v8.56.0) (2024-02-05)
+
+
+### Features
+
+* or-2067 allow KBO in oprichting ([0386cda](https://github.com/informatievlaanderen/association-registry/commit/0386cda6c40444ad9275fab3c39cd54a105e3ea5))
+
 ## [8.55.3](https://github.com/informatievlaanderen/association-registry/compare/v8.55.2...v8.55.3) (2024-02-05)
 
 
