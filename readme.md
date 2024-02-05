@@ -13,6 +13,8 @@ Please see our [contributing guidelines](CONTRIBUTING.md) before contributing.
 
 ## Setup
 
+Working with docker containers:
+
 ### Start docker containers
 
 ```~~~~
