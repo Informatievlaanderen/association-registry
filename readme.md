@@ -16,7 +16,13 @@ Please see our [contributing guidelines](CONTRIBUTING.md) before contributing.
 ### Start docker containers
 
 ```~~~~
-docker compose up
+docker compose up -d
+```
+
+### Stop docker containers
+
+```~~~~
+docker compose down -v
 ```
 
 ## Conventions
