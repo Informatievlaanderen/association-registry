@@ -38,6 +38,22 @@ public class DetailVerenigingResponseTemplate
         _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
         _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
 
+        _vereniging.sleutels.Add(new
+        {
+            jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+            jsonldtype = JsonLdType.Sleutel.Type,
+            codeersysteem = CodeerSysteem.VR.Waarde,
+            identificator = new
+            {
+                jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                nummer = vCode,
+            },
+
+            bron = Sleutelbron.VR.Waarde,
+            waarde = vCode,
+        });
+
         return this;
     }
 
@@ -115,7 +131,7 @@ public class DetailVerenigingResponseTemplate
         {
             jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
             jsonldtype = JsonLdType.Sleutel.Type,
-
+            codeersysteem = CodeerSysteem.KBO.Waarde,
             identificator = new
             {
                 jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),

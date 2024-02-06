@@ -69,7 +69,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                         type = JsonLdType.Locatie.Type,
 
-                        Locatietype = new LocatieType()
+                        Locatietype = new LocatieType
                         {
                             id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
                             type = JsonLdType.LocatieType.Type,
@@ -89,16 +89,16 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                             Gemeente = "Liedekerke",
                             Land = "Belgie",
                         },
-                        AdresId = new AdresId()
+                        AdresId = new AdresId
                         {
                             Broncode = Adresbron.AR.Code,
                             Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
                         },
-                        VerwijstNaar = new AdresVerwijzing()
+                        VerwijstNaar = new AdresVerwijzing
                         {
                             id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
                             type = JsonLdType.AdresVerwijzing.Type,
-                        }
+                        },
                     },
                 },
                 HoofdactiviteitenVerenigingsloket = new[]
@@ -112,7 +112,23 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         Naam = "Cultuur",
                     },
                 },
-                Sleutels = Array.Empty<Sleutel>(),
+                Sleutels = new []
+                {
+                    new Sleutel
+                    {
+                        id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.VR),
+                        type = JsonLdType.Sleutel.Type,
+                        Bron = Sleutelbron.VR,
+                        Waarde = "V0001001",
+                        CodeerSysteem = CodeerSysteem.VR,
+                        GestructureerdeIdentificator = new GestructureerdeIdentificator
+                        {
+                            id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR),
+                            type = JsonLdType.GestructureerdeSleutel.Type,
+                            Nummer = "V0001001",
+                        },
+                    },
+                },
                 Relaties = Array.Empty<Relatie>(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },

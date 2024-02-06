@@ -155,6 +155,6 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             loc.IsPrimair,
             loc.Adresvoorstelling,
             loc.Naam,
-            loc.Postcode ?? string.Empty,
-            loc.Gemeente ?? string.Empty);
+            loc.Postcode,
+            loc.Gemeente);
 }

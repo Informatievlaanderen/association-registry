@@ -87,7 +87,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
-                            Locatietype = new LocatieType()
+                            Locatietype = new LocatieType
                             {
                                 id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
                                 type = JsonLdType.LocatieType.Type,
@@ -226,7 +226,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 1,
-                            Locatietype = new LocatieType()
+                            Locatietype = new LocatieType
                             {
                                 id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde),
                                 type = JsonLdType.LocatieType.Type,
@@ -253,7 +253,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "2"),
                             type = JsonLdType.Locatie.Type,
                             LocatieId = 2,
-                            Locatietype = new LocatieType()
+                            Locatietype = new LocatieType
                             {
                                 id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Activiteiten.Waarde),
                                 type = JsonLdType.LocatieType.Type,

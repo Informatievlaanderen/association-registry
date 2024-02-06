@@ -55,6 +55,28 @@ public static class PubliekVerenigingDetailProjector
                                                             .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
+            Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
+            {
+                new()
+                {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Sleutel.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                                              Sleutelbron.VR.Waarde),
+                        JsonLdType.Sleutel.Type),
+                    Bron = Sleutelbron.VR.Waarde,
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                Sleutelbron.VR.Waarde),
+                            JsonLdType.GestructureerdeSleutel.Type),
+                        Nummer = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                    },
+                    Waarde = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                    CodeerSysteem = CodeerSysteem.VR,
+                },
+            },
         };
 
     public static PubliekVerenigingDetailDocument Create(
@@ -97,6 +119,25 @@ public static class PubliekVerenigingDetailProjector
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                                                              Sleutelbron.VR.Waarde),
+                        JsonLdType.Sleutel.Type),
+                    Bron = Sleutelbron.VR.Waarde,
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                                Sleutelbron.VR.Waarde),
+                            JsonLdType.GestructureerdeSleutel.Type),
+                        Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                    },
+                    Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                    CodeerSysteem = CodeerSysteem.VR,
+                },
+                new()
+                {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                                                               Sleutelbron.KBO.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.KBO.Waarde,
@@ -110,6 +151,7 @@ public static class PubliekVerenigingDetailProjector
                         Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                    CodeerSysteem = CodeerSysteem.KBO,
                 },
             },
         };
@@ -279,7 +321,7 @@ public static class PubliekVerenigingDetailProjector
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
-            Locatietype = new PubliekVerenigingDetailDocument.Locatie.LocatieType()
+            Locatietype = new PubliekVerenigingDetailDocument.Locatie.LocatieType
             {
                 JsonLdMetadata = new JsonLdMetadata(
                     JsonLdType.LocatieType.CreateWithIdValues(loc.Locatietype),
@@ -296,7 +338,7 @@ public static class PubliekVerenigingDetailProjector
     {
         if (adresid is null) return null;
 
-        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
         {
             JsonLdMetadata = new JsonLdMetadata(
                 JsonLdType.AdresVerwijzing.CreateWithIdValues(adresid.Bronwaarde.Split('/').Last()),

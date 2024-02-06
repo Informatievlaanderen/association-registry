@@ -13,7 +13,6 @@ public record Doelgroep
 public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
     public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
-
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
@@ -62,12 +61,13 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
         public AdresVerwijzing? VerwijstNaar { get; set; }
+
         public class LocatieType
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
             public string Naam { get; set; }
-
         }
+
         public class AdresVerwijzing
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
@@ -87,6 +87,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
         public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
+        public string CodeerSysteem { get; set; }
     }
 
     public class GestructureerdeIdentificator

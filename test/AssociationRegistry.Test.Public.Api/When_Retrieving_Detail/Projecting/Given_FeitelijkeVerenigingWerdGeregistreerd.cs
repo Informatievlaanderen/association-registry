@@ -116,9 +116,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             },
                         VerwijstNaar = loc.AdresId is null
                             ? null
-                            : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                            : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
                             {
-                                JsonLdMetadata = new JsonLdMetadata()
+                                JsonLdMetadata = new JsonLdMetadata
                                 {
                                     Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(loc.AdresId.Bronwaarde.Split('/').Last()),
                                     Type = JsonLdType.AdresVerwijzing.Type,
@@ -134,7 +134,28 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Code = arg.Code,
                         Naam = arg.Naam,
                     }).ToArray(),
-                Sleutels = Array.Empty<PubliekVerenigingDetailDocument.Sleutel>(),
+                Sleutels = new []
+                {
+                    new PubliekVerenigingDetailDocument.Sleutel
+                    {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Sleutel.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                                                  Sleutelbron.VR.Waarde),
+                            JsonLdType.Sleutel.Type),
+                        Bron = Sleutelbron.VR.Waarde,
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = new JsonLdMetadata(
+                                JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
+                                    feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                    Sleutelbron.VR.Waarde),
+                                JsonLdType.GestructureerdeSleutel.Type),
+                            Nummer = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        },
+                        Waarde = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR,
+                    },
+                },
             });
     }
 }

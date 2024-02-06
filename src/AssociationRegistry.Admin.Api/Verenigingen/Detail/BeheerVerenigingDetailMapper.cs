@@ -178,7 +178,7 @@ public class BeheerVerenigingDetailMapper
             type = loc.JsonLdMetadata.Type,
             LocatieId = loc.LocatieId,
             VerwijstNaar = Map(loc.VerwijstNaar),
-            Locatietype = new LocatieType()
+            Locatietype = new LocatieType
             {
                 id = loc.Locatietype.JsonLdMetadata.Id,
                 type = loc.Locatietype.JsonLdMetadata.Type,

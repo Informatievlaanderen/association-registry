@@ -86,6 +86,7 @@ public static class PubliekVerenigingDetailMapper
                 Nummer = s.GestructureerdeIdentificator.Nummer,
             },
 
+            CodeerSysteem = s.CodeerSysteem,
             Bron = s.Bron,
             Waarde = s.Waarde,
         };
