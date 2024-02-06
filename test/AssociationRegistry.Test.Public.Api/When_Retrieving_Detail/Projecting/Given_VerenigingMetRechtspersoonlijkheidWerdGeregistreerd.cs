@@ -67,16 +67,16 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     new()
                     {
                         JsonLdMetadata = new JsonLdMetadata(
-                            JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                            JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.KBO.Waarde),
                             JsonLdType.Sleutel.Type),
                         GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata(
-                                JsonLdType.GestructureerdeSleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.Kbo.Waarde),
+                                JsonLdType.GestructureerdeSleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode, Sleutelbron.KBO.Waarde),
                                 JsonLdType.GestructureerdeSleutel.Type),
                             Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                         },
-                        Bron = Sleutelbron.Kbo.Waarde,
+                        Bron = Sleutelbron.KBO.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },
                 },

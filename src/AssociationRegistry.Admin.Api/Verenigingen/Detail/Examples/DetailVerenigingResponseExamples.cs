@@ -286,13 +286,13 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Sleutel
                         {
-                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.Kbo.Waarde),
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.KBO.Waarde),
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
-                            Bron = Sleutelbron.Kbo.Waarde,
+                            Bron = Sleutelbron.KBO.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.Kbo.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.KBO.Waarde),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "0123456789",
                             },

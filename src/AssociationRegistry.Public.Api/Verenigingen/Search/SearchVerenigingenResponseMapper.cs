@@ -176,6 +176,7 @@ public class SearchVerenigingenResponseMapper
             type = s.JsonLdMetadata.Type,
             Bron = s.Bron,
             Waarde = s.Waarde,
+            CodeerSysteem = s.CodeerSysteem,
             GestructureerdeIdentificator =
                 new GestructureerdeIdentificator
                 {

@@ -25,6 +25,9 @@ public class Sleutel
     [DataMember(Name = "Waarde")]
     public string Waarde { get; set; } = null!;
 
+    [DataMember(Name = "CodeerSysteem")]
+    public string CodeerSysteem { get; set; } = null!;
+
     /// <summary>
     /// De gestructureerde identificator
     /// </summary>
