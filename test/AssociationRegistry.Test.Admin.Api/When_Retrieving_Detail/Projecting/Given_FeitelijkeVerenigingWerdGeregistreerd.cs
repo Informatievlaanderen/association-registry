@@ -92,9 +92,9 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
                         Locatietype =
-                            new LocatieType()
+                            new LocatieType
                             {
-                                JsonLdMetadata = new JsonLdMetadata()
+                                JsonLdMetadata = new JsonLdMetadata
                                 {
                                     Id = JsonLdType.LocatieType.CreateWithIdValues(loc.Locatietype),
                                     Type = JsonLdType.LocatieType.Type,
@@ -127,7 +127,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             },
                         VerwijstNaar = loc.AdresId is null
                             ? null
-                            : new AdresVerwijzing()
+                            : new AdresVerwijzing
                             {
                                 JsonLdMetadata = new JsonLdMetadata
                                 {

@@ -70,9 +70,9 @@ public class Given_LocatieWerdToegevoegd
                     },
                 VerwijstNaar = locatieWerdToegevoegd.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing()
+                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
                     {
-                        JsonLdMetadata = new JsonLdMetadata()
+                        JsonLdMetadata = new JsonLdMetadata
                         {
                             Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(locatieWerdToegevoegd.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
                             Type = JsonLdType.AdresVerwijzing.Type,

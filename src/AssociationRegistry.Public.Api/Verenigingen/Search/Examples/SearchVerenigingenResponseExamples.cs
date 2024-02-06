@@ -43,8 +43,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         {
                             id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
                             type = JsonLdType.Hoofdactiviteit.Type,
-                            Code = "CULT", Naam = "Cultuur"
-                        }
+                            Code = "CULT", Naam = "Cultuur",
+                        },
                     },
                     Doelgroep = new DoelgroepResponse
                     {
@@ -59,7 +59,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         {
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
-                            Locatietype = new LocatieType()
+                            Locatietype = new LocatieType
                             {
                                 id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
                                 type = JsonLdType.LocatieType.Type,
@@ -132,7 +132,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         {
                             id = JsonLdType.Locatie.CreateWithIdValues("V0036651", "1"),
                             type = JsonLdType.Locatie.Type,
-                            Locatietype = new LocatieType()
+                            Locatietype = new LocatieType
                             {
                                 id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Activiteiten.Waarde),
                                 type = JsonLdType.LocatieType.Type,
@@ -177,7 +177,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "V0036651",
                             },
-                        }
+                        },
                     },
                     Relaties = Array.Empty<Relatie>(),
                 },

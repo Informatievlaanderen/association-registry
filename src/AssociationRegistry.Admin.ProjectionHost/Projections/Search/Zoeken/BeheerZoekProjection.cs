@@ -206,7 +206,7 @@ public class BeheerZoekProjectionHandler
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
 
             LocatieId = locatie.LocatieId,
-            Locatietype = new VerenigingZoekDocument.Locatie.LocatieType()
+            Locatietype = new VerenigingZoekDocument.Locatie.LocatieType
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.LocatieType, locatie.Locatietype),
                 Naam = locatie.Locatietype,

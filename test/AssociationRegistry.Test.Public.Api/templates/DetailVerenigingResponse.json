@@ -105,6 +105,7 @@
         "@type": "{{sleutel.jsonldtype}}",
         "bron": "{{sleutel.bron}}",
         "waarde": "{{sleutel.waarde}}",
+        "codeerSysteem": "{{sleutel.codeersysteem}}",
         "gestructureerdeIdentificator": {
           "@id": "{{sleutel.identificator.jsonldid}}",
           "@type": "{{sleutel.identificator.jsonldtype}}",

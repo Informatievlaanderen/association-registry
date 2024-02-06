@@ -112,7 +112,7 @@ public class SearchVerenigingenResponseMapper
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
-            Locatietype = new LocatieType()
+            Locatietype = new LocatieType
             {
                 id = loc.Locatietype.JsonLdMetadata.Id,
                 type = loc.Locatietype.JsonLdMetadata.Type,

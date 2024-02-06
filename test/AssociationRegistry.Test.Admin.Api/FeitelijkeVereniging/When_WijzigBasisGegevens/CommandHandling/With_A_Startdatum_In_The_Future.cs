@@ -42,7 +42,7 @@ public class With_A_Startdatum_In_The_Future
         var method = () => _commandHandler.Handle(
             _commandEnvelope,
             _repositoryMock,
-            new ClockStub(_commandEnvelope.Command.Startdatum!.Value!.Value.AddDays(-1)));
+            new ClockStub(_commandEnvelope.Command.Startdatum.Value!.Value.AddDays(-1)));
 
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }

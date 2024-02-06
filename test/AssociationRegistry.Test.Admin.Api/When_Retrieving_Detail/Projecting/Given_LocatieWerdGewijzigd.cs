@@ -49,7 +49,7 @@ public class Given_LocatieWerdGewijzigd
             LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
             IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
             Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-            Locatietype = new LocatieType()
+            Locatietype = new LocatieType
             {
                 JsonLdMetadata = new JsonLdMetadata
                 {
@@ -84,7 +84,7 @@ public class Given_LocatieWerdGewijzigd
                 },
             VerwijstNaar = locatieWerdGewijzigd.Data.Locatie.AdresId is null
                 ? null
-                : new AdresVerwijzing()
+                : new AdresVerwijzing
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {

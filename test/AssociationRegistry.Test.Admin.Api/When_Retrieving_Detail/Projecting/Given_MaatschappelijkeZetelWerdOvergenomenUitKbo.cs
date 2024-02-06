@@ -42,7 +42,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
-                Locatietype = new LocatieType()
+                Locatietype = new LocatieType
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
@@ -77,7 +77,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     },
                 VerwijstNaar = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId is null
                     ? null
-                    : new AdresVerwijzing()
+                    : new AdresVerwijzing
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
