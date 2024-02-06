@@ -28,6 +28,12 @@ public class Sleutel
     [DataMember(Name = "Waarde")]
     public string Waarde { get; set; } = null!;
 
+    /// <summary>
+    /// het codeersysteem van de sleutel
+    /// </summary>
+    [DataMember(Name = "CodeerSysteem")]
+    public string CodeerSysteem { get; set; } = null!;
+
     /// <summary>De gestructureerde identificator</summary>
     [DataMember(Name = "GestructureerdeIdentificator")]
     public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }

@@ -108,6 +108,7 @@ public class BeheerVerenigingDetailMapper
             type = sleutel.JsonLdMetadata.Type,
             Bron = sleutel.Bron,
             Waarde = sleutel.Waarde,
+            CodeerSysteem = sleutel.CodeerSysteem,
             GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
                 id = sleutel.GestructureerdeIdentificator.JsonLdMetadata.Id,

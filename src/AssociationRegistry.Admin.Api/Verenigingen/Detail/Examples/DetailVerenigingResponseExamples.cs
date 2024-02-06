@@ -112,6 +112,12 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Broncode = Adresbron.AR,
                                 Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
+                            VerwijstNaar =
+                                new AdresVerwijzing()
+                                {
+                                    id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
+                                    type = JsonLdType.AdresVerwijzing.Type,
+                                },
                             Bron = Bron.Initiator,
                         },
                     },
@@ -145,7 +151,23 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Bron = Bron.Initiator.Waarde,
                         },
                     },
-                    Sleutels = Array.Empty<Sleutel>(),
+                    Sleutels = new[]
+                    {
+                        new Sleutel
+                        {
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                            type = JsonLdType.Sleutel.Type,
+                            Waarde = "V0001001",
+                            Bron = Sleutelbron.VR.Waarde,
+                            CodeerSysteem = CodeerSysteem.VR.Waarde,
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
+                            {
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                type = JsonLdType.GestructureerdeSleutel.Type,
+                                Nummer = "V0001001",
+                            },
+                        },
+                    },
                     Relaties = Array.Empty<Relatie>(),
                     Bron = Bron.Initiator.Waarde,
                 },
@@ -278,6 +300,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Broncode = Adresbron.AR,
                                 Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 17,
                             },
+                            VerwijstNaar = new AdresVerwijzing()
+                            {
+                                id = JsonLdType.AdresVerwijzing.CreateWithIdValues("17"),
+                                type = JsonLdType.AdresVerwijzing.Type,
+                            },
                             Bron = Bron.Initiator.Waarde,
                         },
                     },
@@ -286,10 +313,25 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Sleutel
                         {
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                            type = JsonLdType.Sleutel.Type,
+                            Waarde = "V0001001",
+                            Bron = Sleutelbron.VR.Waarde,
+                            CodeerSysteem = CodeerSysteem.VR.Waarde,
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
+                            {
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                type = JsonLdType.GestructureerdeSleutel.Type,
+                                Nummer = "V0001001",
+                            },
+                        },
+                        new Sleutel
+                        {
                             id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.KBO.Waarde),
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
                             Bron = Sleutelbron.KBO.Waarde,
+                            CodeerSysteem = CodeerSysteem.KBO.Waarde,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
                                 id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.KBO.Waarde),
