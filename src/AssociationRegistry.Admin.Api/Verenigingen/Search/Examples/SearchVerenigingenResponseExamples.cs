@@ -75,7 +75,23 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                         Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                     },
-                    Sleutels = Array.Empty<Sleutel>(),
+                    Sleutels = new[]
+                    {
+                        new Sleutel
+                        {
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                            type = JsonLdType.Sleutel.Type,
+                            Waarde = "V0001001",
+                            Bron = Sleutelbron.VR.Waarde,
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
+                            {
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR.Waarde),
+                                type = JsonLdType.GestructureerdeSleutel.Type,
+                                Nummer = "V0001001",
+                            },
+                            CodeerSysteem = CodeerSysteem.VR.Waarde,
+                        },
+                    },
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0001001"),
@@ -135,6 +151,20 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Sleutel
                         {
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0001002", Sleutelbron.VR.Waarde),
+                            type = JsonLdType.Sleutel.Type,
+                            Waarde = "V0001002",
+                            Bron = Sleutelbron.VR.Waarde,
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
+                            {
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001002", Sleutelbron.VR.Waarde),
+                                type = JsonLdType.GestructureerdeSleutel.Type,
+                                Nummer = "V0001002",
+                            },
+                            CodeerSysteem = CodeerSysteem.VR.Waarde,
+                        },
+                        new Sleutel
+                        {
                             id = JsonLdType.Sleutel.CreateWithIdValues("V0001002", Sleutelbron.KBO.Waarde),
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
@@ -145,6 +175,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "0123456789",
                             },
+                            CodeerSysteem = CodeerSysteem.KBO.Waarde,
                         },
                     },
                     Links = new VerenigingLinks

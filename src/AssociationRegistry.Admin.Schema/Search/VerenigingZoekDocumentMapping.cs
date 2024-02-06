@@ -184,6 +184,9 @@ public static class VerenigingZoekDocumentMapping
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                       .Name(document => document.Waarde))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                      .Name(document => document.CodeerSysteem))
               .Nested<VerenigingZoekDocument.GestructureerdeIdentificator>(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.JsonLdMetadata)

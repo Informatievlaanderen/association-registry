@@ -48,7 +48,21 @@ public class BeheerZoekProjectionHandler
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
-                Sleutels = Array.Empty<VerenigingZoekDocument.Sleutel>(),
+                Sleutels = new[]
+                {
+                    new VerenigingZoekDocument.Sleutel
+                    {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                        Bron = Sleutelbron.VR,
+                        Waarde = message.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR,
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
+                            Nummer = message.Data.VCode,
+                        },
+                    },
+                },
             }
         );
 
@@ -83,9 +97,22 @@ public class BeheerZoekProjectionHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                        Bron = Sleutelbron.VR,
+                        Waarde = message.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR,
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
+                            Nummer = message.Data.VCode,
+                        },
+                    },
+                    new VerenigingZoekDocument.Sleutel
+                    {
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.KBO.Waarde),
                         Bron = Sleutelbron.KBO,
                         Waarde = message.Data.KboNummer,
+                        CodeerSysteem = CodeerSysteem.KBO,
                         GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.KBO.Waarde),
