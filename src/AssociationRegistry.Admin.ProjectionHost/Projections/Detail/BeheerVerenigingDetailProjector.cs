@@ -58,6 +58,7 @@ public class BeheerVerenigingDetailProjector
                                                                                               feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                                  .VCode))
                                                                                      .ToArray(),
+            Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
@@ -99,6 +100,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
             Sleutels = new[]
             {
+                BeheerVerenigingDetailMapper.MapVrSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
                 BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                                                            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
             },
@@ -316,7 +318,8 @@ public class BeheerVerenigingDetailProjector
                                              Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  locatieWerdGewijzigd.Data.Locatie.AdresId),
-                                             VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                             VerwijstNaar =
+                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(locatieWerdGewijzigd.Data.Locatie.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();

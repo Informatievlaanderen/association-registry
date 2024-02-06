@@ -147,9 +147,24 @@ public class BeheerVerenigingDetailMapper
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.KBO.Waarde),
             Bron = Sleutelbron.KBO.Waarde,
             Waarde = kboNummer,
+            CodeerSysteem = CodeerSysteem.KBO.Waarde,
             GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
                 JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.KBO.Waarde), Nummer = kboNummer,
+            },
+        };
+
+    public static Sleutel MapVrSleutel(string vCode)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.VR.Waarde),
+            Bron = Sleutelbron.VR.Waarde,
+            Waarde = vCode,
+            CodeerSysteem = CodeerSysteem.VR.Waarde,
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.VR.Waarde),
+                Nummer = vCode,
             },
         };
 

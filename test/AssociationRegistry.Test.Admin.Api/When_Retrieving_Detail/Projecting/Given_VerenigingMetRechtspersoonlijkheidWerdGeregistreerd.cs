@@ -68,7 +68,8 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     {
                         Id = JsonLdType.Doelgroep.CreateWithIdValues(doc.VCode),
                         Type = JsonLdType.Doelgroep.Type,
-                    },Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
+                    },
+                    Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
@@ -84,11 +85,32 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
+                            Id = JsonLdType.Sleutel.CreateWithIdValues(doc.VCode, Sleutelbron.VR.Waarde),
+                            Type = JsonLdType.Sleutel.Type,
+                        },
+                        Bron = Sleutelbron.VR.Waarde,
+                        Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR.Waarde,
+                        GestructureerdeIdentificator = new GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = new JsonLdMetadata
+                            {
+                                Id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(doc.VCode, Sleutelbron.VR.Waarde),
+                                Type = JsonLdType.GestructureerdeSleutel.Type,
+                            },
+                            Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
+                        },
+                    },
+                    new()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
                             Id = JsonLdType.Sleutel.CreateWithIdValues(doc.VCode, Sleutelbron.KBO.Waarde),
                             Type = JsonLdType.Sleutel.Type,
                         },
                         Bron = Sleutelbron.KBO.Waarde,
                         Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                        CodeerSysteem = CodeerSysteem.KBO.Waarde,
                         GestructureerdeIdentificator = new GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata

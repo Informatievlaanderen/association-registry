@@ -183,7 +183,29 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Code = h.Code,
                         Naam = h.Naam,
                     }).ToArray(),
-                Sleutels = Array.Empty<Sleutel>(),
+                Sleutels = new Sleutel[]
+                {
+                    new()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.Sleutel.CreateWithIdValues(doc.VCode, Sleutelbron.VR.Waarde),
+                            Type = JsonLdType.Sleutel.Type,
+                        },
+                        Bron = Sleutelbron.VR.Waarde,
+                        Waarde = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR,
+                        GestructureerdeIdentificator = new GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = new JsonLdMetadata
+                            {
+                                Id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(doc.VCode, Sleutelbron.VR.Waarde),
+                                Type = JsonLdType.GestructureerdeSleutel.Type,
+                            },
+                            Nummer = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        },
+                    },
+                },
                 Relaties = Array.Empty<Relatie>(),
                 Bron = Bron.Initiator,
                 Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
