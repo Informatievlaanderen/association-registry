@@ -212,6 +212,11 @@ public static class VerenigingZoekDocumentMapping
                                           .Name(document => document.Waarde)
                                           .WithKeyword(PubliekZoekenNormalizer)
                                           .Analyzer(PubliekZoekenAnalyzer))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.CodeerSysteem)
+                                          .WithKeyword(PubliekZoekenNormalizer)
+                                          .Analyzer(PubliekZoekenAnalyzer))
               .Nested<VerenigingZoekDocument.GestructureerdeIdentificator>(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.GestructureerdeIdentificator)
