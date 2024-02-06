@@ -97,15 +97,15 @@ public static class PubliekVerenigingDetailProjector
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                                                              Sleutelbron.Kbo.Waarde),
+                                                              Sleutelbron.KBO.Waarde),
                         JsonLdType.Sleutel.Type),
-                    Bron = Sleutelbron.Kbo.Waarde,
+                    Bron = Sleutelbron.KBO.Waarde,
                     GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
                                 verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                                Sleutelbron.Kbo.Waarde),
+                                Sleutelbron.KBO.Waarde),
                             JsonLdType.GestructureerdeSleutel.Type),
                         Nummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     },

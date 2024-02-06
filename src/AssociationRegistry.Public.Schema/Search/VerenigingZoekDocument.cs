@@ -56,6 +56,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
         public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
+        public string CodeerSysteem { get; set; } = null!;
         public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
     }
 

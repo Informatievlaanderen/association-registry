@@ -83,12 +83,12 @@ public class BeheerZoekProjectionHandler
                 {
                     new VerenigingZoekDocument.Sleutel
                     {
-                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.Kbo.Waarde),
-                        Bron = Sleutelbron.Kbo,
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.KBO.Waarde),
+                        Bron = Sleutelbron.KBO,
                         Waarde = message.Data.KboNummer,
                         GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
                         {
-                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.Kbo.Waarde),
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.KBO.Waarde),
                             Nummer = message.Data.KboNummer,
                         },
                     },

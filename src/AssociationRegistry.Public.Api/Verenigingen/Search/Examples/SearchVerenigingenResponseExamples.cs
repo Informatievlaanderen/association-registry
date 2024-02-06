@@ -72,7 +72,24 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Gemeente = "Liedekerke",
                         },
                     },
-                    Sleutels = Array.Empty<Sleutel>(),
+                    Sleutels =
+                        new[]
+                        {
+                            new Sleutel
+                            {
+                                id = JsonLdType.Sleutel.CreateWithIdValues("V0001001", Sleutelbron.VR),
+                                type = JsonLdType.Sleutel.Type,
+                                Bron = Sleutelbron.VR,
+                                Waarde = "V0001001",
+                                CodeerSysteem = CodeerSysteem.VR,
+                                GestructureerdeIdentificator = new GestructureerdeIdentificator
+                                {
+                                    id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0001001", Sleutelbron.VR),
+                                    type = JsonLdType.GestructureerdeSleutel.Type,
+                                    Nummer = "V0001001",
+                                },
+                            },
+                        },
                     Relaties = Array.Empty<Relatie>(),
                     Links = new VerenigingLinks
                     {
@@ -106,7 +123,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Doelgroep = new DoelgroepResponse
                     {
                         id = JsonLdType.Doelgroep.CreateWithIdValues("V0036651"),
-                        type = JsonLdType.Doelgroep.Type,Minimumleeftijd = 0,
+                        type = JsonLdType.Doelgroep.Type, Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },
                     Locaties = new[]
@@ -136,17 +153,31 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Sleutel
                         {
-                            id = JsonLdType.Sleutel.CreateWithIdValues("V0036651", Sleutelbron.Kbo.Waarde),
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0036651", Sleutelbron.KBO.Waarde),
                             type = JsonLdType.Sleutel.Type,
                             Waarde = "0123456789",
-                            Bron = Sleutelbron.Kbo.Waarde,
+                            Bron = Sleutelbron.KBO.Waarde,
+                            CodeerSysteem = CodeerSysteem.KBO,
                             GestructureerdeIdentificator = new GestructureerdeIdentificator
                             {
-                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0036651", Sleutelbron.Kbo.Waarde),
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0036651", Sleutelbron.KBO.Waarde),
                                 type = JsonLdType.GestructureerdeSleutel.Type,
                                 Nummer = "0123456789",
-                            }
-                        },
+                            },
+                        },new Sleutel
+                        {
+                            id = JsonLdType.Sleutel.CreateWithIdValues("V0036651", Sleutelbron.VR),
+                            type = JsonLdType.Sleutel.Type,
+                            Bron = Sleutelbron.VR,
+                            Waarde = "V0036651",
+                            CodeerSysteem = CodeerSysteem.VR,
+                            GestructureerdeIdentificator = new GestructureerdeIdentificator
+                            {
+                                id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues("V0036651", Sleutelbron.VR),
+                                type = JsonLdType.GestructureerdeSleutel.Type,
+                                Nummer = "V0036651",
+                            },
+                        }
                     },
                     Relaties = Array.Empty<Relatie>(),
                 },

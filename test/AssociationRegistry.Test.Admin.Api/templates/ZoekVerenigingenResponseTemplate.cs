@@ -142,13 +142,13 @@ public class ZoekVerenigingenResponseTemplate
         {
             _vereniging.sleutels.Add(new
             {
-                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
                 jsonldtype = JsonLdType.Sleutel.Type,
-                bron = Sleutelbron.Kbo.Waarde,
+                bron = Sleutelbron.KBO.Waarde,
                 waarde = kboNummer,
                 identificator = new
                 {
-                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
                     jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
                     nummer = kboNummer,
                 },

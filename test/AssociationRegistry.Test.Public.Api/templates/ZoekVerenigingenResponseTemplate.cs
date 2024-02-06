@@ -99,6 +99,22 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
             _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
 
+            _vereniging.sleutels.Add(new
+            {
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                jsonldtype = JsonLdType.Sleutel.Type,
+
+                identificator = new
+                {
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                    jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
+                    nummer = vCode,
+                },
+                codeersysteem = CodeerSysteem.VR.Waarde,
+                bron = Sleutelbron.VR.Waarde,
+                waarde = vCode,
+            });
+
             return this;
         }
 
@@ -160,17 +176,17 @@ public class ZoekVerenigingenResponseTemplate
         {
             _vereniging.sleutels.Add(new
             {
-                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                jsonldid = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
                 jsonldtype = JsonLdType.Sleutel.Type,
 
                 identificator = new
                 {
-                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.Kbo.Waarde),
+                    jsonldid = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
                     jsonldtype = JsonLdType.GestructureerdeSleutel.Type,
                     nummer = kboNummer,
                 },
-
-                bron = Sleutelbron.Kbo.Waarde,
+                codeersysteem = CodeerSysteem.KBO.Waarde,
+                bron = Sleutelbron.KBO.Waarde,
                 waarde = kboNummer,
             });
 

@@ -15,6 +15,11 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
     };
 
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = CreateFeitelijkeVerenigingWerdGeregistreerd(
+        "V0001004",
+        Naam,
+        KorteNaam);
+
     public VCode VCode
         => VCode.Create("V0001004");
 
@@ -23,17 +28,17 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         return new IEvent[]
         {
             new EenEvent(),
-            FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                KorteNaam),
+            FeitelijkeVerenigingWerdGeregistreerd,
         };
     }
 
     public CommandMetadata GetCommandMetadata()
         => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 
-    private static FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
+    private static FeitelijkeVerenigingWerdGeregistreerd CreateFeitelijkeVerenigingWerdGeregistreerd(
+        string vCode,
+        string naam,
+        string korteNaam)
         => new(
             vCode,
             naam,

@@ -144,12 +144,12 @@ public class BeheerVerenigingDetailMapper
     public static Sleutel MapKboSleutel(string kboNummer, string vCode)
         => new()
         {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.Kbo.Waarde),
-            Bron = Sleutelbron.Kbo.Waarde,
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.KBO.Waarde),
+            Bron = Sleutelbron.KBO.Waarde,
             Waarde = kboNummer,
             GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
-                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.Kbo.Waarde), Nummer = kboNummer,
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.KBO.Waarde), Nummer = kboNummer,
             },
         };
 
