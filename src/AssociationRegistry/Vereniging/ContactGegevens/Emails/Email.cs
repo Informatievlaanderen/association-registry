@@ -9,9 +9,9 @@ public record Email(string Waarde, string Beschrijving, bool IsPrimair)
 {
     public static readonly Email Leeg = new(string.Empty, string.Empty, IsPrimair: false);
 
-    private static readonly Regex EmailRegex = new(
-        pattern: @"^([_-]*([a-z0-9]+[\.!#$%&'*+/=?^_`{|}~-]?){1,}[_-]*)@(([a-z0-9]+[\.-]?)*[a-z0-9]\.)+[a-z]{2,}$",
-        RegexOptions.IgnoreCase);
+    private static readonly Regex EmailRegex =
+        new(pattern: @"^([_-]*([a-z0-9]+[\.!#$%&'*+/=?^_`{|}~-]?){1,}[_-]*)@(([a-z0-9]+[\.-]?)*[a-z0-9]\.)+[a-z]{2,}$",
+            RegexOptions.IgnoreCase);
 
     public static Email Create(string? email)
         => Create(email, string.Empty, isPrimair: false);
