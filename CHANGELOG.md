@@ -1,3 +1,18 @@
+# [8.57.0](https://github.com/informatievlaanderen/association-registry/compare/v8.56.0...v8.57.0) (2024-02-07)
+
+
+### Bug Fixes
+
+* email regular expression fine tuning ([3e6185d](https://github.com/informatievlaanderen/association-registry/commit/3e6185d3c85e3e20cff9d356f78d9523422efcf8))
+* or-2088 replace email validation regular expression to be less restrictive ([3ffdb49](https://github.com/informatievlaanderen/association-registry/commit/3ffdb49fbd34ef035d9351986cefea737fbba50e))
+
+
+### Features
+
+* or-1282 update beheer zoeken ([f1cd64f](https://github.com/informatievlaanderen/association-registry/commit/f1cd64f1d4b25de3ac5cf8d9501024437dae3dd8))
+* or-1282 update publiek detail ([c31db4d](https://github.com/informatievlaanderen/association-registry/commit/c31db4de834bbe6118ab5c6ca75d8030973b1a9f))
+* or-1282 update publiek zoeken ([e2bc503](https://github.com/informatievlaanderen/association-registry/commit/e2bc50327d4744b506fb92f08542bdb2fc7b878e))
+
 # [8.56.0](https://github.com/informatievlaanderen/association-registry/compare/v8.55.3...v8.56.0) (2024-02-05)
 
 
