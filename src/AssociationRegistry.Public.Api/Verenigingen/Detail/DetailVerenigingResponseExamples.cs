@@ -69,12 +69,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                         type = JsonLdType.Locatie.Type,
 
-                        Locatietype = new LocatieType
-                        {
-                            id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
-                            type = JsonLdType.LocatieType.Type,
-                            Naam = Locatietype.Correspondentie.Waarde,
-                        },
+                        Locatietype = Locatietype.Correspondentie.Waarde,
                         IsPrimair = true,
                         Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                         Naam = "de kerk",

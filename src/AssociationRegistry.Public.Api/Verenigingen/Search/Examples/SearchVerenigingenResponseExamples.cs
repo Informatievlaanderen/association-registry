@@ -59,12 +59,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         {
                             id = JsonLdType.Locatie.CreateWithIdValues("V0001001", "1"),
                             type = JsonLdType.Locatie.Type,
-                            Locatietype = new LocatieType
-                            {
-                                id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Correspondentie.Waarde),
-                                type = JsonLdType.LocatieType.Type,
-                                Naam = Locatietype.Correspondentie.Waarde,
-                            },
+                            Locatietype = Locatietype.Correspondentie.Waarde,
                             IsPrimair = true,
                             Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
                             Naam = "",
@@ -132,12 +127,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         {
                             id = JsonLdType.Locatie.CreateWithIdValues("V0036651", "1"),
                             type = JsonLdType.Locatie.Type,
-                            Locatietype = new LocatieType
-                            {
-                                id = JsonLdType.LocatieType.CreateWithIdValues(Locatietype.Activiteiten.Waarde),
-                                type = JsonLdType.LocatieType.Type,
-                                Naam = Locatietype.Activiteiten.Waarde,
-                            },
+                            Locatietype = Locatietype.Activiteiten.Waarde,
                             IsPrimair = false,
                             Adresvoorstelling = "dorpstraat 91, 9000 Gent, Belgie",
                             Naam = "Cursuszaal",

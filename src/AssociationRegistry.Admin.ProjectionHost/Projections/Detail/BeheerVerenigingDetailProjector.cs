@@ -311,7 +311,7 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
-                                             Locatietype = BeheerVerenigingDetailMapper.MapLocatieType(l.Locatietype.Naam),
+                                             Locatietype = l.Locatietype,
                                              Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  locatieWerdGewijzigd.Data.Locatie.Adres, document.VCode, l.LocatieId),

@@ -34,11 +34,7 @@
         {
           "@id": "{{locatie.jsonldid}}",
           "@type": "{{locatie.jsonldtype}}",
-          "locatietype":  {
-            "@id": "{{locatie.type.jsonldid}}",
-            "@type": "{{locatie.type.jsonldtype}}",
-            "naam": "{{locatie.type.naam}}"
-          },
+          "locatietype": "{{locatie.type}}",
           "isPrimair": {{locatie.isprimair}},
           "adresvoorstelling": "{{locatie.adresvoorstelling}}",
           "naam": "{{locatie.naam}}",

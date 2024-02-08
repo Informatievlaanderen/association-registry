@@ -49,15 +49,7 @@ public class Given_LocatieWerdGewijzigd
             LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
             IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
             Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-            Locatietype = new LocatieType
-            {
-                JsonLdMetadata = new JsonLdMetadata
-                {
-                    Id = JsonLdType.LocatieType.CreateWithIdValues(locatieWerdGewijzigd.Data.Locatie.Locatietype),
-                    Type = JsonLdType.LocatieType.Type,
-                },
-                Naam = locatieWerdGewijzigd.Data.Locatie.Locatietype,
-            },
+            Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
             Adres = locatieWerdGewijzigd.Data.Locatie.Adres is null
                 ? null
                 : new Adres

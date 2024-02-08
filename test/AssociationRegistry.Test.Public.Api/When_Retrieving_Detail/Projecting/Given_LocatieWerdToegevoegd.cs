@@ -37,14 +37,7 @@ public class Given_LocatieWerdToegevoegd
                 IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
                 Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
                 Locatietype =
-                    new PubliekVerenigingDetailDocument.Locatie.LocatieType
-                    {
-                        JsonLdMetadata =
-                            new JsonLdMetadata(
-                                JsonLdType.LocatieType.CreateWithIdValues(locatieWerdToegevoegd.Data.Locatie.Locatietype),
-                                JsonLdType.LocatieType.Type),
-                        Naam = locatieWerdToegevoegd.Data.Locatie.Locatietype,
-                    },
+                    locatieWerdToegevoegd.Data.Locatie.Locatietype,
                 Adres = locatieWerdToegevoegd.Data.Locatie.Adres is null
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
