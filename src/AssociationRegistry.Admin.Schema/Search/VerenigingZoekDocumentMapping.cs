@@ -86,11 +86,10 @@ public static class VerenigingZoekDocumentMapping
                       .Name(document => document.Postcode))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Gemeente)).Nested<VerenigingZoekDocument.Locatie.LocatieType>(
+                      .Name(document => document.Gemeente))
+              .Text(
                    propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.Locatietype)
-                                        .IncludeInRoot()
-                                        .Properties(LocationTypeMapping.Get));
+                      .Name(document => document.Locatietype));
     }
 
     private static class LocationTypeMapping

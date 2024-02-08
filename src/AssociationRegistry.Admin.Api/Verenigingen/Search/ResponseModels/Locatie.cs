@@ -22,7 +22,7 @@ public class Locatie
     ///     - Maatschappelijke zetel volgens KBO - Enkel mogelijk voor verenigingen met rechtspersoonlijkheid<br />
     /// </summary>
     [DataMember(Name = "Locatietype")]
-    public LocatieType Locatietype { get; init; } = null!;
+    public string Locatietype { get; init; } = null!;
 
     /// <summary>
     /// Is dit de primaire locatie van deze vereniging

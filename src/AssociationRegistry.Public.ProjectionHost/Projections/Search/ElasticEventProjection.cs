@@ -247,12 +247,7 @@ public class PubliekZoekProjectionHandler
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
 
             LocatieId = locatie.LocatieId,
-            Locatietype = new VerenigingZoekDocument.Locatie.LocatieType
-            {
-                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.LocatieType,
-                                                      locatie.Locatietype),
-                Naam = locatie.Locatietype,
-            },
+            Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
             Adresvoorstelling = locatie.Adres.ToAdresString(),
             IsPrimair = locatie.IsPrimair,

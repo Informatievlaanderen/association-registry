@@ -91,16 +91,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         LocatieId = loc.LocatieId,
                         IsPrimair = loc.IsPrimair,
                         Naam = loc.Naam,
-                        Locatietype =
-                            new LocatieType
-                            {
-                                JsonLdMetadata = new JsonLdMetadata
-                                {
-                                    Id = JsonLdType.LocatieType.CreateWithIdValues(loc.Locatietype),
-                                    Type = JsonLdType.LocatieType.Type,
-                                },
-                                Naam = loc.Locatietype,
-                            },
+                        Locatietype = loc.Locatietype,
                         Adres = loc.Adres is null
                             ? null
                             : new Adres

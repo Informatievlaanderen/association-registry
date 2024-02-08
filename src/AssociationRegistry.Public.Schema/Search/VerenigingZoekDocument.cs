@@ -23,7 +23,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public class Locatie
     {
         public JsonLdMetadata JsonLdMetadata { get; set; }
-        public LocatieType Locatietype { get; init; } = null!;
+        public string Locatietype { get; init; } = null!;
         public string? Naam { get; init; }
         public string Adresvoorstelling { get; init; } = null!;
         public bool IsPrimair { get; init; }

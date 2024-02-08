@@ -116,11 +116,11 @@ public static class VerenigingZoekDocumentMapping
                                             .Name(document => document.Gemeente)
                                             .WithKeyword(PubliekZoekenNormalizer)
                                             .Analyzer(PubliekZoekenAnalyzer))
-                  .Nested<VerenigingZoekDocument.Locatie.LocatieType>(
+                  .Text(
                        propertyDescriptor => propertyDescriptor
                                             .Name(document => document.Locatietype)
-                                            .IncludeInRoot()
-                                            .Properties(LocationTypeMapping.Get));
+                                            .WithKeyword(PubliekZoekenNormalizer)
+                                            .Analyzer(PubliekZoekenAnalyzer));
     }
 
     private static class LocationTypeMapping

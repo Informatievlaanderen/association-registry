@@ -200,12 +200,7 @@ public class DetailVerenigingResponseTemplate
             jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
             jsonldtype = JsonLdType.Locatie.Type,
             id = locatieId,
-            type = new
-            {
-                jsonldid = JsonLdType.LocatieType.CreateWithIdValues(type),
-                jsonldtype = JsonLdType.LocatieType.Type,
-                naam = type,
-            },
+            type = type,
             naam = naam,
             adresvoorstelling = adresVoorstelling,
             adres = new
@@ -240,12 +235,7 @@ public class DetailVerenigingResponseTemplate
         {
             jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
             jsonldtype = JsonLdType.Locatie.Type, id = locatieId,
-            type = new
-            {
-                jsonldid = JsonLdType.LocatieType.CreateWithIdValues(type),
-                jsonldtype = JsonLdType.LocatieType.Type,
-                naam = type,
-            },
+            type = type,
             naam = naam,
             adresvoorstelling = string.Empty,
             adresid = new
@@ -286,12 +276,7 @@ public class DetailVerenigingResponseTemplate
         {
             jsonldid = JsonLdType.Locatie.CreateWithIdValues(vCode, locatieId.ToString()),
             jsonldtype = JsonLdType.Locatie.Type, id = locatieId,
-            type = new
-            {
-                jsonldid = JsonLdType.LocatieType.CreateWithIdValues(type),
-                jsonldtype = JsonLdType.LocatieType.Type,
-                naam = type,
-            },
+            type = type,
             naam = naam,
             adresvoorstelling = adresVoorstelling,
             adres = new

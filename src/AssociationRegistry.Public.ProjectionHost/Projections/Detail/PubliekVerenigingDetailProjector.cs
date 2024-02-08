@@ -321,13 +321,7 @@ public static class PubliekVerenigingDetailProjector
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
-            Locatietype = new PubliekVerenigingDetailDocument.Locatie.LocatieType
-            {
-                JsonLdMetadata = new JsonLdMetadata(
-                    JsonLdType.LocatieType.CreateWithIdValues(loc.Locatietype),
-                    JsonLdType.LocatieType.Type),
-                Naam = loc.Locatietype,
-            },
+            Locatietype = loc.Locatietype,
             Adres = Map(vCode, loc.LocatieId, loc.Adres),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = Map(loc.AdresId),

@@ -11,7 +11,6 @@ using Contactgegeven = ResponseModels.Contactgegeven;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
-using LocatieType = ResponseModels.LocatieType;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
 using VerenigingsType = ResponseModels.VerenigingsType;
@@ -179,12 +178,7 @@ public class BeheerVerenigingDetailMapper
             type = loc.JsonLdMetadata.Type,
             LocatieId = loc.LocatieId,
             VerwijstNaar = Map(loc.VerwijstNaar),
-            Locatietype = new LocatieType
-            {
-                id = loc.Locatietype.JsonLdMetadata.Id,
-                type = loc.Locatietype.JsonLdMetadata.Type,
-                Naam = loc.Locatietype.Naam,
-            },
+            Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,

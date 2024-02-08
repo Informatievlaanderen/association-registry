@@ -38,21 +38,15 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
                 Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
                 Locatietype =
-                    new PubliekVerenigingDetailDocument.Locatie.LocatieType
-                    {
-                        JsonLdMetadata =
-                            new JsonLdMetadata(
-                                JsonLdType.LocatieType.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype),
-                                JsonLdType.LocatieType.Type),
-                        Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
-                    },
+                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
                 Adres = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres is null
                     ? null
                     : new PubliekVerenigingDetailDocument.Adres
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
-                                JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                                JsonLdType.Adres.CreateWithIdValues(
+                                    doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
                                 JsonLdType.Adres.Type),
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
                         Huisnummer = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Huisnummer,
@@ -75,7 +69,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
-                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(
+                                maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
                             Type = JsonLdType.AdresVerwijzing.Type,
                         },
                     },
