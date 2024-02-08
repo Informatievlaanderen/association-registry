@@ -1,3 +1,10 @@
+# [8.58.0](https://github.com/informatievlaanderen/association-registry/compare/v8.57.0...v8.58.0) (2024-02-08)
+
+
+### Features
+
+* or-1282 revert LocatieType to string ([a08df29](https://github.com/informatievlaanderen/association-registry/commit/a08df29a217bc6b00319fe3aec124033d6767f00))
+
 # [8.57.0](https://github.com/informatievlaanderen/association-registry/compare/v8.56.0...v8.57.0) (2024-02-07)
 
 
