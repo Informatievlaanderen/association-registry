@@ -44,7 +44,7 @@ public class JsonLdType
         Prefix = prefix;
     }
 
-    public string CreateWithIdValues(params string[] values)
+    public virtual string CreateWithIdValues(params string[] values)
     {
         var sb = new StringBuilder();
 
@@ -62,7 +62,7 @@ public class JsonLdType
         {
         }
 
-        public new string CreateWithIdValues(params string[] values)
+        public override string CreateWithIdValues(params string[] values)
         {
             var sb = new StringBuilder();
 
