@@ -3,12 +3,9 @@
   "@vocab": "/ns/",
   "vCode": "@id",
   "status": "regorg:orgStatus",
-  "ere": "http://data.lblod.info/vocabularies/erediensten/",
-  "organisatie": "https://data.vlaanderen.be/ns/organisatie#",
   "locn": "http://www.w3.org/ns/locn#",
   "add": "http://data.lblod.info/id/adressen/",
   "address": "https://data.vlaanderen.be/ns/adres#",
-  "vestigingen": "http://data.lblod.info/id/vestigingen/",
   "identificatoren": "http://data.lblod.info/id/identificatoren/",
   "ges": "http://data.lblod.info/id/gestructureerdeIdentificator/",
   "act": "http://data.lblod.info/id/concept/activiteit/",
@@ -27,8 +24,6 @@
   "adressen": "http://data.lblod.info/id/adressen/",
   "adms": "http://www.w3.org/ns/adms#",
   "generiek": "https://data.vlaanderen.be/ns/generiek#",
-  "person": "http://www.w3.org/ns/person#",
-  "persoon": "http://data.lblod.info/id/persoon/",
   "pav": "http://purl.org/pav/",
   "verenigingstype": "org:classification",
   "naam": "skos:prefLabel",
@@ -50,7 +45,6 @@
   "primaireLocatie": "org:hasPrimarySite",
   "locatieType": "ere:vestigingstype",
   "adres": "organisatie:bestaatUit",
-  "adresvoorstelling": "locn:fullAddress",
   "straatnaam": "locn:thoroughfare",
   "huisnummer": "address:Adresvoorstelling.huisnummer",
   "busnummer": "address:Adresvoorstelling.busnummer",
@@ -64,6 +58,4 @@
     "@id": "pav:lastUpdateOn"
   },
   "nummer": "generiek:lokaleIdentificator",
-  "voornaam": "foaf:givenName",
-  "achternaam": "foaf:familyName"
 }
