@@ -96,7 +96,6 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate WithVCode(string vCode)
         {
             _vereniging.vcode = vCode;
-            _vereniging.jsonldid = JsonLdType.Vereniging.CreateWithIdValues(vCode);
             _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
 
             _vereniging.sleutels.Add(new

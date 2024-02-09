@@ -1,7 +1,6 @@
 {
   "@context": "https://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json",
   "vereniging": {
-    "@id": "{{vereniging.jsonldid}}",
     "@type": "{{vereniging.jsonldtype}}",
     "vCode": "{{vereniging.vcode}}",
     "verenigingstype": {

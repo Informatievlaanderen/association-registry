@@ -34,9 +34,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new PubliekVerenigingDetailDocument
             {
-                JsonLdMetadata =
-                    new JsonLdMetadata(JsonLdType.Vereniging.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-                                       JsonLdType.Vereniging.Type),
+                JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                 Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
@@ -128,7 +126,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Code = arg.Code,
                         Naam = arg.Naam,
                     }).ToArray(),
-                Sleutels = new []
+                Sleutels = new[]
                 {
                     new PubliekVerenigingDetailDocument.Sleutel
                     {

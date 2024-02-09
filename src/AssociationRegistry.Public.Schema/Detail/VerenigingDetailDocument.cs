@@ -12,7 +12,7 @@ public record Doelgroep
 
 public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
+    public string JsonLdMetadataType { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }

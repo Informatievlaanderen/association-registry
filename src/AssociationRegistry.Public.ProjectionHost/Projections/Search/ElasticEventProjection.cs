@@ -22,7 +22,7 @@ public class PubliekZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
-                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vereniging, message.Data.VCode),
+                JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = message.Data.VCode,
                 Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {
@@ -74,7 +74,7 @@ public class PubliekZoekProjectionHandler
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
-                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vereniging, message.Data.VCode),
+                JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = message.Data.VCode,
                 Verenigingstype = new VerenigingZoekDocument.VerenigingsType
                 {

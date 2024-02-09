@@ -38,11 +38,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
-                JsonLdMetadata = new JsonLdMetadata
-                {
-                    Id = JsonLdType.Vereniging.CreateWithIdValues(doc.VCode),
-                    Type = JsonLdType.Vereniging.Type,
-                },
+                JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                 Verenigingstype = new VerenigingsType
                 {

@@ -29,9 +29,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
-                id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
                 type = JsonLdType.Vereniging.Type,
-
                 VCode = "V0001001",
                 Verenigingstype = new VerenigingsType
                 {

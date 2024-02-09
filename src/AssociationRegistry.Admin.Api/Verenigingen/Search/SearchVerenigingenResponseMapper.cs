@@ -34,8 +34,7 @@ public class SearchVerenigingenResponseMapper
     private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
         => new()
         {
-            id = verenigingZoekDocument.JsonLdMetadata.Id,
-            type = verenigingZoekDocument.JsonLdMetadata.Type,
+            type = verenigingZoekDocument.JsonLdMetadataType,
             VCode = verenigingZoekDocument.VCode,
             Verenigingstype = Map(verenigingZoekDocument.Type),
             Naam = verenigingZoekDocument.Naam,

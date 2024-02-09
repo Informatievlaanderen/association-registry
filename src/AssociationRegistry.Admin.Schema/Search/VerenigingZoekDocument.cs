@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Schema.Search;
 
 public class VerenigingZoekDocument
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; }
+    public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
     public VerenigingsType Type { get; set; } = null!;
     public string Naam { get; set; } = null!;

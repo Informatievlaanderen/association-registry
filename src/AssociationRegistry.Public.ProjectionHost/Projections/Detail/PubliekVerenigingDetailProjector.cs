@@ -18,9 +18,7 @@ public static class PubliekVerenigingDetailProjector
         IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
-            JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Vereniging.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-                JsonLdType.Vereniging.Type),
+            JsonLdMetadataType = JsonLdType.Vereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {
@@ -83,10 +81,7 @@ public static class PubliekVerenigingDetailProjector
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
-            JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Vereniging.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
-                JsonLdType.Vereniging.Type),
-
+            JsonLdMetadataType = JsonLdType.Vereniging.Type,
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
             {

@@ -4,7 +4,7 @@ using Detail;
 
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; }
+    public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;

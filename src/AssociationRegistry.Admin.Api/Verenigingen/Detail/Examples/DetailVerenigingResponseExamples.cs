@@ -34,7 +34,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
                     type = JsonLdType.Vereniging.Type,
                     VCode = "V0001001",
                     Verenigingstype = new VerenigingsType
@@ -180,7 +179,6 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
                 Vereniging = new VerenigingDetail
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001002"),
                     type = JsonLdType.Vereniging.Type,
                     VCode = "V0001002",
                     Verenigingstype = new VerenigingsType
