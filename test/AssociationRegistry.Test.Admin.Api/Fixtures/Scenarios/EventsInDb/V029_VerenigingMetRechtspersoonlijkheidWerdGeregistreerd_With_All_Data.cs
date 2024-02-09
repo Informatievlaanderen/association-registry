@@ -87,6 +87,7 @@ public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(KboNummer),
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
             EmailWerdOvergenomenUitKBO,
             WebsiteWerdOvergenomenUitKBO,

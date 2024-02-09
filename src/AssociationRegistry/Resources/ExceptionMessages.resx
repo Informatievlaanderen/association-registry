@@ -199,6 +199,9 @@
   <data name="ZoekOpdrachtBevatOnbekendeSorteerVelden" xml:space="preserve">
     <value>Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}</value>
   </data>
+  <data name="RegistreerInschrijvingKonNietVoltooidWorden" xml:space="preserve">
+    <value>Registreer inschrijving voor KBO-nummer kon niet voltooid worden</value>
+  </data>
   <data name="UnexpectedAggregateVersion" xml:space="preserve">
     <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
   </data>

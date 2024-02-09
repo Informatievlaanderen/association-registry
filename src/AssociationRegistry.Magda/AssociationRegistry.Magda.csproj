@@ -39,4 +39,10 @@
   </ItemGroup>
   
   <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Wsdl\" />
+  </ItemGroup>
 </Project>

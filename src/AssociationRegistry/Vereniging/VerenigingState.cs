@@ -116,6 +116,9 @@ public record VerenigingState : IHasVersion
             Startdatum = Datum.Hydrate(@event.Startdatum),
         };
 
+    public VerenigingState Apply(VerenigingWerdIngeschrevenOpWijzigingenUitKbo _)
+        => this;
+
     public VerenigingState Apply(NaamWerdGewijzigd @event)
         => this with { Naam = VerenigingsNaam.Hydrate(@event.Naam) };
 

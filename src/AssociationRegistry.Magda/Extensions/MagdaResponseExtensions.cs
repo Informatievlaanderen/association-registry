@@ -2,7 +2,10 @@ namespace AssociationRegistry.Magda.Extensions;
 
 using Models;
 using Models.GeefOnderneming;
-using Onderneming.GeefOnderneming;
+using System;
+using System.Linq;
+using UitzonderingType = Onderneming.GeefOnderneming.UitzonderingType;
+using UitzonderingTypeType = Onderneming.GeefOnderneming.UitzonderingTypeType;
 
 public static class MagdaResponseExtensions
 {
@@ -10,6 +13,15 @@ public static class MagdaResponseExtensions
         this UitzonderingType[] source,
         string separator,
         UitzonderingTypeType uitzonderingTypeType)
+        => string.Join(
+            separator,
+            source.Where(type => type.Type == uitzonderingTypeType)
+                  .Select(type => $"{type.Identificatie} - {type.Diagnose} - {type.Omstandigheid}"));
+
+    public static string ConcatenateUitzonderingen(
+        this AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.UitzonderingType[] source,
+        string separator,
+        AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.UitzonderingTypeType uitzonderingTypeType)
         => string.Join(
             separator,
             source.Where(type => type.Type == uitzonderingTypeType)

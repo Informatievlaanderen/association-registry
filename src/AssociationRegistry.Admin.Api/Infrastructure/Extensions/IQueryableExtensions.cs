@@ -5,6 +5,7 @@ using Marten.Events.Daemon;
 using Schema;
 using Schema.Detail;
 using Schema.Historiek;
+using Schema.KboSync;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +38,9 @@ public static class IDocumentExtensions
 
         if (typeof(T) == typeof(BeheerVerenigingHistoriekDocument))
             return new ShardName("AssociationRegistry.Admin.ProjectionHost.Projections.Historiek.BeheerVerenigingHistoriekProjection");
+
+        if (typeof(T) == typeof(BeheerKboSyncHistoriekGebeurtenisDocument))
+            return new ShardName("AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection");
 
         throw new NotImplementedException("ExpectedSequence is voor deze projectie niet ondersteund.");
     }

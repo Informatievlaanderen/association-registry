@@ -8,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
+using ResultNet;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -19,6 +21,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+    private readonly LoggerFactory _loggerFactory;
 
     public With_VerenigingVolgensKbo_Invalid_Contactgegevens()
     {
@@ -26,6 +29,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
+        _loggerFactory = new LoggerFactory();
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
@@ -40,12 +44,17 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+            new MagdaGeefVerenigingNumberFoundServiceMock(
                 _verenigingVolgensKbo
-            ));
+            ),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
@@ -83,7 +92,8 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 Contactgegeventype.Telefoon.Waarde,
                 ContactgegeventypeVolgensKbo.GSM.Waarde,
                 _verenigingVolgensKbo.Contactgegevens.GSM!
-            )
+            ),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }

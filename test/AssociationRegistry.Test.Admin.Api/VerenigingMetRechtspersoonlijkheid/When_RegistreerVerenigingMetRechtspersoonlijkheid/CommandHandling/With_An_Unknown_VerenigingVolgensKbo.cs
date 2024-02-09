@@ -7,9 +7,8 @@ using AutoFixture;
 using Fakes;
 using FluentAssertions;
 using Framework;
-using Kbo;
+using Microsoft.Extensions.Logging;
 using ResultNet;
-using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
@@ -19,13 +18,27 @@ public class With_An_Unknown_VerenigingVolgensKbo
 {
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
+    private readonly LoggerFactory _loggerFactory;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_An_Unknown_VerenigingVolgensKbo()
     {
+        _loggerFactory = new LoggerFactory();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock();
+        _vCodeService = new InMemorySequentialVCodeService();
+
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(new VerenigingRepositoryMock(), new InMemorySequentialVCodeService(),
-                                                                       new MagdaGeefVerenigingNumberNotFoundMagdaGeefVerenigingService());
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
+        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new MagdaGeefVerenigingNumberNotFoundServiceMock(),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
                                                                            fixture.Create<CommandMetadata>());
@@ -39,13 +52,4 @@ public class With_An_Unknown_VerenigingVolgensKbo
 
         await handle.Should().ThrowAsync<GeenGeldigeVerenigingInKbo>();
     }
-}
-
-public class MagdaGeefVerenigingNumberNotFoundMagdaGeefVerenigingService : IMagdaGeefVerenigingService
-{
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(
-        KboNummer kboNummer,
-        CommandMetadata metadata,
-        CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 }

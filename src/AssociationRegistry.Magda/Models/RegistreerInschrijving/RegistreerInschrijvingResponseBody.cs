@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Magda.Models.RegistreerInschrijving;
 
-using Repertorium.RegistreerInschrijving;
+using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
+using System;
 using System.Xml.Serialization;
 
 [Serializable]
