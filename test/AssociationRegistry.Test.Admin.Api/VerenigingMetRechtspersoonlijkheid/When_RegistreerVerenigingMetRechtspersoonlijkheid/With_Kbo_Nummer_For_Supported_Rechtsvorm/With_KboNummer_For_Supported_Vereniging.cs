@@ -4,8 +4,10 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Magda.Models;
+using Events;
 using Fixtures;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
@@ -70,26 +72,56 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
         var correlationId = Guid.Parse(correlationIdValues!.First());
 
-        var callReference = lightweightSession
-                           .Query<MagdaCallReference>()
-                           .Where(x => x.CorrelationId == correlationId)
-                           .SingleOrDefault();
+        var callReferences = await lightweightSession
+                                  .Query<MagdaCallReference>()
+                                  .Where(x => x.CorrelationId == correlationId)
+                                  .ToListAsync();
 
-        callReference.Should().NotBeNull();
+        callReferences.Should().NotBeNull();
 
-        callReference.Should().BeEquivalentTo(
-            new MagdaCallReference
+        callReferences.Should().BeEquivalentTo(
+            new List<MagdaCallReference>
             {
-                CorrelationId = correlationId,
-                Context = "Registreer vereniging met rechtspersoonlijkheid",
-                AanroependeDienst = "Verenigingsregister Beheer Api",
-                OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
-                OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
-                Initiator = "OVO000001",
+                new()
+                {
+                    CorrelationId = correlationId,
+                    Context = "Registreer inschrijving voor vereniging met rechtspersoonlijkheid",
+                    AanroependeDienst = "Verenigingsregister Beheer Api",
+                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
+                    OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                    Initiator = "OVO000001",
+                },
+                new()
+                {
+                    CorrelationId = correlationId,
+                    Context = "Registreer vereniging met rechtspersoonlijkheid",
+                    AanroependeDienst = "Verenigingsregister Beheer Api",
+                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+                    OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                    Initiator = "OVO000001",
+                },
             },
             config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
 
-        callReference!.Reference.Should().NotBeEmpty();
-        callReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
+        foreach (var magdaCallReference in callReferences)
+        {
+            magdaCallReference!.Reference.Should().NotBeEmpty();
+            magdaCallReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
+        }
+    }
+
+    [Fact]
+    public void Then_it_saves_the_vereniging_werd_ingeschreven_op_wijzigingen_uit_kbo_event()
+    {
+        using var session = _fixture
+                           .DocumentStore
+                           .LightweightSession();
+
+        session
+           .Events
+           .QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
+           .Should().ContainSingle(
+                e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
+                                   .UitKboRequest.KboNummer);
     }
 }

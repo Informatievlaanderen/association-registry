@@ -3,6 +3,8 @@
 using DuplicateVerenigingDetection;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
+using Resources;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -11,16 +13,22 @@ public class RegistreerVerenigingUitKboCommandHandler
 {
     private readonly IVCodeService _vCodeService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
+    private readonly IMagdaRegistreerInschrijvingService _magdaRegistreerInschrijvingService;
+    private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public RegistreerVerenigingUitKboCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
-        IMagdaGeefVerenigingService magdaGeefVerenigingService)
+        IMagdaGeefVerenigingService magdaGeefVerenigingService,
+        IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
+        ILogger<RegistreerVerenigingUitKboCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
+        _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;
+        _logger = logger;
     }
 
     public async Task<Result> Handle(
@@ -28,21 +36,25 @@ public class RegistreerVerenigingUitKboCommandHandler
         CancellationToken cancellationToken = default)
     {
         var command = message.Command;
-
         var duplicateResult = await CheckForDuplicate(command.KboNummer);
 
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var vereniging = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
+        var registreerInschrijvingResult = await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
 
-        if (vereniging.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
+        if (registreerInschrijvingResult.IsFailure()) throw new RegistreerInschrijvingKonNietVoltooidWorden();
+        _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, command.KboNummer);
 
-        return await RegistreerVereniging(vereniging, message.Metadata, cancellationToken);
+        var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
+
+        if (geefVerenigingResult.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
+
+        return await RegistreerVereniging(geefVerenigingResult, message.Metadata, cancellationToken);
     }
 
-    private async Task<Result> CheckForDuplicate(KboNummer kboNummer)
+    private async Task<Result> CheckForDuplicate(KboNummer kboNumber)
     {
-        var duplicateKbo = await _verenigingsRepository.Load(kboNummer);
+        var duplicateKbo = await _verenigingsRepository.Load(kboNumber);
 
         return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
     }
@@ -65,5 +77,25 @@ public class RegistreerVerenigingUitKboCommandHandler
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
 
         return Result.Success(CommandResult.Create(vCode, result));
+    }
+
+    private async Task<Result> RegistreerInschrijving(
+        KboNummer kboNumber,
+        CommandMetadata messageMetadata,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _magdaRegistreerInschrijvingService.RegistreerInschrijving(
+                kboNumber, messageMetadata, cancellationToken);
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNumber);
+
+            return Result.Failure();
+        }
     }
 }

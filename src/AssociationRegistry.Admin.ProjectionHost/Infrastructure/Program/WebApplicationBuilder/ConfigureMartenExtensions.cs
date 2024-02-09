@@ -14,13 +14,15 @@ using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
 using Projections.Historiek;
+using Projections.KboSync;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
+using Schema.KboSync;
 using System.Configuration;
-using ConfigurationManager = ConfigurationManager;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
@@ -90,6 +92,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+                opts.Projections.Add<BeheerKboSyncHistoriekProjection>(ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(
@@ -115,6 +118,7 @@ public static class ConfigureMartenExtensions
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {

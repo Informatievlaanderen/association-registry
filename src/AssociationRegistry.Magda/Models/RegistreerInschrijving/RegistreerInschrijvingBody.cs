@@ -7,11 +7,14 @@ using System.Xml.Serialization;
 [Serializable]
 public class RegistreerInschrijvingBody
 {
+    private const string Onderneming = "OND";
+
     [XmlElement(Namespace = "http://webservice.registreerinschrijvingdienst-02_01.repertorium-02_01.vip.vlaanderen.be")]
     public RegistreerInschrijving RegistreerInschrijving { get; set; } = null!;
 
     public static RegistreerInschrijvingBody CreateRequest(string kboNummer, Guid reference, MagdaOptionsSection magdaOptionsSection)
-        => new()
+    {
+        return new RegistreerInschrijvingBody
         {
             RegistreerInschrijving = new RegistreerInschrijving
             {
@@ -33,6 +36,7 @@ public class RegistreerInschrijvingBody
                             {
                                 Identificatie = magdaOptionsSection.Afzender,
                                 Referte = reference.ToString(),
+                                Hoedanigheid = magdaOptionsSection.Hoedanigheid,
                             },
                             Ontvanger = new OntvangerAdresType
                             {
@@ -47,11 +51,28 @@ public class RegistreerInschrijvingBody
                             Referte = reference.ToString(),
                             Inhoud = new VraagInhoudType
                             {
-                                Inschrijving = new InschrijvingType(),
+                                Inschrijving = new InschrijvingType
+                                {
+                                    BetrokkenSubject = new BetrokkenSubjectType
+                                    {
+                                        Subjecten = new[]
+                                        {
+                                            new SubjectType
+                                            {
+                                                Sleutel = kboNummer,
+                                                Type = Onderneming,
+                                            },
+                                        },
+                                        Type = Onderneming,
+                                    },
+                                    Hoedanigheid = magdaOptionsSection.Hoedanigheid,
+                                    Identificatie = magdaOptionsSection.Afzender,
+                                },
                             },
                         },
                     },
                 },
             },
         };
+    }
 }

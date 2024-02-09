@@ -51,6 +51,8 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         vereniging.VoegVertegenwoordigersToe(verenigingVolgensKbo.Vertegenwoordigers);
 
+        vereniging.AddEvent(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(verenigingVolgensKbo.KboNummer));
+
         return vereniging;
     }
 

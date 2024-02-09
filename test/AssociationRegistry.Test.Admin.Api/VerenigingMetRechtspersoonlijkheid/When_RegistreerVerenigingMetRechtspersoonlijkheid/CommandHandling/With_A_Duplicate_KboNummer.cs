@@ -9,6 +9,7 @@ using Fakes;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
 using Vereniging;
@@ -23,6 +24,9 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
     private readonly VerenigingState _moederVCodeAndNaam;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
+    private readonly LoggerFactory _loggerFactory;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_A_Duplicate_KboNummer()
     {
@@ -33,16 +37,23 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             Identity = fixture.Create<VCode>(),
             Verenigingstype = Verenigingstype.VZW,
         };
+        _loggerFactory = new LoggerFactory();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_moederVCodeAndNaam);
+        _vCodeService = new InMemorySequentialVCodeService();
 
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
                                                                            fixture.Create<CommandMetadata>());
 
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             new VerenigingRepositoryMock(_moederVCodeAndNaam),
             new InMemorySequentialVCodeService(),
-            _magdaGeefVerenigingService.Object);
+            _magdaGeefVerenigingService.Object,
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger);
     }
 
     public async Task InitializeAsync()

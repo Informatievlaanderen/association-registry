@@ -8,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
+using ResultNet;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -19,9 +21,11 @@ public class With_A_KboNummer
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+    private readonly LoggerFactory _loggerFactory;
 
     public With_A_KboNummer()
     {
+        _loggerFactory = new LoggerFactory();
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
@@ -40,12 +44,15 @@ public class With_A_KboNummer
             Startdatum = fixture.Create<DateOnly>(),
         };
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                _verenigingVolgensKbo
-            ));
+            new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
@@ -63,6 +70,7 @@ public class With_A_KboNummer
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.Startdatum));
+                _verenigingVolgensKbo.Startdatum),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer));
     }
 }

@@ -8,7 +8,9 @@ using Xunit;
 
 public class ConnectionFailureSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
-    public ConnectionFailureSetup(EventsInDbScenariosFixture fixture) : base(fixture, kboNummer: "0898251969")
+    private const string KboNummerForConnectionFailureInWiremock = "0132575046";
+
+    public ConnectionFailureSetup(EventsInDbScenariosFixture fixture) : base(fixture, KboNummerForConnectionFailureInWiremock)
     {
     }
 }

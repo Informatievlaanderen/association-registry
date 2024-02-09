@@ -8,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging.Abstractions;
+using ResultNet;
 using Xunit;
 using Xunit.Categories;
 
@@ -44,9 +46,11 @@ public class With_VerenigingVolgensKbo_No_Adres
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+            new MagdaGeefVerenigingNumberFoundServiceMock(
                 _verenigingVolgensKbo
-            ));
+            ),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
@@ -64,7 +68,8 @@ public class With_VerenigingVolgensKbo_No_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.Startdatum)
+                _verenigingVolgensKbo.Startdatum),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }

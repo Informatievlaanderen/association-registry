@@ -24,18 +24,18 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
     };
 
     protected readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
-    protected readonly IMagdaFacade _magdaFacade;
+    protected readonly IMagdaClient _magdaClient;
     protected readonly TemporaryMagdaVertegenwoordigersSection _temporaryMagdaVertegenwoordigersSection;
     protected readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
-        IMagdaFacade magdaFacade,
+        IMagdaClient magdaClient,
         TemporaryMagdaVertegenwoordigersSection temporaryMagdaVertegenwoordigersSection,
         ILogger<MagdaGeefVerenigingService> logger)
     {
         _magdaCallReferenceRepository = magdaCallReferenceRepository;
-        _magdaFacade = magdaFacade;
+        _magdaClient = magdaClient;
         _temporaryMagdaVertegenwoordigersSection = temporaryMagdaVertegenwoordigersSection;
         _logger = logger;
     }
@@ -50,7 +50,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer,
                                                   cancellationToken);
 
-            var magdaResponse = await _magdaFacade.GeefOnderneming(kboNummer, reference);
+            var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, reference);
 
             if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
                 return HandleUitzonderingen(kboNummer, magdaResponse);

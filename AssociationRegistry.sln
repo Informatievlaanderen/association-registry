@@ -91,6 +91,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\GeefOnderneming.notfound.json = wiremock\mappings\GeefOnderneming.notfound.json
 		wiremock\mappings\GeefOnderneming.vestiging.json = wiremock\mappings\GeefOnderneming.vestiging.json
 		wiremock\mappings\projectionactions.json = wiremock\mappings\projectionactions.json
+		wiremock\mappings\RegistreerInschrijving.json = wiremock\mappings\RegistreerInschrijving.json
+		wiremock\mappings\RegistreerInschrijving.connection-failure.json = wiremock\mappings\RegistreerInschrijving.connection-failure.json
+		wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json = wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -112,6 +115,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefOndernemingResponses", 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Hosts", "src\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj", "{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingResponses", "RegistreerInschrijvingResponses", "{598628E9-81AA-41EE-8F2A-C9607A2D294A}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\RegistreerInschrijvingResponses\RegistreerInschrijvingResponse.xml = wiremock\__files\RegistreerInschrijvingResponses\RegistreerInschrijvingResponse.xml
+		wiremock\__files\RegistreerInschrijvingResponses\0725459040.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijvingResponses\0725459040.uitzondering.fout.xml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.EmptyPack", "test\AssociationRegistry.Test.EmptyPack\AssociationRegistry.Test.EmptyPack.csproj", "{7F27E962-B067-4086-B730-4D94173EA2ED}"
 EndProject
@@ -217,6 +226,7 @@ Global
 		{85139412-485D-4B23-8423-A0C2021B60DE} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{9C2CDA4C-FFF3-4AA1-B31A-8804D98F0469} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427} = {20B970CD-1737-4427-A924-D299A42346FE}
+		{598628E9-81AA-41EE-8F2A-C9607A2D294A} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{7F27E962-B067-4086-B730-4D94173EA2ED} = {C812C887-6495-405A-8B99-4F686D243126}
 	EndGlobalSection
 EndGlobal
