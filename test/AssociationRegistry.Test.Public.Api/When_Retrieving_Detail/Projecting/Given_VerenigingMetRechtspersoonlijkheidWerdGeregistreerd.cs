@@ -33,9 +33,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             new PubliekVerenigingDetailDocument
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-                JsonLdMetadata = new JsonLdMetadata(
-                    JsonLdType.Vereniging.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
-                    JsonLdType.Vereniging.Type),
+                JsonLdMetadataType = JsonLdType.Vereniging.Type,
                 Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,

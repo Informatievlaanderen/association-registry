@@ -44,8 +44,7 @@ public class BeheerVerenigingDetailMapper
     {
         return new VerenigingDetail
         {
-            id = vereniging.JsonLdMetadata.Id,
-            type = vereniging.JsonLdMetadata.Type,
+            type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             Verenigingstype = Map(vereniging.Verenigingstype),
             Naam = vereniging.Naam,

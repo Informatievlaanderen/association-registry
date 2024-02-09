@@ -23,8 +23,7 @@ public class BeheerVerenigingDetailProjector
     public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
-            JsonLdMetadata =
-                BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Vereniging, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
+            JsonLdMetadataType = JsonLdType.Vereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
@@ -67,9 +66,7 @@ public class BeheerVerenigingDetailProjector
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
-            JsonLdMetadata =
-                BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Vereniging,
-                                                                  verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+            JsonLdMetadataType = JsonLdType.Vereniging.Type,
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
             Verenigingstype = new VerenigingsType
             {

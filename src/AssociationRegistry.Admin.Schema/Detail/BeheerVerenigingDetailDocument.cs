@@ -5,7 +5,7 @@ using Marten.Schema;
 
 public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
 {
-    public JsonLdMetadata JsonLdMetadata { get; set; }
+    public string JsonLdMetadataType { get; set; }
     public string Naam { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; init; } = null!;
     public string Roepnaam { get; set; } = null!;

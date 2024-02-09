@@ -28,11 +28,9 @@ public static class VerenigingZoekDocumentMapping
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsVerwijderd))
-                         .Nested<JsonLdMetadata>(
+                         .Text(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.JsonLdMetadata)
-                                                   .IncludeInRoot()
-                                                   .Properties(JsonLdMetadataMapping.Get))
+                                 .Name(document => document.JsonLdMetadataType))
                          .Nested<Doelgroep>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Doelgroep)

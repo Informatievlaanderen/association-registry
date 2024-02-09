@@ -15,14 +15,14 @@ public static class VerenigingZoekDocumentMapping
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.VCode)
                                                    .Normalizer(PubliekZoekenNormalizer))
-                         .Nested<JsonLdMetadata>(
-                              propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.JsonLdMetadata)
-                                                   .IncludeInRoot()
-                                                   .Properties(JsonLdMetadataMapping.Get))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
+                                                   .WithKeyword(PubliekZoekenNormalizer)
+                                                   .Analyzer(PubliekZoekenAnalyzer))
+                         .Text(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.JsonLdMetadataType)
                                                    .WithKeyword(PubliekZoekenNormalizer)
                                                    .Analyzer(PubliekZoekenAnalyzer))
                          .Text(

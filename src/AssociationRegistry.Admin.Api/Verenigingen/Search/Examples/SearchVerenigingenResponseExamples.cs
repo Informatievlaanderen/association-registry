@@ -28,7 +28,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             {
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V0001001"),
                     type = JsonLdType.Vereniging.Type,
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
@@ -94,7 +93,6 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 },
                 new Vereniging
                 {
-                    id = JsonLdType.Vereniging.CreateWithIdValues("V00036651"),
                     type = JsonLdType.Vereniging.Type,
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
