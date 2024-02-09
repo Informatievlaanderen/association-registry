@@ -1,3 +1,10 @@
+## [8.58.1](https://github.com/informatievlaanderen/association-registry/compare/v8.58.0...v8.58.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* or-1282 override CreateWithIdValue ([6d6aa1d](https://github.com/informatievlaanderen/association-registry/commit/6d6aa1d1d3706422403af41804a12141b490ce47))
+
 # [8.58.0](https://github.com/informatievlaanderen/association-registry/compare/v8.57.0...v8.58.0) (2024-02-08)
 
 
