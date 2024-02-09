@@ -1,3 +1,17 @@
+# [8.59.0](https://github.com/informatievlaanderen/association-registry/compare/v8.58.1...v8.59.0) (2024-02-09)
+
+
+### Bug Fixes
+
+* or-1282 bug introduced by reverting loactieType to string ([2784f95](https://github.com/informatievlaanderen/association-registry/commit/2784f95b9fa74bf067daff046c0d579a8d9d4ce6))
+
+
+### Features
+
+* or-1282 copy jsonld-context to all files ([842948f](https://github.com/informatievlaanderen/association-registry/commit/842948fc43cf07fb78fde8e5c85f5d0ea88a6f7f))
+* or-1282 remove id from vereniging ([e7e5cc2](https://github.com/informatievlaanderen/association-registry/commit/e7e5cc2809e8ea6e381b390f3b4f2bc49123d7e5))
+* or-1282 update JsonLd context file ([91005fb](https://github.com/informatievlaanderen/association-registry/commit/91005fb24c4047cfbda1c9baf275737b8098bdd3))
+
 ## [8.58.1](https://github.com/informatievlaanderen/association-registry/compare/v8.58.0...v8.58.1) (2024-02-09)
 
 
