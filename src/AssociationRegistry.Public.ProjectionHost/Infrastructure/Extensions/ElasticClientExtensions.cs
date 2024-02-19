@@ -68,7 +68,7 @@ public static class ElasticClientExtensions
                      selector: ca
                          => ca
                            .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding")
+                           .Filters("lowercase", "asciifolding","trim")
         );
 
     private static AnalyzersDescriptor AddVerenigingZoekAnalyzer(AnalyzersDescriptor ad)

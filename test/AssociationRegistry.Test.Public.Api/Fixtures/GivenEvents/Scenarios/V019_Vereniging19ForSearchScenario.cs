@@ -10,7 +10,7 @@ public class V019_Vereniging19ForSearchScenario : IScenario
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001019",
         Naam: "Nieuwe Auto's die Starten Afligem",
-        KorteNaam: "NASA",
+        KorteNaam: "  NASA",
         KorteBeschrijving: "Wij verzamelen nieuwe en oude autos.",
         DateOnly.FromDateTime(new DateTime(year: 2024, month: 01, day: 22)),
         new Registratiedata.Doelgroep(Minimumleeftijd: 18, Maximumleeftijd: 99),

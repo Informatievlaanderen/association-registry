@@ -9,7 +9,7 @@ public class V020_Vereniging20ForSearchScenario : IScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001020",
-        Naam: "nooit oma's zonder wafels",
+        Naam: "  nooit oma's zonder wafels",
         KorteNaam: "nozw",
         KorteBeschrijving: "Oma's die houden van bakken",
         DateOnly.FromDateTime(new DateTime(year: 2024, month: 01, day: 22)),

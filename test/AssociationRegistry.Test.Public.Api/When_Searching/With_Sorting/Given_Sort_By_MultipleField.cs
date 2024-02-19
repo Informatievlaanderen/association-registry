@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
 using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using Framework;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -45,7 +46,7 @@ public class Given_Sort_By_MultipleFields
 
         foreach (var group in groups)
         {
-            group.Value.Should().BeInDescendingOrder();
+            group.Value.Should().BeInDescendingOrder(new CaseInsensitiveComparer());
             group.Value.ForEach(_outputHelper.WriteLine);
         }
     }
@@ -72,7 +73,7 @@ public class Given_Sort_By_MultipleFields
 
         foreach (var group in groups)
         {
-            group.Value.Should().BeInAscendingOrder();
+            group.Value.Should().BeInAscendingOrder(new CaseInsensitiveComparer());
             group.Value.ForEach(_outputHelper.WriteLine);
         }
     }
