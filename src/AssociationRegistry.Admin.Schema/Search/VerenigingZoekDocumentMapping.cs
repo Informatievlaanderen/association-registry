@@ -5,27 +5,30 @@ using Public.Schema.Search;
 
 public static class VerenigingZoekDocumentMapping
 {
+    public const string BeheerZoekenNormalizer = "beheer_zoeken_normalizer";
+
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.VCode))
+                                                   .Normalizer(BeheerZoekenNormalizer)
+                                                   .Name(document => document.VCode))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(BeheerZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.KorteNaam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(BeheerZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
-                                                   .WithKeyword())
+                                                   .WithKeyword(BeheerZoekenNormalizer))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Status))
+                                 .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
@@ -73,31 +76,32 @@ public static class VerenigingZoekDocumentMapping
                                         .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    descriptor => descriptor
-                      .Name(document => document.LocatieId)
-                                .WithKeyword())
+                                .Name(document => document.LocatieId)
+                                .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Naam)
+                                        .WithKeyword(BeheerZoekenNormalizer))
+              .Text(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.Adresvoorstelling)
+                                        .WithKeyword(BeheerZoekenNormalizer))
+              .Text(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.IsPrimair)
                                         .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Adresvoorstelling)
+                                        .Name(document => document.Postcode)
                                         .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.IsPrimair)
-                                        .WithKeyword())
+                                        .Name(document => document.Gemeente)
+                                        .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Postcode)
-                                        .WithKeyword())
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Gemeente)
-                                        .WithKeyword())
-              .Text(
-                   propertyDescriptor => propertyDescriptor
-                                        .Name(document => document.Locatietype));
+                                        .Name(document => document.Locatietype)
+                                        .WithKeyword(BeheerZoekenNormalizer));
     }
 
     private static class LocationTypeMapping
@@ -110,8 +114,8 @@ public static class VerenigingZoekDocumentMapping
                                             .Properties(JsonLdMetadataMapping.Get))
                   .Text(
                        propertyDescriptor => propertyDescriptor
-                          .Name(document => document.Naam)
-                                        .WithKeyword());
+                                            .Name(document => document.Naam)
+                                            .WithKeyword());
     }
 
     private static class HoofdactiviteitMapping
@@ -123,13 +127,14 @@ public static class VerenigingZoekDocumentMapping
                                         .Name(document => document.JsonLdMetadata)
                                         .IncludeInRoot()
                                         .Properties(JsonLdMetadataMapping.Get))
-              .Keyword(
-                   propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Naam)
-                                          .WithKeyword());
+                                          .Name(document => document.Code)
+                                          .WithKeyword(BeheerZoekenNormalizer))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Naam)
+                                          .WithKeyword(BeheerZoekenNormalizer));
     }
 
     private static class VerenigingsTypeMapping
@@ -138,11 +143,13 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          )
+                      .Name(document => document.Code)
+                                          .Normalizer(BeheerZoekenNormalizer)
+               )
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Beschrijving).WithKeyword());
+                                          .Name(document => document.Beschrijving)
+                                          .WithKeyword(BeheerZoekenNormalizer));
     }
 
     private static class JsonLdMetadataMapping
@@ -189,11 +196,12 @@ public static class VerenigingZoekDocumentMapping
                                         .Properties(JsonLdMetadataMapping.Get))
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Bron))
+                      .Name(document => document.Bron)
+                                          .Normalizer(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Waarde)
-                                          .WithKeyword())
+                                          .Name(document => document.Waarde)
+                                          .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                       .Name(document => document.CodeerSysteem))
