@@ -51,11 +51,8 @@ public class BeheerVerenigingDetailProjector
                                                                       .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
-                                                                                     .Select(h => BeheerVerenigingDetailMapper
-                                                                                         .MapHoofdactiviteitVerenigingsloket(
-                                                                                              h,
-                                                                                              feitelijkeVerenigingWerdGeregistreerd.Data
-                                                                                                 .VCode))
+                                                                                     .Select(BeheerVerenigingDetailMapper
+                                                                                             .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -189,13 +186,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
-           .Select(
-                h => new HoofdactiviteitVerenigingsloket
-                {
-                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, document.VCode, h.Code),
-                    Code = h.Code,
-                    Naam = h.Naam,
-                }).ToArray();
+           .Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket).ToArray();
     }
 
     public static void Apply(

@@ -164,7 +164,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
-                            Id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(doc.VCode, h.Code),
+                            Id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(h.Code),
                             Type = JsonLdType.Hoofdactiviteit.Type,
                         },
                         Code = h.Code,

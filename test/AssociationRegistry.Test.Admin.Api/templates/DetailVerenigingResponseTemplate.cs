@@ -133,11 +133,11 @@ public class DetailVerenigingResponseTemplate
         return this;
     }
 
-    public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string beschrijving, string vCode)
+    public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string beschrijving)
     {
         _vereniging.hoofdactiviteiten.Add(new
         {
-            jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(vCode, code),
+            jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
             jsonldtype = JsonLdType.Hoofdactiviteit.Type,
             code = code,
             naam = beschrijving,
@@ -319,7 +319,7 @@ public class DetailVerenigingResponseTemplate
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
         {
-            WithHoofdactiviteit(h.Code, h.Naam, e.VCode);
+            WithHoofdactiviteit(h.Code, h.Naam);
         }
 
         foreach (var c in e.Contactgegevens)
