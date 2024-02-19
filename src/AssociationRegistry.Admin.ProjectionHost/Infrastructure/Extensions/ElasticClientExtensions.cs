@@ -10,13 +10,33 @@ public static class ElasticClientExtensions
         => indicesNamespace.Create(
             index,
             selector: descriptor =>
-                descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+                descriptor
+                   .Settings(s => s
+                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("\\.").Replacement(""))
+                                                                     .PatternReplace(name: "underscore_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("_").Replacement(" ")))
+                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .Normalizers(AddVerenigingZoekNormalizer)))
+                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
     public static Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
         => indicesNamespace.CreateAsync(
             index,
             selector: descriptor =>
-                descriptor.Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+                descriptor
+                   .Settings(s => s
+                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("\\.").Replacement(""))
+                                                                     .PatternReplace(name: "underscore_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("_").Replacement(" ")))
+                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .Normalizers(AddVerenigingZoekNormalizer)))
+                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
@@ -69,5 +89,13 @@ public static class ElasticClientExtensions
                            .Tokenizer("standard")
                            .CharFilters("underscore_replace", "dot_replace")
                            .Filters("lowercase", "asciifolding", "dutch_stop")
+        );
+
+    private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
+        => ad.Custom(VerenigingZoekDocumentMapping.BeheerZoekenNormalizer,
+                     selector: ca
+                         => ca
+                           .CharFilters("underscore_replace", "dot_replace")
+                           .Filters("lowercase", "asciifolding", "trim")
         );
 }

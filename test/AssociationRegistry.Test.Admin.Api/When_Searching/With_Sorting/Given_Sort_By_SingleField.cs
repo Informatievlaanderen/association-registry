@@ -39,7 +39,7 @@ public class Given_Sort_By_SingleField
                           .ToList();
 
         names.Should().NotBeEmpty();
-        names.Should().BeInAscendingOrder(new CaseSensitiveComparer());
+        names.Should().BeInAscendingOrder(new CaseInsensitiveComparer());
         names.ForEach(_outputHelper.WriteLine);
     }
 
@@ -59,7 +59,7 @@ public class Given_Sort_By_SingleField
                           .ToList();
 
         names.Should().NotBeEmpty();
-        names.Should().BeInDescendingOrder(new CaseSensitiveComparer());
+        names.Should().BeInDescendingOrder(new CaseInsensitiveComparer());
         names.ForEach(_outputHelper.WriteLine);
     }
 }

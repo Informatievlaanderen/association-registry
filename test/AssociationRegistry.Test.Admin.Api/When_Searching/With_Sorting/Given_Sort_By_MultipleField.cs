@@ -45,7 +45,7 @@ public class Given_Sort_By_MultipleFields
 
         foreach (var group in groups)
         {
-            group.Value.Should().BeInDescendingOrder(new CaseSensitiveComparer());
+            group.Value.Should().BeInDescendingOrder(new CaseInsensitiveComparer());
             group.Value.ForEach(_outputHelper.WriteLine);
         }
     }
@@ -72,7 +72,7 @@ public class Given_Sort_By_MultipleFields
 
         foreach (var group in groups)
         {
-            group.Value.Should().BeInAscendingOrder(new CaseSensitiveComparer());
+            group.Value.Should().BeInAscendingOrder(new CaseInsensitiveComparer());
             group.Value.ForEach(_outputHelper.WriteLine);
         }
     }
