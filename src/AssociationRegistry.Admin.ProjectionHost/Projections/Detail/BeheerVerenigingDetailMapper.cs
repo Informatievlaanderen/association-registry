@@ -118,11 +118,10 @@ public class BeheerVerenigingDetailMapper
         };
 
     public static HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(
-        Registratiedata.HoofdactiviteitVerenigingsloket h,
-        string vCode)
+        Registratiedata.HoofdactiviteitVerenigingsloket h)
         => new()
         {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, vCode, h.Code),
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, h.Code),
             Code = h.Code,
             Naam = h.Naam,
         };
