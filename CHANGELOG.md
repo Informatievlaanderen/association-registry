@@ -1,3 +1,10 @@
+## [8.61.1](https://github.com/informatievlaanderen/association-registry/compare/v8.61.0...v8.61.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* or-1282 remove dependency on vCode for hoofdactiviteiten in beheer detail ([1639d70](https://github.com/informatievlaanderen/association-registry/commit/1639d70f89e187a5a6ab863a61f9e4de2d7d9b00))
+
 # [8.61.0](https://github.com/informatievlaanderen/association-registry/compare/v8.60.0...v8.61.0) (2024-02-20)
 
 
