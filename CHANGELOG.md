@@ -1,3 +1,11 @@
+# [8.61.0](https://github.com/informatievlaanderen/association-registry/compare/v8.60.0...v8.61.0) (2024-02-20)
+
+
+### Features
+
+* or-2038 add sorting on beheer zoeken ([5823d69](https://github.com/informatievlaanderen/association-registry/commit/5823d691202bff7acc4fe447775482126ee48061))
+* or-2038 add trim filter ([f13c5c9](https://github.com/informatievlaanderen/association-registry/commit/f13c5c94673d9e895bc6e9ffba37545e26ecb4be))
+
 # [8.60.0](https://github.com/informatievlaanderen/association-registry/compare/v8.59.0...v8.60.0) (2024-02-20)
 
 
