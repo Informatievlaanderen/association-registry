@@ -1,3 +1,11 @@
+# [8.60.0](https://github.com/informatievlaanderen/association-registry/compare/v8.59.0...v8.60.0) (2024-02-20)
+
+
+### Features
+
+* or-2072 make website case insencitive ([6d6c668](https://github.com/informatievlaanderen/association-registry/commit/6d6c668ce909c4998333bb73acdd13891f75a423))
+* or-2112 trim spaces when sorting in publiek zoek ([b7d686a](https://github.com/informatievlaanderen/association-registry/commit/b7d686a223890f2bdcc1caa9121007acb31800a9))
+
 # [8.59.0](https://github.com/informatievlaanderen/association-registry/compare/v8.58.1...v8.59.0) (2024-02-09)
 
 
