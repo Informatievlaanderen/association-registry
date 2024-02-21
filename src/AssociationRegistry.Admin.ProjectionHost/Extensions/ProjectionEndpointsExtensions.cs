@@ -186,20 +186,15 @@ public static class ProjectionEndpointsExtensions
     {
         await projectionDaemon.StopShard($"{projectionName}:All");
 
-        var oldIndices = await elasticClient.GetIndicesPointingToAliasAsync(indexName);
-        var newIndices = indexName + "-" + SystemClock.Instance.GetCurrentInstant().ToUnixTimeMilliseconds();
-        await createIndexCallbackAsync(newIndices);
-        await projectionDaemon.RebuildProjection(projectionName, shardTimeout, CancellationToken.None);
-        await elasticClient.Indices.PutAliasAsync(newIndices, indexName, ct: CancellationToken.None);
+        await elasticClient.Indices.DeleteAsync(indexName, ct: CancellationToken.None);
+        await createIndexCallbackAsync(indexName);
 
-        foreach (var index in oldIndices)
-        {
-            await elasticClient.Indices.DeleteAsync(index, ct: CancellationToken.None).ThrowIfInvalidAsync();
-        }
+        await projectionDaemon.RebuildProjection(projectionName, shardTimeout, CancellationToken.None);
 
         await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
 
         await projectionDaemon.StopShard($"{projectionName}:All");
+
         await projectionDaemon.StartShard($"{projectionName}:All", CancellationToken.None);
     }
 }
