@@ -357,4 +357,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(RoepnaamWerdGewijzigd @event)
         => this with { Roepnaam = @event.Roepnaam };
+
+    public VerenigingState Apply(KboSyncSuccessful @event)
+        => this;
 }
