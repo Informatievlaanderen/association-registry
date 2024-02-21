@@ -54,6 +54,11 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         return vereniging;
     }
 
+    public void SyncCompleted()
+    {
+        AddEvent(new KboSyncSuccessful());
+    }
+
     private void VoegVertegenwoordigersToe(VertegenwoordigerVolgensKbo[] vertegenwoordigers)
     {
         foreach (var (vertegenwoordiger, id) in vertegenwoordigers.Select((x, i) => (x, i)))
