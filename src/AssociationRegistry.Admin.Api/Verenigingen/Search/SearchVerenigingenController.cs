@@ -71,7 +71,7 @@ public class SearchVerenigingenController : ApiController
     ///     Er kan enkel gepagineerd worden binnen de eerste 1000 resultaten.
     ///     Dit betekent dat de som van limit en offset nooit meer kan bedragen dan 1000.
     ///
-    /// ### Sortering
+    ///     ### Sortering
     ///
     ///     Standaard wordt aflopend gesorteerd op vCode.
     ///     Wil je een eigen sortering meegeven, kan je gebruik maken van `sort=veldNaam`.
@@ -98,6 +98,7 @@ public class SearchVerenigingenController : ApiController
     ///     Het gedrag van het sorteren op andere velden kan niet gegarandeerd worden.
     /// </remarks>
     /// <param name="q">De querystring</param>
+    /// <param name="sort">De velden om op te sorteren</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <param name="validator"></param>
     /// <param name="cancellationToken"></param>
