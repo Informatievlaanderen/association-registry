@@ -105,7 +105,6 @@ public class SearchVerenigingenController : ApiController
     ///     - `doelgroep.maximumleeftijd`
     ///
     ///     Het gedrag van het sorteren op andere velden kan niet gegarandeerd worden.
-    ///
     /// </remarks>
     /// <param name="q">De querystring</param>
     /// <param name="sort">De velden om op te sorteren</param>
