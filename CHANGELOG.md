@@ -1,3 +1,10 @@
+# [8.63.0](https://github.com/informatievlaanderen/association-registry/compare/v8.62.0...v8.63.0) (2024-02-21)
+
+
+### Features
+
+* or-2038 simplify rebuild to ensure mapping is updated correctly ([873fcbe](https://github.com/informatievlaanderen/association-registry/commit/873fcbeb14982a751a83c8f51521fb94d1ea88ef))
+
 # [8.62.0](https://github.com/informatievlaanderen/association-registry/compare/v8.61.1...v8.62.0) (2024-02-21)
 
 
