@@ -29,5 +29,5 @@ public record SocialMedia(string Waarde, string Beschrijving, bool IsPrimair)
         => urlString.Contains('.');
 
     private static bool UrlHasCorrectStartingCharacters(string urlString)
-        => urlString.StartsWith("http://") || urlString.StartsWith("https://");
+        => urlString.ToLower().StartsWith("http://") || urlString.ToLower().StartsWith("https://");
 }
