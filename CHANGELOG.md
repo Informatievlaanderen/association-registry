@@ -1,3 +1,10 @@
+# [8.62.0](https://github.com/informatievlaanderen/association-registry/compare/v8.61.1...v8.62.0) (2024-02-21)
+
+
+### Features
+
+* or-2072 allow uppercase socialmedia ([10f1f99](https://github.com/informatievlaanderen/association-registry/commit/10f1f99f5dc91bf463f4f1534ecfc1c078db8001))
+
 ## [8.61.1](https://github.com/informatievlaanderen/association-registry/compare/v8.61.0...v8.61.1) (2024-02-20)
 
 
