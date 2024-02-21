@@ -1,3 +1,10 @@
+# [8.64.0](https://github.com/informatievlaanderen/association-registry/compare/v8.63.0...v8.64.0) (2024-02-21)
+
+
+### Features
+
+* or-2038 fix naming for sort ([33228ff](https://github.com/informatievlaanderen/association-registry/commit/33228ff54fff8a85e31e99d54805093afa4c6575))
+
 # [8.63.0](https://github.com/informatievlaanderen/association-registry/compare/v8.62.0...v8.63.0) (2024-02-21)
 
 
