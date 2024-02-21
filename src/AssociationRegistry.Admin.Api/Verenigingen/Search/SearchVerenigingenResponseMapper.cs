@@ -79,7 +79,7 @@ public class SearchVerenigingenResponseMapper
         => new()
         {
             Code = verenigingDocumentType.Code,
-            Naam = verenigingDocumentType.Beschrijving,
+            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)

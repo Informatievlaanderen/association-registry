@@ -148,7 +148,7 @@ public static class VerenigingZoekDocumentMapping
                )
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Beschrijving)
+                                          .Name(document => document.Naam)
                                           .WithKeyword(BeheerZoekenNormalizer));
     }
 

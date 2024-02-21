@@ -44,7 +44,7 @@ public class VerenigingZoekDocument
     public class VerenigingsType
     {
         public string Code { get; init; } = null!;
-        public string Beschrijving { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public class Sleutel
