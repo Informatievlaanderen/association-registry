@@ -1,3 +1,10 @@
+## [8.65.1](https://github.com/informatievlaanderen/association-registry/compare/v8.65.0...v8.65.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* improve readability of docs ([a57b15b](https://github.com/informatievlaanderen/association-registry/commit/a57b15b22fd66cc7ded4571cff82b20972e13d71))
+
 # [8.65.0](https://github.com/informatievlaanderen/association-registry/compare/v8.64.0...v8.65.0) (2024-02-22)
 
 
