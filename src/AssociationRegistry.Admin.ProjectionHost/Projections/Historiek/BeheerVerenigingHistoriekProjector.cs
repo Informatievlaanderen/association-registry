@@ -383,6 +383,14 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            korteNaamWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de korte naam gewijzigd naar '{korteNaamWerdGewijzigdInKbo.Data.KorteNaam}'."
+        );    }
+
     public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
     {
         document.Metadata = new Metadata(@event.Sequence, @event.Version);

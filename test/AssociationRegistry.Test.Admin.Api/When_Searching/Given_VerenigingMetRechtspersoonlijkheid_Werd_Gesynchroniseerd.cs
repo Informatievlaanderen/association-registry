@@ -37,7 +37,8 @@ public class Given_VerenigingMetRechtspersoonlijkheid_Werd_Gesynchroniseerd
                           .WithVereniging(
                                v => v
                                    .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-                                   .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam));
+                                   .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
+                                   .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

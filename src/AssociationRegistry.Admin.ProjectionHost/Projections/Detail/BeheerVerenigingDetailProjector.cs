@@ -445,4 +445,9 @@ public class BeheerVerenigingDetailProjector
     {
         document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
     }
+
+    public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
+    }
 }

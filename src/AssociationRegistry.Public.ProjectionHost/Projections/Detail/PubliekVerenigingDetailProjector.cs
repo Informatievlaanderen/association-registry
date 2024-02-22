@@ -388,6 +388,11 @@ public static class PubliekVerenigingDetailProjector
         document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
     }
 
+    public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
+    }
+
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {

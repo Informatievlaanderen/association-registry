@@ -294,6 +294,15 @@ public class BeheerZoekProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {

@@ -366,4 +366,10 @@ public record VerenigingState : IHasVersion
         {
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
         };
+
+    public VerenigingState Apply(KorteNaamWerdGewijzigdInKbo @event)
+        => this with
+        {
+            KorteNaam = @event.KorteNaam,
+        };
 }
