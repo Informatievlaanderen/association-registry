@@ -24,6 +24,9 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     public readonly FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario
         FeitelijkeVerenigingWerdVerwijderdEventsInDbScenario = new();
 
+    public readonly VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
+        VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -36,6 +39,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEventsInDbScenario,
             FeitelijkeVerenigingWerdGestoptEventsInDbScenario,
             FeitelijkeVerenigingWerdVerwijderdEventsInDbScenario,
+            VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario
         };
 
         foreach (var scenario in scenarios)

@@ -51,6 +51,16 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(naamWerdGewijzigdInKbo, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(naamWerdGewijzigdInKbo, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     public async Task Project(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, IDocumentOperations ops)
         => ops.Store(await VerenigingenPerInszProjector.Apply(vertegenwoordigerWerdToegevoegd, ops));
 
@@ -117,6 +127,22 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigd.VCode).Naam =
                     naamWerdGewijzigd.Naam;
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(naamWerdGewijzigdInKbo.StreamKey!);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == naamWerdGewijzigdInKbo.StreamKey!).Naam =
+                    naamWerdGewijzigdInKbo.Data.Naam;
 
                 docs.Add(verenigingenPerInszDocument);
             }
@@ -239,6 +265,14 @@ public class VerenigingenPerInszProjection : EventProjection
         {
             var verenigingDocument = await ops.GetVerenigingDocument(naamWerdGewijzigd.VCode);
             verenigingDocument.Naam = naamWerdGewijzigd.Naam;
+
+            return verenigingDocument;
+        }
+
+        public static async Task<VerenigingDocument> Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(naamWerdGewijzigdInKbo.StreamKey!);
+            verenigingDocument.Naam = naamWerdGewijzigdInKbo.Data.Naam;
 
             return verenigingDocument;
         }

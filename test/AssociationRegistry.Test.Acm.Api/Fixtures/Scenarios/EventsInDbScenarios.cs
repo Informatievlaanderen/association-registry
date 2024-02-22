@@ -286,3 +286,41 @@ public class FeitelijkeVerenigingWerdVerwijderd_EventsInDbScenario : IEventsInDb
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
+
+public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
+    public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo;
+    public readonly CommandMetadata Metadata;
+
+    public VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAcmApi();
+        VCode = "V0003010";
+
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
+
+        VertegenwoordigerWerdOvergenomenUitKBO = fixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>();
+        NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public string Insz
+        => VertegenwoordigerWerdOvergenomenUitKBO.Insz;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+        {
+            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            VertegenwoordigerWerdOvergenomenUitKBO,
+            NaamWerdGewijzigdInKbo,
+        };
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}
