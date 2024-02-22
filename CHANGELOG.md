@@ -1,3 +1,15 @@
+# [8.65.0](https://github.com/informatievlaanderen/association-registry/compare/v8.64.0...v8.65.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* or-2036 fix markdown error ([5fdca8b](https://github.com/informatievlaanderen/association-registry/commit/5fdca8b090b46a1f360adc6648e661fc7c4e7e24))
+
+
+### Features
+
+* or-2093 emit event when syncKbo is successful ([f267b0b](https://github.com/informatievlaanderen/association-registry/commit/f267b0bae5817fc251d0db8d9cb140d2c2e753a4))
+
 # [8.64.0](https://github.com/informatievlaanderen/association-registry/compare/v8.63.0...v8.64.0) (2024-02-21)
 
 
