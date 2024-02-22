@@ -1,3 +1,10 @@
+# [8.68.0](https://github.com/informatievlaanderen/association-registry/compare/v8.67.0...v8.68.0) (2024-02-22)
+
+
+### Features
+
+* or-2095 sync korte naam ([5788139](https://github.com/informatievlaanderen/association-registry/commit/57881391db700825eb40aa2f7af44ee7cb953712))
+
 # [8.67.0](https://github.com/informatievlaanderen/association-registry/compare/v8.66.0...v8.67.0) (2024-02-22)
 
 
