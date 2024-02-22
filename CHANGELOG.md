@@ -1,3 +1,10 @@
+# [8.66.0](https://github.com/informatievlaanderen/association-registry/compare/v8.65.1...v8.66.0) (2024-02-22)
+
+
+### Features
+
+* or-2094 sync naam from kbo ([8c10867](https://github.com/informatievlaanderen/association-registry/commit/8c10867872c29d12f1c86272966484c0a4eb4849))
+
 ## [8.65.1](https://github.com/informatievlaanderen/association-registry/compare/v8.65.0...v8.65.1) (2024-02-22)
 
 
