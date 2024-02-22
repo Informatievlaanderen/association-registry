@@ -16,6 +16,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         Startdatum: null);
 
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");
+    public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo = new("FA");
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -26,6 +27,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             NaamWerdGewijzigdInKbo,
+            KorteNaamWerdGewijzigdInKbo,
             new KboSyncSuccessful(),
         };
     }

@@ -12,6 +12,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
     public readonly CommandMetadata Metadata;
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo;
+    public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo;
 
     public V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced()
     {
@@ -27,6 +28,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         };
 
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
+        KorteNaamWerdGewijzigdInKbo = fixture.Create<KorteNaamWerdGewijzigdInKbo>();
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -39,6 +41,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             NaamWerdGewijzigdInKbo,
+            KorteNaamWerdGewijzigdInKbo,
             new KboSyncSuccessful(),
         };
 

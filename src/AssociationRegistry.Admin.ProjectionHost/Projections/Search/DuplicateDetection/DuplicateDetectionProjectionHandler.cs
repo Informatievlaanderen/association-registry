@@ -122,6 +122,15 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {

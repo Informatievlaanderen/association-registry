@@ -200,4 +200,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (State.Naam == naam) return;
         AddEvent(new NaamWerdGewijzigdInKbo(naam));
     }
+
+    public void WijzigKorteNaamUitKbo(string? korteNaam)
+    {
+        if (State.KorteNaam == korteNaam) return;
+        AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));    }
 }

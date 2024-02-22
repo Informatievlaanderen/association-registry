@@ -39,6 +39,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom):
                 case nameof(VerenigingWerdVerwijderd):
                 case nameof(NaamWerdGewijzigdInKbo):
+                case nameof(KorteNaamWerdGewijzigdInKbo):
                     await _zoekProjectionHandler.Handle(eventEnvelope);
                     break;
             }

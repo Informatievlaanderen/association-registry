@@ -34,6 +34,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdGestopt):
                 case nameof(VerenigingWerdVerwijderd):
                 case nameof(NaamWerdGewijzigdInKbo):
+                case nameof(KorteNaamWerdGewijzigdInKbo):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
                     break;
             }

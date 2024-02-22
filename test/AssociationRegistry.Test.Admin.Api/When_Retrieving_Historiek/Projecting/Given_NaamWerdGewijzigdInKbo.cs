@@ -34,3 +34,26 @@ public class Given_NaamWerdGewijzigdInKbo
                 naamWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
     }
 }
+
+[UnitTest]
+public class Given_KorteNaamWerdGewijzigdInKbo
+{
+    [Fact]
+    public void Then_it_adds_a_new_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var korteNaamWerdGewijzigdInKbo = fixture.Create<TestEvent<KorteNaamWerdGewijzigdInKbo>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigdInKbo, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"In KBO werd de korte naam gewijzigd naar '{korteNaamWerdGewijzigdInKbo.Data.KorteNaam}'.",
+                nameof(KorteNaamWerdGewijzigdInKbo),
+                korteNaamWerdGewijzigdInKbo.Data,
+                korteNaamWerdGewijzigdInKbo.Initiator,
+                korteNaamWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
+    }
+}
