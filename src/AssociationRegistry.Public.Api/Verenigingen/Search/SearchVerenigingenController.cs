@@ -89,15 +89,15 @@ public class SearchVerenigingenController : ApiController
     ///     - `sort=-naam` sorteert aflopend op `naam`.
     ///
     ///     Om te zoeken op een genest veld, beschrijf je het pad naar het veld.
-    ///     - `sort=type.code`
+    ///     - `sort=verenigingstype.code`
     ///
     ///     Om te sorteren op meerdere velden, combineer je de verschillende velden gescheiden door een komma.
-    ///     - `sort=type.code,-naam`
+    ///     - `sort=verenigingstype.code,-naam`
     ///
     ///     De volgende velden worden ondersteund voor gebruik bij het sorteren:
     ///     - `vCode`
-    ///     - `type.code`
-    ///     - `type.beschrijving`
+    ///     - `verenigingstype.code`
+    ///     - `verenigingstype.beschrijving`
     ///     - `roepnaam`
     ///     - `naam`
     ///     - `korteNaam`
